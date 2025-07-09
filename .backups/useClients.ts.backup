@@ -49,7 +49,7 @@ export function useClients() {
         ...clientData,
         organization_id: userProfile.organization_id,
         created_by: userProfile.id,
-        client_type: clientData.client_type || 'residential',
+        client_type: clientData.client_type || 'individual',
         is_policyholder: clientData.is_policyholder || true,
         country: clientData.country || 'US',
         mailing_same_as_address: clientData.mailing_same_as_address || true

@@ -3,6 +3,7 @@ import { User, FileText, Shield, ArrowRight, Building2, Users, CheckCircle, Came
 import { supabase, Client, Insurer, Vendor, Claim, ClaimIntakeProgress } from '../../lib/supabase'
 import { useToastContext } from '../../contexts/ToastContext'
 import useNotifications from '../../hooks/useNotifications'
+import { allVendorCategories, getVendorCategoriesForClaimType } from '../../utils/vendorCategories'
 
 interface ClaimIntakeData {
   // Step 1: Client Selection
@@ -181,35 +182,7 @@ const ClaimIntakeWizard: React.FC<ClaimIntakeWizardProps> = ({ onComplete, onCan
     'Theft', 'Vandalism', 'Earthquake', 'Flood', 'Lightning', 'Explosion', 'Other'
   ]
 
-  const contractorCategories = [
-    { category: 'contractor', name: 'General Contractor', icon: Building2, claimTypes: ['all', 'fire', 'wind', 'hail', 'water_damage'] },
-    { category: 'contractor', name: 'Mold Remediation', icon: AlertTriangle, claimTypes: ['water_damage', 'flood'] },
-    { category: 'contractor', name: 'Water Mitigation', icon: Building2, claimTypes: ['water_damage', 'flood'] },
-    { category: 'contractor', name: 'Lead Testing', icon: AlertTriangle, claimTypes: ['fire', 'renovation'] },
-    { category: 'contractor', name: 'Tarping Services', icon: Building2, claimTypes: ['wind_damage', 'hail', 'hurricane', 'tornado'] },
-    { category: 'contractor', name: 'Roofer', icon: Building2, claimTypes: ['wind_damage', 'hail', 'hurricane', 'fire', 'tornado'] },
-    { category: 'contractor', name: 'Plumber', icon: Building2, claimTypes: ['water_damage', 'freeze'] },
-    { category: 'contractor', name: 'Electrician', icon: Building2, claimTypes: ['fire', 'lightning', 'water_damage'] },
-    { category: 'contractor', name: 'HVAC', icon: Building2, claimTypes: ['fire', 'water_damage', 'freeze'] },
-    { category: 'contractor', name: 'Flooring', icon: Building2, claimTypes: ['water_damage', 'fire', 'wind_damage'] },
-    { category: 'contractor', name: 'Drywall', icon: Building2, claimTypes: ['water_damage', 'fire', 'wind_damage'] },
-    { category: 'contractor', name: 'Painting', icon: Building2, claimTypes: ['fire', 'water_damage', 'wind_damage'] },
-    { category: 'contractor', name: 'Windows & Doors', icon: Building2, claimTypes: ['wind_damage', 'hail', 'vandalism'] },
-    { category: 'contractor', name: 'Structural Repair', icon: Building2, claimTypes: ['fire', 'wind_damage', 'earthquake'] }
-  ]
-
-  const expertCategories = [
-    { category: 'expert', name: 'Structural Engineer', icon: Users, claimTypes: ['fire', 'wind_damage', 'earthquake', 'hurricane'] },
-    { category: 'expert', name: 'Environmental Consultant', icon: Users, claimTypes: ['water_damage', 'flood', 'fire'] },
-    { category: 'expert', name: 'Insurance Consultant', icon: Users, claimTypes: ['all'] },
-    { category: 'expert', name: 'Legal Expert', icon: Users, claimTypes: ['all'] },
-    { category: 'expert', name: 'Forensic Accountant', icon: Users, claimTypes: ['theft', 'vandalism'] },
-    { category: 'expert', name: 'Construction Consultant', icon: Users, claimTypes: ['all'] },
-    { category: 'expert', name: 'Code Compliance Expert', icon: Users, claimTypes: ['fire', 'wind_damage'] },
-    { category: 'expert', name: 'Safety Inspector', icon: Users, claimTypes: ['all'] }
-  ]
-
-  const vendorCategories = [...contractorCategories, ...expertCategories]
+  const vendorCategories = allVendorCategories
 
   useEffect(() => {
     fetchData()

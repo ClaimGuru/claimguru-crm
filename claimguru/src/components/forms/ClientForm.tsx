@@ -16,7 +16,7 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
   const { userProfile } = useAuth()
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
-    client_type: 'individual',
+    client_type: 'residential',
     is_policyholder: true,
     first_name: '',
     last_name: '',
@@ -34,7 +34,7 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
   useEffect(() => {
     if (client) {
       setFormData({
-        client_type: client.client_type || 'individual',
+        client_type: client.client_type || 'residential',
         is_policyholder: client.is_policyholder ?? true,
         first_name: client.first_name || '',
         last_name: client.last_name || '',
@@ -50,7 +50,7 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
       })
     } else {
       setFormData({
-        client_type: 'individual',
+        client_type: 'residential',
         is_policyholder: true,
         first_name: '',
         last_name: '',
@@ -145,8 +145,8 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               >
-                <option value="individual">Individual</option>
-                <option value="business">Business</option>
+                <option value="residential">Residential</option>
+                <option value="commercial">Commercial</option>
               </select>
             </div>
             <div className="flex items-center">
@@ -164,7 +164,7 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
             </div>
           </div>
 
-          {formData.client_type === 'individual' ? (
+          {formData.client_type === 'residential' ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -204,7 +204,7 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
                 value={formData.business_name}
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required={formData.client_type === 'business'}
+                required={formData.client_type === 'commercial'}
               />
             </div>
           )}

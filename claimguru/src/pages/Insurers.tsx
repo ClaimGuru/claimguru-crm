@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Building2, Phone, Mail, Globe, Search, Filter, Plus, Upload, Download, Users, MapPin, FileText, ChevronRight, CheckCircle, AlertCircle } from 'lucide-react'
+import { Building2, Phone, Mail, Globe, Search, Filter, Plus, Upload, Download, Users, MapPin, FileText, ChevronRight, CheckCircle, AlertCircle, Eye, Edit, Trash2 } from 'lucide-react'
 import { supabase, Insurer } from '../lib/supabase'
+import { useToastContext } from '../contexts/ToastContext'
+import FileImportExport from '../components/ui/FileImportExport'
+import { insurerCSVHeaders, insurerToCSVRow, csvRowToInsurer, sampleInsurerData, ExcelRow } from '../utils/excelUtils'
 
 interface InsurerFormData {
   name: string
@@ -37,6 +40,7 @@ const Insurers: React.FC = () => {
   const [showInsurerForm, setShowInsurerForm] = useState(false)
   const [editingInsurer, setEditingInsurer] = useState<Insurer | null>(null)
   const [selectedInsurer, setSelectedInsurer] = useState<Insurer | null>(null)
+  const [showImportExport, setShowImportExport] = useState(false)
   const [formData, setFormData] = useState<InsurerFormData>({
     name: '',
     license_number: '',
@@ -75,6 +79,8 @@ const Insurers: React.FC = () => {
     'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
     'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
   ]
+
+  const toast = useToastContext()
 
   useEffect(() => {
     fetchInsurers()
@@ -224,108 +230,73 @@ const Insurers: React.FC = () => {
     setFormData({ ...formData, coverage_types: updated })
   }
 
-  const exportToExcel = () => {
-    // Convert insurers data to CSV format
-    const headers = [
-      'Name', 'License Number', 'Contact Phone', 'Contact Email', 'Website',
-      'Street Address', 'City', 'State', 'ZIP Code', 'Country',
-      'Claims Email', 'Claims Phone', 'Claims Portal', 'Coverage Types',
-      'Preferred Communication', 'Status', 'Notes'
-    ]
-    
-    const csvData = insurers.map(insurer => [
-      insurer.name,
-      insurer.license_number || '',
-      insurer.contact_phone || '',
-      insurer.contact_email || '',
-      insurer.website || '',
-      insurer.address?.street || '',
-      insurer.address?.city || '',
-      insurer.address?.state || '',
-      insurer.address?.zip || '',
-      insurer.address?.country || '',
-      insurer.claims_reporting?.email || '',
-      insurer.claims_reporting?.phone || '',
-      insurer.claims_reporting?.online_portal || '',
-      (insurer.coverage_types || []).join('; '),
-      insurer.preferred_communication || '',
-      insurer.is_active ? 'Active' : 'Inactive',
-      insurer.notes || ''
-    ])
-    
-    const csvContent = [headers, ...csvData].map(row => 
-      row.map(field => `"${field}"`).join(',')
-    ).join('\n')
-    
-    const blob = new Blob([csvContent], { type: 'text/csv' })
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `insurers_export_${new Date().toISOString().split('T')[0]}.csv`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    window.URL.revokeObjectURL(url)
+  const handleExportInsurers = async (): Promise<ExcelRow[]> => {
+    return insurers.map(insurer => insurerToCSVRow(insurer))
   }
 
-  const handleFileImport = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (!file) return
-
-    const reader = new FileReader()
-    reader.onload = async (e) => {
-      try {
-        const text = e.target?.result as string
-        const lines = text.split('\n').filter(line => line.trim())
-        const headers = lines[0].split(',').map(header => header.replace(/"/g, '').trim())
+  const handleImportInsurers = async (data: ExcelRow[]) => {
+    try {
+      const importedInsurers = data.map(row => csvRowToInsurer(row))
+      
+      // Insert in batches to avoid overwhelming the database
+      const batchSize = 10
+      let successCount = 0
+      let errorCount = 0
+      
+      for (let i = 0; i < importedInsurers.length; i += batchSize) {
+        const batch = importedInsurers.slice(i, i + batchSize)
         
-        const importedInsurers = lines.slice(1).map(line => {
-          const values = line.split(',').map(value => value.replace(/"/g, '').trim())
-          const insurerData = {
-            name: values[0] || '',
-            license_number: values[1] || '',
-            contact_phone: values[2] || '',
-            contact_email: values[3] || '',
-            website: values[4] || '',
-            address: {
-              street: values[5] || '',
-              city: values[6] || '',
-              state: values[7] || '',
-              zip: values[8] || '',
-              country: values[9] || 'US'
-            },
-            claims_reporting: {
-              email: values[10] || '',
-              phone: values[11] || '',
-              online_portal: values[12] || '',
-              procedure: ''
-            },
-            coverage_types: values[13] ? values[13].split(';').map(type => type.trim()).filter(Boolean) : [],
-            preferred_communication: values[14] || 'email',
-            is_active: values[15] === 'Active',
-            notes: values[16] || '',
-            organization_id: '00000000-0000-0000-0000-000000000000' // Default org
-          }
-          return insurerData
-        }).filter(insurer => insurer.name) // Only include rows with names
-
-        // Import to Supabase
-        for (const insurerData of importedInsurers) {
+        try {
           const { error } = await supabase
             .from('insurers')
-            .insert(insurerData)
+            .insert(batch)
           
           if (error) {
-            console.error('Error importing insurer:', insurerData.name, error)
+            console.error('Batch insert error:', error)
+            errorCount += batch.length
+          } else {
+            successCount += batch.length
           }
+        } catch (batchError) {
+          console.error('Batch processing error:', batchError)
+          errorCount += batch.length
         }
-
-        fetchInsurers()
-        alert(`Successfully imported ${importedInsurers.length} insurers`)
-      } catch (error) {
-        console.error('Error parsing CSV file:', error)
-        alert('Error parsing CSV file. Please check the format.')
       }
+      
+      await fetchInsurers()
+      
+      if (errorCount > 0) {
+        toast.warning(
+          'Partial Import Success', 
+          `Imported ${successCount} insurers. ${errorCount} failed due to validation errors.`
+        )
+      } else {
+        toast.success('Import Complete!', `Successfully imported ${successCount} insurers.`)
+      }
+    } catch (error: any) {
+      console.error('Import error:', error)
+      throw new Error(error.message || 'Failed to import insurers')
+    }
+  }
+
+  const handleDeleteInsurer = async (insurerId: string) => {
+    if (!confirm('Are you sure you want to delete this insurer?')) return
+    
+    try {
+      const { error } = await supabase
+        .from('insurers')
+        .delete()
+        .eq('id', insurerId)
+      
+      if (error) throw error
+      
+      toast.success('Insurer Deleted', 'The insurer has been successfully removed.')
+      fetchInsurers()
+    } catch (error: any) {
+      console.error('Error deleting insurer:', error)
+      toast.error('Delete Failed', error.message || 'Failed to delete insurer')
+    }
+  }
     }
     reader.readAsText(file)
     
@@ -352,22 +323,12 @@ const Insurers: React.FC = () => {
           </p>
         </div>
         <div className="mt-4 sm:mt-0 flex space-x-3">
-          <label className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer">
-            <Upload className="h-4 w-4 mr-2" />
-            Import CSV
-            <input
-              type="file"
-              accept=".csv"
-              onChange={handleFileImport}
-              className="hidden"
-            />
-          </label>
           <button
-            onClick={exportToExcel}
+            onClick={() => setShowImportExport(true)}
             className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
-            <Download className="h-4 w-4 mr-2" />
-            Export CSV
+            <Upload className="h-4 w-4 mr-2" />
+            Import/Export
           </button>
           <button
             onClick={() => {
@@ -978,6 +939,36 @@ const Insurers: React.FC = () => {
                   Close
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Import/Export Modal */}
+      {showImportExport && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+          <div className="relative top-20 mx-auto p-5 border w-11/12 max-w-4xl shadow-lg rounded-md bg-white">
+            <div className="mt-3">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-medium text-gray-900">Import/Export Insurers</h3>
+                <button
+                  onClick={() => setShowImportExport(false)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  ×
+                </button>
+              </div>
+              
+              <FileImportExport
+                onImport={handleImportInsurers}
+                onExport={handleExportInsurers}
+                exportHeaders={insurerCSVHeaders}
+                exportFilename="insurers"
+                importTemplate={sampleInsurerData}
+                templateFilename="insurers"
+                title="Insurer Data Management"
+                description="Import insurers from CSV or Excel files, or export current insurer data for backup or analysis."
+              />
             </div>
           </div>
         </div>

@@ -37,7 +37,7 @@ export async function insertSampleData(organizationId: string, userId: string) {
       },
       {
         organization_id: organizationId,
-        client_type: 'commercial',
+        client_type: 'business',
         business_name: 'Sunshine Restaurant Group',
         first_name: 'Mike',
         last_name: 'Rodriguez',

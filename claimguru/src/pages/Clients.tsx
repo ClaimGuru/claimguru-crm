@@ -60,7 +60,7 @@ export function Clients() {
   }
 
   const handleDeleteClient = async (client: Client) => {
-    if (!confirm(`Are you sure you want to delete client "${client.client_type === 'business' ? client.business_name : `${client.first_name} ${client.last_name}`}"?`)) return
+    if (!confirm(`Are you sure you want to delete client "${client.client_type === 'commercial' ? client.business_name : `${client.first_name} ${client.last_name}`}"?`)) return
     
     try {
       await deleteClient(client.id)
@@ -120,9 +120,9 @@ export function Clients() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Individual Clients</p>
+                <p className="text-sm font-medium text-gray-600">Residential Clients</p>
                 <p className="text-3xl font-bold text-gray-900">
-                  {clients.filter(c => c.client_type === 'individual').length}
+                  {clients.filter(c => c.client_type === 'residential').length}
                 </p>
               </div>
               <Users className="h-8 w-8 text-green-600" />
@@ -179,7 +179,7 @@ export function Clients() {
             className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="all">All Types</option>
-            <option value="individual">Individual</option>
+            <option value="residential">Residential</option>
             <option value="commercial">Commercial</option>
           </select>
         </div>
