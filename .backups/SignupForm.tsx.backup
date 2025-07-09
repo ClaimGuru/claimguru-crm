@@ -49,29 +49,30 @@ export function SignupForm({ onToggleMode }: SignupFormProps) {
       return
     }
 
+    // Email validation to prevent bounces
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(formData.email)) {
+      setError('Please enter a valid email address')
+      return
+    }
+
+    // Warn about test emails (but still allow them for development)
+    if (formData.email.includes('test') && !formData.email.includes('@minimax.com')) {
+      console.warn('Using test email - ensure this is a valid address to prevent bounces')
+    }
+
     setLoading(true)
     setError('')
     setSuccess('')
 
     try {
-      // Simply sign up the user with Supabase Auth
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-        options: {
-          emailRedirectTo: `${window.location.protocol}//${window.location.host}/auth/callback`,
-          data: {
-            first_name: formData.firstName,
-            last_name: formData.lastName,
-            company_name: formData.companyName,
-            phone: formData.phone
-          }
-        }
+      // Use the AuthContext signUp function
+      await signUp(formData.email, formData.password, {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        companyName: formData.companyName,
+        phone: formData.phone
       })
-
-      if (authError) {
-        throw authError
-      }
       
       setSuccess('Account created successfully! Please check your email to verify your account.')
       

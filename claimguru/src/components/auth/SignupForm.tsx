@@ -49,6 +49,18 @@ export function SignupForm({ onToggleMode }: SignupFormProps) {
       return
     }
 
+    // Email validation to prevent bounces
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(formData.email)) {
+      setError('Please enter a valid email address')
+      return
+    }
+
+    // Warn about test emails (but still allow them for development)
+    if (formData.email.includes('test') && !formData.email.includes('@minimax.com')) {
+      console.warn('Using test email - ensure this is a valid address to prevent bounces')
+    }
+
     setLoading(true)
     setError('')
     setSuccess('')
@@ -62,7 +74,7 @@ export function SignupForm({ onToggleMode }: SignupFormProps) {
         phone: formData.phone
       })
       
-      setSuccess('Account created successfully! Please check your email to verify your account.')
+      setSuccess('Account created successfully! You can now sign in with your credentials.')
       
       // Clear form
       setFormData({
