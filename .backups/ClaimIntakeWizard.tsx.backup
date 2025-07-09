@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { User, FileText, Shield, ArrowRight, Building2, Users, CheckCircle, Camera, MapPin, Calendar, DollarSign, Phone, Mail, AlertTriangle } from 'lucide-react'
+import { User, FileText, Shield, ArrowRight, Building2, Users, CheckCircle, Camera, MapPin, Calendar, DollarSign, Phone, Mail, AlertTriangle, Droplets, Hammer, Zap, Home, Truck, TreePine, Wrench, Hard, HardHat, Briefcase, FlaskConical, Microscope, PenTool, Calculator, Gavel, ClipboardCheck } from 'lucide-react'
 import { supabase, Client, Insurer, Vendor, Claim, ClaimIntakeProgress } from '../../lib/supabase'
 import { useToastContext } from '../../contexts/ToastContext'
 import useNotifications from '../../hooks/useNotifications'
@@ -72,6 +72,12 @@ interface ClaimIntakeData {
   referral_fee_type?: string
   referral_notes?: string
   
+  // Contract Fee Information
+  contract_fee_type: string
+  contract_fee_amount?: number
+  estimated_hours?: number
+  loss_amount?: number
+  
   // Step 5: Vendor Assessment
   emergency_work_done?: boolean
   existing_vendors?: {
@@ -93,6 +99,32 @@ interface ClaimIntakeData {
 interface ClaimIntakeWizardProps {
   onComplete: (claimId: string) => void
   onCancel: () => void
+}
+
+// Icon mapping
+const getIcon = (iconName: string) => {
+  const iconMap: { [key: string]: any } = {
+    'Building2': Building2,
+    'AlertTriangle': AlertTriangle,
+    'Droplets': Droplets,
+    'Shield': Shield,
+    'Hammer': Hammer,
+    'Zap': Zap,
+    'Home': Home,
+    'Truck': Truck,
+    'TreePine': TreePine,
+    'Wrench': Wrench,
+    'Hard': Hard,
+    'HardHat': HardHat,
+    'Briefcase': Briefcase,
+    'FlaskConical': FlaskConical,
+    'Microscope': Microscope,
+    'PenTool': PenTool,
+    'Calculator': Calculator,
+    'Gavel': Gavel,
+    'ClipboardCheck': ClipboardCheck
+  }
+  return iconMap[iconName] || Building2
 }
 
 const ClaimIntakeWizard: React.FC<ClaimIntakeWizardProps> = ({ onComplete, onCancel }) => {
@@ -158,6 +190,12 @@ const ClaimIntakeWizard: React.FC<ClaimIntakeWizardProps> = ({ onComplete, onCan
     referral_fee_type: 'percentage',
     referral_notes: '',
     
+    // Contract fee
+    contract_fee_type: 'percentage',
+    contract_fee_amount: 0,
+    estimated_hours: 0,
+    loss_amount: 0,
+    
     // Vendor assessment
     emergency_work_done: undefined,
     existing_vendors: [],
@@ -182,8 +220,7 @@ const ClaimIntakeWizard: React.FC<ClaimIntakeWizardProps> = ({ onComplete, onCan
     'Theft', 'Vandalism', 'Earthquake', 'Flood', 'Lightning', 'Explosion', 'Other'
   ]
 
-  // Import vendor categories from utils
-  const { allVendorCategories: vendorCategories, getVendorCategoriesForClaimType } = require('../../utils/vendorCategories')
+  const vendorCategories = allVendorCategories
 
   useEffect(() => {
     fetchData()
@@ -206,7 +243,37 @@ const ClaimIntakeWizard: React.FC<ClaimIntakeWizardProps> = ({ onComplete, onCan
   }
 
   const updateIntakeData = (updates: Partial<ClaimIntakeData>) => {
-    setIntakeData(prev => ({ ...prev, ...updates }))
+    setIntakeData(prev => {
+      const newData = { ...prev, ...updates }
+      
+      // Auto-calculate estimated loss value based on contract fee type
+      if (updates.contract_fee_type || updates.contract_fee_amount || updates.estimated_hours || updates.loss_amount) {
+        const feeType = newData.contract_fee_type
+        const feeAmount = newData.contract_fee_amount || 0
+        const hours = newData.estimated_hours || 0
+        const lossAmount = newData.loss_amount || 0
+        
+        let estimatedValue = 0
+        
+        switch (feeType) {
+          case 'percentage':
+            estimatedValue = lossAmount * (feeAmount / 100)
+            break
+          case 'hourly':
+            estimatedValue = feeAmount * hours
+            break
+          case 'flat_fee':
+            estimatedValue = feeAmount
+            break
+          default:
+            estimatedValue = 0
+        }
+        
+        newData.estimated_loss_value = estimatedValue
+      }
+      
+      return newData
+    })
   }
 
   const nextStep = () => {
@@ -297,7 +364,8 @@ const ClaimIntakeWizard: React.FC<ClaimIntakeWizardProps> = ({ onComplete, onCan
         assigned_vendors: intakeData.assigned_vendors,
         claim_status: 'open',
         claim_phase: 'intake',
-        contract_fee_type: 'percentage'
+        contract_fee_type: intakeData.contract_fee_type,
+        contract_fee_amount: intakeData.contract_fee_amount
       }
 
       const { data: newClaim, error: claimError } = await supabase
@@ -738,18 +806,105 @@ const ClaimIntakeWizard: React.FC<ClaimIntakeWizardProps> = ({ onComplete, onCan
               )}
             </div>
 
+            {/* Contract Fee Section */}
+            <div className="border-t pt-6">
+              <h4 className="text-sm font-medium text-gray-900 mb-4">Contract Fee Information</h4>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Contract Fee Type *</label>
+                  <select
+                    required
+                    value={intakeData.contract_fee_type}
+                    onChange={(e) => updateIntakeData({ contract_fee_type: e.target.value })}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  >
+                    <option value="percentage">Percentage</option>
+                    <option value="hourly">Hourly</option>
+                    <option value="flat_fee">Flat Fee</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Contract Fee Amount *
+                    {intakeData.contract_fee_type === 'percentage' && ' (%)'}
+                    {intakeData.contract_fee_type === 'hourly' && ' ($/hour)'}
+                    {intakeData.contract_fee_type === 'flat_fee' && ' ($)'}
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    step={intakeData.contract_fee_type === 'percentage' ? '0.1' : '0.01'}
+                    required
+                    value={intakeData.contract_fee_amount || ''}
+                    onChange={(e) => updateIntakeData({ contract_fee_amount: parseFloat(e.target.value) })}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    placeholder={intakeData.contract_fee_type === 'percentage' ? '10' : '0.00'}
+                  />
+                </div>
+                
+                {intakeData.contract_fee_type === 'hourly' && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Estimated Hours</label>
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.5"
+                      value={intakeData.estimated_hours || ''}
+                      onChange={(e) => updateIntakeData({ estimated_hours: parseFloat(e.target.value) })}
+                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      placeholder="0"
+                    />
+                  </div>
+                )}
+                
+                {intakeData.contract_fee_type === 'percentage' && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Loss Amount ($)</label>
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={intakeData.loss_amount || ''}
+                      onChange={(e) => updateIntakeData({ loss_amount: parseFloat(e.target.value) })}
+                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      placeholder="0.00"
+                    />
+                  </div>
+                )}
+              </div>
+              
+              <div className="bg-blue-50 border border-blue-200 rounded-md p-3 mb-4">
+                <div className="flex">
+                  <DollarSign className="h-5 w-5 text-blue-600 mr-2" />
+                  <div>
+                    <h5 className="text-sm font-medium text-blue-900">Fee Calculation</h5>
+                    <p className="text-sm text-blue-700 mt-1">
+                      {intakeData.contract_fee_type === 'percentage' && intakeData.contract_fee_amount && intakeData.loss_amount
+                        ? `${intakeData.contract_fee_amount}% of $${intakeData.loss_amount.toLocaleString()} = $${((intakeData.loss_amount * intakeData.contract_fee_amount) / 100).toLocaleString()}`
+                        : intakeData.contract_fee_type === 'hourly' && intakeData.contract_fee_amount && intakeData.estimated_hours
+                        ? `${intakeData.estimated_hours} hours × $${intakeData.contract_fee_amount}/hour = $${(intakeData.estimated_hours * intakeData.contract_fee_amount).toLocaleString()}`
+                        : intakeData.contract_fee_type === 'flat_fee' && intakeData.contract_fee_amount
+                        ? `Flat fee: $${intakeData.contract_fee_amount.toLocaleString()}`
+                        : 'Enter fee details to see calculation'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Estimated Loss Value</label>
+                <label className="block text-sm font-medium text-gray-700">Estimated Loss Value (Calculated)</label>
                 <input
                   type="number"
-                  min="0"
-                  step="0.01"
-                  value={intakeData.estimated_loss_value || ''}
-                  onChange={(e) => updateIntakeData({ estimated_loss_value: parseFloat(e.target.value) })}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  placeholder="0.00"
+                  value={intakeData.estimated_loss_value || 0}
+                  readOnly
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-50 text-gray-500 sm:text-sm"
+                  placeholder="$0.00"
                 />
+                <p className="mt-1 text-xs text-gray-500">This value is automatically calculated based on your contract fee settings above.</p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">Priority</label>

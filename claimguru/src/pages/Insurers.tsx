@@ -297,12 +297,6 @@ const Insurers: React.FC = () => {
       toast.error('Delete Failed', error.message || 'Failed to delete insurer')
     }
   }
-    }
-    reader.readAsText(file)
-    
-    // Reset the input value so the same file can be selected again
-    event.target.value = ''
-  }
 
   if (loading) {
     return (

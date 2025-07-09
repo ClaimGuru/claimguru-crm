@@ -943,6 +943,36 @@ const Insurers: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Import/Export Modal */}
+      {showImportExport && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+          <div className="relative top-20 mx-auto p-5 border w-11/12 max-w-4xl shadow-lg rounded-md bg-white">
+            <div className="mt-3">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-medium text-gray-900">Import/Export Insurers</h3>
+                <button
+                  onClick={() => setShowImportExport(false)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  ×
+                </button>
+              </div>
+              
+              <FileImportExport
+                onImport={handleImportInsurers}
+                onExport={handleExportInsurers}
+                exportHeaders={insurerCSVHeaders}
+                exportFilename="insurers"
+                importTemplate={sampleInsurerData}
+                templateFilename="insurers"
+                title="Insurer Data Management"
+                description="Import insurers from CSV or Excel files, or export current insurer data for backup or analysis."
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
