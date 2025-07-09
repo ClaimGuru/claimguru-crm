@@ -878,67 +878,6 @@ const Insurers: React.FC = () => {
                     </div>
                   </div>
                 </div>
-
-                {selectedInsurer.address && (selectedInsurer.address.street || selectedInsurer.address.city) && (
-                  <div>
-                    <h4 className="font-medium text-gray-900">Address</h4>
-                    <div className="mt-2 text-sm text-gray-600">
-                      <div className="flex items-start">
-                        <MapPin className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
-                        <div>
-                          {selectedInsurer.address.street && <div>{selectedInsurer.address.street}</div>}
-                          <div>
-                            {selectedInsurer.address.city && selectedInsurer.address.city}
-                            {selectedInsurer.address.city && selectedInsurer.address.state && ', '}
-                            {selectedInsurer.address.state && selectedInsurer.address.state}
-                            {selectedInsurer.address.zip && ` ${selectedInsurer.address.zip}`}
-                          </div>
-                          {selectedInsurer.address.country && selectedInsurer.address.country !== 'US' && (
-                            <div>{selectedInsurer.address.country}</div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {selectedInsurer.claims_reporting && (
-                  selectedInsurer.claims_reporting.email || 
-                  selectedInsurer.claims_reporting.phone || 
-                  selectedInsurer.claims_reporting.online_portal
-                ) && (
-                  <div>
-                    <h4 className="font-medium text-gray-900">Claims Reporting</h4>
-                    <div className="mt-2 space-y-1 text-sm text-gray-600">
-                      {selectedInsurer.claims_reporting.email && (
-                        <div className="flex items-center">
-                          <Mail className="h-4 w-4 mr-2" />
-                          {selectedInsurer.claims_reporting.email}
-                        </div>
-                      )}
-                      {selectedInsurer.claims_reporting.phone && (
-                        <div className="flex items-center">
-                          <Phone className="h-4 w-4 mr-2" />
-                          {selectedInsurer.claims_reporting.phone}
-                        </div>
-                      )}
-                      {selectedInsurer.claims_reporting.online_portal && (
-                        <div className="flex items-center">
-                          <Globe className="h-4 w-4 mr-2" />
-                          <a href={selectedInsurer.claims_reporting.online_portal} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
-                            Claims Portal
-                          </a>
-                        </div>
-                      )}
-                      {selectedInsurer.claims_reporting.procedure && (
-                        <div className="mt-2">
-                          <p className="font-medium">Procedure:</p>
-                          <p className="mt-1">{selectedInsurer.claims_reporting.procedure}</p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
                 
                 {selectedInsurer.coverage_types && selectedInsurer.coverage_types.length > 0 && (
                   <div>

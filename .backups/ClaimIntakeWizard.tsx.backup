@@ -157,6 +157,7 @@ const ClaimIntakeWizard: React.FC<ClaimIntakeWizardProps> = ({ onComplete, onCan
     emergency_work_done: undefined,
     existing_vendors: [],
     repairs_needed: false,
+    emergency_services: false,
     vendor_categories: [],
     special_requirements: '',
     assigned_vendors: []
