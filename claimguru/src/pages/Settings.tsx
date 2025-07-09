@@ -1,0 +1,1189 @@
+import React, { useState, useEffect } from 'react'
+import { Save, User, Shield, Bell, Cog, CreditCard, Users, Database, Upload, Download, Key, Mail, Phone, Eye, EyeOff, Check, X, AlertTriangle, Zap, Brain, DollarSign, Calendar } from 'lucide-react'
+import { supabase } from '../lib/supabase'
+import { useAuth } from '../contexts/AuthContext'
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
+import { Button } from '../components/ui/Button'
+import { LoadingSpinner } from '../components/ui/LoadingSpinner'
+
+interface SettingsPageProps {}
+
+interface UserSettings {
+  profile: {
+    first_name: string
+    last_name: string
+    email: string
+    phone: string
+    title: string
+    bio: string
+    timezone: string
+    date_format: string
+    language: string
+  }
+  notifications: {
+    email_notifications: boolean
+    sms_notifications: boolean
+    push_notifications: boolean
+    claim_updates: boolean
+    deadline_reminders: boolean
+    payment_notifications: boolean
+    vendor_updates: boolean
+    system_alerts: boolean
+    marketing_emails: boolean
+  }
+  security: {
+    two_factor_enabled: boolean
+    session_timeout: number
+    password_requirements: string
+    login_alerts: boolean
+  }
+  organization: {
+    company_name: string
+    license_number: string
+    address: string
+    city: string
+    state: string
+    zip_code: string
+    website: string
+    default_fee_percentage: number
+    currency: string
+    tax_rate: number
+  }
+  modules: {
+    ai_insights: boolean
+    document_analysis: boolean
+    vendor_management: boolean
+    communication_hub: boolean
+    financial_tracking: boolean
+    calendar_integration: boolean
+    mobile_app: boolean
+    api_access: boolean
+  }
+  integrations: {
+    quickbooks: { enabled: boolean, api_key?: string }
+    xactimate: { enabled: boolean, username?: string }
+    hover: { enabled: boolean, api_key?: string }
+    google_calendar: { enabled: boolean, calendar_id?: string }
+    outlook: { enabled: boolean, client_id?: string }
+    dropbox: { enabled: boolean, folder_path?: string }
+    symbility: { enabled: boolean, api_key?: string }
+  }
+}
+
+const Settings: React.FC<SettingsPageProps> = () => {
+  const { user, userProfile } = useAuth()
+  const [activeTab, setActiveTab] = useState('profile')
+  const [loading, setLoading] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [passwordStrength, setPasswordStrength] = useState(0)
+  const [settings, setSettings] = useState<UserSettings>({
+    profile: {
+      first_name: userProfile?.first_name || '',
+      last_name: userProfile?.last_name || '',
+      email: user?.email || '',
+      phone: userProfile?.phone || '',
+      title: userProfile?.title || '',
+      bio: userProfile?.bio || '',
+      timezone: 'America/New_York',
+      date_format: 'MM/DD/YYYY',
+      language: 'en'
+    },
+    notifications: {
+      email_notifications: true,
+      sms_notifications: false,
+      push_notifications: true,
+      claim_updates: true,
+      deadline_reminders: true,
+      payment_notifications: true,
+      vendor_updates: true,
+      system_alerts: true,
+      marketing_emails: false
+    },
+    security: {
+      two_factor_enabled: false,
+      session_timeout: 30,
+      password_requirements: 'strong',
+      login_alerts: true
+    },
+    organization: {
+      company_name: '',
+      license_number: '',
+      address: '',
+      city: '',
+      state: '',
+      zip_code: '',
+      website: '',
+      default_fee_percentage: 10,
+      currency: 'USD',
+      tax_rate: 0
+    },
+    modules: {
+      ai_insights: true,
+      document_analysis: true,
+      vendor_management: true,
+      communication_hub: true,
+      financial_tracking: true,
+      calendar_integration: false,
+      mobile_app: true,
+      api_access: false
+    },
+    integrations: {
+      quickbooks: { enabled: false },
+      xactimate: { enabled: false },
+      hover: { enabled: false },
+      google_calendar: { enabled: false },
+      outlook: { enabled: false },
+      dropbox: { enabled: false },
+      symbility: { enabled: false }
+    }
+  })
+
+  const tabs = [
+    { id: 'profile', name: 'Profile', icon: User },
+    { id: 'notifications', name: 'Notifications', icon: Bell },
+    { id: 'security', name: 'Security', icon: Shield },
+    { id: 'organization', name: 'Organization', icon: Users },
+    { id: 'modules', name: 'Modules', icon: Zap },
+    { id: 'integrations', name: 'Integrations', icon: Cog },
+    { id: 'billing', name: 'Billing', icon: CreditCard },
+    { id: 'data', name: 'Data & Import', icon: Database }
+  ]
+
+  const timezones = [
+    'America/New_York',
+    'America/Chicago',
+    'America/Denver',
+    'America/Los_Angeles',
+    'America/Phoenix',
+    'America/Anchorage',
+    'Pacific/Honolulu'
+  ]
+
+  const languages = [
+    { code: 'en', name: 'English' },
+    { code: 'es', name: 'Spanish' },
+    { code: 'fr', name: 'French' }
+  ]
+
+  const dateFormats = [
+    'MM/DD/YYYY',
+    'DD/MM/YYYY',
+    'YYYY-MM-DD',
+    'Month DD, YYYY'
+  ]
+
+  const updateSettings = (section: keyof UserSettings, field: string, value: any) => {
+    setSettings(prev => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [field]: value
+      }
+    }))
+  }
+
+  const updateIntegration = (integration: string, field: string, value: any) => {
+    setSettings(prev => ({
+      ...prev,
+      integrations: {
+        ...prev.integrations,
+        [integration]: {
+          ...prev.integrations[integration as keyof typeof prev.integrations],
+          [field]: value
+        }
+      }
+    }))
+  }
+
+  const calculatePasswordStrength = (password: string) => {
+    let strength = 0
+    if (password.length >= 8) strength += 25
+    if (/[a-z]/.test(password)) strength += 25
+    if (/[A-Z]/.test(password)) strength += 25
+    if (/[0-9]/.test(password)) strength += 25
+    if (/[^A-Za-z0-9]/.test(password)) strength += 25
+    return Math.min(strength, 100)
+  }
+
+  const saveSettings = async () => {
+    setSaving(true)
+    try {
+      // Update user profile
+      const { error: profileError } = await supabase
+        .from('user_profiles')
+        .update({
+          first_name: settings.profile.first_name,
+          last_name: settings.profile.last_name,
+          phone: settings.profile.phone,
+          title: settings.profile.title,
+          bio: settings.profile.bio,
+          settings: {
+            notifications: settings.notifications,
+            security: settings.security,
+            organization: settings.organization,
+            modules: settings.modules,
+            integrations: settings.integrations,
+            timezone: settings.profile.timezone,
+            date_format: settings.profile.date_format,
+            language: settings.profile.language
+          }
+        })
+        .eq('user_id', user?.id)
+
+      if (profileError) throw profileError
+
+      alert('Settings saved successfully!')
+    } catch (error) {
+      console.error('Error saving settings:', error)
+      alert('Error saving settings. Please try again.')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const exportData = async () => {
+    try {
+      setLoading(true)
+      // This would typically call an edge function to export data
+      const { data, error } = await supabase.functions.invoke('export-data', {
+        body: { format: 'json', include_documents: true }
+      })
+      
+      if (error) throw error
+      
+      // Create and download the file
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `claimguru-export-${new Date().toISOString().split('T')[0]}.json`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+      
+      alert('Data exported successfully!')
+    } catch (error) {
+      console.error('Error exporting data:', error)
+      alert('Error exporting data. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case 'profile':
+        return (
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Personal Information</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">First Name</label>
+                  <input
+                    type="text"
+                    value={settings.profile.first_name}
+                    onChange={(e) => updateSettings('profile', 'first_name', e.target.value)}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Last Name</label>
+                  <input
+                    type="text"
+                    value={settings.profile.last_name}
+                    onChange={(e) => updateSettings('profile', 'last_name', e.target.value)}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Email</label>
+                  <input
+                    type="email"
+                    value={settings.profile.email}
+                    disabled
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-100 text-gray-500"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Email cannot be changed here. Contact support if needed.</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Phone</label>
+                  <input
+                    type="tel"
+                    value={settings.profile.phone}
+                    onChange={(e) => updateSettings('profile', 'phone', e.target.value)}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Job Title</label>
+                  <input
+                    type="text"
+                    value={settings.profile.title}
+                    onChange={(e) => updateSettings('profile', 'title', e.target.value)}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Timezone</label>
+                  <select
+                    value={settings.profile.timezone}
+                    onChange={(e) => updateSettings('profile', 'timezone', e.target.value)}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    {timezones.map(tz => (
+                      <option key={tz} value={tz}>{tz}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-700">Bio</label>
+                <textarea
+                  rows={3}
+                  value={settings.profile.bio}
+                  onChange={(e) => updateSettings('profile', 'bio', e.target.value)}
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Tell us about yourself..."
+                />
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Preferences</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Date Format</label>
+                  <select
+                    value={settings.profile.date_format}
+                    onChange={(e) => updateSettings('profile', 'date_format', e.target.value)}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    {dateFormats.map(format => (
+                      <option key={format} value={format}>{format}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Language</label>
+                  <select
+                    value={settings.profile.language}
+                    onChange={(e) => updateSettings('profile', 'language', e.target.value)}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    {languages.map(lang => (
+                      <option key={lang.code} value={lang.code}>{lang.name}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+
+      case 'notifications':
+        return (
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Notification Channels</h3>
+              <div className="space-y-4">
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={settings.notifications.email_notifications}
+                    onChange={(e) => updateSettings('notifications', 'email_notifications', e.target.checked)}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">Email notifications</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={settings.notifications.sms_notifications}
+                    onChange={(e) => updateSettings('notifications', 'sms_notifications', e.target.checked)}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">SMS notifications</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={settings.notifications.push_notifications}
+                    onChange={(e) => updateSettings('notifications', 'push_notifications', e.target.checked)}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">Push notifications</span>
+                </label>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Notification Types</h3>
+              <div className="space-y-4">
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={settings.notifications.claim_updates}
+                    onChange={(e) => updateSettings('notifications', 'claim_updates', e.target.checked)}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">Claim updates and status changes</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={settings.notifications.deadline_reminders}
+                    onChange={(e) => updateSettings('notifications', 'deadline_reminders', e.target.checked)}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">Deadline reminders</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={settings.notifications.payment_notifications}
+                    onChange={(e) => updateSettings('notifications', 'payment_notifications', e.target.checked)}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">Payment notifications</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={settings.notifications.vendor_updates}
+                    onChange={(e) => updateSettings('notifications', 'vendor_updates', e.target.checked)}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">Vendor assignments and updates</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={settings.notifications.system_alerts}
+                    onChange={(e) => updateSettings('notifications', 'system_alerts', e.target.checked)}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">System alerts and maintenance</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={settings.notifications.marketing_emails}
+                    onChange={(e) => updateSettings('notifications', 'marketing_emails', e.target.checked)}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">Marketing emails and updates</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        )
+
+      case 'security':
+        return (
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Authentication</h3>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-900">Two-Factor Authentication</h4>
+                    <p className="text-sm text-gray-500">Add an extra layer of security to your account</p>
+                  </div>
+                  <Button
+                    variant={settings.security.two_factor_enabled ? "outline" : "primary"}
+                    onClick={() => updateSettings('security', 'two_factor_enabled', !settings.security.two_factor_enabled)}
+                  >
+                    {settings.security.two_factor_enabled ? 'Disable' : 'Enable'}
+                  </Button>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Session Timeout (minutes)</label>
+                  <input
+                    type="number"
+                    min="5"
+                    max="480"
+                    value={settings.security.session_timeout}
+                    onChange={(e) => updateSettings('security', 'session_timeout', parseInt(e.target.value))}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={settings.security.login_alerts}
+                    onChange={(e) => updateSettings('security', 'login_alerts', e.target.checked)}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">Receive alerts for new login attempts</span>
+                </label>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Password Requirements</h3>
+              <div className="space-y-2">
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="password_requirements"
+                    value="basic"
+                    checked={settings.security.password_requirements === 'basic'}
+                    onChange={(e) => updateSettings('security', 'password_requirements', e.target.value)}
+                    className="text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">Basic (8+ characters)</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="password_requirements"
+                    value="strong"
+                    checked={settings.security.password_requirements === 'strong'}
+                    onChange={(e) => updateSettings('security', 'password_requirements', e.target.value)}
+                    className="text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">Strong (8+ characters, mixed case, numbers)</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="password_requirements"
+                    value="strict"
+                    checked={settings.security.password_requirements === 'strict'}
+                    onChange={(e) => updateSettings('security', 'password_requirements', e.target.value)}
+                    className="text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">Strict (12+ characters, mixed case, numbers, symbols)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        )
+
+      case 'organization':
+        return (
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Company Information</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Company Name</label>
+                  <input
+                    type="text"
+                    value={settings.organization.company_name}
+                    onChange={(e) => updateSettings('organization', 'company_name', e.target.value)}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">License Number</label>
+                  <input
+                    type="text"
+                    value={settings.organization.license_number}
+                    onChange={(e) => updateSettings('organization', 'license_number', e.target.value)}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700">Address</label>
+                  <input
+                    type="text"
+                    value={settings.organization.address}
+                    onChange={(e) => updateSettings('organization', 'address', e.target.value)}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">City</label>
+                  <input
+                    type="text"
+                    value={settings.organization.city}
+                    onChange={(e) => updateSettings('organization', 'city', e.target.value)}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">State</label>
+                  <input
+                    type="text"
+                    value={settings.organization.state}
+                    onChange={(e) => updateSettings('organization', 'state', e.target.value)}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">ZIP Code</label>
+                  <input
+                    type="text"
+                    value={settings.organization.zip_code}
+                    onChange={(e) => updateSettings('organization', 'zip_code', e.target.value)}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Website</label>
+                  <input
+                    type="url"
+                    value={settings.organization.website}
+                    onChange={(e) => updateSettings('organization', 'website', e.target.value)}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Business Settings</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Default Fee Percentage</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="0.1"
+                    value={settings.organization.default_fee_percentage}
+                    onChange={(e) => updateSettings('organization', 'default_fee_percentage', parseFloat(e.target.value))}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Currency</label>
+                  <select
+                    value={settings.organization.currency}
+                    onChange={(e) => updateSettings('organization', 'currency', e.target.value)}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="USD">USD - US Dollar</option>
+                    <option value="CAD">CAD - Canadian Dollar</option>
+                    <option value="EUR">EUR - Euro</option>
+                    <option value="GBP">GBP - British Pound</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Tax Rate (%)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="0.01"
+                    value={settings.organization.tax_rate}
+                    onChange={(e) => updateSettings('organization', 'tax_rate', parseFloat(e.target.value))}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+
+      case 'modules':
+        return (
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Available Modules</h3>
+              <p className="text-sm text-gray-600 mb-6">Enable or disable specific features for your organization.</p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-blue-100 rounded-lg">
+                      <Brain className="h-5 w-5 text-blue-600" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-900">AI Insights</h4>
+                      <p className="text-sm text-gray-500">AI-powered claim analysis and predictions</p>
+                    </div>
+                  </div>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={settings.modules.ai_insights}
+                      onChange={(e) => updateSettings('modules', 'ai_insights', e.target.checked)}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                  </label>
+                </div>
+                
+                <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-green-100 rounded-lg">
+                      <Upload className="h-5 w-5 text-green-600" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-900">Document Analysis</h4>
+                      <p className="text-sm text-gray-500">Automated document processing and analysis</p>
+                    </div>
+                  </div>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={settings.modules.document_analysis}
+                      onChange={(e) => updateSettings('modules', 'document_analysis', e.target.checked)}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                  </label>
+                </div>
+                
+                <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-purple-100 rounded-lg">
+                      <Users className="h-5 w-5 text-purple-600" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-900">Vendor Management</h4>
+                      <p className="text-sm text-gray-500">Advanced vendor tracking and performance</p>
+                    </div>
+                  </div>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={settings.modules.vendor_management}
+                      onChange={(e) => updateSettings('modules', 'vendor_management', e.target.checked)}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                  </label>
+                </div>
+                
+                <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-teal-100 rounded-lg">
+                      <Mail className="h-5 w-5 text-teal-600" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-900">Communication Hub</h4>
+                      <p className="text-sm text-gray-500">Centralized communication management</p>
+                    </div>
+                  </div>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={settings.modules.communication_hub}
+                      onChange={(e) => updateSettings('modules', 'communication_hub', e.target.checked)}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                  </label>
+                </div>
+                
+                <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-yellow-100 rounded-lg">
+                      <DollarSign className="h-5 w-5 text-yellow-600" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-900">Financial Tracking</h4>
+                      <p className="text-sm text-gray-500">Advanced financial reporting and analytics</p>
+                    </div>
+                  </div>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={settings.modules.financial_tracking}
+                      onChange={(e) => updateSettings('modules', 'financial_tracking', e.target.checked)}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                  </label>
+                </div>
+                
+                <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-indigo-100 rounded-lg">
+                      <Calendar className="h-5 w-5 text-indigo-600" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-900">Calendar Integration</h4>
+                      <p className="text-sm text-gray-500">Sync with external calendar systems</p>
+                    </div>
+                  </div>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={settings.modules.calendar_integration}
+                      onChange={(e) => updateSettings('modules', 'calendar_integration', e.target.checked)}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                  </label>
+                </div>
+                
+                <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-pink-100 rounded-lg">
+                      <Phone className="h-5 w-5 text-pink-600" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-900">Mobile App</h4>
+                      <p className="text-sm text-gray-500">Progressive web app with offline capabilities</p>
+                    </div>
+                  </div>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={settings.modules.mobile_app}
+                      onChange={(e) => updateSettings('modules', 'mobile_app', e.target.checked)}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                  </label>
+                </div>
+                
+                <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-red-100 rounded-lg">
+                      <Key className="h-5 w-5 text-red-600" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-900">API Access</h4>
+                      <p className="text-sm text-gray-500">Developer API for custom integrations</p>
+                    </div>
+                  </div>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={settings.modules.api_access}
+                      onChange={(e) => updateSettings('modules', 'api_access', e.target.checked)}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+
+      case 'integrations':
+        return (
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Third-Party Integrations</h3>
+              <p className="text-sm text-gray-600 mb-6">Connect ClaimGuru with your existing tools and workflows.</p>
+              
+              <div className="space-y-4">
+                {Object.entries(settings.integrations).map(([key, integration]) => {
+                  const integrationNames: { [key: string]: string } = {
+                    quickbooks: 'QuickBooks',
+                    xactimate: 'Xactimate',
+                    hover: 'Hover',
+                    google_calendar: 'Google Calendar',
+                    outlook: 'Microsoft Outlook',
+                    dropbox: 'Dropbox',
+                    symbility: 'Symbility'
+                  }
+                  
+                  return (
+                    <div key={key} className="border border-gray-200 rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="text-sm font-medium text-gray-900">{integrationNames[key]}</h4>
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            checked={integration.enabled}
+                            onChange={(e) => updateIntegration(key, 'enabled', e.target.checked)}
+                            className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          />
+                          <span className="ml-2 text-sm text-gray-700">Enable</span>
+                        </label>
+                      </div>
+                      
+                      {integration.enabled && (
+                        <div className="space-y-3">
+                          {(key === 'quickbooks' || key === 'hover' || key === 'symbility') && (
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700">API Key</label>
+                              <input
+                                type="password"
+                                value={(integration as any).api_key || ''}
+                                onChange={(e) => updateIntegration(key, 'api_key', e.target.value)}
+                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Enter API key..."
+                              />
+                            </div>
+                          )}
+                          
+                          {key === 'xactimate' && (
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700">Username</label>
+                              <input
+                                type="text"
+                                value={(integration as any).username || ''}
+                                onChange={(e) => updateIntegration(key, 'username', e.target.value)}
+                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Enter username..."
+                              />
+                            </div>
+                          )}
+                          
+                          {key === 'google_calendar' && (
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700">Calendar ID</label>
+                              <input
+                                type="text"
+                                value={(integration as any).calendar_id || ''}
+                                onChange={(e) => updateIntegration(key, 'calendar_id', e.target.value)}
+                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Enter calendar ID..."
+                              />
+                            </div>
+                          )}
+                          
+                          {key === 'outlook' && (
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700">Client ID</label>
+                              <input
+                                type="text"
+                                value={(integration as any).client_id || ''}
+                                onChange={(e) => updateIntegration(key, 'client_id', e.target.value)}
+                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Enter client ID..."
+                              />
+                            </div>
+                          )}
+                          
+                          {key === 'dropbox' && (
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700">Folder Path</label>
+                              <input
+                                type="text"
+                                value={(integration as any).folder_path || ''}
+                                onChange={(e) => updateIntegration(key, 'folder_path', e.target.value)}
+                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="/ClaimGuru"
+                              />
+                            </div>
+                          )}
+                          
+                          <Button variant="outline" size="sm">Test Connection</Button>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        )
+
+      case 'billing':
+        return (
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Subscription</h3>
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="text-lg font-medium text-blue-900">Professional Plan</h4>
+                    <p className="text-blue-700">$349/month • 5 users included</p>
+                    <p className="text-sm text-blue-600 mt-1">Next billing date: March 15, 2025</p>
+                  </div>
+                  <div className="text-right">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                      Active
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Usage</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm font-medium text-gray-600">Active Users</p>
+                  <p className="text-2xl font-bold text-gray-900">3 / 5</p>
+                  <div className="mt-2 bg-gray-200 rounded-full h-2">
+                    <div className="bg-blue-600 h-2 rounded-full" style={{ width: '60%' }}></div>
+                  </div>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm font-medium text-gray-600">Storage Used</p>
+                  <p className="text-2xl font-bold text-gray-900">45 GB / 100 GB</p>
+                  <div className="mt-2 bg-gray-200 rounded-full h-2">
+                    <div className="bg-green-600 h-2 rounded-full" style={{ width: '45%' }}></div>
+                  </div>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm font-medium text-gray-600">API Calls</p>
+                  <p className="text-2xl font-bold text-gray-900">12,450 / 50,000</p>
+                  <div className="mt-2 bg-gray-200 rounded-full h-2">
+                    <div className="bg-yellow-600 h-2 rounded-full" style={{ width: '25%' }}></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Payment Method</h3>
+              <div className="bg-white border border-gray-200 rounded-lg p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-6 bg-blue-600 rounded flex items-center justify-center">
+                      <CreditCard className="h-4 w-4 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">•••• •••• •••• 4242</p>
+                      <p className="text-sm text-gray-500">Expires 12/26</p>
+                    </div>
+                  </div>
+                  <Button variant="outline" size="sm">Update</Button>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex space-x-4">
+              <Button variant="outline">Change Plan</Button>
+              <Button variant="outline">Download Invoice</Button>
+              <Button variant="outline" className="text-red-600 hover:text-red-700">Cancel Subscription</Button>
+            </div>
+          </div>
+        )
+
+      case 'data':
+        return (
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Data Export</h3>
+              <p className="text-sm text-gray-600 mb-4">Export your data for backup or migration purposes.</p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="border border-gray-200 rounded-lg p-4">
+                  <h4 className="text-sm font-medium text-gray-900 mb-2">Complete Data Export</h4>
+                  <p className="text-sm text-gray-500 mb-4">Export all your claims, clients, documents, and settings.</p>
+                  <Button
+                    onClick={exportData}
+                    disabled={loading}
+                    className="flex items-center gap-2"
+                  >
+                    {loading ? <LoadingSpinner size="sm" /> : <Download className="h-4 w-4" />}
+                    Export All Data
+                  </Button>
+                </div>
+                
+                <div className="border border-gray-200 rounded-lg p-4">
+                  <h4 className="text-sm font-medium text-gray-900 mb-2">Claims Export</h4>
+                  <p className="text-sm text-gray-500 mb-4">Export only claims data in CSV format.</p>
+                  <Button variant="outline" className="flex items-center gap-2">
+                    <Download className="h-4 w-4" />
+                    Export Claims
+                  </Button>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Data Import</h3>
+              <p className="text-sm text-gray-600 mb-4">Import data from other systems or restore from backup.</p>
+              
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                <h4 className="text-sm font-medium text-gray-900 mb-2">Import Data File</h4>
+                <p className="text-sm text-gray-500 mb-4">Supports CSV, JSON, and Excel files</p>
+                <Button variant="outline" className="flex items-center gap-2">
+                  <Upload className="h-4 w-4" />
+                  Choose File
+                </Button>
+              </div>
+              
+              <div className="mt-4 text-sm text-gray-500">
+                <p><strong>Supported formats:</strong></p>
+                <ul className="list-disc list-inside mt-2 space-y-1">
+                  <li>Claims data: CSV, Excel (.xlsx)</li>
+                  <li>Client data: CSV, Excel (.xlsx)</li>
+                  <li>Complete backup: JSON</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Data Migration</h3>
+              <p className="text-sm text-gray-600 mb-4">Migrate from other claim management systems.</p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="border border-gray-200 rounded-lg p-4 text-center">
+                  <h4 className="text-sm font-medium text-gray-900 mb-2">ClaimWizard</h4>
+                  <p className="text-sm text-gray-500 mb-4">Direct migration available</p>
+                  <Button variant="outline" size="sm">Migrate</Button>
+                </div>
+                
+                <div className="border border-gray-200 rounded-lg p-4 text-center">
+                  <h4 className="text-sm font-medium text-gray-900 mb-2">Xactimate</h4>
+                  <p className="text-sm text-gray-500 mb-4">Import estimates and data</p>
+                  <Button variant="outline" size="sm">Import</Button>
+                </div>
+                
+                <div className="border border-gray-200 rounded-lg p-4 text-center">
+                  <h4 className="text-sm font-medium text-gray-900 mb-2">Custom</h4>
+                  <p className="text-sm text-gray-500 mb-4">Contact support for help</p>
+                  <Button variant="outline" size="sm">Contact</Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+
+      default:
+        return null
+    }
+  }
+
+  return (
+    <div className="p-6 space-y-6">
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
+          <p className="text-gray-600 mt-2">
+            Manage your account, organization, and system preferences
+          </p>
+        </div>
+        <Button
+          onClick={saveSettings}
+          disabled={saving}
+          className="flex items-center gap-2"
+        >
+          {saving ? <LoadingSpinner size="sm" /> : <Save className="h-4 w-4" />}
+          Save Changes
+        </Button>
+      </div>
+
+      <div className="flex flex-col lg:flex-row gap-6">
+        {/* Sidebar */}
+        <div className="lg:w-64">
+          <nav className="space-y-1">
+            {tabs.map((tab) => {
+              const Icon = tab.icon
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                    activeTab === tab.id
+                      ? 'bg-blue-100 text-blue-700'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                  }`}
+                >
+                  <Icon className="mr-3 h-5 w-5" />
+                  {tab.name}
+                </button>
+              )
+            })}
+          </nav>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1">
+          <Card>
+            <CardContent className="p-6">
+              {renderTabContent()}
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Settings

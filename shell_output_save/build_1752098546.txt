@@ -1,0 +1,140 @@
+
+> react_repo@0.0.0 build
+> yes | pnpm install && rm -rf node_modules/.vite-temp && tsc -b && vite build
+
+Lockfile is up to date, resolution step is skipped
+Already up to date
+Done in 1.1s using pnpm v10.12.4
+src/pages/Vendors.tsx:560:102 - error TS1127: Invalid character.
+
+560                           <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${\n                            contractorCategories.includes(vendor.specialty || vendor.category || '')\n                              ? 'bg-blue-100 text-blue-800'\n                              : 'bg-green-100 text-green-800'\n                          }`}>\n                            {contractorCategories.includes(vendor.specialty || vendor.category || '') ? 'Contractor' : 'Expert'}\n                          </span>\n                        )}\n                      </div>\n                      {vendor.emergency_available && (\n                        <span className=\"inline-flex items-center px-2 py-1 mt-1 text-xs font-medium bg-red-100 text-red-800 rounded-full\">\n                          Emergency Available\n                        </span>\n                      )}\n                    </div>
+                                                                                                         
+
+src/pages/Vendors.tsx:560:356 - error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+
+560                           <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${\n                            contractorCategories.includes(vendor.specialty || vendor.category || '')\n                              ? 'bg-blue-100 text-blue-800'\n                              : 'bg-green-100 text-green-800'\n                          }`}>\n                            {contractorCategories.includes(vendor.specialty || vendor.category || '') ? 'Contractor' : 'Expert'}\n                          </span>\n                        )}\n                      </div>\n                      {vendor.emergency_available && (\n                        <span className=\"inline-flex items-center px-2 py-1 mt-1 text-xs font-medium bg-red-100 text-red-800 rounded-full\">\n                          Emergency Available\n                        </span>\n                      )}\n                    </div>
+                                                                                                                                                                                                                                                                                                                                                                       ~
+
+src/pages/Vendors.tsx:560:358 - error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+
+560                           <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${\n                            contractorCategories.includes(vendor.specialty || vendor.category || '')\n                              ? 'bg-blue-100 text-blue-800'\n                              : 'bg-green-100 text-green-800'\n                          }`}>\n                            {contractorCategories.includes(vendor.specialty || vendor.category || '') ? 'Contractor' : 'Expert'}\n                          </span>\n                        )}\n                      </div>\n                      {vendor.emergency_available && (\n                        <span className=\"inline-flex items-center px-2 py-1 mt-1 text-xs font-medium bg-red-100 text-red-800 rounded-full\">\n                          Emergency Available\n                        </span>\n                      )}\n                    </div>
+                                                                                                                                                                                                                                                                                                                                                                         ~
+
+src/pages/Vendors.tsx:560:359 - error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+560                           <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${\n                            contractorCategories.includes(vendor.specialty || vendor.category || '')\n                              ? 'bg-blue-100 text-blue-800'\n                              : 'bg-green-100 text-green-800'\n                          }`}>\n                            {contractorCategories.includes(vendor.specialty || vendor.category || '') ? 'Contractor' : 'Expert'}\n                          </span>\n                        )}\n                      </div>\n                      {vendor.emergency_available && (\n                        <span className=\"inline-flex items-center px-2 py-1 mt-1 text-xs font-medium bg-red-100 text-red-800 rounded-full\">\n                          Emergency Available\n                        </span>\n                      )}\n                    </div>
+                                                                                                                                                                                                                                                                                                                                                                          ~
+
+src/pages/Vendors.tsx:560:520 - error TS17002: Expected corresponding JSX closing tag for 'div'.
+
+560                           <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${\n                            contractorCategories.includes(vendor.specialty || vendor.category || '')\n                              ? 'bg-blue-100 text-blue-800'\n                              : 'bg-green-100 text-green-800'\n                          }`}>\n                            {contractorCategories.includes(vendor.specialty || vendor.category || '') ? 'Contractor' : 'Expert'}\n                          </span>\n                        )}\n                      </div>\n                      {vendor.emergency_available && (\n                        <span className=\"inline-flex items-center px-2 py-1 mt-1 text-xs font-medium bg-red-100 text-red-800 rounded-full\">\n                          Emergency Available\n                        </span>\n                      )}\n                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ~~~~
+
+src/pages/Vendors.tsx:560:525 - error TS1127: Invalid character.
+
+560                           <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${\n                            contractorCategories.includes(vendor.specialty || vendor.category || '')\n                              ? 'bg-blue-100 text-blue-800'\n                              : 'bg-green-100 text-green-800'\n                          }`}>\n                            {contractorCategories.includes(vendor.specialty || vendor.category || '') ? 'Contractor' : 'Expert'}\n                          </span>\n                        )}\n                      </div>\n                      {vendor.emergency_available && (\n                        <span className=\"inline-flex items-center px-2 py-1 mt-1 text-xs font-medium bg-red-100 text-red-800 rounded-full\">\n                          Emergency Available\n                        </span>\n                      )}\n                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+src/pages/Vendors.tsx:560:552 - error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+
+560                           <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${\n                            contractorCategories.includes(vendor.specialty || vendor.category || '')\n                              ? 'bg-blue-100 text-blue-800'\n                              : 'bg-green-100 text-green-800'\n                          }`}>\n                            {contractorCategories.includes(vendor.specialty || vendor.category || '') ? 'Contractor' : 'Expert'}\n                          </span>\n                        )}\n                      </div>\n                      {vendor.emergency_available && (\n                        <span className=\"inline-flex items-center px-2 py-1 mt-1 text-xs font-medium bg-red-100 text-red-800 rounded-full\">\n                          Emergency Available\n                        </span>\n                      )}\n                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ~
+
+src/pages/Vendors.tsx:560:639 - error TS1127: Invalid character.
+
+560                           <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${\n                            contractorCategories.includes(vendor.specialty || vendor.category || '')\n                              ? 'bg-blue-100 text-blue-800'\n                              : 'bg-green-100 text-green-800'\n                          }`}>\n                            {contractorCategories.includes(vendor.specialty || vendor.category || '') ? 'Contractor' : 'Expert'}\n                          </span>\n                        )}\n                      </div>\n                      {vendor.emergency_available && (\n                        <span className=\"inline-flex items-center px-2 py-1 mt-1 text-xs font-medium bg-red-100 text-red-800 rounded-full\">\n                          Emergency Available\n                        </span>\n                      )}\n                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+
+src/pages/Vendors.tsx:560:681 - error TS1127: Invalid character.
+
+560                           <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${\n                            contractorCategories.includes(vendor.specialty || vendor.category || '')\n                              ? 'bg-blue-100 text-blue-800'\n                              : 'bg-green-100 text-green-800'\n                          }`}>\n                            {contractorCategories.includes(vendor.specialty || vendor.category || '') ? 'Contractor' : 'Expert'}\n                          </span>\n                        )}\n                      </div>\n                      {vendor.emergency_available && (\n                        <span className=\"inline-flex items-center px-2 py-1 mt-1 text-xs font-medium bg-red-100 text-red-800 rounded-full\">\n                          Emergency Available\n                        </span>\n                      )}\n                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
+src/pages/Vendors.tsx:560:781 - error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+560                           <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${\n                            contractorCategories.includes(vendor.specialty || vendor.category || '')\n                              ? 'bg-blue-100 text-blue-800'\n                              : 'bg-green-100 text-green-800'\n                          }`}>\n                            {contractorCategories.includes(vendor.specialty || vendor.category || '') ? 'Contractor' : 'Expert'}\n                          </span>\n                        )}\n                      </div>\n                      {vendor.emergency_available && (\n                        <span className=\"inline-flex items-center px-2 py-1 mt-1 text-xs font-medium bg-red-100 text-red-800 rounded-full\">\n                          Emergency Available\n                        </span>\n                      )}\n                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ~
+
+src/pages/Vendors.tsx:560:857 - error TS17002: Expected corresponding JSX closing tag for 'div'.
+
+560                           <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${\n                            contractorCategories.includes(vendor.specialty || vendor.category || '')\n                              ? 'bg-blue-100 text-blue-800'\n                              : 'bg-green-100 text-green-800'\n                          }`}>\n                            {contractorCategories.includes(vendor.specialty || vendor.category || '') ? 'Contractor' : 'Expert'}\n                          </span>\n                        )}\n                      </div>\n                      {vendor.emergency_available && (\n                        <span className=\"inline-flex items-center px-2 py-1 mt-1 text-xs font-medium bg-red-100 text-red-800 rounded-full\">\n                          Emergency Available\n                        </span>\n                      )}\n                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ~~~~
+
+src/pages/Vendors.tsx:560:862 - error TS1127: Invalid character.
+
+560                           <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${\n                            contractorCategories.includes(vendor.specialty || vendor.category || '')\n                              ? 'bg-blue-100 text-blue-800'\n                              : 'bg-green-100 text-green-800'\n                          }`}>\n                            {contractorCategories.includes(vendor.specialty || vendor.category || '') ? 'Contractor' : 'Expert'}\n                          </span>\n                        )}\n                      </div>\n                      {vendor.emergency_available && (\n                        <span className=\"inline-flex items-center px-2 py-1 mt-1 text-xs font-medium bg-red-100 text-red-800 rounded-full\">\n                          Emergency Available\n                        </span>\n                      )}\n                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+
+src/pages/Vendors.tsx:560:887 - error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+
+560                           <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${\n                            contractorCategories.includes(vendor.specialty || vendor.category || '')\n                              ? 'bg-blue-100 text-blue-800'\n                              : 'bg-green-100 text-green-800'\n                          }`}>\n                            {contractorCategories.includes(vendor.specialty || vendor.category || '') ? 'Contractor' : 'Expert'}\n                          </span>\n                        )}\n                      </div>\n                      {vendor.emergency_available && (\n                        <span className=\"inline-flex items-center px-2 py-1 mt-1 text-xs font-medium bg-red-100 text-red-800 rounded-full\">\n                          Emergency Available\n                        </span>\n                      )}\n                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ~
+
+src/pages/Vendors.tsx:560:912 - error TS17002: Expected corresponding JSX closing tag for 'CardHeader'.
+
+560                           <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${\n                            contractorCategories.includes(vendor.specialty || vendor.category || '')\n                              ? 'bg-blue-100 text-blue-800'\n                              : 'bg-green-100 text-green-800'\n                          }`}>\n                            {contractorCategories.includes(vendor.specialty || vendor.category || '') ? 'Contractor' : 'Expert'}\n                          </span>\n                        )}\n                      </div>\n                      {vendor.emergency_available && (\n                        <span className=\"inline-flex items-center px-2 py-1 mt-1 text-xs font-medium bg-red-100 text-red-800 rounded-full\">\n                          Emergency Available\n                        </span>\n                      )}\n                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ~~~
+
+src/pages/Vendors.tsx:580:21 - error TS17002: Expected corresponding JSX closing tag for 'Card'.
+
+580                   </div>
+                        ~~~
+
+src/pages/Vendors.tsx:581:17 - error TS1005: ')' expected.
+
+581                 </CardHeader>
+                    ~~
+
+src/pages/Vendors.tsx:581:19 - error TS17002: Expected corresponding JSX closing tag for 'div'.
+
+581                 </CardHeader>
+                      ~~~~~~~~~~
+
+src/pages/Vendors.tsx:659:17 - error TS17002: Expected corresponding JSX closing tag for 'div'.
+
+659               </Card>
+                    ~~~~
+
+src/pages/Vendors.tsx:660:14 - error TS1005: '}' expected.
+
+660             ))}
+                 ~
+
+src/pages/Vendors.tsx:660:15 - error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+
+660             ))}
+                  ~
+
+src/pages/Vendors.tsx:663:11 - error TS1005: ')' expected.
+
+663           {filteredVendors.length === 0 && (
+              ~
+
+src/pages/Vendors.tsx:681:9 - error TS1128: Declaration or statement expected.
+
+681         </div>
+            ~~
+
+src/pages/Vendors.tsx:682:7 - error TS1109: Expression expected.
+
+682       )}
+          ~
+
+src/pages/Vendors.tsx:743:5 - error TS1128: Declaration or statement expected.
+
+743     </div>
+        ~~
+
+src/pages/Vendors.tsx:744:3 - error TS1109: Expression expected.
+
+744   )
+      ~
+
+src/pages/Vendors.tsx:745:1 - error TS1128: Declaration or statement expected.
+
+745 }
+    ~
+
+
+Found 26 errors.
+

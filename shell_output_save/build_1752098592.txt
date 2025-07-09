@@ -1,0 +1,147 @@
+
+> react_repo@0.0.0 build
+> yes | pnpm install && rm -rf node_modules/.vite-temp && tsc -b && vite build
+
+Lockfile is up to date, resolution step is skipped
+Already up to date
+Done in 1s using pnpm v10.12.4
+src/lib/supabase.ts:415:3 - error TS2687: All declarations of 'rating' must have identical modifiers.
+
+415   rating?: number
+      ~~~~~~
+
+src/lib/supabase.ts:488:3 - error TS2717: Subsequent property declarations must have the same type.  Property 'insurance_info' must be of type 'string', but here has type 'any'.
+
+488   insurance_info?: any
+      ~~~~~~~~~~~~~~
+
+  src/lib/supabase.ts:412:3
+    412   insurance_info?: string
+          ~~~~~~~~~~~~~~
+    'insurance_info' was also declared here.
+
+src/lib/supabase.ts:503:3 - error TS2687: All declarations of 'rating' must have identical modifiers.
+
+503   rating: number
+      ~~~~~~
+
+src/pages/Notifications.tsx:295:48 - error TS2339: Property 'priority' does not exist on type 'Notification'.
+
+295                   {notifications.filter(n => n.priority === 'high').length}
+                                                   ~~~~~~~~
+
+src/pages/Notifications.tsx:389:85 - error TS2339: Property 'priority' does not exist on type 'Notification'.
+
+389             const colorClass = getNotificationColor(notification.type, notification.priority)
+                                                                                        ~~~~~~~~
+
+src/pages/Notifications.tsx:398:17 - error TS2322: Type '{ children: Element; key: string; className: string; onClick: () => void; }' is not assignable to type 'IntrinsicAttributes & CardProps'.
+  Property 'onClick' does not exist on type 'IntrinsicAttributes & CardProps'.
+
+398                 onClick={() => toggleSelectNotification(notification.id)}
+                    ~~~~~~~
+
+src/pages/Notifications.tsx:423:43 - error TS2339: Property 'priority' does not exist on type 'Notification'.
+
+423                             {notification.priority === 'high' && (
+                                              ~~~~~~~~
+
+src/pages/Notifications.tsx:446:43 - error TS2339: Property 'action_url' does not exist on type 'Notification'.
+
+446                             {notification.action_url && (
+                                              ~~~~~~~~~~
+
+src/pages/Notifications.tsx:452:60 - error TS2339: Property 'action_url' does not exist on type 'Notification'.
+
+452                                   window.open(notification.action_url, '_blank')
+                                                               ~~~~~~~~~~
+
+src/pages/Settings.tsx:85:27 - error TS2551: Property 'phone' does not exist on type 'UserProfile'. Did you mean 'phone_1'?
+
+85       phone: userProfile?.phone || '',
+                             ~~~~~
+
+  src/lib/supabase.ts:39:3
+    39   phone_1?: string
+         ~~~~~~~
+    'phone_1' is declared here.
+
+src/pages/Settings.tsx:86:27 - error TS2339: Property 'title' does not exist on type 'UserProfile'.
+
+86       title: userProfile?.title || '',
+                             ~~~~~
+
+src/pages/Settings.tsx:87:25 - error TS2339: Property 'bio' does not exist on type 'UserProfile'.
+
+87       bio: userProfile?.bio || '',
+                           ~~~
+
+src/pages/Settings.tsx:497:21 - error TS2322: Type '"outline" | "default"' is not assignable to type '"primary" | "secondary" | "outline" | "ghost" | "danger"'.
+  Type '"default"' is not assignable to type '"primary" | "secondary" | "outline" | "ghost" | "danger"'.
+
+497                     variant={settings.security.two_factor_enabled ? "outline" : "default"}
+                        ~~~~~~~
+
+  src/components/ui/Button.tsx:6:3
+    6   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'
+        ~~~~~~~
+    The expected type comes from property 'variant' which is declared here on type 'IntrinsicAttributes & ButtonProps'
+
+src/pages/Settings.tsx:697:24 - error TS2304: Cannot find name 'Brain'.
+
+697                       <Brain className="h-5 w-5 text-blue-600" />
+                           ~~~~~
+
+src/pages/Settings.tsx:777:24 - error TS2304: Cannot find name 'DollarSign'.
+
+777                       <DollarSign className="h-5 w-5 text-yellow-600" />
+                           ~~~~~~~~~~
+
+src/pages/Settings.tsx:797:24 - error TS2304: Cannot find name 'Calendar'.
+
+797                       <Calendar className="h-5 w-5 text-indigo-600" />
+                           ~~~~~~~~
+
+src/pages/Settings.tsx:899:52 - error TS2339: Property 'api_key' does not exist on type '{ enabled: boolean; api_key?: string; } | { enabled: boolean; username?: string; } | { enabled: boolean; api_key?: string; } | { enabled: boolean; calendar_id?: string; } | { enabled: boolean; client_id?: string; } | { ...; } | { ...; }'.
+  Property 'api_key' does not exist on type '{ enabled: boolean; username?: string; }'.
+
+899                                 value={integration.api_key || ''}
+                                                       ~~~~~~~
+
+src/pages/Settings.tsx:912:52 - error TS2339: Property 'username' does not exist on type '{ enabled: boolean; api_key?: string; } | { enabled: boolean; username?: string; } | { enabled: boolean; api_key?: string; } | { enabled: boolean; calendar_id?: string; } | { enabled: boolean; client_id?: string; } | { ...; } | { ...; }'.
+  Property 'username' does not exist on type '{ enabled: boolean; api_key?: string; }'.
+
+912                                 value={integration.username || ''}
+                                                       ~~~~~~~~
+
+src/pages/Settings.tsx:925:52 - error TS2339: Property 'calendar_id' does not exist on type '{ enabled: boolean; api_key?: string; } | { enabled: boolean; username?: string; } | { enabled: boolean; api_key?: string; } | { enabled: boolean; calendar_id?: string; } | { enabled: boolean; client_id?: string; } | { ...; } | { ...; }'.
+  Property 'calendar_id' does not exist on type '{ enabled: boolean; api_key?: string; }'.
+
+925                                 value={integration.calendar_id || ''}
+                                                       ~~~~~~~~~~~
+
+src/pages/Settings.tsx:938:52 - error TS2339: Property 'client_id' does not exist on type '{ enabled: boolean; api_key?: string; } | { enabled: boolean; username?: string; } | { enabled: boolean; api_key?: string; } | { enabled: boolean; calendar_id?: string; } | { enabled: boolean; client_id?: string; } | { ...; } | { ...; }'.
+  Property 'client_id' does not exist on type '{ enabled: boolean; api_key?: string; }'.
+
+938                                 value={integration.client_id || ''}
+                                                       ~~~~~~~~~
+
+src/pages/Settings.tsx:951:52 - error TS2339: Property 'folder_path' does not exist on type '{ enabled: boolean; api_key?: string; } | { enabled: boolean; username?: string; } | { enabled: boolean; api_key?: string; } | { enabled: boolean; calendar_id?: string; } | { enabled: boolean; client_id?: string; } | { ...; } | { ...; }'.
+  Property 'folder_path' does not exist on type '{ enabled: boolean; api_key?: string; }'.
+
+951                                 value={integration.folder_path || ''}
+                                                       ~~~~~~~~~~~
+
+src/pages/Vendors.tsx:154:33 - error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
+
+154           .sort(([,a], [,b]) => b - a)
+                                    ~
+
+src/pages/Vendors.tsx:154:37 - error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
+
+154           .sort(([,a], [,b]) => b - a)
+                                        ~
+
+
+Found 23 errors.
+

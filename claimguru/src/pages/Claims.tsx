@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { LoadingSpinner } from '../components/ui/LoadingSpinner'
 import { ClaimForm } from '../components/forms/ClaimForm'
+import ClaimIntakeWizard from '../components/claims/ClaimIntakeWizard'
 import { 
   Plus, 
   Search, 
@@ -19,7 +20,9 @@ import {
   Edit,
   Brain,
   TrendingUp,
-  Trash2
+  Trash2,
+  ArrowLeft,
+  Zap
 } from 'lucide-react'
 import type { Claim } from '../lib/supabase'
 
@@ -29,6 +32,7 @@ export function Claims() {
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [isFormOpen, setIsFormOpen] = useState(false)
+  const [showIntakeWizard, setShowIntakeWizard] = useState(false)
   const [editingClaim, setEditingClaim] = useState<Claim | null>(null)
   const [selectedClaim, setSelectedClaim] = useState<Claim | null>(null)
   const [showDetailsModal, setShowDetailsModal] = useState(false)
@@ -72,6 +76,20 @@ export function Claims() {
     setIsFormOpen(true)
   }
 
+  const handleNewClaimWizard = () => {
+    setShowIntakeWizard(true)
+  }
+
+  const handleIntakeComplete = (claimId: string) => {
+    setShowIntakeWizard(false)
+    // Optionally navigate to the new claim or refresh the list
+    window.location.reload()
+  }
+
+  const handleIntakeCancel = () => {
+    setShowIntakeWizard(false)
+  }
+
   const handleEditClaim = (claim: Claim) => {
     setEditingClaim(claim)
     setIsFormOpen(true)
@@ -111,13 +129,23 @@ export function Claims() {
             Manage and track insurance claims with AI-powered insights
           </p>
         </div>
-        <Button 
-          onClick={handleAddClaim}
-          className="flex items-center gap-2"
-        >
-          <Plus className="h-4 w-4" />
-          New Claim
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button 
+            variant="outline"
+            onClick={handleAddClaim}
+            className="flex items-center gap-2"
+          >
+            <Plus className="h-4 w-4" />
+            Quick Add
+          </Button>
+          <Button 
+            onClick={handleNewClaimWizard}
+            className="flex items-center gap-2"
+          >
+            <Zap className="h-4 w-4" />
+            New Claim Intake
+          </Button>
+        </div>
       </div>
 
       {/* Stats Cards */}
@@ -322,6 +350,36 @@ export function Claims() {
               </Card>
             )
           })}
+        </div>
+      )}
+
+      {/* Claim Intake Wizard Modal */}
+      {showIntakeWizard && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={handleIntakeCancel}
+                    className="p-2 hover:bg-gray-100 rounded-full"
+                  >
+                    <ArrowLeft className="h-5 w-5" />
+                  </button>
+                  <div>
+                    <h2 className="text-xl font-semibold text-gray-900">New Claim Intake</h2>
+                    <p className="text-sm text-gray-600">Complete claim intake workflow</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="p-6">
+              <ClaimIntakeWizard
+                onComplete={handleIntakeComplete}
+                onCancel={handleIntakeCancel}
+              />
+            </div>
+          </div>
         </div>
       )}
 

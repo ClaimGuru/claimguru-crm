@@ -131,15 +131,33 @@ export function Vendors() {
       
       // Calculate category distribution
       const categoryCounts = vendorsResult.reduce((acc, vendor) => {
-        const category = vendor.category || 'Other'
+        const category = vendor.specialty || vendor.category || 'Other'
         acc[category] = (acc[category] || 0) + 1
         return acc
       }, {} as { [key: string]: number })
       
-      const vendorsByCategory = Object.entries(categoryCounts).map(([category, count]) => ({
-        category,
-        count: count as number
-      }))
+      // Group by contractor vs expert type
+      const typeCounts = vendorsResult.reduce((acc, vendor) => {
+        const specialty = vendor.specialty || vendor.category || ''
+        const type = contractorCategories.includes(specialty) ? 'Contractors' : 'Experts'
+        acc[type] = (acc[type] || 0) + 1
+        return acc
+      }, {} as { [key: string]: number })
+      
+      const vendorsByCategory = [
+        ...Object.entries(typeCounts).map(([category, count]) => ({
+          category,
+          count: count as number
+        })),
+        ...Object.entries(categoryCounts)
+          .filter(([category]) => category !== 'Other' || categoryCounts[category] > 0)
+          .sort(([,a], [,b]) => (b as number) - (a as number))
+          .slice(0, 8)
+          .map(([category, count]) => ({
+            category,
+            count: count as number
+          }))
+      ]
       
       const averageRating = vendorStats.length > 0 
         ? vendorStats.reduce((sum, v) => sum + v.rating, 0) / vendorStats.length 
@@ -224,9 +242,15 @@ export function Vendors() {
     const matchesSearch = !searchTerm || 
       vendor.company_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       vendor.contact_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      vendor.category?.toLowerCase().includes(searchTerm.toLowerCase())
+      vendor.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      vendor.specialty?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      vendor.specialties?.some(s => s.toLowerCase().includes(searchTerm.toLowerCase()))
     
-    const matchesCategory = filterCategory === 'all' || vendor.category === filterCategory
+    const matchesCategory = filterCategory === 'all' || 
+      vendor.category === filterCategory || 
+      vendor.specialty === filterCategory ||
+      vendor.specialties?.includes(filterCategory)
+    
     const matchesStatus = filterStatus === 'all' || vendor.status === filterStatus
     
     let matchesRating = true
@@ -244,8 +268,41 @@ export function Vendors() {
     return matchesSearch && matchesCategory && matchesStatus && matchesRating
   })
 
-  const categories = ['Contractor', 'Engineer', 'Restoration', 'Legal', 'Medical', 'Investigator', 'Other']
-  const uniqueCategories = [...new Set(vendors.map(v => v.category).filter(Boolean))]
+  const contractorCategories = [
+    'General Contractor',
+    'Mold Remediation Specialist',
+    'Water Mitigation/Restoration',
+    'Lead Testing Specialist',
+    'Emergency Tarping Service',
+    'Roofing Contractor',
+    'Plumbing Contractor',
+    'Electrical Contractor',
+    'HVAC Contractor',
+    'Flooring Specialist',
+    'Drywall/Painting Contractor',
+    'Window/Glass Replacement',
+    'Structural Repair',
+    'Landscaping/Exterior',
+    'Cleaning/Restoration Services'
+  ]
+
+  const expertCategories = [
+    'Structural Engineer',
+    'Environmental Consultant',
+    'Public Adjuster',
+    'Insurance Consultant',
+    'Legal Expert/Attorney',
+    'Forensic Accountant',
+    'Building Code Consultant',
+    'Fire Investigation Expert',
+    'Weather Expert/Meteorologist',
+    'Construction Consultant',
+    'Safety Inspector',
+    'Appraisal Expert'
+  ]
+
+  const allCategories = [...contractorCategories, ...expertCategories]
+  const uniqueCategories = [...new Set(vendors.map(v => v.specialty || v.category).filter(Boolean))]
 
   if (loading) {
     return (
@@ -497,8 +554,21 @@ export function Vendors() {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <CardTitle className="text-lg">{vendor.company_name}</CardTitle>
-                      <p className="text-sm text-gray-600 mt-1">{vendor.category}</p>
-                    </div>
+                      <div className="flex items-center space-x-2 mt-1">
+                        <p className="text-sm text-gray-600">{vendor.specialty || vendor.category}</p>
+                        {vendor.category && (
+                          <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
+                            contractorCategories.includes(vendor.specialty || vendor.category || '')
+                              ? 'bg-blue-100 text-blue-800'
+                              : 'bg-green-100 text-green-800'
+                          }`}>
+                            {contractorCategories.includes(vendor.specialty || vendor.category || '') ? 'Contractor' : 'Expert'}
+                          </span>
+                        )}\n                      </div>\n                      {vendor.emergency_available && (
+                        <span className="inline-flex items-center px-2 py-1 mt-1 text-xs font-medium bg-red-100 text-red-800 rounded-full">
+                          Emergency Available
+                        </span>
+                      )}\n                    </div>
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => handleToggleFavorite(vendor)}

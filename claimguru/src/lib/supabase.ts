@@ -36,10 +36,13 @@ export interface UserProfile {
   first_name?: string
   last_name?: string
   middle_initial?: string
+  phone?: string
   phone_1?: string
   phone_2?: string
   phone_3?: string
   phone_4?: string
+  title?: string
+  bio?: string
   address_line_1?: string
   address_line_2?: string
   city?: string
@@ -109,14 +112,23 @@ export interface Claim {
   id: string
   organization_id: string
   client_id: string
-  property_id: string
+  property_id?: string
   file_number: string
   claim_number?: string
   carrier_claim_number?: string
   carrier_id?: string
+  insurance_carrier_id?: string
+  policy_number?: string
+  coverage_limits?: any
+  deductible?: number
+  referral_source?: string
+  referral_fee?: number
+  referral_notes?: string
+  vendor_assessment?: any
+  assigned_vendors?: string[]
   desk_adjuster_id?: string
   field_adjuster_id?: string
-  assigned_adjuster_id: string
+  assigned_adjuster_id?: string
   assigned_office_staff?: string[]
   assigned_sales_staff?: string[]
   claim_status: string
@@ -286,23 +298,46 @@ export interface AIInsight {
 export interface Notification {
   id: string
   organization_id: string
-  recipient_id: string
-  sender_id?: string
-  notification_type: string
-  priority: string
+  user_id?: string
   title: string
   message: string
+  type: string // info, success, warning, error
+  priority?: string // low, medium, high
+  entity_type?: string // claim, client, vendor, document, etc.
+  entity_id?: string
   action_url?: string
   is_read: boolean
-  is_dismissed: boolean
-  delivery_method: string
-  email_sent: boolean
-  sms_sent: boolean
-  push_sent: boolean
-  metadata?: any
-  expires_at?: string
   read_at?: string
   created_at: string
+}
+
+export interface Insurer {
+  id: string
+  organization_id: string
+  name: string
+  license_number?: string
+  contact_phone?: string
+  contact_email?: string
+  website?: string
+  address?: any
+  regional_offices?: any
+  coverage_types?: string[]
+  claims_reporting?: any
+  preferred_communication: string
+  notes?: string
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface ClaimIntakeProgress {
+  id: string
+  claim_id: string
+  current_step: number
+  completed_steps: number[]
+  intake_data: any
+  created_at: string
+  updated_at: string
 }
 
 // Additional comprehensive CRM interfaces
@@ -363,31 +398,51 @@ export interface Payment {
 export interface Vendor {
   id: string
   organization_id: string
-  company_type: string
   company_name: string
+  contact_name?: string
   contact_first_name?: string
   contact_last_name?: string
-  email?: string
-  website?: string
+  title?: string
+  phone?: string
+  mobile?: string
   phone_1?: string
   phone_2?: string
   phone_3?: string
   phone_4?: string
+  email?: string
+  website?: string
+  street_address?: string
   address_line_1?: string
   address_line_2?: string
   city?: string
   state?: string
   zip_code?: string
   country?: string
-  license_number?: string
-  insurance_info?: string
+  category: string // contractor, expert
+  specialty?: string
   specialties?: string[]
+  certifications?: string[]
+  insurance_info?: any
   service_areas?: string[]
-  rating?: number
+  emergency_available?: boolean
+  hourly_rate?: number
+  fixed_rate?: number
+  payment_terms?: number
+  tax_id?: string
+  insurance_certificate?: boolean
+  license_number?: string
+  license_expiry?: string
+  preferred_contact_method?: string
+  availability?: string
   notes?: string
-  is_active: boolean
+  status?: string
+  is_active?: boolean
+  is_preferred?: boolean
+  rating?: number
+  total_jobs?: number
   created_at: string
   updated_at: string
+  vendor_assignments?: any[]
 }
 
 export interface ClaimVendor {
@@ -437,40 +492,7 @@ export interface Communication {
   vendors?: Vendor
 }
 
-export interface Vendor {
-  id: string
-  organization_id: string
-  company_name: string
-  contact_name?: string
-  title?: string
-  phone?: string
-  mobile?: string
-  email?: string
-  website?: string
-  street_address?: string
-  city?: string
-  state?: string
-  zip_code?: string
-  country?: string
-  category?: string
-  specialties?: string[]
-  hourly_rate?: number
-  fixed_rate?: number
-  payment_terms?: number
-  tax_id?: string
-  insurance_certificate?: boolean
-  license_number?: string
-  license_expiry?: string
-  preferred_contact_method?: string
-  availability?: string
-  notes?: string
-  status?: string
-  is_preferred?: boolean
-  rating?: number
-  created_at: string
-  updated_at: string
-  vendor_assignments?: any[]
-}
+
 
 export interface PropertyInspection {
   id: string

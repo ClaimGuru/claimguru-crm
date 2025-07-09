@@ -1,0 +1,687 @@
+import React, { useState, useEffect } from 'react'
+import { Building2, Phone, Mail, Globe, Search, Filter, Plus, Upload, Download, Users, MapPin, FileText, ChevronRight, CheckCircle, AlertCircle } from 'lucide-react'
+import { supabase, Insurer } from '../lib/supabase'
+
+interface InsurerFormData {
+  name: string
+  license_number: string
+  contact_phone: string
+  contact_email: string
+  website: string
+  address: {
+    street: string
+    city: string
+    state: string
+    zip: string
+    country: string
+  }
+  regional_offices: any[]
+  coverage_types: string[]
+  claims_reporting: {
+    email: string
+    phone: string
+    online_portal: string
+    procedure: string
+  }
+  preferred_communication: string
+  notes: string
+}
+
+const Insurers: React.FC = () => {
+  const [insurers, setInsurers] = useState<Insurer[]>([])
+  const [filteredInsurers, setFilteredInsurers] = useState<Insurer[]>([])
+  const [loading, setLoading] = useState(true)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [selectedCoverageType, setSelectedCoverageType] = useState('all')
+  const [selectedState, setSelectedState] = useState('all')
+  const [showInsurerForm, setShowInsurerForm] = useState(false)
+  const [editingInsurer, setEditingInsurer] = useState<Insurer | null>(null)
+  const [selectedInsurer, setSelectedInsurer] = useState<Insurer | null>(null)
+  const [formData, setFormData] = useState<InsurerFormData>({
+    name: '',
+    license_number: '',
+    contact_phone: '',
+    contact_email: '',
+    website: '',
+    address: {
+      street: '',
+      city: '',
+      state: '',
+      zip: '',
+      country: 'US'
+    },
+    regional_offices: [],
+    coverage_types: [],
+    claims_reporting: {
+      email: '',
+      phone: '',
+      online_portal: '',
+      procedure: ''
+    },
+    preferred_communication: 'email',
+    notes: ''
+  })
+
+  const coverageTypes = [
+    'Homeowners', 'Auto', 'Commercial Property', 'Workers Compensation',
+    'General Liability', 'Professional Liability', 'Umbrella', 'Flood',
+    'Earthquake', 'Wind/Hail', 'Fire', 'Cyber Liability'
+  ]
+
+  const states = [
+    'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
+    'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
+    'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
+    'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
+    'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
+  ]
+
+  useEffect(() => {
+    fetchInsurers()
+  }, [])
+
+  useEffect(() => {
+    filterInsurers()
+  }, [insurers, searchTerm, selectedCoverageType, selectedState])
+
+  const fetchInsurers = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('insurers')
+        .select('*')
+        .eq('is_active', true)
+        .order('name')
+      
+      if (error) throw error
+      setInsurers(data || [])
+    } catch (error) {
+      console.error('Error fetching insurers:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const filterInsurers = () => {
+    let filtered = insurers
+
+    if (searchTerm) {
+      filtered = filtered.filter(insurer => 
+        insurer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        insurer.contact_email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        insurer.license_number?.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    }
+
+    if (selectedCoverageType !== 'all') {
+      filtered = filtered.filter(insurer => 
+        insurer.coverage_types?.includes(selectedCoverageType)
+      )
+    }
+
+    if (selectedState !== 'all') {
+      filtered = filtered.filter(insurer => 
+        insurer.address?.state === selectedState
+      )
+    }
+
+    setFilteredInsurers(filtered)
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    try {
+      const insurerData = {
+        ...formData,
+        organization_id: '00000000-0000-0000-0000-000000000000' // Default org for now
+      }
+
+      if (editingInsurer) {
+        const { error } = await supabase
+          .from('insurers')
+          .update(insurerData)
+          .eq('id', editingInsurer.id)
+        
+        if (error) throw error
+      } else {
+        const { error } = await supabase
+          .from('insurers')
+          .insert(insurerData)
+        
+        if (error) throw error
+      }
+
+      setShowInsurerForm(false)
+      setEditingInsurer(null)
+      resetForm()
+      fetchInsurers()
+    } catch (error) {
+      console.error('Error saving insurer:', error)
+    }
+  }
+
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      license_number: '',
+      contact_phone: '',
+      contact_email: '',
+      website: '',
+      address: {
+        street: '',
+        city: '',
+        state: '',
+        zip: '',
+        country: 'US'
+      },
+      regional_offices: [],
+      coverage_types: [],
+      claims_reporting: {
+        email: '',
+        phone: '',
+        online_portal: '',
+        procedure: ''
+      },
+      preferred_communication: 'email',
+      notes: ''
+    })
+  }
+
+  const handleEdit = (insurer: Insurer) => {
+    setEditingInsurer(insurer)
+    setFormData({
+      name: insurer.name,
+      license_number: insurer.license_number || '',
+      contact_phone: insurer.contact_phone || '',
+      contact_email: insurer.contact_email || '',
+      website: insurer.website || '',
+      address: insurer.address || {
+        street: '',
+        city: '',
+        state: '',
+        zip: '',
+        country: 'US'
+      },
+      regional_offices: insurer.regional_offices || [],
+      coverage_types: insurer.coverage_types || [],
+      claims_reporting: insurer.claims_reporting || {
+        email: '',
+        phone: '',
+        online_portal: '',
+        procedure: ''
+      },
+      preferred_communication: insurer.preferred_communication,
+      notes: insurer.notes || ''
+    })
+    setShowInsurerForm(true)
+  }
+
+  const handleCoverageTypeChange = (type: string) => {
+    const updated = formData.coverage_types.includes(type)
+      ? formData.coverage_types.filter(t => t !== type)
+      : [...formData.coverage_types, type]
+    
+    setFormData({ ...formData, coverage_types: updated })
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Insurance Carriers</h1>
+          <p className="mt-1 text-sm text-gray-500">
+            Manage relationships with insurance companies and their reporting procedures
+          </p>
+        </div>
+        <div className="mt-4 sm:mt-0 flex space-x-3">
+          <button
+            onClick={() => {/* Handle Excel import */}}
+            className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            <Upload className="h-4 w-4 mr-2" />
+            Import Excel
+          </button>
+          <button
+            onClick={() => {/* Handle Excel export */}}
+            className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            <Download className="h-4 w-4 mr-2" />
+            Export Excel
+          </button>
+          <button
+            onClick={() => {
+              resetForm()
+              setEditingInsurer(null)
+              setShowInsurerForm(true)
+            }}
+            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Add Insurer
+          </button>
+        </div>
+      </div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="bg-white p-6 rounded-lg shadow">
+          <div className="flex items-center">
+            <Building2 className="h-8 w-8 text-blue-600" />
+            <div className="ml-4">
+              <p className="text-sm font-medium text-gray-500">Total Insurers</p>
+              <p className="text-2xl font-bold text-gray-900">{insurers.length}</p>
+            </div>
+          </div>
+        </div>
+        <div className="bg-white p-6 rounded-lg shadow">
+          <div className="flex items-center">
+            <CheckCircle className="h-8 w-8 text-green-600" />
+            <div className="ml-4">
+              <p className="text-sm font-medium text-gray-500">Active Insurers</p>
+              <p className="text-2xl font-bold text-gray-900">{insurers.filter(i => i.is_active).length}</p>
+            </div>
+          </div>
+        </div>
+        <div className="bg-white p-6 rounded-lg shadow">
+          <div className="flex items-center">
+            <FileText className="h-8 w-8 text-yellow-600" />
+            <div className="ml-4">
+              <p className="text-sm font-medium text-gray-500">Coverage Types</p>
+              <p className="text-2xl font-bold text-gray-900">{coverageTypes.length}</p>
+            </div>
+          </div>
+        </div>
+        <div className="bg-white p-6 rounded-lg shadow">
+          <div className="flex items-center">
+            <MapPin className="h-8 w-8 text-purple-600" />
+            <div className="ml-4">
+              <p className="text-sm font-medium text-gray-500">States Covered</p>
+              <p className="text-2xl font-bold text-gray-900">{new Set(insurers.map(i => i.address?.state).filter(Boolean)).size}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Search and Filters */}
+      <div className="bg-white p-6 rounded-lg shadow">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+            <input
+              type="text"
+              placeholder="Search insurers..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            />
+          </div>
+          <select
+            value={selectedCoverageType}
+            onChange={(e) => setSelectedCoverageType(e.target.value)}
+            className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          >
+            <option value="all">All Coverage Types</option>
+            {coverageTypes.map(type => (
+              <option key={type} value={type}>{type}</option>
+            ))}
+          </select>
+          <select
+            value={selectedState}
+            onChange={(e) => setSelectedState(e.target.value)}
+            className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          >
+            <option value="all">All States</option>
+            {states.map(state => (
+              <option key={state} value={state}>{state}</option>
+            ))}
+          </select>
+          <div className="flex items-center space-x-2">
+            <Filter className="h-4 w-4 text-gray-400" />
+            <span className="text-sm text-gray-500">{filteredInsurers.length} results</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Insurers List */}
+      <div className="bg-white shadow rounded-lg">
+        <div className="px-6 py-4 border-b border-gray-200">
+          <h3 className="text-lg font-medium text-gray-900">Insurance Carriers</h3>
+        </div>
+        <div className="divide-y divide-gray-200">
+          {filteredInsurers.map((insurer) => (
+            <div key={insurer.id} className="p-6 hover:bg-gray-50 cursor-pointer" onClick={() => setSelectedInsurer(insurer)}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="flex-shrink-0">
+                    <Building2 className="h-10 w-10 text-blue-600" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center space-x-2">
+                      <p className="text-lg font-medium text-gray-900 truncate">{insurer.name}</p>
+                      {insurer.is_active && (
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                          Active
+                        </span>
+                      )}
+                    </div>
+                    <div className="mt-1 flex items-center space-x-4 text-sm text-gray-500">
+                      {insurer.license_number && (
+                        <span>License: {insurer.license_number}</span>
+                      )}
+                      {insurer.contact_phone && (
+                        <span className="flex items-center">
+                          <Phone className="h-4 w-4 mr-1" />
+                          {insurer.contact_phone}
+                        </span>
+                      )}
+                      {insurer.contact_email && (
+                        <span className="flex items-center">
+                          <Mail className="h-4 w-4 mr-1" />
+                          {insurer.contact_email}
+                        </span>
+                      )}
+                    </div>
+                    {insurer.coverage_types && insurer.coverage_types.length > 0 && (
+                      <div className="mt-2 flex flex-wrap gap-1">
+                        {insurer.coverage_types.slice(0, 3).map((type) => (
+                          <span key={type} className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                            {type}
+                          </span>
+                        ))}
+                        {insurer.coverage_types.length > 3 && (
+                          <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-800">
+                            +{insurer.coverage_types.length - 3} more
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleEdit(insurer)
+                    }}
+                    className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  >
+                    Edit
+                  </button>
+                  <ChevronRight className="h-5 w-5 text-gray-400" />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        {filteredInsurers.length === 0 && (
+          <div className="text-center py-12">
+            <Building2 className="mx-auto h-12 w-12 text-gray-400" />
+            <h3 className="mt-2 text-sm font-medium text-gray-900">No insurers found</h3>
+            <p className="mt-1 text-sm text-gray-500">Get started by adding your first insurance carrier.</p>
+            <div className="mt-6">
+              <button
+                onClick={() => setShowInsurerForm(true)}
+                className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add Insurer
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Insurer Form Modal */}
+      {showInsurerForm && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+          <div className="relative top-20 mx-auto p-5 border w-11/12 max-w-4xl shadow-lg rounded-md bg-white">
+            <div className="mt-3">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-medium text-gray-900">
+                  {editingInsurer ? 'Edit Insurance Carrier' : 'Add Insurance Carrier'}
+                </h3>
+                <button
+                  onClick={() => setShowInsurerForm(false)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  ×
+                </button>
+              </div>
+              
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Basic Information */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Company Name *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">License Number</label>
+                    <input
+                      type="text"
+                      value={formData.license_number}
+                      onChange={(e) => setFormData({ ...formData, license_number: e.target.value })}
+                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Contact Phone</label>
+                    <input
+                      type="tel"
+                      value={formData.contact_phone}
+                      onChange={(e) => setFormData({ ...formData, contact_phone: e.target.value })}
+                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Contact Email</label>
+                    <input
+                      type="email"
+                      value={formData.contact_email}
+                      onChange={(e) => setFormData({ ...formData, contact_email: e.target.value })}
+                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700">Website</label>
+                    <input
+                      type="url"
+                      value={formData.website}
+                      onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    />
+                  </div>
+                </div>
+
+                {/* Coverage Types */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Coverage Types</label>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    {coverageTypes.map((type) => (
+                      <label key={type} className="inline-flex items-center">
+                        <input
+                          type="checkbox"
+                          checked={formData.coverage_types.includes(type)}
+                          onChange={() => handleCoverageTypeChange(type)}
+                          className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        />
+                        <span className="ml-2 text-sm text-gray-700">{type}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Preferred Communication */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Preferred Communication</label>
+                  <select
+                    value={formData.preferred_communication}
+                    onChange={(e) => setFormData({ ...formData, preferred_communication: e.target.value })}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  >
+                    <option value="email">Email</option>
+                    <option value="phone">Phone</option>
+                    <option value="portal">Online Portal</option>
+                    <option value="fax">Fax</option>
+                  </select>
+                </div>
+
+                {/* Notes */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Notes</label>
+                  <textarea
+                    rows={3}
+                    value={formData.notes}
+                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    placeholder="Additional notes about this insurer..."
+                  />
+                </div>
+
+                {/* Form Actions */}
+                <div className="flex justify-end space-x-3">
+                  <button
+                    type="button"
+                    onClick={() => setShowInsurerForm(false)}
+                    className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  >
+                    {editingInsurer ? 'Update' : 'Create'} Insurer
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Insurer Detail Modal */}
+      {selectedInsurer && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+          <div className="relative top-20 mx-auto p-5 border w-11/12 max-w-2xl shadow-lg rounded-md bg-white">
+            <div className="mt-3">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-medium text-gray-900">{selectedInsurer.name}</h3>
+                <button
+                  onClick={() => setSelectedInsurer(null)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  ×
+                </button>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <h4 className="font-medium text-gray-900">Contact Information</h4>
+                    <div className="mt-2 space-y-1 text-sm text-gray-600">
+                      {selectedInsurer.contact_phone && (
+                        <div className="flex items-center">
+                          <Phone className="h-4 w-4 mr-2" />
+                          {selectedInsurer.contact_phone}
+                        </div>
+                      )}
+                      {selectedInsurer.contact_email && (
+                        <div className="flex items-center">
+                          <Mail className="h-4 w-4 mr-2" />
+                          {selectedInsurer.contact_email}
+                        </div>
+                      )}
+                      {selectedInsurer.website && (
+                        <div className="flex items-center">
+                          <Globe className="h-4 w-4 mr-2" />
+                          <a href={selectedInsurer.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
+                            {selectedInsurer.website}
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-medium text-gray-900">License & Status</h4>
+                    <div className="mt-2 space-y-1 text-sm text-gray-600">
+                      {selectedInsurer.license_number && (
+                        <p>License: {selectedInsurer.license_number}</p>
+                      )}
+                      <p>Communication: {selectedInsurer.preferred_communication}</p>
+                      <div className="flex items-center">
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          selectedInsurer.is_active 
+                            ? 'bg-green-100 text-green-800' 
+                            : 'bg-red-100 text-red-800'
+                        }`}>
+                          {selectedInsurer.is_active ? 'Active' : 'Inactive'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {selectedInsurer.coverage_types && selectedInsurer.coverage_types.length > 0 && (
+                  <div>
+                    <h4 className="font-medium text-gray-900">Coverage Types</h4>
+                    <div className="mt-2 flex flex-wrap gap-1">
+                      {selectedInsurer.coverage_types.map((type) => (
+                        <span key={type} className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                          {type}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {selectedInsurer.notes && (
+                  <div>
+                    <h4 className="font-medium text-gray-900">Notes</h4>
+                    <p className="mt-2 text-sm text-gray-600">{selectedInsurer.notes}</p>
+                  </div>
+                )}
+              </div>
+              
+              <div className="mt-6 flex justify-end space-x-3">
+                <button
+                  onClick={() => {
+                    setSelectedInsurer(null)
+                    handleEdit(selectedInsurer)
+                  }}
+                  className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => setSelectedInsurer(null)}
+                  className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default Insurers

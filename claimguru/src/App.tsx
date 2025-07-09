@@ -14,6 +14,9 @@ import { Documents } from './pages/Documents'
 import { Properties } from './pages/Properties'
 import { Tasks } from './pages/Tasks'
 import { Settlements } from './pages/Settlements'
+import Insurers from './pages/Insurers'
+import Notifications from './pages/Notifications'
+import Settings from './pages/Settings'
 import { Layout } from './components/layout/Layout'
 import { LoadingSpinner } from './components/ui/LoadingSpinner'
 
@@ -87,14 +90,15 @@ function AppRoutes() {
         <Route path="documents" element={<Documents />} />
         <Route path="communications" element={<Communications />} />
         <Route path="vendors" element={<Vendors />} />
+        <Route path="insurers" element={<Insurers />} />
         <Route path="settlements" element={<Settlements />} />
         <Route path="financial" element={<Finance />} />
         <Route path="finance" element={<Finance />} />
         <Route path="ai-insights" element={<AIInsights />} />
         <Route path="calendar" element={<div className="p-6"><h1 className="text-2xl font-bold">Calendar</h1><p>Calendar view coming soon...</p></div>} />
         <Route path="analytics" element={<div className="p-6"><h1 className="text-2xl font-bold">Analytics</h1><p>Advanced analytics dashboard coming soon...</p></div>} />
-        <Route path="settings" element={<div className="p-6"><h1 className="text-2xl font-bold">Settings</h1><p>Settings page coming soon...</p></div>} />
-        <Route path="notifications" element={<div className="p-6"><h1 className="text-2xl font-bold">Notifications</h1><p>Notifications center coming soon...</p></div>} />
+        <Route path="settings" element={<Settings />} />
+        <Route path="notifications" element={<Notifications />} />
         <Route path="help" element={<div className="p-6"><h1 className="text-2xl font-bold">Help & Support</h1><p>Help center coming soon...</p></div>} />
       </Route>
 
