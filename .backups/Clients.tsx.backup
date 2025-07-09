@@ -4,6 +4,7 @@ import { useClaims } from '../hooks/useClaims'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { LoadingSpinner } from '../components/ui/LoadingSpinner'
+import { ClientForm } from '../components/forms/ClientForm'
 import { 
   Plus, 
   Search, 
@@ -16,16 +17,18 @@ import {
   Edit,
   FileText,
   Calendar,
-  Building
+  Building,
+  Trash2
 } from 'lucide-react'
 import type { Client } from '../lib/supabase'
 
 export function Clients() {
-  const { clients, loading, createClient, updateClient } = useClients()
+  const { clients, loading, createClient, updateClient, deleteClient } = useClients()
   const { claims } = useClaims()
   const [searchTerm, setSearchTerm] = useState('')
   const [typeFilter, setTypeFilter] = useState<string>('all')
-  const [showCreateModal, setShowCreateModal] = useState(false)
+  const [isFormOpen, setIsFormOpen] = useState(false)
+  const [editingClient, setEditingClient] = useState<Client | null>(null)
   const [selectedClient, setSelectedClient] = useState<Client | null>(null)
   const [showDetailsModal, setShowDetailsModal] = useState(false)
 
@@ -33,9 +36,9 @@ export function Clients() {
     const matchesSearch = 
       client.first_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       client.last_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      client.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      client.phone?.includes(searchTerm) ||
-      client.company_name?.toLowerCase().includes(searchTerm.toLowerCase())
+      client.primary_email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      client.primary_phone?.includes(searchTerm) ||
+      client.business_name?.toLowerCase().includes(searchTerm.toLowerCase())
     
     const matchesType = typeFilter === 'all' || client.client_type === typeFilter
     
@@ -44,6 +47,32 @@ export function Clients() {
 
   const getClientClaims = (clientId: string) => {
     return claims.filter(claim => claim.client_id === clientId)
+  }
+
+  const handleAddClient = () => {
+    setEditingClient(null)
+    setIsFormOpen(true)
+  }
+
+  const handleEditClient = (client: Client) => {
+    setEditingClient(client)
+    setIsFormOpen(true)
+  }
+
+  const handleDeleteClient = async (client: Client) => {
+    if (!confirm(`Are you sure you want to delete client "${client.client_type === 'business' ? client.business_name : `${client.first_name} ${client.last_name}`}"?`)) return
+    
+    try {
+      await deleteClient(client.id)
+    } catch (error) {
+      alert('Error deleting client. Please try again.')
+    }
+  }
+
+  const handleSaveClient = async (client: Client) => {
+    // The form handles the save operation, just close the modal
+    setIsFormOpen(false)
+    setEditingClient(null)
   }
 
   if (loading) {
@@ -65,7 +94,7 @@ export function Clients() {
           </p>
         </div>
         <Button 
-          onClick={() => setShowCreateModal(true)}
+          onClick={handleAddClient}
           className="flex items-center gap-2"
         >
           <Plus className="h-4 w-4" />
@@ -172,7 +201,7 @@ export function Clients() {
             </p>
             {clients.length === 0 && (
               <Button 
-                onClick={() => setShowCreateModal(true)}
+                onClick={handleAddClient}
                 className="flex items-center gap-2"
               >
                 <Plus className="h-4 w-4" />
@@ -251,10 +280,20 @@ export function Clients() {
                         <Button
                           variant="outline"
                           size="sm"
+                          onClick={() => handleEditClient(client)}
                           className="flex items-center gap-1"
                         >
                           <Edit className="h-4 w-4" />
                           Edit
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleDeleteClient(client)}
+                          className="flex items-center gap-1 text-red-600 hover:text-red-700"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                          Delete
                         </Button>
                       </div>
                     </div>

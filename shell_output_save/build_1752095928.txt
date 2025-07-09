@@ -1,0 +1,127 @@
+
+> react_repo@0.0.0 build
+> yes | pnpm install && rm -rf node_modules/.vite-temp && tsc -b && vite build
+
+Lockfile is up to date, resolution step is skipped
+Already up to date
+Done in 1s using pnpm v10.12.4
+src/components/communication/AutomationManager.tsx:495:18 - error TS2304: Cannot find name 'X'.
+
+495                 <X className="h-5 w-5" />
+                     ~
+
+src/components/communication/EmailTemplateManager.tsx:375:18 - error TS2304: Cannot find name 'X'.
+
+375                 <X className="h-5 w-5" />
+                     ~
+
+src/components/communication/EmailTemplateManager.tsx:440:60 - error TS2353: Object literal may only specify known properties, and 'client_name' does not exist in type 'ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal'.
+
+440                   Use double curly braces for variables: {{client_name}}, {{claim_number}}, {{adjuster_name}}, etc.
+                                                               ~~~~~~~~~~~
+
+src/components/communication/EmailTemplateManager.tsx:440:60 - error TS18004: No value exists in scope for the shorthand property 'client_name'. Either declare one or provide an initializer.
+
+440                   Use double curly braces for variables: {{client_name}}, {{claim_number}}, {{adjuster_name}}, etc.
+                                                               ~~~~~~~~~~~
+
+src/components/communication/EmailTemplateManager.tsx:440:77 - error TS2353: Object literal may only specify known properties, and 'claim_number' does not exist in type 'ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal'.
+
+440                   Use double curly braces for variables: {{client_name}}, {{claim_number}}, {{adjuster_name}}, etc.
+                                                                                ~~~~~~~~~~~~
+
+src/components/communication/EmailTemplateManager.tsx:440:77 - error TS18004: No value exists in scope for the shorthand property 'claim_number'. Either declare one or provide an initializer.
+
+440                   Use double curly braces for variables: {{client_name}}, {{claim_number}}, {{adjuster_name}}, etc.
+                                                                                ~~~~~~~~~~~~
+
+src/components/communication/EmailTemplateManager.tsx:440:95 - error TS2353: Object literal may only specify known properties, and 'adjuster_name' does not exist in type 'ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal'.
+
+440                   Use double curly braces for variables: {{client_name}}, {{claim_number}}, {{adjuster_name}}, etc.
+                                                                                                  ~~~~~~~~~~~~~
+
+src/components/communication/EmailTemplateManager.tsx:440:95 - error TS18004: No value exists in scope for the shorthand property 'adjuster_name'. Either declare one or provide an initializer.
+
+440                   Use double curly braces for variables: {{client_name}}, {{claim_number}}, {{adjuster_name}}, etc.
+                                                                                                  ~~~~~~~~~~~~~
+
+src/components/communication/EmailTemplateManager.tsx:487:18 - error TS2304: Cannot find name 'X'.
+
+487                 <X className="h-5 w-5" />
+                     ~
+
+src/components/communication/EmailTemplateManager.tsx:513:27 - error TS2353: Object literal may only specify known properties, and 'variable' does not exist in type 'ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal'.
+
+513                         {{variable}}
+                              ~~~~~~~~
+
+  node_modules/.pnpm/@types+react@18.3.20/node_modules/@types/react/index.d.ts:2392:9
+    2392         children?: ReactNode | undefined;
+                 ~~~~~~~~
+    The expected type comes from property 'children' which is declared here on type 'DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>'
+
+src/components/forms/CommunicationForm.tsx:55:43 - error TS2339: Property 'follow_up_required' does not exist on type 'Communication'.
+
+55         follow_up_required: communication.follow_up_required || false,
+                                             ~~~~~~~~~~~~~~~~~~
+
+src/components/forms/CommunicationForm.tsx:56:39 - error TS2339: Property 'follow_up_date' does not exist on type 'Communication'.
+
+56         follow_up_date: communication.follow_up_date || '',
+                                         ~~~~~~~~~~~~~~
+
+src/components/forms/CommunicationForm.tsx:57:32 - error TS2339: Property 'urgency' does not exist on type 'Communication'.
+
+57         urgency: communication.urgency || 'normal',
+                                  ~~~~~~~
+
+src/pages/CommunicationHub.tsx:207:9 - error TS2322: Type '{ status: string; count: unknown; }[]' is not assignable to type '{ status: string; count: number; }[]'.
+  Type '{ status: string; count: unknown; }' is not assignable to type '{ status: string; count: number; }'.
+    Types of property 'count' are incompatible.
+      Type 'unknown' is not assignable to type 'number'.
+
+207         communicationsByStatus,
+            ~~~~~~~~~~~~~~~~~~~~~~
+
+src/pages/CommunicationHub.tsx:214:17 - error TS2345: Argument of type '{ id: any; file_number: any; client_id: any; }[]' is not assignable to parameter of type 'SetStateAction<Claim[]>'.
+  Type '{ id: any; file_number: any; client_id: any; }[]' is not assignable to type 'Claim[]'.
+    Type '{ id: any; file_number: any; client_id: any; }' is missing the following properties from type 'Claim': organization_id, property_id, assigned_adjuster_id, claim_status, and 16 more.
+
+214       setClaims(claimsResult)
+                    ~~~~~~~~~~~~
+
+src/pages/CommunicationHub.tsx:215:18 - error TS2345: Argument of type '{ id: any; first_name: any; last_name: any; business_name: any; client_type: any; }[]' is not assignable to parameter of type 'SetStateAction<Client[]>'.
+  Type '{ id: any; first_name: any; last_name: any; business_name: any; client_type: any; }[]' is not assignable to type 'Client[]'.
+    Type '{ id: any; first_name: any; last_name: any; business_name: any; client_type: any; }' is missing the following properties from type 'Client': organization_id, is_policyholder, country, mailing_same_as_address, and 2 more.
+
+215       setClients(clientsResult)
+                     ~~~~~~~~~~~~~
+
+src/pages/CommunicationHub.tsx:499:40 - error TS2339: Property 'claims' does not exist on type 'Communication'.
+
+499                         {communication.claims?.file_number || communication.clients?.first_name || 'System'}
+                                           ~~~~~~
+
+src/pages/CommunicationHub.tsx:499:77 - error TS2339: Property 'clients' does not exist on type 'Communication'.
+
+499                         {communication.claims?.file_number || communication.clients?.first_name || 'System'}
+                                                                                ~~~~~~~
+
+src/pages/CommunicationHub.tsx:615:40 - error TS2339: Property 'clients' does not exist on type 'Communication'.
+
+615                         {communication.clients?.business_name ||
+                                           ~~~~~~~
+
+src/pages/CommunicationHub.tsx:616:43 - error TS2339: Property 'clients' does not exist on type 'Communication'.
+
+616                          `${communication.clients?.first_name || ''} ${communication.clients?.last_name || ''}`.trim() ||
+                                              ~~~~~~~
+
+src/pages/CommunicationHub.tsx:616:86 - error TS2339: Property 'clients' does not exist on type 'Communication'.
+
+616                          `${communication.clients?.first_name || ''} ${communication.clients?.last_name || ''}`.trim() ||
+                                                                                         ~~~~~~~
+
+
+Found 21 errors.
+

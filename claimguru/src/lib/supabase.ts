@@ -167,6 +167,8 @@ export interface Document {
   client_id?: string
   document_type: string
   document_category?: string
+  category?: string
+  status?: string
   file_name: string
   file_path: string
   file_size?: number
@@ -177,6 +179,9 @@ export interface Document {
   description?: string
   is_public: boolean
   is_confidential: boolean
+  is_shared?: boolean
+  is_template?: boolean
+  ai_processed?: boolean
   folder_path?: string
   tags?: string[]
   ai_extracted_text?: string
@@ -230,6 +235,7 @@ export interface Task {
   task_type: string
   task_category: string
   title: string
+  task_title: string
   description?: string
   status: string
   priority: string
@@ -297,4 +303,287 @@ export interface Notification {
   expires_at?: string
   read_at?: string
   created_at: string
+}
+
+// Additional comprehensive CRM interfaces
+export interface FeeSchedule {
+  id: string
+  organization_id: string
+  claim_id?: string
+  fee_type: string
+  fee_amount?: number
+  fee_percentage?: number
+  description?: string
+  status: string
+  due_date?: string
+  invoice_number?: string
+  created_by?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Expense {
+  id: string
+  organization_id: string
+  claim_id?: string
+  vendor_id?: string
+  expense_type: string
+  category?: string
+  amount: number
+  description?: string
+  receipt_url?: string
+  expense_date: string
+  is_billable: boolean
+  is_reimbursed: boolean
+  approval_status: string
+  approved_by?: string
+  approved_at?: string
+  created_by?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Payment {
+  id: string
+  organization_id: string
+  claim_id?: string
+  fee_schedule_id?: string
+  payment_type: string
+  amount: number
+  payment_method?: string
+  payment_date?: string
+  reference_number?: string
+  status: string
+  notes?: string
+  created_by?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Vendor {
+  id: string
+  organization_id: string
+  company_type: string
+  company_name: string
+  contact_first_name?: string
+  contact_last_name?: string
+  email?: string
+  website?: string
+  phone_1?: string
+  phone_2?: string
+  phone_3?: string
+  phone_4?: string
+  address_line_1?: string
+  address_line_2?: string
+  city?: string
+  state?: string
+  zip_code?: string
+  country?: string
+  license_number?: string
+  insurance_info?: string
+  specialties?: string[]
+  service_areas?: string[]
+  rating?: number
+  notes?: string
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface ClaimVendor {
+  id: string
+  organization_id: string
+  claim_id: string
+  vendor_id: string
+  assignment_type: string
+  assignment_status: string
+  assigned_date?: string
+  due_date?: string
+  completion_date?: string
+  amount_quoted?: number
+  amount_final?: number
+  notes?: string
+  assigned_by?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Communication {
+  id: string
+  organization_id: string
+  claim_id?: string
+  client_id?: string
+  vendor_id?: string
+  communication_type: string
+  direction: string
+  subject?: string
+  content?: string
+  status: string
+  scheduled_at?: string
+  sent_at?: string
+  delivered_at?: string
+  read_at?: string
+  attachments?: any
+  metadata?: any
+  created_by?: string
+  created_at: string
+  updated_at: string
+  follow_up_required?: boolean
+  follow_up_date?: string
+  urgency?: string
+  // Joined data from related tables
+  clients?: Client
+  claims?: Claim
+  vendors?: Vendor
+}
+
+export interface Vendor {
+  id: string
+  organization_id: string
+  company_name: string
+  contact_name?: string
+  title?: string
+  phone?: string
+  mobile?: string
+  email?: string
+  website?: string
+  street_address?: string
+  city?: string
+  state?: string
+  zip_code?: string
+  country?: string
+  category?: string
+  specialties?: string[]
+  hourly_rate?: number
+  fixed_rate?: number
+  payment_terms?: number
+  tax_id?: string
+  insurance_certificate?: boolean
+  license_number?: string
+  license_expiry?: string
+  preferred_contact_method?: string
+  availability?: string
+  notes?: string
+  status?: string
+  is_preferred?: boolean
+  rating?: number
+  created_at: string
+  updated_at: string
+  vendor_assignments?: any[]
+}
+
+export interface PropertyInspection {
+  id: string
+  organization_id: string
+  property_id: string
+  claim_id?: string
+  inspector_id?: string
+  inspection_type: string
+  inspection_date: string
+  inspection_status: string
+  findings?: string
+  damage_areas?: any
+  photos?: any
+  documents?: any
+  recommendations?: string
+  estimated_repair_cost?: number
+  created_by?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface SettlementLineItem {
+  id: string
+  organization_id: string
+  settlement_id: string
+  category: string
+  item_description: string
+  quantity?: number
+  unit_cost?: number
+  total_cost?: number
+  carrier_approved_amount?: number
+  status: string
+  dispute_reason?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface OrganizationModule {
+  id: string
+  organization_id: string
+  module_name: string
+  is_active: boolean
+  activation_date?: string
+  deactivation_date?: string
+  usage_count: number
+  last_used_at?: string
+  billing_tier: string
+  monthly_fee?: number
+  created_at: string
+  updated_at: string
+}
+
+export interface Integration {
+  id: string
+  organization_id: string
+  integration_type: string
+  integration_name: string
+  status: string
+  configuration?: any
+  credentials_encrypted?: string
+  last_sync_at?: string
+  sync_frequency: string
+  error_count: number
+  last_error?: string
+  created_by?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Property {
+  id: string
+  organization_id: string
+  client_id?: string
+  property_type: string
+  property_status: string
+  property_address: string
+  city?: string
+  state?: string
+  zip_code?: string
+  country?: string
+  owner_name?: string
+  property_value?: number
+  year_built?: number
+  square_footage?: number
+  lot_size?: number
+  bedrooms?: number
+  bathrooms?: number
+  construction_type?: string
+  roof_type?: string
+  features?: string[]
+  inspection_status?: string
+  inspection_date?: string
+  last_inspection_date?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Settlement {
+  id: string
+  organization_id: string
+  claim_id?: string
+  settlement_type?: string
+  settlement_status: string
+  settlement_amount?: number
+  initial_demand?: number
+  carrier_offer?: number
+  negotiation_rounds?: number
+  settlement_date?: string
+  approval_date?: string
+  payment_date?: string
+  notes?: string
+  approved_by?: string
+  created_by?: string
+  created_at: string
+  updated_at: string
 }

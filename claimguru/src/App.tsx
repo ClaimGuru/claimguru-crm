@@ -7,6 +7,13 @@ import { Dashboard } from './pages/Dashboard'
 import { Claims } from './pages/Claims'
 import { Clients } from './pages/Clients'
 import { AIInsights } from './pages/AIInsights'
+import { Finance } from './pages/Finance'
+import { Vendors } from './pages/Vendors'
+import { Communications } from './pages/Communications'
+import { Documents } from './pages/Documents'
+import { Properties } from './pages/Properties'
+import { Tasks } from './pages/Tasks'
+import { Settlements } from './pages/Settlements'
 import { Layout } from './components/layout/Layout'
 import { LoadingSpinner } from './components/ui/LoadingSpinner'
 
@@ -75,14 +82,17 @@ function AppRoutes() {
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="claims" element={<Claims />} />
         <Route path="clients" element={<Clients />} />
-        <Route path="properties" element={<div className="p-6"><h1 className="text-2xl font-bold">Properties</h1><p>Property management coming soon...</p></div>} />
-        <Route path="tasks" element={<div className="p-6"><h1 className="text-2xl font-bold">Tasks</h1><p>Task management coming soon...</p></div>} />
-        <Route path="documents" element={<div className="p-6"><h1 className="text-2xl font-bold">Documents</h1><p>Document management coming soon...</p></div>} />
-        <Route path="communications" element={<div className="p-6"><h1 className="text-2xl font-bold">Communications</h1><p>Communication center coming soon...</p></div>} />
+        <Route path="properties" element={<Properties />} />
+        <Route path="tasks" element={<Tasks />} />
+        <Route path="documents" element={<Documents />} />
+        <Route path="communications" element={<Communications />} />
+        <Route path="vendors" element={<Vendors />} />
+        <Route path="settlements" element={<Settlements />} />
+        <Route path="financial" element={<Finance />} />
+        <Route path="finance" element={<Finance />} />
         <Route path="ai-insights" element={<AIInsights />} />
         <Route path="calendar" element={<div className="p-6"><h1 className="text-2xl font-bold">Calendar</h1><p>Calendar view coming soon...</p></div>} />
-        <Route path="financials" element={<div className="p-6"><h1 className="text-2xl font-bold">Financials</h1><p>Financial management coming soon...</p></div>} />
-        <Route path="analytics" element={<div className="p-6"><h1 className="text-2xl font-bold">Analytics</h1><p>Analytics dashboard coming soon...</p></div>} />
+        <Route path="analytics" element={<div className="p-6"><h1 className="text-2xl font-bold">Analytics</h1><p>Advanced analytics dashboard coming soon...</p></div>} />
         <Route path="settings" element={<div className="p-6"><h1 className="text-2xl font-bold">Settings</h1><p>Settings page coming soon...</p></div>} />
         <Route path="notifications" element={<div className="p-6"><h1 className="text-2xl font-bold">Notifications</h1><p>Notifications center coming soon...</p></div>} />
         <Route path="help" element={<div className="p-6"><h1 className="text-2xl font-bold">Help & Support</h1><p>Help center coming soon...</p></div>} />

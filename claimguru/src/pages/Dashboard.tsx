@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
+import { Button } from '../components/ui/Button'
 import { 
   FileText, 
   Users, 
@@ -8,13 +9,16 @@ import {
   Clock, 
   AlertTriangle,
   CheckCircle,
-  Eye,
   Brain,
-  Calendar
+  Calendar,
+  BarChart3,
+  PieChart,
+  Building
 } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { supabase } from '../lib/supabase'
 import { LoadingSpinner } from '../components/ui/LoadingSpinner'
+import { useNavigate } from 'react-router-dom'
 
 interface DashboardStats {
   totalClaims: number
@@ -22,13 +26,18 @@ interface DashboardStats {
   totalClients: number
   pendingTasks: number
   totalValue: number
+  settledValue: number
+  pendingValue: number
+  activeVendors: number
   recentActivity: any[]
   upcomingDeadlines: any[]
-  aiInsights: any[]
+  claimsByStatus: { [key: string]: number }
+  monthlyRevenue: { month: string; revenue: number }[]
 }
 
 export function Dashboard() {
   const { userProfile } = useAuth()
+  const navigate = useNavigate()
   const [stats, setStats] = useState<DashboardStats | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -40,51 +49,76 @@ export function Dashboard() {
     if (!userProfile?.organization_id) return
 
     try {
-      // Load dashboard statistics
-      const [claimsData, clientsData, tasksData, activitiesData] = await Promise.all([
+      const [claimsData, clientsData, tasksData, activitiesData, vendorsData] = await Promise.all([
         supabase
           .from('claims')
-          .select('id, claim_status, estimated_loss_value, total_settlement_amount')
+          .select('id, status, estimated_loss_value, total_settlement_amount, created_at')
           .eq('organization_id', userProfile.organization_id),
         supabase
           .from('clients')
-          .select('id')
+          .select('id, created_at')
           .eq('organization_id', userProfile.organization_id),
         supabase
           .from('tasks')
-          .select('id, status, priority, due_date')
-          .eq('organization_id', userProfile.organization_id)
-          .eq('status', 'pending'),
+          .select('id, status, priority, due_date, title')
+          .eq('organization_id', userProfile.organization_id),
         supabase
           .from('activities')
           .select('*')
           .eq('organization_id', userProfile.organization_id)
           .order('created_at', { ascending: false })
-          .limit(10)
+          .limit(10),
+        supabase
+          .from('vendors')
+          .select('id, is_active')
+          .eq('organization_id', userProfile.organization_id)
+          .eq('is_active', true)
       ])
 
       const claims = claimsData.data || []
       const clients = clientsData.data || []
       const tasks = tasksData.data || []
       const activities = activitiesData.data || []
+      const vendors = vendorsData.data || []
 
       const openClaims = claims.filter(claim => 
-        ['new', 'in_progress', 'under_review'].includes(claim.claim_status)
+        ['new', 'in_progress', 'under_review', 'investigating'].includes(claim.status)
       )
 
-      const totalValue = claims.reduce((sum, claim) => 
-        sum + (claim.total_settlement_amount || claim.estimated_loss_value || 0), 0
-      )
+      const settledClaims = claims.filter(claim => claim.status === 'settled')
+      const totalValue = claims.reduce((sum, claim) => sum + (claim.estimated_loss_value || 0), 0)
+      const settledValue = settledClaims.reduce((sum, claim) => sum + (claim.total_settlement_amount || 0), 0)
+      const pendingValue = openClaims.reduce((sum, claim) => sum + (claim.estimated_loss_value || 0), 0)
+
+      const claimsByStatus = claims.reduce((acc, claim) => {
+        acc[claim.status] = (acc[claim.status] || 0) + 1
+        return acc
+      }, {} as { [key: string]: number })
+
+      const monthlyRevenue = settledClaims.reduce((acc, claim) => {
+        const month = new Date(claim.created_at).toLocaleString('default', { month: 'short', year: 'numeric' })
+        const existing = acc.find(item => item.month === month)
+        if (existing) {
+          existing.revenue += claim.total_settlement_amount || 0
+        } else {
+          acc.push({ month, revenue: claim.total_settlement_amount || 0 })
+        }
+        return acc
+      }, [] as { month: string; revenue: number }[])
 
       setStats({
         totalClaims: claims.length,
         openClaims: openClaims.length,
         totalClients: clients.length,
-        pendingTasks: tasks.length,
+        pendingTasks: tasks.filter(t => t.status === 'pending').length,
         totalValue,
+        settledValue,
+        pendingValue,
+        activeVendors: vendors.length,
         recentActivity: activities,
         upcomingDeadlines: tasks.filter(task => task.due_date).slice(0, 5),
-        aiInsights: [] // TODO: Load AI insights
+        claimsByStatus,
+        monthlyRevenue: monthlyRevenue.slice(-6)
       })
     } catch (error) {
       console.error('Error loading dashboard data:', error)
@@ -115,52 +149,70 @@ export function Dashboard() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
+        <Card className="hover:shadow-lg transition-shadow">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Total Claims</p>
                 <p className="text-3xl font-bold text-gray-900">{stats?.totalClaims || 0}</p>
+                <p className="text-xs text-gray-500 mt-1">{stats?.openClaims || 0} open</p>
               </div>
-              <FileText className="h-8 w-8 text-blue-600" />
+              <div className="p-2 bg-blue-100 rounded-full">
+                <FileText className="h-8 w-8 text-blue-600" />
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-lg transition-shadow">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Open Claims</p>
-                <p className="text-3xl font-bold text-gray-900">{stats?.openClaims || 0}</p>
+                <p className="text-sm font-medium text-gray-600">Settled Value</p>
+                <p className="text-3xl font-bold text-green-600">
+                  ${stats?.settledValue?.toLocaleString() || '0'}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">Revenue generated</p>
               </div>
-              <Clock className="h-8 w-8 text-orange-600" />
+              <div className="p-2 bg-green-100 rounded-full">
+                <TrendingUp className="h-8 w-8 text-green-600" />
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-lg transition-shadow">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total Clients</p>
-                <p className="text-3xl font-bold text-gray-900">{stats?.totalClients || 0}</p>
+                <p className="text-sm font-medium text-gray-600">Pending Value</p>
+                <p className="text-3xl font-bold text-orange-600">
+                  ${stats?.pendingValue?.toLocaleString() || '0'}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">{stats?.openClaims || 0} open claims</p>
               </div>
-              <Users className="h-8 w-8 text-green-600" />
+              <div className="p-2 bg-orange-100 rounded-full">
+                <Clock className="h-8 w-8 text-orange-600" />
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-lg transition-shadow">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total Value</p>
-                <p className="text-3xl font-bold text-gray-900">
-                  ${stats?.totalValue?.toLocaleString() || '0'}
+                <p className="text-sm font-medium text-gray-600">Active Network</p>
+                <p className="text-3xl font-bold text-purple-600">
+                  {(stats?.totalClients || 0) + (stats?.activeVendors || 0)}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  {stats?.totalClients || 0} clients, {stats?.activeVendors || 0} vendors
                 </p>
               </div>
-              <DollarSign className="h-8 w-8 text-purple-600" />
+              <div className="p-2 bg-purple-100 rounded-full">
+                <Building className="h-8 w-8 text-purple-600" />
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -168,37 +220,89 @@ export function Dashboard() {
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="cursor-pointer hover:shadow-md transition-shadow">
-          <CardContent className="p-4 text-center">
-            <FileText className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+        <Button 
+          onClick={() => navigate('/claims')}
+          className="p-6 h-auto flex flex-col items-center space-y-2 bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200"
+          variant="outline"
+        >
+          <FileText className="h-8 w-8" />
+          <div className="text-center">
             <p className="font-medium">New Claim</p>
-          </CardContent>
-        </Card>
+            <p className="text-xs opacity-75">Create insurance claim</p>
+          </div>
+        </Button>
 
-        <Card className="cursor-pointer hover:shadow-md transition-shadow">
-          <CardContent className="p-4 text-center">
-            <Users className="h-8 w-8 text-green-600 mx-auto mb-2" />
+        <Button 
+          onClick={() => navigate('/clients')}
+          className="p-6 h-auto flex flex-col items-center space-y-2 bg-green-50 text-green-700 hover:bg-green-100 border border-green-200"
+          variant="outline"
+        >
+          <Users className="h-8 w-8" />
+          <div className="text-center">
             <p className="font-medium">Add Client</p>
-          </CardContent>
-        </Card>
+            <p className="text-xs opacity-75">Manage relationships</p>
+          </div>
+        </Button>
 
-        <Card className="cursor-pointer hover:shadow-md transition-shadow">
-          <CardContent className="p-4 text-center">
-            <Brain className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-            <p className="font-medium">AI Analysis</p>
-          </CardContent>
-        </Card>
+        <Button 
+          onClick={() => navigate('/finance')}
+          className="p-6 h-auto flex flex-col items-center space-y-2 bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200"
+          variant="outline"
+        >
+          <DollarSign className="h-8 w-8" />
+          <div className="text-center">
+            <p className="font-medium">Finance</p>
+            <p className="text-xs opacity-75">Billing & payments</p>
+          </div>
+        </Button>
 
-        <Card className="cursor-pointer hover:shadow-md transition-shadow">
-          <CardContent className="p-4 text-center">
-            <Calendar className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-            <p className="font-medium">Schedule Meeting</p>
-          </CardContent>
-        </Card>
+        <Button 
+          onClick={() => navigate('/tasks')}
+          className="p-6 h-auto flex flex-col items-center space-y-2 bg-orange-50 text-orange-700 hover:bg-orange-100 border border-orange-200"
+          variant="outline"
+        >
+          <Calendar className="h-8 w-8" />
+          <div className="text-center">
+            <p className="font-medium">Tasks</p>
+            <p className="text-xs opacity-75">Manage workflow</p>
+          </div>
+        </Button>
       </div>
 
-      {/* Main Content Grid */}
+      {/* Analytics Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Claims by Status */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <PieChart className="h-5 w-5" />
+              <span>Claims by Status</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {stats?.claimsByStatus && Object.entries(stats.claimsByStatus).map(([status, count]) => (
+                <div key={status} className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <div className={`w-3 h-3 rounded-full ${
+                      status === 'new' ? 'bg-blue-500' :
+                      status === 'in_progress' ? 'bg-orange-500' :
+                      status === 'settled' ? 'bg-green-500' :
+                      status === 'closed' ? 'bg-gray-500' : 'bg-purple-500'
+                    }`}></div>
+                    <span className="text-sm capitalize text-gray-700">
+                      {status.replace('_', ' ')}
+                    </span>
+                  </div>
+                  <span className="text-sm font-medium text-gray-900">{count}</span>
+                </div>
+              )) || (
+                <p className="text-gray-500 text-center py-4">No claim data</p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Recent Activity */}
         <Card>
           <CardHeader>
@@ -209,12 +313,12 @@ export function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {stats?.recentActivity?.map((activity, index) => (
+              {stats?.recentActivity?.slice(0, 5).map((activity, index) => (
                 <div key={index} className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
                   <div className="flex-1">
                     <p className="text-sm font-medium text-gray-900">
-                      {activity.title}
+                      {activity.title || activity.activity_type}
                     </p>
                     <p className="text-xs text-gray-600">
                       {new Date(activity.created_at).toLocaleDateString()}
@@ -222,103 +326,12 @@ export function Dashboard() {
                   </div>
                 </div>
               )) || (
-                <p className="text-gray-500 text-center py-4">
-                  No recent activity
-                </p>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Pending Tasks */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <CheckCircle className="h-5 w-5" />
-              <span>Pending Tasks</span>
-              {stats?.pendingTasks && stats.pendingTasks > 0 && (
-                <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
-                  {stats.pendingTasks}
-                </span>
-              )}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {stats?.upcomingDeadlines?.map((task, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-md">
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">
-                      Task #{index + 1}
-                    </p>
-                    <p className="text-xs text-gray-600">
-                      Due: {task.due_date ? new Date(task.due_date).toLocaleDateString() : 'No due date'}
-                    </p>
-                  </div>
-                  <span className={`px-2 py-1 text-xs rounded-full ${
-                    task.priority === 'high' 
-                      ? 'bg-red-100 text-red-800'
-                      : task.priority === 'medium'
-                      ? 'bg-yellow-100 text-yellow-800'
-                      : 'bg-green-100 text-green-800'
-                  }`}>
-                    {task.priority}
-                  </span>
-                </div>
-              )) || (
-                <p className="text-gray-500 text-center py-4">
-                  No pending tasks
-                </p>
+                <p className="text-gray-500 text-center py-4">No recent activity</p>
               )}
             </div>
           </CardContent>
         </Card>
       </div>
-
-      {/* AI Insights Section */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <Brain className="h-5 w-5" />
-            <span>AI Insights & Recommendations</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-6">
-            <div className="flex items-center space-x-3 mb-4">
-              <Brain className="h-8 w-8 text-purple-600" />
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Your AI Assistant is Ready
-                </h3>
-                <p className="text-gray-600">
-                  Upload documents to get instant AI-powered analysis and insights
-                </p>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-white rounded-md p-4">
-                <h4 className="font-medium text-gray-900 mb-2">Document Analysis</h4>
-                <p className="text-sm text-gray-600">
-                  AI extracts key information from policies, estimates, and reports
-                </p>
-              </div>
-              <div className="bg-white rounded-md p-4">
-                <h4 className="font-medium text-gray-900 mb-2">Outcome Prediction</h4>
-                <p className="text-sm text-gray-600">
-                  Predict claim outcomes and settlement ranges with AI analysis
-                </p>
-              </div>
-              <div className="bg-white rounded-md p-4">
-                <h4 className="font-medium text-gray-900 mb-2">Risk Assessment</h4>
-                <p className="text-sm text-gray-600">
-                  Identify potential red flags and compliance issues automatically
-                </p>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   )
 }
