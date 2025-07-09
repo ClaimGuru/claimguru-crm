@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { User, FileText, Shield, ArrowRight, Building2, Users, CheckCircle, Camera, MapPin, Calendar, DollarSign, Phone, Mail, AlertTriangle, Droplets, Hammer, Zap, Home, Truck, TreePine, Wrench, Hard, HardHat, Briefcase, FlaskConical, Microscope, PenTool, Calculator, Gavel, ClipboardCheck } from 'lucide-react'
+import { User, FileText, Shield, ArrowRight, Building2, Users, CheckCircle, Camera, MapPin, Calendar, DollarSign, Phone, Mail, AlertTriangle, Droplets, Hammer, Zap, Home, Truck, TreePine, Wrench, HardHat, Briefcase, FlaskConical, Microscope, PenTool, Calculator, Gavel, ClipboardCheck } from 'lucide-react'
 import { supabase, Client, Insurer, Vendor, Claim, ClaimIntakeProgress } from '../../lib/supabase'
 import { useToastContext } from '../../contexts/ToastContext'
 import useNotifications from '../../hooks/useNotifications'
@@ -114,7 +114,6 @@ const getIcon = (iconName: string) => {
     'Truck': Truck,
     'TreePine': TreePine,
     'Wrench': Wrench,
-    'Hard': Hard,
     'HardHat': HardHat,
     'Briefcase': Briefcase,
     'FlaskConical': FlaskConical,
@@ -1564,7 +1563,7 @@ const ClaimIntakeWizard: React.FC<ClaimIntakeWizardProps> = ({ onComplete, onCan
                 <label className="block text-sm font-medium text-gray-700 mb-3">All Available Vendor Categories</label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {vendorCategories.map((category) => {
-                    const Icon = category.icon
+                    const IconComponent = getIcon(category.icon)
                     const isRecommended = intakeData.cause_of_loss && (
                       category.claimTypes.includes('all') || 
                       category.claimTypes.includes(intakeData.cause_of_loss.toLowerCase().replace(' ', '_'))
@@ -1586,7 +1585,7 @@ const ClaimIntakeWizard: React.FC<ClaimIntakeWizardProps> = ({ onComplete, onCan
                           }}
                           className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                         />
-                        <Icon className="ml-2 h-4 w-4 text-gray-500" />
+                        <IconComponent className="ml-2 h-4 w-4 text-gray-500" />
                         <span className="ml-2 text-sm text-gray-700">{category.name}</span>
                         <div className="ml-auto flex items-center space-x-2">
                           {isRecommended && (

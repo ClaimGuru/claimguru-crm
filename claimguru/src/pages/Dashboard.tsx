@@ -52,7 +52,7 @@ export function Dashboard() {
       const [claimsData, clientsData, tasksData, activitiesData, vendorsData] = await Promise.all([
         supabase
           .from('claims')
-          .select('id, status, estimated_loss_value, total_settlement_amount, created_at')
+          .select('id, claim_status, estimated_loss_value, total_settlement_amount, created_at')
           .eq('organization_id', userProfile.organization_id),
         supabase
           .from('clients')
@@ -82,16 +82,16 @@ export function Dashboard() {
       const vendors = vendorsData.data || []
 
       const openClaims = claims.filter(claim => 
-        ['new', 'in_progress', 'under_review', 'investigating'].includes(claim.status)
+        ['new', 'in_progress', 'under_review', 'investigating'].includes(claim.claim_status)
       )
 
-      const settledClaims = claims.filter(claim => claim.status === 'settled')
+      const settledClaims = claims.filter(claim => claim.claim_status === 'settled')
       const totalValue = claims.reduce((sum, claim) => sum + (claim.estimated_loss_value || 0), 0)
       const settledValue = settledClaims.reduce((sum, claim) => sum + (claim.total_settlement_amount || 0), 0)
       const pendingValue = openClaims.reduce((sum, claim) => sum + (claim.estimated_loss_value || 0), 0)
 
       const claimsByStatus = claims.reduce((acc, claim) => {
-        acc[claim.status] = (acc[claim.status] || 0) + 1
+        acc[claim.claim_status] = (acc[claim.claim_status] || 0) + 1
         return acc
       }, {} as { [key: string]: number })
 

@@ -143,7 +143,9 @@ const VendorSelector: React.FC<VendorSelectorProps> = ({
                         category.category === 'contractor' ? 'text-blue-600' : 'text-purple-600'
                       }`} />
                     ) : (
-                      <Users className="h-5 w-5 text-purple-600" />
+                      <Users className={`h-5 w-5 ${
+                        category.category === 'contractor' ? 'text-blue-600' : 'text-purple-600'
+                      }`} />
                     )}
                   </div>
                   <div>
