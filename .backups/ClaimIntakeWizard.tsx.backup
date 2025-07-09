@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { User, FileText, Shield, ArrowRight, Building2, Users, CheckCircle, Camera, MapPin, Calendar, DollarSign, Phone, Mail, AlertTriangle } from 'lucide-react'
 import { supabase, Client, Insurer, Vendor, Claim, ClaimIntakeProgress } from '../../lib/supabase'
+import { useToastContext } from '../../contexts/ToastContext'
+import useNotifications from '../../hooks/useNotifications'
 
 interface ClaimIntakeData {
   // Step 1: Client Selection
@@ -98,6 +100,8 @@ const ClaimIntakeWizard: React.FC<ClaimIntakeWizardProps> = ({ onComplete, onCan
   const [clients, setClients] = useState<Client[]>([])
   const [insurers, setInsurers] = useState<Insurer[]>([])
   const [vendors, setVendors] = useState<Vendor[]>([])
+  const toast = useToastContext()
+  const { createNotification } = useNotifications()
   const [intakeData, setIntakeData] = useState<ClaimIntakeData>({
     // Client selection
     client_id: '',
@@ -157,7 +161,6 @@ const ClaimIntakeWizard: React.FC<ClaimIntakeWizardProps> = ({ onComplete, onCan
     emergency_work_done: undefined,
     existing_vendors: [],
     repairs_needed: false,
-    emergency_services: false,
     vendor_categories: [],
     special_requirements: '',
     assigned_vendors: []
@@ -179,30 +182,31 @@ const ClaimIntakeWizard: React.FC<ClaimIntakeWizardProps> = ({ onComplete, onCan
   ]
 
   const contractorCategories = [
-    { category: 'contractor', name: 'General Contractor', icon: Building2, claimTypes: ['fire', 'wind', 'hail', 'water'] },
-    { category: 'contractor', name: 'Mold Remediation', icon: AlertTriangle, claimTypes: ['water', 'mold'] },
-    { category: 'contractor', name: 'Water Mitigation', icon: Building2, claimTypes: ['water', 'flood'] },
-    { category: 'contractor', name: 'Lead Testing', icon: AlertTriangle, claimTypes: ['renovation', 'fire'] },
-    { category: 'contractor', name: 'Tarping Services', icon: Building2, claimTypes: ['wind', 'hail', 'hurricane'] },
-    { category: 'contractor', name: 'Roofer', icon: Building2, claimTypes: ['wind', 'hail', 'hurricane', 'fire'] },
-    { category: 'contractor', name: 'Plumber', icon: Building2, claimTypes: ['water', 'freeze'] },
-    { category: 'contractor', name: 'HVAC', icon: Building2, claimTypes: ['fire', 'water', 'freeze'] },
-    { category: 'contractor', name: 'Electrical', icon: Building2, claimTypes: ['fire', 'lightning', 'water'] },
-    { category: 'contractor', name: 'Flooring', icon: Building2, claimTypes: ['water', 'fire', 'wind'] },
-    { category: 'contractor', name: 'Painting', icon: Building2, claimTypes: ['fire', 'water', 'wind'] },
-    { category: 'contractor', name: 'Cleaning Services', icon: Building2, claimTypes: ['fire', 'water', 'smoke'] }
+    { category: 'contractor', name: 'General Contractor', icon: Building2, claimTypes: ['all', 'fire', 'wind', 'hail', 'water_damage'] },
+    { category: 'contractor', name: 'Mold Remediation', icon: AlertTriangle, claimTypes: ['water_damage', 'flood'] },
+    { category: 'contractor', name: 'Water Mitigation', icon: Building2, claimTypes: ['water_damage', 'flood'] },
+    { category: 'contractor', name: 'Lead Testing', icon: AlertTriangle, claimTypes: ['fire', 'renovation'] },
+    { category: 'contractor', name: 'Tarping Services', icon: Building2, claimTypes: ['wind_damage', 'hail', 'hurricane', 'tornado'] },
+    { category: 'contractor', name: 'Roofer', icon: Building2, claimTypes: ['wind_damage', 'hail', 'hurricane', 'fire', 'tornado'] },
+    { category: 'contractor', name: 'Plumber', icon: Building2, claimTypes: ['water_damage', 'freeze'] },
+    { category: 'contractor', name: 'Electrician', icon: Building2, claimTypes: ['fire', 'lightning', 'water_damage'] },
+    { category: 'contractor', name: 'HVAC', icon: Building2, claimTypes: ['fire', 'water_damage', 'freeze'] },
+    { category: 'contractor', name: 'Flooring', icon: Building2, claimTypes: ['water_damage', 'fire', 'wind_damage'] },
+    { category: 'contractor', name: 'Drywall', icon: Building2, claimTypes: ['water_damage', 'fire', 'wind_damage'] },
+    { category: 'contractor', name: 'Painting', icon: Building2, claimTypes: ['fire', 'water_damage', 'wind_damage'] },
+    { category: 'contractor', name: 'Windows & Doors', icon: Building2, claimTypes: ['wind_damage', 'hail', 'vandalism'] },
+    { category: 'contractor', name: 'Structural Repair', icon: Building2, claimTypes: ['fire', 'wind_damage', 'earthquake'] }
   ]
 
   const expertCategories = [
-    { category: 'expert', name: 'Structural Engineer', icon: Users, claimTypes: ['wind', 'earthquake', 'foundation'] },
-    { category: 'expert', name: 'Mechanical Engineer', icon: Users, claimTypes: ['fire', 'explosion', 'equipment'] },
-    { category: 'expert', name: 'Electrical Engineer', icon: Users, claimTypes: ['fire', 'lightning', 'electrical'] },
-    { category: 'expert', name: 'Public Adjuster', icon: Users, claimTypes: ['all'] },
-    { category: 'expert', name: 'Attorney', icon: Users, claimTypes: ['liability', 'coverage'] },
-    { category: 'expert', name: 'Consultant', icon: Users, claimTypes: ['all'] },
-    { category: 'expert', name: 'Inspector', icon: Users, claimTypes: ['all'] },
-    { category: 'expert', name: 'Appraiser', icon: Users, claimTypes: ['theft', 'contents'] },
-    { category: 'expert', name: 'Forensic Specialist', icon: Users, claimTypes: ['fire', 'explosion', 'investigation'] }
+    { category: 'expert', name: 'Structural Engineer', icon: Users, claimTypes: ['fire', 'wind_damage', 'earthquake', 'hurricane'] },
+    { category: 'expert', name: 'Environmental Consultant', icon: Users, claimTypes: ['water_damage', 'flood', 'fire'] },
+    { category: 'expert', name: 'Insurance Consultant', icon: Users, claimTypes: ['all'] },
+    { category: 'expert', name: 'Legal Expert', icon: Users, claimTypes: ['all'] },
+    { category: 'expert', name: 'Forensic Accountant', icon: Users, claimTypes: ['theft', 'vandalism'] },
+    { category: 'expert', name: 'Construction Consultant', icon: Users, claimTypes: ['all'] },
+    { category: 'expert', name: 'Code Compliance Expert', icon: Users, claimTypes: ['fire', 'wind_damage'] },
+    { category: 'expert', name: 'Safety Inspector', icon: Users, claimTypes: ['all'] }
   ]
 
   const vendorCategories = [...contractorCategories, ...expertCategories]
@@ -246,8 +250,12 @@ const ClaimIntakeWizard: React.FC<ClaimIntakeWizardProps> = ({ onComplete, onCan
   const handleSubmit = async () => {
     setLoading(true)
     try {
+      toast.info('Creating claim...', 'Processing your claim information')
+      
       // Create client if new
       let client_id = intakeData.client_id
+      let clientName = ''
+      
       if (!client_id && intakeData.new_client) {
         const { data: newClient, error: clientError } = await supabase
           .from('clients')
@@ -261,6 +269,16 @@ const ClaimIntakeWizard: React.FC<ClaimIntakeWizardProps> = ({ onComplete, onCan
         
         if (clientError) throw clientError
         client_id = newClient.id
+        clientName = intakeData.new_client.client_type === 'commercial' 
+          ? intakeData.new_client.business_name || `${intakeData.new_client.first_name} ${intakeData.new_client.last_name}`
+          : `${intakeData.new_client.first_name} ${intakeData.new_client.last_name}`
+      } else {
+        const selectedClient = clients.find(c => c.id === client_id)
+        if (selectedClient) {
+          clientName = selectedClient.client_type === 'commercial' 
+            ? selectedClient.business_name || `${selectedClient.first_name} ${selectedClient.last_name}`
+            : `${selectedClient.first_name} ${selectedClient.last_name}`
+        }
       }
 
       // Create claim
@@ -274,17 +292,31 @@ const ClaimIntakeWizard: React.FC<ClaimIntakeWizardProps> = ({ onComplete, onCan
         loss_description: intakeData.loss_description,
         estimated_loss_value: intakeData.estimated_loss_value,
         priority: intakeData.priority,
-        insurance_carrier_id: intakeData.insurance_carrier_id,
+        property_address: intakeData.property_address,
+        insurance_carrier_id: intakeData.insurer_id,
         policy_number: intakeData.policy_number,
+        policy_effective_date: intakeData.policy_effective_date,
+        policy_expiration_date: intakeData.policy_expiration_date,
         coverage_limits: intakeData.coverage_limits,
         deductible: intakeData.deductible,
+        deductible_type: intakeData.deductible_type,
         carrier_claim_number: intakeData.carrier_claim_number,
+        adjuster_name: intakeData.adjuster_name,
+        adjuster_phone: intakeData.adjuster_phone,
+        adjuster_email: intakeData.adjuster_email,
         referral_source: intakeData.referral_source,
+        marketing_source: intakeData.marketing_source,
+        referral_contact: intakeData.referral_contact,
+        referral_company: intakeData.referral_company,
+        referral_phone: intakeData.referral_phone,
+        referral_email: intakeData.referral_email,
         referral_fee: intakeData.referral_fee,
+        referral_fee_type: intakeData.referral_fee_type,
         referral_notes: intakeData.referral_notes,
         vendor_assessment: {
+          emergency_work_done: intakeData.emergency_work_done,
+          existing_vendors: intakeData.existing_vendors,
           repairs_needed: intakeData.repairs_needed,
-          emergency_services: intakeData.emergency_services,
           vendor_categories: intakeData.vendor_categories,
           special_requirements: intakeData.special_requirements
         },
@@ -312,9 +344,23 @@ const ClaimIntakeWizard: React.FC<ClaimIntakeWizardProps> = ({ onComplete, onCan
           intake_data: intakeData
         })
 
+      // Create notification for successful claim creation
+      await createNotification({
+        type: 'success',
+        title: 'New Claim Created',
+        message: `Claim ${intakeData.file_number} for ${clientName} has been successfully created.`,
+        user_id: '00000000-0000-0000-0000-000000000000', // Current user
+        priority: 'medium',
+        action_url: `/claims/${newClaim.id}`
+      })
+
+      toast.success('Claim Created Successfully!', `Claim ${intakeData.file_number} has been created and assigned.`)
       onComplete(newClaim.id)
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating claim:', error)
+      toast.error('Failed to Create Claim', 
+        error.message || 'An unexpected error occurred while creating the claim. Please try again.'
+      )
     } finally {
       setLoading(false)
     }

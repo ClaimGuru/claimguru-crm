@@ -190,7 +190,7 @@ export function ClaimForm({ claim, isOpen, onClose, onSave }: ClaimFormProps) {
                 <option value="">Select a client</option>
                 {clients.map(client => (
                   <option key={client.id} value={client.id}>
-                    {client.client_type === 'business' 
+                    {client.client_type === 'commercial' 
                       ? client.business_name 
                       : `${client.first_name} ${client.last_name}`
                     }
