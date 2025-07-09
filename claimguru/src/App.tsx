@@ -19,6 +19,8 @@ import { Settlements } from './pages/Settlements'
 import Insurers from './pages/Insurers'
 import Notifications from './pages/Notifications'
 import Settings from './pages/Settings'
+import Calendar from './pages/Calendar'
+import Integrations from './pages/Integrations'
 import { Layout } from './components/layout/Layout'
 import { LoadingSpinner } from './components/ui/LoadingSpinner'
 
@@ -97,7 +99,8 @@ function AppRoutes() {
         <Route path="financial" element={<Finance />} />
         <Route path="finance" element={<Finance />} />
         <Route path="ai-insights" element={<AIInsights />} />
-        <Route path="calendar" element={<div className="p-6"><h1 className="text-2xl font-bold">Calendar</h1><p>Calendar view coming soon...</p></div>} />
+        <Route path="calendar" element={<Calendar />} />
+        <Route path="integrations" element={<Integrations />} />
         <Route path="analytics" element={<div className="p-6"><h1 className="text-2xl font-bold">Analytics</h1><p>Advanced analytics dashboard coming soon...</p></div>} />
         <Route path="settings" element={<Settings />} />
         <Route path="notifications" element={<Notifications />} />

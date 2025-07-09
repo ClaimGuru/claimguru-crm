@@ -12,8 +12,8 @@
 [✓] STEP 7: Security & Admin Controls - Design multi-level security architecture and admin control systems → System STEP
 [✓] STEP 8: MVP Definition - Define minimum viable product scope based on research findings → System STEP
 [✓] STEP 9: Full-Stack CRM Development - Build the complete ClaimGuru CRM system with all planned features → Web Development STEP
-[✓] STEP 10: Advanced Scheduling & Calendar System - Build comprehensive scheduling system with appointments, deadlines, and calendar integration → System STEP
-[✓] STEP 11: Third-Party Integration Framework - Implement robust integration management with credentials and API management → System STEP
+[ ] STEP 10: Advanced Scheduling & Calendar System - Build comprehensive scheduling system with appointments, deadlines, and calendar integration → System STEP
+[ ] STEP 11: Third-Party Integration Framework - Implement robust integration management with credentials and API management → System STEP
 
 ## NEW REQUIREMENTS:
 - Comprehensive scheduling and calendar system with recurring events

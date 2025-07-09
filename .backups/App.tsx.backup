@@ -19,6 +19,8 @@ import { Settlements } from './pages/Settlements'
 import Insurers from './pages/Insurers'
 import Notifications from './pages/Notifications'
 import Settings from './pages/Settings'
+import Calendar from './pages/Calendar'
+import Integrations from './pages/Integrations'
 import { Layout } from './components/layout/Layout'
 import { LoadingSpinner } from './components/ui/LoadingSpinner'
 
@@ -113,11 +115,14 @@ function AppRoutes() {
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <div className="App">
-          <AppRoutes />
-        </div>
-      </Router>
+      <ToastProvider>
+        <Router>
+          <div className="App">
+            <AppRoutes />
+            <ToastContainer />
+          </div>
+        </Router>
+      </ToastProvider>
     </AuthProvider>
   )
 }

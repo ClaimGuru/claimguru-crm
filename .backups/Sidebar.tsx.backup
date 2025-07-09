@@ -17,7 +17,8 @@ import {
   DollarSign,
   UserCheck,
   Handshake,
-  Shield
+  Shield,
+  Zap
 } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
 
@@ -30,10 +31,12 @@ const navigation = [
   { name: 'Documents', href: '/documents', icon: Upload },
   { name: 'Communications', href: '/communications', icon: MessageSquare },
   { name: 'Vendors', href: '/vendors', icon: UserCheck },
+  { name: 'Insurers', href: '/insurers', icon: Shield },
   { name: 'Settlements', href: '/settlements', icon: Handshake },
   { name: 'Financial', href: '/financial', icon: DollarSign },
   { name: 'AI Insights', href: '/ai-insights', icon: Brain },
   { name: 'Calendar', href: '/calendar', icon: Calendar },
+  { name: 'Integrations', href: '/integrations', icon: Settings },
   { name: 'Analytics', href: '/analytics', icon: BarChart3 },
   { name: 'Settings', href: '/settings', icon: Settings },
 ]
