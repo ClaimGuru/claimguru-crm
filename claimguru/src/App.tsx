@@ -1,0 +1,109 @@
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider, useAuth } from './contexts/AuthContext'
+import { AuthPage } from './pages/AuthPage'
+import { AuthCallback } from './pages/AuthCallback'
+import { Dashboard } from './pages/Dashboard'
+import { Claims } from './pages/Claims'
+import { Clients } from './pages/Clients'
+import { AIInsights } from './pages/AIInsights'
+import { Layout } from './components/layout/Layout'
+import { LoadingSpinner } from './components/ui/LoadingSpinner'
+
+// Protected Route Component
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth()
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size="lg" />
+      </div>
+    )
+  }
+
+  if (!user) {
+    return <Navigate to="/auth" replace />
+  }
+
+  return <>{children}</>
+}
+
+// Auth Route Component
+function AuthRoute({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth()
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size="lg" />
+      </div>
+    )
+  }
+
+  if (user) {
+    return <Navigate to="/dashboard" replace />
+  }
+
+  return <>{children}</>
+}
+
+function AppRoutes() {
+  return (
+    <Routes>
+      {/* Auth Routes */}
+      <Route
+        path="/auth"
+        element={
+          <AuthRoute>
+            <AuthPage />
+          </AuthRoute>
+        }
+      />
+      <Route path="/auth/callback" element={<AuthCallback />} />
+
+      {/* Protected Routes */}
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <Layout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<Navigate to="/dashboard" replace />} />
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="claims" element={<Claims />} />
+        <Route path="clients" element={<Clients />} />
+        <Route path="properties" element={<div className="p-6"><h1 className="text-2xl font-bold">Properties</h1><p>Property management coming soon...</p></div>} />
+        <Route path="tasks" element={<div className="p-6"><h1 className="text-2xl font-bold">Tasks</h1><p>Task management coming soon...</p></div>} />
+        <Route path="documents" element={<div className="p-6"><h1 className="text-2xl font-bold">Documents</h1><p>Document management coming soon...</p></div>} />
+        <Route path="communications" element={<div className="p-6"><h1 className="text-2xl font-bold">Communications</h1><p>Communication center coming soon...</p></div>} />
+        <Route path="ai-insights" element={<AIInsights />} />
+        <Route path="calendar" element={<div className="p-6"><h1 className="text-2xl font-bold">Calendar</h1><p>Calendar view coming soon...</p></div>} />
+        <Route path="financials" element={<div className="p-6"><h1 className="text-2xl font-bold">Financials</h1><p>Financial management coming soon...</p></div>} />
+        <Route path="analytics" element={<div className="p-6"><h1 className="text-2xl font-bold">Analytics</h1><p>Analytics dashboard coming soon...</p></div>} />
+        <Route path="settings" element={<div className="p-6"><h1 className="text-2xl font-bold">Settings</h1><p>Settings page coming soon...</p></div>} />
+        <Route path="notifications" element={<div className="p-6"><h1 className="text-2xl font-bold">Notifications</h1><p>Notifications center coming soon...</p></div>} />
+        <Route path="help" element={<div className="p-6"><h1 className="text-2xl font-bold">Help & Support</h1><p>Help center coming soon...</p></div>} />
+      </Route>
+
+      {/* Catch all route */}
+      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+    </Routes>
+  )
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <Router>
+        <div className="App">
+          <AppRoutes />
+        </div>
+      </Router>
+    </AuthProvider>
+  )
+}
+
+export default App

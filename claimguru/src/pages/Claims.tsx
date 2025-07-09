@@ -1,0 +1,290 @@
+import React, { useState } from 'react'
+import { useClaims } from '../hooks/useClaims'
+import { useClients } from '../hooks/useClients'
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
+import { Button } from '../components/ui/Button'
+import { LoadingSpinner } from '../components/ui/LoadingSpinner'
+import { 
+  Plus, 
+  Search, 
+  Filter, 
+  FileText, 
+  Calendar, 
+  DollarSign,
+  Clock,
+  AlertCircle,
+  CheckCircle,
+  Eye,
+  Edit,
+  Brain,
+  TrendingUp
+} from 'lucide-react'
+import type { Claim } from '../lib/supabase'
+
+export function Claims() {
+  const { claims, loading, createClaim, updateClaim } = useClaims()
+  const { clients } = useClients()
+  const [searchTerm, setSearchTerm] = useState('')
+  const [statusFilter, setStatusFilter] = useState<string>('all')
+  const [showCreateModal, setShowCreateModal] = useState(false)
+  const [selectedClaim, setSelectedClaim] = useState<Claim | null>(null)
+  const [showDetailsModal, setShowDetailsModal] = useState(false)
+
+  const filteredClaims = claims.filter(claim => {
+    const matchesSearch = claim.file_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         claim.carrier_claim_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         claim.cause_of_loss?.toLowerCase().includes(searchTerm.toLowerCase())
+    
+    const matchesStatus = statusFilter === 'all' || claim.claim_status === statusFilter
+    
+    return matchesSearch && matchesStatus
+  })
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'new': return Clock
+      case 'in_progress': return AlertCircle
+      case 'under_review': return FileText
+      case 'negotiating': return TrendingUp
+      case 'settled': return CheckCircle
+      case 'closed': return CheckCircle
+      default: return Clock
+    }
+  }
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'new': return 'text-blue-600 bg-blue-100'
+      case 'in_progress': return 'text-orange-600 bg-orange-100'
+      case 'under_review': return 'text-purple-600 bg-purple-100'
+      case 'negotiating': return 'text-yellow-600 bg-yellow-100'
+      case 'settled': return 'text-green-600 bg-green-100'
+      case 'closed': return 'text-gray-600 bg-gray-100'
+      default: return 'text-blue-600 bg-blue-100'
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="p-6 flex items-center justify-center h-64">
+        <LoadingSpinner size="lg" />
+      </div>
+    )
+  }
+
+  return (
+    <div className="p-6 space-y-6">
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Claims Management</h1>
+          <p className="text-gray-600 mt-2">
+            Manage and track insurance claims with AI-powered insights
+          </p>
+        </div>
+        <Button 
+          onClick={() => setShowCreateModal(true)}
+          className="flex items-center gap-2"
+        >
+          <Plus className="h-4 w-4" />
+          New Claim
+        </Button>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Total Claims</p>
+                <p className="text-3xl font-bold text-gray-900">{claims.length}</p>
+              </div>
+              <FileText className="h-8 w-8 text-blue-600" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Open Claims</p>
+                <p className="text-3xl font-bold text-gray-900">
+                  {claims.filter(c => c.claim_status !== 'closed' && c.claim_status !== 'settled').length}
+                </p>
+              </div>
+              <Clock className="h-8 w-8 text-orange-600" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Settled Claims</p>
+                <p className="text-3xl font-bold text-gray-900">
+                  {claims.filter(c => c.claim_status === 'settled').length}
+                </p>
+              </div>
+              <CheckCircle className="h-8 w-8 text-green-600" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Total Value</p>
+                <p className="text-3xl font-bold text-gray-900">
+                  ${claims.reduce((sum, c) => sum + (c.estimated_loss_value || 0), 0).toLocaleString()}
+                </p>
+              </div>
+              <DollarSign className="h-8 w-8 text-purple-600" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Filters and Search */}
+      <div className="flex flex-col sm:flex-row gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+          <input
+            type="text"
+            placeholder="Search claims by file number, claim number, or cause of loss..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+        </div>
+        <div className="flex items-center gap-2">
+          <Filter className="h-4 w-4 text-gray-400" />
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          >
+            <option value="all">All Status</option>
+            <option value="new">New</option>
+            <option value="in_progress">In Progress</option>
+            <option value="under_review">Under Review</option>
+            <option value="negotiating">Negotiating</option>
+            <option value="settled">Settled</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Claims List */}
+      {filteredClaims.length === 0 ? (
+        <Card>
+          <CardContent className="p-12 text-center">
+            <FileText className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              {claims.length === 0 ? 'No claims yet' : 'No matching claims'}
+            </h3>
+            <p className="text-gray-600 mb-6">
+              {claims.length === 0 
+                ? 'Create your first claim to get started with ClaimGuru'
+                : 'Try adjusting your search or filter criteria'
+              }
+            </p>
+            {claims.length === 0 && (
+              <Button 
+                onClick={() => setShowCreateModal(true)}
+                className="flex items-center gap-2"
+              >
+                <Plus className="h-4 w-4" />
+                Create First Claim
+              </Button>
+            )}
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="grid gap-4">
+          {filteredClaims.map((claim) => {
+            const StatusIcon = getStatusIcon(claim.claim_status)
+            const statusColorClass = getStatusColor(claim.claim_status)
+            const client = clients.find(c => c.id === claim.client_id)
+            
+            return (
+              <Card key={claim.id} className="hover:shadow-md transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className={`p-2 rounded-full ${statusColorClass}`}>
+                        <StatusIcon className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-900">
+                          {claim.file_number || `Claim #${claim.id.slice(0, 8)}`}
+                        </h3>
+                        <p className="text-gray-600">
+                          {claim.cause_of_loss || 'General Loss'} • {claim.carrier_claim_number || 'No Claim #'}
+                        </p>
+                        {client && (
+                          <p className="text-sm text-gray-500">
+                            {client.first_name} {client.last_name}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-4">
+                      <div className="text-right">
+                        <p className="text-sm font-medium text-gray-900">
+                          ${(claim.estimated_loss_value || 0).toLocaleString()}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {new Date(claim.created_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                      
+                      <div className="flex items-center space-x-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            setSelectedClaim(claim)
+                            setShowDetailsModal(true)
+                          }}
+                          className="flex items-center gap-1"
+                        >
+                          <Eye className="h-4 w-4" />
+                          View
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex items-center gap-1"
+                        >
+                          <Brain className="h-4 w-4" />
+                          AI Analysis
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColorClass}`}>
+                        {claim.claim_status.charAt(0).toUpperCase() + claim.claim_status.slice(1).replace('_', ' ')}
+                      </span>
+                      <div className="flex items-center text-gray-500">
+                        <Calendar className="h-4 w-4 mr-1" />
+                        Last updated: {new Date(claim.updated_at).toLocaleDateString()}
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
+}
