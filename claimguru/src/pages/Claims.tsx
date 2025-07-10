@@ -6,6 +6,7 @@ import { Button } from '../components/ui/Button'
 import { LoadingSpinner } from '../components/ui/LoadingSpinner'
 import { ClaimForm } from '../components/forms/ClaimForm'
 import ClaimIntakeWizard from '../components/claims/ClaimIntakeWizard'
+import { AdvancedClaimIntakeWizard } from '../components/claims/AdvancedClaimIntakeWizardNew'
 import { 
   Plus, 
   Search, 
@@ -33,6 +34,7 @@ export function Claims() {
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [showIntakeWizard, setShowIntakeWizard] = useState(false)
+  const [showAIWizard, setShowAIWizard] = useState(false)
   const [editingClaim, setEditingClaim] = useState<Claim | null>(null)
   const [selectedClaim, setSelectedClaim] = useState<Claim | null>(null)
   const [showDetailsModal, setShowDetailsModal] = useState(false)
@@ -90,6 +92,23 @@ export function Claims() {
     setShowIntakeWizard(false)
   }
 
+  const handleAIWizardComplete = async (claimData: any) => {
+    try {
+      // Create the claim with AI-generated data
+      await createClaim(claimData)
+      setShowAIWizard(false)
+      // Refresh claims list
+      window.location.reload()
+    } catch (error) {
+      console.error('Error creating AI claim:', error)
+      alert('Error creating claim. Please try again.')
+    }
+  }
+
+  const handleAIWizardCancel = () => {
+    setShowAIWizard(false)
+  }
+
   const handleEditClaim = (claim: Claim) => {
     setEditingClaim(claim)
     setIsFormOpen(true)
@@ -144,6 +163,13 @@ export function Claims() {
           >
             <Zap className="h-4 w-4" />
             New Claim Intake
+          </Button>
+          <Button 
+            onClick={() => setShowAIWizard(true)}
+            className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+          >
+            <Brain className="h-4 w-4" />
+            AI-Powered Intake
           </Button>
         </div>
       </div>
@@ -377,6 +403,39 @@ export function Claims() {
               <ClaimIntakeWizard
                 onComplete={handleIntakeComplete}
                 onCancel={handleIntakeCancel}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* AI-Powered Claim Intake Wizard */}
+      {showAIWizard && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg w-full max-w-7xl max-h-[90vh] overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b">
+              <div className="flex items-center gap-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleAIWizardCancel}
+                  className="flex items-center gap-2"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Back to Claims
+                </Button>
+                <div className="flex items-center gap-3">
+                  <Brain className="h-6 w-6 text-purple-600" />
+                  <div>
+                    <h2 className="text-xl font-semibold text-gray-900">AI-Powered Claim Intake</h2>
+                    <p className="text-sm text-gray-600">Advanced claim processing with artificial intelligence</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="overflow-y-auto" style={{ maxHeight: 'calc(90vh - 80px)' }}>
+              <AdvancedClaimIntakeWizard
+                onComplete={handleAIWizardComplete}
               />
             </div>
           </div>
