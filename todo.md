@@ -72,7 +72,29 @@ Admin Panel (subscribers only)
 [ ] Update AI extraction to detect co-insured information from policy documents
 [ ] Add co-insured data to claim data structure and database schema
 
-### **Phase 2.6: Professional Phone Number System** (1.5 hours)
+### **Phase 2.6: AI Wizard Complete Implementation** (40 hours) - IN PROGRESS
+[ ] **Priority 1: Complete Missing Wizard Steps**
+  - Create MortgageInformationStep component with AI verification
+  - Create ReferralInformationStep component with tracking insights
+  - Create ContractInformationStep component with fee validation
+  - Create PersonnelAssignmentStep component with AI suggestions
+  - Create OfficeTasksStep component with AI prioritization
+  - Update wizard flow to include all new steps
+[ ] **Priority 2: Google Places API Integration**
+  - Install and configure Google Places API
+  - Create AddressAutocomplete component
+  - Integrate address validation throughout wizard
+  - Add territory coverage validation
+  - Implement geographic risk assessment
+[ ] **Priority 3: Advanced AI Validation**
+  - Enhance policy cross-referencing system
+  - Add organization name verification
+  - Implement address validation against policy
+  - Add prior claim history integration
+  - Create duplicate payment detection
+  - Enhance inconsistency detection
+
+### **Phase 2.7: Professional Phone Number System** (1.5 hours)
 [ ] Create enhanced phone number component with:
   - Automatic masking format: (936) 522-6627
   - Phone type dropdown (Mobile, Home, Work, Fax, Other)

@@ -429,6 +429,210 @@ export class EnhancedClaimWizardAI {
     }
   }
 
+  // NEW: Comprehensive Coverage Issue Analysis for Review Step
+  async analyzeCoverageIssues(claimData: any): Promise<CoverageIssueAnalysis> {
+    await this.delay(1500) // Simulate analysis time
+    
+    const issues: any[] = []
+    let overallRisk: 'low' | 'medium' | 'high' = 'low'
+    
+    // Analyze policy dates
+    if (claimData.policyData) {
+      const { effectiveDate, expirationDate } = claimData.policyData
+      const lossDate = claimData.lossDetails?.lossDate
+      
+      if (lossDate && effectiveDate && expirationDate) {
+        const loss = new Date(lossDate)
+        const effective = new Date(effectiveDate)
+        const expiration = new Date(expirationDate)
+        
+        if (loss < effective || loss > expiration) {
+          issues.push({
+            severity: 'critical',
+            category: 'Policy Period',
+            issue: 'Loss Date Outside Policy Period',
+            description: `Loss occurred on ${lossDate} but policy period is ${effectiveDate} to ${expirationDate}`,
+            recommendation: 'Verify policy period and loss date. May require denial if confirmed.',
+            impact: 'Could result in coverage denial'
+          })
+          overallRisk = 'high'
+        }
+      }
+    }
+
+    // Analyze coverage adequacy
+    if (claimData.personalProperty?.totalValue) {
+      const claimValue = claimData.personalProperty.totalValue
+      const coverageLimit = this.extractCoverageLimit(claimData.policyData?.coverageDetails)
+      
+      if (coverageLimit && claimValue > coverageLimit) {
+        issues.push({
+          severity: 'warning',
+          category: 'Coverage Limits',
+          issue: 'Claim Value Exceeds Coverage Limit',
+          description: `Estimated claim value ($${claimValue.toLocaleString()}) exceeds coverage limit ($${coverageLimit.toLocaleString()})`,
+          recommendation: 'Review policy limits and advise client of potential shortfall',
+          impact: 'Client may have insufficient coverage'
+        })
+        overallRisk = overallRisk === 'low' ? 'medium' : overallRisk
+      }
+    }
+
+    // Analyze proof of loss requirements
+    if (claimData.policyData?.proofOfLossLanguage) {
+      const proofOfLossText = claimData.policyData.proofOfLossLanguage.toLowerCase()
+      
+      if (proofOfLossText.includes('60 days') || proofOfLossText.includes('sixty days')) {
+        const daysSinceLoss = this.calculateDaysSinceLoss(claimData.lossDetails?.lossDate)
+        
+        if (daysSinceLoss > 45) {
+          issues.push({
+            severity: 'warning',
+            category: 'Proof of Loss',
+            issue: 'Approaching Proof of Loss Deadline',
+            description: `${daysSinceLoss} days since loss. Proof of Loss typically due within 60 days.`,
+            recommendation: 'Expedite claim processing and proof of loss preparation',
+            impact: 'Risk of deadline violation'
+          })
+        }
+      }
+    }
+
+    // Analyze deductible issues
+    if (claimData.policyData?.deductibles && claimData.lossDetails?.estimatedAmount) {
+      const applicableDeductible = this.findApplicableDeductible(
+        claimData.policyData.deductibles,
+        claimData.lossDetails.causeOfLoss
+      )
+      
+      if (applicableDeductible && claimData.lossDetails.estimatedAmount < applicableDeductible.amount) {
+        issues.push({
+          severity: 'notice',
+          category: 'Deductible',
+          issue: 'Claim Below Deductible',
+          description: `Estimated damage ($${claimData.lossDetails.estimatedAmount}) is below ${applicableDeductible.type} deductible ($${applicableDeductible.amount})`,
+          recommendation: 'Advise client that claim may not exceed deductible',
+          impact: 'No insurance payment expected'
+        })
+      }
+    }
+
+    // Analyze coverage exclusions
+    if (claimData.lossDetails?.causeOfLoss) {
+      const exclusionAnalysis = this.analyzeExclusions(
+        claimData.lossDetails.causeOfLoss,
+        claimData.policyData?.coverageDetails
+      )
+      
+      if (exclusionAnalysis.potentialExclusion) {
+        issues.push({
+          severity: 'critical',
+          category: 'Coverage Exclusions',
+          issue: 'Potential Exclusion Identified',
+          description: exclusionAnalysis.description,
+          recommendation: 'Review policy exclusions carefully. May require coverage denial.',
+          impact: 'Could result in full or partial coverage denial'
+        })
+        overallRisk = 'high'
+      }
+    }
+
+    // Analyze appraisal clause implications
+    if (claimData.policyData?.appraisalSections && claimData.lossDetails?.estimatedAmount > 50000) {
+      issues.push({
+        severity: 'notice',
+        category: 'Appraisal Rights',
+        issue: 'Large Loss - Appraisal Rights Apply',
+        description: 'High-value claim where appraisal rights may be invoked by either party',
+        recommendation: 'Prepare for potential appraisal process. Document all evaluations thoroughly.',
+        impact: 'May lead to formal appraisal process'
+      })
+    }
+
+    // Generate summary
+    const criticalIssues = issues.filter(i => i.severity === 'critical').length
+    const warningIssues = issues.filter(i => i.severity === 'warning').length
+    
+    let summary = `Analysis complete. Found ${issues.length} potential issues: `
+    summary += `${criticalIssues} critical, ${warningIssues} warnings, ${issues.length - criticalIssues - warningIssues} notices.`
+    
+    if (criticalIssues > 0) {
+      summary += ' Immediate attention required for critical issues.'
+    }
+
+    return {
+      issues,
+      overallRisk,
+      summary,
+      actionRequired: criticalIssues > 0 || warningIssues > 0
+    }
+  }
+
+  // Helper methods for coverage analysis
+  private extractCoverageLimit(coverageDetails?: string): number | null {
+    if (!coverageDetails) return null
+    
+    const limitPattern = /\$?([\d,]+)(?:\s*limit)?/i
+    const match = coverageDetails.match(limitPattern)
+    
+    if (match) {
+      return parseInt(match[1].replace(/,/g, ''))
+    }
+    
+    return null
+  }
+
+  private calculateDaysSinceLoss(lossDate?: string): number {
+    if (!lossDate) return 0
+    
+    const loss = new Date(lossDate)
+    const now = new Date()
+    const diffTime = Math.abs(now.getTime() - loss.getTime())
+    
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+  }
+
+  private findApplicableDeductible(deductibles: Array<{type: string, amount: number}>, causeOfLoss?: string): {type: string, amount: number} | null {
+    if (!causeOfLoss) return deductibles[0] || null
+    
+    // Match deductible type to cause of loss
+    const specificDeductible = deductibles.find(d => 
+      causeOfLoss.toLowerCase().includes(d.type.toLowerCase())
+    )
+    
+    return specificDeductible || deductibles.find(d => 
+      d.type.toLowerCase().includes('other') || 
+      d.type.toLowerCase().includes('all')
+    ) || deductibles[0] || null
+  }
+
+  private analyzeExclusions(causeOfLoss: string, coverageDetails?: string): {potentialExclusion: boolean, description: string} {
+    const commonExclusions = [
+      { keywords: ['flood', 'flooding'], exclusion: 'flood damage' },
+      { keywords: ['earthquake', 'earth movement'], exclusion: 'earthquake damage' },
+      { keywords: ['war', 'terrorism'], exclusion: 'war and terrorism' },
+      { keywords: ['wear', 'deterioration', 'maintenance'], exclusion: 'wear and tear' },
+      { keywords: ['mold', 'fungus'], exclusion: 'mold and fungus' },
+      { keywords: ['nuclear'], exclusion: 'nuclear hazard' }
+    ]
+    
+    const cause = causeOfLoss.toLowerCase()
+    
+    for (const exclusion of commonExclusions) {
+      if (exclusion.keywords.some(keyword => cause.includes(keyword))) {
+        return {
+          potentialExclusion: true,
+          description: `Cause of loss (${causeOfLoss}) may be excluded under standard ${exclusion.exclusion} exclusion`
+        }
+      }
+    }
+    
+    return {
+      potentialExclusion: false,
+      description: 'No obvious exclusions identified'
+    }
+  }
+
   // Step 2-3: Client & Address Validation
   async validateClientInfo(inputData: any, policyData: any): Promise<AIValidation> {
     await this.delay(500)

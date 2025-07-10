@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
 import { Button } from '../../ui/Button'
+import { Input } from '../../ui/Input'
 import { LoadingSpinner } from '../../ui/LoadingSpinner'
+import { AddressAutocomplete } from '../../ui/AddressAutocomplete'
 import { User, Building, MapPin, AlertTriangle, CheckCircle, Brain, Users } from 'lucide-react'
 import { enhancedClaimWizardAI, AIValidation } from '../../../services/enhancedClaimWizardAI'
 
@@ -23,7 +25,7 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
   const [lossAddress, setLossAddress] = useState(data.lossAddress || {})
   const [addressSameAsMailing, setAddressSameAsMailing] = useState(true)
   const [hasCoInsured, setHasCoInsured] = useState(false)
-  const [coInsuredDetails, setCoInsuredDetails] = useState({})
+  const [coInsuredDetails, setCoInsuredDetails] = useState<{name?: string, relationship?: string}>({})
   const [hasGateCode, setHasGateCode] = useState(false)
   const [isTenantOccupied, setIsTenantOccupied] = useState(false)
   const [hasUninsuredParty, setHasUninsuredParty] = useState(false)

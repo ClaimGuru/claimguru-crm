@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
 import { Button } from '../../ui/Button'
+import { Input } from '../../ui/Input'
 import { LoadingSpinner } from '../../ui/LoadingSpinner'
+// import { AddressAutocomplete } from '../../ui/AddressAutocomplete'
 import { User, Building, MapPin, AlertTriangle, CheckCircle, Brain, Users } from 'lucide-react'
 import { enhancedClaimWizardAI, AIValidation } from '../../../services/enhancedClaimWizardAI'
 

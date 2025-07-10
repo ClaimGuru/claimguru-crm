@@ -15,6 +15,10 @@ import {
   Brain,
   Sparkles,
   AlertCircle,
+  Building2,
+  UserCheck,
+  FileText,
+  CheckSquare,
   X
 } from 'lucide-react'
 
@@ -25,6 +29,11 @@ import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoS
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
 import { PersonalPropertyStep } from './wizard-steps/PersonalPropertyStep'
 import { ExpertsProvidersStep } from './wizard-steps/ExpertsProvidersStep'
+import { MortgageInformationStep } from './wizard-steps/MortgageInformationStep'
+import { ReferralInformationStep } from './wizard-steps/ReferralInformationStep'
+import { ContractInformationStep } from './wizard-steps/ContractInformationStep'
+import { PersonnelAssignmentStep } from './wizard-steps/PersonnelAssignmentStep'
+import { OfficeTasksStep } from './wizard-steps/OfficeTasksStep'
 import { CoverageIssueReviewStep } from './wizard-steps/CoverageIssueReviewStep'
 import { CompletionStep } from './wizard-steps/CompletionStep'
 
@@ -65,15 +74,23 @@ interface WizardData {
     lossReason?: string
     lossDate?: string
     causeOfLoss?: string
+    estimatedAmount?: number
+    propertyAddress?: string
   }
   personalPropertyDamage: boolean
   otherStructuresDamage: boolean
   mortgageInformation: any[]
   expertVendorInfo: any
   estimatingInfo: any
-  referralContractInfo: any
-  companyPersonnel: any[]
+  referralInformation: {
+    source?: any
+    analytics?: any
+  }
+  contractInformation: any
+  personnelAssignments: any[]
   officeTasks: any[]
+  organizationId?: string
+  organizationPolicies?: any
 }
 
 export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: EnhancedAIIntakeWizardProps) {
@@ -94,9 +111,12 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
     mortgageInformation: [],
     expertVendorInfo: {},
     estimatingInfo: {},
-    referralContractInfo: {},
-    companyPersonnel: [],
-    officeTasks: []
+    referralInformation: {},
+    contractInformation: {},
+    personnelAssignments: [],
+    officeTasks: [],
+    organizationId: 'demo-org-123',
+    organizationPolicies: {}
   })
   const [isAIProcessing, setIsAIProcessing] = useState(false)
   const [stepValidation, setStepValidation] = useState({})
@@ -148,6 +168,46 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
       description: 'AI vendor recommendations and assignments',
       icon: Wrench,
       component: ExpertsProvidersStep,
+      required: false
+    },
+    {
+      id: 'mortgage',
+      title: 'Mortgage Information',
+      description: 'Mortgage companies and lender details with AI verification',
+      icon: Building2,
+      component: MortgageInformationStep,
+      required: false
+    },
+    {
+      id: 'referral',
+      title: 'Referral Information', 
+      description: 'Track referral source with AI analytics and insights',
+      icon: Users,
+      component: ReferralInformationStep,
+      required: true
+    },
+    {
+      id: 'contract',
+      title: 'Contract Information',
+      description: 'Fee structure and contract terms with AI validation',
+      icon: FileText,
+      component: ContractInformationStep,
+      required: true
+    },
+    {
+      id: 'personnel',
+      title: 'Personnel Assignment',
+      description: 'Assign team members with AI-powered recommendations',
+      icon: UserCheck,
+      component: PersonnelAssignmentStep,
+      required: false
+    },
+    {
+      id: 'tasks',
+      title: 'Office Tasks',
+      description: 'AI-generated tasks and follow-ups with prioritization',
+      icon: CheckSquare,
+      component: OfficeTasksStep,
       required: false
     },
     {

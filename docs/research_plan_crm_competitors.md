@@ -1,63 +1,41 @@
 # Research Plan: Public Insurance Adjuster CRM Competitor Analysis
 
 ## Objectives
-- To conduct a comprehensive competitive analysis of five Public Insurance Adjuster CRM systems.
-- To identify industry standards, emerging technologies, pricing benchmarks, and common integration partners in the public adjuster CRM market.
-- To provide actionable insights to inform the development of a superior ClaimGuru system with competitive advantages.
+- To conduct a comprehensive analysis of the specified competitors for the Public Insurance Adjuster CRM system, ClaimGuru.
+- To identify strategic opportunities for ClaimGuru to differentiate and establish itself as a market leader.
+- To provide actionable recommendations for product development, marketing, and overall business strategy.
 
 ## Research Breakdown
-The research will be divided into two main areas:
-1.  **Competitor-Specific Analysis**: In-depth research of five competitors:
-    *   ClaimTitan.com
-    *   Claimwizard.com
-    *   Brelly.ai
-    *   adjustcrm.com
-    *   Pacman.com
-2.  **Industry-Wide Analysis**: Broader research on the public adjuster CRM market.
-
-### Competitor-Specific Sub-tasks
-For each of the five competitors, the following aspects will be investigated:
--   **Core Features**: CRM functionality, claims management, contact management.
--   **Pricing Structure**: Subscription tiers, module pricing, add-on costs.
--   **AI/Automation**: Machine learning features, automated workflows, predictive analytics.
--   **Integration Capabilities**: Email, phone, third-party services, API availability.
--   **Security Features**: User permissions, data encryption, compliance standards.
--   **Data Migration**: Import/export capabilities, onboarding tools.
--   **Mobile Features**: Mobile app availability, responsive design.
--   **Unique Selling Points**: What differentiates each platform.
--   **Weaknesses/Gaps**: Areas for improvement or missing features.
-
-### Industry-Wide Sub-tasks
--   **Industry Standards**: Identify common features and functionalities expected in insurance adjuster CRMs.
--   **Emerging Technologies**: Research the latest trends in insurance technology and CRM systems.
--   **Pricing Benchmarks**: Determine typical pricing ranges for similar software.
--   **Integration Partners**: Identify common third-party integrations in this space.
+- **Competitor Analysis:**
+  - In-depth analysis of each competitor: ClaimTitan.com, Claimwizard.com, Brelly.ai, adjustcrm.com, and Pacman.com.
+  - The analysis will cover: Business Model & Pricing, Core Features, Technology Stack, Competitive Advantages, Gaps & Opportunities, and Market Positioning.
+- **Industry & Technology Trends Analysis:**
+  - Research on current trends in insurance technology.
+  - Investigation of challenges faced by the public adjuster industry.
+  - Exploration of emerging technologies applicable to CRM systems.
+- **Strategic Recommendations:**
+  - Formulation of data-driven recommendations for ClaimGuru's feature set, architecture, and go-to-market strategy.
 
 ## Key Questions
-1.  What are the core functionalities and pricing models of the key competitors?
-2.  How are AI and automation being leveraged in existing solutions?
-3.  What are the key differentiators and weaknesses of each competitor?
-4.  What are the baseline features a competitive public adjuster CRM must have?
-5.  What emerging technologies should be considered for a future-proof CRM?
-6.  What is the competitive landscape for pricing and integrations?
+1. What are the specific pricing models and feature sets of the key competitors?
+2. What are the core technological underpinnings of each competitor's platform?
+3. What are the key competitive advantages and unique selling propositions of each competitor?
+4. What are the identifiable gaps in the market and weaknesses of the competitors that ClaimGuru can exploit?
+5. What are the most significant trends and challenges in the insurtech and public adjusting sectors?
+6. How can ClaimGuru leverage AI, modularity, and other innovative features to create a superior product?
 
 ## Resource Strategy
--   **Primary Data Sources**: Official websites of the competitor companies will be the primary source of information.
--   **Search Strategies**: Use `batch_web_search` to find official websites, pricing pages, feature lists, reviews, and industry reports. Search queries will include competitor names, "public adjuster CRM," "insurance claim management software," and related terms.
--   **Content Extraction**: Use `extract_content_from_websites` to gather structured data from the identified URLs.
+- **Primary data sources:** Competitor websites, industry reports, technology blogs, and news articles.
+- **Search strategies:** Utilize targeted keywords for each competitor and research topic. Keywords will include "ClaimTitan pricing," "Claimwizard features," "Brelly.ai technology stack," "adjustcrm reviews," "Pacman.com CRM," "insurtech trends 2025," "public adjuster challenges," and "AI in CRM."
 
 ## Verification Plan
--   **Source Requirements**: Information will be gathered from official company websites, reputable industry publications, and user reviews.
--   **Cross-Validation**: Key information such as pricing and features will be cross-validated with information from at least two different sources where possible (e.g., official site and a Capterra/G2 review).
+- **Source requirements:** Triangulate information from at least two independent sources for critical data points like pricing and key features.
+- **Cross-validation:** Compare and contrast information from different sources to identify inconsistencies and ensure accuracy.
 
 ## Expected Deliverables
-1.  A comprehensive research report in Markdown format (`docs/competitor_analysis_public_insurance_adjuster_crm.md`) that includes:
-    *   Detailed analysis of each competitor.
-    *   A summary of industry standards, emerging technologies, pricing benchmarks, and common integrations.
-    *   A comparative analysis of the competitors.
-    *   Strategic recommendations for the development of the ClaimGuru system.
-2.  Individual analysis files for each competitor in Markdown format.
+- A comprehensive competitor analysis report in Markdown format.
+- A summary of key findings and strategic recommendations.
 
 ## Workflow Selection
--   **Primary focus**: Search
--   **Justification**: This is primarily a research and information gathering task. The main effort will be to find, extract, and synthesize information from various web sources.
+- **Primary focus:** Search
+- **Justification:** The primary goal of this task is to gather and analyze a broad range of information from various web sources. The search-focused workflow is best suited for this purpose.
