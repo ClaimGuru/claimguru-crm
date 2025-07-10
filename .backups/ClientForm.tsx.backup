@@ -4,12 +4,13 @@ import { X, Save, User, Building, Mail, Phone, MapPin } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
 import { supabase } from '../../lib/supabase'
 import type { Client } from '../../lib/supabase'
+import { LeadSourceSelector } from './LeadSourceSelector'
 
 interface ClientFormProps {
   client?: Client | null
   isOpen: boolean
   onClose: () => void
-  onSave: (client: Client) => void
+  onSave: (clientData: any) => void
 }
 
 export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps) {
@@ -28,8 +29,11 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
     state: '',
     zip_code: '',
     country: 'United States',
-    notes: ''
+    notes: '',
+    lead_source: '',
+    lead_source_details: ''
   })
+  const [selectedLeadSource, setSelectedLeadSource] = useState<any>(null)
 
   useEffect(() => {
     if (client) {
@@ -46,7 +50,9 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
         state: client.state || '',
         zip_code: client.zip_code || '',
         country: client.country || 'United States',
-        notes: client.notes || ''
+        notes: client.notes || '',
+        lead_source: (client as any).lead_source || '',
+        lead_source_details: (client as any).lead_source_details || ''
       })
     } else {
       setFormData({
@@ -62,8 +68,11 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
         state: '',
         zip_code: '',
         country: 'United States',
-        notes: ''
+        notes: '',
+        lead_source: '',
+        lead_source_details: ''
       })
+      setSelectedLeadSource(null)
     }
   }, [client, isOpen])
 
@@ -83,7 +92,15 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
     try {
       const clientData = {
         ...formData,
-        mailing_same_as_address: true
+        mailing_same_as_address: true,
+        lead_source: selectedLeadSource?.name || formData.lead_source,
+        lead_source_details: selectedLeadSource ? JSON.stringify({
+          type: selectedLeadSource.type,
+          category: selectedLeadSource.category,
+          email: selectedLeadSource.email,
+          phone: selectedLeadSource.phone,
+          company: selectedLeadSource.company
+        }) : formData.lead_source_details
       }
 
       // Let the parent component handle the actual save operation
