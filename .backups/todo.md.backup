@@ -169,19 +169,41 @@ Admin Panel (subscribers only)
   - 5,000 tokens: $35 (30% discount)
   - 10,000 tokens: $60 (40% discount)
 
-## 🚀 **EXECUTION ORDER**
+## 🚀 **NEW EXECUTION PRIORITY**
 
-**Total Estimated Time**: 10-12 hours
-**Recommended Execution**: All phases in sequence for complete integration
+### **HIGH PRIORITY - COMMUNICATION INTEGRATION SYSTEM**
+[ ] **Phase 1: Email Automation System** (8 hours)
+  - Email ingestion and classification engine
+  - IMAP/Gmail API integration with n8n workflow
+  - Claim number extraction from subject lines
+  - Insurer domain exclusion system
+  - Supabase email_logs integration
 
-### **Phase Priority:**
-1. **Database & Subscriptions** - Foundation for everything
-2. **Navigation** - Core UX improvement  
-3. **User Hierarchy** - Role-based system
-4. **AI Tokens** - Monetization system
-5. **Quick Actions** - UX enhancement
-6. **Widgets** - Dashboard customization
-7. **Workflows** - Advanced customization
+[ ] **Phase 2: Amazon Connect Integration** (12 hours)
+  - AWS Connect instance setup and configuration
+  - Auto-provisioning phone numbers for subscribers
+  - Click-to-call/SMS from CRM interface
+  - Call recording, transcription, and storage
+  - User line assignment and management
+
+[ ] **Phase 3: Enhanced Data Schema** (4 hours)
+  - Enhanced email_logs and call_logs tables
+  - Contact communication history linking
+  - Email-to-claim automatic association
+  - Communication analytics and reporting
+
+[ ] **Phase 4: Subscription & Billing Model** (6 hours)
+  - Tiered pricing with Amazon Connect markup
+  - Stripe/Chargebee billing integration
+  - Usage tracking and overage billing
+  - Subscriber provisioning automation
+
+### **DEPRIORITIZED TO LOWEST PRIORITY:**
+- ❌ Weather API, Xactimate API, QuickBooks (moved to Phase 10+)
+- ❌ SOC 2, HIPAA compliance (enterprise feature for later)
+- ❌ Integration Marketplace, API Documentation, Webhooks, Zapier
+- ❌ Mobile Native Apps (iOS/Android)
+- ❌ Offline Functionality
 
 ---
 
