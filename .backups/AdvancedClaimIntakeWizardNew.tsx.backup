@@ -255,18 +255,15 @@ export function AdvancedClaimIntakeWizard({ clientId, onComplete }: AdvancedClai
     }
 
     const StepComponent = currentStepData.component
-    const commonProps = {
-      data: wizardData,
-      onUpdate: updateWizardData,
-      onAIProcessing: handleAIProcessing,
-      clientId: clientId
-    }
-    
-    const stepProps = currentStepData.id === 'completion' 
-      ? { ...commonProps, onSubmit: handleComplete }
-      : commonProps
-    
-    return <StepComponent {...stepProps} />
+    return (
+      <StepComponent
+        data={wizardData}
+        onUpdate={updateWizardData}
+        onAIProcessing={handleAIProcessing}
+        clientId={clientId}
+        onSubmit={currentStepData.id === 'completion' ? handleComplete : undefined}
+      />
+    )
   }
 
   return (

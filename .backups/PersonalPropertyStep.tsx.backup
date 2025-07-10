@@ -173,8 +173,6 @@ export function PersonalPropertyStep({ data, onUpdate }: PersonalPropertyStepPro
         description: result.description,
         brand: result.brand || '',
         model: result.model || '',
-        serialNumber: '',
-        purchaseDate: '',
         originalValue: result.estimatedValue,
         depreciatedValue: result.estimatedValue * 0.7, // Rough depreciation
         quantity: 1,
