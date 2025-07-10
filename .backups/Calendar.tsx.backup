@@ -5,6 +5,8 @@ import { LoadingSpinner } from '../components/ui/LoadingSpinner'
 import { useToast } from '../hooks/useToast'
 import { useAuth } from '../contexts/AuthContext'
 import { supabase } from '../lib/supabase'
+import { MonthView } from '../components/calendar/MonthView'
+import { EventModal } from '../components/calendar/EventModal'
 import {
   Calendar as CalendarIcon,
   Plus,
@@ -55,6 +57,7 @@ export function Calendar() {
   const [viewMode, setViewMode] = useState<'month' | 'week' | 'day'>('month')
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
   const [showEventModal, setShowEventModal] = useState(false)
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [filterType, setFilterType] = useState<string>('all')
 
   useEffect(() => {
@@ -175,6 +178,56 @@ export function Calendar() {
     }
   }
 
+  async function createEvent(eventData: any) {
+    if (!userProfile?.organization_id) return
+
+    try {
+      const { data, error: insertError } = await supabase
+        .from('events')
+        .insert({
+          ...eventData,
+          organization_id: userProfile.organization_id,
+          created_by: userProfile.id,
+          // Convert dates to proper ISO format
+          start_datetime: eventData.all_day 
+            ? new Date(eventData.start_datetime + 'T00:00:00').toISOString()
+            : new Date(eventData.start_datetime).toISOString(),
+          end_datetime: eventData.all_day 
+            ? new Date(eventData.end_datetime + 'T23:59:59').toISOString()
+            : new Date(eventData.end_datetime).toISOString()
+        })
+        .select()
+
+      if (insertError) throw insertError
+
+      success('Event created', 'Your event has been successfully scheduled.')
+      await loadEvents()
+      setShowEventModal(false)
+      setSelectedDate(null)
+    } catch (err: any) {
+      console.error('Error creating event:', err)
+      error('Failed to create event', err.message)
+    }
+  }
+
+  function handleDateClick(date: Date) {
+    setSelectedDate(date)
+    setSelectedEvent(null)
+    setShowEventModal(true)
+  }
+
+  function handleEventClick(event: Event) {
+    setSelectedEvent(event)
+    setSelectedDate(null)
+    setShowEventModal(true)
+  }
+
+  function handleNewEvent() {
+    setSelectedEvent(null)
+    setSelectedDate(new Date())
+    setShowEventModal(true)
+  }
+
   const filteredEvents = events.filter(event => {
     if (filterType === 'all') return true
     return event.event_type === filterType
@@ -197,7 +250,7 @@ export function Calendar() {
           <p className="text-gray-600">Manage appointments, deadlines, and events</p>
         </div>
         <div className="flex flex-wrap gap-2 mt-4 sm:mt-0">
-          <Button onClick={() => setShowEventModal(true)} className="flex items-center gap-2">
+          <Button onClick={handleNewEvent} className="flex items-center gap-2">
             <Plus className="h-4 w-4" />
             New Event
           </Button>
@@ -257,7 +310,7 @@ export function Calendar() {
                 {(['month', 'week', 'day'] as const).map((mode) => (
                   <Button
                     key={mode}
-                    variant={viewMode === mode ? "default" : "ghost"}
+                    variant={viewMode === mode ? "primary" : "ghost"}
                     size="sm"
                     onClick={() => setViewMode(mode)}
                     className="rounded-none first:rounded-l-lg last:rounded-r-lg"
@@ -291,30 +344,35 @@ export function Calendar() {
           <MonthView 
             events={filteredEvents} 
             currentDate={currentDate}
-            onEventClick={setSelectedEvent}
+            onEventClick={handleEventClick}
+            onDateClick={handleDateClick}
             getEventTypeColor={getEventTypeColor}
             getPriorityIcon={getPriorityIcon}
           />
         )}
         
         {viewMode === 'week' && (
-          <WeekView 
-            events={filteredEvents} 
-            currentDate={currentDate}
-            onEventClick={setSelectedEvent}
-            getEventTypeColor={getEventTypeColor}
-            getPriorityIcon={getPriorityIcon}
-          />
+          <Card>
+            <CardContent className="p-6">
+              <div className="text-center py-8 text-gray-500">
+                <CalendarIcon className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <p>Week view implementation coming soon</p>
+                <p className="text-sm">Showing {filteredEvents.length} events</p>
+              </div>
+            </CardContent>
+          </Card>
         )}
         
         {viewMode === 'day' && (
-          <DayView 
-            events={filteredEvents} 
-            currentDate={currentDate}
-            onEventClick={setSelectedEvent}
-            getEventTypeColor={getEventTypeColor}
-            getPriorityIcon={getPriorityIcon}
-          />
+          <Card>
+            <CardContent className="p-6">
+              <div className="text-center py-8 text-gray-500">
+                <CalendarIcon className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <p>Day view implementation coming soon</p>
+                <p className="text-sm">Showing {filteredEvents.length} events</p>
+              </div>
+            </CardContent>
+          </Card>
         )}
       </div>
 
@@ -376,7 +434,7 @@ export function Calendar() {
                 <Button 
                   variant="outline" 
                   className="mt-2"
-                  onClick={() => setShowEventModal(true)}
+                  onClick={handleNewEvent}
                 >
                   Create your first event
                 </Button>
@@ -385,51 +443,23 @@ export function Calendar() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Event Modal */}
+      <EventModal
+        isOpen={showEventModal}
+        onClose={() => {
+          setShowEventModal(false)
+          setSelectedEvent(null)
+          setSelectedDate(null)
+        }}
+        onSave={createEvent}
+        selectedDate={selectedDate || undefined}
+        event={selectedEvent}
+      />
     </div>
   )
 }
 
-// Placeholder components for different calendar views
-function MonthView({ events, currentDate, onEventClick, getEventTypeColor, getPriorityIcon }: any) {
-  return (
-    <Card>
-      <CardContent className="p-6">
-        <div className="text-center py-8 text-gray-500">
-          <CalendarIcon className="h-12 w-12 mx-auto mb-4 opacity-50" />
-          <p>Month view implementation coming soon</p>
-          <p className="text-sm">Showing {events.length} events</p>
-        </div>
-      </CardContent>
-    </Card>
-  )
-}
 
-function WeekView({ events, currentDate, onEventClick, getEventTypeColor, getPriorityIcon }: any) {
-  return (
-    <Card>
-      <CardContent className="p-6">
-        <div className="text-center py-8 text-gray-500">
-          <CalendarIcon className="h-12 w-12 mx-auto mb-4 opacity-50" />
-          <p>Week view implementation coming soon</p>
-          <p className="text-sm">Showing {events.length} events</p>
-        </div>
-      </CardContent>
-    </Card>
-  )
-}
-
-function DayView({ events, currentDate, onEventClick, getEventTypeColor, getPriorityIcon }: any) {
-  return (
-    <Card>
-      <CardContent className="p-6">
-        <div className="text-center py-8 text-gray-500">
-          <CalendarIcon className="h-12 w-12 mx-auto mb-4 opacity-50" />
-          <p>Day view implementation coming soon</p>
-          <p className="text-sm">Showing {events.length} events</p>
-        </div>
-      </CardContent>
-    </Card>
-  )
-}
 
 export default Calendar

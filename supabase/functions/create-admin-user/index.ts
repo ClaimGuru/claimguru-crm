@@ -15,7 +15,7 @@ Deno.serve(async (req) => {
     }
   
     try {
-      // Get parameters from request body
+      // 从请求体中获取参数
       const requestBody = await req.json();
       const { email, password, role = 'authenticated' } = requestBody;
       
@@ -28,7 +28,7 @@ Deno.serve(async (req) => {
         });
       }
   
-      // Get environment variables
+      // 获取环境变量
       const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
       const supabaseUrl = Deno.env.get('SUPABASE_URL');
       
@@ -41,11 +41,11 @@ Deno.serve(async (req) => {
         });
       }
   
-      // Generate user ID
+      // 生成用户 ID
       const userId = crypto.randomUUID();
       const now = new Date().toISOString();
       
-      // Create user record (directly insert into auth.users table)
+      // 创建用户记录（直接插入到 auth.users 表）
       const insertUserQuery = `
         INSERT INTO auth.users (
           id, email, encrypted_password, email_confirmed_at, 
@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
         ) RETURNING id, email, created_at
       `;
       
-      // Use fetch to call Supabase REST API
+      // 使用 fetch 调用 Supabase REST API
       const response = await fetch(`${supabaseUrl}/rest/v1/rpc/exec_sql`, {
         method: 'POST',
         headers: {
@@ -73,7 +73,7 @@ Deno.serve(async (req) => {
       });
   
       if (!response.ok) {
-        // If direct insert fails, try using Admin API to create user
+        // 如果直接插入失败，尝试使用 Admin API 创建用户
         const adminResponse = await fetch(`${supabaseUrl}/auth/v1/admin/users`, {
           method: 'POST',
           headers: {

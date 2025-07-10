@@ -1,0 +1,134 @@
+import React from 'react'
+import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isSameDay, isToday } from 'date-fns'
+
+interface Event {
+  id: string
+  title: string
+  start_datetime: string
+  end_datetime: string
+  event_type: string
+  priority: string
+  all_day: boolean
+}
+
+interface MonthViewProps {
+  events: Event[]
+  currentDate: Date
+  onEventClick: (event: Event) => void
+  onDateClick?: (date: Date) => void
+  getEventTypeColor: (eventType: string) => string
+  getPriorityIcon: (priority: string) => React.ReactNode
+}
+
+export function MonthView({ 
+  events, 
+  currentDate, 
+  onEventClick, 
+  onDateClick,
+  getEventTypeColor, 
+  getPriorityIcon 
+}: MonthViewProps) {
+  // Get the start and end of the month
+  const monthStart = startOfMonth(currentDate)
+  const monthEnd = endOfMonth(monthStart)
+  
+  // Get the start and end of the calendar view (including partial weeks)
+  const calendarStart = startOfWeek(monthStart)
+  const calendarEnd = endOfWeek(monthEnd)
+  
+  // Get all days in the calendar view
+  const calendarDays = eachDayOfInterval({
+    start: calendarStart,
+    end: calendarEnd
+  })
+
+  // Group events by date
+  const eventsByDate = events.reduce((acc, event) => {
+    const eventDate = format(new Date(event.start_datetime), 'yyyy-MM-dd')
+    if (!acc[eventDate]) {
+      acc[eventDate] = []
+    }
+    acc[eventDate].push(event)
+    return acc
+  }, {} as Record<string, Event[]>)
+
+  const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
+  return (
+    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+      {/* Header with weekdays */}
+      <div className="grid grid-cols-7 border-b border-gray-200">
+        {weekdays.map((day) => (
+          <div key={day} className="p-3 text-center text-sm font-medium text-gray-700 bg-gray-50">
+            {day}
+          </div>
+        ))}
+      </div>
+
+      {/* Calendar grid */}
+      <div className="grid grid-cols-7">
+        {calendarDays.map((day, index) => {
+          const dayKey = format(day, 'yyyy-MM-dd')
+          const dayEvents = eventsByDate[dayKey] || []
+          const isCurrentMonth = isSameMonth(day, currentDate)
+          const isCurrentDay = isToday(day)
+          const isSelected = isSameDay(day, currentDate)
+
+          return (
+            <div
+              key={dayKey}
+              className={`min-h-[120px] p-2 border-b border-r border-gray-200 ${
+                !isCurrentMonth 
+                  ? 'bg-gray-50 text-gray-400' 
+                  : 'bg-white hover:bg-gray-50'
+              } ${isSelected ? 'ring-2 ring-blue-500' : ''} cursor-pointer transition-colors`}
+              onClick={() => onDateClick?.(day)}
+            >
+              {/* Day number */}
+              <div className="flex items-center justify-between mb-1">
+                <span
+                  className={`text-sm font-medium ${
+                    isCurrentDay
+                      ? 'bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs'
+                      : isCurrentMonth
+                      ? 'text-gray-900'
+                      : 'text-gray-400'
+                  }`}
+                >
+                  {format(day, 'd')}
+                </span>
+                {dayEvents.length > 3 && (
+                  <span className="text-xs text-gray-500">
+                    +{dayEvents.length - 3}
+                  </span>
+                )}
+              </div>
+
+              {/* Events */}
+              <div className="space-y-1">
+                {dayEvents.slice(0, 3).map((event, eventIndex) => (
+                  <div
+                    key={event.id}
+                    className={`text-xs px-2 py-1 rounded cursor-pointer hover:opacity-80 transition-opacity ${getEventTypeColor(event.event_type)}`}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      onEventClick(event)
+                    }}
+                    title={`${event.title}\n${format(new Date(event.start_datetime), 'h:mm a')}${event.location ? `\n${event.location}` : ''}`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="truncate flex-1">
+                        {event.all_day ? event.title : `${format(new Date(event.start_datetime), 'h:mm a')} ${event.title}`}
+                      </span>
+                      {getPriorityIcon(event.priority)}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
