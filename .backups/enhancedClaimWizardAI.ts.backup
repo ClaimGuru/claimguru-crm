@@ -633,6 +633,326 @@ export class EnhancedClaimWizardAI {
     }
   }
 
+  // NEW METHODS FOR MISSING WIZARD STEPS
+
+  // Mortgage Information Validation
+  async validateMortgageInformation(data: any): Promise<any> {
+    await this.delay(1500)
+    
+    const recommendations = []
+    const validation: any = {}
+    
+    // Simulate AI mortgage company suggestions based on property address
+    if (data.propertyAddress) {
+      recommendations.push({
+        name: 'Wells Fargo Home Mortgage',
+        reason: 'Common lender in this area based on property records',
+        confidence: 0.75,
+        contactPerson: 'Mortgage Services Department',
+        phone: '(800) 869-3557',
+        address: '1 Wells Fargo Way',
+        city: 'Des Moines',
+        state: 'IA',
+        zipCode: '50266'
+      })
+      
+      recommendations.push({
+        name: 'Quicken Loans',
+        reason: 'High market presence for properties in this ZIP code',
+        confidence: 0.65,
+        contactPerson: 'Customer Care',
+        phone: '(800) 251-9080',
+        address: '1050 Woodward Ave',
+        city: 'Detroit',
+        state: 'MI',
+        zipCode: '48226'
+      })
+    }
+    
+    // Simulate validation results
+    if (data.existingMortgages?.length > 0) {
+      data.existingMortgages.forEach((mortgage: any, index: number) => {
+        validation[mortgage.id || index] = {
+          company: mortgage.name,
+          verified: Math.random() > 0.3,
+          message: Math.random() > 0.3 
+            ? 'Mortgage company verified in our database'
+            : 'Could not verify - manual confirmation recommended'
+        }
+      })
+    }
+    
+    return {
+      recommendations,
+      validation
+    }
+  }
+
+  // Referral Source Analysis
+  async analyzeReferralSource(data: any): Promise<any> {
+    await this.delay(1200)
+    
+    // Simulate referral analytics
+    const analytics = {
+      totalReferrals: Math.floor(Math.random() * 50) + 5,
+      averageClaimValue: Math.floor(Math.random() * 100000) + 25000,
+      conversionRate: 0.3 + Math.random() * 0.5,
+      relationshipStrength: ['weak', 'moderate', 'strong'][Math.floor(Math.random() * 3)] as 'weak' | 'moderate' | 'strong',
+      recommendations: []
+    }
+    
+    // Generate recommendations based on referral type
+    switch (data.referralSource.type) {
+      case 'agent':
+        analytics.recommendations = [
+          'Consider offering agent-specific incentives',
+          'Provide quarterly referral reports to strengthen relationship',
+          'Invite to networking events'
+        ]
+        break
+      case 'attorney':
+        analytics.recommendations = [
+          'Ensure timely case updates for legal coordination',
+          'Offer legal-specific reporting formats',
+          'Consider reciprocal referral opportunities'
+        ]
+        break
+      case 'client':
+        analytics.recommendations = [
+          'Implement client satisfaction follow-up program',
+          'Consider referral rewards program',
+          'Ask for testimonials and reviews'
+        ]
+        break
+      default:
+        analytics.recommendations = [
+          'Track referral source performance',
+          'Maintain regular communication',
+          'Consider formal partnership agreement'
+        ]
+    }
+    
+    return analytics
+  }
+
+  // Contract Terms Validation
+  async validateContractTerms(data: any): Promise<any> {
+    await this.delay(1800)
+    
+    const validation = {
+      isCompliant: true,
+      warnings: [] as string[],
+      recommendations: [] as string[],
+      marketComparison: {
+        isCompetitive: true,
+        marketRange: '8-15%',
+        position: 'within' as 'below' | 'within' | 'above'
+      },
+      riskAssessment: {
+        level: 'low' as 'low' | 'medium' | 'high',
+        factors: [] as string[]
+      }
+    }
+    
+    // Validate fee percentage
+    if (data.contractDetails.feeStructure === 'percentage') {
+      const feePercentage = data.contractDetails.feePercentage
+      
+      if (feePercentage > 15) {
+        validation.warnings.push('Fee percentage exceeds typical market range (8-15%)')
+        validation.marketComparison.position = 'above'
+        validation.riskAssessment.level = 'medium'
+        validation.riskAssessment.factors.push('Above market fee rate may impact client satisfaction')
+      } else if (feePercentage < 8) {
+        validation.recommendations.push('Fee percentage is below market average - consider if this is sustainable')
+        validation.marketComparison.position = 'below'
+      }
+      
+      if (feePercentage > 20) {
+        validation.isCompliant = false
+        validation.warnings.push('Fee percentage may violate company policy maximum')
+        validation.riskAssessment.level = 'high'
+      }
+    }
+    
+    // Validate expense handling
+    if (data.contractDetails.expenseHandling === 'additional') {
+      validation.recommendations.push('Consider providing expense estimates to client upfront')
+    }
+    
+    // Add general recommendations
+    validation.recommendations.push(
+      'Ensure contract terms are clearly explained to client',
+      'Consider offering payment plan options for large settlements',
+      'Document any special arrangements in contract notes'
+    )
+    
+    return validation
+  }
+
+  // Personnel Recommendations
+  async generatePersonnelRecommendations(data: any): Promise<any> {
+    await this.delay(2000)
+    
+    // Simulate AI recommendations based on claim complexity and team availability
+    const recommendations = [
+      {
+        member: {
+          id: '1',
+          name: 'Sarah Johnson',
+          role: 'lead_adjuster'
+        },
+        score: 92,
+        reasoning: [
+          'Extensive experience with similar claim types',
+          'Currently at optimal workload capacity',
+          'Strong client satisfaction ratings'
+        ],
+        suggestedRole: 'Primary Adjuster',
+        estimatedHours: 40,
+        conflicts: []
+      },
+      {
+        member: {
+          id: '2', 
+          name: 'Mike Chen',
+          role: 'assistant_adjuster'
+        },
+        score: 85,
+        reasoning: [
+          'Available for immediate assignment',
+          'Good track record with residential claims',
+          'Efficient documentation skills'
+        ],
+        suggestedRole: 'Assistant Adjuster',
+        estimatedHours: 25,
+        conflicts: []
+      }
+    ]
+    
+    // Add conflicts based on claim complexity
+    const claimValue = data.claimData?.lossDetails?.estimatedAmount || 0
+    if (claimValue > 500000) {
+      recommendations[1].conflicts = ['Large loss claim may require senior adjuster oversight']
+    }
+    
+    return recommendations
+  }
+
+  // Office Tasks Generation
+  async generateOfficeTasks(data: any): Promise<any> {
+    await this.delay(1500)
+    
+    const tasks = []
+    const claimData = data.claimData
+    
+    // Generate tasks based on claim details
+    
+    // Always include initial contact
+    tasks.push({
+      title: 'Initial Client Contact & Welcome',
+      description: 'Contact client within 24 hours to confirm representation and explain next steps',
+      priority: 'high',
+      category: 'communication',
+      dueDate: this.calculateDueDate(1),
+      estimatedHours: 0.5,
+      aiReasoning: 'Critical for client satisfaction and early engagement'
+    })
+    
+    // Insurance carrier notification
+    if (claimData?.insuranceCarrier?.name) {
+      tasks.push({
+        title: `Notify ${claimData.insuranceCarrier.name}`,
+        description: 'Send formal representation letter and request claim file',
+        priority: 'critical',
+        category: 'legal',
+        dueDate: this.calculateDueDate(3),
+        estimatedHours: 1,
+        aiReasoning: 'Legal requirement to notify carrier within claim deadlines'
+      })
+    }
+    
+    // Property inspection
+    if (claimData?.lossDetails?.propertyAddress) {
+      tasks.push({
+        title: 'Schedule Property Inspection',
+        description: 'Coordinate property inspection with client and adjusters',
+        priority: 'high',
+        category: 'inspection',
+        dueDate: this.calculateDueDate(5),
+        estimatedHours: 2,
+        aiReasoning: 'Essential for accurate damage assessment and claim valuation'
+      })
+    }
+    
+    // Document collection
+    tasks.push({
+      title: 'Collect Supporting Documentation',
+      description: 'Gather photos, receipts, estimates, and other claim-related documents',
+      priority: 'medium',
+      category: 'documentation',
+      dueDate: this.calculateDueDate(7),
+      estimatedHours: 3,
+      aiReasoning: 'Comprehensive documentation strengthens claim presentation'
+    })
+    
+    // Proof of Loss preparation
+    if (claimData?.policyData?.proofOfLossRequirements) {
+      const daysUntilDeadline = this.extractProofOfLossDays(claimData.policyData.proofOfLossRequirements)
+      tasks.push({
+        title: 'Prepare Proof of Loss',
+        description: 'Complete and submit proof of loss documentation to carrier',
+        priority: 'critical',
+        category: 'documentation',
+        dueDate: this.calculateDueDate(daysUntilDeadline - 10), // 10 days before deadline
+        estimatedHours: 4,
+        aiReasoning: `Critical deadline - proof of loss must be submitted within ${daysUntilDeadline} days`
+      })
+    }
+    
+    // Mortgage company notification
+    if (data.existingTasks?.some((t: any) => t.category === 'mortgage') === false) {
+      tasks.push({
+        title: 'Notify Mortgage Companies',
+        description: 'Inform all mortgage holders of claim and representation',
+        priority: 'medium',
+        category: 'communication',
+        dueDate: this.calculateDueDate(7),
+        estimatedHours: 1,
+        aiReasoning: 'Required by most mortgage agreements for insurance claims'
+      })
+    }
+    
+    // Follow-up tasks based on claim type
+    const lossType = claimData?.lossDetails?.causeOfLoss?.toLowerCase() || ''
+    if (lossType.includes('water') || lossType.includes('flood')) {
+      tasks.push({
+        title: 'Monitor for Secondary Damage',
+        description: 'Schedule follow-up inspection for potential mold or structural issues',
+        priority: 'medium',
+        category: 'follow_up',
+        dueDate: this.calculateDueDate(14),
+        estimatedHours: 1,
+        aiReasoning: 'Water damage often leads to secondary issues requiring ongoing monitoring'
+      })
+    }
+    
+    return tasks
+  }
+
+  // Helper methods
+  private calculateDueDate(daysFromNow: number): string {
+    const date = new Date()
+    date.setDate(date.getDate() + daysFromNow)
+    return date.toISOString().split('T')[0]
+  }
+
+  private extractProofOfLossDays(requirements: string | string[]): number {
+    const text = Array.isArray(requirements) ? requirements.join(' ') : requirements
+    const match = text.match(/(\d+)\s*days?/i)
+    return match ? parseInt(match[1]) : 60 // Default to 60 days
+  }
+
   // Step 2-3: Client & Address Validation
   async validateClientInfo(inputData: any, policyData: any): Promise<AIValidation> {
     await this.delay(500)

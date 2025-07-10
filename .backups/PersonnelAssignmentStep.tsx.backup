@@ -1,1 +1,488 @@
-import React, { useState, useEffect } from 'react'\nimport { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'\nimport { Button } from '../../ui/Button'\nimport { Input } from '../../ui/Input'\nimport { LoadingSpinner } from '../../ui/LoadingSpinner'\nimport { \n  Users, \n  UserPlus, \n  Brain, \n  Star,\n  Clock,\n  Award,\n  Search,\n  Filter,\n  CheckCircle,\n  AlertCircle,\n  User,\n  Settings\n} from 'lucide-react'\nimport { enhancedClaimWizardAI } from '../../../services/enhancedClaimWizardAI'\n\ninterface TeamMember {\n  id: string\n  name: string\n  role: 'lead_adjuster' | 'assistant_adjuster' | 'admin' | 'specialist' | 'coordinator'\n  email: string\n  phone?: string\n  expertise: string[]\n  currentWorkload: number\n  availability: 'available' | 'busy' | 'unavailable'\n  rating: number\n  yearsExperience: number\n  specializations: string[]\n  recentPerformance: {\n    casesCompleted: number\n    averageResolutionTime: number\n    clientSatisfaction: number\n  }\n}\n\ninterface Assignment {\n  memberId: string\n  role: string\n  responsibilities: string[]\n  isPrimary: boolean\n  estimatedHours?: number\n  notes?: string\n}\n\ninterface AIRecommendation {\n  member: TeamMember\n  score: number\n  reasoning: string[]\n  suggestedRole: string\n  estimatedHours: number\n  conflicts?: string[]\n}\n\ninterface PersonnelAssignmentStepProps {\n  data: any\n  onUpdate: (data: any) => void\n  onComplete?: () => void\n}\n\nexport const PersonnelAssignmentStep: React.FC<PersonnelAssignmentStepProps> = ({\n  data,\n  onUpdate,\n  onComplete\n}) => {\n  const [assignments, setAssignments] = useState<Assignment[]>(\n    data.personnelAssignments || []\n  )\n  const [availableMembers, setAvailableMembers] = useState<TeamMember[]>([])\n  const [aiRecommendations, setAiRecommendations] = useState<AIRecommendation[]>([])\n  const [isLoadingRecommendations, setIsLoadingRecommendations] = useState(false)\n  const [searchTerm, setSearchTerm] = useState('')\n  const [filterRole, setFilterRole] = useState<string>('all')\n  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null)\n  const [assignmentRole, setAssignmentRole] = useState('')\n  const [assignmentNotes, setAssignmentNotes] = useState('')\n\n  // Load team members and AI recommendations\n  useEffect(() => {\n    loadTeamMembers()\n    generateAIRecommendations()\n  }, [])\n\n  const loadTeamMembers = async () => {\n    // Simulate loading team members (in production, fetch from API)\n    const mockMembers: TeamMember[] = [\n      {\n        id: '1',\n        name: 'Sarah Johnson',\n        role: 'lead_adjuster',\n        email: 'sarah.johnson@claimguru.com',\n        phone: '(555) 123-4567',\n        expertise: ['Commercial Claims', 'Water Damage', 'Fire Claims'],\n        currentWorkload: 75,\n        availability: 'available',\n        rating: 4.8,\n        yearsExperience: 8,\n        specializations: ['Large Loss', 'Complex Claims'],\n        recentPerformance: {\n          casesCompleted: 24,\n          averageResolutionTime: 45,\n          clientSatisfaction: 4.7\n        }\n      },\n      {\n        id: '2',\n        name: 'Mike Chen',\n        role: 'assistant_adjuster',\n        email: 'mike.chen@claimguru.com',\n        phone: '(555) 234-5678',\n        expertise: ['Residential Claims', 'Storm Damage', 'Personal Property'],\n        currentWorkload: 60,\n        availability: 'available',\n        rating: 4.5,\n        yearsExperience: 4,\n        specializations: ['First-Time Homeowner Claims'],\n        recentPerformance: {\n          casesCompleted: 32,\n          averageResolutionTime: 38,\n          clientSatisfaction: 4.4\n        }\n      },\n      {\n        id: '3',\n        name: 'Jessica Rodriguez',\n        role: 'specialist',\n        email: 'jessica.rodriguez@claimguru.com',\n        expertise: ['Fraud Investigation', 'Legal Support', 'Disputed Claims'],\n        currentWorkload: 90,\n        availability: 'busy',\n        rating: 4.9,\n        yearsExperience: 12,\n        specializations: ['Fraud Detection', 'Litigation Support'],\n        recentPerformance: {\n          casesCompleted: 18,\n          averageResolutionTime: 62,\n          clientSatisfaction: 4.8\n        }\n      },\n      {\n        id: '4',\n        name: 'David Park',\n        role: 'coordinator',\n        email: 'david.park@claimguru.com',\n        phone: '(555) 345-6789',\n        expertise: ['Project Management', 'Client Communication', 'Documentation'],\n        currentWorkload: 45,\n        availability: 'available',\n        rating: 4.3,\n        yearsExperience: 3,\n        specializations: ['Client Relations'],\n        recentPerformance: {\n          casesCompleted: 28,\n          averageResolutionTime: 30,\n          clientSatisfaction: 4.6\n        }\n      }\n    ]\n    \n    setAvailableMembers(mockMembers)\n  }\n\n  const generateAIRecommendations = async () => {\n    setIsLoadingRecommendations(true)\n    try {\n      const recommendations = await enhancedClaimWizardAI.generatePersonnelRecommendations({\n        claimData: data,\n        organizationId: data.organizationId,\n        currentAssignments: assignments\n      })\n      \n      setAiRecommendations(recommendations)\n    } catch (error) {\n      console.error('Failed to generate AI recommendations:', error)\n    } finally {\n      setIsLoadingRecommendations(false)\n    }\n  }\n\n  const addAssignment = () => {\n    if (!selectedMember || !assignmentRole) return\n\n    const newAssignment: Assignment = {\n      memberId: selectedMember.id,\n      role: assignmentRole,\n      responsibilities: getDefaultResponsibilities(assignmentRole),\n      isPrimary: assignments.length === 0,\n      notes: assignmentNotes\n    }\n\n    const updatedAssignments = [...assignments, newAssignment]\n    setAssignments(updatedAssignments)\n    onUpdate({\n      ...data,\n      personnelAssignments: updatedAssignments\n    })\n\n    // Reset form\n    setSelectedMember(null)\n    setAssignmentRole('')\n    setAssignmentNotes('')\n  }\n\n  const removeAssignment = (index: number) => {\n    const updatedAssignments = assignments.filter((_, i) => i !== index)\n    setAssignments(updatedAssignments)\n    onUpdate({\n      ...data,\n      personnelAssignments: updatedAssignments\n    })\n  }\n\n  const applyAIRecommendation = (recommendation: AIRecommendation) => {\n    setSelectedMember(recommendation.member)\n    setAssignmentRole(recommendation.suggestedRole)\n    setAssignmentNotes(`AI Recommended: ${recommendation.reasoning.join(', ')}`)\n  }\n\n  const getDefaultResponsibilities = (role: string): string[] => {\n    switch (role) {\n      case 'Primary Adjuster':\n        return ['Overall claim management', 'Client communication', 'Settlement negotiation', 'Final approval']\n      case 'Assistant Adjuster':\n        return ['Documentation', 'Property inspection', 'Vendor coordination', 'Progress updates']\n      case 'Specialist':\n        return ['Technical analysis', 'Expert consultation', 'Complex evaluation', 'Special investigations']\n      case 'Coordinator':\n        return ['Task management', 'Scheduling', 'Client updates', 'Administrative support']\n      default:\n        return ['General support', 'As needed assistance']\n    }\n  }\n\n  const getWorkloadColor = (workload: number) => {\n    if (workload >= 80) return 'text-red-600 bg-red-100'\n    if (workload >= 60) return 'text-yellow-600 bg-yellow-100'\n    return 'text-green-600 bg-green-100'\n  }\n\n  const getAvailabilityColor = (availability: string) => {\n    switch (availability) {\n      case 'available': return 'text-green-600 bg-green-100'\n      case 'busy': return 'text-yellow-600 bg-yellow-100'\n      case 'unavailable': return 'text-red-600 bg-red-100'\n      default: return 'text-gray-600 bg-gray-100'\n    }\n  }\n\n  const filteredMembers = availableMembers.filter(member => {\n    const matchesSearch = member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||\n                         member.expertise.some(exp => exp.toLowerCase().includes(searchTerm.toLowerCase()))\n    const matchesRole = filterRole === 'all' || member.role === filterRole\n    return matchesSearch && matchesRole\n  })\n\n  return (\n    <div className=\"space-y-6\">\n      {/* Header */}\n      <Card>\n        <CardHeader>\n          <CardTitle className=\"flex items-center space-x-2\">\n            <Users className=\"h-6 w-6 text-blue-600\" />\n            <span>Personnel Assignment</span>\n          </CardTitle>\n          <p className=\"text-gray-600\">\n            Assign team members to this claim. AI recommends optimal assignments based on expertise, workload, and claim complexity.\n          </p>\n        </CardHeader>\n      </Card>\n\n      {/* AI Recommendations */}\n      {aiRecommendations.length > 0 && (\n        <Card className=\"border-blue-200 bg-blue-50\">\n          <CardHeader>\n            <CardTitle className=\"flex items-center space-x-2 text-blue-800\">\n              <Brain className=\"h-5 w-5\" />\n              <span>AI Personnel Recommendations</span>\n              {isLoadingRecommendations && <LoadingSpinner className=\"ml-2\" />}\n            </CardTitle>\n          </CardHeader>\n          <CardContent>\n            <div className=\"space-y-3\">\n              {aiRecommendations.slice(0, 3).map((rec, index) => (\n                <div key={index} className=\"flex items-center justify-between p-3 bg-white rounded-lg border\">\n                  <div className=\"flex-1\">\n                    <div className=\"flex items-center space-x-2 mb-1\">\n                      <h4 className=\"font-medium text-gray-900\">{rec.member.name}</h4>\n                      <span className=\"text-sm text-blue-600\">({rec.suggestedRole})</span>\n                      <div className=\"flex items-center space-x-1\">\n                        <Star className=\"h-3 w-3 text-yellow-500\" />\n                        <span className=\"text-xs text-gray-600\">{rec.score}% match</span>\n                      </div>\n                    </div>\n                    <p className=\"text-sm text-gray-600\">{rec.reasoning.join(', ')}</p>\n                    {rec.conflicts && (\n                      <p className=\"text-xs text-red-600 mt-1\">⚠️ {rec.conflicts.join(', ')}</p>\n                    )}\n                  </div>\n                  <Button\n                    variant=\"outline\"\n                    size=\"sm\"\n                    onClick={() => applyAIRecommendation(rec)}\n                  >\n                    Assign\n                  </Button>\n                </div>\n              ))}\n            </div>\n          </CardContent>\n        </Card>\n      )}\n\n      {/* Current Assignments */}\n      {assignments.length > 0 && (\n        <Card>\n          <CardHeader>\n            <CardTitle>Current Assignments</CardTitle>\n          </CardHeader>\n          <CardContent>\n            <div className=\"space-y-4\">\n              {assignments.map((assignment, index) => {\n                const member = availableMembers.find(m => m.id === assignment.memberId)\n                if (!member) return null\n                \n                return (\n                  <div key={index} className=\"border rounded-lg p-4\">\n                    <div className=\"flex items-start justify-between\">\n                      <div className=\"flex-1\">\n                        <div className=\"flex items-center space-x-2 mb-2\">\n                          <h4 className=\"font-medium text-gray-900\">{member.name}</h4>\n                          <span className=\"px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full\">\n                            {assignment.role}\n                          </span>\n                          {assignment.isPrimary && (\n                            <span className=\"px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full\">\n                              Primary\n                            </span>\n                          )}\n                        </div>\n                        \n                        <div className=\"text-sm text-gray-600 mb-2\">\n                          <span className=\"font-medium\">Responsibilities:</span>\n                          <ul className=\"list-disc list-inside mt-1 ml-2\">\n                            {assignment.responsibilities.map((resp, i) => (\n                              <li key={i}>{resp}</li>\n                            ))}\n                          </ul>\n                        </div>\n                        \n                        {assignment.notes && (\n                          <p className=\"text-sm text-gray-600\">\n                            <span className=\"font-medium\">Notes:</span> {assignment.notes}\n                          </p>\n                        )}\n                      </div>\n                      \n                      <Button\n                        variant=\"outline\"\n                        size=\"sm\"\n                        onClick={() => removeAssignment(index)}\n                        className=\"text-red-600 hover:text-red-700\"\n                      >\n                        Remove\n                      </Button>\n                    </div>\n                  </div>\n                )\n              })}\n            </div>\n          </CardContent>\n        </Card>\n      )}\n\n      {/* Add Assignment */}\n      <Card>\n        <CardHeader>\n          <CardTitle className=\"flex items-center space-x-2\">\n            <UserPlus className=\"h-5 w-5\" />\n            <span>Add Team Member</span>\n          </CardTitle>\n        </CardHeader>\n        <CardContent>\n          {/* Search and Filter */}\n          <div className=\"flex space-x-4 mb-4\">\n            <div className=\"flex-1\">\n              <Input\n                placeholder=\"Search team members or expertise...\"\n                value={searchTerm}\n                onChange={(e) => setSearchTerm(e.target.value)}\n                icon={<Search className=\"h-4 w-4\" />}\n              />\n            </div>\n            <div className=\"w-48\">\n              <select\n                value={filterRole}\n                onChange={(e) => setFilterRole(e.target.value)}\n                className=\"w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500\"\n              >\n                <option value=\"all\">All Roles</option>\n                <option value=\"lead_adjuster\">Lead Adjuster</option>\n                <option value=\"assistant_adjuster\">Assistant Adjuster</option>\n                <option value=\"specialist\">Specialist</option>\n                <option value=\"coordinator\">Coordinator</option>\n              </select>\n            </div>\n          </div>\n\n          {/* Team Member Selection */}\n          <div className=\"grid grid-cols-1 md:grid-cols-2 gap-4 mb-4\">\n            {filteredMembers.map((member) => (\n              <div\n                key={member.id}\n                onClick={() => setSelectedMember(member)}\n                className={`p-4 border rounded-lg cursor-pointer transition-all ${\n                  selectedMember?.id === member.id\n                    ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200'\n                    : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'\n                }`}\n              >\n                <div className=\"flex items-start justify-between mb-2\">\n                  <div>\n                    <h4 className=\"font-medium text-gray-900\">{member.name}</h4>\n                    <p className=\"text-sm text-gray-600 capitalize\">{member.role.replace('_', ' ')}</p>\n                  </div>\n                  <div className=\"flex items-center space-x-1\">\n                    <Star className=\"h-4 w-4 text-yellow-500\" />\n                    <span className=\"text-sm font-medium\">{member.rating}</span>\n                  </div>\n                </div>\n                \n                <div className=\"space-y-2\">\n                  <div className=\"flex items-center justify-between text-sm\">\n                    <span className=\"text-gray-600\">Workload:</span>\n                    <span className={`px-2 py-1 text-xs rounded-full ${getWorkloadColor(member.currentWorkload)}`}>\n                      {member.currentWorkload}%\n                    </span>\n                  </div>\n                  \n                  <div className=\"flex items-center justify-between text-sm\">\n                    <span className=\"text-gray-600\">Status:</span>\n                    <span className={`px-2 py-1 text-xs rounded-full capitalize ${getAvailabilityColor(member.availability)}`}>\n                      {member.availability}\n                    </span>\n                  </div>\n                  \n                  <div className=\"text-sm\">\n                    <span className=\"text-gray-600\">Expertise:</span>\n                    <div className=\"flex flex-wrap gap-1 mt-1\">\n                      {member.expertise.slice(0, 2).map((exp, i) => (\n                        <span key={i} className=\"px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded\">\n                          {exp}\n                        </span>\n                      ))}\n                      {member.expertise.length > 2 && (\n                        <span className=\"px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded\">\n                          +{member.expertise.length - 2} more\n                        </span>\n                      )}\n                    </div>\n                  </div>\n                </div>\n                \n                {selectedMember?.id === member.id && (\n                  <CheckCircle className=\"h-5 w-5 text-blue-600 mt-2\" />\n                )}\n              </div>\n            ))}\n          </div>\n\n          {/* Assignment Details */}\n          {selectedMember && (\n            <div className=\"border-t pt-4 space-y-4\">\n              <h4 className=\"font-medium text-gray-900\">Assignment Details for {selectedMember.name}</h4>\n              \n              <div className=\"grid grid-cols-1 md:grid-cols-2 gap-4\">\n                <div>\n                  <label className=\"block text-sm font-medium text-gray-700 mb-1\">\n                    Role *\n                  </label>\n                  <select\n                    value={assignmentRole}\n                    onChange={(e) => setAssignmentRole(e.target.value)}\n                    className=\"w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500\"\n                  >\n                    <option value=\"\">Select role</option>\n                    <option value=\"Primary Adjuster\">Primary Adjuster</option>\n                    <option value=\"Assistant Adjuster\">Assistant Adjuster</option>\n                    <option value=\"Specialist\">Specialist</option>\n                    <option value=\"Coordinator\">Coordinator</option>\n                    <option value=\"Support\">Support</option>\n                  </select>\n                </div>\n              </div>\n              \n              <div>\n                <label className=\"block text-sm font-medium text-gray-700 mb-1\">\n                  Assignment Notes\n                </label>\n                <textarea\n                  value={assignmentNotes}\n                  onChange={(e) => setAssignmentNotes(e.target.value)}\n                  placeholder=\"Special instructions or notes for this assignment...\"\n                  rows={3}\n                  className=\"w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500\"\n                />\n              </div>\n              \n              <Button\n                onClick={addAssignment}\n                disabled={!assignmentRole}\n              >\n                Add Assignment\n              </Button>\n            </div>\n          )}\n        </CardContent>\n      </Card>\n\n      {/* Navigation */}\n      <div className=\"flex justify-between\">\n        <div></div>\n        <Button\n          onClick={onComplete}\n          disabled={assignments.length === 0}\n        >\n          Continue to Next Step\n        </Button>\n      </div>\n    </div>\n  )\n}\n
+import React, { useState, useEffect } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
+import { Button } from '../../ui/Button'
+import { Input } from '../../ui/Input'
+import { LoadingSpinner } from '../../ui/LoadingSpinner'
+import { 
+  Users, 
+  Brain, 
+  Star, 
+  Clock, 
+  Award, 
+  Target, 
+  TrendingUp,
+  AlertCircle,
+  CheckCircle,
+  User,
+  UserCheck,
+  Briefcase,
+  Calendar,
+  BarChart3,
+  Zap,
+  Shield
+} from 'lucide-react'
+import { enhancedClaimWizardAI } from '../../../services/enhancedClaimWizardAI'
+
+interface TeamMember {
+  id: string
+  name: string
+  role: 'adjuster' | 'manager' | 'inspector' | 'attorney' | 'specialist' | 'coordinator'
+  email: string
+  phone?: string
+  expertise: string[]
+  workloadCapacity: number
+  currentWorkload: number
+  averageClaimValue: number
+  successRate: number
+  yearsExperience: number
+  certifications: string[]
+  territoryExpertise: string[]
+  languageSkills: string[]
+  isAvailable: boolean
+  hourlyRate?: number
+}
+
+interface Assignment {
+  memberId: string
+  role: 'primary' | 'secondary' | 'consultant' | 'reviewer'
+  responsibilities: string[]
+  estimatedHours: number
+  startDate: string
+  priority: 'low' | 'medium' | 'high'
+  notificationPreferences: {
+    email: boolean
+    sms: boolean
+    inApp: boolean
+  }
+}
+
+interface AIRecommendation {
+  memberId: string
+  member: TeamMember
+  score: number
+  reasoning: string[]
+  estimatedCompletionTime: string
+  riskFactors: string[]
+  advantages: string[]
+  recommendedRole: 'primary' | 'secondary' | 'consultant'
+}
+
+interface PersonnelAssignmentStepProps {
+  data: any
+  onUpdate: (data: any) => void
+  onComplete?: () => void
+}
+
+export const PersonnelAssignmentStep: React.FC<PersonnelAssignmentStepProps> = ({
+  data,
+  onUpdate,
+  onComplete
+}) => {
+  const [assignments, setAssignments] = useState<Assignment[]>(
+    data.personnelAssignments || []
+  )
+  const [availableTeam, setAvailableTeam] = useState<TeamMember[]>([
+    // Demo team members - in production this would come from API
+    {
+      id: '1',
+      name: 'Sarah Johnson',
+      role: 'adjuster',
+      email: 'sarah.johnson@claimguru.com',
+      phone: '(555) 123-4567',
+      expertise: ['Water Damage', 'Fire Claims', 'Commercial Property'],
+      workloadCapacity: 100,
+      currentWorkload: 75,
+      averageClaimValue: 125000,
+      successRate: 95,
+      yearsExperience: 8,
+      certifications: ['CPCU', 'AIC'],
+      territoryExpertise: ['Texas', 'Louisiana'],
+      languageSkills: ['English', 'Spanish'],
+      isAvailable: true,
+      hourlyRate: 85
+    },
+    {
+      id: '2',
+      name: 'Michael Chen',
+      role: 'manager',
+      email: 'michael.chen@claimguru.com',
+      phone: '(555) 234-5678',
+      expertise: ['Large Loss', 'Complex Claims', 'Litigation Management'],
+      workloadCapacity: 100,
+      currentWorkload: 60,
+      averageClaimValue: 350000,
+      successRate: 98,
+      yearsExperience: 12,
+      certifications: ['CPCU', 'ARM', 'JD'],
+      territoryExpertise: ['Texas', 'Oklahoma', 'Arkansas'],
+      languageSkills: ['English', 'Mandarin'],
+      isAvailable: true,
+      hourlyRate: 125
+    },
+    {
+      id: '3',
+      name: 'Emily Rodriguez',
+      role: 'inspector',
+      email: 'emily.rodriguez@claimguru.com',
+      phone: '(555) 345-6789',
+      expertise: ['Property Inspection', 'Damage Assessment', 'Forensic Investigation'],
+      workloadCapacity: 100,
+      currentWorkload: 45,
+      averageClaimValue: 85000,
+      successRate: 92,
+      yearsExperience: 6,
+      certifications: ['AIC', 'HAAG Certified'],
+      territoryExpertise: ['Texas', 'New Mexico'],
+      languageSkills: ['English', 'Spanish'],
+      isAvailable: true,
+      hourlyRate: 75
+    }
+  ])
+  const [recommendations, setRecommendations] = useState<AIRecommendation[]>([])
+  const [isGeneratingRecommendations, setIsGeneratingRecommendations] = useState(false)
+  const [showRecommendations, setShowRecommendations] = useState(false)
+  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null)
+
+  useEffect(() => {
+    onUpdate({
+      ...data,
+      personnelAssignments: assignments
+    })
+  }, [assignments, data, onUpdate])
+
+  const generateAIRecommendations = async () => {
+    setIsGeneratingRecommendations(true)
+    try {
+      const aiRecommendations = await enhancedClaimWizardAI.generatePersonnelRecommendations({
+        claimData: data,
+        availableTeam,
+        organizationPolicies: data.organizationPolicies,
+        currentWorkloads: availableTeam.map(member => ({
+          memberId: member.id,
+          currentLoad: member.currentWorkload,
+          capacity: member.workloadCapacity
+        }))
+      })
+      
+      setRecommendations(aiRecommendations)
+      setShowRecommendations(true)
+    } catch (error) {
+      console.error('Failed to generate personnel recommendations:', error)
+      // Generate mock recommendations for demo
+      const mockRecommendations: AIRecommendation[] = availableTeam
+        .filter(member => member.isAvailable)
+        .map(member => ({
+          memberId: member.id,
+          member,
+          score: Math.floor(Math.random() * 30) + 70, // 70-100 score
+          reasoning: [
+            `${member.expertise.length} relevant expertise areas`,
+            `${100 - member.currentWorkload}% available capacity`,
+            `${member.successRate}% historical success rate`,
+            `${member.yearsExperience} years experience in field`
+          ],
+          estimatedCompletionTime: `${Math.floor(Math.random() * 10) + 15} days`,
+          riskFactors: member.currentWorkload > 80 ? ['High current workload'] : [],
+          advantages: [
+            ...member.expertise.slice(0, 2),
+            `${member.successRate}% success rate`,
+            `Located in claim territory`
+          ],
+          recommendedRole: member.role === 'manager' ? 'consultant' : 
+                          member.currentWorkload < 50 ? 'primary' : 'secondary'
+        }))
+        .sort((a, b) => b.score - a.score)
+      
+      setRecommendations(mockRecommendations)
+      setShowRecommendations(true)
+    } finally {
+      setIsGeneratingRecommendations(false)
+    }
+  }
+
+  const assignMember = (recommendation: AIRecommendation, role: 'primary' | 'secondary' | 'consultant' = 'primary') => {
+    const newAssignment: Assignment = {
+      memberId: recommendation.memberId,
+      role,
+      responsibilities: getDefaultResponsibilities(role),
+      estimatedHours: role === 'primary' ? 40 : role === 'secondary' ? 20 : 10,
+      startDate: new Date().toISOString().split('T')[0],
+      priority: 'medium',
+      notificationPreferences: {
+        email: true,
+        sms: false,
+        inApp: true
+      }
+    }
+
+    setAssignments(prev => [...prev, newAssignment])
+    
+    // Update team member workload
+    setAvailableTeam(prev => prev.map(member => 
+      member.id === recommendation.memberId
+        ? { ...member, currentWorkload: member.currentWorkload + (newAssignment.estimatedHours / 8) * 10 }
+        : member
+    ))
+  }
+
+  const getDefaultResponsibilities = (role: string): string[] => {
+    switch (role) {
+      case 'primary':
+        return [
+          'Lead claim investigation',
+          'Client communication',
+          'Damage assessment coordination',
+          'Settlement negotiation',
+          'Final reporting'
+        ]
+      case 'secondary':
+        return [
+          'Assist with documentation',
+          'Support field inspections',
+          'Research and analysis',
+          'Administrative tasks'
+        ]
+      case 'consultant':
+        return [
+          'Expert review and guidance',
+          'Strategic recommendations',
+          'Quality assurance',
+          'Escalation handling'
+        ]
+      default:
+        return []
+    }
+  }
+
+  const removeAssignment = (memberId: string) => {
+    const assignment = assignments.find(a => a.memberId === memberId)
+    if (assignment) {
+      setAssignments(prev => prev.filter(a => a.memberId !== memberId))
+      
+      // Update team member workload
+      setAvailableTeam(prev => prev.map(member => 
+        member.id === memberId
+          ? { ...member, currentWorkload: member.currentWorkload - (assignment.estimatedHours / 8) * 10 }
+          : member
+      ))
+    }
+  }
+
+  const getRoleIcon = (role: string) => {
+    switch (role) {
+      case 'adjuster': return User
+      case 'manager': return Shield
+      case 'inspector': return Target
+      case 'attorney': return Briefcase
+      case 'specialist': return Star
+      default: return User
+    }
+  }
+
+  const getWorkloadColor = (workload: number) => {
+    if (workload >= 90) return 'text-red-600 bg-red-100'
+    if (workload >= 70) return 'text-yellow-600 bg-yellow-100'
+    return 'text-green-600 bg-green-100'
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <Users className="h-6 w-6 text-blue-600" />
+            <span>Personnel Assignment</span>
+          </CardTitle>
+          <p className="text-gray-600">
+            Assign team members to this claim. AI recommends optimal assignments based on expertise, workload, and claim complexity.
+          </p>
+        </CardHeader>
+      </Card>
+
+      {/* Current Assignments */}
+      {assignments.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Current Assignments</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {assignments.map((assignment) => {
+                const member = availableTeam.find(m => m.id === assignment.memberId)
+                if (!member) return null
+                const RoleIcon = getRoleIcon(member.role)
+                
+                return (
+                  <div key={assignment.memberId} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <div className="p-2 bg-blue-100 rounded-full">
+                        <RoleIcon className="h-5 w-5 text-blue-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-gray-900">{member.name}</h4>
+                        <p className="text-sm text-gray-600">{member.role} • {assignment.role}</p>
+                        <p className="text-xs text-gray-500">{assignment.estimatedHours} hours estimated</p>
+                      </div>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => removeAssignment(assignment.memberId)}
+                      className="text-red-600 hover:text-red-700"
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                )
+              })}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* AI Recommendations */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center justify-between">
+            <span className="flex items-center gap-2">
+              <Brain className="h-5 w-5 text-purple-600" />
+              AI Personnel Recommendations
+            </span>
+            <Button
+              onClick={generateAIRecommendations}
+              disabled={isGeneratingRecommendations}
+              className="flex items-center gap-2"
+            >
+              {isGeneratingRecommendations ? (
+                <LoadingSpinner className="h-4 w-4" />
+              ) : (
+                <Zap className="h-4 w-4" />
+              )}
+              Generate Recommendations
+            </Button>
+          </CardTitle>
+        </CardHeader>
+        {showRecommendations && (
+          <CardContent>
+            <div className="space-y-4">
+              {recommendations.map((rec) => {
+                const RoleIcon = getRoleIcon(rec.member.role)
+                const isAssigned = assignments.some(a => a.memberId === rec.memberId)
+                
+                return (
+                  <div key={rec.memberId} className="border rounded-lg p-4">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center space-x-3">
+                        <div className="p-2 bg-blue-100 rounded-full">
+                          <RoleIcon className="h-5 w-5 text-blue-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-gray-900 flex items-center gap-2">
+                            {rec.member.name}
+                            <span className="text-sm font-normal text-gray-500">
+                              ({rec.member.role})
+                            </span>
+                          </h4>
+                          <div className="flex items-center gap-4 mt-1">
+                            <span className="text-sm text-gray-600 flex items-center gap-1">
+                              <Star className="h-3 w-3" />
+                              {rec.score}/100 match
+                            </span>
+                            <span className={`text-xs px-2 py-1 rounded-full ${getWorkloadColor(rec.member.currentWorkload)}`}>
+                              {rec.member.currentWorkload}% workload
+                            </span>
+                            <span className="text-sm text-gray-600 flex items-center gap-1">
+                              <Clock className="h-3 w-3" />
+                              {rec.estimatedCompletionTime}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex gap-2">
+                        {!isAssigned && (
+                          <>
+                            <Button
+                              size="sm"
+                              onClick={() => assignMember(rec, 'primary')}
+                              className="text-xs"
+                            >
+                              Assign Primary
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => assignMember(rec, 'secondary')}
+                              className="text-xs"
+                            >
+                              Assign Secondary
+                            </Button>
+                          </>
+                        )}
+                        {isAssigned && (
+                          <span className="text-sm text-green-600 flex items-center gap-1">
+                            <CheckCircle className="h-4 w-4" />
+                            Assigned
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <h5 className="font-medium text-gray-800 mb-1">Advantages</h5>
+                        <ul className="space-y-1">
+                          {rec.advantages.map((advantage, idx) => (
+                            <li key={idx} className="text-green-700 flex items-start gap-1">
+                              <CheckCircle className="h-3 w-3 mt-0.5 flex-shrink-0" />
+                              {advantage}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      
+                      <div>
+                        <h5 className="font-medium text-gray-800 mb-1">AI Reasoning</h5>
+                        <ul className="space-y-1">
+                          {rec.reasoning.map((reason, idx) => (
+                            <li key={idx} className="text-gray-600 flex items-start gap-1">
+                              <BarChart3 className="h-3 w-3 mt-0.5 flex-shrink-0" />
+                              {reason}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                    
+                    {rec.riskFactors.length > 0 && (
+                      <div className="mt-3 p-2 bg-yellow-50 rounded border-l-4 border-yellow-400">
+                        <h5 className="font-medium text-yellow-800 mb-1 flex items-center gap-1">
+                          <AlertCircle className="h-3 w-3" />
+                          Risk Factors
+                        </h5>
+                        <ul className="text-sm text-yellow-700">
+                          {rec.riskFactors.map((risk, idx) => (
+                            <li key={idx}>• {risk}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          </CardContent>
+        )}
+      </Card>
+
+      {/* Navigation */}
+      <div className="flex justify-between">
+        <div></div>
+        <Button onClick={onComplete}>
+          Continue to Next Step
+        </Button>
+      </div>
+    </div>
+  )
+}

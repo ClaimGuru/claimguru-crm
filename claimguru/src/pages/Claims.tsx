@@ -151,14 +151,6 @@ export function Claims() {
         </div>
         <div className="flex items-center gap-3">
           <Button 
-            variant="outline"
-            onClick={handleAddClaim}
-            className="flex items-center gap-2"
-          >
-            <Plus className="h-4 w-4" />
-            Quick Add
-          </Button>
-          <Button 
             onClick={handleNewClaimWizard}
             className="flex items-center gap-2"
           >
@@ -276,15 +268,7 @@ export function Claims() {
                 : 'Try adjusting your search or filter criteria'
               }
             </p>
-            {claims.length === 0 && (
-              <Button 
-                onClick={handleAddClaim}
-                className="flex items-center gap-2"
-              >
-                <Plus className="h-4 w-4" />
-                Create First Claim
-              </Button>
-            )}
+
           </CardContent>
         </Card>
       ) : (

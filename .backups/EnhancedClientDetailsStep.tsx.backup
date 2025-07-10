@@ -430,20 +430,19 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
         <CardContent className="space-y-6">
           {/* Mailing Address */}
           <div>
-            <label className="block text-sm font-medium mb-2">Mailing Address</label>
-            <input
-              type="text"
+            <AddressAutocomplete
               value={mailingAddress.address || ''}
-              onChange={(e) => setMailingAddress({
-                ...mailingAddress,
-                address: e.target.value
-              })}
-              className="w-full p-2 border rounded-lg"
+              onChange={(address, details) => {
+                setMailingAddress({
+                  ...mailingAddress,
+                  address,
+                  placeDetails: details
+                })
+              }}
+              label="Mailing Address"
               placeholder="Start typing address for autocomplete..."
+              required
             />
-            <p className="text-xs text-gray-500 mt-1">
-              Powered by Google Places API for address validation
-            </p>
           </div>
 
           {/* Loss Address Same as Mailing */}

@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
 import { Button } from '../../ui/Button'
 import { Input } from '../../ui/Input'
 import { LoadingSpinner } from '../../ui/LoadingSpinner'
-// import { AddressAutocomplete } from '../../ui/AddressAutocomplete'
+import { AddressAutocomplete } from '../../ui/AddressAutocomplete'
 import { User, Building, MapPin, AlertTriangle, CheckCircle, Brain, Users } from 'lucide-react'
 import { enhancedClaimWizardAI, AIValidation } from '../../../services/enhancedClaimWizardAI'
 
@@ -430,20 +430,19 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
         <CardContent className="space-y-6">
           {/* Mailing Address */}
           <div>
-            <label className="block text-sm font-medium mb-2">Mailing Address</label>
-            <input
-              type="text"
+            <AddressAutocomplete
               value={mailingAddress.address || ''}
-              onChange={(e) => setMailingAddress({
-                ...mailingAddress,
-                address: e.target.value
-              })}
-              className="w-full p-2 border rounded-lg"
+              onChange={(address, details) => {
+                setMailingAddress({
+                  ...mailingAddress,
+                  address,
+                  placeDetails: details
+                })
+              }}
+              label="Mailing Address"
               placeholder="Start typing address for autocomplete..."
+              required
             />
-            <p className="text-xs text-gray-500 mt-1">
-              Powered by Google Places API for address validation
-            </p>
           </div>
 
           {/* Loss Address Same as Mailing */}
@@ -460,16 +459,18 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
 
             {!addressSameAsMailing && (
               <div>
-                <label className="block text-sm font-medium mb-1">Loss Address</label>
-                <input
-                  type="text"
+                <AddressAutocomplete
                   value={lossAddress.address || ''}
-                  onChange={(e) => setLossAddress({
-                    ...lossAddress,
-                    address: e.target.value
-                  })}
-                  className="w-full p-2 border rounded-lg"
-                  placeholder="Enter loss address"
+                  onChange={(address, details) => {
+                    setLossAddress({
+                      ...lossAddress,
+                      address,
+                      placeDetails: details
+                    })
+                  }}
+                  label="Loss Address"
+                  placeholder="Enter loss address for property damage"
+                  required
                 />
                 {/* AI Address Validation */}
                 {validationResults.address && (
