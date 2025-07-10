@@ -83,32 +83,11 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
     try {
       const clientData = {
         ...formData,
-        organization_id: userProfile.organization_id,
-        created_by: userProfile.id,
         mailing_same_as_address: true
       }
 
-      if (client) {
-        const { data, error } = await supabase
-          .from('clients')
-          .update(clientData)
-          .eq('id', client.id)
-          .select()
-          .single()
-
-        if (error) throw error
-        onSave(data)
-      } else {
-        const { data, error } = await supabase
-          .from('clients')
-          .insert(clientData)
-          .select()
-          .single()
-
-        if (error) throw error
-        onSave(data)
-      }
-
+      // Let the parent component handle the actual save operation
+      await onSave(clientData)
       onClose()
     } catch (error) {
       console.error('Error saving client:', error)

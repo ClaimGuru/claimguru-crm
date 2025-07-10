@@ -69,10 +69,21 @@ export function Clients() {
     }
   }
 
-  const handleSaveClient = async (client: Client) => {
-    // The form handles the save operation, just close the modal
-    setIsFormOpen(false)
-    setEditingClient(null)
+  const handleSaveClient = async (clientData: any) => {
+    try {
+      if (editingClient) {
+        // Update existing client
+        await updateClient(editingClient.id, clientData)
+      } else {
+        // Create new client
+        await createClient(clientData)
+      }
+      setIsFormOpen(false)
+      setEditingClient(null)
+    } catch (error) {
+      console.error('Error saving client:', error)
+      // Error handling is done in the form
+    }
   }
 
   if (loading) {
