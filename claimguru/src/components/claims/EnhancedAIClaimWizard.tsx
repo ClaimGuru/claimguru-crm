@@ -25,6 +25,7 @@ import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoS
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
 import { PersonalPropertyStep } from './wizard-steps/PersonalPropertyStep'
 import { ExpertsProvidersStep } from './wizard-steps/ExpertsProvidersStep'
+import { CoverageIssueReviewStep } from './wizard-steps/CoverageIssueReviewStep'
 import { CompletionStep } from './wizard-steps/CompletionStep'
 
 interface EnhancedAIIntakeWizardProps {
@@ -148,6 +149,14 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
       icon: Wrench,
       component: ExpertsProvidersStep,
       required: false
+    },
+    {
+      id: 'coverage-review',
+      title: 'Coverage Issue Review',
+      description: 'AI analysis of potential coverage issues and policy concerns',
+      icon: AlertCircle,
+      component: CoverageIssueReviewStep,
+      required: true
     },
     {
       id: 'completion',

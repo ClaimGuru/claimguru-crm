@@ -25,6 +25,7 @@ import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoS
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
 import { PersonalPropertyStep } from './wizard-steps/PersonalPropertyStep'
 import { ExpertsProvidersStep } from './wizard-steps/ExpertsProvidersStep'
+import { CoverageIssueReviewStep } from './wizard-steps/CoverageIssueReviewStep'
 import { CompletionStep } from './wizard-steps/CompletionStep'
 
 interface EnhancedAIIntakeWizardProps {
@@ -75,7 +76,7 @@ interface WizardData {
   officeTasks: any[]
 }
 
-export function EnhancedAIClaimWizard({ clientId, onComplete, onCancel }: EnhancedAIClaimWizardProps) {
+export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: EnhancedAIIntakeWizardProps) {
   const [currentStep, setCurrentStep] = useState(0)
   const [wizardData, setWizardData] = useState<WizardData>({
     clientType: 'residential',
