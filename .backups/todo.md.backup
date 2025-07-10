@@ -171,7 +171,19 @@ Admin Panel (subscribers only)
 
 ## 🚀 **NEW EXECUTION PRIORITY**
 
-### **HIGH PRIORITY - COMMUNICATION INTEGRATION SYSTEM**
+### **HIGH PRIORITY - USER EXPERIENCE & COMMUNICATION SYSTEM**
+
+[ ] **Phase 0: AI Policy Extraction Validation UX** (4 hours) - **CRITICAL UX IMPROVEMENT**
+  - Add AI extraction validation step in policy upload wizard
+  - Display all extracted fields in user-friendly interface
+  - Show field mappings (extracted data → target CRM fields)
+  - Allow user acceptance/rejection for each extracted field
+  - Enable field remapping (drag-drop or dropdown selection)
+  - Add "ignore field" option for irrelevant extracted data
+  - Prevent wizard progression until user validates all mappings
+  - Add confidence scores and AI reasoning for each extraction
+  - Include manual override option for any field
+
 [ ] **Phase 1: Email Automation System** (8 hours)
   - Email ingestion and classification engine
   - IMAP/Gmail API integration with n8n workflow
