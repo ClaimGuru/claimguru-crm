@@ -438,31 +438,90 @@ export function ClaimForm({ claim, isOpen, onClose, onSave }: ClaimFormProps) {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Contract Fee Amount
+                {formData.contract_fee_type === 'percentage' && ' (%)'}
+                {formData.contract_fee_type === 'flat_fee' && ' ($)'}
+                {formData.contract_fee_type === 'hourly' && ' ($/hour)'}
               </label>
-              <input
-                type="number"
-                name="contract_fee_amount"
-                value={formData.contract_fee_amount}
-                onChange={handleInputChange}
-                step="0.01"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
+              <div className="relative">
+                {formData.contract_fee_type !== 'percentage' && (
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span className="text-gray-500 sm:text-sm">$</span>
+                  </div>
+                )}
+                <input
+                  type="number"
+                  name="contract_fee_amount"
+                  value={formData.contract_fee_amount}
+                  onChange={handleInputChange}
+                  step={formData.contract_fee_type === 'percentage' ? '0.1' : '0.01'}
+                  min="0"
+                  max={formData.contract_fee_type === 'percentage' ? '100' : undefined}
+                  className={`w-full py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    formData.contract_fee_type !== 'percentage' ? 'pl-7 pr-3' : 'px-3'
+                  }`}
+                  placeholder={
+                    formData.contract_fee_type === 'percentage' 
+                      ? 'e.g., 10.5' 
+                      : formData.contract_fee_type === 'flat_fee'
+                      ? 'e.g., 5000'
+                      : 'e.g., 150'
+                  }
+                />
+                {formData.contract_fee_type === 'percentage' && (
+                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <span className="text-gray-500 sm:text-sm">%</span>
+                  </div>
+                )}
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                {formData.contract_fee_type === 'percentage' && 'Enter percentage (0-100%)'}
+                {formData.contract_fee_type === 'flat_fee' && 'Enter total flat fee amount'}
+                {formData.contract_fee_type === 'hourly' && 'Enter hourly rate'}
+              </p>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Estimated Loss Value
+                Estimated Loss Value ($)
               </label>
-              <input
-                type="number"
-                name="estimated_loss_value"
-                value={formData.estimated_loss_value}
-                onChange={handleInputChange}
-                step="0.01"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <span className="text-gray-500 sm:text-sm">$</span>
+                </div>
+                <input
+                  type="number"
+                  name="estimated_loss_value"
+                  value={formData.estimated_loss_value}
+                  onChange={handleInputChange}
+                  step="0.01"
+                  min="0"
+                  className="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="e.g., 50000"
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                Total estimated value of the loss
+              </p>
             </div>
           </div>
+
+          {/* Calculated Fee Display */}
+          {formData.contract_fee_type === 'percentage' && 
+           formData.contract_fee_amount > 0 && 
+           formData.estimated_loss_value > 0 && (
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="flex items-center gap-2">
+                <DollarSign className="h-5 w-5 text-blue-600" />
+                <div>
+                  <h4 className="font-medium text-blue-900">Calculated Fee</h4>
+                  <p className="text-sm text-blue-700">
+                    {formData.contract_fee_amount}% of ${Number(formData.estimated_loss_value).toLocaleString()} = 
+                    <span className="font-semibold"> ${((Number(formData.contract_fee_amount) / 100) * Number(formData.estimated_loss_value)).toLocaleString()}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex items-center">
