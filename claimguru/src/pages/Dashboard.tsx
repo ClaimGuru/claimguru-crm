@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
+import { AdvancedAIDashboard } from '../components/ai/AdvancedAIDashboard'
 import { 
   FileText, 
   Users, 
@@ -13,12 +14,18 @@ import {
   Calendar,
   BarChart3,
   PieChart,
-  Building
+  Building,
+  Plus,
+  Eye,
+  Zap,
+  Target
 } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { supabase } from '../lib/supabase'
 import { LoadingSpinner } from '../components/ui/LoadingSpinner'
 import { useNavigate } from 'react-router-dom'
+import { useClaims } from '../hooks/useClaims'
+import { useClients } from '../hooks/useClients'
 
 interface DashboardStats {
   totalClaims: number
@@ -38,12 +45,17 @@ interface DashboardStats {
 export function Dashboard() {
   const { userProfile } = useAuth()
   const navigate = useNavigate()
+  const { claims, loading: claimsLoading } = useClaims()
+  const { clients, loading: clientsLoading } = useClients()
   const [stats, setStats] = useState<DashboardStats | null>(null)
   const [loading, setLoading] = useState(true)
+  const [showAIDashboard, setShowAIDashboard] = useState(false)
 
   useEffect(() => {
-    loadDashboardData()
-  }, [])
+    if (!claimsLoading && !clientsLoading) {
+      loadDashboardData()
+    }
+  }, [claimsLoading, clientsLoading, claims, clients])
 
   async function loadDashboardData() {
     if (!userProfile?.organization_id) return
