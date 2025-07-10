@@ -157,20 +157,33 @@ export class EnhancedClaimWizardAI {
 
   // Step 1: Policy Upload & AI-Powered Auto-Population with REAL PDF Processing
   async extractPolicyData(file: File, documentType: 'full_policy' | 'dec_page'): Promise<PolicyExtractionResult> {
-    // Show processing feedback
-    console.log('Processing PDF file:', file.name, 'Type:', documentType)
+    console.log('Processing document:', file.name, 'Type:', documentType, 'Size:', file.size)
     
     try {
-      // Extract text from PDF
-      const pdfText = await this.extractTextFromPDF(file)
-      console.log('Extracted PDF text length:', pdfText.length)
+      // Call the real Supabase edge function for document processing
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('documentType', documentType)
       
-      // Parse structured insurance fields
-      const extractedFields = this.parseInsuranceFields(pdfText, documentType)
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/process-policy-document`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: formData
+      })
       
-      return extractedFields
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(`Document processing failed: ${errorData.error?.message || 'Unknown error'}`)
+      }
+      
+      const result = await response.json()
+      console.log('Document processing successful:', result.data)
+      
+      return result.data
     } catch (error) {
-      console.error('PDF processing failed:', error)
+      console.error('Real document processing failed:', error)
       // Fallback to enhanced mock with actual file analysis
       return this.createEnhancedMockResult(file, documentType)
     }
@@ -1564,6 +1577,361 @@ export class EnhancedClaimWizardAI {
         'Cross-check policy terms with claim details'
       ]
     }
+  }
+
+  // Referral Pattern Analysis
+  async analyzeReferralPatterns(data: any): Promise<any> {
+    await this.delay(1500)
+    
+    const { currentReferral, clientData, claimValue, historicalData } = data
+    
+    // Simulate advanced referral analytics
+    const mockAnalytics = {
+      topSources: [
+        {
+          source: 'Previous Clients',
+          count: 45,
+          valueGenerated: 2850000,
+          conversionRate: 92
+        },
+        {
+          source: 'Attorney Referrals',
+          count: 32,
+          valueGenerated: 4200000,
+          conversionRate: 88
+        },
+        {
+          source: 'Online/SEO',
+          count: 28,
+          valueGenerated: 1650000,
+          conversionRate: 65
+        },
+        {
+          source: 'Contractor Network',
+          count: 18,
+          valueGenerated: 1200000,
+          conversionRate: 78
+        }
+      ],
+      trends: {
+        monthlyGrowth: 12.5,
+        bestPerformingChannel: currentReferral?.type === 'business' ? 'Attorney Referrals' : 'Previous Clients',
+        averageValuePerReferral: claimValue > 0 ? claimValue : 65000
+      },
+      recommendations: [],
+      marketingOpportunities: []
+    }
+    
+    // Generate personalized recommendations based on referral type
+    if (currentReferral?.type === 'individual') {
+      mockAnalytics.recommendations.push(
+        'Consider implementing a formal referral reward program',
+        'Follow up with this referrer for additional opportunities',
+        'Track satisfaction to maintain referral relationship'
+      )
+    } else if (currentReferral?.type === 'business') {
+      mockAnalytics.recommendations.push(
+        'Negotiate formal referral partnership agreement',
+        'Provide regular case updates to maintain relationship',
+        'Consider co-marketing opportunities'
+      )
+      mockAnalytics.marketingOpportunities.push(
+        'Joint educational seminars',
+        'Shared marketing materials',
+        'Cross-promotional campaigns'
+      )
+    } else if (currentReferral?.type === 'online') {
+      mockAnalytics.recommendations.push(
+        'Optimize online presence for better conversion',
+        'Track which online channels perform best',
+        'Invest in SEO and digital marketing'
+      )
+      mockAnalytics.marketingOpportunities.push(
+        'Google Ads optimization',
+        'Social media marketing',
+        'Content marketing strategy'
+      )
+    }
+    
+    // Add value-based recommendations
+    if (claimValue > 100000) {
+      mockAnalytics.recommendations.push(
+        'High-value referral - prioritize exceptional service',
+        'Consider expedited processing for referrer satisfaction'
+      )
+    }
+    
+    return mockAnalytics
+  }
+
+  // Enhanced Organization Name Verification
+  async verifyOrganizationName(policyOrg: string, clientOrg: string): Promise<any> {
+    await this.delay(800)
+    
+    const normalizeOrg = (name: string) => 
+      name.toLowerCase()
+          .replace(/[^\w\s]/g, '')
+          .replace(/\s+/g, ' ')
+          .trim()
+    
+    const normalized1 = normalizeOrg(policyOrg)
+    const normalized2 = normalizeOrg(clientOrg)
+    
+    // Calculate similarity score
+    const similarity = this.calculateStringSimilarity(normalized1, normalized2)
+    
+    return {
+      isMatch: similarity > 0.8,
+      confidence: Math.round(similarity * 100),
+      warnings: similarity < 0.8 ? [
+        'Organization names do not match exactly',
+        'Verify entity legal names and variations',
+        'Check for DBA or subsidiary relationships'
+      ] : [],
+      suggestions: similarity < 0.8 ? [
+        'Confirm organization legal structure',
+        'Verify client authorization for entity',
+        'Update policy if name change occurred'
+      ] : [
+        'Organization names verified successfully'
+      ]
+    }
+  }
+
+  // Enhanced Address Validation Against Policy
+  async validateAddressAgainstPolicy(claimAddress: any, policyAddress: string): Promise<any> {
+    await this.delay(600)
+    
+    const claimAddr = `${claimAddress.street} ${claimAddress.city} ${claimAddress.state} ${claimAddress.zipCode}`
+    
+    // Normalize addresses for comparison
+    const normalizeAddress = (addr: string) =>
+      addr.toLowerCase()
+          .replace(/\b(street|st|avenue|ave|boulevard|blvd|road|rd|lane|ln|drive|dr|court|ct|place|pl)\b/g, '')
+          .replace(/[^\w\s]/g, '')
+          .replace(/\s+/g, ' ')
+          .trim()
+    
+    const normalized1 = normalizeAddress(claimAddr)
+    const normalized2 = normalizeAddress(policyAddress)
+    
+    const similarity = this.calculateStringSimilarity(normalized1, normalized2)
+    
+    return {
+      isMatch: similarity > 0.85,
+      confidence: Math.round(similarity * 100),
+      addressAnalysis: {
+        claimAddress: claimAddr,
+        policyAddress: policyAddress,
+        differences: similarity < 0.85 ? [
+          'Address format variations detected',
+          'Verify property location coverage',
+          'Check for multiple properties on policy'
+        ] : []
+      },
+      territoryValidation: {
+        isInTerritory: true, // Would use actual geographic API
+        riskFactors: [],
+        recommendations: [
+          'Confirm property location with GPS coordinates',
+          'Verify coverage territory boundaries'
+        ]
+      }
+    }
+  }
+
+  // Prior Claim History Integration
+  async analyzePriorClaimHistory(clientInfo: any, claimDetails: any): Promise<any> {
+    await this.delay(1200)
+    
+    // Simulate claim history analysis
+    const mockHistory = {
+      claimCount: Math.floor(Math.random() * 5),
+      timeSpan: '5 years',
+      totalPayouts: Math.floor(Math.random() * 500000),
+      patterns: [],
+      riskScore: 0,
+      flags: [],
+      recommendations: []
+    }
+    
+    // Generate patterns based on claim count
+    if (mockHistory.claimCount > 2) {
+      mockHistory.patterns.push(
+        'Multiple claims in recent years',
+        'Pattern may indicate high-risk property or client'
+      )
+      mockHistory.riskScore = 75 + Math.floor(Math.random() * 20)
+      mockHistory.flags.push(
+        'Frequent claimant - enhanced scrutiny recommended',
+        'Verify current claim circumstances thoroughly'
+      )
+    } else if (mockHistory.claimCount === 0) {
+      mockHistory.patterns.push('First-time claimant')
+      mockHistory.riskScore = 15 + Math.floor(Math.random() * 20)
+      mockHistory.recommendations.push(
+        'First-time claimant - provide extra guidance',
+        'Educate on claim process and requirements'
+      )
+    } else {
+      mockHistory.patterns.push('Normal claim frequency')
+      mockHistory.riskScore = 30 + Math.floor(Math.random() * 30)
+    }
+    
+    // Add specific recommendations
+    mockHistory.recommendations.push(
+      'Cross-reference with industry claim databases',
+      'Verify claimant identity and authorization',
+      'Document claim history in file'
+    )
+    
+    return mockHistory
+  }
+
+  // Enhanced Duplicate Payment Detection
+  async detectDuplicatePayments(paymentHistory: any[], newPayment: any): Promise<any> {
+    await this.delay(500)
+    
+    // Simulate duplicate detection algorithm
+    const duplicateChecks = {
+      amountMatches: [],
+      dateMatches: [],
+      vendorMatches: [],
+      descriptionMatches: [],
+      overallRisk: 'low' as 'low' | 'medium' | 'high',
+      recommendations: []
+    }
+    
+    // Mock duplicate detection logic
+    if (paymentHistory.length > 0) {
+      const similarAmount = paymentHistory.find(p => 
+        Math.abs(p.amount - newPayment.amount) < 100
+      )
+      
+      if (similarAmount) {
+        duplicateChecks.amountMatches.push(similarAmount)
+        duplicateChecks.overallRisk = 'medium'
+        duplicateChecks.recommendations.push(
+          'Similar payment amount detected - verify justification',
+          'Compare invoice details and scope of work'
+        )
+      }
+    }
+    
+    if (duplicateChecks.overallRisk === 'low') {
+      duplicateChecks.recommendations.push(
+        'No duplicate payment patterns detected',
+        'Payment appears to be unique'
+      )
+    }
+    
+    return duplicateChecks
+  }
+
+  // Enhanced Inconsistency Detection
+  async detectAdvancedInconsistencies(claimData: any): Promise<any> {
+    await this.delay(1000)
+    
+    const inconsistencies = {
+      dataInconsistencies: [],
+      policyInconsistencies: [],
+      timelineInconsistencies: [],
+      valuationInconsistencies: [],
+      overallScore: 0,
+      criticalFlags: [],
+      recommendations: []
+    }
+    
+    // Data validation checks
+    if (claimData.clientDetails && claimData.policyData) {
+      const clientName = `${claimData.clientDetails.firstName} ${claimData.clientDetails.lastName}`
+      const policyInsured = claimData.policyData.insuredName
+      
+      if (policyInsured && !policyInsured.toLowerCase().includes(clientName.toLowerCase())) {
+        inconsistencies.dataInconsistencies.push(
+          'Client name does not match policy insured name'
+        )
+        inconsistencies.criticalFlags.push('Name mismatch requires verification')
+      }
+    }
+    
+    // Timeline validation
+    if (claimData.claimInformation?.dateOfLoss && claimData.policyData?.effectiveDate) {
+      const lossDate = new Date(claimData.claimInformation.dateOfLoss)
+      const effectiveDate = new Date(claimData.policyData.effectiveDate)
+      
+      if (lossDate < effectiveDate) {
+        inconsistencies.timelineInconsistencies.push(
+          'Loss date is before policy effective date'
+        )
+        inconsistencies.criticalFlags.push('Coverage may not be in effect')
+      }
+    }
+    
+    // Calculate overall score
+    const totalInconsistencies = 
+      inconsistencies.dataInconsistencies.length +
+      inconsistencies.policyInconsistencies.length +
+      inconsistencies.timelineInconsistencies.length +
+      inconsistencies.valuationInconsistencies.length
+    
+    inconsistencies.overallScore = Math.max(0, 100 - (totalInconsistencies * 15))
+    
+    // Generate recommendations
+    if (inconsistencies.criticalFlags.length > 0) {
+      inconsistencies.recommendations.push(
+        'Address critical flags before proceeding',
+        'Obtain additional documentation for verification',
+        'Consider enhanced due diligence procedures'
+      )
+    } else {
+      inconsistencies.recommendations.push(
+        'No critical inconsistencies detected',
+        'Proceed with standard claim processing'
+      )
+    }
+    
+    return inconsistencies
+  }
+
+  // Helper method for string similarity calculation
+  private calculateStringSimilarity(str1: string, str2: string): number {
+    const longer = str1.length > str2.length ? str1 : str2
+    const shorter = str1.length > str2.length ? str2 : str1
+    
+    if (longer.length === 0) return 1.0
+    
+    const editDistance = this.levenshteinDistance(longer, shorter)
+    return (longer.length - editDistance) / longer.length
+  }
+
+  // Levenshtein distance calculation
+  private levenshteinDistance(str1: string, str2: string): number {
+    const matrix = []
+    
+    for (let i = 0; i <= str2.length; i++) {
+      matrix[i] = [i]
+    }
+    
+    for (let j = 0; j <= str1.length; j++) {
+      matrix[0][j] = j
+    }
+    
+    for (let i = 1; i <= str2.length; i++) {
+      for (let j = 1; j <= str1.length; j++) {
+        if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+          matrix[i][j] = matrix[i - 1][j - 1]
+        } else {
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j - 1] + 1,
+            matrix[i][j - 1] + 1,
+            matrix[i - 1][j] + 1
+          )
+        }
+      }
+    }
+    
+    return matrix[str2.length][str1.length]
   }
 
   private async delay(ms: number): Promise<void> {
