@@ -1,0 +1,920 @@
+
+> react_repo@0.0.0 build
+> yes | pnpm install && rm -rf node_modules/.vite-temp && tsc -b && vite build
+
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +421
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Progress: resolved 421, reused 0, downloaded 0, added 0
+1Progress: resolved 421, reused 0, downloaded 32, added 4
+Progress: resolved 421, reused 0, downloaded 59, added 14
+88, added 25Progress: resolved 421, reused 0, downloaded 107, added 32
+32, added 4754, added 5893, added 70220, added 8450, added 96Progress: resolved 421, reused 0, downloaded 277, added 107
+300, added 1114, added 11831, added 1252, added 13981, added 153401, added 161
+   ╭──────────────────────────────────────────╮
+   │                                          │
+   │   Update available! 10.12.4 → 10.13.1.   │
+   │   Changelog: https://pnpm.io/v/10.13.1   │
+   │     To update, run: pnpm add -g pnpm     │
+   │                                          │
+   ╰──────────────────────────────────────────╯
+
+Progress: resolved 421, reused 0, downloaded 401, added 161
+18, added 2189, added 31120, added 4151, added 419Progress: resolved 421, reused 0, downloaded 421, added 421, done
+
+dependencies:
++ @hookform/resolvers 3.10.0
++ @radix-ui/react-accordion 1.2.4
++ @radix-ui/react-alert-dialog 1.1.7
++ @radix-ui/react-aspect-ratio 1.1.3
++ @radix-ui/react-avatar 1.1.4
++ @radix-ui/react-checkbox 1.1.5
++ @radix-ui/react-collapsible 1.1.4
++ @radix-ui/react-context-menu 2.2.7
++ @radix-ui/react-dialog 1.1.7
++ @radix-ui/react-dropdown-menu 2.1.7
++ @radix-ui/react-hover-card 1.1.7
++ @radix-ui/react-label 2.1.3
++ @radix-ui/react-menubar 1.1.7
++ @radix-ui/react-navigation-menu 1.2.6
++ @radix-ui/react-popover 1.1.7
++ @radix-ui/react-progress 1.1.3
++ @radix-ui/react-radio-group 1.2.4
++ @radix-ui/react-scroll-area 1.2.4
++ @radix-ui/react-select 2.1.7
++ @radix-ui/react-separator 1.1.3
++ @radix-ui/react-slider 1.2.4
++ @radix-ui/react-slot 1.2.0
++ @radix-ui/react-switch 1.1.4
++ @radix-ui/react-tabs 1.1.4
++ @radix-ui/react-toast 1.2.7
++ @radix-ui/react-toggle 1.1.3
++ @radix-ui/react-toggle-group 1.1.3
++ @radix-ui/react-tooltip 1.2.0
++ @supabase/supabase-js 2.50.4
++ @tanstack/react-query 5.82.0
++ @tanstack/react-table 8.21.3
++ class-variance-authority 0.7.1
++ clsx 2.1.1
++ cmdk 1.0.0
++ date-fns 3.6.0
++ embla-carousel-react 8.6.0
++ input-otp 1.4.2
++ lucide-react 0.364.0
++ next-themes 0.4.6
++ react 18.3.1
++ react-day-picker 8.10.1
++ react-dom 18.3.1
++ react-dropzone 14.3.8
++ react-hook-form 7.55.0
++ react-resizable-panels 2.1.7
++ react-router-dom 6.30.0
++ recharts 2.15.2
++ sonner 1.7.4
++ tailwind-merge 2.6.0
++ tailwindcss-animate 1.0.7
++ vaul 1.1.2
++ zod 3.24.2
+
+devDependencies:
++ @eslint/js 9.24.0
++ @types/node 22.14.1
++ @types/react 18.3.20
++ @types/react-dom 18.3.6
++ @types/react-router-dom 5.3.3
++ @vitejs/plugin-react 4.3.4
++ autoprefixer 10.4.20
++ eslint 9.24.0
++ eslint-plugin-react-hooks 5.2.0
++ eslint-plugin-react-refresh 0.4.19
++ globals 15.15.0
++ postcss 8.4.49
++ tailwindcss 3.4.16
++ typescript 5.6.3
++ typescript-eslint 8.29.1
++ vite 6.2.6
+
+╭ Warning ─────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│   Ignored build scripts: esbuild.                                            │
+│   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+│   to run scripts.                                                            │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Done in 10.6s using pnpm v10.12.4
+src/components/forms/LeadSourceSelector.tsx:132:36 - error TS1127: Invalid character.
+
+132         return <Building className=\"h-4 w-4 text-blue-600\" />
+                                       
+
+src/components/forms/LeadSourceSelector.tsx:132:37 - error TS1003: Identifier expected.
+
+132         return <Building className=\"h-4 w-4 text-blue-600\" />
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:132:64 - error TS1002: Unterminated string literal.
+
+132         return <Building className=\"h-4 w-4 text-blue-600\" />
+                                                                   
+
+src/components/forms/LeadSourceSelector.tsx:134:32 - error TS1127: Invalid character.
+
+134         return <User className=\"h-4 w-4 text-green-600\" />
+                                   
+
+src/components/forms/LeadSourceSelector.tsx:134:33 - error TS1003: Identifier expected.
+
+134         return <User className=\"h-4 w-4 text-green-600\" />
+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:134:61 - error TS1002: Unterminated string literal.
+
+134         return <User className=\"h-4 w-4 text-green-600\" />
+                                                                
+
+src/components/forms/LeadSourceSelector.tsx:136:33 - error TS1127: Invalid character.
+
+136         return <Users className=\"h-4 w-4 text-purple-600\" />
+                                    
+
+src/components/forms/LeadSourceSelector.tsx:136:34 - error TS1003: Identifier expected.
+
+136         return <Users className=\"h-4 w-4 text-purple-600\" />
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:136:63 - error TS1002: Unterminated string literal.
+
+136         return <Users className=\"h-4 w-4 text-purple-600\" />
+                                                                  
+
+src/components/forms/LeadSourceSelector.tsx:138:33 - error TS1127: Invalid character.
+
+138         return <Globe className=\"h-4 w-4 text-orange-600\" />
+                                    
+
+src/components/forms/LeadSourceSelector.tsx:138:34 - error TS1003: Identifier expected.
+
+138         return <Globe className=\"h-4 w-4 text-orange-600\" />
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:138:63 - error TS1002: Unterminated string literal.
+
+138         return <Globe className=\"h-4 w-4 text-orange-600\" />
+                                                                  
+
+src/components/forms/LeadSourceSelector.tsx:140:32 - error TS1127: Invalid character.
+
+140         return <Mail className=\"h-4 w-4 text-gray-600\" />
+                                   
+
+src/components/forms/LeadSourceSelector.tsx:140:33 - error TS1003: Identifier expected.
+
+140         return <Mail className=\"h-4 w-4 text-gray-600\" />
+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:140:60 - error TS1002: Unterminated string literal.
+
+140         return <Mail className=\"h-4 w-4 text-gray-600\" />
+                                                               
+
+src/components/forms/LeadSourceSelector.tsx:174:24 - error TS1127: Invalid character.
+
+174       <label className=\"block text-sm font-medium text-gray-700 mb-2\">
+                           
+
+src/components/forms/LeadSourceSelector.tsx:174:72 - error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+174       <label className=\"block text-sm font-medium text-gray-700 mb-2\">
+                                                                           ~
+
+src/components/forms/LeadSourceSelector.tsx:176:9 - error TS17002: Expected corresponding JSX closing tag for 'div'.
+
+176       </label>
+            ~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:178:7 - error TS1005: ')' expected.
+
+178       {/* Selected Source Display */}
+          ~
+
+src/components/forms/LeadSourceSelector.tsx:180:19 - error TS1127: Invalid character.
+
+180         className=\"w-full px-3 py-2 border border-gray-300 rounded-lg cursor-pointer bg-white hover:border-gray-400 transition-colors\"
+                      
+
+src/components/forms/LeadSourceSelector.tsx:180:20 - error TS1003: Identifier expected.
+
+180         className=\"w-full px-3 py-2 border border-gray-300 rounded-lg cursor-pointer bg-white hover:border-gray-400 transition-colors\"
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:180:137 - error TS1002: Unterminated string literal.
+
+180         className=\"w-full px-3 py-2 border border-gray-300 rounded-lg cursor-pointer bg-white hover:border-gray-400 transition-colors\"
+                                                                                                                                            
+
+src/components/forms/LeadSourceSelector.tsx:181:18 - error TS1136: Property assignment expected.
+
+181         onClick={() => setIsOpen(!isOpen)}
+                     ~
+
+src/components/forms/LeadSourceSelector.tsx:181:21 - error TS1005: ';' expected.
+
+181         onClick={() => setIsOpen(!isOpen)}
+                        ~~
+
+src/components/forms/LeadSourceSelector.tsx:182:7 - error TS1109: Expression expected.
+
+182       >
+          ~
+
+src/components/forms/LeadSourceSelector.tsx:183:24 - error TS1127: Invalid character.
+
+183         <div className=\"flex items-center justify-between\">
+                           
+
+src/components/forms/LeadSourceSelector.tsx:183:25 - error TS1003: Identifier expected.
+
+183         <div className=\"flex items-center justify-between\">
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:183:62 - error TS1002: Unterminated string literal.
+
+183         <div className=\"flex items-center justify-between\">
+                                                                 
+
+src/components/forms/LeadSourceSelector.tsx:184:16 - error TS1005: ';' expected.
+
+184           <div className=\"flex items-center gap-2\">
+                   ~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:184:26 - error TS1127: Invalid character.
+
+184           <div className=\"flex items-center gap-2\">
+                             
+
+src/components/forms/LeadSourceSelector.tsx:184:54 - error TS1002: Unterminated string literal.
+
+184           <div className=\"flex items-center gap-2\">
+                                                         
+
+src/components/forms/LeadSourceSelector.tsx:186:29 - error TS1127: Invalid character.
+
+186             <span className=\"text-gray-900\">
+                                
+
+src/components/forms/LeadSourceSelector.tsx:186:30 - error TS1003: Identifier expected.
+
+186             <span className=\"text-gray-900\">
+                                 ~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:186:47 - error TS1002: Unterminated string literal.
+
+186             <span className=\"text-gray-900\">
+                                                  
+
+src/components/forms/LeadSourceSelector.tsx:188:13 - error TS1128: Declaration or statement expected.
+
+188             </span>
+                ~~
+
+src/components/forms/LeadSourceSelector.tsx:189:29 - error TS1005: ',' expected.
+
+189             {selectedSource && (
+                                ~~
+
+src/components/forms/LeadSourceSelector.tsx:190:31 - error TS1127: Invalid character.
+
+190               <span className=\"text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded\">
+                                  
+
+src/components/forms/LeadSourceSelector.tsx:190:32 - error TS1003: Identifier expected.
+
+190               <span className=\"text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded\">
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:190:87 - error TS1002: Unterminated string literal.
+
+190               <span className=\"text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded\">
+                                                                                          
+
+src/components/forms/LeadSourceSelector.tsx:192:15 - error TS1128: Declaration or statement expected.
+
+192               </span>
+                  ~~
+
+src/components/forms/LeadSourceSelector.tsx:193:13 - error TS1109: Expression expected.
+
+193             )}
+                ~
+
+src/components/forms/LeadSourceSelector.tsx:193:14 - error TS1128: Declaration or statement expected.
+
+193             )}
+                 ~
+
+src/components/forms/LeadSourceSelector.tsx:194:11 - error TS1128: Declaration or statement expected.
+
+194           </div>
+              ~~
+
+src/components/forms/LeadSourceSelector.tsx:196:9 - error TS1128: Declaration or statement expected.
+
+196         </div>
+            ~~
+
+src/components/forms/LeadSourceSelector.tsx:197:7 - error TS1109: Expression expected.
+
+197       </div>
+          ~~
+
+src/components/forms/LeadSourceSelector.tsx:201:24 - error TS1127: Invalid character.
+
+201         <div className=\"absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-80 overflow-hidden\">
+                           
+
+src/components/forms/LeadSourceSelector.tsx:201:25 - error TS1003: Identifier expected.
+
+201         <div className=\"absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-80 overflow-hidden\">
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:201:132 - error TS1002: Unterminated string literal.
+
+201         <div className=\"absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-80 overflow-hidden\">
+                                                                                                                                       
+
+src/components/forms/LeadSourceSelector.tsx:203:26 - error TS1127: Invalid character.
+
+203           <div className=\"p-3 border-b border-gray-200\">
+                             
+
+src/components/forms/LeadSourceSelector.tsx:203:27 - error TS1003: Identifier expected.
+
+203           <div className=\"p-3 border-b border-gray-200\">
+                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:203:59 - error TS1002: Unterminated string literal.
+
+203           <div className=\"p-3 border-b border-gray-200\">
+                                                              
+
+src/components/forms/LeadSourceSelector.tsx:205:20 - error TS1127: Invalid character.
+
+205               type=\"text\"
+                       
+
+src/components/forms/LeadSourceSelector.tsx:205:28 - error TS1002: Unterminated string literal.
+
+205               type=\"text\"
+                               
+
+src/components/forms/LeadSourceSelector.tsx:206:27 - error TS1127: Invalid character.
+
+206               placeholder=\"Search or type new source...\"
+                              
+
+src/components/forms/LeadSourceSelector.tsx:206:59 - error TS1002: Unterminated string literal.
+
+206               placeholder=\"Search or type new source...\"
+                                                              
+
+src/components/forms/LeadSourceSelector.tsx:208:25 - error TS1136: Property assignment expected.
+
+208               onChange={(e) => setSearchTerm(e.target.value)}
+                            ~
+
+src/components/forms/LeadSourceSelector.tsx:208:29 - error TS1005: ';' expected.
+
+208               onChange={(e) => setSearchTerm(e.target.value)}
+                                ~~
+
+src/components/forms/LeadSourceSelector.tsx:209:25 - error TS1127: Invalid character.
+
+209               className=\"w-full\"
+                            
+
+src/components/forms/LeadSourceSelector.tsx:209:35 - error TS1002: Unterminated string literal.
+
+209               className=\"w-full\"
+                                      
+
+src/components/forms/LeadSourceSelector.tsx:211:14 - error TS1109: Expression expected.
+
+211             />
+                 ~
+
+src/components/forms/LeadSourceSelector.tsx:212:25 - error TS1005: ',' expected.
+
+212             {searchTerm && !filteredSources().some(s => s.name.toLowerCase() === searchTerm.toLowerCase()) && (
+                            ~~
+
+src/components/forms/LeadSourceSelector.tsx:215:27 - error TS1127: Invalid character.
+
+215                 className=\"w-full mt-2 px-3 py-2 text-left text-sm text-blue-600 hover:bg-blue-50 rounded\"
+                              
+
+src/components/forms/LeadSourceSelector.tsx:215:28 - error TS1003: Identifier expected.
+
+215                 className=\"w-full mt-2 px-3 py-2 text-left text-sm text-blue-600 hover:bg-blue-50 rounded\"
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:215:109 - error TS1002: Unterminated string literal.
+
+215                 className=\"w-full mt-2 px-3 py-2 text-left text-sm text-blue-600 hover:bg-blue-50 rounded\"
+                                                                                                                
+
+src/components/forms/LeadSourceSelector.tsx:217:26 - error TS1127: Invalid character.
+
+217                 + Create \"{searchTerm}\" as new source
+                             
+
+src/components/forms/LeadSourceSelector.tsx:217:56 - error TS1002: Unterminated string literal.
+
+217                 + Create \"{searchTerm}\" as new source
+                                                           
+
+src/components/forms/LeadSourceSelector.tsx:218:15 - error TS1128: Declaration or statement expected.
+
+218               </button>
+                  ~~
+
+src/components/forms/LeadSourceSelector.tsx:219:13 - error TS1109: Expression expected.
+
+219             )}
+                ~
+
+src/components/forms/LeadSourceSelector.tsx:219:14 - error TS1128: Declaration or statement expected.
+
+219             )}
+                 ~
+
+src/components/forms/LeadSourceSelector.tsx:220:11 - error TS1128: Declaration or statement expected.
+
+220           </div>
+              ~~
+
+src/components/forms/LeadSourceSelector.tsx:224:28 - error TS1127: Invalid character.
+
+224             <div className=\"p-4 text-center\">
+                               
+
+src/components/forms/LeadSourceSelector.tsx:224:29 - error TS1003: Identifier expected.
+
+224             <div className=\"p-4 text-center\">
+                                ~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:224:48 - error TS1002: Unterminated string literal.
+
+224             <div className=\"p-4 text-center\">
+                                                   
+
+src/components/forms/LeadSourceSelector.tsx:225:31 - error TS1005: ';' expected.
+
+225               <LoadingSpinner size=\"sm\" />
+                                  ~~~~
+
+src/components/forms/LeadSourceSelector.tsx:225:36 - error TS1127: Invalid character.
+
+225               <LoadingSpinner size=\"sm\" />
+                                       
+
+src/components/forms/LeadSourceSelector.tsx:225:45 - error TS1002: Unterminated string literal.
+
+225               <LoadingSpinner size=\"sm\" />
+                                                
+
+src/components/forms/LeadSourceSelector.tsx:226:13 - error TS1128: Declaration or statement expected.
+
+226             </div>
+                ~~
+
+src/components/forms/LeadSourceSelector.tsx:227:11 - error TS1109: Expression expected.
+
+227           )}
+              ~
+
+src/components/forms/LeadSourceSelector.tsx:230:26 - error TS1127: Invalid character.
+
+230           <div className=\"max-h-64 overflow-y-auto\">
+                             
+
+src/components/forms/LeadSourceSelector.tsx:230:27 - error TS1003: Identifier expected.
+
+230           <div className=\"max-h-64 overflow-y-auto\">
+                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:230:55 - error TS1002: Unterminated string literal.
+
+230           <div className=\"max-h-64 overflow-y-auto\">
+                                                          
+
+src/components/forms/LeadSourceSelector.tsx:235:27 - error TS1127: Invalid character.
+
+235                 className=\"w-full px-3 py-2 text-left hover:bg-gray-50 border-b border-gray-100 last:border-b-0\"
+                              
+
+src/components/forms/LeadSourceSelector.tsx:235:28 - error TS1003: Identifier expected.
+
+235                 className=\"w-full px-3 py-2 text-left hover:bg-gray-50 border-b border-gray-100 last:border-b-0\"
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:235:115 - error TS1002: Unterminated string literal.
+
+235                 className=\"w-full px-3 py-2 text-left hover:bg-gray-50 border-b border-gray-100 last:border-b-0\"
+                                                                                                                      
+
+src/components/forms/LeadSourceSelector.tsx:237:32 - error TS1127: Invalid character.
+
+237                 <div className=\"flex items-center justify-between\">
+                                   
+
+src/components/forms/LeadSourceSelector.tsx:237:33 - error TS1003: Identifier expected.
+
+237                 <div className=\"flex items-center justify-between\">
+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:237:70 - error TS1002: Unterminated string literal.
+
+237                 <div className=\"flex items-center justify-between\">
+                                                                         
+
+src/components/forms/LeadSourceSelector.tsx:238:24 - error TS1005: ',' expected.
+
+238                   <div className=\"flex items-center gap-2\">
+                           ~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:238:34 - error TS1127: Invalid character.
+
+238                   <div className=\"flex items-center gap-2\">
+                                     
+
+src/components/forms/LeadSourceSelector.tsx:238:62 - error TS1002: Unterminated string literal.
+
+238                   <div className=\"flex items-center gap-2\">
+                                                                 
+
+src/components/forms/LeadSourceSelector.tsx:239:21 - error TS1005: ',' expected.
+
+239                     {getSourceIcon(source.type)}
+                        ~
+
+src/components/forms/LeadSourceSelector.tsx:239:42 - error TS1005: ',' expected.
+
+239                     {getSourceIcon(source.type)}
+                                             ~
+
+src/components/forms/LeadSourceSelector.tsx:239:47 - error TS1005: ',' expected.
+
+239                     {getSourceIcon(source.type)}
+                                                  ~
+
+src/components/forms/LeadSourceSelector.tsx:241:38 - error TS1127: Invalid character.
+
+241                       <div className=\"font-medium text-gray-900\">{source.name}</div>
+                                         
+
+src/components/forms/LeadSourceSelector.tsx:241:67 - error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+241                       <div className=\"font-medium text-gray-900\">{source.name}</div>
+                                                                      ~
+
+src/components/forms/LeadSourceSelector.tsx:243:40 - error TS1127: Invalid character.
+
+243                         <div className=\"text-xs text-gray-500\">{source.company}</div>
+                                           
+
+src/components/forms/LeadSourceSelector.tsx:243:41 - error TS1003: Identifier expected.
+
+243                         <div className=\"text-xs text-gray-500\">{source.company}</div>
+                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:243:88 - error TS1002: Unterminated string literal.
+
+243                         <div className=\"text-xs text-gray-500\">{source.company}</div>
+                                                                                           
+
+src/components/forms/LeadSourceSelector.tsx:244:23 - error TS1128: Declaration or statement expected.
+
+244                       )}
+                          ~
+
+src/components/forms/LeadSourceSelector.tsx:246:40 - error TS1127: Invalid character.
+
+246                         <div className=\"text-xs text-gray-500\">{source.category}</div>
+                                           
+
+src/components/forms/LeadSourceSelector.tsx:246:41 - error TS1003: Identifier expected.
+
+246                         <div className=\"text-xs text-gray-500\">{source.category}</div>
+                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:246:89 - error TS1002: Unterminated string literal.
+
+246                         <div className=\"text-xs text-gray-500\">{source.category}</div>
+                                                                                            
+
+src/components/forms/LeadSourceSelector.tsx:247:23 - error TS1128: Declaration or statement expected.
+
+247                       )}
+                          ~
+
+src/components/forms/LeadSourceSelector.tsx:248:21 - error TS1128: Declaration or statement expected.
+
+248                     </div>
+                        ~~
+
+src/components/forms/LeadSourceSelector.tsx:249:19 - error TS1109: Expression expected.
+
+249                   </div>
+                      ~~
+
+src/components/forms/LeadSourceSelector.tsx:250:35 - error TS1127: Invalid character.
+
+250                   <span className=\"text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded\">
+                                      
+
+src/components/forms/LeadSourceSelector.tsx:250:36 - error TS1003: Identifier expected.
+
+250                   <span className=\"text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded\">
+                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:250:91 - error TS1002: Unterminated string literal.
+
+250                   <span className=\"text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded\">
+                                                                                              
+
+src/components/forms/LeadSourceSelector.tsx:252:19 - error TS1128: Declaration or statement expected.
+
+252                   </span>
+                      ~~
+
+src/components/forms/LeadSourceSelector.tsx:253:17 - error TS1109: Expression expected.
+
+253                 </div>
+                    ~~
+
+src/components/forms/LeadSourceSelector.tsx:254:18 - error TS1136: Property assignment expected.
+
+254                 {(source.email || source.phone) && (
+                     ~
+
+src/components/forms/LeadSourceSelector.tsx:255:34 - error TS1127: Invalid character.
+
+255                   <div className=\"text-xs text-gray-500 mt-1 flex gap-4\">
+                                     
+
+src/components/forms/LeadSourceSelector.tsx:255:35 - error TS1003: Identifier expected.
+
+255                   <div className=\"text-xs text-gray-500 mt-1 flex gap-4\">
+                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:255:76 - error TS1002: Unterminated string literal.
+
+255                   <div className=\"text-xs text-gray-500 mt-1 flex gap-4\">
+                                                                               
+
+src/components/forms/LeadSourceSelector.tsx:257:39 - error TS1127: Invalid character.
+
+257                       <span className=\"flex items-center gap-1\">
+                                          
+
+src/components/forms/LeadSourceSelector.tsx:257:40 - error TS1003: Identifier expected.
+
+257                       <span className=\"flex items-center gap-1\">
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:257:67 - error TS1002: Unterminated string literal.
+
+257                       <span className=\"flex items-center gap-1\">
+                                                                      
+
+src/components/forms/LeadSourceSelector.tsx:258:31 - error TS1005: ';' expected.
+
+258                         <Mail className=\"h-3 w-3\" />
+                                  ~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:258:41 - error TS1127: Invalid character.
+
+258                         <Mail className=\"h-3 w-3\" />
+                                            
+
+src/components/forms/LeadSourceSelector.tsx:258:55 - error TS1002: Unterminated string literal.
+
+258                         <Mail className=\"h-3 w-3\" />
+                                                          
+
+src/components/forms/LeadSourceSelector.tsx:260:23 - error TS1128: Declaration or statement expected.
+
+260                       </span>
+                          ~~
+
+src/components/forms/LeadSourceSelector.tsx:261:21 - error TS1109: Expression expected.
+
+261                     )}
+                        ~
+
+src/components/forms/LeadSourceSelector.tsx:263:39 - error TS1127: Invalid character.
+
+263                       <span className=\"flex items-center gap-1\">
+                                          
+
+src/components/forms/LeadSourceSelector.tsx:263:40 - error TS1003: Identifier expected.
+
+263                       <span className=\"flex items-center gap-1\">
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:263:67 - error TS1002: Unterminated string literal.
+
+263                       <span className=\"flex items-center gap-1\">
+                                                                      
+
+src/components/forms/LeadSourceSelector.tsx:264:32 - error TS1005: ';' expected.
+
+264                         <Phone className=\"h-3 w-3\" />
+                                   ~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:264:42 - error TS1127: Invalid character.
+
+264                         <Phone className=\"h-3 w-3\" />
+                                             
+
+src/components/forms/LeadSourceSelector.tsx:264:56 - error TS1002: Unterminated string literal.
+
+264                         <Phone className=\"h-3 w-3\" />
+                                                           
+
+src/components/forms/LeadSourceSelector.tsx:266:23 - error TS1128: Declaration or statement expected.
+
+266                       </span>
+                          ~~
+
+src/components/forms/LeadSourceSelector.tsx:267:21 - error TS1109: Expression expected.
+
+267                     )}
+                        ~
+
+src/components/forms/LeadSourceSelector.tsx:268:19 - error TS1128: Declaration or statement expected.
+
+268                   </div>
+                      ~~
+
+src/components/forms/LeadSourceSelector.tsx:269:17 - error TS1109: Expression expected.
+
+269                 )}
+                    ~
+
+src/components/forms/LeadSourceSelector.tsx:269:18 - error TS1128: Declaration or statement expected.
+
+269                 )}
+                     ~
+
+src/components/forms/LeadSourceSelector.tsx:270:15 - error TS1128: Declaration or statement expected.
+
+270               </button>
+                  ~~
+
+src/components/forms/LeadSourceSelector.tsx:271:13 - error TS1109: Expression expected.
+
+271             ))}
+                ~
+
+src/components/forms/LeadSourceSelector.tsx:271:14 - error TS1128: Declaration or statement expected.
+
+271             ))}
+                 ~
+
+src/components/forms/LeadSourceSelector.tsx:271:15 - error TS1128: Declaration or statement expected.
+
+271             ))}
+                  ~
+
+src/components/forms/LeadSourceSelector.tsx:274:30 - error TS1127: Invalid character.
+
+274               <div className=\"p-4 text-center text-gray-500\">
+                                 
+
+src/components/forms/LeadSourceSelector.tsx:274:31 - error TS1003: Identifier expected.
+
+274               <div className=\"p-4 text-center text-gray-500\">
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:274:64 - error TS1002: Unterminated string literal.
+
+274               <div className=\"p-4 text-center text-gray-500\">
+                                                                   
+
+src/components/forms/LeadSourceSelector.tsx:275:17 - error TS1434: Unexpected keyword or identifier.
+
+275                 No sources found. Type to create a new one.
+                    ~~
+
+src/components/forms/LeadSourceSelector.tsx:275:20 - error TS1434: Unexpected keyword or identifier.
+
+275                 No sources found. Type to create a new one.
+                       ~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:275:40 - error TS1005: ';' expected.
+
+275                 No sources found. Type to create a new one.
+                                           ~~
+
+src/components/forms/LeadSourceSelector.tsx:275:43 - error TS1434: Unexpected keyword or identifier.
+
+275                 No sources found. Type to create a new one.
+                                              ~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:275:50 - error TS1434: Unexpected keyword or identifier.
+
+275                 No sources found. Type to create a new one.
+                                                     ~
+
+src/components/forms/LeadSourceSelector.tsx:276:15 - error TS1003: Identifier expected.
+
+276               </div>
+                  ~~
+
+src/components/forms/LeadSourceSelector.tsx:277:13 - error TS1109: Expression expected.
+
+277             )}
+                ~
+
+src/components/forms/LeadSourceSelector.tsx:278:11 - error TS1128: Declaration or statement expected.
+
+278           </div>
+              ~~
+
+src/components/forms/LeadSourceSelector.tsx:279:9 - error TS1109: Expression expected.
+
+279         </div>
+            ~~
+
+src/components/forms/LeadSourceSelector.tsx:280:7 - error TS1109: Expression expected.
+
+280       )}
+          ~
+
+src/components/forms/LeadSourceSelector.tsx:280:8 - error TS1128: Declaration or statement expected.
+
+280       )}
+           ~
+
+src/components/forms/LeadSourceSelector.tsx:285:21 - error TS1127: Invalid character.
+
+285           className=\"fixed inset-0 z-40\"
+                        
+
+src/components/forms/LeadSourceSelector.tsx:285:22 - error TS1003: Identifier expected.
+
+285           className=\"fixed inset-0 z-40\"
+                         ~~~~~~~~~~~~~~~~~~~~~
+
+src/components/forms/LeadSourceSelector.tsx:285:44 - error TS1002: Unterminated string literal.
+
+285           className=\"fixed inset-0 z-40\"
+                                              
+
+src/components/forms/LeadSourceSelector.tsx:286:20 - error TS1136: Property assignment expected.
+
+286           onClick={() => setIsOpen(false)}
+                       ~
+
+src/components/forms/LeadSourceSelector.tsx:286:23 - error TS1005: ';' expected.
+
+286           onClick={() => setIsOpen(false)}
+                          ~~
+
+src/components/forms/LeadSourceSelector.tsx:287:9 - error TS1161: Unterminated regular expression literal.
+
+287         />
+            ~~
+
+src/components/forms/LeadSourceSelector.tsx:288:7 - error TS1128: Declaration or statement expected.
+
+288       )}
+          ~
+
+src/components/forms/LeadSourceSelector.tsx:288:8 - error TS1128: Declaration or statement expected.
+
+288       )}
+           ~
+
+src/components/forms/LeadSourceSelector.tsx:289:5 - error TS1128: Declaration or statement expected.
+
+289     </div>
+        ~~
+
+src/components/forms/LeadSourceSelector.tsx:290:3 - error TS1109: Expression expected.
+
+290   )
+      ~
+
+src/components/forms/LeadSourceSelector.tsx:291:1 - error TS1128: Declaration or statement expected.
+
+291 }
+    ~
+
+
+Found 162 errors.
+

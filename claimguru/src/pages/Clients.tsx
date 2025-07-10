@@ -6,6 +6,8 @@ import { Button } from '../components/ui/Button'
 import { LoadingSpinner } from '../components/ui/LoadingSpinner'
 import { ClientForm } from '../components/forms/ClientForm'
 import { ClientDetailsModal } from '../components/clients/ClientDetailsModal'
+import { CreateClaimModal } from '../components/clients/CreateClaimModal'
+import { ClientCreateClaimButton } from '../components/clients/ClientCreateClaimButton'
 import { 
   Plus, 
   Search, 
@@ -85,12 +87,10 @@ export function Clients() {
       setIsFormOpen(false)
       setEditingClient(null)
       
-      // If this is a new client, offer to create a claim
+      // If this is a new client, show create claim modal
       if (!editingClient && savedClient) {
-        const shouldCreateClaim = confirm(`Client created successfully! Would you like to create a claim for ${savedClient.first_name} ${savedClient.last_name}?`)
-        if (shouldCreateClaim) {
-          handleCreateClaim(savedClient)
-        }
+        setClientForClaim(savedClient)
+        setShowCreateClaimFlow(true)
       }
     } catch (error) {
       console.error('Error saving client:', error)
@@ -320,6 +320,10 @@ export function Clients() {
                           <Edit className="h-4 w-4" />
                           Edit
                         </Button>
+                        <ClientCreateClaimButton
+                          client={client}
+                          onCreateClaim={handleCreateClaim}
+                        />
                         <Button
                           variant="outline"
                           size="sm"
@@ -394,33 +398,12 @@ export function Clients() {
         claims={claims}
       />
 
-      {/* Create Claim Flow - Simple redirect for now, can be enhanced later */}
-      {showCreateClaimFlow && clientForClaim && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Create Claim</h3>
-            <p className="text-gray-600 mb-6">
-              You'll be redirected to the Claims page to create a new claim for {clientForClaim.first_name} {clientForClaim.last_name}.
-            </p>
-            <div className="flex justify-end space-x-3">
-              <Button variant="outline" onClick={handleCloseCreateClaim}>
-                Cancel
-              </Button>
-              <Button
-                onClick={() => {
-                  // Store client ID in localStorage to pre-fill the claim form
-                  localStorage.setItem('preselected_client_id', clientForClaim.id)
-                  localStorage.setItem('preselected_client_name', `${clientForClaim.first_name} ${clientForClaim.last_name}`)
-                  // Redirect to claims page
-                  window.location.href = '/claims'
-                }}
-              >
-                Go to Claims
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Enhanced Create Claim Modal */}
+      <CreateClaimModal
+        client={clientForClaim}
+        isOpen={showCreateClaimFlow}
+        onClose={handleCloseCreateClaim}
+      />
     </div>
   )
 }

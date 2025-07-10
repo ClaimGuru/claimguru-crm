@@ -43,11 +43,37 @@ export function ClaimForm({ claim, isOpen, onClose, onSave }: ClaimFormProps) {
   }, [userProfile?.organization_id])
 
   useEffect(() => {
-    // Check for pre-selected client from localStorage
+    // Check for preloaded client from CreateClaimModal
+    const preloadedClientData = localStorage.getItem('preloadedClient')
+    
+    if (preloadedClientData && !claim && isOpen) {
+      try {
+        const clientData = JSON.parse(preloadedClientData)
+        setFormData(prev => ({
+          ...prev,
+          client_id: clientData.id
+        }))
+        
+        // Clear localStorage after using
+        localStorage.removeItem('preloadedClient')
+        
+        // Show a notification that client was pre-selected
+        setTimeout(() => {
+          const message = `Client "${clientData.name}" has been pre-selected for this claim.`
+          const leadSourceInfo = clientData.lead_source ? ` Lead source: ${clientData.lead_source}` : ''
+          alert(message + leadSourceInfo)
+        }, 500)
+      } catch (error) {
+        console.error('Error parsing preloaded client data:', error)
+        localStorage.removeItem('preloadedClient')
+      }
+    }
+    
+    // Fallback: Check for old pre-selected client format
     const preselectedClientId = localStorage.getItem('preselected_client_id')
     const preselectedClientName = localStorage.getItem('preselected_client_name')
     
-    if (preselectedClientId && !claim) {
+    if (preselectedClientId && !claim && !preloadedClientData) {
       setFormData(prev => ({
         ...prev,
         client_id: preselectedClientId

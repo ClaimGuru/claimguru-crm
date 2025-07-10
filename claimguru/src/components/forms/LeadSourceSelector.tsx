@@ -21,17 +21,17 @@ interface LeadSourceSelectorProps {
   className?: string
 }
 
-const PREDEFINED_SOURCES = [
-  { id: 'google', name: 'Google Search', type: 'marketing' as const, category: 'Search Engine' },
-  { id: 'facebook', name: 'Facebook Ads', type: 'marketing' as const, category: 'Social Media' },
-  { id: 'referral', name: 'Client Referral', type: 'referral' as const, category: 'Word of Mouth' },
-  { id: 'website', name: 'Website Contact Form', type: 'marketing' as const, category: 'Direct' },
-  { id: 'phone', name: 'Phone Call', type: 'other' as const, category: 'Direct Contact' },
-  { id: 'email', name: 'Email Inquiry', type: 'other' as const, category: 'Direct Contact' },
-  { id: 'trade_show', name: 'Trade Show', type: 'marketing' as const, category: 'Events' },
-  { id: 'yellow_pages', name: 'Yellow Pages', type: 'marketing' as const, category: 'Directory' },
-  { id: 'linkedin', name: 'LinkedIn', type: 'marketing' as const, category: 'Social Media' },
-  { id: 'yelp', name: 'Yelp', type: 'marketing' as const, category: 'Review Sites' }
+const PREDEFINED_SOURCES: LeadSource[] = [
+  { id: 'google', name: 'Google Search', type: 'marketing', category: 'Search Engine' },
+  { id: 'facebook', name: 'Facebook Ads', type: 'marketing', category: 'Social Media' },
+  { id: 'referral', name: 'Client Referral', type: 'referral', category: 'Word of Mouth' },
+  { id: 'website', name: 'Website Contact Form', type: 'marketing', category: 'Direct' },
+  { id: 'phone', name: 'Phone Call', type: 'other', category: 'Direct Contact' },
+  { id: 'email', name: 'Email Inquiry', type: 'other', category: 'Direct Contact' },
+  { id: 'trade_show', name: 'Trade Show', type: 'marketing', category: 'Events' },
+  { id: 'yellow_pages', name: 'Yellow Pages', type: 'marketing', category: 'Directory' },
+  { id: 'linkedin', name: 'LinkedIn', type: 'marketing', category: 'Social Media' },
+  { id: 'yelp', name: 'Yelp', type: 'marketing', category: 'Review Sites' }
 ]
 
 export function LeadSourceSelector({ value, onSourceSelect, className = '' }: LeadSourceSelectorProps) {
@@ -73,14 +73,14 @@ export function LeadSourceSelector({ value, onSourceSelect, className = '' }: Le
         .limit(20)
 
       if (!vendorError && vendorData) {
-        const vendorSources = vendorData.map(v => ({
+        const vendorSources: LeadSource[] = vendorData.map(v => ({
           id: v.id,
           name: v.name,
-          type: 'vendor' as const,
-          email: v.email,
-          phone: v.phone,
-          company: v.company,
-          category: v.category
+          type: 'vendor',
+          email: v.email || undefined,
+          phone: v.phone || undefined,
+          company: v.company || undefined,
+          category: v.category || undefined
         }))
         setVendors(vendorSources)
       }
@@ -93,13 +93,13 @@ export function LeadSourceSelector({ value, onSourceSelect, className = '' }: Le
         .limit(20)
 
       if (!clientError && clientData) {
-        const contactSources = clientData.map(c => ({
+        const contactSources: LeadSource[] = clientData.map(c => ({
           id: c.id,
           name: `${c.first_name} ${c.last_name}`.trim(),
-          type: 'contact' as const,
-          email: c.email,
-          phone: c.phone,
-          company: c.company
+          type: 'contact',
+          email: c.email || undefined,
+          phone: c.phone || undefined,
+          company: c.company || undefined
         }))
         setContacts(contactSources)
       }
@@ -129,15 +129,15 @@ export function LeadSourceSelector({ value, onSourceSelect, className = '' }: Le
   const getSourceIcon = (type: string) => {
     switch (type) {
       case 'vendor':
-        return <Building className=\"h-4 w-4 text-blue-600\" />
+        return <Building className="h-4 w-4 text-blue-600" />
       case 'contact':
-        return <User className=\"h-4 w-4 text-green-600\" />
+        return <User className="h-4 w-4 text-green-600" />
       case 'referral':
-        return <Users className=\"h-4 w-4 text-purple-600\" />
+        return <Users className="h-4 w-4 text-purple-600" />
       case 'marketing':
-        return <Globe className=\"h-4 w-4 text-orange-600\" />
+        return <Globe className="h-4 w-4 text-orange-600" />
       default:
-        return <Mail className=\"h-4 w-4 text-gray-600\" />
+        return <Mail className="h-4 w-4 text-gray-600" />
     }
   }
 
@@ -171,23 +171,23 @@ export function LeadSourceSelector({ value, onSourceSelect, className = '' }: Le
 
   return (
     <div className={`relative ${className}`}>
-      <label className=\"block text-sm font-medium text-gray-700 mb-2\">
+      <label className="block text-sm font-medium text-gray-700 mb-2">
         Lead Source / Referral Source
       </label>
       
       {/* Selected Source Display */}
       <div 
-        className=\"w-full px-3 py-2 border border-gray-300 rounded-lg cursor-pointer bg-white hover:border-gray-400 transition-colors\"
+        className="w-full px-3 py-2 border border-gray-300 rounded-lg cursor-pointer bg-white hover:border-gray-400 transition-colors"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <div className=\"flex items-center justify-between\">
-          <div className=\"flex items-center gap-2\">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
             {selectedSource && getSourceIcon(selectedSource.type)}
-            <span className=\"text-gray-900\">
+            <span className="text-gray-900">
               {selectedSource ? selectedSource.name : 'Select lead source...'}
             </span>
             {selectedSource && (
-              <span className=\"text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded\">
+              <span className="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded">
                 {getSourceTypeLabel(selectedSource.type)}
               </span>
             )}
@@ -198,70 +198,70 @@ export function LeadSourceSelector({ value, onSourceSelect, className = '' }: Le
 
       {/* Dropdown */}
       {isOpen && (
-        <div className=\"absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-80 overflow-hidden\">
+        <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-80 overflow-hidden">
           {/* Search Input */}
-          <div className=\"p-3 border-b border-gray-200\">
+          <div className="p-3 border-b border-gray-200">
             <Input
-              type=\"text\"
-              placeholder=\"Search or type new source...\"
+              type="text"
+              placeholder="Search or type new source..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className=\"w-full\"
+              className="w-full"
               autoFocus
             />
             {searchTerm && !filteredSources().some(s => s.name.toLowerCase() === searchTerm.toLowerCase()) && (
               <button
                 onClick={handleCustomSource}
-                className=\"w-full mt-2 px-3 py-2 text-left text-sm text-blue-600 hover:bg-blue-50 rounded\"
+                className="w-full mt-2 px-3 py-2 text-left text-sm text-blue-600 hover:bg-blue-50 rounded"
               >
-                + Create \"{searchTerm}\" as new source
+                + Create "{searchTerm}" as new source
               </button>
             )}
           </div>
 
           {/* Loading State */}
           {loading && (
-            <div className=\"p-4 text-center\">
-              <LoadingSpinner size=\"sm\" />
+            <div className="p-4 text-center">
+              <LoadingSpinner size="sm" />
             </div>
           )}
 
           {/* Source List */}
-          <div className=\"max-h-64 overflow-y-auto\">
+          <div className="max-h-64 overflow-y-auto">
             {filteredSources().map((source, index) => (
               <button
                 key={`${source.type}-${source.id}-${index}`}
                 onClick={() => handleSourceSelect(source)}
-                className=\"w-full px-3 py-2 text-left hover:bg-gray-50 border-b border-gray-100 last:border-b-0\"
+                className="w-full px-3 py-2 text-left hover:bg-gray-50 border-b border-gray-100 last:border-b-0"
               >
-                <div className=\"flex items-center justify-between\">
-                  <div className=\"flex items-center gap-2\">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
                     {getSourceIcon(source.type)}
                     <div>
-                      <div className=\"font-medium text-gray-900\">{source.name}</div>
+                      <div className="font-medium text-gray-900">{source.name}</div>
                       {source.company && (
-                        <div className=\"text-xs text-gray-500\">{source.company}</div>
+                        <div className="text-xs text-gray-500">{source.company}</div>
                       )}
                       {source.category && (
-                        <div className=\"text-xs text-gray-500\">{source.category}</div>
+                        <div className="text-xs text-gray-500">{source.category}</div>
                       )}
                     </div>
                   </div>
-                  <span className=\"text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded\">
+                  <span className="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded">
                     {getSourceTypeLabel(source.type)}
                   </span>
                 </div>
                 {(source.email || source.phone) && (
-                  <div className=\"text-xs text-gray-500 mt-1 flex gap-4\">
+                  <div className="text-xs text-gray-500 mt-1 flex gap-4">
                     {source.email && (
-                      <span className=\"flex items-center gap-1\">
-                        <Mail className=\"h-3 w-3\" />
+                      <span className="flex items-center gap-1">
+                        <Mail className="h-3 w-3" />
                         {source.email}
                       </span>
                     )}
                     {source.phone && (
-                      <span className=\"flex items-center gap-1\">
-                        <Phone className=\"h-3 w-3\" />
+                      <span className="flex items-center gap-1">
+                        <Phone className="h-3 w-3" />
                         {source.phone}
                       </span>
                     )}
@@ -271,7 +271,7 @@ export function LeadSourceSelector({ value, onSourceSelect, className = '' }: Le
             ))}
             
             {!loading && filteredSources().length === 0 && (
-              <div className=\"p-4 text-center text-gray-500\">
+              <div className="p-4 text-center text-gray-500">
                 No sources found. Type to create a new one.
               </div>
             )}
@@ -282,7 +282,7 @@ export function LeadSourceSelector({ value, onSourceSelect, className = '' }: Le
       {/* Overlay to close dropdown */}
       {isOpen && (
         <div 
-          className=\"fixed inset-0 z-40\" 
+          className="fixed inset-0 z-40" 
           onClick={() => setIsOpen(false)}
         />
       )}

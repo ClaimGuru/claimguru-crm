@@ -6,6 +6,8 @@ import { Button } from '../components/ui/Button'
 import { LoadingSpinner } from '../components/ui/LoadingSpinner'
 import { ClientForm } from '../components/forms/ClientForm'
 import { ClientDetailsModal } from '../components/clients/ClientDetailsModal'
+import { CreateClaimModal } from '../components/clients/CreateClaimModal'
+import { ClientCreateClaimButton } from '../components/clients/ClientCreateClaimButton'
 import { 
   Plus, 
   Search, 
@@ -85,12 +87,10 @@ export function Clients() {
       setIsFormOpen(false)
       setEditingClient(null)
       
-      // If this is a new client, offer to create a claim
+      // If this is a new client, show create claim modal
       if (!editingClient && savedClient) {
-        const shouldCreateClaim = confirm(`Client created successfully! Would you like to create a claim for ${savedClient.first_name} ${savedClient.last_name}?`)
-        if (shouldCreateClaim) {
-          handleCreateClaim(savedClient)
-        }
+        setClientForClaim(savedClient)
+        setShowCreateClaimFlow(true)
       }
     } catch (error) {
       console.error('Error saving client:', error)
@@ -375,6 +375,30 @@ export function Clients() {
           setEditingClient(null)
         }}
         onSave={handleSaveClient}
+      />
+
+      {/* Client Details Modal */}
+      <ClientDetailsModal
+        client={selectedClient}
+        isOpen={showDetailsModal}
+        onClose={() => {
+          setShowDetailsModal(false)
+          setSelectedClient(null)
+        }}
+        onEdit={(client) => {
+          setEditingClient(client)
+          setShowDetailsModal(false)
+          setIsFormOpen(true)
+        }}
+        onCreateClaim={handleCreateClaim}
+        claims={claims}
+      />
+
+      {/* Enhanced Create Claim Modal */}
+      <CreateClaimModal
+        client={clientForClaim}
+        isOpen={showCreateClaimFlow}
+        onClose={handleCloseCreateClaim}
       />
     </div>
   )
