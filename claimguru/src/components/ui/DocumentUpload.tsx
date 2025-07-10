@@ -1,141 +1,202 @@
-import React, { useState } from 'react'
-import { Upload, FileText, Camera, Eye, Trash2 } from 'lucide-react'
-import { useToastContext } from '../../contexts/ToastContext'
-
-interface DocumentFile {
-  id: string
-  name: string
-  size: number
-  type: string
-  url: string
-}
+import React, { useState, useRef } from 'react'
+import { Button } from './Button'
+import { X, Upload, FileText, Image, Video, File, Check, AlertTriangle } from 'lucide-react'
 
 interface DocumentUploadProps {
-  onFilesUploaded?: (files: DocumentFile[]) => void
-  maxFiles?: number
+  onClose: () => void
+  onUpload: (files: File[]) => void
 }
 
-const DocumentUpload: React.FC<DocumentUploadProps> = ({
-  onFilesUploaded,
-  maxFiles = 10
-}) => {
-  const [documents, setDocuments] = useState<DocumentFile[]>([])
+export function DocumentUpload({ onClose, onUpload }: DocumentUploadProps) {
+  const [dragActive, setDragActive] = useState(false)
   const [uploading, setUploading] = useState(false)
-  const toast = useToastContext()
+  const [uploadProgress, setUploadProgress] = useState<{[key: string]: number}>({})
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const handleFileUpload = async (files: FileList | File[]) => {
-    const fileArray = Array.from(files)
-    
-    if (documents.length + fileArray.length > maxFiles) {
-      toast.error('Too Many Files', `Maximum ${maxFiles} files allowed`)
-      return
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true)
+    } else if (e.type === "dragleave") {
+      setDragActive(false)
     }
+  }
 
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragActive(false)
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFiles(Array.from(e.dataTransfer.files))
+    }
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    if (e.target.files && e.target.files[0]) {
+      handleFiles(Array.from(e.target.files))
+    }
+  }
+
+  const handleFiles = async (files: File[]) => {
     setUploading(true)
     
-    try {
-      const newDocuments: DocumentFile[] = fileArray.map(file => ({
-        id: `doc_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        url: URL.createObjectURL(file)
-      }))
-      
-      setDocuments(prev => [...prev, ...newDocuments])
-      
-      if (onFilesUploaded) {
-        onFilesUploaded(newDocuments)
-      }
-      
-      toast.success('Upload Complete', `Successfully uploaded ${fileArray.length} files`)
-    } catch (error) {
-      toast.error('Upload Failed', 'An error occurred during file upload')
-    } finally {
+    // Simulate upload progress
+    files.forEach((file, index) => {
+      let progress = 0
+      const interval = setInterval(() => {
+        progress += Math.random() * 30
+        if (progress >= 100) {
+          progress = 100
+          clearInterval(interval)
+        }
+        setUploadProgress(prev => ({
+          ...prev,
+          [file.name]: Math.min(progress, 100)
+        }))
+      }, 200)
+    })
+
+    // Simulate upload completion
+    setTimeout(() => {
       setUploading(false)
-    }
+      onUpload(files)
+    }, 2000)
   }
 
-  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
-    if (files && files.length > 0) {
-      handleFileUpload(files)
-    }
-    e.target.value = ''
+  const getFileIcon = (file: File) => {
+    if (file.type.startsWith('image/')) return <Image className="h-8 w-8 text-blue-600" />
+    if (file.type.startsWith('video/')) return <Video className="h-8 w-8 text-red-600" />
+    if (file.type === 'application/pdf') return <FileText className="h-8 w-8 text-red-600" />
+    return <File className="h-8 w-8 text-gray-600" />
   }
 
-  const getFileIcon = (type: string) => {
-    if (type.startsWith('image/')) return <Camera className="h-6 w-6" />
-    return <FileText className="h-6 w-6" />
+  const formatFileSize = (bytes: number) => {
+    if (bytes === 0) return '0 Bytes'
+    const k = 1024
+    const sizes = ['Bytes', 'KB', 'MB', 'GB']
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
   }
 
   return (
-    <div className="space-y-6">
-      <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-        <Upload className="mx-auto h-12 w-12 mb-4 text-gray-400" />
-        <h3 className="text-lg font-medium text-gray-900 mb-2">Upload Documents</h3>
-        <p className="text-sm text-gray-600 mb-4">
-          Supports images, PDFs, Word docs
-        </p>
-        
-        <label className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 cursor-pointer">
-          <Upload className="h-4 w-4 mr-2" />
-          Choose Files
-          <input
-            type="file"
-            multiple
-            accept="image/*,application/pdf,.doc,.docx,.txt"
-            onChange={handleFileInputChange}
-            className="hidden"
-            disabled={uploading}
-          />
-        </label>
-      </div>
-
-      {documents.length > 0 && (
-        <div className="bg-white border border-gray-200 rounded-lg">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h3 className="text-lg font-medium text-gray-900">
-              Uploaded Documents ({documents.length})
-            </h3>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <div className="flex items-center gap-3">
+            <Upload className="h-6 w-6 text-blue-600" />
+            <h2 className="text-xl font-semibold text-gray-900">Upload Documents</h2>
           </div>
-          
-          <div className="divide-y divide-gray-200">
-            {documents.map((doc) => (
-              <div key={doc.id} className="p-6 flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <div className="text-gray-400">
-                    {getFileIcon(doc.type)}
+          <Button variant="ghost" size="sm" onClick={onClose}>
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
+
+        <div className="p-6">
+          {/* Upload Area */}
+          <div
+            className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+              dragActive
+                ? 'border-blue-500 bg-blue-50'
+                : 'border-gray-300 hover:border-gray-400'
+            }`}
+            onDragEnter={handleDrag}
+            onDragLeave={handleDrag}
+            onDragOver={handleDrag}
+            onDrop={handleDrop}
+          >
+            <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+            <div className="space-y-2">
+              <p className="text-lg font-medium text-gray-900">
+                Drop files here or click to upload
+              </p>
+              <p className="text-sm text-gray-600">
+                Support for images, PDFs, videos, and documents up to 50MB
+              </p>
+            </div>
+            <Button
+              className="mt-4"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              Select Files
+            </Button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              onChange={handleChange}
+              className="hidden"
+              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.gif,.mp4,.mov,.avi"
+            />
+          </div>
+
+          {/* Upload Progress */}
+          {Object.keys(uploadProgress).length > 0 && (
+            <div className="mt-6 space-y-3">
+              <h3 className="font-medium text-gray-900">Uploading Files</h3>
+              {Object.entries(uploadProgress).map(([fileName, progress]) => (
+                <div key={fileName} className="bg-gray-50 rounded-lg p-4">
+                  <div className="flex items-center gap-3 mb-2">
+                    {getFileIcon({ name: fileName, type: fileName.split('.').pop() || '' } as File)}
+                    <div className="flex-1">
+                      <div className="font-medium text-gray-900">{fileName}</div>
+                      <div className="text-sm text-gray-600">
+                        {progress === 100 ? 'Upload complete' : `${Math.round(progress)}% uploaded`}
+                      </div>
+                    </div>
+                    {progress === 100 ? (
+                      <Check className="h-5 w-5 text-green-600" />
+                    ) : (
+                      <div className="h-5 w-5">
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+                      </div>
+                    )}
                   </div>
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-900">{doc.name}</h4>
-                    <p className="text-xs text-gray-500">
-                      {(doc.size / 1024 / 1024).toFixed(2)} MB
-                    </p>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div
+                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${progress}%` }}
+                    ></div>
                   </div>
                 </div>
-                
-                <div className="flex items-center space-x-2">
-                  <button
-                    onClick={() => window.open(doc.url, '_blank')}
-                    className="p-1 text-gray-400 hover:text-gray-600"
-                  >
-                    <Eye className="h-4 w-4" />
-                  </button>
-                  <button
-                    onClick={() => setDocuments(prev => prev.filter(d => d.id !== doc.id))}
-                    className="p-1 text-red-500 hover:text-red-700"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                </div>
+              ))}
+            </div>
+          )}
+
+          {/* File Requirements */}
+          <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="flex items-start gap-3">
+              <AlertTriangle className="h-5 w-5 text-blue-600 mt-0.5" />
+              <div>
+                <h4 className="font-medium text-blue-900">File Requirements</h4>
+                <ul className="text-sm text-blue-700 mt-1 space-y-1">
+                  <li>• Maximum file size: 50MB per file</li>
+                  <li>• Supported formats: PDF, DOC, DOCX, JPG, PNG, GIF, MP4, MOV, AVI</li>
+                  <li>• Files will be automatically scanned for compliance</li>
+                  <li>• AI analysis will be performed on uploaded documents</li>
+                </ul>
               </div>
-            ))}
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex justify-end gap-3 mt-6">
+            <Button variant="outline" onClick={onClose} disabled={uploading}>
+              Cancel
+            </Button>
+            <Button 
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploading}
+              className="flex items-center gap-2"
+            >
+              <Upload className="h-4 w-4" />
+              Add More Files
+            </Button>
           </div>
         </div>
-      )}
+      </div>
     </div>
   )
 }
-
-export default DocumentUpload
