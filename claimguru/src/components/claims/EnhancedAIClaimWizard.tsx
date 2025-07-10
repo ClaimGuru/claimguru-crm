@@ -27,7 +27,7 @@ import { PersonalPropertyStep } from './wizard-steps/PersonalPropertyStep'
 import { ExpertsProvidersStep } from './wizard-steps/ExpertsProvidersStep'
 import { CompletionStep } from './wizard-steps/CompletionStep'
 
-interface EnhancedAIClaimWizardProps {
+interface EnhancedAIIntakeWizardProps {
   clientId?: string
   onComplete?: (claimData: any) => void
   onCancel?: () => void
@@ -75,7 +75,7 @@ interface WizardData {
   officeTasks: any[]
 }
 
-export function EnhancedAIClaimWizard({ clientId, onComplete, onCancel }: EnhancedAIClaimWizardProps) {
+export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: EnhancedAIIntakeWizardProps) {
   const [currentStep, setCurrentStep] = useState(0)
   const [wizardData, setWizardData] = useState<WizardData>({
     clientType: 'residential',
