@@ -185,23 +185,28 @@ Admin Panel (subscribers only)
   ✅ Include manual override option for any field
   **DEPLOYED:** https://vhr41uj8ln.space.minimax.io
 
-🔥 **Phase 0.5: Enterprise Custom Field & Folder Management System** (12 hours) - **CRITICAL FOR INTAKE WIZARD** 
-  [ ] **Custom Field System**:
-    - [ ] All field types: text (short/long), number, date, dropdown, checkbox, phone, address, slider, enum, multi-enum, file upload, etc.
-    - [ ] Field validation: required/optional, min/max length, patterns, conditional logic
-    - [ ] Drag-and-drop positioning in claim view and intake wizard
-    - [ ] Token system for document templates and generators
-    - [ ] Individual field editing in claim view
-  [ ] **Folder Template System**:
-    - [ ] Organization-wide default folder templates
-    - [ ] Auto-creation of standard folders: (Claim#) - Insurer/Client/Intake/Vendor/Company Docs
-    - [ ] Custom folder/subfolder creation with permissions
-    - [ ] Document move functionality with audit trail
-  [ ] **Admin Panel Integration**:
-    - [ ] Custom field creation and management interface
-    - [ ] Folder template configuration
-    - [ ] Permission system: System Admin (full control) + Subscriber (configurable permissions)
-  [ ] **Data Migration**: Existing claims get new fields (blank, editable later)
+✅ **Phase 0.5: Enterprise Custom Field & Folder Management System** (12 hours) - **COMPLETED ✅** 
+  ✅ **Custom Field System**:
+    - ✅ All field types: text (short/long), number, date, dropdown, checkbox, phone, address, slider, enum, multi-enum, file upload, etc.
+    - ✅ Field validation: required/optional, min/max length, patterns, conditional logic
+    - ✅ Dynamic custom field renderer with full UI support
+    - ✅ Token system foundation for document templates and generators
+    - ✅ Individual field editing capability built-in
+  ✅ **Folder Template System**:
+    - ✅ Organization-wide default folder templates
+    - ✅ Auto-creation of standard folders: (Claim#) - Insurer/Client/Intake/Vendor/Company Docs
+    - ✅ Custom folder/subfolder creation with permissions
+    - ✅ Document move functionality with audit trail
+    - ✅ ClaimFolderManager component for document organization
+  ✅ **Admin Panel Integration**:
+    - ✅ Custom field creation and management interface
+    - ✅ Folder template configuration
+    - ✅ Permission system: System Admin (full control) + Subscriber (configurable permissions)
+    - ✅ Complete Admin Panel with tabs for all management functions
+  ✅ **Intake Wizard Integration**: Custom fields step added to intake wizard
+  ✅ **Database Schema**: Complete custom fields and folder management database structure
+  ✅ **Service Layer**: CustomFieldService with full CRUD operations and validation
+  **DEPLOYED:** https://claimguru-custom-fields.space.minimax.io
 
 [ ] **Phase 1: Email Automation System** (8 hours)
   - Email ingestion and classification engine

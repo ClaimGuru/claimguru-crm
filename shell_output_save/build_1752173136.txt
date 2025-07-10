@@ -1,0 +1,196 @@
+
+> react_repo@0.0.0 build
+> yes | pnpm install && rm -rf node_modules/.vite-temp && tsc -b && vite build
+
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+╭ Warning ─────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│   Ignored build scripts: esbuild.                                            │
+│   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+│   to run scripts.                                                            │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Done in 1.3s using pnpm v10.12.4
+src/components/admin/CustomFieldManager.tsx:10:23 - error TS2307: Cannot find module '../ui/Label' or its corresponding type declarations.
+
+10 import { Label } from '../ui/Label';
+                         ~~~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:12:23 - error TS2307: Cannot find module '../ui/Badge' or its corresponding type declarations.
+
+12 import { Badge } from '../ui/Badge';
+                         ~~~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:13:26 - error TS2307: Cannot find module '../ui/Textarea' or its corresponding type declarations.
+
+13 import { Textarea } from '../ui/Textarea';
+                            ~~~~~~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:14:24 - error TS2307: Cannot find module '../ui/Switch' or its corresponding type declarations.
+
+14 import { Switch } from '../ui/Switch';
+                          ~~~~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:15:79 - error TS2307: Cannot find module '../ui/Select' or its corresponding type declarations.
+
+15 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/Select';
+                                                                                 ~~~~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:16:81 - error TS2307: Cannot find module '../ui/Dialog' or its corresponding type declarations.
+
+16 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/Dialog';
+                                                                                   ~~~~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:17:58 - error TS2307: Cannot find module '../ui/Tabs' or its corresponding type declarations.
+
+17 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/Tabs';
+                                                            ~~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:18:10 - error TS2459: Module '"../../contexts/ToastContext"' declares 'useToast' locally, but it is not exported.
+
+18 import { useToast } from '../../contexts/ToastContext';
+            ~~~~~~~~
+
+  src/contexts/ToastContext.tsx:2:10
+    2 import { useToast } from '../hooks/useToast'
+               ~~~~~~~~
+    'useToast' is declared here.
+
+src/components/admin/CustomFieldManager.tsx:205:52 - error TS2345: Argument of type '{ organization_id: string; field_name: string; field_label: string; field_type: "number" | "email" | "phone" | "color" | "checkbox" | "date" | "radio" | "time" | "url" | "slider" | "decimal" | ... 8 more ... | "rating"; ... 7 more ...; created_by: string; }' is not assignable to parameter of type 'Omit<CustomField, "id" | "created_at" | "updated_at">'.
+  Property 'is_active' is missing in type '{ organization_id: string; field_name: string; field_label: string; field_type: "number" | "email" | "phone" | "color" | "checkbox" | "date" | "radio" | "time" | "url" | "slider" | "decimal" | ... 8 more ... | "rating"; ... 7 more ...; created_by: string; }' but required in type 'Omit<CustomField, "id" | "created_at" | "updated_at">'.
+
+205         await customFieldService.createCustomField(fieldData);
+                                                       ~~~~~~~~~
+
+  src/services/customFieldService.ts:23:3
+    23   is_active: boolean;
+         ~~~~~~~~~
+    'is_active' is declared here.
+
+src/components/admin/FolderTemplateManager.tsx:10:23 - error TS2307: Cannot find module '../ui/Label' or its corresponding type declarations.
+
+10 import { Label } from '../ui/Label';
+                         ~~~~~~~~~~~~~
+
+src/components/admin/FolderTemplateManager.tsx:12:23 - error TS2307: Cannot find module '../ui/Badge' or its corresponding type declarations.
+
+12 import { Badge } from '../ui/Badge';
+                         ~~~~~~~~~~~~~
+
+src/components/admin/FolderTemplateManager.tsx:13:26 - error TS2307: Cannot find module '../ui/Textarea' or its corresponding type declarations.
+
+13 import { Textarea } from '../ui/Textarea';
+                            ~~~~~~~~~~~~~~~~
+
+src/components/admin/FolderTemplateManager.tsx:14:24 - error TS2307: Cannot find module '../ui/Switch' or its corresponding type declarations.
+
+14 import { Switch } from '../ui/Switch';
+                          ~~~~~~~~~~~~~~
+
+src/components/admin/FolderTemplateManager.tsx:15:66 - error TS2307: Cannot find module '../ui/Dialog' or its corresponding type declarations.
+
+15 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/Dialog';
+                                                                    ~~~~~~~~~~~~~~
+
+src/components/admin/FolderTemplateManager.tsx:16:10 - error TS2459: Module '"../../contexts/ToastContext"' declares 'useToast' locally, but it is not exported.
+
+16 import { useToast } from '../../contexts/ToastContext';
+            ~~~~~~~~
+
+  src/contexts/ToastContext.tsx:2:10
+    2 import { useToast } from '../hooks/useToast'
+               ~~~~~~~~
+    'useToast' is declared here.
+
+src/components/claims/ClaimFolderManager.tsx:11:23 - error TS2307: Cannot find module '../ui/Badge' or its corresponding type declarations.
+
+11 import { Badge } from '../ui/Badge';
+                         ~~~~~~~~~~~~~
+
+src/components/claims/ClaimFolderManager.tsx:12:81 - error TS2307: Cannot find module '../ui/Dialog' or its corresponding type declarations.
+
+12 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/Dialog';
+                                                                                   ~~~~~~~~~~~~~~
+
+src/components/claims/ClaimFolderManager.tsx:13:90 - error TS2307: Cannot find module '../ui/DropdownMenu' or its corresponding type declarations.
+
+13 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/DropdownMenu';
+                                                                                            ~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/ClaimFolderManager.tsx:14:10 - error TS2459: Module '"../../contexts/ToastContext"' declares 'useToast' locally, but it is not exported.
+
+14 import { useToast } from '../../contexts/ToastContext';
+            ~~~~~~~~
+
+  src/contexts/ToastContext.tsx:2:10
+    2 import { useToast } from '../hooks/useToast'
+               ~~~~~~~~
+    'useToast' is declared here.
+
+src/components/claims/EnhancedAIClaimWizard.tsx:333:13 - error TS2322: Type '{ data: WizardData; onUpdate: (newData: any) => void; onAIProcessing: (processing: boolean) => void; clientId: string; } | { onSubmit: (finalData?: any) => Promise<void>; data: WizardData; onUpdate: (newData: any) => void; onAIProcessing: (processing: boolean) => void; clientId: string; }' is not assignable to type 'IntrinsicAttributes & EnhancedPolicyUploadStepProps & ClaimInformationStepProps & MortgageInformationStepProps & CustomFieldsStepProps'.
+  Type '{ data: WizardData; onUpdate: (newData: any) => void; onAIProcessing: (processing: boolean) => void; clientId: string; }' is missing the following properties from type 'CustomFieldsStepProps': organizationId, onComplete
+
+333     return <StepComponent {...stepProps} />
+                ~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/CustomFieldsStep.tsx:9:23 - error TS2307: Cannot find module '../../ui/Badge' or its corresponding type declarations.
+
+9 import { Badge } from '../../ui/Badge';
+                        ~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/CustomFieldsStep.tsx:13:10 - error TS2459: Module '"../../../contexts/ToastContext"' declares 'useToast' locally, but it is not exported.
+
+13 import { useToast } from '../../../contexts/ToastContext';
+            ~~~~~~~~
+
+  src/contexts/ToastContext.tsx:2:10
+    2 import { useToast } from '../hooks/useToast'
+               ~~~~~~~~
+    'useToast' is declared here.
+
+src/components/forms/DynamicCustomField.tsx:9:23 - error TS2307: Cannot find module '../ui/Label' or its corresponding type declarations.
+
+9 import { Label } from '../ui/Label';
+                        ~~~~~~~~~~~~~
+
+src/components/forms/DynamicCustomField.tsx:10:26 - error TS2307: Cannot find module '../ui/Textarea' or its corresponding type declarations.
+
+10 import { Textarea } from '../ui/Textarea';
+                            ~~~~~~~~~~~~~~~~
+
+src/components/forms/DynamicCustomField.tsx:14:79 - error TS2307: Cannot find module '../ui/Select' or its corresponding type declarations.
+
+14 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/Select';
+                                                                                 ~~~~~~~~~~~~~~
+
+src/components/forms/DynamicCustomField.tsx:17:57 - error TS2307: Cannot find module '../ui/Popover' or its corresponding type declarations.
+
+17 import { Popover, PopoverContent, PopoverTrigger } from '../ui/Popover';
+                                                           ~~~~~~~~~~~~~~~
+
+src/components/forms/DynamicCustomField.tsx:18:23 - error TS2307: Cannot find module '../ui/Badge' or its corresponding type declarations.
+
+18 import { Badge } from '../ui/Badge';
+                         ~~~~~~~~~~~~~
+
+src/components/ui/calendar.tsx:6:10 - error TS2305: Module '"./Button"' has no exported member 'buttonVariants'.
+
+6 import { buttonVariants } from "./Button"
+           ~~~~~~~~~~~~~~
+
+src/pages/AdminPanel.tsx:9:58 - error TS2307: Cannot find module '../components/ui/Tabs' or its corresponding type declarations.
+
+9 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/Tabs';
+                                                           ~~~~~~~~~~~~~~~~~~~~~~~
+
+src/pages/AdminPanel.tsx:10:23 - error TS2307: Cannot find module '../components/ui/Badge' or its corresponding type declarations.
+
+10 import { Badge } from '../components/ui/Badge';
+                         ~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Found 30 errors.
+

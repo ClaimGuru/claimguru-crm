@@ -35,6 +35,7 @@ import { PersonnelAssignmentStep } from './wizard-steps/PersonnelAssignmentStep'
 import { OfficeTasksStep } from './wizard-steps/OfficeTasksStep'
 import { CoverageIssueReviewStep } from './wizard-steps/CoverageIssueReviewStep'
 import { CompletionStep } from './wizard-steps/CompletionStep'
+import CustomFieldsStep from './wizard-steps/CustomFieldsStep'
 
 interface EnhancedAIIntakeWizardProps {
   clientId?: string
@@ -90,6 +91,7 @@ interface WizardData {
   officeTasks: any[]
   organizationId?: string
   organizationPolicies?: any
+  customFields?: Record<string, any>
 }
 
 export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: EnhancedAIIntakeWizardProps) {
@@ -115,7 +117,8 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
     personnelAssignments: [],
     officeTasks: [],
     organizationId: 'demo-org-123',
-    organizationPolicies: {}
+    organizationPolicies: {},
+    customFields: {}
   })
   const [isAIProcessing, setIsAIProcessing] = useState(false)
   const [stepValidation, setStepValidation] = useState({})
@@ -216,6 +219,14 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
       icon: AlertCircle,
       component: CoverageIssueReviewStep,
       required: true
+    },
+    {
+      id: 'custom-fields',
+      title: 'Additional Information',
+      description: 'Organization-specific custom fields and requirements',
+      icon: Brain,
+      component: CustomFieldsStep,
+      required: false
     },
     {
       id: 'completion',
