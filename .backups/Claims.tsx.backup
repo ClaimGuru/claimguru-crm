@@ -353,6 +353,36 @@ export function Claims() {
         </div>
       )}
 
+      {/* Claim Intake Wizard Modal */}
+      {showIntakeWizard && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={handleIntakeCancel}
+                    className="p-2 hover:bg-gray-100 rounded-full"
+                  >
+                    <ArrowLeft className="h-5 w-5" />
+                  </button>
+                  <div>
+                    <h2 className="text-xl font-semibold text-gray-900">New Claim Intake</h2>
+                    <p className="text-sm text-gray-600">Complete claim intake workflow</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="p-6">
+              <ClaimIntakeWizard
+                onComplete={handleIntakeComplete}
+                onCancel={handleIntakeCancel}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Claim Form Modal */}
       <ClaimForm
         claim={editingClaim}

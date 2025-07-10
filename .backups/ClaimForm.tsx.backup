@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { Button } from '../ui/Button'
-import { X, Save, FileText, User, Calendar, DollarSign } from 'lucide-react'
+import { X, Save, FileText, User, Calendar, DollarSign, MapPin } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
 import { supabase } from '../../lib/supabase'
 import type { Claim, Client } from '../../lib/supabase'
+
+interface Property {
+  id: string
+  client_id: string
+  property_nickname?: string
+  address_line_1: string
+  address_line_2?: string
+  city: string
+  state: string
+  zip_code: string
+}
 
 interface ClaimFormProps {
   claim?: Claim | null
@@ -16,12 +27,15 @@ export function ClaimForm({ claim, isOpen, onClose, onSave }: ClaimFormProps) {
   const { userProfile } = useAuth()
   const [loading, setLoading] = useState(false)
   const [clients, setClients] = useState<Pick<Client, 'id' | 'first_name' | 'last_name' | 'business_name' | 'client_type'>[]>([])
+  const [properties, setProperties] = useState<Property[]>([])
+  const [showNewProperty, setShowNewProperty] = useState(false)
   const [formData, setFormData] = useState({
     client_id: '',
+    property_id: '',
     file_number: '',
     claim_number: '',
     carrier_claim_number: '',
-    status: 'open',
+    claim_status: 'new',
     claim_phase: 'intake',
     priority: 'medium',
     date_of_loss: '',
@@ -35,12 +49,31 @@ export function ClaimForm({ claim, isOpen, onClose, onSave }: ClaimFormProps) {
     is_fema_claim: false,
     settlement_status: 'pending'
   })
+  
+  // New property form data
+  const [newPropertyData, setNewPropertyData] = useState({
+    property_nickname: '',
+    address_line_1: '',
+    address_line_2: '',
+    city: '',
+    state: '',
+    zip_code: ''
+  })
 
   useEffect(() => {
     if (userProfile?.organization_id) {
       loadClients()
     }
   }, [userProfile?.organization_id])
+
+  useEffect(() => {
+    if (formData.client_id) {
+      loadPropertiesForClient(formData.client_id)
+    } else {
+      setProperties([])
+      setFormData(prev => ({ ...prev, property_id: '' }))
+    }
+  }, [formData.client_id])
 
   useEffect(() => {
     // Check for preloaded client from CreateClaimModal
@@ -99,7 +132,8 @@ export function ClaimForm({ claim, isOpen, onClose, onSave }: ClaimFormProps) {
         file_number: claim.file_number || '',
         claim_number: claim.claim_number || '',
         carrier_claim_number: claim.carrier_claim_number || '',
-        status: claim.claim_status || 'open',
+        claim_status: claim.claim_status || 'new',
+        property_id: claim.property_id || '',
         claim_phase: claim.claim_phase || 'intake',
         priority: claim.priority || 'medium',
         date_of_loss: claim.date_of_loss || '',
@@ -119,7 +153,8 @@ export function ClaimForm({ claim, isOpen, onClose, onSave }: ClaimFormProps) {
         file_number: generateFileNumber(),
         claim_number: '',
         carrier_claim_number: '',
-        status: 'open',
+        claim_status: 'new',
+        property_id: '',
         claim_phase: 'intake',
         priority: 'medium',
         date_of_loss: '',
@@ -152,6 +187,50 @@ export function ClaimForm({ claim, isOpen, onClose, onSave }: ClaimFormProps) {
     }
   }
 
+  async function loadPropertiesForClient(clientId: string) {
+    if (!userProfile?.organization_id || !clientId) return
+    try {
+      const { data, error } = await supabase
+        .from('properties')
+        .select('id, client_id, property_nickname, address_line_1, address_line_2, city, state, zip_code')
+        .eq('organization_id', userProfile.organization_id)
+        .eq('client_id', clientId)
+        .order('created_at', { ascending: false })
+
+      if (error) throw error
+      setProperties(data || [])
+      
+      // Auto-select first property if only one exists
+      if (data && data.length === 1 && !formData.property_id) {
+        setFormData(prev => ({ ...prev, property_id: data[0].id }))
+      }
+    } catch (error) {
+      console.error('Error loading properties:', error)
+    }
+  }
+
+  async function createProperty() {
+    if (!userProfile?.organization_id || !formData.client_id) return null
+    
+    try {
+      const { data, error } = await supabase
+        .from('properties')
+        .insert({
+          organization_id: userProfile.organization_id,
+          client_id: formData.client_id,
+          ...newPropertyData
+        })
+        .select()
+        .single()
+
+      if (error) throw error
+      return data.id
+    } catch (error) {
+      console.error('Error creating property:', error)
+      throw error
+    }
+  }
+
   function generateFileNumber() {
     const year = new Date().getFullYear()
     const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0')
@@ -171,13 +250,52 @@ export function ClaimForm({ claim, isOpen, onClose, onSave }: ClaimFormProps) {
     e.preventDefault()
     if (!userProfile?.organization_id) return
 
+    // Validation
+    if (!formData.client_id) {
+      alert('Please select a client.')
+      return
+    }
+
     setLoading(true)
     try {
+      let propertyId = formData.property_id
+
+      // Create new property if needed
+      if (showNewProperty && newPropertyData.address_line_1) {
+        propertyId = await createProperty()
+        if (!propertyId) {
+          throw new Error('Failed to create property')
+        }
+      }
+
+      // Validate required fields
+      if (!propertyId) {
+        alert('Please select a property or create a new one.')
+        setLoading(false)
+        return
+      }
+
+      if (!formData.cause_of_loss) {
+        alert('Please enter the cause of loss.')
+        setLoading(false)
+        return
+      }
+
+      if (!formData.date_of_loss) {
+        alert('Please enter the date of loss.')
+        setLoading(false)
+        return
+      }
+
       const claimData = {
         ...formData,
+        property_id: propertyId,
         organization_id: userProfile.organization_id,
         assigned_adjuster_id: userProfile.id,
-        created_by: userProfile.id
+        created_by: userProfile.id,
+        // Ensure date format is correct
+        date_of_loss: new Date(formData.date_of_loss).toISOString().split('T')[0],
+        date_reported: formData.date_reported ? new Date(formData.date_reported).toISOString() : new Date().toISOString()
       }
 
       if (claim) {
@@ -201,10 +319,13 @@ export function ClaimForm({ claim, isOpen, onClose, onSave }: ClaimFormProps) {
         onSave(data)
       }
 
+      // Clear preloaded client data if it exists
+      localStorage.removeItem('preloadedClient')
+      
       onClose()
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving claim:', error)
-      alert('Error saving claim. Please try again.')
+      alert(`Error saving claim: ${error.message || 'Please try again.'}`)
     } finally {
       setLoading(false)
     }
@@ -298,8 +419,8 @@ export function ClaimForm({ claim, isOpen, onClose, onSave }: ClaimFormProps) {
                 Claim Status
               </label>
               <select
-                name="status"
-                value={formData.status}
+                name="claim_status"
+                value={formData.claim_status}
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
@@ -504,6 +625,24 @@ export function ClaimForm({ claim, isOpen, onClose, onSave }: ClaimFormProps) {
               </p>
             </div>
           </div>
+
+          {/* Calculated Fee Display */}
+          {formData.contract_fee_type === 'percentage' && 
+           formData.contract_fee_amount > 0 && 
+           formData.estimated_loss_value > 0 && (
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="flex items-center gap-2">
+                <DollarSign className="h-5 w-5 text-blue-600" />
+                <div>
+                  <h4 className="font-medium text-blue-900">Calculated Fee</h4>
+                  <p className="text-sm text-blue-700">
+                    {formData.contract_fee_amount}% of ${Number(formData.estimated_loss_value).toLocaleString()} = 
+                    <span className="font-semibold"> ${((Number(formData.contract_fee_amount) / 100) * Number(formData.estimated_loss_value)).toLocaleString()}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex items-center">
