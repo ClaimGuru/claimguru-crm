@@ -60,6 +60,18 @@ Admin Panel (subscribers only)
 [ ] Move Documents above AI Insights
 [ ] Reorganize profile menu
 
+### **Phase 2.5: Enhanced Co-Insured Information Collection** (1 hour)
+[ ] Enhance intake wizard co-insured section with detailed fields:
+  - First Name and Last Name (separate fields)
+  - Relation to Insured (dropdown: Spouse, Child, Parent, Business Partner, Other)
+  - Phone Number (with validation)
+  - Email Address (with validation) 
+  - "Address same as Insured?" checkbox
+  - If unchecked, show full address fields (Street, City, State, ZIP)
+[ ] Add validation to ensure all required co-insured fields are completed
+[ ] Update AI extraction to detect co-insured information from policy documents
+[ ] Add co-insured data to claim data structure and database schema
+
 ### **Phase 3: User Hierarchy & Permissions** (2 hours)
 [ ] Implement role-based access control
 [ ] Create Super Admin dashboard (integrated)

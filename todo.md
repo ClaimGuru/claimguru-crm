@@ -64,13 +64,33 @@ Admin Panel (subscribers only)
 [ ] Enhance intake wizard co-insured section with detailed fields:
   - First Name and Last Name (separate fields)
   - Relation to Insured (dropdown: Spouse, Child, Parent, Business Partner, Other)
-  - Phone Number (with validation)
+  - Phone Number (with enhanced phone component)
   - Email Address (with validation) 
   - "Address same as Insured?" checkbox
   - If unchecked, show full address fields (Street, City, State, ZIP)
 [ ] Add validation to ensure all required co-insured fields are completed
 [ ] Update AI extraction to detect co-insured information from policy documents
 [ ] Add co-insured data to claim data structure and database schema
+
+### **Phase 2.6: Professional Phone Number System** (1.5 hours)
+[ ] Create enhanced phone number component with:
+  - Automatic masking format: (936) 522-6627
+  - Phone type dropdown (Mobile, Home, Work, Fax, Other)
+  - Extension field with validation
+  - "Add Another Phone" capability for multiple numbers
+  - Primary phone designation
+[ ] Update database schema to support:
+  - Multiple phone numbers per entity (clients, vendors, contacts, etc.)
+  - Phone type enumeration
+  - Extension field
+  - Primary phone flag
+[ ] Replace all existing phone inputs throughout the system:
+  - Client forms, Vendor forms, Co-insured forms
+  - Contact management, User profiles
+  - Intake wizards, Property contacts
+  - All other phone number fields
+[ ] Add phone number validation and formatting utilities
+[ ] Implement phone number search and filtering capabilities
 
 ### **Phase 3: User Hierarchy & Permissions** (2 hours)
 [ ] Implement role-based access control

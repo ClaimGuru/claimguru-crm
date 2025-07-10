@@ -151,6 +151,14 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
       required: false
     },
     {
+      id: 'coverage-review',
+      title: 'Coverage Issue Review',
+      description: 'AI analysis of potential coverage issues and policy concerns',
+      icon: AlertCircle,
+      component: CoverageIssueReviewStep,
+      required: true
+    },
+    {
       id: 'completion',
       title: 'AI Summary & Submit',
       description: 'Comprehensive AI analysis and claim submission',

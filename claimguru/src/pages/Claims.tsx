@@ -7,7 +7,7 @@ import { LoadingSpinner } from '../components/ui/LoadingSpinner'
 import { ClaimForm } from '../components/forms/ClaimForm'
 import ClaimIntakeWizard from '../components/claims/ClaimIntakeWizard'
 import { AdvancedClaimIntakeWizard } from '../components/claims/AdvancedClaimIntakeWizardNew'
-import { EnhancedAIClaimWizard } from '../components/claims/EnhancedAIClaimWizard'
+import { EnhancedAIIntakeWizard } from '../components/claims/EnhancedAIClaimWizard'
 import { 
   Plus, 
   Search, 
@@ -170,7 +170,7 @@ export function Claims() {
             className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
           >
             <Brain className="h-4 w-4" />
-            AI-Powered Intake
+            AI-Enhanced Intake Wizard
           </Button>
         </div>
       </div>
@@ -410,9 +410,9 @@ export function Claims() {
         </div>
       )}
 
-      {/* Enhanced AI-Powered Claim Intake Wizard */}
+      {/* Enhanced AI-Powered Insurance Intake Wizard with Real PDF Processing */}
       {showAIWizard && (
-        <EnhancedAIClaimWizard
+        <EnhancedAIIntakeWizard
           onComplete={handleAIWizardComplete}
           onCancel={handleAIWizardCancel}
         />
