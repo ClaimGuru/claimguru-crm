@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { LoadingSpinner } from '../components/ui/LoadingSpinner'
 import { Input } from '../components/ui/Input'
+import { IntegrationSetupModal } from '../components/integrations/IntegrationSetupModal'
 import { useToast } from '../hooks/useToast'
 import { useAuth } from '../contexts/AuthContext'
 import { supabase } from '../lib/supabase'
@@ -40,9 +41,14 @@ interface IntegrationProvider {
   documentation_url?: string
   logo_url?: string
   is_active: boolean
+  is_core_service?: boolean
   required_credentials: Record<string, boolean>
   supported_features: Record<string, boolean>
   pricing_info: Record<string, any>
+  setup_instructions?: string
+  credential_fields?: Record<string, any>
+  setup_steps?: string[]
+  help_url?: string
 }
 
 interface OrganizationIntegration {
@@ -80,11 +86,12 @@ export function Integrations() {
     try {
       setLoading(true)
 
-      // Load all available providers
+      // Load all available providers (excluding core services)
       const { data: providersData, error: providersError } = await supabase
         .from('integration_providers')
         .select('*')
         .eq('is_active', true)
+        .eq('is_core_service', false)  // Filter out core platform services
         .order('category', { ascending: true })
 
       if (providersError) throw providersError
@@ -115,6 +122,14 @@ export function Integrations() {
 
     try {
       if (enabled) {
+        // Check if provider requires setup
+        const provider = providers.find(p => p.id === providerId)
+        if (provider && provider.credential_fields && Object.keys(provider.credential_fields).length > 0) {
+          // Open setup modal instead of directly enabling
+          setConfigureIntegration(provider)
+          return
+        }
+
         // Enable integration - create/update record
         const { error } = await supabase
           .from('organization_integrations')
@@ -147,26 +162,26 @@ export function Integrations() {
     }
   }
 
-  async function saveCredentials(providerId: string) {
+  async function saveCredentials(providerId: string, credentials: Record<string, string> = {}) {
     if (!userProfile?.organization_id) return
 
     try {
-      // In production, credentials should be encrypted before storage
-      const { error } = await supabase
+      // First enable the integration
+      const { error: upsertError } = await supabase
         .from('organization_integrations')
-        .update({
+        .upsert({
+          organization_id: userProfile.organization_id,
+          provider_id: providerId,
+          is_enabled: true,
           credentials_encrypted: JSON.stringify(credentials),
           sync_status: 'connected',
           configuration: credentials
         })
-        .eq('organization_id', userProfile.organization_id)
-        .eq('provider_id', providerId)
 
-      if (error) throw error
+      if (upsertError) throw upsertError
 
-      success('Credentials saved', 'Integration is now connected.')
+      success('Integration connected', 'Your credentials have been saved and the integration is now active.')
       setConfigureIntegration(null)
-      setCredentials({})
       await loadIntegrations()
     } catch (error: any) {
       console.error('Error saving credentials:', error)
@@ -213,10 +228,12 @@ export function Integrations() {
     }
   }
 
-  const categories = ['all', ...Array.from(new Set(providers.map(p => p.category)))]
+  // Only show user-configurable integrations (not core services)
+  const userConfigurableProviders = providers.filter(p => !p.is_core_service)
+  const categories = ['all', ...Array.from(new Set(userConfigurableProviders.map(p => p.category)))]
   const filteredProviders = selectedCategory === 'all' 
-    ? providers 
-    : providers.filter(p => p.category === selectedCategory)
+    ? userConfigurableProviders 
+    : userConfigurableProviders.filter(p => p.category === selectedCategory)
 
   if (loading) {
     return (
@@ -251,7 +268,7 @@ export function Integrations() {
         {categories.map((category) => (
           <Button
             key={category}
-            variant={selectedCategory === category ? "default" : "outline"}
+            variant={selectedCategory === category ? "primary" : "outline"}
             size="sm"
             onClick={() => setSelectedCategory(category)}
             className="capitalize"

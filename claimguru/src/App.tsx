@@ -19,6 +19,7 @@ import { Settlements } from './pages/Settlements'
 import Insurers from './pages/Insurers'
 import Notifications from './pages/Notifications'
 import Settings from './pages/Settings'
+import { AdminPanel } from './pages/AdminPanel'
 import Calendar from './pages/Calendar'
 import Integrations from './pages/Integrations'
 import { Layout } from './components/layout/Layout'
@@ -104,6 +105,7 @@ function AppRoutes() {
         <Route path="analytics" element={<div className="p-6"><h1 className="text-2xl font-bold">Analytics</h1><p>Advanced analytics dashboard coming soon...</p></div>} />
         <Route path="settings" element={<Settings />} />
         <Route path="notifications" element={<Notifications />} />
+        <Route path="admin" element={<AdminPanel />} />
         <Route path="help" element={<div className="p-6"><h1 className="text-2xl font-bold">Help & Support</h1><p>Help center coming soon...</p></div>} />
       </Route>
 

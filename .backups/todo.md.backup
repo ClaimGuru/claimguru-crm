@@ -12,15 +12,29 @@
 [✓] STEP 7: Security & Admin Controls - Design multi-level security architecture and admin control systems → System STEP
 [✓] STEP 8: MVP Definition - Define minimum viable product scope based on research findings → System STEP
 [✓] STEP 9: Full-Stack CRM Development - Build the complete ClaimGuru CRM system with all planned features → Web Development STEP
-[ ] STEP 10: Advanced Scheduling & Calendar System - Build comprehensive scheduling system with appointments, deadlines, and calendar integration → System STEP
-[ ] STEP 11: Third-Party Integration Framework - Implement robust integration management with credentials and API management → System STEP
+[✓] STEP 10: Advanced Scheduling & Calendar System - Build comprehensive scheduling system with appointments, deadlines, and calendar integration → System STEP
+[✓] STEP 11: Third-Party Integration Framework - Implement robust integration management with credentials and API management → System STEP
 
-## NEW REQUIREMENTS:
-- Comprehensive scheduling and calendar system with recurring events
-- Third-party integration management with secure credential storage
-- API key management and configuration system
-- Integration with external services (email, SMS, calendar, payments, etc.)
-- Real-time calendar synchronization and availability management
+## CRITICAL FIXES NEEDED (PRIORITY 1):
+[ ] FIX 1: Client View/Edit Functionality - Clients can't be viewed or edited after creation (missing ClientDetailsModal) → System STEP
+[ ] FIX 2: Client Auto-Refresh - Page doesn't refresh after adding client → System STEP  
+[ ] FIX 3: Client-to-Claim Workflow - Add "Create Claim" button/flow immediately after client creation → System STEP
+[ ] FIX 4: Integration Setup Flow - When toggling integration, auto-open setup modal with proper credential validation → System STEP
+[ ] FIX 5: Remove Core Services from User Integrations - Move SendGrid, Twilio, Claude to backend infrastructure → System STEP
+[ ] FIX 6: Create Server-Side Admin Panel - Clean admin interface for platform management → Web Development STEP
+
+## INTEGRATION ENHANCEMENTS (PRIORITY 2):
+[ ] INTEGRATION 1: Complete setup instructions for each integration service → System STEP
+[ ] INTEGRATION 2: Proper credential field validation and testing → System STEP
+[ ] INTEGRATION 3: Integration status indicators and health checks → System STEP
+[ ] INTEGRATION 4: Integration usage analytics and quotas → System STEP
+
+## COMPLETED REQUIREMENTS:
+- Comprehensive scheduling and calendar system with recurring events ✓
+- Third-party integration management with secure credential storage ✓ 
+- API key management and configuration system ✓
+- Integration with external services (email, SMS, calendar, payments, etc.) ✓
+- Real-time calendar synchronization and availability management ✓
 
 ## Deliverable: Enhanced ClaimGuru CRM system with scheduling, calendar, and third-party integration capabilities
 

@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { LoadingSpinner } from '../components/ui/LoadingSpinner'
 import { Input } from '../components/ui/Input'
+import { IntegrationSetupModal } from '../components/integrations/IntegrationSetupModal'
 import { useToast } from '../hooks/useToast'
 import { useAuth } from '../contexts/AuthContext'
 import { supabase } from '../lib/supabase'
@@ -40,9 +41,14 @@ interface IntegrationProvider {
   documentation_url?: string
   logo_url?: string
   is_active: boolean
+  is_core_service?: boolean
   required_credentials: Record<string, boolean>
   supported_features: Record<string, boolean>
   pricing_info: Record<string, any>
+  setup_instructions?: string
+  credential_fields?: Record<string, any>
+  setup_steps?: string[]
+  help_url?: string
 }
 
 interface OrganizationIntegration {
@@ -80,11 +86,12 @@ export function Integrations() {
     try {
       setLoading(true)
 
-      // Load all available providers
+      // Load all available providers (excluding core services)
       const { data: providersData, error: providersError } = await supabase
         .from('integration_providers')
         .select('*')
         .eq('is_active', true)
+        .eq('is_core_service', false)  // Filter out core platform services
         .order('category', { ascending: true })
 
       if (providersError) throw providersError
@@ -115,6 +122,14 @@ export function Integrations() {
 
     try {
       if (enabled) {
+        // Check if provider requires setup
+        const provider = providers.find(p => p.id === providerId)
+        if (provider && provider.credential_fields && Object.keys(provider.credential_fields).length > 0) {
+          // Open setup modal instead of directly enabling
+          setConfigureIntegration(provider)
+          return
+        }
+
         // Enable integration - create/update record
         const { error } = await supabase
           .from('organization_integrations')
@@ -147,26 +162,26 @@ export function Integrations() {
     }
   }
 
-  async function saveCredentials(providerId: string) {
+  async function saveCredentials(providerId: string, credentials: Record<string, string> = {}) {
     if (!userProfile?.organization_id) return
 
     try {
-      // In production, credentials should be encrypted before storage
-      const { error } = await supabase
+      // First enable the integration
+      const { error: upsertError } = await supabase
         .from('organization_integrations')
-        .update({
+        .upsert({
+          organization_id: userProfile.organization_id,
+          provider_id: providerId,
+          is_enabled: true,
           credentials_encrypted: JSON.stringify(credentials),
           sync_status: 'connected',
           configuration: credentials
         })
-        .eq('organization_id', userProfile.organization_id)
-        .eq('provider_id', providerId)
 
-      if (error) throw error
+      if (upsertError) throw upsertError
 
-      success('Credentials saved', 'Integration is now connected.')
+      success('Integration connected', 'Your credentials have been saved and the integration is now active.')
       setConfigureIntegration(null)
-      setCredentials({})
       await loadIntegrations()
     } catch (error: any) {
       console.error('Error saving credentials:', error)
@@ -213,10 +228,12 @@ export function Integrations() {
     }
   }
 
-  const categories = ['all', ...Array.from(new Set(providers.map(p => p.category)))]
+  // Only show user-configurable integrations (not core services)
+  const userConfigurableProviders = providers.filter(p => !p.is_core_service)
+  const categories = ['all', ...Array.from(new Set(userConfigurableProviders.map(p => p.category)))]
   const filteredProviders = selectedCategory === 'all' 
-    ? providers 
-    : providers.filter(p => p.category === selectedCategory)
+    ? userConfigurableProviders 
+    : userConfigurableProviders.filter(p => p.category === selectedCategory)
 
   if (loading) {
     return (
@@ -366,68 +383,15 @@ export function Integrations() {
         })}
       </div>
 
-      {/* Configuration Modal */}
-      {configureIntegration && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <Card className="w-full max-w-md">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Settings className="h-5 w-5" />
-                Configure {configureIntegration.name}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <p className="text-sm text-gray-600">
-                  Enter your API credentials to connect {configureIntegration.name}
-                </p>
-
-                {Object.entries(configureIntegration.required_credentials).map(([field, required]) => (
-                  required && (
-                    <div key={field}>
-                      <label className="block text-sm font-medium mb-1 capitalize">
-                        {field.replace(/_/g, ' ')}
-                      </label>
-                      <div className="relative">
-                        <Input
-                          type={showCredentials[field] ? 'text' : 'password'}
-                          value={credentials[field] || ''}
-                          onChange={(e) => setCredentials(prev => ({ ...prev, [field]: e.target.value }))}
-                          placeholder={`Enter ${field.replace(/_/g, ' ')}`}
-                        />
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          className="absolute right-2 top-1/2 -translate-y-1/2"
-                          onClick={() => setShowCredentials(prev => ({ ...prev, [field]: !prev[field] }))}
-                        >
-                          {showCredentials[field] ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                        </Button>
-                      </div>
-                    </div>
-                  )
-                ))}
-
-                <div className="flex justify-end gap-2 pt-4">
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setConfigureIntegration(null)
-                      setCredentials({})
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                  <Button onClick={() => saveCredentials(configureIntegration.id)}>
-                    Save & Connect
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+      {/* Integration Setup Modal */}
+      <IntegrationSetupModal
+        provider={configureIntegration}
+        isOpen={!!configureIntegration}
+        onClose={() => setConfigureIntegration(null)}
+        onSave={async (providerId, credentials) => {
+          await saveCredentials(providerId, credentials)
+        }}
+      />
 
       {/* Integration Setup Instructions */}
       <Card>

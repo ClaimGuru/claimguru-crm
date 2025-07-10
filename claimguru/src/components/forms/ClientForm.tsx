@@ -9,7 +9,7 @@ interface ClientFormProps {
   client?: Client | null
   isOpen: boolean
   onClose: () => void
-  onSave: (client: Client) => void
+  onSave: (clientData: any) => void
 }
 
 export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps) {

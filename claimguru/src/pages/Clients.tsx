@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { LoadingSpinner } from '../components/ui/LoadingSpinner'
 import { ClientForm } from '../components/forms/ClientForm'
+import { ClientDetailsModal } from '../components/clients/ClientDetailsModal'
 import { 
   Plus, 
   Search, 
@@ -31,6 +32,8 @@ export function Clients() {
   const [editingClient, setEditingClient] = useState<Client | null>(null)
   const [selectedClient, setSelectedClient] = useState<Client | null>(null)
   const [showDetailsModal, setShowDetailsModal] = useState(false)
+  const [showCreateClaimFlow, setShowCreateClaimFlow] = useState(false)
+  const [clientForClaim, setClientForClaim] = useState<Client | null>(null)
 
   const filteredClients = clients.filter(client => {
     const matchesSearch = 
@@ -71,19 +74,39 @@ export function Clients() {
 
   const handleSaveClient = async (clientData: any) => {
     try {
+      let savedClient
       if (editingClient) {
         // Update existing client
-        await updateClient(editingClient.id, clientData)
+        savedClient = await updateClient(editingClient.id, clientData)
       } else {
         // Create new client
-        await createClient(clientData)
+        savedClient = await createClient(clientData)
       }
       setIsFormOpen(false)
       setEditingClient(null)
+      
+      // If this is a new client, offer to create a claim
+      if (!editingClient && savedClient) {
+        const shouldCreateClaim = confirm(`Client created successfully! Would you like to create a claim for ${savedClient.first_name} ${savedClient.last_name}?`)
+        if (shouldCreateClaim) {
+          handleCreateClaim(savedClient)
+        }
+      }
     } catch (error) {
       console.error('Error saving client:', error)
       // Error handling is done in the form
     }
+  }
+
+  const handleCreateClaim = (client: Client) => {
+    setClientForClaim(client)
+    setShowCreateClaimFlow(true)
+    setShowDetailsModal(false)
+  }
+
+  const handleCloseCreateClaim = () => {
+    setShowCreateClaimFlow(false)
+    setClientForClaim(null)
   }
 
   if (loading) {
@@ -353,6 +376,51 @@ export function Clients() {
         }}
         onSave={handleSaveClient}
       />
+
+      {/* Client Details Modal */}
+      <ClientDetailsModal
+        client={selectedClient}
+        isOpen={showDetailsModal}
+        onClose={() => {
+          setShowDetailsModal(false)
+          setSelectedClient(null)
+        }}
+        onEdit={(client) => {
+          setEditingClient(client)
+          setShowDetailsModal(false)
+          setIsFormOpen(true)
+        }}
+        onCreateClaim={handleCreateClaim}
+        claims={claims}
+      />
+
+      {/* Create Claim Flow - Simple redirect for now, can be enhanced later */}
+      {showCreateClaimFlow && clientForClaim && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Create Claim</h3>
+            <p className="text-gray-600 mb-6">
+              You'll be redirected to the Claims page to create a new claim for {clientForClaim.first_name} {clientForClaim.last_name}.
+            </p>
+            <div className="flex justify-end space-x-3">
+              <Button variant="outline" onClick={handleCloseCreateClaim}>
+                Cancel
+              </Button>
+              <Button
+                onClick={() => {
+                  // Store client ID in localStorage to pre-fill the claim form
+                  localStorage.setItem('preselected_client_id', clientForClaim.id)
+                  localStorage.setItem('preselected_client_name', `${clientForClaim.first_name} ${clientForClaim.last_name}`)
+                  // Redirect to claims page
+                  window.location.href = '/claims'
+                }}
+              >
+                Go to Claims
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

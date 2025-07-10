@@ -43,6 +43,30 @@ export function ClaimForm({ claim, isOpen, onClose, onSave }: ClaimFormProps) {
   }, [userProfile?.organization_id])
 
   useEffect(() => {
+    // Check for pre-selected client from localStorage
+    const preselectedClientId = localStorage.getItem('preselected_client_id')
+    const preselectedClientName = localStorage.getItem('preselected_client_name')
+    
+    if (preselectedClientId && !claim) {
+      setFormData(prev => ({
+        ...prev,
+        client_id: preselectedClientId
+      }))
+      
+      // Clear localStorage after using
+      localStorage.removeItem('preselected_client_id')
+      localStorage.removeItem('preselected_client_name')
+      
+      // Show a notification that client was pre-selected
+      if (preselectedClientName) {
+        setTimeout(() => {
+          alert(`Client "${preselectedClientName}" has been pre-selected for this claim.`)
+        }, 500)
+      }
+    }
+  }, [claim, isOpen])
+
+  useEffect(() => {
     if (claim) {
       setFormData({
         client_id: claim.client_id || '',

@@ -18,7 +18,8 @@ import {
   UserCheck,
   Handshake,
   Shield,
-  Zap
+  Zap,
+  ShieldCheck
 } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
 
@@ -43,6 +44,7 @@ const navigation = [
 
 const bottomNavigation = [
   { name: 'Notifications', href: '/notifications', icon: Bell },
+  { name: 'Admin Panel', href: '/admin', icon: ShieldCheck },
   { name: 'Help & Support', href: '/help', icon: HelpCircle },
 ]
 
