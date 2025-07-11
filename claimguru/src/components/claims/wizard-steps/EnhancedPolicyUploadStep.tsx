@@ -47,7 +47,17 @@ export const EnhancedPolicyUploadStep: React.FC<EnhancedPolicyUploadStepProps> =
   }, [])
 
   const extractPolicyData = async () => {
-    if (!uploadedFile) return
+    if (!uploadedFile) {
+      console.error('No file selected for processing')
+      alert('Please select a file first')
+      return
+    }
+
+    console.log('Starting PDF extraction process...', {
+      fileName: uploadedFile.name,
+      fileSize: uploadedFile.size,
+      fileType: uploadedFile.type
+    })
 
     setProcessingStep('uploading')
     setIsUploading(true)
@@ -69,8 +79,20 @@ export const EnhancedPolicyUploadStep: React.FC<EnhancedPolicyUploadStepProps> =
       // Get organization ID from user data (assuming it's available in data or context)
       const organizationId = data.organizationId || 'default-org-id' // You may need to get this from context
       
+      console.log('Calling PDF extraction service with:', {
+        organizationId,
+        fileType: uploadedFile.type,
+        fileSize: uploadedFile.size
+      })
+      
       // Use new robust PDF extraction service
       const pdfResult = await pdfExtractionService.extractFromPDF(uploadedFile, organizationId)
+      console.log('PDF extraction completed:', {
+        processingMethod: pdfResult.processingMethod,
+        confidence: pdfResult.confidence,
+        cost: pdfResult.cost,
+        extractedText: pdfResult.extractedText.substring(0, 200) + '...'
+      })
       setPdfExtractionResult(pdfResult)
       
       // Step 3: Convert PDF extraction result to PolicyExtractionResult format
@@ -120,12 +142,14 @@ export const EnhancedPolicyUploadStep: React.FC<EnhancedPolicyUploadStepProps> =
       
     } catch (error) {
       console.error('Enhanced policy extraction failed:', error)
+      alert(`PDF extraction failed: ${error.message}. Please try again or contact support.`)
       setProcessingStep('idle')
       
       // Try fallback extraction if primary method fails
       try {
         console.log('Attempting fallback extraction...')
         const fallbackResult = await enhancedClaimWizardAI.extractPolicyData(uploadedFile, documentType)
+        console.log('Fallback extraction completed:', fallbackResult)
         setExtractionResult(fallbackResult)
         setProcessingStep('complete')
         setShowValidation(true)
@@ -135,6 +159,7 @@ export const EnhancedPolicyUploadStep: React.FC<EnhancedPolicyUploadStepProps> =
         }
       } catch (fallbackError) {
         console.error('Fallback extraction also failed:', fallbackError)
+        alert(`Both primary and fallback extraction failed: ${fallbackError.message}. Please try uploading a different file or contact support.`)
         if (uploadedDocument) {
           await documentUploadService.updateExtractionStatus(uploadedDocument.id, 'failed')
         }

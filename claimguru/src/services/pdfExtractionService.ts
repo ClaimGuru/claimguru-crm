@@ -48,6 +48,12 @@ class PDFExtractionService {
    */
   async extractFromPDF(file: File, organizationId: string): Promise<PDFExtractionResult> {
     const startTime = Date.now();
+    console.log('PDF extraction service called with:', {
+      fileName: file.name,
+      fileSize: file.size,
+      fileType: file.type,
+      organizationId
+    });
     
     try {
       // Step 1: Check if document is suitable for client-side processing
