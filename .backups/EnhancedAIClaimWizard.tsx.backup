@@ -23,6 +23,7 @@ import {
 
 // Import enhanced AI wizard step components
 import { EnhancedPolicyUploadStep } from './wizard-steps/EnhancedPolicyUploadStep'
+import { DebugPolicyUploadStep } from './wizard-steps/DebugPolicyUploadStep'
 import { EnhancedClientDetailsStep } from './wizard-steps/EnhancedClientDetailsStep'
 import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoStep'
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
@@ -35,7 +36,7 @@ import { PersonnelAssignmentStep } from './wizard-steps/PersonnelAssignmentStep'
 import { OfficeTasksStep } from './wizard-steps/OfficeTasksStep'
 import { CoverageIssueReviewStep } from './wizard-steps/CoverageIssueReviewStep'
 import { CompletionStep } from './wizard-steps/CompletionStep'
-import { CustomFieldsStep } from './wizard-steps/CustomFieldsStep'
+import CustomFieldsStep from './wizard-steps/CustomFieldsStep'
 
 interface EnhancedAIIntakeWizardProps {
   clientId?: string
