@@ -2,9 +2,10 @@ import React, { useState, useCallback } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
 import { Button } from '../../ui/Button'
 import { LoadingSpinner } from '../../ui/LoadingSpinner'
-import { Upload, FileText, CheckCircle, AlertTriangle, Brain, Eye, Shield, Cloud, Database } from 'lucide-react'
+import { Upload, FileText, CheckCircle, AlertTriangle, Brain, Eye, Shield, Cloud, Database, DollarSign, Zap, Clock } from 'lucide-react'
 import { enhancedClaimWizardAI, PolicyExtractionResult } from '../../../services/enhancedClaimWizardAI'
 import { documentUploadService, UploadedDocument } from '../../../services/documentUploadService'
+import { pdfExtractionService, PDFExtractionResult } from '../../../services/pdfExtractionService'
 import { PolicyExtractionValidationStep } from './PolicyExtractionValidationStep'
 
 interface EnhancedPolicyUploadStepProps {
@@ -24,6 +25,7 @@ export const EnhancedPolicyUploadStep: React.FC<EnhancedPolicyUploadStepProps> =
   const [isExtracting, setIsExtracting] = useState(false)
   const [uploadedDocument, setUploadedDocument] = useState<UploadedDocument | null>(null)
   const [extractionResult, setExtractionResult] = useState<PolicyExtractionResult | null>(null)
+  const [pdfExtractionResult, setPdfExtractionResult] = useState<PDFExtractionResult | null>(null)
   const [isAdvancedAnalyzing, setIsAdvancedAnalyzing] = useState(false)
   const [advancedAnalysis, setAdvancedAnalysis] = useState<any>(null)
   const [showValidation, setShowValidation] = useState(false)
@@ -61,24 +63,81 @@ export const EnhancedPolicyUploadStep: React.FC<EnhancedPolicyUploadStepProps> =
       setIsUploading(false)
       setIsExtracting(true)
       
-      // Step 2: Process document with AI
-      console.log('Processing document with AI...')
-      const result = await enhancedClaimWizardAI.extractPolicyData(uploadedFile, documentType)
-      setExtractionResult(result)
+      // Step 2: Enhanced PDF Processing with hybrid extraction
+      console.log('Processing document with enhanced PDF extraction...')
       
-      // Step 3: Update document status
-      await documentUploadService.updateExtractionStatus(document.id, 'completed', result)
+      // Get organization ID from user data (assuming it's available in data or context)
+      const organizationId = data.organizationId || 'default-org-id' // You may need to get this from context
+      
+      // Use new robust PDF extraction service
+      const pdfResult = await pdfExtractionService.extractFromPDF(uploadedFile, organizationId)
+      setPdfExtractionResult(pdfResult)
+      
+      // Step 3: Convert PDF extraction result to PolicyExtractionResult format
+      const policyExtractionResult: PolicyExtractionResult = {
+        policyData: {
+          policyNumber: pdfResult.policyData?.policyNumber || '',
+          effectiveDate: pdfResult.policyData?.effectiveDate || '',
+          expirationDate: pdfResult.policyData?.expirationDate || '',
+          insuredName: pdfResult.policyData?.insuredName || '',
+          insurerName: pdfResult.policyData?.insurerName || '',
+          coverageTypes: pdfResult.policyData?.coverageTypes || [],
+          deductibles: pdfResult.policyData?.deductibles || [],
+          insuredAddress: pdfResult.policyData?.insuredAddress || '',
+          // Add additional fields from PDF extraction
+          organizationName: pdfResult.policyData?.insurerName || '',
+          coverageDetails: `Processed via ${pdfResult.processingMethod} extraction`,
+          proofOfLossRequirements: [],
+          proofOfLossLanguage: '',
+          appraisalSections: '',
+          coveredTerritory: ''
+        },
+        validation: {
+          missingData: [],
+          inconsistencies: [],
+          confidence: pdfResult.confidence
+        },
+        autoPopulateFields: pdfResult.policyData || {}
+      }
+      
+      setExtractionResult(policyExtractionResult)
+      
+      // Step 4: Update document status with enhanced information
+      await documentUploadService.updateExtractionStatus(document.id, 'completed', {
+        ...policyExtractionResult,
+        pdfProcessingDetails: {
+          processingMethod: pdfResult.processingMethod,
+          cost: pdfResult.cost,
+          pageCount: pdfResult.metadata.pageCount,
+          confidence: pdfResult.confidence
+        }
+      })
       
       setProcessingStep('complete')
       
-      // Show validation step instead of auto-populating
+      // Show validation step with enhanced data
       setShowValidation(true)
+      
     } catch (error) {
-      console.error('Policy extraction failed:', error)
+      console.error('Enhanced policy extraction failed:', error)
       setProcessingStep('idle')
       
-      if (uploadedDocument) {
-        await documentUploadService.updateExtractionStatus(uploadedDocument.id, 'failed')
+      // Try fallback extraction if primary method fails
+      try {
+        console.log('Attempting fallback extraction...')
+        const fallbackResult = await enhancedClaimWizardAI.extractPolicyData(uploadedFile, documentType)
+        setExtractionResult(fallbackResult)
+        setProcessingStep('complete')
+        setShowValidation(true)
+        
+        if (uploadedDocument) {
+          await documentUploadService.updateExtractionStatus(uploadedDocument.id, 'completed_fallback', fallbackResult)
+        }
+      } catch (fallbackError) {
+        console.error('Fallback extraction also failed:', fallbackError)
+        if (uploadedDocument) {
+          await documentUploadService.updateExtractionStatus(uploadedDocument.id, 'failed')
+        }
       }
     } finally {
       setIsUploading(false)
@@ -304,6 +363,65 @@ export const EnhancedPolicyUploadStep: React.FC<EnhancedPolicyUploadStepProps> =
               {uploadedDocument && (
                 <div className="mt-3 text-xs text-blue-600">
                   Document stored: {uploadedDocument.fileName} ({(uploadedDocument.fileSize / 1024).toFixed(1)}KB)
+                </div>
+              )}
+              
+              {/* Enhanced PDF Processing Status */}
+              {pdfExtractionResult && (
+                <div className="mt-3 p-3 bg-blue-100 rounded-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-blue-800">Processing Details</span>
+                    <div className="flex items-center gap-2">
+                      {pdfExtractionResult.processingMethod === 'client' ? (
+                        <>
+                          <Zap className="h-4 w-4 text-green-600" />
+                          <span className="text-xs text-green-600 font-medium">FREE</span>
+                        </>
+                      ) : (
+                        <>
+                          <Cloud className="h-4 w-4 text-blue-600" />
+                          <span className="text-xs text-blue-600 font-medium">PREMIUM</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-3 text-xs">
+                    <div className="flex items-center gap-1">
+                      <Brain className="h-3 w-3 text-blue-600" />
+                      <span className="text-blue-700">
+                        {pdfExtractionResult.processingMethod === 'client' ? 'Client-side' : 
+                         pdfExtractionResult.processingMethod === 'textract' ? 'AWS Textract' : 'Server-side'}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Eye className="h-3 w-3 text-green-600" />
+                      <span className="text-green-700">
+                        {Math.round(pdfExtractionResult.confidence * 100)}% confidence
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      {pdfExtractionResult.cost > 0 ? (
+                        <>
+                          <DollarSign className="h-3 w-3 text-orange-600" />
+                          <span className="text-orange-700">
+                            ${pdfExtractionResult.cost.toFixed(3)}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <CheckCircle className="h-3 w-3 text-green-600" />
+                          <span className="text-green-700">No cost</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <div className="mt-2 text-xs text-blue-600">
+                    📄 {pdfExtractionResult.metadata.pageCount} pages • 
+                    ⚡ {pdfExtractionResult.metadata.processingTime}ms • 
+                    📊 {pdfExtractionResult.metadata.fileSize > 1000000 ? 
+                        (pdfExtractionResult.metadata.fileSize / 1000000).toFixed(1) + 'MB' : 
+                        (pdfExtractionResult.metadata.fileSize / 1000).toFixed(1) + 'KB'}
+                  </div>
                 </div>
               )}
             </div>
