@@ -146,21 +146,13 @@ class EmailAutomationService {
       })
 
       if (response.ok) {
-        const contentType = response.headers.get('content-type')
-        if (contentType && contentType.includes('application/json')) {
-          const configs = await response.json()
-          if (configs.length > 0) {
-            this.config = configs[0] // Use first configuration for now
-          }
-        } else {
-          console.warn('Email configuration endpoint returned non-JSON response, using default config')
+        const configs = await response.json()
+        if (configs.length > 0) {
+          this.config = configs[0] // Use first configuration for now
         }
-      } else {
-        console.warn('Email configuration endpoint not available, using default config')
       }
     } catch (error) {
-      console.warn('Email configuration loading skipped:', error.message)
-      // Continue with default configuration - don't let this block the app
+      console.error('Failed to load email configuration:', error)
     }
   }
 
