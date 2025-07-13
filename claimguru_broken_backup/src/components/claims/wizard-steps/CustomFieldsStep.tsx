@@ -1,0 +1,237 @@
+/**
+ * Custom Fields Step for Intake Wizard
+ * Dynamically renders custom fields defined for the organization
+ */
+
+import React, { useState, useEffect } from 'react';
+import { Card } from '../../ui/Card';
+import { Button } from '../../ui/Button';
+import { Badge } from '../../ui/Badge';
+import { AlertCircle, CheckCircle } from 'lucide-react';
+import DynamicCustomField from '../../forms/DynamicCustomField';
+import useCustomFields, { useClaimCustomFieldValues } from '../../../hooks/useCustomFields';
+import { useToast } from '../../../contexts/ToastContext';
+
+interface CustomFieldsStepProps {
+  claimId?: string;
+  organizationId: string;
+  onComplete: (data: Record<string, any>) => void;
+  initialData?: Record<string, any>;
+}
+
+export const CustomFieldsStep: React.FC<CustomFieldsStepProps> = ({
+  claimId,
+  organizationId,
+  onComplete,
+  initialData = {}
+}) => {
+  const [fieldValues, setFieldValues] = useState<Record<string, any>>(initialData);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [saving, setSaving] = useState(false);
+  const { success, error, warning, info } = useToast();
+
+  // Load custom fields for intake wizard
+  const { 
+    customFields, 
+    loading: fieldsLoading, 
+    error: fieldsError,
+    validateFieldValue,
+    shouldShowField,
+    saveAllCustomFieldValues
+  } = useCustomFields(organizationId, 'intake_wizard');
+
+  // Load existing values if editing existing claim
+  const { 
+    values: existingValues, 
+    loading: valuesLoading 
+  } = useClaimCustomFieldValues(claimId || '');
+
+  useEffect(() => {
+    if (existingValues && Object.keys(existingValues).length > 0) {
+      setFieldValues(prev => ({ ...prev, ...existingValues }));
+    }
+  }, [existingValues]);
+
+  const handleFieldChange = (fieldName: string, value: any) => {
+    setFieldValues(prev => ({ ...prev, [fieldName]: value }));
+    
+    // Clear error for this field
+    if (errors[fieldName]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[fieldName];
+        return newErrors;
+      });
+    }
+  };
+
+  const validateAllFields = () => {
+    const newErrors: Record<string, string> = {};
+    let isValid = true;
+
+    customFields.forEach(field => {
+      if (shouldShowField(field, fieldValues)) {
+        const value = fieldValues[field.field_name];
+        const validation = validateFieldValue(field, value);
+        
+        if (!validation.isValid) {
+          newErrors[field.field_name] = validation.error || 'Invalid value';
+          isValid = false;
+        }
+      }
+    });
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const handleSave = async () => {
+    if (!validateAllFields()) {
+      error('Please fix the validation errors before continuing');
+      return;
+    }
+
+    try {
+      setSaving(true);
+
+      // Save to database if we have a claim ID
+      if (claimId) {
+        await saveAllCustomFieldValues(claimId, fieldValues);
+        success('Custom fields saved successfully');
+      }
+
+      // Pass data to parent component
+      onComplete(fieldValues);
+    } catch (error) {
+      console.error('Error saving custom fields:', error);
+      error('Failed to save custom fields');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (fieldsLoading || valuesLoading) {
+    return (
+      <Card className="p-6">
+        <div className="flex items-center justify-center py-8">
+          <div className="text-gray-500">Loading custom fields...</div>
+        </div>
+      </Card>
+    );
+  }
+
+  if (fieldsError) {
+    return (
+      <Card className="p-6">
+        <div className="flex items-center gap-2 text-red-600">
+          <AlertCircle className="h-5 w-5" />
+          <span>Error loading custom fields: {fieldsError}</span>
+        </div>
+      </Card>
+    );
+  }
+
+  // Filter fields to show only those visible with current values
+  const visibleFields = customFields.filter(field => shouldShowField(field, fieldValues));
+
+  if (visibleFields.length === 0) {
+    return (
+      <Card className="p-6">
+        <div className="text-center py-8">
+          <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold mb-2">No Custom Fields Required</h3>
+          <p className="text-gray-600 mb-4">
+            Your organization hasn't configured any custom fields for the intake process.
+          </p>
+          <Button onClick={() => onComplete(fieldValues)}>
+            Continue
+          </Button>
+        </div>
+      </Card>
+    );
+  }
+
+  // Group fields by section for better organization
+  const fieldsBySection = visibleFields.reduce((acc, field) => {
+    // For now, use a default section. In the future, this could come from placements
+    const section = 'additional_information';
+    if (!acc[section]) {
+      acc[section] = [];
+    }
+    acc[section].push(field);
+    return acc;
+  }, {} as Record<string, typeof customFields>);
+
+  return (
+    <div className="space-y-6">
+      <div className="text-center">
+        <h2 className="text-2xl font-bold mb-2">Additional Information</h2>
+        <p className="text-gray-600">
+          Please provide additional information required by your organization
+        </p>
+      </div>
+
+      {Object.entries(fieldsBySection).map(([sectionName, sectionFields]) => (
+        <Card key={sectionName} className="p-6">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 mb-4">
+              <h3 className="text-lg font-semibold capitalize">
+                {sectionName.replace(/_/g, ' ')}
+              </h3>
+              <Badge variant="secondary">
+                {sectionFields.length} field{sectionFields.length !== 1 ? 's' : ''}
+              </Badge>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {sectionFields.map(field => (
+                <div key={field.id} className={field.field_type === 'text_long' ? 'md:col-span-2' : ''}>
+                  <DynamicCustomField
+                    field={field}
+                    value={fieldValues[field.field_name]}
+                    onChange={(value) => handleFieldChange(field.field_name, value)}
+                    error={errors[field.field_name]}
+                    allValues={fieldValues}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </Card>
+      ))}
+
+      {/* Validation Summary */}
+      {Object.keys(errors).length > 0 && (
+        <Card className="p-4 border-red-200 bg-red-50">
+          <div className="flex items-center gap-2 text-red-700 mb-2">
+            <AlertCircle className="h-5 w-5" />
+            <span className="font-medium">Please fix the following errors:</span>
+          </div>
+          <ul className="list-disc list-inside text-sm text-red-600 space-y-1">
+            {Object.entries(errors).map(([fieldName, error]) => {
+              const field = customFields.find(f => f.field_name === fieldName);
+              return (
+                <li key={fieldName}>
+                  <strong>{field?.field_label || fieldName}:</strong> {error}
+                </li>
+              );
+            })}
+          </ul>
+        </Card>
+      )}
+
+      {/* Navigation */}
+      <div className="flex justify-end gap-4">
+        <Button
+          onClick={handleSave}
+          disabled={saving || Object.keys(errors).length > 0}
+          className="min-w-32"
+        >
+          {saving ? 'Saving...' : 'Continue'}
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export default CustomFieldsStep;

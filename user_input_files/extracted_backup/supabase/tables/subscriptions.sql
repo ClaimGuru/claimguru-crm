@@ -1,0 +1,22 @@
+CREATE TABLE subscriptions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    organization_id UUID NOT NULL,
+    subscription_tier VARCHAR(50) NOT NULL,
+    status VARCHAR(50) DEFAULT 'active',
+    billing_cycle VARCHAR(20) DEFAULT 'monthly',
+    base_price DECIMAL(10,2) NOT NULL,
+    current_users INTEGER DEFAULT 1,
+    max_users INTEGER,
+    additional_user_price DECIMAL(10,2),
+    enabled_modules TEXT[],
+    module_pricing JSONB,
+    total_monthly_cost DECIMAL(10,2),
+    billing_email VARCHAR(255),
+    payment_method JSONB,
+    next_billing_date DATE,
+    trial_end_date DATE,
+    discount_code VARCHAR(50),
+    discount_percentage DECIMAL(5,2),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);

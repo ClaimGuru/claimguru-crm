@@ -1,0 +1,793 @@
+import React, { useState, useEffect } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
+import { Button } from '../../ui/Button'
+import { 
+  Users, 
+  Building, 
+  MapPin, 
+  User,
+  Phone,
+  Mail,
+  Key,
+  UserPlus,
+  Brain,
+  Sparkles
+} from 'lucide-react'
+
+interface InsuredDetailsStepProps {
+  data: any
+  onUpdate: (data: any) => void
+  clientId?: string
+}
+
+export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsStepProps) {
+  const [clientType, setClientType] = useState(data.clientType || 'residential')
+  const [isOrganization, setIsOrganization] = useState(data.isOrganization || false)
+  const [organizationName, setOrganizationName] = useState(data.organizationName || '')
+  const [pointOfContact, setPointOfContact] = useState(data.pointOfContact || {
+    title: '',
+    firstName: '',
+    lastName: '',
+    phone: '',
+    email: '',
+    extension: ''
+  })
+  
+  const [insuredDetails, setInsuredDetails] = useState(data.insuredDetails || {
+    title: '',
+    firstName: '',
+    lastName: '',
+    phones: [{ type: 'main', number: '' }],
+    emails: [{ email: '' }]
+  })
+  
+  const [hasCoInsured, setHasCoInsured] = useState(false)
+  const [coInsured, setCoInsured] = useState(data.coInsured || {
+    title: '',
+    firstName: '',
+    lastName: '',
+    phones: [{ type: 'main', number: '' }],
+    emails: [{ email: '' }]
+  })
+  
+  const [mailingAddress, setMailingAddress] = useState(data.mailingAddress || {
+    propertyType: '',
+    addressLine1: '',
+    addressLine2: '',
+    city: '',
+    state: '',
+    zipCode: ''
+  })
+  
+  const [lossAddressSame, setLossAddressSame] = useState(true)
+  const [lossAddress, setLossAddress] = useState(data.lossAddress || {})
+  
+  const [gateCode, setGateCode] = useState(data.gateCode || '')
+  const [hasGateCode, setHasGateCode] = useState(false)
+  
+  const [tenantOccupied, setTenantOccupied] = useState(false)
+  const [tenantInfo, setTenantInfo] = useState(data.tenantInfo || {
+    name: '',
+    phone: '',
+    address: ''
+  })
+  
+  const [hasUninsuredParty, setHasUninsuredParty] = useState(false)
+  const [uninsuredParty, setUninsuredParty] = useState(data.uninsuredParty || {
+    name: '',
+    phone: '',
+    address: '',
+    relationship: ''
+  })
+
+  // Auto-populate from AI extracted data
+  useEffect(() => {
+    if (data.aiExtractedData?.extractedData) {
+      const extractedData = data.aiExtractedData.extractedData
+      
+      if (extractedData.insuredName && !insuredDetails.firstName) {
+        const nameParts = extractedData.insuredName.split(' ')
+        setInsuredDetails(prev => ({
+          ...prev,
+          firstName: nameParts[0] || '',
+          lastName: nameParts.slice(1).join(' ') || ''
+        }))
+      }
+      
+      if (extractedData.propertyAddress && !mailingAddress.addressLine1) {
+        // Parse address from AI extraction
+        const addressParts = extractedData.propertyAddress.split(',')
+        setMailingAddress(prev => ({
+          ...prev,
+          addressLine1: addressParts[0]?.trim() || '',
+          city: addressParts[1]?.trim() || '',
+          state: addressParts[2]?.trim()?.split(' ')[0] || '',
+          zipCode: addressParts[2]?.trim()?.split(' ')[1] || ''
+        }))
+      }
+    }
+  }, [data.aiExtractedData])
+
+  // Update parent component when data changes
+  useEffect(() => {
+    onUpdate({
+      clientType,
+      isOrganization,
+      organizationName,
+      pointOfContact,
+      insuredDetails,
+      coInsured: hasCoInsured ? coInsured : null,
+      mailingAddress,
+      lossAddress: lossAddressSame ? mailingAddress : lossAddress,
+      gateCode: hasGateCode ? gateCode : '',
+      tenantInfo: tenantOccupied ? tenantInfo : null,
+      uninsuredParty: hasUninsuredParty ? uninsuredParty : null
+    })
+  }, [
+    clientType, isOrganization, organizationName, pointOfContact, insuredDetails,
+    hasCoInsured, coInsured, mailingAddress, lossAddressSame, lossAddress,
+    hasGateCode, gateCode, tenantOccupied, tenantInfo, hasUninsuredParty, uninsuredParty,
+    onUpdate
+  ])
+
+  const addPhone = (target: 'insured' | 'coinsured') => {
+    if (target === 'insured') {
+      setInsuredDetails(prev => ({
+        ...prev,
+        phones: [...prev.phones, { type: 'cell', number: '' }]
+      }))
+    } else {
+      setCoInsured(prev => ({
+        ...prev,
+        phones: [...prev.phones, { type: 'cell', number: '' }]
+      }))
+    }
+  }
+
+  const addEmail = (target: 'insured' | 'coinsured') => {
+    if (target === 'insured') {
+      setInsuredDetails(prev => ({
+        ...prev,
+        emails: [...prev.emails, { email: '' }]
+      }))
+    } else {
+      setCoInsured(prev => ({
+        ...prev,
+        emails: [...prev.emails, { email: '' }]
+      }))
+    }
+  }
+
+  const propertyTypes = [
+    'Single Family Dwelling',
+    'Condominium',
+    'Townhouse',
+    'Mobile Home',
+    'Duplex',
+    'Apartment Building',
+    'Commercial Building',
+    'Other'
+  ]
+
+  const titleOptions = ['Mr.', 'Mrs.', 'Ms.', 'Dr.', 'Rev.', 'Prof.']
+  const phoneTypes = ['Main', 'Cell', 'Work', 'Home', 'Fax']
+
+  return (
+    <div className="space-y-6">
+      {/* AI Auto-Population Notice */}
+      {data.aiExtractedData && (
+        <Card className="bg-purple-50 border-purple-200">
+          <CardContent className="p-4">
+            <div className="flex items-center gap-3">
+              <Brain className="h-6 w-6 text-purple-600" />
+              <div>
+                <div className="font-medium text-purple-900">AI Auto-Population Active</div>
+                <div className="text-sm text-purple-700">
+                  Information has been automatically filled from your policy document. Please review and update as needed.
+                </div>
+              </div>
+              <Sparkles className="h-5 w-5 text-purple-600" />
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Client Type Selection */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-3">
+            <Building className="h-6 w-6 text-blue-600" />
+            Client Type
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label className={`border-2 rounded-lg p-4 cursor-pointer transition-colors ${
+              clientType === 'residential' ? 'border-purple-500 bg-purple-50' : 'border-gray-200 hover:border-gray-300'
+            }`}>
+              <input
+                type="radio"
+                name="clientType"
+                value="residential"
+                checked={clientType === 'residential'}
+                onChange={(e) => setClientType(e.target.value)}
+                className="sr-only"
+              />
+              <div className="flex items-center gap-3">
+                <div className="h-8 w-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <Building className="h-5 w-5 text-blue-600" />
+                </div>
+                <div>
+                  <div className="font-medium">Residential</div>
+                  <div className="text-sm text-gray-600">Personal property and homeowner claims</div>
+                </div>
+              </div>
+            </label>
+
+            <label className={`border-2 rounded-lg p-4 cursor-pointer transition-colors ${
+              clientType === 'commercial' ? 'border-purple-500 bg-purple-50' : 'border-gray-200 hover:border-gray-300'
+            }`}>
+              <input
+                type="radio"
+                name="clientType"
+                value="commercial"
+                checked={clientType === 'commercial'}
+                onChange={(e) => setClientType(e.target.value)}
+                className="sr-only"
+              />
+              <div className="flex items-center gap-3">
+                <div className="h-8 w-8 bg-green-100 rounded-lg flex items-center justify-center">
+                  <Building className="h-5 w-5 text-green-600" />
+                </div>
+                <div>
+                  <div className="font-medium">Commercial</div>
+                  <div className="text-sm text-gray-600">Business and commercial property claims</div>
+                </div>
+              </div>
+            </label>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Organization Information (if applicable) */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-3">
+            <Users className="h-6 w-6 text-green-600" />
+            Policyholder Information
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={isOrganization}
+              onChange={(e) => setIsOrganization(e.target.checked)}
+              className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+            />
+            <span className="font-medium">Policyholder is an organization</span>
+          </label>
+
+          {isOrganization && (
+            <div className="space-y-4 border-l-4 border-blue-500 pl-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Organization Name *
+                </label>
+                <input
+                  type="text"
+                  value={organizationName}
+                  onChange={(e) => setOrganizationName(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Company or organization name"
+                  required
+                />
+              </div>
+
+              <div>
+                <h4 className="font-medium text-gray-900 mb-3">Point of Contact</h4>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                    <select
+                      value={pointOfContact.title}
+                      onChange={(e) => setPointOfContact(prev => ({ ...prev, title: e.target.value }))}
+                      className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                    >
+                      <option value="">Select</option>
+                      {titleOptions.map(title => (
+                        <option key={title} value={title}>{title}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                    <input
+                      type="text"
+                      value={pointOfContact.firstName}
+                      onChange={(e) => setPointOfContact(prev => ({ ...prev, firstName: e.target.value }))}
+                      className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                    <input
+                      type="text"
+                      value={pointOfContact.lastName}
+                      onChange={(e) => setPointOfContact(prev => ({ ...prev, lastName: e.target.value }))}
+                      className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Extension</label>
+                    <input
+                      type="text"
+                      value={pointOfContact.extension}
+                      onChange={(e) => setPointOfContact(prev => ({ ...prev, extension: e.target.value }))}
+                      className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                      placeholder="ext."
+                    />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Phone *</label>
+                    <input
+                      type="tel"
+                      value={pointOfContact.phone}
+                      onChange={(e) => setPointOfContact(prev => ({ ...prev, phone: e.target.value }))}
+                      className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                      placeholder="(555) 123-4567"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                    <input
+                      type="email"
+                      value={pointOfContact.email}
+                      onChange={(e) => setPointOfContact(prev => ({ ...prev, email: e.target.value }))}
+                      className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                      placeholder="contact@company.com"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Insured Details */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-3">
+            <User className="h-6 w-6 text-blue-600" />
+            {isOrganization ? 'Primary Contact Details' : 'Insured Details'}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
+              <select
+                value={insuredDetails.title}
+                onChange={(e) => setInsuredDetails(prev => ({ ...prev, title: e.target.value }))}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+              >
+                <option value="">Select</option>
+                {titleOptions.map(title => (
+                  <option key={title} value={title}>{title}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+              <input
+                type="text"
+                value={insuredDetails.firstName}
+                onChange={(e) => setInsuredDetails(prev => ({ ...prev, firstName: e.target.value }))}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+              <input
+                type="text"
+                value={insuredDetails.lastName}
+                onChange={(e) => setInsuredDetails(prev => ({ ...prev, lastName: e.target.value }))}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Phone Numbers */}
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <label className="block text-sm font-medium text-gray-700">Phone Numbers</label>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => addPhone('insured')}
+                className="flex items-center gap-1"
+              >
+                <Phone className="h-4 w-4" />
+                Add Phone
+              </Button>
+            </div>
+            {insuredDetails.phones.map((phone, index) => (
+              <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
+                <select
+                  value={phone.type}
+                  onChange={(e) => {
+                    const newPhones = [...insuredDetails.phones]
+                    newPhones[index].type = e.target.value
+                    setInsuredDetails(prev => ({ ...prev, phones: newPhones }))
+                  }}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                >
+                  {phoneTypes.map(type => (
+                    <option key={type} value={type.toLowerCase()}>{type}</option>
+                  ))}
+                </select>
+                <input
+                  type="tel"
+                  value={phone.number}
+                  onChange={(e) => {
+                    const newPhones = [...insuredDetails.phones]
+                    newPhones[index].number = e.target.value
+                    setInsuredDetails(prev => ({ ...prev, phones: newPhones }))
+                  }}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500 md:col-span-2"
+                  placeholder="(555) 123-4567"
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Email Addresses */}
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <label className="block text-sm font-medium text-gray-700">Email Addresses</label>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => addEmail('insured')}
+                className="flex items-center gap-1"
+              >
+                <Mail className="h-4 w-4" />
+                Add Email
+              </Button>
+            </div>
+            {insuredDetails.emails.map((email, index) => (
+              <input
+                key={index}
+                type="email"
+                value={email.email}
+                onChange={(e) => {
+                  const newEmails = [...insuredDetails.emails]
+                  newEmails[index].email = e.target.value
+                  setInsuredDetails(prev => ({ ...prev, emails: newEmails }))
+                }}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500 mb-2"
+                placeholder="email@example.com"
+              />
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Co-Insured Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <UserPlus className="h-6 w-6 text-green-600" />
+              Co-Insured Information
+            </div>
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={hasCoInsured}
+                onChange={(e) => setHasCoInsured(e.target.checked)}
+                className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+              />
+              <span className="text-sm font-medium">Has Co-Insured</span>
+            </label>
+          </CardTitle>
+        </CardHeader>
+        {hasCoInsured && (
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                <select
+                  value={coInsured.title}
+                  onChange={(e) => setCoInsured(prev => ({ ...prev, title: e.target.value }))}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                >
+                  <option value="">Select</option>
+                  {titleOptions.map(title => (
+                    <option key={title} value={title}>{title}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                <input
+                  type="text"
+                  value={coInsured.firstName}
+                  onChange={(e) => setCoInsured(prev => ({ ...prev, firstName: e.target.value }))}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                <input
+                  type="text"
+                  value={coInsured.lastName}
+                  onChange={(e) => setCoInsured(prev => ({ ...prev, lastName: e.target.value }))}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                  required
+                />
+              </div>
+            </div>
+            
+            {/* Co-Insured Phone and Email (simplified for brevity) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                <input
+                  type="tel"
+                  value={coInsured.phones?.[0]?.number || ''}
+                  onChange={(e) => setCoInsured(prev => ({ 
+                    ...prev, 
+                    phones: [{ type: 'main', number: e.target.value }] 
+                  }))}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="(555) 123-4567"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <input
+                  type="email"
+                  value={coInsured.emails?.[0]?.email || ''}
+                  onChange={(e) => setCoInsured(prev => ({ 
+                    ...prev, 
+                    emails: [{ email: e.target.value }] 
+                  }))}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="email@example.com"
+                />
+              </div>
+            </div>
+          </CardContent>
+        )}
+      </Card>
+
+      {/* Mailing Address */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-3">
+            <MapPin className="h-6 w-6 text-orange-600" />
+            Property Information
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Property Type *</label>
+            <select
+              value={mailingAddress.propertyType}
+              onChange={(e) => setMailingAddress(prev => ({ ...prev, propertyType: e.target.value }))}
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+              required
+            >
+              <option value="">Select property type</option>
+              {propertyTypes.map(type => (
+                <option key={type} value={type}>{type}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Mailing Address *</label>
+            <div className="grid grid-cols-1 gap-4">
+              <input
+                type="text"
+                value={mailingAddress.addressLine1}
+                onChange={(e) => setMailingAddress(prev => ({ ...prev, addressLine1: e.target.value }))}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                placeholder="Street address"
+                required
+              />
+              <input
+                type="text"
+                value={mailingAddress.addressLine2}
+                onChange={(e) => setMailingAddress(prev => ({ ...prev, addressLine2: e.target.value }))}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                placeholder="Apartment, suite, etc. (optional)"
+              />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <input
+                  type="text"
+                  value={mailingAddress.city}
+                  onChange={(e) => setMailingAddress(prev => ({ ...prev, city: e.target.value }))}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="City"
+                  required
+                />
+                <input
+                  type="text"
+                  value={mailingAddress.state}
+                  onChange={(e) => setMailingAddress(prev => ({ ...prev, state: e.target.value }))}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="State"
+                  required
+                />
+                <input
+                  type="text"
+                  value={mailingAddress.zipCode}
+                  onChange={(e) => setMailingAddress(prev => ({ ...prev, zipCode: e.target.value }))}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="ZIP Code"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Loss Address Same as Mailing */}
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={lossAddressSame}
+              onChange={(e) => setLossAddressSame(e.target.checked)}
+              className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+            />
+            <span className="font-medium">Loss address is the same as mailing address</span>
+          </label>
+
+          {/* Separate Loss Address */}
+          {!lossAddressSame && (
+            <div className="border-l-4 border-red-500 pl-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Loss Address</label>
+              {/* Similar address fields for loss address */}
+              <div className="text-sm text-gray-600">
+                Loss address fields would be implemented here similar to mailing address
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Additional Information */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Additional Property Information</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {/* Gate Code */}
+          <div>
+            <label className="flex items-center gap-2 mb-3">
+              <input
+                type="checkbox"
+                checked={hasGateCode}
+                onChange={(e) => setHasGateCode(e.target.checked)}
+                className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+              />
+              <Key className="h-4 w-4" />
+              <span className="font-medium">Property has gate or access code</span>
+            </label>
+            
+            {hasGateCode && (
+              <input
+                type="text"
+                value={gateCode}
+                onChange={(e) => setGateCode(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                placeholder="Enter gate code or access instructions"
+              />
+            )}
+          </div>
+
+          {/* Tenant Occupied */}
+          <div>
+            <label className="flex items-center gap-2 mb-3">
+              <input
+                type="checkbox"
+                checked={tenantOccupied}
+                onChange={(e) => setTenantOccupied(e.target.checked)}
+                className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+              />
+              <Users className="h-4 w-4" />
+              <span className="font-medium">Property is tenant occupied</span>
+            </label>
+            
+            {tenantOccupied && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border-l-4 border-blue-500 pl-4">
+                <input
+                  type="text"
+                  value={tenantInfo.name}
+                  onChange={(e) => setTenantInfo(prev => ({ ...prev, name: e.target.value }))}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Tenant name"
+                />
+                <input
+                  type="tel"
+                  value={tenantInfo.phone}
+                  onChange={(e) => setTenantInfo(prev => ({ ...prev, phone: e.target.value }))}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Tenant phone"
+                />
+                <input
+                  type="text"
+                  value={tenantInfo.address}
+                  onChange={(e) => setTenantInfo(prev => ({ ...prev, address: e.target.value }))}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Tenant mailing address"
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Uninsured Party */}
+          <div>
+            <label className="flex items-center gap-2 mb-3">
+              <input
+                type="checkbox"
+                checked={hasUninsuredParty}
+                onChange={(e) => setHasUninsuredParty(e.target.checked)}
+                className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+              />
+              <Building className="h-4 w-4" />
+              <span className="font-medium">Uninsured party involved (property manager, etc.)</span>
+            </label>
+            
+            {hasUninsuredParty && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-l-4 border-green-500 pl-4">
+                <input
+                  type="text"
+                  value={uninsuredParty.name}
+                  onChange={(e) => setUninsuredParty(prev => ({ ...prev, name: e.target.value }))}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Name"
+                />
+                <input
+                  type="tel"
+                  value={uninsuredParty.phone}
+                  onChange={(e) => setUninsuredParty(prev => ({ ...prev, phone: e.target.value }))}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Phone"
+                />
+                <input
+                  type="text"
+                  value={uninsuredParty.address}
+                  onChange={(e) => setUninsuredParty(prev => ({ ...prev, address: e.target.value }))}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Address"
+                />
+                <input
+                  type="text"
+                  value={uninsuredParty.relationship}
+                  onChange={(e) => setUninsuredParty(prev => ({ ...prev, relationship: e.target.value }))}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Relationship (Property Manager, etc.)"
+                />
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}

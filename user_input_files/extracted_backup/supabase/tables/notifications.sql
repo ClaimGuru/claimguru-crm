@@ -1,0 +1,21 @@
+CREATE TABLE notifications (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    organization_id UUID NOT NULL,
+    recipient_id UUID NOT NULL,
+    sender_id UUID,
+    notification_type VARCHAR(100) NOT NULL,
+    priority VARCHAR(20) DEFAULT 'normal',
+    title VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    action_url TEXT,
+    is_read BOOLEAN DEFAULT false,
+    is_dismissed BOOLEAN DEFAULT false,
+    delivery_method VARCHAR(50) DEFAULT 'in_app',
+    email_sent BOOLEAN DEFAULT false,
+    sms_sent BOOLEAN DEFAULT false,
+    push_sent BOOLEAN DEFAULT false,
+    metadata JSONB,
+    expires_at TIMESTAMP WITH TIME ZONE,
+    read_at TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);

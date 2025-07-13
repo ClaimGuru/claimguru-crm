@@ -1,0 +1,611 @@
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = 'https://ttnjqxemkbugwsofacxs.supabase.co'
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0bmpxeGVta2J1Z3dzb2ZhY3hzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIwODY1ODksImV4cCI6MjA2NzY2MjU4OX0.T4ZQBC1gF0rUtzrNqbf90k0dD8B1vD_JUBiEUbbAfuo'
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
+// Type definitions for database tables
+export interface Organization {
+  id: string
+  name: string
+  type: string
+  email?: string
+  phone?: string
+  address_line_1?: string
+  address_line_2?: string
+  city?: string
+  state?: string
+  zip_code?: string
+  country: string
+  website?: string
+  logo_url?: string
+  ein_tax_id?: string
+  subscription_tier: string
+  subscription_status: string
+  billing_email?: string
+  company_code: string
+  created_at: string
+  updated_at: string
+}
+
+export interface UserProfile {
+  id: string
+  organization_id: string
+  email: string
+  first_name?: string
+  last_name?: string
+  middle_initial?: string
+  phone?: string
+  phone_1?: string
+  phone_2?: string
+  phone_3?: string
+  phone_4?: string
+  title?: string
+  bio?: string
+  address_line_1?: string
+  address_line_2?: string
+  city?: string
+  state?: string
+  zip_code?: string
+  country: string
+  role: string
+  permissions?: string[]
+  license_number?: string
+  is_active: boolean
+  avatar_url?: string
+  timezone: string
+  date_format: string
+  notification_email: boolean
+  notification_sms: boolean
+  two_factor_enabled: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface Client {
+  id: string
+  organization_id: string
+  client_type: string
+  is_policyholder: boolean
+  first_name?: string
+  last_name?: string
+  middle_initial?: string
+  business_name?: string
+  title?: string
+  nickname?: string
+  primary_email?: string
+  secondary_email?: string
+  primary_phone?: string
+  secondary_phone?: string
+  work_phone?: string
+  mobile_phone?: string
+  address_line_1?: string
+  address_line_2?: string
+  city?: string
+  state?: string
+  zip_code?: string
+  country: string
+  mailing_same_as_address: boolean
+  mailing_address_line_1?: string
+  mailing_address_line_2?: string
+  mailing_city?: string
+  mailing_state?: string
+  mailing_zip_code?: string
+  mailing_country?: string
+  lead_source_id?: string
+  assigned_to?: string
+  date_first_contact?: string
+  notes?: string
+  portal_pin?: string
+  social_media?: any
+  employer?: string
+  occupation?: string
+  birthdate?: string
+  spouse_name?: string
+  created_by?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Claim {
+  id: string
+  organization_id: string
+  client_id: string
+  property_id?: string
+  file_number: string
+  claim_number?: string
+  carrier_claim_number?: string
+  carrier_id?: string
+  insurance_carrier_id?: string
+  policy_number?: string
+  coverage_limits?: any
+  deductible?: number
+  referral_source?: string
+  referral_fee?: number
+  referral_notes?: string
+  vendor_assessment?: any
+  assigned_vendors?: string[]
+  desk_adjuster_id?: string
+  field_adjuster_id?: string
+  assigned_adjuster_id?: string
+  assigned_office_staff?: string[]
+  assigned_sales_staff?: string[]
+  claim_status: string
+  claim_phase: string
+  priority: string
+  date_of_loss: string
+  cause_of_loss: string
+  loss_description?: string
+  date_reported?: string
+  date_first_contact?: string
+  contract_date?: string
+  contract_fee_type: string
+  contract_fee_amount?: number
+  is_claim_filed: boolean
+  deadline_date?: string
+  recoverable_depreciation_deadline?: string
+  is_fema_claim: boolean
+  is_state_emergency: boolean
+  emergency_name?: string
+  reason_for_claim?: string
+  is_home_habitable?: boolean
+  is_insured_living_in_home?: boolean
+  dwelling_damage_description?: string
+  other_structures_damage_description?: string
+  personal_property_damage_description?: string
+  has_ale_expenses: boolean
+  has_repairs_been_done: boolean
+  repair_description?: string
+  repair_type?: string
+  repair_date?: string
+  repair_vendor?: string
+  has_prior_claims: boolean
+  prior_claims_info?: any
+  estimated_loss_value?: number
+  total_settlement_amount?: number
+  is_final_settlement: boolean
+  settlement_status: string
+  watch_list: boolean
+  created_by?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Document {
+  id: string
+  organization_id: string
+  claim_id?: string
+  client_id?: string
+  document_type: string
+  document_category?: string
+  category?: string
+  status?: string
+  file_name: string
+  file_path: string
+  file_size?: number
+  mime_type?: string
+  file_url?: string
+  thumbnail_url?: string
+  document_title?: string
+  description?: string
+  is_public: boolean
+  is_confidential: boolean
+  is_shared?: boolean
+  is_template?: boolean
+  ai_processed?: boolean
+  folder_path?: string
+  tags?: string[]
+  ai_extracted_text?: string
+  ai_entities?: any
+  ai_summary?: string
+  ai_compliance_status?: string
+  version_number: number
+  is_signed: boolean
+  signed_by?: string
+  signed_at?: string
+  uploaded_by: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Activity {
+  id: string
+  organization_id: string
+  claim_id?: string
+  client_id?: string
+  activity_type: string
+  activity_category: string
+  title: string
+  description?: string
+  activity_data?: any
+  is_public: boolean
+  is_system_generated: boolean
+  communication_method?: string
+  communication_direction?: string
+  email_subject?: string
+  email_from?: string
+  email_to?: string[]
+  phone_number?: string
+  call_duration?: number
+  sms_message?: string
+  urgency: string
+  follow_up_required: boolean
+  follow_up_date?: string
+  created_by: string
+  participants?: string[]
+  related_document_ids?: string[]
+  created_at: string
+  updated_at: string
+}
+
+export interface Task {
+  id: string
+  organization_id: string
+  claim_id?: string
+  client_id?: string
+  task_type: string
+  task_category: string
+  title: string
+  task_title: string
+  description?: string
+  status: string
+  priority: string
+  assigned_to: string
+  assigned_by: string
+  due_date?: string
+  completed_date?: string
+  estimated_hours?: number
+  actual_hours?: number
+  progress_percentage: number
+  is_mandatory: boolean
+  is_automated: boolean
+  automation_trigger?: string
+  parent_task_id?: string
+  dependencies?: string[]
+  checklist_items?: any
+  notes?: string
+  completion_notes?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface AIInsight {
+  id: string
+  organization_id: string
+  claim_id?: string
+  document_id?: string
+  insight_type: string
+  insight_category?: string
+  confidence_score?: number
+  title?: string
+  summary?: string
+  full_analysis?: string
+  extracted_entities?: any
+  risk_factors?: any
+  recommendations?: any
+  compliance_status?: string
+  follow_up_actions?: string[]
+  status: string
+  reviewed_by?: string
+  reviewed_at?: string
+  ai_model_version?: string
+  processing_time_ms?: number
+  created_at: string
+  updated_at: string
+}
+
+export interface Notification {
+  id: string
+  organization_id: string
+  user_id?: string
+  title: string
+  message: string
+  type: string // info, success, warning, error
+  priority?: string // low, medium, high
+  entity_type?: string // claim, client, vendor, document, etc.
+  entity_id?: string
+  action_url?: string
+  is_read: boolean
+  read_at?: string
+  created_at: string
+}
+
+export interface Insurer {
+  id: string
+  organization_id: string
+  name: string
+  license_number?: string
+  contact_phone?: string
+  contact_email?: string
+  website?: string
+  address?: any
+  regional_offices?: any
+  coverage_types?: string[]
+  claims_reporting?: any
+  preferred_communication: string
+  notes?: string
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface ClaimIntakeProgress {
+  id: string
+  claim_id: string
+  current_step: number
+  completed_steps: number[]
+  intake_data: any
+  created_at: string
+  updated_at: string
+}
+
+// Additional comprehensive CRM interfaces
+export interface FeeSchedule {
+  id: string
+  organization_id: string
+  claim_id?: string
+  fee_type: string
+  fee_amount?: number
+  fee_percentage?: number
+  description?: string
+  status: string
+  due_date?: string
+  invoice_number?: string
+  created_by?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Expense {
+  id: string
+  organization_id: string
+  claim_id?: string
+  vendor_id?: string
+  expense_type: string
+  category?: string
+  amount: number
+  description?: string
+  receipt_url?: string
+  expense_date: string
+  is_billable: boolean
+  is_reimbursed: boolean
+  approval_status: string
+  approved_by?: string
+  approved_at?: string
+  created_by?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Payment {
+  id: string
+  organization_id: string
+  claim_id?: string
+  fee_schedule_id?: string
+  payment_type: string
+  amount: number
+  payment_method?: string
+  payment_date?: string
+  reference_number?: string
+  status: string
+  notes?: string
+  created_by?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Vendor {
+  id: string
+  organization_id: string
+  company_name: string
+  contact_name?: string
+  contact_first_name?: string
+  contact_last_name?: string
+  title?: string
+  phone?: string
+  mobile?: string
+  phone_1?: string
+  phone_2?: string
+  phone_3?: string
+  phone_4?: string
+  email?: string
+  website?: string
+  street_address?: string
+  address_line_1?: string
+  address_line_2?: string
+  city?: string
+  state?: string
+  zip_code?: string
+  country?: string
+  category: string // contractor, expert
+  specialty?: string
+  specialties?: string[]
+  certifications?: string[]
+  insurance_info?: any
+  service_areas?: string[]
+  emergency_available?: boolean
+  hourly_rate?: number
+  fixed_rate?: number
+  payment_terms?: number
+  tax_id?: string
+  insurance_certificate?: boolean
+  license_number?: string
+  license_expiry?: string
+  preferred_contact_method?: string
+  availability?: string
+  notes?: string
+  status?: string
+  is_active?: boolean
+  is_preferred?: boolean
+  rating?: number
+  total_jobs?: number
+  created_at: string
+  updated_at: string
+  vendor_assignments?: any[]
+}
+
+export interface ClaimVendor {
+  id: string
+  organization_id: string
+  claim_id: string
+  vendor_id: string
+  assignment_type: string
+  assignment_status: string
+  assigned_date?: string
+  due_date?: string
+  completion_date?: string
+  amount_quoted?: number
+  amount_final?: number
+  notes?: string
+  assigned_by?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Communication {
+  id: string
+  organization_id: string
+  claim_id?: string
+  client_id?: string
+  vendor_id?: string
+  communication_type: string
+  direction: string
+  subject?: string
+  content?: string
+  status: string
+  scheduled_at?: string
+  sent_at?: string
+  delivered_at?: string
+  read_at?: string
+  attachments?: any
+  metadata?: any
+  created_by?: string
+  created_at: string
+  updated_at: string
+  follow_up_required?: boolean
+  follow_up_date?: string
+  urgency?: string
+  // Joined data from related tables
+  clients?: Client
+  claims?: Claim
+  vendors?: Vendor
+}
+
+
+
+export interface PropertyInspection {
+  id: string
+  organization_id: string
+  property_id: string
+  claim_id?: string
+  inspector_id?: string
+  inspection_type: string
+  inspection_date: string
+  inspection_status: string
+  findings?: string
+  damage_areas?: any
+  photos?: any
+  documents?: any
+  recommendations?: string
+  estimated_repair_cost?: number
+  created_by?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface SettlementLineItem {
+  id: string
+  organization_id: string
+  settlement_id: string
+  category: string
+  item_description: string
+  quantity?: number
+  unit_cost?: number
+  total_cost?: number
+  carrier_approved_amount?: number
+  status: string
+  dispute_reason?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface OrganizationModule {
+  id: string
+  organization_id: string
+  module_name: string
+  is_active: boolean
+  activation_date?: string
+  deactivation_date?: string
+  usage_count: number
+  last_used_at?: string
+  billing_tier: string
+  monthly_fee?: number
+  created_at: string
+  updated_at: string
+}
+
+export interface Integration {
+  id: string
+  organization_id: string
+  integration_type: string
+  integration_name: string
+  status: string
+  configuration?: any
+  credentials_encrypted?: string
+  last_sync_at?: string
+  sync_frequency: string
+  error_count: number
+  last_error?: string
+  created_by?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Property {
+  id: string
+  organization_id: string
+  client_id?: string
+  property_type: string
+  property_status: string
+  property_address: string
+  city?: string
+  state?: string
+  zip_code?: string
+  country?: string
+  owner_name?: string
+  property_value?: number
+  year_built?: number
+  square_footage?: number
+  lot_size?: number
+  bedrooms?: number
+  bathrooms?: number
+  construction_type?: string
+  roof_type?: string
+  features?: string[]
+  inspection_status?: string
+  inspection_date?: string
+  last_inspection_date?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Settlement {
+  id: string
+  organization_id: string
+  claim_id?: string
+  settlement_type?: string
+  settlement_status: string
+  settlement_amount?: number
+  initial_demand?: number
+  carrier_offer?: number
+  negotiation_rounds?: number
+  settlement_date?: string
+  approval_date?: string
+  payment_date?: string
+  notes?: string
+  approved_by?: string
+  created_by?: string
+  created_at: string
+  updated_at: string
+}

@@ -1,0 +1,22 @@
+CREATE TABLE organizations (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR(255) NOT NULL,
+    type VARCHAR(50) DEFAULT 'public_adjuster',
+    email VARCHAR(255),
+    phone VARCHAR(50),
+    address_line_1 TEXT,
+    address_line_2 TEXT,
+    city VARCHAR(100),
+    state VARCHAR(50),
+    zip_code VARCHAR(20),
+    country VARCHAR(100) DEFAULT 'United States',
+    website VARCHAR(255),
+    logo_url TEXT,
+    ein_tax_id VARCHAR(50),
+    subscription_tier VARCHAR(50) DEFAULT 'starter',
+    subscription_status VARCHAR(50) DEFAULT 'active',
+    billing_email VARCHAR(255),
+    company_code VARCHAR(20) UNIQUE NOT NULL DEFAULT SUBSTRING(MD5(random()::text) FROM 1 FOR 8),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
