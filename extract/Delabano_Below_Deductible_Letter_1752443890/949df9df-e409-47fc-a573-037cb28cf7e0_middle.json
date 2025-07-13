@@ -1,0 +1,3647 @@
+{
+    "pdf_info": [
+        {
+            "preproc_blocks": [
+                {
+                    "type": "text",
+                    "bbox": [
+                        132,
+                        72,
+                        330,
+                        110
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                132,
+                                72,
+                                330,
+                                85
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        132,
+                                        72,
+                                        330,
+                                        85
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Liberty Mutual Personal Insurance Company",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                133,
+                                86,
+                                199,
+                                96
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        133,
+                                        86,
+                                        199,
+                                        96
+                                    ],
+                                    "score": 1.0,
+                                    "content": "P.O. Box 5014",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                132,
+                                99,
+                                249,
+                                111
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        132,
+                                        99,
+                                        249,
+                                        111
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Scranton, PA 18505-5014",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        }
+                    ],
+                    "index": 1
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        449,
+                        85,
+                        554,
+                        101
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                450,
+                                87,
+                                552,
+                                102
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        450,
+                                        87,
+                                        552,
+                                        102
+                                    ],
+                                    "score": 1.0,
+                                    "content": "CONTACT US",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        }
+                    ],
+                    "index": 3
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        132,
+                        233,
+                        255,
+                        272
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                133,
+                                234,
+                                239,
+                                245
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        133,
+                                        234,
+                                        239,
+                                        245
+                                    ],
+                                    "score": 1.0,
+                                    "content": "ANTHONY DELABANO",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        },
+                        {
+                            "bbox": [
+                                132,
+                                248,
+                                242,
+                                258
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        132,
+                                        248,
+                                        242,
+                                        258
+                                    ],
+                                    "score": 1.0,
+                                    "content": "205 RUSTIC RIDGE DR",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                133,
+                                261,
+                                256,
+                                272
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        133,
+                                        261,
+                                        256,
+                                        272
+                                    ],
+                                    "score": 1.0,
+                                    "content": "GARLAND, TX 75040-3551",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        }
+                    ],
+                    "index": 5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        410,
+                        126,
+                        579,
+                        138
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                410,
+                                127,
+                                578,
+                                139
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        410,
+                                        127,
+                                        578,
+                                        139
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Michael.Madison@LibertyMutual.com",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        }
+                    ],
+                    "index": 7
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        410,
+                        149,
+                        522,
+                        172
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                410,
+                                148,
+                                523,
+                                162
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        410,
+                                        148,
+                                        442,
+                                        162
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Direct: ",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        453,
+                                        149,
+                                        523,
+                                        161
+                                    ],
+                                    "score": 1.0,
+                                    "content": "(800) 225-2467",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        },
+                        {
+                            "bbox": [
+                                408,
+                                160,
+                                515,
+                                173
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        408,
+                                        160,
+                                        433,
+                                        173
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Fax: ",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        452,
+                                        161,
+                                        515,
+                                        172
+                                    ],
+                                    "score": 1.0,
+                                    "content": "888-268-8840",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        }
+                    ],
+                    "index": 8.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        410,
+                        183,
+                        576,
+                        240
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                411,
+                                184,
+                                575,
+                                195
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        411,
+                                        184,
+                                        575,
+                                        195
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Liberty Mutual Personal Insurance",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        },
+                        {
+                            "bbox": [
+                                410,
+                                195,
+                                458,
+                                209
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        410,
+                                        195,
+                                        458,
+                                        209
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Company",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        },
+                        {
+                            "bbox": [
+                                410,
+                                207,
+                                478,
+                                218
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        410,
+                                        207,
+                                        478,
+                                        218
+                                    ],
+                                    "score": 1.0,
+                                    "content": "P.O. Box 5014 ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        },
+                        {
+                            "bbox": [
+                                410,
+                                218,
+                                527,
+                                230
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        410,
+                                        218,
+                                        527,
+                                        230
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Scranton, PA 18505-5014",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        },
+                        {
+                            "bbox": [
+                                410,
+                                230,
+                                474,
+                                240
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        410,
+                                        230,
+                                        474,
+                                        240
+                                    ],
+                                    "score": 1.0,
+                                    "content": "800-225-2467",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        }
+                    ],
+                    "index": 12
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        411,
+                        253,
+                        492,
+                        263
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                410,
+                                253,
+                                493,
+                                264
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        410,
+                                        253,
+                                        493,
+                                        264
+                                    ],
+                                    "score": 1.0,
+                                    "content": "LibertyMutual.com",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        }
+                    ],
+                    "index": 15
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        77,
+                        373,
+                        147,
+                        385
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                76,
+                                373,
+                                147,
+                                385
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        373,
+                                        147,
+                                        385
+                                    ],
+                                    "score": 1.0,
+                                    "content": "March 16, 2025",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        }
+                    ],
+                    "index": 16
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        76,
+                        406,
+                        276,
+                        451
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                76,
+                                406,
+                                249,
+                                419
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        406,
+                                        145,
+                                        419
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Claim Number:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        184,
+                                        407,
+                                        249,
+                                        417
+                                    ],
+                                    "score": 1.0,
+                                    "content": "058850657-01",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        },
+                        {
+                            "bbox": [
+                                76,
+                                418,
+                                236,
+                                430
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        418,
+                                        150,
+                                        429
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Date of Incident:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        184,
+                                        418,
+                                        236,
+                                        430
+                                    ],
+                                    "score": 1.0,
+                                    "content": "02/20/2025",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        },
+                        {
+                            "bbox": [
+                                76,
+                                430,
+                                276,
+                                441
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        430,
+                                        146,
+                                        441
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Policy Number:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        184,
+                                        430,
+                                        276,
+                                        440
+                                    ],
+                                    "score": 1.0,
+                                    "content": "H3V-291-409151-70",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        },
+                        {
+                            "bbox": [
+                                76,
+                                440,
+                                231,
+                                452
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        440,
+                                        128,
+                                        452
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Deductible:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        184,
+                                        440,
+                                        197,
+                                        451
+                                    ],
+                                    "score": 0.55,
+                                    "content": "\\mathfrak{S}3",
+                                    "type": "inline_equation",
+                                    "height": 11,
+                                    "width": 13
+                                },
+                                {
+                                    "bbox": [
+                                        198,
+                                        440,
+                                        231,
+                                        452
+                                    ],
+                                    "score": 1.0,
+                                    "content": ",138.00",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20
+                        }
+                    ],
+                    "index": 18.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        77,
+                        474,
+                        211,
+                        486
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                77,
+                                475,
+                                210,
+                                487
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        77,
+                                        475,
+                                        210,
+                                        487
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Dear ANTHONY DELABANO,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 21
+                        }
+                    ],
+                    "index": 21
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        77,
+                        498,
+                        521,
+                        520
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                76,
+                                498,
+                                522,
+                                511
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        498,
+                                        522,
+                                        511
+                                    ],
+                                    "score": 1.0,
+                                    "content": "I’m writing to follow up on your recent Liberty Mutual Homeowners policy claim and the results of our ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 22
+                        },
+                        {
+                            "bbox": [
+                                75,
+                                510,
+                                109,
+                                522
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        75,
+                                        510,
+                                        109,
+                                        522
+                                    ],
+                                    "score": 1.0,
+                                    "content": "review.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 23
+                        }
+                    ],
+                    "index": 22.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        77,
+                        532,
+                        541,
+                        578
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                77,
+                                532,
+                                527,
+                                545
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        77,
+                                        534,
+                                        475,
+                                        545
+                                    ],
+                                    "score": 1.0,
+                                    "content": "After our discussion, we determined that the amount of estimated covered damages totals",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        476,
+                                        532,
+                                        524,
+                                        544
+                                    ],
+                                    "score": 0.74,
+                                    "content": "\\mathbb{\\Phi}4,357.69]",
+                                    "type": "inline_equation",
+                                    "height": 12,
+                                    "width": 48
+                                },
+                                {
+                                    "bbox": [
+                                        524,
+                                        534,
+                                        527,
+                                        545
+                                    ],
+                                    "score": 1.0,
+                                    "content": ".",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 24
+                        },
+                        {
+                            "bbox": [
+                                76,
+                                544,
+                                543,
+                                558
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        544,
+                                        381,
+                                        558
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Unfortunately, this amount does not exceed your policy deductible of",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        381,
+                                        544,
+                                        394,
+                                        555
+                                    ],
+                                    "score": 0.7,
+                                    "content": "\\mathfrak{S}3",
+                                    "type": "inline_equation",
+                                    "height": 11,
+                                    "width": 13
+                                },
+                                {
+                                    "bbox": [
+                                        395,
+                                        544,
+                                        543,
+                                        558
+                                    ],
+                                    "score": 1.0,
+                                    "content": ",138.00, which is a percentage of ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 25
+                        },
+                        {
+                            "bbox": [
+                                75,
+                                555,
+                                540,
+                                569
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        75,
+                                        555,
+                                        540,
+                                        569
+                                    ],
+                                    "score": 1.0,
+                                    "content": "your Building and Dwelling at [313,800.00]. This is also reflected on the Declarations Page of your Home",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 26
+                        },
+                        {
+                            "bbox": [
+                                76,
+                                568,
+                                106,
+                                580
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        568,
+                                        106,
+                                        580
+                                    ],
+                                    "score": 1.0,
+                                    "content": "policy.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 27
+                        }
+                    ],
+                    "index": 25.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        78,
+                        589,
+                        436,
+                        601
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                77,
+                                589,
+                                437,
+                                603
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        77,
+                                        589,
+                                        437,
+                                        603
+                                    ],
+                                    "score": 1.0,
+                                    "content": "This means that we will not provide any payment for the damage to your property.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 28
+                        }
+                    ],
+                    "index": 28
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        77,
+                        613,
+                        132,
+                        625
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                76,
+                                611,
+                                133,
+                                626
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        611,
+                                        133,
+                                        626
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Your Policy",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 29
+                        }
+                    ],
+                    "index": 29
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        77,
+                        630,
+                        526,
+                        653
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                76,
+                                631,
+                                527,
+                                643
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        631,
+                                        527,
+                                        643
+                                    ],
+                                    "score": 1.0,
+                                    "content": "I know this can be disappointing news, so I want to make sure you fully understand the reason for this",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 30
+                        },
+                        {
+                            "bbox": [
+                                77,
+                                643,
+                                474,
+                                655
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        77,
+                                        643,
+                                        474,
+                                        655
+                                    ],
+                                    "score": 1.0,
+                                    "content": "outcome. With that in mind, here is the section of your policy that pertains to this decision.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 31
+                        }
+                    ],
+                    "index": 30.5
+                }
+            ],
+            "layout_bboxes": [],
+            "page_idx": 0,
+            "page_size": [
+                612.0,
+                792.0
+            ],
+            "_layout_tree": [],
+            "images": [],
+            "tables": [],
+            "interline_equations": [],
+            "discarded_blocks": [
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        416,
+                        15,
+                        588,
+                        62
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                449,
+                                23,
+                                587,
+                                45
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        449,
+                                        23,
+                                        587,
+                                        45
+                                    ],
+                                    "score": 0.9993054866790771,
+                                    "content": "Liberty Mutual.",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                479,
+                                50,
+                                556,
+                                61
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        479,
+                                        50,
+                                        556,
+                                        61
+                                    ],
+                                    "score": 0.9911710023880005,
+                                    "content": "INSURANCE",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        526,
+                        761,
+                        577,
+                        771
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                524,
+                                759,
+                                578,
+                                772
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        524,
+                                        759,
+                                        578,
+                                        772
+                                    ],
+                                    "score": 1.0,
+                                    "content": " Page 1 of 2",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        20,
+                        760,
+                        289,
+                        771
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                20,
+                                760,
+                                289,
+                                772
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        20,
+                                        760,
+                                        289,
+                                        772
+                                    ],
+                                    "score": 1.0,
+                                    "content": "HO22 Under Deductible or No Damage Letter 058850657-01",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        411,
+                        83,
+                        436,
+                        108
+                    ],
+                    "lines": []
+                }
+            ],
+            "need_drop": false,
+            "drop_reason": [],
+            "para_blocks": [
+                {
+                    "type": "list",
+                    "bbox": [
+                        132,
+                        72,
+                        330,
+                        110
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                132,
+                                72,
+                                330,
+                                85
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        132,
+                                        72,
+                                        330,
+                                        85
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Liberty Mutual Personal Insurance Company",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                133,
+                                86,
+                                199,
+                                96
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        133,
+                                        86,
+                                        199,
+                                        96
+                                    ],
+                                    "score": 1.0,
+                                    "content": "P.O. Box 5014",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                132,
+                                99,
+                                249,
+                                111
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        132,
+                                        99,
+                                        249,
+                                        111
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Scranton, PA 18505-5014",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2,
+                            "is_list_start_line": true
+                        }
+                    ],
+                    "index": 1,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        132,
+                        72,
+                        330,
+                        111
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        449,
+                        85,
+                        554,
+                        101
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                450,
+                                87,
+                                552,
+                                102
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        450,
+                                        87,
+                                        552,
+                                        102
+                                    ],
+                                    "score": 1.0,
+                                    "content": "CONTACT US",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        }
+                    ],
+                    "index": 3,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        132,
+                        233,
+                        255,
+                        272
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                133,
+                                234,
+                                239,
+                                245
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        133,
+                                        234,
+                                        239,
+                                        245
+                                    ],
+                                    "score": 1.0,
+                                    "content": "ANTHONY DELABANO",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        },
+                        {
+                            "bbox": [
+                                132,
+                                248,
+                                242,
+                                258
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        132,
+                                        248,
+                                        242,
+                                        258
+                                    ],
+                                    "score": 1.0,
+                                    "content": "205 RUSTIC RIDGE DR",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                133,
+                                261,
+                                256,
+                                272
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        133,
+                                        261,
+                                        256,
+                                        272
+                                    ],
+                                    "score": 1.0,
+                                    "content": "GARLAND, TX 75040-3551",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        }
+                    ],
+                    "index": 5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        132,
+                        234,
+                        256,
+                        272
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        410,
+                        126,
+                        579,
+                        138
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                410,
+                                127,
+                                578,
+                                139
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        410,
+                                        127,
+                                        578,
+                                        139
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Michael.Madison@LibertyMutual.com",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        }
+                    ],
+                    "index": 7,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        410,
+                        127,
+                        578,
+                        139
+                    ]
+                },
+                {
+                    "type": "index",
+                    "bbox": [
+                        410,
+                        149,
+                        522,
+                        172
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                410,
+                                148,
+                                523,
+                                162
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        410,
+                                        148,
+                                        442,
+                                        162
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Direct: ",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        453,
+                                        149,
+                                        523,
+                                        161
+                                    ],
+                                    "score": 1.0,
+                                    "content": "(800) 225-2467",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                408,
+                                160,
+                                515,
+                                173
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        408,
+                                        160,
+                                        433,
+                                        173
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Fax: ",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        452,
+                                        161,
+                                        515,
+                                        172
+                                    ],
+                                    "score": 1.0,
+                                    "content": "888-268-8840",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9,
+                            "is_list_start_line": true
+                        }
+                    ],
+                    "index": 8.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        408,
+                        148,
+                        523,
+                        173
+                    ]
+                },
+                {
+                    "type": "list",
+                    "bbox": [
+                        410,
+                        183,
+                        576,
+                        240
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                411,
+                                184,
+                                575,
+                                195
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        411,
+                                        184,
+                                        575,
+                                        195
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Liberty Mutual Personal Insurance",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                410,
+                                195,
+                                458,
+                                209
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        410,
+                                        195,
+                                        458,
+                                        209
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Company",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                410,
+                                207,
+                                478,
+                                218
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        410,
+                                        207,
+                                        478,
+                                        218
+                                    ],
+                                    "score": 1.0,
+                                    "content": "P.O. Box 5014 ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                410,
+                                218,
+                                527,
+                                230
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        410,
+                                        218,
+                                        527,
+                                        230
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Scranton, PA 18505-5014",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                410,
+                                230,
+                                474,
+                                240
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        410,
+                                        230,
+                                        474,
+                                        240
+                                    ],
+                                    "score": 1.0,
+                                    "content": "800-225-2467",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14,
+                            "is_list_start_line": true
+                        }
+                    ],
+                    "index": 12,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        410,
+                        184,
+                        575,
+                        240
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        411,
+                        253,
+                        492,
+                        263
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                410,
+                                253,
+                                493,
+                                264
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        410,
+                                        253,
+                                        493,
+                                        264
+                                    ],
+                                    "score": 1.0,
+                                    "content": "LibertyMutual.com",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        }
+                    ],
+                    "index": 15,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        410,
+                        253,
+                        493,
+                        264
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        77,
+                        373,
+                        147,
+                        385
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                76,
+                                373,
+                                147,
+                                385
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        373,
+                                        147,
+                                        385
+                                    ],
+                                    "score": 1.0,
+                                    "content": "March 16, 2025",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        }
+                    ],
+                    "index": 16,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        76,
+                        373,
+                        147,
+                        385
+                    ]
+                },
+                {
+                    "type": "index",
+                    "bbox": [
+                        76,
+                        406,
+                        276,
+                        451
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                76,
+                                406,
+                                249,
+                                419
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        406,
+                                        145,
+                                        419
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Claim Number:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        184,
+                                        407,
+                                        249,
+                                        417
+                                    ],
+                                    "score": 1.0,
+                                    "content": "058850657-01",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                76,
+                                418,
+                                236,
+                                430
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        418,
+                                        150,
+                                        429
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Date of Incident:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        184,
+                                        418,
+                                        236,
+                                        430
+                                    ],
+                                    "score": 1.0,
+                                    "content": "02/20/2025",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                76,
+                                430,
+                                276,
+                                441
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        430,
+                                        146,
+                                        441
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Policy Number:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        184,
+                                        430,
+                                        276,
+                                        440
+                                    ],
+                                    "score": 1.0,
+                                    "content": "H3V-291-409151-70",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                76,
+                                440,
+                                231,
+                                452
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        440,
+                                        128,
+                                        452
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Deductible:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        184,
+                                        440,
+                                        197,
+                                        451
+                                    ],
+                                    "score": 0.55,
+                                    "content": "\\mathfrak{S}3",
+                                    "type": "inline_equation",
+                                    "height": 11,
+                                    "width": 13
+                                },
+                                {
+                                    "bbox": [
+                                        198,
+                                        440,
+                                        231,
+                                        452
+                                    ],
+                                    "score": 1.0,
+                                    "content": ",138.00",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20,
+                            "is_list_start_line": true
+                        }
+                    ],
+                    "index": 18.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        76,
+                        406,
+                        276,
+                        452
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        77,
+                        474,
+                        211,
+                        486
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                77,
+                                475,
+                                210,
+                                487
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        77,
+                                        475,
+                                        210,
+                                        487
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Dear ANTHONY DELABANO,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 21
+                        }
+                    ],
+                    "index": 21,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        77,
+                        475,
+                        210,
+                        487
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        77,
+                        498,
+                        521,
+                        520
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                76,
+                                498,
+                                522,
+                                511
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        498,
+                                        522,
+                                        511
+                                    ],
+                                    "score": 1.0,
+                                    "content": "I’m writing to follow up on your recent Liberty Mutual Homeowners policy claim and the results of our ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 22
+                        },
+                        {
+                            "bbox": [
+                                75,
+                                510,
+                                109,
+                                522
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        75,
+                                        510,
+                                        109,
+                                        522
+                                    ],
+                                    "score": 1.0,
+                                    "content": "review.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 23
+                        }
+                    ],
+                    "index": 22.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        75,
+                        498,
+                        522,
+                        522
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        77,
+                        532,
+                        541,
+                        578
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                77,
+                                532,
+                                527,
+                                545
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        77,
+                                        534,
+                                        475,
+                                        545
+                                    ],
+                                    "score": 1.0,
+                                    "content": "After our discussion, we determined that the amount of estimated covered damages totals",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        476,
+                                        532,
+                                        524,
+                                        544
+                                    ],
+                                    "score": 0.74,
+                                    "content": "\\mathbb{\\Phi}4,357.69]",
+                                    "type": "inline_equation",
+                                    "height": 12,
+                                    "width": 48
+                                },
+                                {
+                                    "bbox": [
+                                        524,
+                                        534,
+                                        527,
+                                        545
+                                    ],
+                                    "score": 1.0,
+                                    "content": ".",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 24
+                        },
+                        {
+                            "bbox": [
+                                76,
+                                544,
+                                543,
+                                558
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        544,
+                                        381,
+                                        558
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Unfortunately, this amount does not exceed your policy deductible of",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        381,
+                                        544,
+                                        394,
+                                        555
+                                    ],
+                                    "score": 0.7,
+                                    "content": "\\mathfrak{S}3",
+                                    "type": "inline_equation",
+                                    "height": 11,
+                                    "width": 13
+                                },
+                                {
+                                    "bbox": [
+                                        395,
+                                        544,
+                                        543,
+                                        558
+                                    ],
+                                    "score": 1.0,
+                                    "content": ",138.00, which is a percentage of ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 25
+                        },
+                        {
+                            "bbox": [
+                                75,
+                                555,
+                                540,
+                                569
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        75,
+                                        555,
+                                        540,
+                                        569
+                                    ],
+                                    "score": 1.0,
+                                    "content": "your Building and Dwelling at [313,800.00]. This is also reflected on the Declarations Page of your Home",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 26
+                        },
+                        {
+                            "bbox": [
+                                76,
+                                568,
+                                106,
+                                580
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        568,
+                                        106,
+                                        580
+                                    ],
+                                    "score": 1.0,
+                                    "content": "policy.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 27
+                        }
+                    ],
+                    "index": 25.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        75,
+                        532,
+                        543,
+                        580
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        78,
+                        589,
+                        436,
+                        601
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                77,
+                                589,
+                                437,
+                                603
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        77,
+                                        589,
+                                        437,
+                                        603
+                                    ],
+                                    "score": 1.0,
+                                    "content": "This means that we will not provide any payment for the damage to your property.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 28
+                        }
+                    ],
+                    "index": 28,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        77,
+                        589,
+                        437,
+                        603
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        77,
+                        613,
+                        132,
+                        625
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                76,
+                                611,
+                                133,
+                                626
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        611,
+                                        133,
+                                        626
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Your Policy",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 29
+                        }
+                    ],
+                    "index": 29,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        77,
+                        630,
+                        526,
+                        653
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                76,
+                                631,
+                                527,
+                                643
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        631,
+                                        527,
+                                        643
+                                    ],
+                                    "score": 1.0,
+                                    "content": "I know this can be disappointing news, so I want to make sure you fully understand the reason for this",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 30
+                        },
+                        {
+                            "bbox": [
+                                77,
+                                643,
+                                474,
+                                655
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        77,
+                                        643,
+                                        474,
+                                        655
+                                    ],
+                                    "score": 1.0,
+                                    "content": "outcome. With that in mind, here is the section of your policy that pertains to this decision.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 31
+                        }
+                    ],
+                    "index": 30.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        76,
+                        631,
+                        527,
+                        655
+                    ]
+                }
+            ]
+        },
+        {
+            "preproc_blocks": [
+                {
+                    "type": "title",
+                    "bbox": [
+                        82,
+                        72,
+                        144,
+                        85
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                82,
+                                74,
+                                145,
+                                83
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        82,
+                                        74,
+                                        145,
+                                        83
+                                    ],
+                                    "score": 0.9951818585395813,
+                                    "content": "DEDUCTIBLE",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        }
+                    ],
+                    "index": 0
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        82,
+                        91,
+                        308,
+                        114
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                82,
+                                90,
+                                309,
+                                103
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        82,
+                                        90,
+                                        309,
+                                        103
+                                    ],
+                                    "score": 0.9647684693336487,
+                                    "content": "Unless otherwise noted in this policy, the",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                82,
+                                102,
+                                261,
+                                114
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        82,
+                                        102,
+                                        261,
+                                        114
+                                    ],
+                                    "score": 0.997186005115509,
+                                    "content": "following deductible provision applies:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        }
+                    ],
+                    "index": 1.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        81,
+                        120,
+                        310,
+                        165
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                82,
+                                120,
+                                310,
+                                133
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        82,
+                                        120,
+                                        310,
+                                        133
+                                    ],
+                                    "score": 0.9795117378234863,
+                                    "content": "Subject to the policy limits that apply. we will",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        },
+                        {
+                            "bbox": [
+                                82,
+                                132,
+                                309,
+                                143
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        82,
+                                        132,
+                                        309,
+                                        143
+                                    ],
+                                    "score": 0.9905189871788025,
+                                    "content": "pay only that part of the total of all loss payable",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        },
+                        {
+                            "bbox": [
+                                82,
+                                142,
+                                309,
+                                154
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        82,
+                                        142,
+                                        309,
+                                        154
+                                    ],
+                                    "score": 0.9532263278961182,
+                                    "content": "under Section I that exceeds the deductible",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                82,
+                                154,
+                                245,
+                                164
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        82,
+                                        154,
+                                        245,
+                                        164
+                                    ],
+                                    "score": 0.9992273449897766,
+                                    "content": "amount shown in the Declarations.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        }
+                    ],
+                    "index": 4.5
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        76,
+                        171,
+                        130,
+                        183
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                76,
+                                171,
+                                130,
+                                184
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        171,
+                                        130,
+                                        184
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Next Steps",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        }
+                    ],
+                    "index": 7
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        76,
+                        189,
+                        543,
+                        223
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                76,
+                                189,
+                                514,
+                                203
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        189,
+                                        514,
+                                        203
+                                    ],
+                                    "score": 1.0,
+                                    "content": "After repairs are complete, if you’ve made any improvements to your home, or replaced the roofing",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        },
+                        {
+                            "bbox": [
+                                76,
+                                201,
+                                543,
+                                214
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        201,
+                                        543,
+                                        214
+                                    ],
+                                    "score": 1.0,
+                                    "content": "shingles on your home, you’ll need to update your policy accordingly. For assistance, please contact your",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        },
+                        {
+                            "bbox": [
+                                77,
+                                212,
+                                270,
+                                224
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        77,
+                                        212,
+                                        270,
+                                        224
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Sales Representative or call 800-225-7014.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        }
+                    ],
+                    "index": 9
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        76,
+                        234,
+                        169,
+                        246
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                75,
+                                234,
+                                169,
+                                247
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        75,
+                                        234,
+                                        169,
+                                        247
+                                    ],
+                                    "score": 1.0,
+                                    "content": "We’re Here To Help",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        }
+                    ],
+                    "index": 11
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        77,
+                        252,
+                        532,
+                        287
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                76,
+                                253,
+                                531,
+                                265
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        253,
+                                        531,
+                                        265
+                                    ],
+                                    "score": 1.0,
+                                    "content": "If you have any questions or any additional information about your damages that may affect your claim,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        },
+                        {
+                            "bbox": [
+                                76,
+                                264,
+                                524,
+                                278
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        264,
+                                        524,
+                                        278
+                                    ],
+                                    "score": 1.0,
+                                    "content": "please feel free to call or email me at Michael.Madison@LibertyMutual.com, and I’ll be happy to help.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        },
+                        {
+                            "bbox": [
+                                77,
+                                276,
+                                445,
+                                288
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        77,
+                                        276,
+                                        445,
+                                        288
+                                    ],
+                                    "score": 1.0,
+                                    "content": "When contacting me by email, please include your claim number in the subject line.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        }
+                    ],
+                    "index": 13
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        78,
+                        297,
+                        360,
+                        310
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                77,
+                                298,
+                                360,
+                                311
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        77,
+                                        298,
+                                        360,
+                                        311
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Thank you for trusting Liberty Mutual with your insurance needs.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        }
+                    ],
+                    "index": 15
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        77,
+                        322,
+                        120,
+                        334
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                76,
+                                320,
+                                121,
+                                335
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        320,
+                                        121,
+                                        335
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Sincerely,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        }
+                    ],
+                    "index": 16
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        76,
+                        344,
+                        205,
+                        370
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                77,
+                                346,
+                                172,
+                                357
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        77,
+                                        346,
+                                        172,
+                                        357
+                                    ],
+                                    "score": 1.0,
+                                    "content": "MICHAEL MADISON",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        },
+                        {
+                            "bbox": [
+                                76,
+                                358,
+                                204,
+                                370
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        358,
+                                        204,
+                                        370
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Property Claims Department",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        }
+                    ],
+                    "index": 17.5
+                }
+            ],
+            "layout_bboxes": [],
+            "page_idx": 1,
+            "page_size": [
+                612.0,
+                792.0
+            ],
+            "_layout_tree": [],
+            "images": [],
+            "tables": [],
+            "interline_equations": [],
+            "discarded_blocks": [
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        414,
+                        14,
+                        588,
+                        63
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                450,
+                                23,
+                                587,
+                                45
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        450,
+                                        23,
+                                        587,
+                                        45
+                                    ],
+                                    "score": 0.9643928408622742,
+                                    "content": "Liberty Mutual.",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                479,
+                                50,
+                                556,
+                                60
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        479,
+                                        50,
+                                        556,
+                                        60
+                                    ],
+                                    "score": 0.9916688203811646,
+                                    "content": "INSURANCE",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        525,
+                        761,
+                        577,
+                        771
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                524,
+                                758,
+                                578,
+                                773
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        524,
+                                        758,
+                                        578,
+                                        773
+                                    ],
+                                    "score": 1.0,
+                                    "content": " Page 2 of 2",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        20,
+                        761,
+                        290,
+                        771
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                20,
+                                760,
+                                289,
+                                772
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        20,
+                                        760,
+                                        289,
+                                        772
+                                    ],
+                                    "score": 1.0,
+                                    "content": "HO22 Under Deductible or No Damage Letter 058850657-01",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "need_drop": false,
+            "drop_reason": [],
+            "para_blocks": [
+                {
+                    "type": "title",
+                    "bbox": [
+                        82,
+                        72,
+                        144,
+                        85
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                82,
+                                74,
+                                145,
+                                83
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        82,
+                                        74,
+                                        145,
+                                        83
+                                    ],
+                                    "score": 0.9951818585395813,
+                                    "content": "DEDUCTIBLE",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        }
+                    ],
+                    "index": 0,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        82,
+                        91,
+                        308,
+                        114
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                82,
+                                90,
+                                309,
+                                103
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        82,
+                                        90,
+                                        309,
+                                        103
+                                    ],
+                                    "score": 0.9647684693336487,
+                                    "content": "Unless otherwise noted in this policy, the",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                82,
+                                102,
+                                261,
+                                114
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        82,
+                                        102,
+                                        261,
+                                        114
+                                    ],
+                                    "score": 0.997186005115509,
+                                    "content": "following deductible provision applies:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        }
+                    ],
+                    "index": 1.5,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        82,
+                        90,
+                        309,
+                        114
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        81,
+                        120,
+                        310,
+                        165
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                82,
+                                120,
+                                310,
+                                133
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        82,
+                                        120,
+                                        310,
+                                        133
+                                    ],
+                                    "score": 0.9795117378234863,
+                                    "content": "Subject to the policy limits that apply. we will",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        },
+                        {
+                            "bbox": [
+                                82,
+                                132,
+                                309,
+                                143
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        82,
+                                        132,
+                                        309,
+                                        143
+                                    ],
+                                    "score": 0.9905189871788025,
+                                    "content": "pay only that part of the total of all loss payable",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        },
+                        {
+                            "bbox": [
+                                82,
+                                142,
+                                309,
+                                154
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        82,
+                                        142,
+                                        309,
+                                        154
+                                    ],
+                                    "score": 0.9532263278961182,
+                                    "content": "under Section I that exceeds the deductible",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                82,
+                                154,
+                                245,
+                                164
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        82,
+                                        154,
+                                        245,
+                                        164
+                                    ],
+                                    "score": 0.9992273449897766,
+                                    "content": "amount shown in the Declarations.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        }
+                    ],
+                    "index": 4.5,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        82,
+                        120,
+                        310,
+                        164
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        76,
+                        171,
+                        130,
+                        183
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                76,
+                                171,
+                                130,
+                                184
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        171,
+                                        130,
+                                        184
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Next Steps",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        }
+                    ],
+                    "index": 7,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        76,
+                        189,
+                        543,
+                        223
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                76,
+                                189,
+                                514,
+                                203
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        189,
+                                        514,
+                                        203
+                                    ],
+                                    "score": 1.0,
+                                    "content": "After repairs are complete, if you’ve made any improvements to your home, or replaced the roofing",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        },
+                        {
+                            "bbox": [
+                                76,
+                                201,
+                                543,
+                                214
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        201,
+                                        543,
+                                        214
+                                    ],
+                                    "score": 1.0,
+                                    "content": "shingles on your home, you’ll need to update your policy accordingly. For assistance, please contact your",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        },
+                        {
+                            "bbox": [
+                                77,
+                                212,
+                                270,
+                                224
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        77,
+                                        212,
+                                        270,
+                                        224
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Sales Representative or call 800-225-7014.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        }
+                    ],
+                    "index": 9,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        76,
+                        189,
+                        543,
+                        224
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        76,
+                        234,
+                        169,
+                        246
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                75,
+                                234,
+                                169,
+                                247
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        75,
+                                        234,
+                                        169,
+                                        247
+                                    ],
+                                    "score": 1.0,
+                                    "content": "We’re Here To Help",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        }
+                    ],
+                    "index": 11,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        77,
+                        252,
+                        532,
+                        287
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                76,
+                                253,
+                                531,
+                                265
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        253,
+                                        531,
+                                        265
+                                    ],
+                                    "score": 1.0,
+                                    "content": "If you have any questions or any additional information about your damages that may affect your claim,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        },
+                        {
+                            "bbox": [
+                                76,
+                                264,
+                                524,
+                                278
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        264,
+                                        524,
+                                        278
+                                    ],
+                                    "score": 1.0,
+                                    "content": "please feel free to call or email me at Michael.Madison@LibertyMutual.com, and I’ll be happy to help.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        },
+                        {
+                            "bbox": [
+                                77,
+                                276,
+                                445,
+                                288
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        77,
+                                        276,
+                                        445,
+                                        288
+                                    ],
+                                    "score": 1.0,
+                                    "content": "When contacting me by email, please include your claim number in the subject line.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        }
+                    ],
+                    "index": 13,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        76,
+                        253,
+                        531,
+                        288
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        78,
+                        297,
+                        360,
+                        310
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                77,
+                                298,
+                                360,
+                                311
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        77,
+                                        298,
+                                        360,
+                                        311
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Thank you for trusting Liberty Mutual with your insurance needs.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        }
+                    ],
+                    "index": 15,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        77,
+                        298,
+                        360,
+                        311
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        77,
+                        322,
+                        120,
+                        334
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                76,
+                                320,
+                                121,
+                                335
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        320,
+                                        121,
+                                        335
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Sincerely,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        }
+                    ],
+                    "index": 16,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        76,
+                        320,
+                        121,
+                        335
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        76,
+                        344,
+                        205,
+                        370
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                77,
+                                346,
+                                172,
+                                357
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        77,
+                                        346,
+                                        172,
+                                        357
+                                    ],
+                                    "score": 1.0,
+                                    "content": "MICHAEL MADISON",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        },
+                        {
+                            "bbox": [
+                                76,
+                                358,
+                                204,
+                                370
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        76,
+                                        358,
+                                        204,
+                                        370
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Property Claims Department",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        }
+                    ],
+                    "index": 17.5,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        76,
+                        346,
+                        204,
+                        370
+                    ]
+                }
+            ]
+        }
+    ],
+    "_parse_type": "txt",
+    "_version_name": "0.10.6"
+}

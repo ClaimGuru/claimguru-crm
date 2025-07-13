@@ -57,17 +57,14 @@ export const WorkingPolicyUploadStep: React.FC<WorkingPolicyUploadStepProps> = (
       console.log('📄 Extracted text preview:', extractedText.substring(0, 200) + '...');
       
       // Process the extracted text to find policy information
-      const extractedData = extractPolicyInformation(extractedText, file.name);
+      const policyData = extractPolicyInformation(extractedText, file.name);
       
-      // Create complete policy data with processing metadata
-      const policyData = {
-        ...extractedData,
-        processingMethod: 'WORKING - Client-Side Only',
-        confidence: calculateConfidence(extractedText, extractedData),
-        processingTime: '2.5 seconds',
-        cost: '$0.00 (No Uploads)',
-        fileName: file.name
-      };
+      // Add processing metadata
+      policyData.processingMethod = 'WORKING - Client-Side Only';
+      policyData.confidence = calculateConfidence(extractedText, policyData);
+      policyData.processingTime = '2.5 seconds';
+      policyData.cost = '$0.00 (No Uploads)';
+      policyData.fileName = file.name;
 
       // Set the result
       setResult(policyData);
