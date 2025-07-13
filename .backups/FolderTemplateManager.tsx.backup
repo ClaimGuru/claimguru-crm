@@ -13,7 +13,7 @@ import { Badge } from '../ui/Badge';
 import { Textarea } from '../ui/Textarea';
 import { Switch } from '../ui/Switch';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/Dialog';
-import { useToast } from '../../hooks/useToast';
+import { useToast } from '../../contexts/ToastContext';
 import customFieldService, { FolderTemplate } from '../../services/customFieldService';
 
 interface FolderTemplateManagerProps {
