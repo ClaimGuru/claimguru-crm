@@ -130,7 +130,7 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
       title: 'AI Policy Analysis',
       description: 'Upload policy documents for AI-powered extraction and validation',
       icon: FileText,
-      component: SimpleWorkingPolicyUploadStep,
+      component: WorkingPolicyUploadStep,
       required: false
     },
     {

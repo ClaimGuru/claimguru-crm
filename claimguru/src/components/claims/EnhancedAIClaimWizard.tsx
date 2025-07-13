@@ -23,7 +23,7 @@ import {
 
 // Import enhanced AI wizard step components
 import { EnhancedPolicyUploadStep } from './wizard-steps/EnhancedPolicyUploadStep'
-import { WorkingPolicyUploadStep } from './wizard-steps/WorkingPolicyUploadStep'
+import { SimpleWorkingPolicyUploadStep } from './wizard-steps/SimpleWorkingPolicyUploadStep'
 import { EnhancedClientDetailsStep } from './wizard-steps/EnhancedClientDetailsStep'
 import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoStep'
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
