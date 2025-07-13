@@ -267,8 +267,8 @@
                 <span class="config-status missing">✗ Missing</span>
             </div>
             <div class="config-item">
-                <span class="config-label">Google APIs (Vision, Maps, Places)</span>
-                <span class="config-status present">✅ Present (GOOGLEMAPS_API)</span>
+                <span class="config-label">Google Vision API Key</span>
+                <span class="config-status missing">✗ Missing</span>
             </div>
         </div>
         

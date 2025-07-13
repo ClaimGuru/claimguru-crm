@@ -127,10 +127,10 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
   const steps = [
     {
       id: 'policy-upload',
-      title: '✅ FIXED AI Policy Analysis',
-      description: 'Working version - No server uploads, no 405 errors',
+      title: '🔥 REAL PDF Processing',
+      description: 'Using PDF.js for actual text extraction - High accuracy',
       icon: FileText,
-      component: WorkingPolicyUploadStep,
+      component: RealPDFProcessingStep,
       required: false
     },
     {

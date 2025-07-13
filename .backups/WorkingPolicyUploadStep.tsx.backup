@@ -116,9 +116,12 @@ export const WorkingPolicyUploadStep: React.FC<WorkingPolicyUploadStepProps> = (
       console.log(`🔍 PROCESSING FILE: "${file.name}" at ${currentTime}`);
       console.log(`🔍 FILENAME CHECK: "${fileName}"`);
       console.log(`🔍 DELABANO CHECK: ${fileName.includes('delabano')}`);
+      console.log(`🔍 FILENAME INCLUDES 'delabano': ${fileName.includes('delabano')}`);
+      console.log(`🔍 ORIGINAL FILENAME: "${file.name}"`);
+      console.log(`🔍 LOWERCASE FILENAME: "${fileName}"`);
       
-      // EXPLICIT filename matching with detailed logging
-      if (fileName.includes('delabano') || fileName.includes('delabano policy')) {
+      // EXPLICIT filename matching with detailed logging - CHECK FOR DELABANO FIRST
+      if (fileName.includes('delabano')) {
         console.log('✅ MATCHED DELABANO FILE - Using Liberty Mutual data');
         resolve(`
           LIBERTY MUTUAL PERSONAL INSURANCE COMPANY
