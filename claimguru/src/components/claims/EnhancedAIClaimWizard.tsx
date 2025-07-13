@@ -22,7 +22,7 @@ import {
 } from 'lucide-react'
 
 // Import enhanced AI wizard step components
-import { FinalPolicyUploadStep } from './wizard-steps/FinalPolicyUploadStep'
+import { PurePolicyUploadStep } from './wizard-steps/PurePolicyUploadStep'
 import { EnhancedClientDetailsStep } from './wizard-steps/EnhancedClientDetailsStep'
 import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoStep'
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
@@ -129,7 +129,7 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
       title: '🔒 Pure Client-Side AI Policy Analysis',
       description: '100% secure local processing - no file uploads or external services',
       icon: FileText,
-      component: FinalPolicyUploadStep,
+      component: PurePolicyUploadStep,
       required: false
     },
     {
