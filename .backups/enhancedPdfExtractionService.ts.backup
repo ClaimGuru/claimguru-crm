@@ -130,15 +130,10 @@ export class EnhancedPDFExtractionService {
    */
   private async enhanceWithOpenAI(extractedText: string): Promise<any> {
     try {
-      // Get Supabase URL and key from environment or lib
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://ttnjqxemkbugwsofacxs.supabase.co';
-      const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0bmpxeGVta2J1Z3dzb2ZhY3hzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIwODY1ODksImV4cCI6MjA2NzY2MjU4OX0.T4ZQBC1gF0rUtzrNqbf90k0dD8B1vD_JUBiEUbbAfuo';
-      
-      const response = await fetch(`${supabaseUrl}/functions/v1/openai-extract-fields`, {
+      const response = await fetch('/api/openai-extract-fields', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${supabaseKey}`
         },
         body: JSON.stringify({
           text: extractedText
