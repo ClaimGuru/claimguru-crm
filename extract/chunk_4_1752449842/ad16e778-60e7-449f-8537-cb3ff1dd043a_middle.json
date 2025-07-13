@@ -1,0 +1,4891 @@
+{
+    "pdf_info": [
+        {
+            "preproc_blocks": [
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        60,
+                        209,
+                        96
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                56,
+                                60,
+                                208,
+                                71
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        56,
+                                        60,
+                                        208,
+                                        71
+                                    ],
+                                    "score": 1.0,
+                                    "content": "How can I review and correct",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                55,
+                                72,
+                                208,
+                                84
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        55,
+                                        72,
+                                        208,
+                                        84
+                                    ],
+                                    "score": 1.0,
+                                    "content": "the personal information you",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                56,
+                                84,
+                                133,
+                                95
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        56,
+                                        84,
+                                        133,
+                                        95
+                                    ],
+                                    "score": 1.0,
+                                    "content": "have about me?",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        }
+                    ],
+                    "index": 1
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        210,
+                        57,
+                        559,
+                        287
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                212,
+                                62,
+                                556,
+                                73
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        212,
+                                        62,
+                                        556,
+                                        73
+                                    ],
+                                    "score": 1.0,
+                                    "content": "If you have questions about what personal information we maintain about",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        },
+                        {
+                            "bbox": [
+                                211,
+                                75,
+                                555,
+                                86
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        211,
+                                        75,
+                                        555,
+                                        86
+                                    ],
+                                    "score": 1.0,
+                                    "content": "you, please make your request in writing and include your full name, mailing",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        },
+                        {
+                            "bbox": [
+                                213,
+                                88,
+                                555,
+                                99
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        213,
+                                        88,
+                                        555,
+                                        99
+                                    ],
+                                    "score": 1.0,
+                                    "content": "address, phone number and policy number. When we receive your written",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                212,
+                                100,
+                                555,
+                                112
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        212,
+                                        100,
+                                        555,
+                                        112
+                                    ],
+                                    "score": 1.0,
+                                    "content": "request, we will respond within thirty (30) business days. We will describe the",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                211,
+                                113,
+                                556,
+                                124
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        211,
+                                        113,
+                                        556,
+                                        124
+                                    ],
+                                    "score": 1.0,
+                                    "content": "personal information we maintain, whom we know we’ve shared it with in the",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        },
+                        {
+                            "bbox": [
+                                211,
+                                126,
+                                555,
+                                138
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        211,
+                                        126,
+                                        555,
+                                        138
+                                    ],
+                                    "score": 1.0,
+                                    "content": "last two (2) years, and how you may request a correction, if necessary. If we",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        },
+                        {
+                            "bbox": [
+                                212,
+                                140,
+                                556,
+                                151
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        212,
+                                        140,
+                                        556,
+                                        151
+                                    ],
+                                    "score": 1.0,
+                                    "content": "requested a consumer report, we will tell you the name and address of the",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        },
+                        {
+                            "bbox": [
+                                212,
+                                152,
+                                338,
+                                164
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        212,
+                                        152,
+                                        338,
+                                        164
+                                    ],
+                                    "score": 1.0,
+                                    "content": "consumer reporting agency.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        },
+                        {
+                            "bbox": [
+                                211,
+                                168,
+                                556,
+                                181
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        211,
+                                        168,
+                                        556,
+                                        181
+                                    ],
+                                    "score": 1.0,
+                                    "content": "You may also see and copy the information we have, except for certain",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        },
+                        {
+                            "bbox": [
+                                212,
+                                181,
+                                556,
+                                193
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        212,
+                                        181,
+                                        556,
+                                        193
+                                    ],
+                                    "score": 1.0,
+                                    "content": "documents about claims and lawsuits. If you believe our information is",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        },
+                        {
+                            "bbox": [
+                                212,
+                                195,
+                                556,
+                                207
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        212,
+                                        195,
+                                        556,
+                                        207
+                                    ],
+                                    "score": 1.0,
+                                    "content": "incorrect, let us know in writing. We will review it, and, if we agree, we will",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        },
+                        {
+                            "bbox": [
+                                213,
+                                208,
+                                555,
+                                219
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        213,
+                                        208,
+                                        555,
+                                        219
+                                    ],
+                                    "score": 1.0,
+                                    "content": "correct it, notify you, and send a correction letter to anyone who received the",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        },
+                        {
+                            "bbox": [
+                                213,
+                                221,
+                                555,
+                                233
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        213,
+                                        221,
+                                        555,
+                                        233
+                                    ],
+                                    "score": 1.0,
+                                    "content": "original information. If we do not agree, you are allowed to file a letter with",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        },
+                        {
+                            "bbox": [
+                                211,
+                                235,
+                                284,
+                                245
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        211,
+                                        235,
+                                        284,
+                                        245
+                                    ],
+                                    "score": 1.0,
+                                    "content": "your comments.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        },
+                        {
+                            "bbox": [
+                                211,
+                                250,
+                                555,
+                                263
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        211,
+                                        250,
+                                        555,
+                                        263
+                                    ],
+                                    "score": 1.0,
+                                    "content": "For questions about the right of access or correction to your information,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        },
+                        {
+                            "bbox": [
+                                212,
+                                262,
+                                555,
+                                274
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        212,
+                                        262,
+                                        555,
+                                        274
+                                    ],
+                                    "score": 1.0,
+                                    "content": "please write to: Travelers, One Tower Square, Hartford, CT 06183, Attn:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        },
+                        {
+                            "bbox": [
+                                212,
+                                273,
+                                277,
+                                285
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        212,
+                                        273,
+                                        277,
+                                        285
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Privacy Office.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        }
+                    ],
+                    "index": 11
+                }
+            ],
+            "layout_bboxes": [],
+            "page_idx": 0,
+            "page_size": [
+                612.0,
+                792.0
+            ],
+            "_layout_tree": [],
+            "images": [],
+            "tables": [],
+            "interline_equations": [],
+            "discarded_blocks": [
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        52,
+                        753,
+                        117,
+                        763
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                754,
+                                116,
+                                763
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        754,
+                                        116,
+                                        763
+                                    ],
+                                    "score": 1.0,
+                                    "content": "PL-50430 (05-17)",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        510,
+                        753,
+                        552,
+                        763
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                510,
+                                752,
+                                553,
+                                764
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        510,
+                                        752,
+                                        553,
+                                        764
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Page3of3",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        51,
+                        299,
+                        549,
+                        356
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                299,
+                                549,
+                                314
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        299,
+                                        549,
+                                        314
+                                    ],
+                                    "score": 1.0,
+                                    "content": "This notice is given by The Travelers Indemnity Company and its personal insurance property casualty affiliates.",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                315,
+                                497,
+                                328
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        315,
+                                        497,
+                                        328
+                                    ],
+                                    "score": 1.0,
+                                    "content": "This notice may be amended at any time. The most current version will be posted on Travelers.com.",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                331,
+                                481,
+                                344
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        331,
+                                        481,
+                                        344
+                                    ],
+                                    "score": 1.0,
+                                    "content": "A statement concerning our use of Insurance Score is available on request for Oregon residents.",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                346,
+                                183,
+                                358
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        346,
+                                        183,
+                                        358
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Last revised December 2016",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "need_drop": false,
+            "drop_reason": [],
+            "para_blocks": [
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        60,
+                        209,
+                        96
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                56,
+                                60,
+                                208,
+                                71
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        56,
+                                        60,
+                                        208,
+                                        71
+                                    ],
+                                    "score": 1.0,
+                                    "content": "How can I review and correct",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                55,
+                                72,
+                                208,
+                                84
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        55,
+                                        72,
+                                        208,
+                                        84
+                                    ],
+                                    "score": 1.0,
+                                    "content": "the personal information you",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                56,
+                                84,
+                                133,
+                                95
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        56,
+                                        84,
+                                        133,
+                                        95
+                                    ],
+                                    "score": 1.0,
+                                    "content": "have about me?",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        }
+                    ],
+                    "index": 1,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        55,
+                        60,
+                        208,
+                        95
+                    ]
+                },
+                {
+                    "type": "list",
+                    "bbox": [
+                        210,
+                        57,
+                        559,
+                        287
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                212,
+                                62,
+                                556,
+                                73
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        212,
+                                        62,
+                                        556,
+                                        73
+                                    ],
+                                    "score": 1.0,
+                                    "content": "If you have questions about what personal information we maintain about",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        },
+                        {
+                            "bbox": [
+                                211,
+                                75,
+                                555,
+                                86
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        211,
+                                        75,
+                                        555,
+                                        86
+                                    ],
+                                    "score": 1.0,
+                                    "content": "you, please make your request in writing and include your full name, mailing",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        },
+                        {
+                            "bbox": [
+                                213,
+                                88,
+                                555,
+                                99
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        213,
+                                        88,
+                                        555,
+                                        99
+                                    ],
+                                    "score": 1.0,
+                                    "content": "address, phone number and policy number. When we receive your written",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                212,
+                                100,
+                                555,
+                                112
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        212,
+                                        100,
+                                        555,
+                                        112
+                                    ],
+                                    "score": 1.0,
+                                    "content": "request, we will respond within thirty (30) business days. We will describe the",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                211,
+                                113,
+                                556,
+                                124
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        211,
+                                        113,
+                                        556,
+                                        124
+                                    ],
+                                    "score": 1.0,
+                                    "content": "personal information we maintain, whom we know we’ve shared it with in the",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        },
+                        {
+                            "bbox": [
+                                211,
+                                126,
+                                555,
+                                138
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        211,
+                                        126,
+                                        555,
+                                        138
+                                    ],
+                                    "score": 1.0,
+                                    "content": "last two (2) years, and how you may request a correction, if necessary. If we",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        },
+                        {
+                            "bbox": [
+                                212,
+                                140,
+                                556,
+                                151
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        212,
+                                        140,
+                                        556,
+                                        151
+                                    ],
+                                    "score": 1.0,
+                                    "content": "requested a consumer report, we will tell you the name and address of the",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        },
+                        {
+                            "bbox": [
+                                212,
+                                152,
+                                338,
+                                164
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        212,
+                                        152,
+                                        338,
+                                        164
+                                    ],
+                                    "score": 1.0,
+                                    "content": "consumer reporting agency.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10,
+                            "is_list_end_line": true
+                        },
+                        {
+                            "bbox": [
+                                211,
+                                168,
+                                556,
+                                181
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        211,
+                                        168,
+                                        556,
+                                        181
+                                    ],
+                                    "score": 1.0,
+                                    "content": "You may also see and copy the information we have, except for certain",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                212,
+                                181,
+                                556,
+                                193
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        212,
+                                        181,
+                                        556,
+                                        193
+                                    ],
+                                    "score": 1.0,
+                                    "content": "documents about claims and lawsuits. If you believe our information is",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        },
+                        {
+                            "bbox": [
+                                212,
+                                195,
+                                556,
+                                207
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        212,
+                                        195,
+                                        556,
+                                        207
+                                    ],
+                                    "score": 1.0,
+                                    "content": "incorrect, let us know in writing. We will review it, and, if we agree, we will",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        },
+                        {
+                            "bbox": [
+                                213,
+                                208,
+                                555,
+                                219
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        213,
+                                        208,
+                                        555,
+                                        219
+                                    ],
+                                    "score": 1.0,
+                                    "content": "correct it, notify you, and send a correction letter to anyone who received the",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        },
+                        {
+                            "bbox": [
+                                213,
+                                221,
+                                555,
+                                233
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        213,
+                                        221,
+                                        555,
+                                        233
+                                    ],
+                                    "score": 1.0,
+                                    "content": "original information. If we do not agree, you are allowed to file a letter with",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        },
+                        {
+                            "bbox": [
+                                211,
+                                235,
+                                284,
+                                245
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        211,
+                                        235,
+                                        284,
+                                        245
+                                    ],
+                                    "score": 1.0,
+                                    "content": "your comments.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16,
+                            "is_list_end_line": true
+                        },
+                        {
+                            "bbox": [
+                                211,
+                                250,
+                                555,
+                                263
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        211,
+                                        250,
+                                        555,
+                                        263
+                                    ],
+                                    "score": 1.0,
+                                    "content": "For questions about the right of access or correction to your information,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                212,
+                                262,
+                                555,
+                                274
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        212,
+                                        262,
+                                        555,
+                                        274
+                                    ],
+                                    "score": 1.0,
+                                    "content": "please write to: Travelers, One Tower Square, Hartford, CT 06183, Attn:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        },
+                        {
+                            "bbox": [
+                                212,
+                                273,
+                                277,
+                                285
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        212,
+                                        273,
+                                        277,
+                                        285
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Privacy Office.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19,
+                            "is_list_end_line": true
+                        }
+                    ],
+                    "index": 11,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        211,
+                        62,
+                        556,
+                        285
+                    ]
+                }
+            ]
+        },
+        {
+            "preproc_blocks": [],
+            "layout_bboxes": [],
+            "page_idx": 1,
+            "page_size": [
+                612.0,
+                792.0
+            ],
+            "_layout_tree": [],
+            "images": [],
+            "tables": [],
+            "interline_equations": [],
+            "discarded_blocks": [],
+            "need_drop": false,
+            "drop_reason": [],
+            "para_blocks": []
+        },
+        {
+            "preproc_blocks": [
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        81,
+                        559,
+                        139
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                82,
+                                560,
+                                95
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        82,
+                                        560,
+                                        95
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Thank you for trusting us with your insurance. We are committed to providing you excellent service at a ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                92,
+                                560,
+                                107
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        92,
+                                        560,
+                                        107
+                                    ],
+                                    "score": 1.0,
+                                    "content": "competitive price. A lot of information is used to determine your price, including information about your credit",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                103,
+                                560,
+                                118
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        103,
+                                        560,
+                                        118
+                                    ],
+                                    "score": 1.0,
+                                    "content": "history(ies). We are required to tell you that based on the information we received, you did not receive our best ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                116,
+                                559,
+                                129
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        116,
+                                        559,
+                                        129
+                                    ],
+                                    "score": 1.0,
+                                    "content": "rating classification. Your price is competitive and accurate based on your unique characteristics. Please refer to",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                128,
+                                439,
+                                141
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        128,
+                                        439,
+                                        141
+                                    ],
+                                    "score": 1.0,
+                                    "content": "the reverse side of this page for the details from your credit history affecting your price.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        }
+                    ],
+                    "index": 2
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        149,
+                        377,
+                        161
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                149,
+                                377,
+                                163
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        149,
+                                        377,
+                                        163
+                                    ],
+                                    "score": 1.0,
+                                    "content": "The consumer reporting agency(ies) that provided information about you:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        }
+                    ],
+                    "index": 5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        169,
+                        254,
+                        238
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                171,
+                                253,
+                                182
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        171,
+                                        253,
+                                        182
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Insurance Score (Credit History) Information:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                182,
+                                227,
+                                193
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        182,
+                                        227,
+                                        193
+                                    ],
+                                    "score": 1.0,
+                                    "content": "TransUnion National Disclosure Center",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                194,
+                                120,
+                                204
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        194,
+                                        120,
+                                        204
+                                    ],
+                                    "score": 1.0,
+                                    "content": "P.O. Box 1000",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                205,
+                                140,
+                                216
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        205,
+                                        140,
+                                        216
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Chester, PA 19022",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                216,
+                                180,
+                                227
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        216,
+                                        180,
+                                        227
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Telephone:  1.800.645.1938",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                227,
+                                213,
+                                238
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        227,
+                                        213,
+                                        238
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Web Address: www.transunion.com",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        }
+                    ],
+                    "index": 8.5
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        53,
+                        248,
+                        109,
+                        260
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                249,
+                                108,
+                                259
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        249,
+                                        108,
+                                        259
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Remember:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        }
+                    ],
+                    "index": 12
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        52,
+                        268,
+                        562,
+                        381
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                69,
+                                270,
+                                558,
+                                283
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        69,
+                                        270,
+                                        558,
+                                        283
+                                    ],
+                                    "score": 1.0,
+                                    "content": "You have the right to a free copy of the consumer report(s) listed above. Simply contact the agency(ies) listed",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        },
+                        {
+                            "bbox": [
+                                69,
+                                280,
+                                273,
+                                296
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        69,
+                                        280,
+                                        273,
+                                        296
+                                    ],
+                                    "score": 1.0,
+                                    "content": "above within 60 days of receipt of this notice.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        },
+                        {
+                            "bbox": [
+                                69,
+                                303,
+                                559,
+                                317
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        69,
+                                        303,
+                                        559,
+                                        317
+                                    ],
+                                    "score": 1.0,
+                                    "content": "You have the right to dispute the accuracy or completeness of any information in a consumer report. Simply ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        },
+                        {
+                            "bbox": [
+                                70,
+                                315,
+                                381,
+                                328
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        70,
+                                        315,
+                                        381,
+                                        328
+                                    ],
+                                    "score": 1.0,
+                                    "content": "contact the agency to discuss or dispute any information in the report.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                334,
+                                560,
+                                351
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        341,
+                                        58,
+                                        346
+                                    ],
+                                    "score": 0.5280382037162781,
+                                    "content": "?",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        69,
+                                        334,
+                                        560,
+                                        351
+                                    ],
+                                    "score": 1.0,
+                                    "content": "The consumer reporting agency(ies) did not make the pricing determination and cannot answer questions ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        },
+                        {
+                            "bbox": [
+                                69,
+                                346,
+                                213,
+                                361
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        69,
+                                        346,
+                                        213,
+                                        361
+                                    ],
+                                    "score": 1.0,
+                                    "content": "regarding your Travelers policy.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        },
+                        {
+                            "bbox": [
+                                51,
+                                368,
+                                523,
+                                383
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        368,
+                                        523,
+                                        383
+                                    ],
+                                    "score": 1.0,
+                                    "content": "• Notify us if your information changes.  We will reevaluate your situation, which could save you money.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        }
+                    ],
+                    "index": 16
+                }
+            ],
+            "layout_bboxes": [],
+            "page_idx": 2,
+            "page_size": [
+                612.0,
+                792.0
+            ],
+            "_layout_tree": [],
+            "images": [],
+            "tables": [],
+            "interline_equations": [],
+            "discarded_blocks": [
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        52,
+                        753,
+                        116,
+                        762
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                753,
+                                115,
+                                763
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        753,
+                                        115,
+                                        763
+                                    ],
+                                    "score": 1.0,
+                                    "content": "PL-50351 (05-17)",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        53,
+                        56,
+                        351,
+                        70
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                55,
+                                349,
+                                73
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        55,
+                                        349,
+                                        73
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Important Notice about Consumer Reporting",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "need_drop": false,
+            "drop_reason": [],
+            "para_blocks": [
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        81,
+                        559,
+                        139
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                82,
+                                560,
+                                95
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        82,
+                                        560,
+                                        95
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Thank you for trusting us with your insurance. We are committed to providing you excellent service at a ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                92,
+                                560,
+                                107
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        92,
+                                        560,
+                                        107
+                                    ],
+                                    "score": 1.0,
+                                    "content": "competitive price. A lot of information is used to determine your price, including information about your credit",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                103,
+                                560,
+                                118
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        103,
+                                        560,
+                                        118
+                                    ],
+                                    "score": 1.0,
+                                    "content": "history(ies). We are required to tell you that based on the information we received, you did not receive our best ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                116,
+                                559,
+                                129
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        116,
+                                        559,
+                                        129
+                                    ],
+                                    "score": 1.0,
+                                    "content": "rating classification. Your price is competitive and accurate based on your unique characteristics. Please refer to",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                128,
+                                439,
+                                141
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        128,
+                                        439,
+                                        141
+                                    ],
+                                    "score": 1.0,
+                                    "content": "the reverse side of this page for the details from your credit history affecting your price.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        }
+                    ],
+                    "index": 2,
+                    "page_num": "page_2",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        52,
+                        82,
+                        560,
+                        141
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        149,
+                        377,
+                        161
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                149,
+                                377,
+                                163
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        149,
+                                        377,
+                                        163
+                                    ],
+                                    "score": 1.0,
+                                    "content": "The consumer reporting agency(ies) that provided information about you:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        }
+                    ],
+                    "index": 5,
+                    "page_num": "page_2",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        53,
+                        149,
+                        377,
+                        163
+                    ]
+                },
+                {
+                    "type": "list",
+                    "bbox": [
+                        53,
+                        169,
+                        254,
+                        238
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                171,
+                                253,
+                                182
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        171,
+                                        253,
+                                        182
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Insurance Score (Credit History) Information:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                182,
+                                227,
+                                193
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        182,
+                                        227,
+                                        193
+                                    ],
+                                    "score": 1.0,
+                                    "content": "TransUnion National Disclosure Center",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                194,
+                                120,
+                                204
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        194,
+                                        120,
+                                        204
+                                    ],
+                                    "score": 1.0,
+                                    "content": "P.O. Box 1000",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                205,
+                                140,
+                                216
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        205,
+                                        140,
+                                        216
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Chester, PA 19022",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                216,
+                                180,
+                                227
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        216,
+                                        180,
+                                        227
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Telephone:  1.800.645.1938",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                227,
+                                213,
+                                238
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        227,
+                                        213,
+                                        238
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Web Address: www.transunion.com",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11,
+                            "is_list_start_line": true
+                        }
+                    ],
+                    "index": 8.5,
+                    "page_num": "page_2",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        52,
+                        171,
+                        253,
+                        238
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        53,
+                        248,
+                        109,
+                        260
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                249,
+                                108,
+                                259
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        249,
+                                        108,
+                                        259
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Remember:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        }
+                    ],
+                    "index": 12,
+                    "page_num": "page_2",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        52,
+                        268,
+                        562,
+                        381
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                69,
+                                270,
+                                558,
+                                283
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        69,
+                                        270,
+                                        558,
+                                        283
+                                    ],
+                                    "score": 1.0,
+                                    "content": "You have the right to a free copy of the consumer report(s) listed above. Simply contact the agency(ies) listed",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        },
+                        {
+                            "bbox": [
+                                69,
+                                280,
+                                273,
+                                296
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        69,
+                                        280,
+                                        273,
+                                        296
+                                    ],
+                                    "score": 1.0,
+                                    "content": "above within 60 days of receipt of this notice.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        },
+                        {
+                            "bbox": [
+                                69,
+                                303,
+                                559,
+                                317
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        69,
+                                        303,
+                                        559,
+                                        317
+                                    ],
+                                    "score": 1.0,
+                                    "content": "You have the right to dispute the accuracy or completeness of any information in a consumer report. Simply ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        },
+                        {
+                            "bbox": [
+                                70,
+                                315,
+                                381,
+                                328
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        70,
+                                        315,
+                                        381,
+                                        328
+                                    ],
+                                    "score": 1.0,
+                                    "content": "contact the agency to discuss or dispute any information in the report.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                334,
+                                560,
+                                351
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        341,
+                                        58,
+                                        346
+                                    ],
+                                    "score": 0.5280382037162781,
+                                    "content": "?",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        69,
+                                        334,
+                                        560,
+                                        351
+                                    ],
+                                    "score": 1.0,
+                                    "content": "The consumer reporting agency(ies) did not make the pricing determination and cannot answer questions ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        },
+                        {
+                            "bbox": [
+                                69,
+                                346,
+                                213,
+                                361
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        69,
+                                        346,
+                                        213,
+                                        361
+                                    ],
+                                    "score": 1.0,
+                                    "content": "regarding your Travelers policy.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        },
+                        {
+                            "bbox": [
+                                51,
+                                368,
+                                523,
+                                383
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        368,
+                                        523,
+                                        383
+                                    ],
+                                    "score": 1.0,
+                                    "content": "• Notify us if your information changes.  We will reevaluate your situation, which could save you money.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        }
+                    ],
+                    "index": 16,
+                    "page_num": "page_2",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        51,
+                        270,
+                        560,
+                        383
+                    ]
+                }
+            ]
+        },
+        {
+            "preproc_blocks": [
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        54,
+                        559,
+                        77
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                52,
+                                560,
+                                68
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        52,
+                                        560,
+                                        68
+                                    ],
+                                    "score": 1.0,
+                                    "content": "The information from your credit report is used to create an insurance score. Your insurance score was",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                64,
+                                112,
+                                80
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        64,
+                                        112,
+                                        80
+                                    ],
+                                    "score": 1.0,
+                                    "content": "impacted by:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        }
+                    ],
+                    "index": 0.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        87,
+                        364,
+                        121
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                86,
+                                220,
+                                99
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        86,
+                                        220,
+                                        99
+                                    ],
+                                    "score": 1.0,
+                                    "content": "* Number of open revolving accounts.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                97,
+                                365,
+                                111
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        97,
+                                        365,
+                                        111
+                                    ],
+                                    "score": 1.0,
+                                    "content": "* Number of occurences of Bank Revolving accounts known revolving.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                108,
+                                274,
+                                123
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        108,
+                                        274,
+                                        123
+                                    ],
+                                    "score": 1.0,
+                                    "content": "* Total Credit Limit change on revolving accounts.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        }
+                    ],
+                    "index": 3
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        130,
+                        559,
+                        165
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                51,
+                                130,
+                                559,
+                                144
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        130,
+                                        559,
+                                        144
+                                    ],
+                                    "score": 1.0,
+                                    "content": "To learn more about how your credit relates to your insurance policy please contact our Insurance Score",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                142,
+                                560,
+                                156
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        142,
+                                        560,
+                                        156
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Resource Center at 1.800.550.7717. For any other questions, please contact your Travelers agent  or ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                154,
+                                120,
+                                167
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        154,
+                                        120,
+                                        167
+                                    ],
+                                    "score": 1.0,
+                                    "content": "representative.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        }
+                    ],
+                    "index": 6
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        176,
+                        456,
+                        187
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                176,
+                                457,
+                                191
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        176,
+                                        457,
+                                        191
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Please note: this information does not necessarily reflect a poor or average credit standing.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        }
+                    ],
+                    "index": 8
+                }
+            ],
+            "layout_bboxes": [],
+            "page_idx": 3,
+            "page_size": [
+                612.0,
+                792.0
+            ],
+            "_layout_tree": [],
+            "images": [],
+            "tables": [],
+            "interline_equations": [],
+            "discarded_blocks": [
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        52,
+                        754,
+                        116,
+                        762
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                753,
+                                115,
+                                763
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        753,
+                                        115,
+                                        763
+                                    ],
+                                    "score": 1.0,
+                                    "content": "PL-50351 (05-17)",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "need_drop": false,
+            "drop_reason": [],
+            "para_blocks": [
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        54,
+                        559,
+                        77
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                52,
+                                560,
+                                68
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        52,
+                                        560,
+                                        68
+                                    ],
+                                    "score": 1.0,
+                                    "content": "The information from your credit report is used to create an insurance score. Your insurance score was",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                64,
+                                112,
+                                80
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        64,
+                                        112,
+                                        80
+                                    ],
+                                    "score": 1.0,
+                                    "content": "impacted by:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        }
+                    ],
+                    "index": 0.5,
+                    "page_num": "page_3",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        52,
+                        52,
+                        560,
+                        80
+                    ]
+                },
+                {
+                    "type": "list",
+                    "bbox": [
+                        53,
+                        87,
+                        364,
+                        121
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                86,
+                                220,
+                                99
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        86,
+                                        220,
+                                        99
+                                    ],
+                                    "score": 1.0,
+                                    "content": "* Number of open revolving accounts.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2,
+                            "is_list_end_line": true
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                97,
+                                365,
+                                111
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        97,
+                                        365,
+                                        111
+                                    ],
+                                    "score": 1.0,
+                                    "content": "* Number of occurences of Bank Revolving accounts known revolving.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3,
+                            "is_list_start_line": true,
+                            "is_list_end_line": true
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                108,
+                                274,
+                                123
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        108,
+                                        274,
+                                        123
+                                    ],
+                                    "score": 1.0,
+                                    "content": "* Total Credit Limit change on revolving accounts.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4,
+                            "is_list_start_line": true,
+                            "is_list_end_line": true
+                        }
+                    ],
+                    "index": 3,
+                    "page_num": "page_3",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        52,
+                        86,
+                        365,
+                        123
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        130,
+                        559,
+                        165
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                51,
+                                130,
+                                559,
+                                144
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        130,
+                                        559,
+                                        144
+                                    ],
+                                    "score": 1.0,
+                                    "content": "To learn more about how your credit relates to your insurance policy please contact our Insurance Score",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                142,
+                                560,
+                                156
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        142,
+                                        560,
+                                        156
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Resource Center at 1.800.550.7717. For any other questions, please contact your Travelers agent  or ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                154,
+                                120,
+                                167
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        154,
+                                        120,
+                                        167
+                                    ],
+                                    "score": 1.0,
+                                    "content": "representative.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        }
+                    ],
+                    "index": 6,
+                    "page_num": "page_3",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        51,
+                        130,
+                        560,
+                        167
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        176,
+                        456,
+                        187
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                176,
+                                457,
+                                191
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        176,
+                                        457,
+                                        191
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Please note: this information does not necessarily reflect a poor or average credit standing.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        }
+                    ],
+                    "index": 8,
+                    "page_num": "page_3",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        52,
+                        176,
+                        457,
+                        191
+                    ]
+                }
+            ]
+        },
+        {
+            "preproc_blocks": [
+                {
+                    "type": "title",
+                    "bbox": [
+                        52,
+                        55,
+                        423,
+                        71
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                55,
+                                422,
+                                72
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        55,
+                                        422,
+                                        72
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Important Notice about Billing Options and Disclosures",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        }
+                    ],
+                    "index": 0
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        89,
+                        407,
+                        101
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                90,
+                                407,
+                                102
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        90,
+                                        407,
+                                        102
+                                    ],
+                                    "score": 1.0,
+                                    "content": "This notice contains important information about our billing options and charges.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        }
+                    ],
+                    "index": 1
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        110,
+                        559,
+                        133
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                111,
+                                558,
+                                124
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        111,
+                                        558,
+                                        124
+                                    ],
+                                    "score": 1.0,
+                                    "content": "You have chosen to pay your insurance premium in full and will be billed by mail / email. Other charges that may",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                122,
+                                448,
+                                136
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        122,
+                                        121,
+                                        136
+                                    ],
+                                    "score": 1.0,
+                                    "content": "apply include a",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        121,
+                                        122,
+                                        154,
+                                        133
+                                    ],
+                                    "score": 0.87,
+                                    "content": "\\pounds10.00",
+                                    "type": "inline_equation",
+                                    "height": 11,
+                                    "width": 33
+                                },
+                                {
+                                    "bbox": [
+                                        154,
+                                        122,
+                                        235,
+                                        136
+                                    ],
+                                    "score": 1.0,
+                                    "content": " late charge and a",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        235,
+                                        122,
+                                        268,
+                                        133
+                                    ],
+                                    "score": 0.87,
+                                    "content": "\\pounds15.00\\",
+                                    "type": "inline_equation",
+                                    "height": 11,
+                                    "width": 33
+                                },
+                                {
+                                    "bbox": [
+                                        268,
+                                        122,
+                                        448,
+                                        136
+                                    ],
+                                    "score": 1.0,
+                                    "content": " fee for payments returned by your bank.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        }
+                    ],
+                    "index": 2.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        142,
+                        558,
+                        165
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                51,
+                                142,
+                                560,
+                                159
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        142,
+                                        560,
+                                        159
+                                    ],
+                                    "score": 1.0,
+                                    "content": "To sign up for AutoPay or change your Bill Plan option, visit MyTravelers.com, Mobile App or contact your ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                155,
+                                251,
+                                168
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        155,
+                                        251,
+                                        168
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Travelers insurance representative or agent.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        }
+                    ],
+                    "index": 4.5
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        53,
+                        177,
+                        94,
+                        187
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                176,
+                                95,
+                                188
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        176,
+                                        95,
+                                        188
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Bill Plan",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        }
+                    ],
+                    "index": 6
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        179,
+                        197,
+                        222
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                187,
+                                196,
+                                199
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        187,
+                                        196,
+                                        199
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Electronic Funds Transfer (EFT)",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                199,
+                                182,
+                                210
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        199,
+                                        182,
+                                        210
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Recurring Credit Card (RCC)",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                210,
+                                137,
+                                222
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        210,
+                                        137,
+                                        222
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Bill by Mail / Email",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        }
+                    ],
+                    "index": 10
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        412,
+                        176,
+                        464,
+                        222
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                411,
+                                176,
+                                464,
+                                188
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        411,
+                                        176,
+                                        464,
+                                        188
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Pay in Full",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        },
+                        {
+                            "bbox": [
+                                412,
+                                187,
+                                462,
+                                200
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        412,
+                                        187,
+                                        462,
+                                        200
+                                    ],
+                                    "score": 1.0,
+                                    "content": "No Charge",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        },
+                        {
+                            "bbox": [
+                                412,
+                                198,
+                                462,
+                                211
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        412,
+                                        198,
+                                        462,
+                                        211
+                                    ],
+                                    "score": 1.0,
+                                    "content": "No Charge",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        },
+                        {
+                            "bbox": [
+                                412,
+                                209,
+                                462,
+                                223
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        412,
+                                        209,
+                                        462,
+                                        223
+                                    ],
+                                    "score": 1.0,
+                                    "content": "No Charge",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        }
+                    ],
+                    "index": 10.0
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        60,
+                        221,
+                        324,
+                        245
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                70,
+                                221,
+                                234,
+                                235
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        70,
+                                        221,
+                                        131,
+                                        235
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Late Charge:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        131,
+                                        221,
+                                        164,
+                                        232
+                                    ],
+                                    "score": 0.89,
+                                    "content": "\\pounds10.00",
+                                    "type": "inline_equation",
+                                    "height": 11,
+                                    "width": 33
+                                },
+                                {
+                                    "bbox": [
+                                        164,
+                                        221,
+                                        234,
+                                        235
+                                    ],
+                                    "score": 1.0,
+                                    "content": " per occurrence",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        },
+                        {
+                            "bbox": [
+                                71,
+                                232,
+                                323,
+                                245
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        71,
+                                        233,
+                                        221,
+                                        245
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Payments returned by your bank:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        221,
+                                        232,
+                                        254,
+                                        244
+                                    ],
+                                    "score": 0.87,
+                                    "content": "\\pounds15.00\\",
+                                    "type": "inline_equation",
+                                    "height": 12,
+                                    "width": 33
+                                },
+                                {
+                                    "bbox": [
+                                        254,
+                                        233,
+                                        323,
+                                        245
+                                    ],
+                                    "score": 1.0,
+                                    "content": " per occurrence",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        }
+                    ],
+                    "index": 14.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        52,
+                        251,
+                        559,
+                        297
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                251,
+                                559,
+                                266
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        251,
+                                        559,
+                                        266
+                                    ],
+                                    "score": 1.0,
+                                    "content": "In the event two payments are returned during a 12 month period you will be required to pay with guaranteed",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                263,
+                                558,
+                                276
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        263,
+                                        558,
+                                        276
+                                    ],
+                                    "score": 1.0,
+                                    "content": "funds for 182 days from the date of the last returned payment. Guaranteed funds are credit card, bank check,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                274,
+                                559,
+                                288
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        274,
+                                        559,
+                                        288
+                                    ],
+                                    "score": 1.0,
+                                    "content": "money order or home banking payments. Other forms of payment will be returned. You will not be eligible to use",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                285,
+                                428,
+                                298
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        285,
+                                        428,
+                                        298
+                                    ],
+                                    "score": 1.0,
+                                    "content": "our Electronic Funds Transfer (EFT) or Recurring Credit Card (RCC) payment plans.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        }
+                    ],
+                    "index": 17.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        306,
+                        559,
+                        330
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                51,
+                                306,
+                                559,
+                                322
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        306,
+                                        559,
+                                        322
+                                    ],
+                                    "score": 1.0,
+                                    "content": "You have an option to enroll in an AutoPay EFT or RCC payment plan without registering for MyTravelers.com by",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                318,
+                                173,
+                                332
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        318,
+                                        173,
+                                        332
+                                    ],
+                                    "score": 1.0,
+                                    "content": "visiting amp.travelers.com.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 21
+                        }
+                    ],
+                    "index": 20.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        339,
+                        559,
+                        362
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                51,
+                                338,
+                                560,
+                                354
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        338,
+                                        560,
+                                        354
+                                    ],
+                                    "score": 1.0,
+                                    "content": "When you provide a check as payment, you authorize us either to use information from your check to make a ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 22
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                350,
+                                507,
+                                364
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        350,
+                                        507,
+                                        364
+                                    ],
+                                    "score": 1.0,
+                                    "content": "one-time electronic fund transfer from your account or to process the payment as a check transaction.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 23
+                        }
+                    ],
+                    "index": 22.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        371,
+                        559,
+                        406
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                51,
+                                371,
+                                558,
+                                385
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        371,
+                                        558,
+                                        385
+                                    ],
+                                    "score": 1.0,
+                                    "content": "If you have multiple policies with us you may be able to combine those policies into a single billing account. If you",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 24
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                383,
+                                559,
+                                397
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        383,
+                                        559,
+                                        397
+                                    ],
+                                    "score": 1.0,
+                                    "content": "have selected one of our monthly billing options, and you combine your policies into a single billing account, you",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 25
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                394,
+                                437,
+                                408
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        394,
+                                        437,
+                                        408
+                                    ],
+                                    "score": 1.0,
+                                    "content": "will be charged just one service charge per installment, and not per individual account.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 26
+                        }
+                    ],
+                    "index": 25
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        414,
+                        558,
+                        438
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                416,
+                                558,
+                                429
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        416,
+                                        558,
+                                        429
+                                    ],
+                                    "score": 1.0,
+                                    "content": "To add this policy to an existing billing account or if you have other questions about this notice, please call your",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 27
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                427,
+                                253,
+                                440
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        427,
+                                        253,
+                                        440
+                                    ],
+                                    "score": 1.0,
+                                    "content": "insurance representative at 1-800-474-1377.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 28
+                        }
+                    ],
+                    "index": 27.5
+                }
+            ],
+            "layout_bboxes": [],
+            "page_idx": 4,
+            "page_size": [
+                612.0,
+                792.0
+            ],
+            "_layout_tree": [],
+            "images": [],
+            "tables": [],
+            "interline_equations": [],
+            "discarded_blocks": [
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        53,
+                        753,
+                        116,
+                        763
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                753,
+                                116,
+                                763
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        753,
+                                        116,
+                                        763
+                                    ],
+                                    "score": 1.0,
+                                    "content": "PL-50019 (02-22)",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "need_drop": false,
+            "drop_reason": [],
+            "para_blocks": [
+                {
+                    "type": "title",
+                    "bbox": [
+                        52,
+                        55,
+                        423,
+                        71
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                55,
+                                422,
+                                72
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        55,
+                                        422,
+                                        72
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Important Notice about Billing Options and Disclosures",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        }
+                    ],
+                    "index": 0,
+                    "page_num": "page_4",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        89,
+                        407,
+                        101
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                90,
+                                407,
+                                102
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        90,
+                                        407,
+                                        102
+                                    ],
+                                    "score": 1.0,
+                                    "content": "This notice contains important information about our billing options and charges.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        }
+                    ],
+                    "index": 1,
+                    "page_num": "page_4",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        54,
+                        90,
+                        407,
+                        102
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        110,
+                        559,
+                        133
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                111,
+                                558,
+                                124
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        111,
+                                        558,
+                                        124
+                                    ],
+                                    "score": 1.0,
+                                    "content": "You have chosen to pay your insurance premium in full and will be billed by mail / email. Other charges that may",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                122,
+                                448,
+                                136
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        122,
+                                        121,
+                                        136
+                                    ],
+                                    "score": 1.0,
+                                    "content": "apply include a",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        121,
+                                        122,
+                                        154,
+                                        133
+                                    ],
+                                    "score": 0.87,
+                                    "content": "\\pounds10.00",
+                                    "type": "inline_equation",
+                                    "height": 11,
+                                    "width": 33
+                                },
+                                {
+                                    "bbox": [
+                                        154,
+                                        122,
+                                        235,
+                                        136
+                                    ],
+                                    "score": 1.0,
+                                    "content": " late charge and a",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        235,
+                                        122,
+                                        268,
+                                        133
+                                    ],
+                                    "score": 0.87,
+                                    "content": "\\pounds15.00\\",
+                                    "type": "inline_equation",
+                                    "height": 11,
+                                    "width": 33
+                                },
+                                {
+                                    "bbox": [
+                                        268,
+                                        122,
+                                        448,
+                                        136
+                                    ],
+                                    "score": 1.0,
+                                    "content": " fee for payments returned by your bank.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        }
+                    ],
+                    "index": 2.5,
+                    "page_num": "page_4",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        52,
+                        111,
+                        558,
+                        136
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        142,
+                        558,
+                        165
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                51,
+                                142,
+                                560,
+                                159
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        142,
+                                        560,
+                                        159
+                                    ],
+                                    "score": 1.0,
+                                    "content": "To sign up for AutoPay or change your Bill Plan option, visit MyTravelers.com, Mobile App or contact your ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                155,
+                                251,
+                                168
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        155,
+                                        251,
+                                        168
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Travelers insurance representative or agent.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        }
+                    ],
+                    "index": 4.5,
+                    "page_num": "page_4",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        51,
+                        142,
+                        560,
+                        168
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        53,
+                        177,
+                        94,
+                        187
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                176,
+                                95,
+                                188
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        176,
+                                        95,
+                                        188
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Bill Plan",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        }
+                    ],
+                    "index": 6,
+                    "page_num": "page_4",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        179,
+                        197,
+                        222
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                187,
+                                196,
+                                199
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        187,
+                                        196,
+                                        199
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Electronic Funds Transfer (EFT)",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                199,
+                                182,
+                                210
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        199,
+                                        182,
+                                        210
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Recurring Credit Card (RCC)",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                210,
+                                137,
+                                222
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        210,
+                                        137,
+                                        222
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Bill by Mail / Email",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        }
+                    ],
+                    "index": 10,
+                    "page_num": "page_4",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        52,
+                        187,
+                        196,
+                        222
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        412,
+                        176,
+                        464,
+                        222
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                411,
+                                176,
+                                464,
+                                188
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        411,
+                                        176,
+                                        464,
+                                        188
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Pay in Full",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        },
+                        {
+                            "bbox": [
+                                412,
+                                187,
+                                462,
+                                200
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        412,
+                                        187,
+                                        462,
+                                        200
+                                    ],
+                                    "score": 1.0,
+                                    "content": "No Charge",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        },
+                        {
+                            "bbox": [
+                                412,
+                                198,
+                                462,
+                                211
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        412,
+                                        198,
+                                        462,
+                                        211
+                                    ],
+                                    "score": 1.0,
+                                    "content": "No Charge",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        },
+                        {
+                            "bbox": [
+                                412,
+                                209,
+                                462,
+                                223
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        412,
+                                        209,
+                                        462,
+                                        223
+                                    ],
+                                    "score": 1.0,
+                                    "content": "No Charge",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        }
+                    ],
+                    "index": 10.0,
+                    "page_num": "page_4",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        411,
+                        176,
+                        464,
+                        223
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        60,
+                        221,
+                        324,
+                        245
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                70,
+                                221,
+                                234,
+                                235
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        70,
+                                        221,
+                                        131,
+                                        235
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Late Charge:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        131,
+                                        221,
+                                        164,
+                                        232
+                                    ],
+                                    "score": 0.89,
+                                    "content": "\\pounds10.00",
+                                    "type": "inline_equation",
+                                    "height": 11,
+                                    "width": 33
+                                },
+                                {
+                                    "bbox": [
+                                        164,
+                                        221,
+                                        234,
+                                        235
+                                    ],
+                                    "score": 1.0,
+                                    "content": " per occurrence",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        },
+                        {
+                            "bbox": [
+                                71,
+                                232,
+                                323,
+                                245
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        71,
+                                        233,
+                                        221,
+                                        245
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Payments returned by your bank:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        221,
+                                        232,
+                                        254,
+                                        244
+                                    ],
+                                    "score": 0.87,
+                                    "content": "\\pounds15.00\\",
+                                    "type": "inline_equation",
+                                    "height": 12,
+                                    "width": 33
+                                },
+                                {
+                                    "bbox": [
+                                        254,
+                                        233,
+                                        323,
+                                        245
+                                    ],
+                                    "score": 1.0,
+                                    "content": " per occurrence",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        }
+                    ],
+                    "index": 14.5,
+                    "page_num": "page_4",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        70,
+                        221,
+                        323,
+                        245
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        52,
+                        251,
+                        559,
+                        297
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                251,
+                                559,
+                                266
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        251,
+                                        559,
+                                        266
+                                    ],
+                                    "score": 1.0,
+                                    "content": "In the event two payments are returned during a 12 month period you will be required to pay with guaranteed",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                263,
+                                558,
+                                276
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        263,
+                                        558,
+                                        276
+                                    ],
+                                    "score": 1.0,
+                                    "content": "funds for 182 days from the date of the last returned payment. Guaranteed funds are credit card, bank check,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                274,
+                                559,
+                                288
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        274,
+                                        559,
+                                        288
+                                    ],
+                                    "score": 1.0,
+                                    "content": "money order or home banking payments. Other forms of payment will be returned. You will not be eligible to use",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                285,
+                                428,
+                                298
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        285,
+                                        428,
+                                        298
+                                    ],
+                                    "score": 1.0,
+                                    "content": "our Electronic Funds Transfer (EFT) or Recurring Credit Card (RCC) payment plans.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        }
+                    ],
+                    "index": 17.5,
+                    "page_num": "page_4",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        52,
+                        251,
+                        559,
+                        298
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        306,
+                        559,
+                        330
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                51,
+                                306,
+                                559,
+                                322
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        306,
+                                        559,
+                                        322
+                                    ],
+                                    "score": 1.0,
+                                    "content": "You have an option to enroll in an AutoPay EFT or RCC payment plan without registering for MyTravelers.com by",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                318,
+                                173,
+                                332
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        318,
+                                        173,
+                                        332
+                                    ],
+                                    "score": 1.0,
+                                    "content": "visiting amp.travelers.com.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 21
+                        }
+                    ],
+                    "index": 20.5,
+                    "page_num": "page_4",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        51,
+                        306,
+                        559,
+                        332
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        339,
+                        559,
+                        362
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                51,
+                                338,
+                                560,
+                                354
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        338,
+                                        560,
+                                        354
+                                    ],
+                                    "score": 1.0,
+                                    "content": "When you provide a check as payment, you authorize us either to use information from your check to make a ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 22
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                350,
+                                507,
+                                364
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        350,
+                                        507,
+                                        364
+                                    ],
+                                    "score": 1.0,
+                                    "content": "one-time electronic fund transfer from your account or to process the payment as a check transaction.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 23
+                        }
+                    ],
+                    "index": 22.5,
+                    "page_num": "page_4",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        51,
+                        338,
+                        560,
+                        364
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        371,
+                        559,
+                        406
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                51,
+                                371,
+                                558,
+                                385
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        371,
+                                        558,
+                                        385
+                                    ],
+                                    "score": 1.0,
+                                    "content": "If you have multiple policies with us you may be able to combine those policies into a single billing account. If you",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 24
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                383,
+                                559,
+                                397
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        383,
+                                        559,
+                                        397
+                                    ],
+                                    "score": 1.0,
+                                    "content": "have selected one of our monthly billing options, and you combine your policies into a single billing account, you",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 25
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                394,
+                                437,
+                                408
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        394,
+                                        437,
+                                        408
+                                    ],
+                                    "score": 1.0,
+                                    "content": "will be charged just one service charge per installment, and not per individual account.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 26
+                        }
+                    ],
+                    "index": 25,
+                    "page_num": "page_4",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        51,
+                        371,
+                        559,
+                        408
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        414,
+                        558,
+                        438
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                416,
+                                558,
+                                429
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        416,
+                                        558,
+                                        429
+                                    ],
+                                    "score": 1.0,
+                                    "content": "To add this policy to an existing billing account or if you have other questions about this notice, please call your",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 27
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                427,
+                                253,
+                                440
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        427,
+                                        253,
+                                        440
+                                    ],
+                                    "score": 1.0,
+                                    "content": "insurance representative at 1-800-474-1377.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 28
+                        }
+                    ],
+                    "index": 27.5,
+                    "page_num": "page_4",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        52,
+                        416,
+                        558,
+                        440
+                    ]
+                }
+            ]
+        },
+        {
+            "preproc_blocks": [],
+            "layout_bboxes": [],
+            "page_idx": 5,
+            "page_size": [
+                612.0,
+                792.0
+            ],
+            "_layout_tree": [],
+            "images": [],
+            "tables": [],
+            "interline_equations": [],
+            "discarded_blocks": [],
+            "need_drop": false,
+            "drop_reason": [],
+            "para_blocks": []
+        }
+    ],
+    "_parse_type": "txt",
+    "_version_name": "0.10.6"
+}
