@@ -26,6 +26,8 @@ import {
   TrendingUp
 } from 'lucide-react'
 import { claimWizardAI } from '../../../services/claimWizardAI'
+import { useClients } from '../../../hooks/useClients'
+import { useClaims } from '../../../hooks/useClaims'
 
 interface CompletionStepProps {
   data: any
@@ -34,6 +36,9 @@ interface CompletionStepProps {
 }
 
 export function CompletionStep({ data, onUpdate, onSubmit }: CompletionStepProps) {
+  const { createClient } = useClients()
+  const { createClaim } = useClaims()
+  
   const [submitting, setSubmitting] = useState(false)
   const [aiSummary, setAiSummary] = useState(null)
   const [generatingPPIF, setGeneratingPPIF] = useState(false)
@@ -45,6 +50,8 @@ export function CompletionStep({ data, onUpdate, onSubmit }: CompletionStepProps
   const [fraudAnalysis, setFraudAnalysis] = useState(null)
   const [finalInsights, setFinalInsights] = useState(null)
   const [analyzing, setAnalyzing] = useState(false)
+  const [createdClient, setCreatedClient] = useState(null)
+  const [createdClaim, setCreatedClaim] = useState(null)
 
   useEffect(() => {
     generateAISummary()
@@ -729,20 +736,57 @@ export function CompletionStep({ data, onUpdate, onSubmit }: CompletionStepProps
           </div>
           
           <div className="border-t pt-4">
+            {/* Final AI Quality Check */}
+            {validationResults && (
+              <div className={`mb-4 p-3 rounded-lg border ${
+                validationResults.consistencyScore > 85 ? 'bg-green-50 border-green-200' : 'bg-amber-50 border-amber-200'
+              }`}>
+                <div className="flex items-center gap-2 mb-2">
+                  <Shield className={`h-4 w-4 ${
+                    validationResults.consistencyScore > 85 ? 'text-green-600' : 'text-amber-600'
+                  }`} />
+                  <span className="text-sm font-medium">
+                    Final AI Quality Check: {validationResults.consistencyScore > 85 ? 'PASSED' : 'NEEDS ATTENTION'}
+                  </span>
+                </div>
+                <div className="text-xs text-gray-600">
+                  Data Quality: {Math.round(validationResults.dataQuality)}% | 
+                  Consistency Score: {validationResults.consistencyScore}/100
+                  {validationResults.inconsistencies.length > 0 && 
+                    ` | ${validationResults.inconsistencies.length} items need review`
+                  }
+                </div>
+              </div>
+            )}
+
             <Button
               onClick={handleSubmit}
-              disabled={submitting}
-              className="w-full h-12 text-lg font-medium"
+              disabled={submitting || analyzing || (validationResults && validationResults.consistencyScore < 70)}
+              className={`w-full h-12 text-lg font-medium ${
+                validationResults && validationResults.consistencyScore > 85 
+                  ? 'bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700'
+                  : ''
+              }`}
             >
               {submitting ? (
                 <>
                   <LoadingSpinner size="sm" className="mr-2" />
                   Submitting Claim...
                 </>
+              ) : analyzing ? (
+                <>
+                  <Brain className="h-5 w-5 mr-2 animate-pulse" />
+                  AI Analysis in Progress...
+                </>
+              ) : validationResults && validationResults.consistencyScore < 70 ? (
+                <>
+                  <AlertCircle className="h-5 w-5 mr-2" />
+                  Please Address Validation Issues First
+                </>
               ) : (
                 <>
                   <Send className="h-5 w-5 mr-2" />
-                  Submit Claim to System
+                  Submit AI-Enhanced Claim
                 </>
               )}
             </Button>

@@ -1,0 +1,98 @@
+import React, { useState, createContext, useContext } from 'react'
+
+interface PopoverContextType {
+  isOpen: boolean
+  setIsOpen: (open: boolean) => void
+}
+
+const PopoverContext = createContext<PopoverContextType | undefined>(undefined)
+
+interface PopoverProps {
+  children: React.ReactNode
+}
+
+interface PopoverTriggerProps {
+  children: React.ReactNode
+  asChild?: boolean
+  className?: string
+}
+
+interface PopoverContentProps {
+  children: React.ReactNode
+  className?: string
+  side?: 'top' | 'right' | 'bottom' | 'left'
+  align?: 'start' | 'center' | 'end'
+}
+
+export const Popover: React.FC<PopoverProps> = ({ children }) => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <PopoverContext.Provider value={{ isOpen, setIsOpen }}>
+      <div className="relative">
+        {children}
+      </div>
+    </PopoverContext.Provider>
+  )
+}
+
+export const PopoverTrigger: React.FC<PopoverTriggerProps> = ({ 
+  children, 
+  asChild = false,
+  className = '' 
+}) => {
+  const context = useContext(PopoverContext)
+  if (!context) throw new Error('PopoverTrigger must be used within Popover')
+
+  const { isOpen, setIsOpen } = context
+
+  const handleClick = () => {
+    setIsOpen(!isOpen)
+  }
+
+  if (asChild && React.isValidElement(children)) {
+    return React.cloneElement(children as React.ReactElement<any>, {
+      onClick: handleClick,
+      className: `${(children as any).props.className || ''} ${className}`.trim()
+    })
+  }
+
+  return (
+    <button onClick={handleClick} className={className}>
+      {children}
+    </button>
+  )
+}
+
+export const PopoverContent: React.FC<PopoverContentProps> = ({ 
+  children, 
+  className = '',
+  side = 'bottom',
+  align = 'center'
+}) => {
+  const context = useContext(PopoverContext)
+  if (!context) throw new Error('PopoverContent must be used within Popover')
+
+  const { isOpen } = context
+
+  if (!isOpen) return null
+
+  const sideClasses = {
+    top: 'bottom-full mb-2',
+    bottom: 'top-full mt-2',
+    left: 'right-full mr-2',
+    right: 'left-full ml-2'
+  }
+
+  const alignClasses = {
+    start: side === 'top' || side === 'bottom' ? 'left-0' : 'top-0',
+    center: side === 'top' || side === 'bottom' ? 'left-1/2 transform -translate-x-1/2' : 'top-1/2 transform -translate-y-1/2',
+    end: side === 'top' || side === 'bottom' ? 'right-0' : 'bottom-0'
+  }
+
+  return (
+    <div className={`absolute ${sideClasses[side]} ${alignClasses[align]} z-50 bg-white border border-gray-200 rounded-md shadow-lg p-3 ${className}`}>
+      {children}
+    </div>
+  )
+}
