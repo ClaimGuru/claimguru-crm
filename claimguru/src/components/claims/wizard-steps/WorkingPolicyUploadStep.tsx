@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card';
 import { Button } from '../../ui/Button';
 import { LoadingSpinner } from '../../ui/LoadingSpinner';
 import { FileText, Upload, CheckCircle, AlertCircle, Brain, Eye, Zap, DollarSign } from 'lucide-react';
-import { enhancedPdfExtractionService, EnhancedPDFExtractionResult } from '../../../services/enhancedPdfExtractionService';
+import { hybridPdfExtractionService, HybridPDFExtractionResult } from '../../../services/hybridPdfExtractionService';
 
 interface WorkingPolicyUploadStepProps {
   data: any;
@@ -24,7 +24,7 @@ export const WorkingPolicyUploadStep: React.FC<WorkingPolicyUploadStepProps> = (
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingStep, setProcessingStep] = useState<string>('');
-  const [extractionResult, setExtractionResult] = useState<EnhancedPDFExtractionResult | null>(null);
+  const [extractionResult, setExtractionResult] = useState<HybridPDFExtractionResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,24 +53,28 @@ export const WorkingPolicyUploadStep: React.FC<WorkingPolicyUploadStepProps> = (
     }
 
     try {
-      // Step 1: Document Analysis
-      setProcessingStep('📊 Analyzing document structure...');
+      // Step 1: PDF.js Extraction
+      setProcessingStep('📄 Step 1: Trying PDF.js (free, fast)...');
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      // Step 2: Tesseract OCR (if needed)
+      setProcessingStep('🔤 Step 2: Tesseract OCR fallback (free)...');
       await new Promise(resolve => setTimeout(resolve, 800));
 
-      // Step 2: OCR Processing  
-      setProcessingStep('👁️ Extracting text with Google Vision OCR...');
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Step 3: Google Vision (if needed)
+      setProcessingStep('👁️ Step 3: Google Vision API (premium)...');
+      await new Promise(resolve => setTimeout(resolve, 600));
 
-      // Step 3: AI Field Extraction
-      setProcessingStep('🧠 Enhancing with OpenAI intelligence...');
+      // Step 4: OpenAI Enhancement
+      setProcessingStep('🧠 Step 4: OpenAI intelligence enhancement...');
       
-      // Call the enhanced PDF extraction service
-      const result = await enhancedPdfExtractionService.extractFromPDF(selectedFile);
+      // Call the HYBRID PDF extraction service
+      const result = await hybridPdfExtractionService.extractFromPDF(selectedFile);
       
-      console.log('✅ AI processing completed successfully:', result);
+      console.log('✅ Hybrid AI processing completed successfully:', result);
       
-      // Step 4: Validation
-      setProcessingStep('✅ Validating extracted data...');
+      // Step 5: Validation
+      setProcessingStep('✅ Step 5: Validating extracted data...');
       await new Promise(resolve => setTimeout(resolve, 500));
       
       setExtractionResult(result);
@@ -254,12 +258,21 @@ export const WorkingPolicyUploadStep: React.FC<WorkingPolicyUploadStepProps> = (
                   if (!value) return null;
                   
                   const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-                  const displayValue = Array.isArray(value) ? value.join(', ') : value;
+                  
+                  // Safe rendering for different data types
+                  let displayValue: string;
+                  if (Array.isArray(value)) {
+                    displayValue = value.join(', ');
+                  } else if (typeof value === 'object') {
+                    displayValue = JSON.stringify(value, null, 2);
+                  } else {
+                    displayValue = String(value);
+                  }
                   
                   return (
                     <div key={key} className="p-3 bg-white border border-gray-200 rounded-lg">
                       <span className="text-sm text-gray-600">{label}:</span>
-                      <p className="font-medium text-gray-900">{displayValue}</p>
+                      <p className="font-medium text-gray-900 whitespace-pre-wrap">{displayValue}</p>
                     </div>
                   );
                 })}

@@ -1,6 +1,6 @@
 /**
  * Google Vision API PDF/Image Text Extraction
- * Uses the GOOGLE_VISION_API_KEY for Google Vision OCR
+ * Uses the GOOGLEMAPS_API key for Google Vision OCR
  */
 
 Deno.serve(async (req) => {
@@ -18,14 +18,11 @@ Deno.serve(async (req) => {
   }
 
   try {
-    // Get the Google Vision API key from environment
-    // Try multiple possible environment variable names
-    const apiKey = Deno.env.get('GOOGLE_VISION_API_KEY') || 
-                   Deno.env.get('GOOGLEMAPS_API') || 
-                   Deno.env.get('GOOGLE_CLOUD_API_KEY');
+    // Get the Google API key from environment
+    const apiKey = Deno.env.get('GOOGLEMAPS_API');
     
     if (!apiKey) {
-      throw new Error('Google Vision API key not configured - please set GOOGLE_VISION_API_KEY environment variable');
+      throw new Error('Google API key not configured');
     }
 
     // Parse request body
@@ -35,16 +32,7 @@ Deno.serve(async (req) => {
       throw new Error('No image data provided');
     }
 
-    console.log(`Processing document: ${fileName} with Google Vision API`);
-
-    // Clean and prepare image data
-    let cleanImageData = imageData;
-    if (typeof imageData === 'string' && imageData.includes(',')) {
-      // Remove data:image/... prefix if present
-      cleanImageData = imageData.split(',')[1];
-    }
-
-    console.log(`Image data length: ${cleanImageData.length} characters`);
+    console.log(`Processing document: ${fileName}`);
 
     // Call Google Vision API for OCR
     const visionResponse = await fetch(
@@ -57,7 +45,7 @@ Deno.serve(async (req) => {
         body: JSON.stringify({
           requests: [{
             image: {
-              content: cleanImageData
+              content: imageData.split(',')[1] // Remove data:image/... prefix
             },
             features: [{
               type: 'DOCUMENT_TEXT_DETECTION',

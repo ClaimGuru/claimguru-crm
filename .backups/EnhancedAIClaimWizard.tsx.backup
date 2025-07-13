@@ -127,10 +127,10 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
   const steps = [
     {
       id: 'policy-upload',
-      title: '🔥 REAL PDF Processing',
-      description: 'Using PDF.js for actual text extraction - High accuracy',
+      title: 'AI Policy Analysis',
+      description: 'Upload policy documents for Google Vision OCR + OpenAI intelligence',
       icon: FileText,
-      component: RealPDFProcessingStep,
+      component: WorkingPolicyUploadStep,
       required: false
     },
     {

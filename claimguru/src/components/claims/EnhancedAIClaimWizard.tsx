@@ -21,9 +21,8 @@ import {
   X
 } from 'lucide-react'
 
-// Import enhanced AI wizard step components - REAL PDF PROCESSING
+// Import enhanced AI wizard step components - HYBRID PDF PROCESSING
 import { WorkingPolicyUploadStep } from './wizard-steps/WorkingPolicyUploadStep'
-import { RealPDFProcessingStep } from './wizard-steps/RealPDFProcessingStep'
 import { EnhancedClientDetailsStep } from './wizard-steps/EnhancedClientDetailsStep'
 import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoStep'
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
