@@ -21,8 +21,9 @@ import {
   X
 } from 'lucide-react'
 
-// Import enhanced AI wizard step components - WORKING VERSION
+// Import enhanced AI wizard step components - REAL PDF PROCESSING
 import { WorkingPolicyUploadStep } from './wizard-steps/WorkingPolicyUploadStep'
+import { RealPDFProcessingStep } from './wizard-steps/RealPDFProcessingStep'
 import { EnhancedClientDetailsStep } from './wizard-steps/EnhancedClientDetailsStep'
 import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoStep'
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
@@ -126,10 +127,10 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
   const steps = [
     {
       id: 'policy-upload',
-      title: '✅ FIXED AI Policy Analysis',
-      description: 'Working version - No server uploads, no 405 errors',
+      title: '🔥 REAL PDF Processing',
+      description: 'Using PDF.js for actual text extraction - High accuracy',
       icon: FileText,
-      component: WorkingPolicyUploadStep,
+      component: RealPDFProcessingStep,
       required: false
     },
     {

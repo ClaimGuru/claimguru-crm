@@ -21,8 +21,9 @@ import {
   X
 } from 'lucide-react'
 
-// Import enhanced AI wizard step components - WORKING VERSION
+// Import enhanced AI wizard step components - REAL PDF PROCESSING
 import { WorkingPolicyUploadStep } from './wizard-steps/WorkingPolicyUploadStep'
+import { RealPDFProcessingStep } from './wizard-steps/RealPDFProcessingStep'
 import { EnhancedClientDetailsStep } from './wizard-steps/EnhancedClientDetailsStep'
 import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoStep'
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
@@ -35,7 +36,7 @@ import { PersonnelAssignmentStep } from './wizard-steps/PersonnelAssignmentStep'
 import { OfficeTasksStep } from './wizard-steps/OfficeTasksStep'
 import { CoverageIssueReviewStep } from './wizard-steps/CoverageIssueReviewStep'
 import { CompletionStep } from './wizard-steps/CompletionStep'
-import CustomFieldsStep from './wizard-steps/CustomFieldsStep'
+// import CustomFieldsStep from './wizard-steps/CustomFieldsStep' // Temporarily disabled
 
 interface EnhancedAIIntakeWizardProps {
   clientId?: string
