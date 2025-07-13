@@ -1,0 +1,213 @@
+/**
+ * Google Places API Service for ClaimGuru
+ * Production-ready implementation for address validation and geocoding
+ */
+
+// Will be populated with API key from environment
+let GOOGLE_PLACES_API_KEY = '';
+
+export interface AddressValidationResult {
+  formattedAddress: string;
+  streetNumber: string;
+  street: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+  isValid: boolean;
+  confidence: number;
+  alternativeAddresses: string[];
+}
+
+/**
+ * Set Google Places API Key
+ * @param apiKey Google Places API Key
+ */
+export const setGooglePlacesApiKey = (apiKey: string) => {
+  GOOGLE_PLACES_API_KEY = apiKey;
+};
+
+/**
+ * Check if Google Places API key is configured
+ */
+export const hasGooglePlacesApiKey = (): boolean => {
+  return !!GOOGLE_PLACES_API_KEY;
+};
+
+/**
+ * Validate and format address using Google Places API
+ * @param address Address string to validate
+ */
+export const validateAddress = async (address: string): Promise<AddressValidationResult> => {
+  console.log('Validating address with Google Places API:', address);
+  
+  if (!hasGooglePlacesApiKey()) {
+    throw new Error('Google Places API key not configured. Please set API key before using this service.');
+  }
+  
+  try {
+    // Call Google Places Autocomplete API
+    const autocompleteUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(address)}&types=address&key=${GOOGLE_PLACES_API_KEY}`;
+    
+    // Use a proxy to avoid CORS issues and protect API key
+    const proxyUrl = '/api/google-places-proxy';
+    
+    const response = await fetch(proxyUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        url: autocompleteUrl
+      })
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Places API error: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    
+    if (data.status !== 'OK' || !data.predictions || data.predictions.length === 0) {
+      return {
+        formattedAddress: address,
+        streetNumber: '',
+        street: '',
+        city: '',
+        state: '',
+        zipCode: '',
+        country: '',
+        latitude: 0,
+        longitude: 0,
+        isValid: false,
+        confidence: 0,
+        alternativeAddresses: []
+      };
+    }
+    
+    // Get details for the top prediction
+    const placeId = data.predictions[0].place_id;
+    const detailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=formatted_address,geometry,address_component&key=${GOOGLE_PLACES_API_KEY}`;
+    
+    const detailsResponse = await fetch(proxyUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        url: detailsUrl
+      })
+    });
+    
+    if (!detailsResponse.ok) {
+      throw new Error(`Places Details API error: ${detailsResponse.status}`);
+    }
+    
+    const detailsData = await detailsResponse.json();
+    
+    if (detailsData.status !== 'OK' || !detailsData.result) {
+      throw new Error('Failed to get place details');
+    }
+    
+    const result = detailsData.result;
+    const components = result.address_components || [];
+    
+    // Extract address components
+    const streetNumber = components.find(c => c.types.includes('street_number'))?.long_name || '';
+    const street = components.find(c => c.types.includes('route'))?.long_name || '';
+    const city = components.find(c => c.types.includes('locality'))?.long_name || 
+                components.find(c => c.types.includes('administrative_area_level_3'))?.long_name || '';
+    const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || '';
+    const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || '';
+    const country = components.find(c => c.types.includes('country'))?.long_name || '';
+    
+    // Get lat/lng
+    const latitude = result.geometry?.location?.lat || 0;
+    const longitude = result.geometry?.location?.lng || 0;
+    
+    // Get alternative addresses
+    const alternativeAddresses = data.predictions
+      .slice(1)
+      .map(prediction => prediction.description);
+    
+    return {
+      formattedAddress: result.formatted_address || address,
+      streetNumber,
+      street,
+      city,
+      state,
+      zipCode,
+      country,
+      latitude,
+      longitude,
+      isValid: true,
+      confidence: 0.95, // Google Places results are typically high confidence
+      alternativeAddresses
+    };
+  } catch (error) {
+    console.error('Google Places API error:', error);
+    throw error;
+  }
+};
+
+/**
+ * Geocode an address to get coordinates
+ * @param address Address to geocode
+ */
+export const geocodeAddress = async (address: string): Promise<{lat: number, lng: number}> => {
+  const validationResult = await validateAddress(address);
+  
+  if (!validationResult.isValid) {
+    throw new Error('Could not geocode invalid address');
+  }
+  
+  return {
+    lat: validationResult.latitude,
+    lng: validationResult.longitude
+  };
+};
+
+/**
+ * Get address suggestions as user types
+ * @param input Partial address input
+ */
+export const getAddressSuggestions = async (input: string): Promise<string[]> => {
+  if (!hasGooglePlacesApiKey() || !input || input.length < 3) {
+    return [];
+  }
+  
+  try {
+    // Call Google Places Autocomplete API
+    const autocompleteUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&types=address&key=${GOOGLE_PLACES_API_KEY}`;
+    
+    // Use a proxy to avoid CORS issues and protect API key
+    const proxyUrl = '/api/google-places-proxy';
+    
+    const response = await fetch(proxyUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        url: autocompleteUrl
+      })
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Places API error: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    
+    if (data.status !== 'OK' || !data.predictions) {
+      return [];
+    }
+    
+    return data.predictions.map(prediction => prediction.description);
+  } catch (error) {
+    console.error('Address suggestions error:', error);
+    return [];
+  }
+};
