@@ -1,0 +1,453 @@
+
+> react_repo@0.0.0 build
+> yes | pnpm install && rm -rf node_modules/.vite-temp && tsc -b && vite build
+
+Lockfile is up to date, resolution step is skipped
+Already up to date
+Done in 1.3s using pnpm v10.12.4
+src/components/admin/CustomFieldManager.tsx:63:11 - error TS2339: Property 'showToast' does not exist on type '{ toasts: ToastMessage[]; addToast: (toast: Omit<ToastMessage, "id">) => string; removeToast: (id: string) => void; success: (title: string, message?: string, duration?: number) => string; error: (title: string, message?: string, duration?: number) => string; warning: (title: string, message?: string, duration?: num...'.
+
+63   const { showToast } = useToast();
+             ~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:201:52 - error TS2345: Argument of type '{ organization_id: string; field_name: string; field_label: string; field_type: "number" | "email" | "phone" | "color" | "checkbox" | "date" | "radio" | "time" | "url" | "slider" | "decimal" | ... 8 more ... | "rating"; ... 7 more ...; created_by: string; }' is not assignable to parameter of type 'Omit<CustomField, "id" | "created_at" | "updated_at">'.
+  Property 'is_active' is missing in type '{ organization_id: string; field_name: string; field_label: string; field_type: "number" | "email" | "phone" | "color" | "checkbox" | "date" | "radio" | "time" | "url" | "slider" | "decimal" | ... 8 more ... | "rating"; ... 7 more ...; created_by: string; }' but required in type 'Omit<CustomField, "id" | "created_at" | "updated_at">'.
+
+201         await customFieldService.createCustomField(fieldData);
+                                                       ~~~~~~~~~
+
+  src/services/customFieldService.ts:23:3
+    23   is_active: boolean;
+         ~~~~~~~~~
+    'is_active' is declared here.
+
+src/components/admin/CustomFieldManager.tsx:322:8 - error TS2304: Cannot find name 'Dialog'.
+
+322       <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+           ~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:323:10 - error TS2304: Cannot find name 'DialogContent'.
+
+323         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+             ~~~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:324:12 - error TS2304: Cannot find name 'DialogHeader'.
+
+324           <DialogHeader>
+               ~~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:325:14 - error TS2304: Cannot find name 'DialogTitle'.
+
+325             <DialogTitle>
+                 ~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:327:15 - error TS2304: Cannot find name 'DialogTitle'.
+
+327             </DialogTitle>
+                  ~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:328:13 - error TS2304: Cannot find name 'DialogHeader'.
+
+328           </DialogHeader>
+                ~~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:330:12 - error TS2304: Cannot find name 'Tabs'.
+
+330           <Tabs defaultValue="basic" className="w-full">
+               ~~~~
+
+src/components/admin/CustomFieldManager.tsx:331:14 - error TS2304: Cannot find name 'TabsList'.
+
+331             <TabsList className="grid w-full grid-cols-3">
+                 ~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:332:16 - error TS2304: Cannot find name 'TabsTrigger'.
+
+332               <TabsTrigger value="basic">Basic Info</TabsTrigger>
+                   ~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:332:54 - error TS2304: Cannot find name 'TabsTrigger'.
+
+332               <TabsTrigger value="basic">Basic Info</TabsTrigger>
+                                                         ~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:333:16 - error TS2304: Cannot find name 'TabsTrigger'.
+
+333               <TabsTrigger value="validation">Validation</TabsTrigger>
+                   ~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:333:59 - error TS2304: Cannot find name 'TabsTrigger'.
+
+333               <TabsTrigger value="validation">Validation</TabsTrigger>
+                                                              ~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:334:16 - error TS2304: Cannot find name 'TabsTrigger'.
+
+334               <TabsTrigger value="placement">Placement</TabsTrigger>
+                   ~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:334:57 - error TS2304: Cannot find name 'TabsTrigger'.
+
+334               <TabsTrigger value="placement">Placement</TabsTrigger>
+                                                            ~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:335:15 - error TS2304: Cannot find name 'TabsList'.
+
+335             </TabsList>
+                  ~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:337:14 - error TS2304: Cannot find name 'TabsContent'.
+
+337             <TabsContent value="basic" className="space-y-4">
+                 ~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:362:18 - error TS2304: Cannot find name 'Select'.
+
+362                 <Select
+                     ~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:366:20 - error TS2304: Cannot find name 'SelectTrigger'.
+
+366                   <SelectTrigger>
+                       ~~~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:367:22 - error TS2304: Cannot find name 'SelectValue'.
+
+367                     <SelectValue />
+                         ~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:368:21 - error TS2304: Cannot find name 'SelectTrigger'.
+
+368                   </SelectTrigger>
+                        ~~~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:369:20 - error TS2304: Cannot find name 'SelectContent'.
+
+369                   <SelectContent>
+                       ~~~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:371:24 - error TS2304: Cannot find name 'SelectItem'.
+
+371                       <SelectItem key={type.value} value={type.value}>
+                           ~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:376:25 - error TS2304: Cannot find name 'SelectItem'.
+
+376                       </SelectItem>
+                            ~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:378:21 - error TS2304: Cannot find name 'SelectContent'.
+
+378                   </SelectContent>
+                        ~~~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:379:19 - error TS2304: Cannot find name 'Select'.
+
+379                 </Select>
+                      ~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:405:18 - error TS2304: Cannot find name 'Textarea'.
+
+405                 <Textarea
+                     ~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:451:15 - error TS2304: Cannot find name 'TabsContent'.
+
+451             </TabsContent>
+                  ~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:453:14 - error TS2304: Cannot find name 'TabsContent'.
+
+453             <TabsContent value="validation" className="space-y-4">
+                 ~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:539:15 - error TS2304: Cannot find name 'TabsContent'.
+
+539             </TabsContent>
+                  ~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:541:14 - error TS2304: Cannot find name 'TabsContent'.
+
+541             <TabsContent value="placement" className="space-y-4">
+                 ~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:547:15 - error TS2304: Cannot find name 'TabsContent'.
+
+547             </TabsContent>
+                  ~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:548:13 - error TS2304: Cannot find name 'Tabs'.
+
+548           </Tabs>
+                ~~~~
+
+src/components/admin/CustomFieldManager.tsx:558:11 - error TS2304: Cannot find name 'DialogContent'.
+
+558         </DialogContent>
+              ~~~~~~~~~~~~~
+
+src/components/admin/CustomFieldManager.tsx:559:9 - error TS2304: Cannot find name 'Dialog'.
+
+559       </Dialog>
+            ~~~~~~
+
+src/components/admin/FolderTemplateManager.tsx:10:23 - error TS2307: Cannot find module '../ui/Label' or its corresponding type declarations.
+
+10 import { Label } from '../ui/Label';
+                         ~~~~~~~~~~~~~
+
+src/components/admin/FolderTemplateManager.tsx:12:23 - error TS2307: Cannot find module '../ui/Badge' or its corresponding type declarations.
+
+12 import { Badge } from '../ui/Badge';
+                         ~~~~~~~~~~~~~
+
+src/components/admin/FolderTemplateManager.tsx:13:26 - error TS2307: Cannot find module '../ui/Textarea' or its corresponding type declarations.
+
+13 import { Textarea } from '../ui/Textarea';
+                            ~~~~~~~~~~~~~~~~
+
+src/components/admin/FolderTemplateManager.tsx:14:24 - error TS2307: Cannot find module '../ui/Switch' or its corresponding type declarations.
+
+14 import { Switch } from '../ui/Switch';
+                          ~~~~~~~~~~~~~~
+
+src/components/admin/FolderTemplateManager.tsx:15:66 - error TS2307: Cannot find module '../ui/Dialog' or its corresponding type declarations.
+
+15 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/Dialog';
+                                                                    ~~~~~~~~~~~~~~
+
+src/components/admin/FolderTemplateManager.tsx:68:11 - error TS2339: Property 'showToast' does not exist on type '{ toasts: ToastMessage[]; addToast: (toast: Omit<ToastMessage, "id">) => string; removeToast: (id: string) => void; success: (title: string, message?: string, duration?: number) => string; error: (title: string, message?: string, duration?: number) => string; warning: (title: string, message?: string, duration?: num...'.
+
+68   const { showToast } = useToast();
+             ~~~~~~~~~
+
+src/components/claims/ClaimFolderManager.tsx:11:23 - error TS2307: Cannot find module '../ui/Badge' or its corresponding type declarations.
+
+11 import { Badge } from '../ui/Badge';
+                         ~~~~~~~~~~~~~
+
+src/components/claims/ClaimFolderManager.tsx:12:81 - error TS2307: Cannot find module '../ui/Dialog' or its corresponding type declarations.
+
+12 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/Dialog';
+                                                                                   ~~~~~~~~~~~~~~
+
+src/components/claims/ClaimFolderManager.tsx:13:90 - error TS2307: Cannot find module '../ui/DropdownMenu' or its corresponding type declarations.
+
+13 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/DropdownMenu';
+                                                                                            ~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/ClaimFolderManager.tsx:56:11 - error TS2339: Property 'showToast' does not exist on type '{ toasts: ToastMessage[]; addToast: (toast: Omit<ToastMessage, "id">) => string; removeToast: (id: string) => void; success: (title: string, message?: string, duration?: number) => string; error: (title: string, message?: string, duration?: number) => string; warning: (title: string, message?: string, duration?: num...'.
+
+56   const { showToast } = useToast();
+             ~~~~~~~~~
+
+src/components/claims/EnhancedAIClaimWizard.tsx:336:13 - error TS2322: Type '{ data: WizardData; onUpdate: (newData: any) => void; onAIProcessing: (processing: boolean) => void; clientId: string; } | { onSubmit: (finalData?: any) => Promise<void>; data: WizardData; onUpdate: (newData: any) => void; onAIProcessing: (processing: boolean) => void; clientId: string; }' is not assignable to type 'IntrinsicAttributes & TieredPolicyUploadStepProps & ClaimInformationStepProps & MortgageInformationStepProps & CustomFieldsStepProps'.
+  Type '{ data: WizardData; onUpdate: (newData: any) => void; onAIProcessing: (processing: boolean) => void; clientId: string; }' is missing the following properties from type 'CustomFieldsStepProps': organizationId, onComplete
+
+336     return <StepComponent {...stepProps} />
+                ~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/CustomFieldsStep.tsx:9:23 - error TS2307: Cannot find module '../../ui/Badge' or its corresponding type declarations.
+
+9 import { Badge } from '../../ui/Badge';
+                        ~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/CustomFieldsStep.tsx:31:11 - error TS2339: Property 'showToast' does not exist on type '{ toasts: ToastMessage[]; addToast: (toast: Omit<ToastMessage, "id">) => string; removeToast: (id: string) => void; success: (title: string, message?: string, duration?: number) => string; error: (title: string, message?: string, duration?: number) => string; warning: (title: string, message?: string, duration?: num...'.
+
+31   const { showToast } = useToast();
+             ~~~~~~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:91:37 - error TS2339: Property 'processingMethod' does not exist on type 'PDFExtractionResult'.
+
+91         processingMethod: pdfResult.processingMethod,
+                                       ~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:93:25 - error TS2339: Property 'cost' does not exist on type 'PDFExtractionResult'.
+
+93         cost: pdfResult.cost,
+                           ~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:106:48 - error TS2339: Property 'coverageTypes' does not exist on type 'PolicyData'.
+
+106           coverageTypes: pdfResult.policyData?.coverageTypes || [],
+                                                   ~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:107:46 - error TS2339: Property 'deductibles' does not exist on type 'PolicyData'.
+
+107           deductibles: pdfResult.policyData?.deductibles || [],
+                                                 ~~~~~~~~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:108:49 - error TS2339: Property 'insuredAddress' does not exist on type 'PolicyData'.
+
+108           insuredAddress: pdfResult.policyData?.insuredAddress || '',
+                                                    ~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:111:55 - error TS2339: Property 'processingMethod' does not exist on type 'PDFExtractionResult'.
+
+111           coverageDetails: `Processed via ${pdfResult.processingMethod} extraction`,
+                                                          ~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:131:39 - error TS2339: Property 'processingMethod' does not exist on type 'PDFExtractionResult'.
+
+131           processingMethod: pdfResult.processingMethod,
+                                          ~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:132:27 - error TS2339: Property 'cost' does not exist on type 'PDFExtractionResult'.
+
+132           cost: pdfResult.cost,
+                              ~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:133:32 - error TS2339: Property 'metadata' does not exist on type 'PDFExtractionResult'.
+
+133           pageCount: pdfResult.metadata.pageCount,
+                                   ~~~~~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:158:83 - error TS2345: Argument of type '"completed_fallback"' is not assignable to parameter of type '"pending" | "processing" | "completed" | "failed"'.
+
+158           await documentUploadService.updateExtractionStatus(uploadedDocument.id, 'completed_fallback', fallbackResult)
+                                                                                      ~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:400:44 - error TS2339: Property 'processingMethod' does not exist on type 'PDFExtractionResult'.
+
+400                       {pdfExtractionResult.processingMethod === 'client' ? (
+                                               ~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:417:46 - error TS2339: Property 'processingMethod' does not exist on type 'PDFExtractionResult'.
+
+417                         {pdfExtractionResult.processingMethod === 'client' ? 'Client-side' :
+                                                 ~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:418:46 - error TS2339: Property 'processingMethod' does not exist on type 'PDFExtractionResult'.
+
+418                          pdfExtractionResult.processingMethod === 'textract' ? 'AWS Textract' : 'Server-side'}
+                                                 ~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:428:44 - error TS2339: Property 'cost' does not exist on type 'PDFExtractionResult'.
+
+428                       {pdfExtractionResult.cost > 0 ? (
+                                               ~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:432:51 - error TS2339: Property 'cost' does not exist on type 'PDFExtractionResult'.
+
+432                             ${pdfExtractionResult.cost.toFixed(3)}
+                                                      ~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:444:45 - error TS2339: Property 'metadata' does not exist on type 'PDFExtractionResult'.
+
+444                     📄 {pdfExtractionResult.metadata.pageCount} pages •
+                                                ~~~~~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:445:44 - error TS2339: Property 'metadata' does not exist on type 'PDFExtractionResult'.
+
+445                     ⚡ {pdfExtractionResult.metadata.processingTime}ms •
+                                               ~~~~~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:446:45 - error TS2339: Property 'metadata' does not exist on type 'PDFExtractionResult'.
+
+446                     📊 {pdfExtractionResult.metadata.fileSize > 1000000 ?
+                                                ~~~~~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:447:46 - error TS2339: Property 'metadata' does not exist on type 'PDFExtractionResult'.
+
+447                         (pdfExtractionResult.metadata.fileSize / 1000000).toFixed(1) + 'MB' :
+                                                 ~~~~~~~~
+
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx:448:46 - error TS2339: Property 'metadata' does not exist on type 'PDFExtractionResult'.
+
+448                         (pdfExtractionResult.metadata.fileSize / 1000).toFixed(1) + 'KB'}
+                                                 ~~~~~~~~
+
+src/components/claims/wizard-steps/ProductionPolicyUploadStep.tsx:554:46 - error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
+
+554                 <div className="font-medium">{value || 'Not found'}</div>
+                                                 ~~~~~~~~~~~~~~~~~~~~~~
+
+  node_modules/.pnpm/@types+react@18.3.20/node_modules/@types/react/index.d.ts:2392:9
+    2392         children?: ReactNode | undefined;
+                 ~~~~~~~~
+    The expected type comes from property 'children' which is declared here on type 'DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>'
+
+src/components/claims/wizard-steps/WorkingPolicyUploadStep.tsx:214:21 - error TS2322: Type '"link"' is not assignable to type '"primary" | "secondary" | "outline" | "ghost" | "danger"'.
+
+214                     variant="link"
+                        ~~~~~~~
+
+  src/components/ui/Button.tsx:6:3
+    6   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'
+        ~~~~~~~
+    The expected type comes from property 'variant' which is declared here on type 'IntrinsicAttributes & ButtonProps'
+
+src/components/forms/DynamicCustomField.tsx:9:23 - error TS2307: Cannot find module '../ui/Label' or its corresponding type declarations.
+
+9 import { Label } from '../ui/Label';
+                        ~~~~~~~~~~~~~
+
+src/components/forms/DynamicCustomField.tsx:10:26 - error TS2307: Cannot find module '../ui/Textarea' or its corresponding type declarations.
+
+10 import { Textarea } from '../ui/Textarea';
+                            ~~~~~~~~~~~~~~~~
+
+src/components/forms/DynamicCustomField.tsx:14:79 - error TS2307: Cannot find module '../ui/Select' or its corresponding type declarations.
+
+14 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/Select';
+                                                                                 ~~~~~~~~~~~~~~
+
+src/components/forms/DynamicCustomField.tsx:17:57 - error TS2307: Cannot find module '../ui/Popover' or its corresponding type declarations.
+
+17 import { Popover, PopoverContent, PopoverTrigger } from '../ui/Popover';
+                                                           ~~~~~~~~~~~~~~~
+
+src/components/forms/DynamicCustomField.tsx:18:23 - error TS2307: Cannot find module '../ui/Badge' or its corresponding type declarations.
+
+18 import { Badge } from '../ui/Badge';
+                         ~~~~~~~~~~~~~
+
+src/components/ui/calendar.tsx:27:26 - error TS2345: Argument of type '{ variant: string; }' is not assignable to parameter of type 'string'.
+
+27           buttonVariants({ variant: "outline" }),
+                            ~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/ui/calendar.tsx:39:26 - error TS2345: Argument of type '{ variant: string; }' is not assignable to parameter of type 'string'.
+
+39           buttonVariants({ variant: "ghost" }),
+                            ~~~~~~~~~~~~~~~~~~~~
+
+src/services/advancedPdfExtractionService.ts:313:9 - error TS2353: Object literal may only specify known properties, and 'logger' does not exist in type 'string[] | Lang[]'.
+
+313         logger: m => console.log(m),
+            ~~~~~~
+
+src/services/advancedPdfExtractionService.ts:316:20 - error TS2339: Property 'loadLanguage' does not exist on type 'Worker'.
+
+316       await worker.loadLanguage('eng');
+                       ~~~~~~~~~~~~
+
+src/services/advancedPdfExtractionService.ts:317:20 - error TS2551: Property 'initialize' does not exist on type 'Worker'. Did you mean 'reinitialize'?
+
+317       await worker.initialize('eng');
+                       ~~~~~~~~~~
+
+  node_modules/.pnpm/tesseract.js@5.1.1/node_modules/tesseract.js/src/index.d.ts:23:5
+    23     reinitialize(langs?: string | Lang[], oem?: OEM, config?: string | Partial<InitOptions>, jobId?: string): Promise<ConfigResult>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    'reinitialize' is declared here.
+
+src/services/googleVisionService.ts:84:22 - error TS2304: Cannot find name 'createClient'.
+
+84     const supabase = createClient(supabaseUrl, supabaseKey);
+                        ~~~~~~~~~~~~
+
+src/services/googleVisionService.ts:157:22 - error TS2304: Cannot find name 'createClient'.
+
+157     const supabase = createClient(supabaseUrl, supabaseKey);
+                         ~~~~~~~~~~~~
+
+src/services/productionPdfExtractionService.ts:99:7 - error TS2322: Type '"client_failed_fallback_to_client" | "textract_failed_fallback_to_client" | "hybrid_failed_fallback_to_client" | "vision_failed_fallback_to_client"' is not assignable to type '"client" | "textract" | "hybrid" | "vision"'.
+  Type '"client_failed_fallback_to_client"' is not assignable to type '"client" | "textract" | "hybrid" | "vision"'.
+
+99       result.processingMethod = `${method}_failed_fallback_to_client`;
+         ~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Found 84 errors.
+

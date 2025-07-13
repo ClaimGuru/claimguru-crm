@@ -47,54 +47,22 @@ export class TieredPdfService {
     if (this.apiKeyInitialized) return;
 
     try {
-      // Try multiple methods to retrieve Google Vision API key from Supabase
-      
-      // Method 1: Try vault table
-      let { data, error } = await supabase
+      // Retrieve Google Vision API key from Supabase secrets
+      const { data, error } = await supabase
         .from('vault')
         .select('value')
         .eq('key', 'GOOGLE_VISION_API_KEY')
         .single();
 
-      if (error || !data?.value) {
-        // Method 2: Try secrets table if vault doesn't exist
-        const secretsResult = await supabase
-          .from('secrets')
-          .select('value')
-          .eq('name', 'GOOGLE_VISION_API_KEY')
-          .single();
-        
-        if (secretsResult.data?.value) {
-          data = secretsResult.data;
-          error = null;
-        }
-      }
-
-      if (error || !data?.value) {
-        // Method 3: Try environment variables or settings table
-        const settingsResult = await supabase
-          .from('organization_settings')
-          .select('setting_value')
-          .eq('setting_key', 'google_vision_api_key')
-          .single();
-        
-        if (settingsResult.data?.setting_value) {
-          this.googleVisionApiKey = settingsResult.data.setting_value;
-          console.log('Google Vision API key retrieved from organization settings');
-          this.apiKeyInitialized = true;
-          return;
-        }
-      }
-
-      if (error || !data?.value) {
-        console.warn('Google Vision API key not found in any storage method');
+      if (error) {
+        console.warn('Google Vision API key not found in secrets:', error.message);
         this.googleVisionApiKey = null;
-      } else {
+      } else if (data?.value) {
         this.googleVisionApiKey = data.value;
         console.log('Google Vision API key successfully retrieved from secrets');
       }
     } catch (error) {
-      console.warn('Failed to retrieve Google Vision API key:', error);
+      console.warn('Failed to retrieve Google Vision API key from secrets:', error);
       this.googleVisionApiKey = null;
     }
 
