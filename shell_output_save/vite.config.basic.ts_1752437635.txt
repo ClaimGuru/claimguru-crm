@@ -1,0 +1,24 @@
+vite v6.2.6 building for production...
+transforming (1) src/main.tsxtransforming (7) node_modules/.pnpm/react@18.3.1/node_modules/react/cjs/reatransforming (33) src/components/ui/ToastContainer.tsxtransforming (34) src/components/ui/LoadingSpinner.tsxtransforming (43) src/index.csstransforming (59) src/components/claims/EnhancedAIClaimWizard.tsxtransforming (80) src/components/ui/Badge.tsxtransforming (97) node_modules/.pnpm/lucide-react@0.364.0_react@18.3.1/nodetransforming (215) node_modules/.pnpm/lucide-react@0.364.0_react@18.3.1/nodtransforming (335) node_modules/.pnpm/lucide-react@0.364.0_react@18.3.1/nodtransforming (461) node_modules/.pnpm/lucide-react@0.364.0_react@18.3.1/nodtransforming (595) node_modules/.pnpm/lucide-react@0.364.0_react@18.3.1/nodtransforming (775) node_modules/.pnpm/lucide-react@0.364.0_react@18.3.1/nodtransforming (915) node_modules/.pnpm/lucide-react@0.364.0_react@18.3.1/nodtransforming (1100) node_modules/.pnpm/lucide-react@0.364.0_react@18.3.1/notransforming (1315) node_modules/.pnpm/lucide-react@0.364.0_react@18.3.1/notransforming (1460) node_modules/.pnpm/lucide-react@0.364.0_react@18.3.1/notransforming (1553) node_modules/.pnpm/class-variance-authority@0.7.1/node_transforming (1562) node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_mtransforming (1577) node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_mtransforming (1685) node_modules/.pnpm/date-fns@3.6.0/node_modules/date-fnstransforming (1835) src/hooks/useCustomFields.tstransforming (1847) node_modules/.pnpm/@supabase+supabase-js@2.50.4/node_motransforming (1882) src/components/ui/checkbox.tsxtransforming (1922) node_modules/.pnpm/@supabase+postgrest-js@1.21.0/node_mtransforming (1973) node_modules/.pnpm/@supabase+storage-js@2.7.1/node_modutransforming (2063) node_modules/.pnpm/date-fns@3.6.0/node_modules/date-fnstransforming (2181) node_modules/.pnpm/date-fns@3.6.0/node_modules/date-fnstransforming (2302) node_modules/.pnpm/date-fns@3.6.0/node_modules/date-fnstransforming (2422) node_modules/.pnpm/date-fns@3.6.0/node_modules/date-fns✓ 2503 modules transformed.
+✗ Build failed in 6.56s
+error during build:
+src/components/forms/DynamicCustomField.tsx (14:59): "SelectValue" is not exported by "src/components/ui/Select.tsx", imported by "src/components/forms/DynamicCustomField.tsx".
+file: /workspace/claimguru/src/components/forms/DynamicCustomField.tsx:14:59
+
+12: import { Checkbox } from '../ui/checkbox';
+13: import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
+14: import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/Select';
+                                                               ^
+15: import { Slider } from '../ui/slider';
+16: import { Calendar } from '../ui/calendar';
+
+    at getRollupError (file:///workspace/claimguru/node_modules/.pnpm/rollup@4.39.0/node_modules/rollup/dist/es/shared/parseAst.js:397:41)
+    at error (file:///workspace/claimguru/node_modules/.pnpm/rollup@4.39.0/node_modules/rollup/dist/es/shared/parseAst.js:393:42)
+    at Module.error (file:///workspace/claimguru/node_modules/.pnpm/rollup@4.39.0/node_modules/rollup/dist/es/shared/node-entry.js:16711:16)
+    at Module.traceVariable (file:///workspace/claimguru/node_modules/.pnpm/rollup@4.39.0/node_modules/rollup/dist/es/shared/node-entry.js:17160:29)
+    at ModuleScope.findVariable (file:///workspace/claimguru/node_modules/.pnpm/rollup@4.39.0/node_modules/rollup/dist/es/shared/node-entry.js:14816:39)
+    at ReturnValueScope.findVariable (file:///workspace/claimguru/node_modules/.pnpm/rollup@4.39.0/node_modules/rollup/dist/es/shared/node-entry.js:5582:38)
+    at FunctionBodyScope.findVariable (file:///workspace/claimguru/node_modules/.pnpm/rollup@4.39.0/node_modules/rollup/dist/es/shared/node-entry.js:5582:38)
+    at ReturnValueScope.findVariable (file:///workspace/claimguru/node_modules/.pnpm/rollup@4.39.0/node_modules/rollup/dist/es/shared/node-entry.js:5582:38)
+    at FunctionBodyScope.findVariable (file:///workspace/claimguru/node_modules/.pnpm/rollup@4.39.0/node_modules/rollup/dist/es/shared/node-entry.js:5582:38)
+    at BlockScope.findVariable (file:///workspace/claimguru/node_modules/.pnpm/rollup@4.39.0/node_modules/rollup/dist/es/shared/node-entry.js:5582:38)
