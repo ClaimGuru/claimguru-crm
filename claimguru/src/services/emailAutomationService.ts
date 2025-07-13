@@ -137,6 +137,12 @@ class EmailAutomationService {
    */
   private async loadConfiguration(): Promise<void> {
     try {
+      // Check if Supabase configuration is available
+      if (!this.supabaseUrl || !this.supabaseKey || this.supabaseUrl === 'undefined') {
+        console.info('Supabase environment variables not configured, using default email config')
+        return
+      }
+
       const response = await fetch(`${this.supabaseUrl}/rest/v1/email_configurations?select=*`, {
         headers: {
           'apikey': this.supabaseKey,

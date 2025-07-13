@@ -22,12 +22,7 @@ import {
 } from 'lucide-react'
 
 // Import enhanced AI wizard step components
-import { EnhancedPolicyUploadStep } from './wizard-steps/EnhancedPolicyUploadStep'
-import { SimpleWorkingPolicyUploadStep } from './wizard-steps/SimpleWorkingPolicyUploadStep'
-import { ReliablePolicyUploadStep } from './wizard-steps/ReliablePolicyUploadStep'
-import { TieredPolicyUploadStep } from './wizard-steps/TieredPolicyUploadStep'
-import { ClientSidePolicyUploadStep } from './wizard-steps/ClientSidePolicyUploadStep'
-import { SimplePolicyUploadStep } from './wizard-steps/SimplePolicyUploadStep'
+import { PureClientPolicyUploadStep } from './wizard-steps/PureClientPolicyUploadStep'
 import { EnhancedClientDetailsStep } from './wizard-steps/EnhancedClientDetailsStep'
 import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoStep'
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
@@ -131,10 +126,10 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
   const steps = [
     {
       id: 'policy-upload',
-      title: 'AI Policy Analysis',
-      description: 'Fast and reliable PDF processing with AI extraction',
+      title: '🔒 Pure Client-Side AI Policy Analysis',
+      description: '100% secure local processing - no file uploads or external services',
       icon: FileText,
-      component: SimplePolicyUploadStep,
+      component: PureClientPolicyUploadStep,
       required: false
     },
     {

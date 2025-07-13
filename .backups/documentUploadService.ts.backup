@@ -34,11 +34,6 @@ class DocumentUploadService {
     claimId?: string
   ): Promise<UploadedDocument> {
     try {
-      // Check if Supabase is configured
-      if (!this.supabaseUrl || !this.supabaseKey || this.supabaseUrl === 'undefined') {
-        throw new Error('Supabase configuration not available. Please configure environment variables or use client-side processing.')
-      }
-
       // Generate unique filename
       const timestamp = Date.now()
       const cleanFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_')
