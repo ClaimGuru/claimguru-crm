@@ -1,0 +1,21 @@
+CREATE TABLE adjusters (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    organization_id UUID NOT NULL,
+    carrier_id UUID,
+    adjuster_type VARCHAR(50) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(255),
+    phone VARCHAR(50),
+    mobile_phone VARCHAR(50),
+    fax VARCHAR(50),
+    license_number VARCHAR(100),
+    specialties TEXT[],
+    service_territories TEXT[],
+    preferred_contact_method VARCHAR(50) DEFAULT 'email',
+    rating INTEGER CHECK (rating >= 1 AND rating <= 5),
+    notes TEXT,
+    is_active BOOLEAN DEFAULT true,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);

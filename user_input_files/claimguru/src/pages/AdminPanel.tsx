@@ -1,0 +1,305 @@
+/**
+ * Admin Panel - Central administration interface
+ * Includes custom field management, folder templates, permissions, and system settings
+ */
+
+import React, { useState } from 'react';
+import { Settings, Users, FolderOpen, Database, Shield, Bell, Mail, Phone } from 'lucide-react';
+import { Card } from '../components/ui/Card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
+import { Badge } from '../components/ui/badge';
+import CustomFieldManager from '../components/admin/CustomFieldManager';
+import FolderTemplateManager from '../components/admin/FolderTemplateManager';
+
+// Mock organization ID - in real app, get from auth context
+const ORGANIZATION_ID = 'org-123-demo';
+
+export const AdminPanel: React.FC = () => {
+  const [activeTab, setActiveTab] = useState('fields');
+
+  const adminSections = [
+    {
+      id: 'fields',
+      label: 'Custom Fields',
+      icon: Database,
+      description: 'Manage custom fields for claims and intake wizard',
+      component: <CustomFieldManager organizationId={ORGANIZATION_ID} />
+    },
+    {
+      id: 'folders',
+      label: 'Folder Templates',
+      icon: FolderOpen,
+      description: 'Configure automatic folder creation for claims',
+      component: <FolderTemplateManager organizationId={ORGANIZATION_ID} />
+    },
+    {
+      id: 'permissions',
+      label: 'Permissions',
+      icon: Shield,
+      description: 'Manage user roles and access controls',
+      component: <PermissionsManager />
+    },
+    {
+      id: 'communications',
+      label: 'Communications',
+      icon: Mail,
+      description: 'Configure email, SMS, and phone integrations',
+      component: <CommunicationsSettings />
+    },
+    {
+      id: 'users',
+      label: 'User Management',
+      icon: Users,
+      description: 'Manage organization users and teams',
+      component: <UserManager />
+    },
+    {
+      id: 'system',
+      label: 'System Settings',
+      icon: Settings,
+      description: 'General system configuration',
+      component: <SystemSettings />
+    }
+  ];
+
+  return (
+    <div className="p-6 space-y-6">
+      <div className="flex items-center gap-4">
+        <Settings className="h-8 w-8 text-blue-600" />
+        <div>
+          <h1 className="text-3xl font-bold">Admin Panel</h1>
+          <p className="text-gray-600">Manage your ClaimGuru organization settings and configurations</p>
+        </div>
+      </div>
+
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-6 mb-6">
+          {adminSections.map((section) => (
+            <TabsTrigger
+              key={section.id}
+              value={section.id}
+              className="flex flex-col items-center gap-1 p-3 h-auto"
+            >
+              <section.icon className="h-4 w-4" />
+              <span className="text-xs">{section.label}</span>
+            </TabsTrigger>
+          ))}
+        </TabsList>
+
+        {adminSections.map((section) => (
+          <TabsContent key={section.id} value={section.id} className="space-y-6">
+            <div className="flex items-center gap-3 mb-6">
+              <section.icon className="h-6 w-6 text-blue-600" />
+              <div>
+                <h2 className="text-2xl font-bold">{section.label}</h2>
+                <p className="text-gray-600">{section.description}</p>
+              </div>
+            </div>
+            {section.component}
+          </TabsContent>
+        ))}
+      </Tabs>
+    </div>
+  );
+};
+
+// Placeholder components for other admin sections
+const PermissionsManager: React.FC = () => (
+  <Card className="p-6">
+    <h3 className="text-lg font-semibold mb-4">Permission Management</h3>
+    <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <Card className="p-4">
+          <h4 className="font-semibold mb-2">Admin Role</h4>
+          <div className="space-y-2 text-sm">
+            <div className="flex items-center justify-between">
+              <span>Create Custom Fields</span>
+              <Badge variant="default">Enabled</Badge>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Manage Folders</span>
+              <Badge variant="default">Enabled</Badge>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>User Management</span>
+              <Badge variant="default">Enabled</Badge>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-4">
+          <h4 className="font-semibold mb-2">Adjuster Role</h4>
+          <div className="space-y-2 text-sm">
+            <div className="flex items-center justify-between">
+              <span>Create Custom Fields</span>
+              <Badge variant="secondary">Disabled</Badge>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Manage Claims</span>
+              <Badge variant="default">Enabled</Badge>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>View Reports</span>
+              <Badge variant="default">Enabled</Badge>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-4">
+          <h4 className="font-semibold mb-2">Support Role</h4>
+          <div className="space-y-2 text-sm">
+            <div className="flex items-center justify-between">
+              <span>View Claims</span>
+              <Badge variant="default">Enabled</Badge>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Edit Claims</span>
+              <Badge variant="secondary">Disabled</Badge>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>View Contacts</span>
+              <Badge variant="default">Enabled</Badge>
+            </div>
+          </div>
+        </Card>
+      </div>
+      <p className="text-sm text-gray-600 mt-4">
+        Permission management interface coming soon. Contact support to modify user permissions.
+      </p>
+    </div>
+  </Card>
+);
+
+const CommunicationsSettings: React.FC = () => (
+  <div className="space-y-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <Card className="p-6">
+        <div className="flex items-center gap-3 mb-4">
+          <Mail className="h-6 w-6 text-blue-600" />
+          <h3 className="text-lg font-semibold">Email Integration</h3>
+        </div>
+        <div className="space-y-2 text-sm">
+          <p><strong>Provider:</strong> Gmail/Outlook/Custom SMTP</p>
+          <p><strong>Status:</strong> <Badge variant="default">Connected</Badge></p>
+          <p><strong>Daily Limit:</strong> 500 emails</p>
+        </div>
+      </Card>
+
+      <Card className="p-6">
+        <div className="flex items-center gap-3 mb-4">
+          <Phone className="h-6 w-6 text-green-600" />
+          <h3 className="text-lg font-semibold">Phone System</h3>
+        </div>
+        <div className="space-y-2 text-sm">
+          <p><strong>Provider:</strong> Amazon Connect</p>
+          <p><strong>Status:</strong> <Badge variant="secondary">Not Connected</Badge></p>
+          <p><strong>Features:</strong> Call recording, SMS</p>
+        </div>
+      </Card>
+
+      <Card className="p-6">
+        <div className="flex items-center gap-3 mb-4">
+          <Bell className="h-6 w-6 text-orange-600" />
+          <h3 className="text-lg font-semibold">Notifications</h3>
+        </div>
+        <div className="space-y-2 text-sm">
+          <p><strong>Email Alerts:</strong> <Badge variant="default">Enabled</Badge></p>
+          <p><strong>SMS Alerts:</strong> <Badge variant="secondary">Disabled</Badge></p>
+          <p><strong>Push Notifications:</strong> <Badge variant="default">Enabled</Badge></p>
+        </div>
+      </Card>
+    </div>
+    <p className="text-sm text-gray-600">
+      Full communication settings interface coming soon. Basic email integration is already configured.
+    </p>
+  </div>
+);
+
+const UserManager: React.FC = () => (
+  <Card className="p-6">
+    <h3 className="text-lg font-semibold mb-4">User Management</h3>
+    <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card className="p-4 text-center">
+          <div className="text-2xl font-bold text-blue-600 mb-1">12</div>
+          <div className="text-sm text-gray-600">Total Users</div>
+        </Card>
+        <Card className="p-4 text-center">
+          <div className="text-2xl font-bold text-green-600 mb-1">10</div>
+          <div className="text-sm text-gray-600">Active Users</div>
+        </Card>
+        <Card className="p-4 text-center">
+          <div className="text-2xl font-bold text-orange-600 mb-1">2</div>
+          <div className="text-sm text-gray-600">Pending Invites</div>
+        </Card>
+        <Card className="p-4 text-center">
+          <div className="text-2xl font-bold text-gray-600 mb-1">3</div>
+          <div className="text-sm text-gray-600">Admin Users</div>
+        </Card>
+      </div>
+      <p className="text-sm text-gray-600">
+        User management interface coming soon. Current users can be managed through the Users page.
+      </p>
+    </div>
+  </Card>
+);
+
+const SystemSettings: React.FC = () => (
+  <div className="space-y-6">
+    <Card className="p-6">
+      <h3 className="text-lg font-semibold mb-4">Organization Settings</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <h4 className="font-medium mb-2">General Information</h4>
+          <div className="space-y-2 text-sm">
+            <p><strong>Organization:</strong> Demo Insurance Adjusters</p>
+            <p><strong>License:</strong> Professional Plan</p>
+            <p><strong>Users:</strong> 12 / 25</p>
+            <p><strong>Storage:</strong> 2.4 GB / 100 GB</p>
+          </div>
+        </div>
+        <div>
+          <h4 className="font-medium mb-2">System Status</h4>
+          <div className="space-y-2 text-sm">
+            <p><strong>API Status:</strong> <Badge variant="default">Operational</Badge></p>
+            <p><strong>Database:</strong> <Badge variant="default">Healthy</Badge></p>
+            <p><strong>Storage:</strong> <Badge variant="default">Available</Badge></p>
+            <p><strong>Last Backup:</strong> 2 hours ago</p>
+          </div>
+        </div>
+      </div>
+    </Card>
+
+    <Card className="p-6">
+      <h3 className="text-lg font-semibold mb-4">Feature Modules</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="flex items-center justify-between p-3 border rounded">
+          <span>Custom Fields</span>
+          <Badge variant="default">Active</Badge>
+        </div>
+        <div className="flex items-center justify-between p-3 border rounded">
+          <span>Document Folders</span>
+          <Badge variant="default">Active</Badge>
+        </div>
+        <div className="flex items-center justify-between p-3 border rounded">
+          <span>Email Automation</span>
+          <Badge variant="default">Active</Badge>
+        </div>
+        <div className="flex items-center justify-between p-3 border rounded">
+          <span>AI Processing</span>
+          <Badge variant="default">Active</Badge>
+        </div>
+        <div className="flex items-center justify-between p-3 border rounded">
+          <span>Phone Integration</span>
+          <Badge variant="secondary">Inactive</Badge>
+        </div>
+        <div className="flex items-center justify-between p-3 border rounded">
+          <span>Advanced Analytics</span>
+          <Badge variant="secondary">Coming Soon</Badge>
+        </div>
+      </div>
+    </Card>
+  </div>
+);
+
+export default AdminPanel;

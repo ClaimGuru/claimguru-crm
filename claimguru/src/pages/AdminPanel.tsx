@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { Settings, Users, FolderOpen, Database, Shield, Bell, Mail, Phone } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { Badge } from '../components/ui/badge';
+import { Badge } from '../components/ui/Badge';
 import CustomFieldManager from '../components/admin/CustomFieldManager';
 import FolderTemplateManager from '../components/admin/FolderTemplateManager';
 

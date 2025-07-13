@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test PDF Upload</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .upload-area { border: 2px dashed #ccc; padding: 40px; text-align: center; margin: 20px 0; }
+        .upload-area:hover { border-color: #999; }
+        .result { background: #f0f0f0; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .error { background: #ffe6e6; border: 1px solid #ff9999; }
+        .success { background: #e6ffe6; border: 1px solid #99ff99; }
+        .processing { background: #e6f3ff; border: 1px solid #99ccff; }
+        button { background: #007cba; color: white; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        .field { margin: 10px 0; }
+        .field label { font-weight: bold; display: inline-block; width: 150px; }
+        .field span { color: #333; }
+    </style>
+</head>
+<body>
+    <h1>ClaimGuru PDF Upload Test</h1>
+    
+    <div class="upload-area" id="uploadArea">
+        <p>Click to select a PDF file or drag and drop here</p>
+        <input type="file" id="fileInput" accept=".pdf" style="display: none;">
+    </div>
+    
+    <div id="fileInfo" style="display: none;">
+        <h3>Selected File:</h3>
+        <div class="field"><label>Name:</label> <span id="fileName"></span></div>
+        <div class="field"><label>Size:</label> <span id="fileSize"></span></div>
+        <div class="field"><label>Type:</label> <span id="fileType"></span></div>
+        <button id="processBtn" onclick="processFile()">Process with AI</button>
+    </div>
+    
+    <div id="results"></div>
+
+    <script>
+        let selectedFile = null;
+
+        // Set up PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        document.getElementById('uploadArea').addEventListener('click', () => {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('fileInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                selectedFile = file;
+                showFileInfo(file);
+            }
+        });
+
+        function showFileInfo(file) {
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileSize').textContent = (file.size / 1024).toFixed(1) + ' KB';
+            document.getElementById('fileType').textContent = file.type;
+            document.getElementById('fileInfo').style.display = 'block';
+        }
+
+        async function processFile() {
+            if (!selectedFile) {
+                alert('Please select a file first');
+                return;
+            }
+
+            const resultsDiv = document.getElementById('results');
+            const processBtn = document.getElementById('processBtn');
+            
+            processBtn.disabled = true;
+            processBtn.textContent = 'Processing...';
+
+            // Show processing status
+            resultsDiv.innerHTML = '<div class="result processing"><h3>Processing PDF...</h3><p>Extracting text and analyzing content...</p></div>';
+
+            try {
+                console.log('Starting PDF processing for:', selectedFile.name);
+                
+                // Test client-side PDF extraction
+                const pdfResult = await extractPdfText(selectedFile);
+                
+                console.log('PDF extraction completed:', pdfResult);
+
+                // Show results
+                resultsDiv.innerHTML = `
+                    <div class="result success">
+                        <h3>✅ PDF Processing Successful!</h3>
+                        <div class="field"><label>Processing Method:</label> <span>Client-side (PDF.js)</span></div>
+                        <div class="field"><label>Pages Processed:</label> <span>${pdfResult.pageCount}</span></div>
+                        <div class="field"><label>Text Length:</label> <span>${pdfResult.extractedText.length} characters</span></div>
+                        <div class="field"><label>Confidence:</label> <span>${Math.round(pdfResult.confidence * 100)}%</span></div>
+                        <div class="field"><label>Cost:</label> <span>$0.00 (Free)</span></div>
+                        
+                        <h4>Extracted Insurance Data:</h4>
+                        <div class="field"><label>Policy Number:</label> <span>${pdfResult.policyData.policyNumber || 'Not found'}</span></div>
+                        <div class="field"><label>Insured Name:</label> <span>${pdfResult.policyData.insuredName || 'Not found'}</span></div>
+                        <div class="field"><label>Effective Date:</label> <span>${pdfResult.policyData.effectiveDate || 'Not found'}</span></div>
+                        <div class="field"><label>Expiration Date:</label> <span>${pdfResult.policyData.expirationDate || 'Not found'}</span></div>
+                        <div class="field"><label>Insurer:</label> <span>${pdfResult.policyData.insurerName || 'Not found'}</span></div>
+                        
+                        <details style="margin-top: 20px;">
+                            <summary><strong>Extracted Text (first 500 characters)</strong></summary>
+                            <pre style="white-space: pre-wrap; background: #f9f9f9; padding: 10px; margin: 10px 0; border-radius: 4px; font-size: 12px;">${pdfResult.extractedText.substring(0, 500)}...</pre>
+                        </details>
+                    </div>
+                `;
+
+            } catch (error) {
+                console.error('PDF processing failed:', error);
+                
+                resultsDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>❌ PDF Processing Failed</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p>This could be due to:</p>
+                        <ul>
+                            <li>Corrupted or password-protected PDF</li>
+                            <li>Scanned document requiring OCR processing</li>
+                            <li>Network connectivity issues</li>
+                            <li>Browser compatibility problems</li>
+                        </ul>
+                        <p><strong>Next steps:</strong> Try a different PDF file or contact support.</p>
+                    </div>
+                `;
+            } finally {
+                processBtn.disabled = false;
+                processBtn.textContent = 'Process with AI';
+            }
+        }
+
+        async function extractPdfText(file) {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+            
+            let extractedText = '';
+            const pageCount = pdf.numPages;
+            
+            // Extract text from each page (limit to 10 pages for performance)
+            for (let pageNum = 1; pageNum <= Math.min(pageCount, 10); pageNum++) {
+                const page = await pdf.getPage(pageNum);
+                const textContent = await page.getTextContent();
+                
+                const pageText = textContent.items
+                    .map(item => item.str)
+                    .join(' ');
+                
+                extractedText += pageText + '\n';
+            }
+            
+            // Parse insurance-specific data
+            const policyData = parseInsuranceData(extractedText);
+            
+            // Calculate confidence
+            const confidence = calculateConfidence(extractedText, policyData);
+            
+            return {
+                extractedText,
+                pageCount,
+                policyData,
+                confidence,
+                processingMethod: 'client',
+                cost: 0
+            };
+        }
+
+        function parseInsuranceData(text) {
+            const policyData = {};
+            
+            // Extract policy number
+            const policyMatch = text.match(/policy\\s*#?\\s*:?\\s*([A-Z0-9\\-]{6,20})/i);
+            if (policyMatch) {
+                policyData.policyNumber = policyMatch[1];
+            }
+            
+            // Extract insured name
+            const nameMatch = text.match(/insured\\s*:?\\s*([A-Z][a-zA-Z\\s]{2,50})/i);
+            if (nameMatch) {
+                policyData.insuredName = nameMatch[1].trim();
+            }
+            
+            // Extract dates
+            const dates = text.match(/\\d{1,2}[/\\-]\\d{1,2}[/\\-]\\d{2,4}/g) || [];
+            if (dates.length > 0) {
+                policyData.effectiveDate = dates[0];
+            }
+            if (dates.length > 1) {
+                policyData.expirationDate = dates[1];
+            }
+            
+            // Extract insurer name
+            const insurerMatch = text.match(/(insurance|company)\\s*([A-Z][a-zA-Z\\s&]{2,30})/i);
+            if (insurerMatch) {
+                policyData.insurerName = insurerMatch[2].trim();
+            }
+            
+            return policyData;
+        }
+
+        function calculateConfidence(text, policyData) {
+            let confidence = 0.3; // Base confidence
+            
+            if (text.length > 100) confidence += 0.1;
+            if (policyData.policyNumber) confidence += 0.2;
+            if (policyData.insuredName) confidence += 0.2;
+            if (policyData.effectiveDate) confidence += 0.1;
+            if (policyData.insurerName) confidence += 0.1;
+            
+            return Math.min(confidence, 1.0);
+        }
+
+        // Drag and drop functionality
+        const uploadArea = document.getElementById('uploadArea');
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#007cba';
+            uploadArea.style.backgroundColor = '#f0f8ff';
+        });
+        
+        uploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#ccc';
+            uploadArea.style.backgroundColor = 'transparent';
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#ccc';
+            uploadArea.style.backgroundColor = 'transparent';
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0 && files[0].type === 'application/pdf') {
+                selectedFile = files[0];
+                showFileInfo(files[0]);
+            } else {
+                alert('Please select a PDF file');
+            }
+        });
+    </script>
+</body>
+</html>
