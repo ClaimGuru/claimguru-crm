@@ -1,0 +1,524 @@
+import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card';
+import { Button } from '../../ui/Button';
+import { FileText, Upload, CheckCircle, AlertCircle, Brain } from 'lucide-react';
+import { LoadingSpinner } from '../../ui/LoadingSpinner';
+import { extractTextFromPdf, extractPolicyInfo } from '../../../services/simplifiedPdfService';
+
+interface SimplifiedPolicyUploadStepProps {
+  data: any;
+  onUpdate: (data: any) => void;
+  onAIProcessing?: (isProcessing: boolean) => void;
+}
+
+export const SimplifiedPolicyUploadStep: React.FC<SimplifiedPolicyUploadStepProps> = ({
+  data,
+  onUpdate,
+  onAIProcessing
+}) => {
+  const [file, setFile] = useState<File | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [result, setResult] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [processingStatus, setProcessingStatus] = useState<string>('');
+  
+  // No initialization needed, service handles PDF.js setup
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) {
+      console.log('File selected:', selectedFile.name, selectedFile.size, selectedFile.type);
+      setFile(selectedFile);
+      setError(null);
+      setResult(null);
+      setProcessingStatus('');
+    }
+  };
+
+  const extractPolicyData = async () => {
+    if (!file) {
+      setError("Please select a file first");
+      return;
+    }
+
+    try {
+      // Reset states
+      setIsProcessing(true);
+      setError(null);
+      setProcessingStatus('Uploading file...');
+      
+      // Notify parent component that processing started
+      if (onAIProcessing) {
+        onAIProcessing(true);
+      }
+
+      console.log('Starting PDF processing:', file.name);
+      
+      // Step 1: Basic client-side text extraction
+      setProcessingStatus('Extracting text from PDF...');
+      const extractionResult = await extractTextFromPdf(file);
+      
+      if (!extractionResult.success) {
+        throw new Error(extractionResult.error || 'Failed to extract text from PDF');
+      }
+      
+      // Step 2: Process the data and extract policy information
+      setProcessingStatus('Analyzing policy data...');
+      const policyData = extractPolicyInfo(extractionResult.extractedText);
+
+      // Step 3: Set the result
+      setResult(policyData);
+      setProcessingStatus('Processing complete');
+      
+      // Step 4: Update the wizard data
+      onUpdate({
+        ...data,
+        policyDetails: policyData,
+        extractedPolicyData: true,
+        fileProcessed: file.name
+      });
+
+      console.log('PDF processing completed successfully:', policyData);
+      
+    } catch (error) {
+      console.error('PDF processing failed:', error);
+      setError(`Processing failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setIsProcessing(false);
+      
+      // Notify parent component that processing ended
+      if (onAIProcessing) {
+        onAIProcessing(false);
+      }
+    }
+  };
+
+  // PDF text extraction using PDF.js
+  const extractTextFromPDF = async (file: File): Promise<string> => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        // Read the file as ArrayBuffer
+        const arrayBuffer = await readFileAsArrayBuffer(file);
+        
+        // Load the PDF
+        const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+        const pdf = await loadingTask.promise;
+        
+        console.log('PDF loaded. Number of pages:', pdf.numPages);
+        
+        // Extract text from each page
+        let extractedText = '';
+        const maxPages = Math.min(pdf.numPages, 20); // Limit to 20 pages for performance
+        
+        for (let i = 1; i <= maxPages; i++) {
+          try {
+            // Get the page
+            const page = await pdf.getPage(i);
+            
+            // Get the text content
+            const textContent = await page.getTextContent();
+            
+            // Join the text items
+            const pageText = textContent.items
+              .map(item => 'str' in item ? item.str : '')
+              .join(' ');
+            
+            extractedText += pageText + '\n\n';
+          } catch (pageError) {
+            console.warn(`Error extracting text from page ${i}:`, pageError);
+          }
+        }
+        
+        resolve(extractedText);
+      } catch (error) {
+        console.error('Error in PDF extraction:', error);
+        reject(new Error('Failed to extract text from PDF'));
+      }
+    });
+  };
+
+  // Helper function to read file as ArrayBuffer
+  const readFileAsArrayBuffer = (file: File): Promise<ArrayBuffer> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.result instanceof ArrayBuffer) {
+          resolve(reader.result);
+        } else {
+          reject(new Error('Failed to read file as ArrayBuffer'));
+        }
+      };
+      reader.onerror = () => reject(reader.error);
+      reader.readAsArrayBuffer(file);
+    });
+  };
+
+  // Extract policy information from text
+  const extractPolicyInfo = (text: string) => {
+    // Log first part of text to help with debugging
+    console.log('Extracted text sample:', text.substring(0, 500));
+    
+    return {
+      policyNumber: extractPolicyNumber(text) || "Not found",
+      insuredName: extractInsuredName(text) || "Not found",
+      effectiveDate: extractDate(text, 'effective') || "Not found",
+      expirationDate: extractDate(text, 'expiration') || "Not found",
+      insurerName: extractInsurerName(text) || "Not found",
+      propertyAddress: extractPropertyAddress(text) || "Not found",
+      coverageAmount: extractCoverageAmount(text) || "Not found",
+      deductible: extractDeductible(text) || "Not found",
+      extractedText: text.substring(0, 1000) + '...' // Store a portion of the raw text
+    };
+  };
+
+  // Extraction helper functions
+  const extractPolicyNumber = (text: string) => {
+    // Try multiple patterns to increase chances of finding the policy number
+    const patterns = [
+      /policy\s*(?:number|#|no)[:.]?\s*([A-Z0-9\-_]{3,20})/i,
+      /policy\s*(?:number|#|no)?[:.]?\s*([A-Z0-9\-_]{3,20})/i,
+      /(?:number|#|no)[:.]?\s*([A-Z0-9\-_]{3,20})/i,
+      /([A-Z0-9]{3}[\s-]?[0-9]{3}[\s-]?[0-9]{3})/i
+    ];
+    
+    for (const pattern of patterns) {
+      const match = text.match(pattern);
+      if (match && match[1]) {
+        return match[1].trim();
+      }
+    }
+    return null;
+  };
+
+  const extractInsuredName = (text: string) => {
+    // Try multiple patterns to increase chances of finding the insured name
+    const patterns = [
+      /insured(?:'s)?\s*(?:name)?[:.]?\s*([A-Z][A-Za-z\s,\.&'-]{2,50})/i,
+      /named\s*insured[:.]?\s*([A-Z][A-Za-z\s,\.&'-]{2,50})/i,
+      /insured[:.]?\s*([A-Z][A-Za-z\s,\.&'-]{2,50})/i
+    ];
+    
+    for (const pattern of patterns) {
+      const match = text.match(pattern);
+      if (match && match[1]) {
+        return match[1].trim();
+      }
+    }
+    return null;
+  };
+
+  const extractDate = (text: string, type: 'effective' | 'expiration') => {
+    // Try to find policy period first
+    const policyPeriodPattern = /policy\s*period[:.]?\s*([A-Za-z0-9\s,\./-]{2,20})\s*(?:to|through|thru|-)\s*([A-Za-z0-9\s,\./-]{2,20})/i;
+    const policyPeriodMatch = text.match(policyPeriodPattern);
+    
+    if (policyPeriodMatch) {
+      return type === 'effective' ? policyPeriodMatch[1].trim() : policyPeriodMatch[2].trim();
+    }
+    
+    // Try specific effective/expiration date patterns
+    const patterns = type === 'effective' 
+      ? [
+          /effective\s*date[:.]?\s*([A-Za-z0-9\s,\./-]{2,20})/i,
+          /policy\s*effective[:.]?\s*([A-Za-z0-9\s,\./-]{2,20})/i,
+          /inception\s*date[:.]?\s*([A-Za-z0-9\s,\./-]{2,20})/i
+        ]
+      : [
+          /expiration\s*date[:.]?\s*([A-Za-z0-9\s,\./-]{2,20})/i,
+          /policy\s*expiration[:.]?\s*([A-Za-z0-9\s,\./-]{2,20})/i,
+          /expiry\s*date[:.]?\s*([A-Za-z0-9\s,\./-]{2,20})/i
+        ];
+    
+    for (const pattern of patterns) {
+      const match = text.match(pattern);
+      if (match && match[1]) {
+        return match[1].trim();
+      }
+    }
+    
+    // Try to find dates in standard formats
+    const datePatterns = [
+      /\d{1,2}\/\d{1,2}\/\d{2,4}/g,
+      /\d{1,2}-\d{1,2}-\d{2,4}/g,
+      /(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2},?\s+\d{4}/gi
+    ];
+    
+    let dates: string[] = [];
+    
+    for (const pattern of datePatterns) {
+      const matches = text.match(pattern);
+      if (matches) {
+        dates = dates.concat(matches);
+      }
+    }
+    
+    // If we found at least two dates, assume first is effective, second is expiration
+    if (dates.length >= 2) {
+      return type === 'effective' ? dates[0] : dates[1];
+    }
+    
+    return null;
+  };
+
+  const extractInsurerName = (text: string) => {
+    // Try multiple patterns to increase chances of finding the insurer name
+    const patterns = [
+      /insurance\s*company[:.]?\s*([A-Z][A-Za-z\s,\.&'-]{2,50})/i,
+      /insurer[:.]?\s*([A-Z][A-Za-z\s,\.&'-]{2,50})/i,
+      /underwritten\s*by[:.]?\s*([A-Z][A-Za-z\s,\.&'-]{2,50})/i,
+      /issued\s*by[:.]?\s*([A-Z][A-Za-z\s,\.&'-]{2,50})/i
+    ];
+    
+    for (const pattern of patterns) {
+      const match = text.match(pattern);
+      if (match && match[1]) {
+        return match[1].trim();
+      }
+    }
+    
+    // Try to find common insurance company names
+    const commonInsurers = [
+      'Allstate', 'State Farm', 'Liberty Mutual', 'Farmers', 'Nationwide',
+      'Progressive', 'USAA', 'Travelers', 'American Family', 'Geico', 'Hartford',
+      'Chubb', 'Erie', 'Amica', 'Auto-Owners'
+    ];
+    
+    for (const insurer of commonInsurers) {
+      if (text.includes(insurer)) {
+        // Try to get the full name by extracting context
+        const index = text.indexOf(insurer);
+        const start = Math.max(0, index - 20);
+        const end = Math.min(text.length, index + insurer.length + 30);
+        const context = text.substring(start, end);
+        
+        // Try to extract a company name from the context
+        const companyMatch = context.match(/([A-Z][A-Za-z\s]{0,20}\s+(?:Insurance|Mutual|Casualty|Indemnity|Underwriters|Company)(?:\s+[A-Za-z\s,\.&'-]{0,30})?)/);
+        if (companyMatch) {
+          return companyMatch[1].trim();
+        }
+        
+        return insurer;
+      }
+    }
+    
+    return null;
+  };
+
+  const extractPropertyAddress = (text: string) => {
+    // Try multiple patterns to increase chances of finding the property address
+    const patterns = [
+      /property\s*address[:.]?\s*([0-9]+[A-Za-z0-9\s,\.#-]{5,100})/i,
+      /(?:insured|risk)\s*(?:location|address|property)[:.]?\s*([0-9]+[A-Za-z0-9\s,\.#-]{5,100})/i,
+      /location\s*(?:of|address)[:.]?\s*([0-9]+[A-Za-z0-9\s,\.#-]{5,100})/i,
+      /premises\s*address[:.]?\s*([0-9]+[A-Za-z0-9\s,\.#-]{5,100})/i
+    ];
+    
+    for (const pattern of patterns) {
+      const match = text.match(pattern);
+      if (match && match[1]) {
+        // Try to clean up the address by removing extra whitespace and limiting length
+        const address = match[1].replace(/\s+/g, ' ').trim();
+        
+        // Try to find the end of the address (usually ends with a zip code or state abbreviation)
+        const zipMatch = address.match(/([0-9]{5}(?:-[0-9]{4})?)/);
+        const stateMatch = address.match(/\b([A-Z]{2})\b/);
+        
+        if (zipMatch) {
+          const zipIndex = address.indexOf(zipMatch[0]) + zipMatch[0].length;
+          return address.substring(0, zipIndex);
+        } else if (stateMatch) {
+          const stateIndex = address.indexOf(stateMatch[0]) + stateMatch[0].length;
+          return address.substring(0, stateIndex);
+        }
+        
+        // If we can't find a clean end, limit to a reasonable length
+        return address.length > 100 ? address.substring(0, 100) + '...' : address;
+      }
+    }
+    
+    return null;
+  };
+
+  const extractCoverageAmount = (text: string) => {
+    // Try to find coverage amounts in various formats
+    const patterns = [
+      /dwelling(?:\s*coverage)?(?:\s*limit)?[:.]?\s*\$?([0-9,]+)/i,
+      /coverage\s*a[:.]?\s*\$?([0-9,]+)/i,
+      /building(?:\s*coverage)?(?:\s*limit)?[:.]?\s*\$?([0-9,]+)/i,
+      /property\s*(?:value|coverage)[:.]?\s*\$?([0-9,]+)/i,
+      /(?:insured|insurable)\s*value[:.]?\s*\$?([0-9,]+)/i
+    ];
+    
+    for (const pattern of patterns) {
+      const match = text.match(pattern);
+      if (match && match[1]) {
+        return '$' + match[1].trim();
+      }
+    }
+    
+    return null;
+  };
+
+  const extractDeductible = (text: string) => {
+    // Try to find deductible amounts in various formats
+    const patterns = [
+      /deductible[:.]?\s*\$?([0-9,]+)/i,
+      /all\s*(?:other\s*)?perils\s*deductible[:.]?\s*\$?([0-9,]+)/i,
+      /aop\s*deductible[:.]?\s*\$?([0-9,]+)/i
+    ];
+    
+    for (const pattern of patterns) {
+      const match = text.match(pattern);
+      if (match && match[1]) {
+        return '$' + match[1].trim();
+      }
+    }
+    
+    return null;
+  };
+
+  return (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileText className="h-5 w-5 text-purple-600" />
+            Policy Document Analysis
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* File Upload */}
+          <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-gray-400 transition-colors">
+            <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+            <div className="space-y-2">
+              <h3 className="text-lg font-medium text-gray-900">
+                Upload Insurance Policy
+              </h3>
+              <p className="text-gray-600">
+                Upload your policy document (PDF) for AI-powered extraction
+              </p>
+              <div className="mt-4">
+                <input
+                  type="file"
+                  accept=".pdf"
+                  onChange={handleFileChange}
+                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Selected File Info */}
+          {file && (
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <h4 className="font-medium text-blue-900 mb-2">Selected File:</h4>
+              <div className="text-sm text-blue-800">
+                <p><strong>Name:</strong> {file.name}</p>
+                <p><strong>Size:</strong> {(file.size / 1024).toFixed(1)} KB</p>
+                <p><strong>Type:</strong> {file.type}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Processing Status */}
+          {isProcessing && processingStatus && (
+            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 flex items-center gap-3">
+              <LoadingSpinner size="sm" className="text-purple-600" />
+              <div>
+                <h4 className="font-medium text-purple-800">Processing...</h4>
+                <p className="text-sm text-purple-700 mt-1">{processingStatus}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Error Message */}
+          {error && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3">
+              <AlertCircle className="h-5 w-5 text-red-500 mt-0.5" />
+              <div>
+                <h4 className="font-medium text-red-800">Processing Error</h4>
+                <p className="text-sm text-red-700 mt-1">{error}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Results */}
+          {result && (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <CheckCircle className="h-5 w-5 text-green-600" />
+                <h4 className="font-medium text-green-900">Extraction Successful</h4>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                <div className="p-2 bg-white rounded-lg">
+                  <span className="text-gray-600">Policy Number:</span>
+                  <p className="font-medium">{result.policyNumber}</p>
+                </div>
+                <div className="p-2 bg-white rounded-lg">
+                  <span className="text-gray-600">Insured Name:</span>
+                  <p className="font-medium">{result.insuredName}</p>
+                </div>
+                <div className="p-2 bg-white rounded-lg">
+                  <span className="text-gray-600">Insurance Company:</span>
+                  <p className="font-medium">{result.insurerName}</p>
+                </div>
+                <div className="p-2 bg-white rounded-lg">
+                  <span className="text-gray-600">Property Address:</span>
+                  <p className="font-medium">{result.propertyAddress}</p>
+                </div>
+                <div className="p-2 bg-white rounded-lg">
+                  <span className="text-gray-600">Effective Date:</span>
+                  <p className="font-medium">{result.effectiveDate}</p>
+                </div>
+                <div className="p-2 bg-white rounded-lg">
+                  <span className="text-gray-600">Expiration Date:</span>
+                  <p className="font-medium">{result.expirationDate}</p>
+                </div>
+                <div className="p-2 bg-white rounded-lg">
+                  <span className="text-gray-600">Coverage Amount:</span>
+                  <p className="font-medium">{result.coverageAmount}</p>
+                </div>
+                <div className="p-2 bg-white rounded-lg">
+                  <span className="text-gray-600">Deductible:</span>
+                  <p className="font-medium">{result.deductible}</p>
+                </div>
+              </div>
+              
+              {/* Extracted Text Preview */}
+              <div className="mt-4">
+                <details className="text-sm">
+                  <summary className="font-medium text-green-900 cursor-pointer">View Extracted Text</summary>
+                  <div className="mt-2 p-3 bg-white rounded-lg max-h-32 overflow-y-auto">
+                    <pre className="text-xs text-gray-700 whitespace-pre-wrap">{result.extractedText}</pre>
+                  </div>
+                </details>
+              </div>
+            </div>
+          )}
+
+          {/* Process Button */}
+          <div className="flex justify-center">
+            <Button
+              onClick={extractPolicyData}
+              disabled={!file || isProcessing}
+              variant="primary"
+              className="flex items-center gap-2"
+            >
+              {isProcessing ? (
+                <>
+                  <LoadingSpinner size="sm" />
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <Brain className="h-4 w-4" />
+                  Process with AI
+                </>
+              )}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};

@@ -25,6 +25,7 @@ import {
 import { EnhancedPolicyUploadStep } from './wizard-steps/EnhancedPolicyUploadStep'
 import { DebugPolicyUploadStep } from './wizard-steps/DebugPolicyUploadStep'
 import { MinimalTestStep } from './wizard-steps/MinimalTestStep'
+import { SimplifiedPolicyUploadStep } from './wizard-steps/SimplifiedPolicyUploadStep'
 import { EnhancedClientDetailsStep } from './wizard-steps/EnhancedClientDetailsStep'
 import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoStep'
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
@@ -128,10 +129,10 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
   const steps = [
     {
       id: 'policy-upload',
-      title: 'MINIMAL TEST - Find Issue',
-      description: 'Step-by-step test to isolate exactly where the problem occurs',
+      title: 'AI Policy Analysis',
+      description: 'Upload policy documents for AI-powered extraction and validation',
       icon: FileText,
-      component: MinimalTestStep,
+      component: SimplifiedPolicyUploadStep,
       required: false
     },
     {
