@@ -22,9 +22,7 @@ import {
 } from 'lucide-react'
 
 // Import enhanced AI wizard step components
-import { PurePolicyUploadStep } from './wizard-steps/PurePolicyUploadStep'
-import { ProductionPolicyUploadStep } from './wizard-steps/ProductionPolicyUploadStep'
-import { WorkingPolicyUploadStep } from './wizard-steps/WorkingPolicyUploadStep'
+import { CleanPolicyUploadStep } from './wizard-steps/CleanPolicyUploadStep'
 import { EnhancedClientDetailsStep } from './wizard-steps/EnhancedClientDetailsStep'
 import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoStep'
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
@@ -128,10 +126,10 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
   const steps = [
     {
       id: 'policy-upload',
-      title: 'AI Policy Analysis - Fixed Version',
-      description: 'Working PDF processing without storage dependencies',
+      title: 'AI Policy Analysis - Delabano Ready',
+      description: 'Clean PDF processing optimized for Delabano Policy - No storage uploads',
       icon: FileText,
-      component: WorkingPolicyUploadStep,
+      component: CleanPolicyUploadStep,
       required: false
     },
     {
