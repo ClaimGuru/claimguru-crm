@@ -5,8 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { LoadingSpinner } from '../components/ui/LoadingSpinner'
 import { ClaimForm } from '../components/forms/ClaimForm'
-import ClaimIntakeWizard from '../components/claims/ClaimIntakeWizard'
-import { AdvancedClaimIntakeWizard } from '../components/claims/AdvancedClaimIntakeWizardNew'
+// Removed duplicate wizard imports - using only EnhancedAIIntakeWizard
 import { EnhancedAIIntakeWizard } from '../components/claims/EnhancedAIClaimWizard'
 import { 
   Plus, 
@@ -34,7 +33,7 @@ export function Claims() {
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [isFormOpen, setIsFormOpen] = useState(false)
-  const [showIntakeWizard, setShowIntakeWizard] = useState(false)
+  // Removed old intake wizard - using only AI wizard
   const [showAIWizard, setShowAIWizard] = useState(false)
   const [editingClaim, setEditingClaim] = useState<Claim | null>(null)
   const [selectedClaim, setSelectedClaim] = useState<Claim | null>(null)
@@ -79,19 +78,7 @@ export function Claims() {
     setIsFormOpen(true)
   }
 
-  const handleNewClaimWizard = () => {
-    setShowIntakeWizard(true)
-  }
-
-  const handleIntakeComplete = (claimId: string) => {
-    setShowIntakeWizard(false)
-    // Optionally navigate to the new claim or refresh the list
-    window.location.reload()
-  }
-
-  const handleIntakeCancel = () => {
-    setShowIntakeWizard(false)
-  }
+  // Removed old intake wizard handlers - using only AI wizard
 
   const handleAIWizardComplete = async (claimData: any) => {
     try {
@@ -151,7 +138,7 @@ export function Claims() {
         </div>
         <div className="flex items-center gap-3">
           <Button 
-            onClick={handleNewClaimWizard}
+            onClick={() => setShowAIWizard(true)}
             className="flex items-center gap-2"
           >
             <Zap className="h-4 w-4" />
@@ -364,35 +351,7 @@ export function Claims() {
         </div>
       )}
 
-      {/* Claim Intake Wizard Modal */}
-      {showIntakeWizard && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={handleIntakeCancel}
-                    className="p-2 hover:bg-gray-100 rounded-full"
-                  >
-                    <ArrowLeft className="h-5 w-5" />
-                  </button>
-                  <div>
-                    <h2 className="text-xl font-semibold text-gray-900">New Claim Intake</h2>
-                    <p className="text-sm text-gray-600">Complete claim intake workflow</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="p-6">
-              <ClaimIntakeWizard
-                onComplete={handleIntakeComplete}
-                onCancel={handleIntakeCancel}
-              />
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Old intake wizard removed - using only AI wizard */}
 
       {/* Enhanced AI-Powered Insurance Intake Wizard with Real PDF Processing */}
       {showAIWizard && (

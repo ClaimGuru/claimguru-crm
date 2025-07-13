@@ -1,499 +1,182 @@
-import React, { useState, useCallback } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
-import { Button } from '../../ui/Button'
-import { LoadingSpinner } from '../../ui/LoadingSpinner'
-import { 
-  Upload, 
-  FileText, 
-  Brain, 
-  CheckCircle, 
-  AlertCircle,
-  Eye,
-  Download,
-  Sparkles,
-  Zap,
-  Shield,
-  DollarSign,
-  Calendar
-} from 'lucide-react'
-import { claimWizardAI, PolicyAnalysisResult } from '../../../services/claimWizardAI'
+/**
+ * SINGLE POLICY UPLOAD STEP - ClaimGuru
+ * 
+ * This is the ONLY policy upload component in the system.
+ * Clean, simple, and working.
+ */
+
+import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card';
+import { Button } from '../../ui/Button';
+import { LoadingSpinner } from '../../ui/LoadingSpinner';
+import { FileText, Upload, CheckCircle, AlertCircle } from 'lucide-react';
+import { pdfExtractionService, PDFExtractionResult } from '../../../services/pdfExtractionService';
 
 interface PolicyUploadStepProps {
-  data: any
-  onUpdate: (data: any) => void
-  onAIProcessing: (processing: boolean) => void
+  data: any;
+  onUpdate: (data: any) => void;
+  onAIProcessing?: (isProcessing: boolean) => void;
 }
 
-export function PolicyUploadStep({ data, onUpdate, onAIProcessing }: PolicyUploadStepProps) {
-  const [uploading, setUploading] = useState(false)
-  const [analyzing, setAnalyzing] = useState(false)
-  const [analysisResult, setAnalysisResult] = useState<PolicyAnalysisResult | null>(
-    data.aiExtractedData || null
-  )
-  const [dragActive, setDragActive] = useState(false)
-  const [selectedFile, setSelectedFile] = useState<File | null>(data.policyDocument || null)
+export const PolicyUploadStep: React.FC<PolicyUploadStepProps> = ({
+  data,
+  onUpdate,
+  onAIProcessing
+}) => {
+  const [file, setFile] = useState<File | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [result, setResult] = useState<PDFExtractionResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleFileSelect = useCallback(async (file: File) => {
-    if (!file) return
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile && selectedFile.type === 'application/pdf') {
+      setFile(selectedFile);
+      setError(null);
+      setResult(null);
+    } else {
+      setError('Please select a PDF file');
+    }
+  };
 
-    // Validate file type
-    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/tiff']
-    if (!allowedTypes.includes(file.type)) {
-      alert('Please upload a PDF or image file (JPEG, PNG, TIFF)')
-      return
+  const processPolicy = async () => {
+    if (!file) {
+      setError('Please select a file first');
+      return;
     }
 
-    // Validate file size (10MB limit)
-    if (file.size > 10 * 1024 * 1024) {
-      alert('File size must be less than 10MB')
-      return
-    }
-
-    setSelectedFile(file)
-    setUploading(true)
-    onAIProcessing(true)
+    setIsProcessing(true);
+    setError(null);
+    onAIProcessing?.(true);
 
     try {
-      // Simulate file upload
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      console.log('Processing policy document:', file.name);
       
-      // Start AI analysis
-      setAnalyzing(true)
-      const result = await claimWizardAI.analyzePolicyDocument(file)
+      const extractionResult = await pdfExtractionService.extractFromPDF(file);
+      setResult(extractionResult);
       
-      setAnalysisResult(result)
+      // Update wizard data
       onUpdate({
-        policyDocument: file,
-        policyType: result.documentType,
-        aiExtractedData: result
-      })
+        ...data,
+        policyDetails: extractionResult.policyData,
+        policyProcessed: true,
+        extractionResult
+      });
 
+      console.log('Policy processing completed successfully');
+      
     } catch (error) {
-      console.error('Error processing policy document:', error)
-      alert('Error processing document. Please try again.')
+      console.error('Policy processing failed:', error);
+      setError(error.message || 'Processing failed');
     } finally {
-      setUploading(false)
-      setAnalyzing(false)
-      onAIProcessing(false)
+      setIsProcessing(false);
+      onAIProcessing?.(false);
     }
-  }, [onUpdate, onAIProcessing])
-
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    setDragActive(false)
-    
-    const files = Array.from(e.dataTransfer.files)
-    if (files.length > 0) {
-      handleFileSelect(files[0])
-    }
-  }, [handleFileSelect])
-
-  const handleDragOver = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    setDragActive(true)
-  }, [])
-
-  const handleDragLeave = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    setDragActive(false)
-  }, [])
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(amount)
-  }
+  };
 
   return (
     <div className="space-y-6">
-      {/* AI-Powered Upload Section */}
-      <Card className="border-2 border-dashed border-purple-300 bg-gradient-to-r from-purple-50 to-blue-50">
-        <CardHeader className="text-center">
-          <CardTitle className="flex items-center justify-center gap-3">
-            <Brain className="h-6 w-6 text-purple-600" />
-            <span className="text-xl font-bold">AI-Powered Policy Analysis</span>
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileText className="h-5 w-5 text-purple-600" />
+            Policy Document Upload
           </CardTitle>
-          <p className="text-gray-600">
-            Upload your policy document and watch our AI automatically extract and populate over 70 fields throughout the claim wizard
-          </p>
         </CardHeader>
-        <CardContent>
-          {!selectedFile ? (
-            <div
-              className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-                dragActive 
-                  ? 'border-purple-500 bg-purple-100' 
-                  : 'border-gray-300 hover:border-purple-400 hover:bg-gray-50'
-              }`}
-              onDrop={handleDrop}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-            >
-              <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
-                Drop your policy document here
+        <CardContent className="space-y-6">
+          {/* File Upload Area */}
+          <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-gray-400 transition-colors">
+            <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+            <div className="space-y-2">
+              <h3 className="text-lg font-medium text-gray-900">
+                Upload Insurance Policy
               </h3>
-              <p className="text-gray-600 mb-4">
-                or click to browse files
+              <p className="text-gray-600">
+                Select your policy document (PDF) for automated data extraction
               </p>
-              
-              <div className="flex flex-wrap justify-center gap-2 text-sm text-gray-500 mb-4">
-                <span className="bg-gray-100 px-2 py-1 rounded">PDF</span>
-                <span className="bg-gray-100 px-2 py-1 rounded">JPEG</span>
-                <span className="bg-gray-100 px-2 py-1 rounded">PNG</span>
-                <span className="bg-gray-100 px-2 py-1 rounded">TIFF</span>
+              <div className="mt-4">
+                <input
+                  type="file"
+                  accept=".pdf"
+                  onChange={handleFileChange}
+                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
+                />
               </div>
-              
-              <input
-                type="file"
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                accept=".pdf,.jpg,.jpeg,.png,.tiff"
-                onChange={(e) => e.target.files?.[0] && handleFileSelect(e.target.files[0])}
-              />
-              
-              <Button className="mt-4">
-                Choose File
-              </Button>
             </div>
-          ) : (
-            <div className="space-y-4">
-              {/* File Info */}
-              <div className="flex items-center gap-3 p-4 bg-white rounded-lg border">
-                <FileText className="h-8 w-8 text-blue-600" />
-                <div className="flex-1">
-                  <div className="font-medium">{selectedFile.name}</div>
-                  <div className="text-sm text-gray-600">
-                    {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-                  </div>
-                </div>
-                {(uploading || analyzing) && (
-                  <div className="flex items-center gap-2">
-                    <LoadingSpinner size="sm" />
-                    <span className="text-sm text-purple-600 font-medium">
-                      {uploading ? 'Uploading...' : 'AI Analyzing...'}
-                    </span>
-                  </div>
-                )}
-                {analysisResult && (
-                  <CheckCircle className="h-6 w-6 text-green-600" />
-                )}
-              </div>
+          </div>
 
-              {/* AI Processing Status */}
-              {analyzing && (
-                <Card className="bg-purple-50 border-purple-200">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <Brain className="h-6 w-6 text-purple-600 animate-pulse" />
-                      <div>
-                        <div className="font-medium text-purple-900">AI Analysis in Progress</div>
-                        <div className="text-sm text-purple-700">
-                          Extracting policy details, coverage limits, deductibles, and special provisions...
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="mt-4 space-y-2">
-                      <div className="flex items-center gap-2 text-sm text-purple-700">
-                        <Zap className="h-4 w-4" />
-                        Reading document text and structure
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-purple-700">
-                        <Shield className="h-4 w-4" />
-                        Identifying coverage types and limits
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-purple-700">
-                        <DollarSign className="h-4 w-4" />
-                        Extracting deductible information
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-purple-700">
-                        <Calendar className="h-4 w-4" />
-                        Determining policy dates and requirements
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* Change File Button */}
-              <div className="flex justify-center">
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setSelectedFile(null)
-                    setAnalysisResult(null)
-                    onUpdate({ policyDocument: null, aiExtractedData: null })
-                  }}
-                  disabled={uploading || analyzing}
-                >
-                  Choose Different File
-                </Button>
+          {/* Selected File Info */}
+          {file && (
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <h4 className="font-medium text-blue-900 mb-2">Selected File:</h4>
+              <div className="text-sm text-blue-800">
+                <p><strong>Name:</strong> {file.name}</p>
+                <p><strong>Size:</strong> {(file.size / 1024).toFixed(1)} KB</p>
               </div>
             </div>
           )}
+
+          {/* Error Display */}
+          {error && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3">
+              <AlertCircle className="h-5 w-5 text-red-500 mt-0.5" />
+              <div>
+                <h4 className="font-medium text-red-800">Error</h4>
+                <p className="text-sm text-red-700 mt-1">{error}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Results Display */}
+          {result && (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <CheckCircle className="h-5 w-5 text-green-600" />
+                <h4 className="font-medium text-green-900">Extraction Successful</h4>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                {Object.entries(result.policyData).map(([key, value]) => (
+                  value && (
+                    <div key={key} className="p-2 bg-white rounded-lg">
+                      <span className="text-gray-600 capitalize">
+                        {key.replace(/([A-Z])/g, ' $1').trim()}:
+                      </span>
+                      <p className="font-medium">{value}</p>
+                    </div>
+                  )
+                ))}
+              </div>
+              <div className="mt-3 text-xs text-green-700">
+                Confidence: {Math.round(result.confidence * 100)}% | 
+                Method: {result.processingMethod} | 
+                Cost: ${result.cost.toFixed(2)}
+              </div>
+            </div>
+          )}
+
+          {/* Process Button */}
+          <div className="flex justify-center">
+            <Button
+              onClick={processPolicy}
+              disabled={!file || isProcessing}
+              variant="primary"
+              className="flex items-center gap-2"
+            >
+              {isProcessing ? (
+                <>
+                  <LoadingSpinner size="sm" />
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <FileText className="h-4 w-4" />
+                  Process with AI
+                </>
+              )}
+            </Button>
+          </div>
         </CardContent>
       </Card>
-
-      {/* AI Analysis Results */}
-      {analysisResult && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-3">
-              <Sparkles className="h-6 w-6 text-green-600" />
-              <span>AI Analysis Complete</span>
-              <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded-full font-normal">
-                {Math.round(analysisResult.confidence * 100)}% confidence
-              </span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {/* Document Type */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <FileText className="h-5 w-5 text-blue-600" />
-                  <span className="font-medium text-blue-900">Document Type</span>
-                </div>
-                <div className="text-lg font-semibold text-blue-800">
-                  {analysisResult.documentType === 'dec_page' ? 'Declaration Page' : 'Full Policy'}
-                </div>
-              </div>
-
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span className="font-medium text-green-900">Fields Populated</span>
-                </div>
-                <div className="text-lg font-semibold text-green-800">
-                  72+ fields auto-filled
-                </div>
-              </div>
-            </div>
-
-            {/* Extracted Policy Information */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              <div className="bg-white border rounded-lg p-4">
-                <div className="text-sm text-gray-600 mb-1">Policy Number</div>
-                <div className="font-medium">{analysisResult.extractedData.policyNumber}</div>
-              </div>
-              
-              <div className="bg-white border rounded-lg p-4">
-                <div className="text-sm text-gray-600 mb-1">Policy Period</div>
-                <div className="font-medium">
-                  {analysisResult.extractedData.effectiveDate} to {analysisResult.extractedData.expirationDate}
-                </div>
-              </div>
-              
-              <div className="bg-white border rounded-lg p-4">
-                <div className="text-sm text-gray-600 mb-1">Insured Name</div>
-                <div className="font-medium">{analysisResult.extractedData.insuredName}</div>
-              </div>
-            </div>
-
-            {/* Coverage Summary */}
-            <div>
-              <h4 className="font-semibold text-gray-900 mb-3">Coverage Summary</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {analysisResult.extractedData.coverages.map((coverage, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div>
-                      <div className="font-medium">{coverage.type}</div>
-                      <div className="text-sm text-gray-600">{coverage.description}</div>
-                    </div>
-                    <div className="font-semibold text-green-600">
-                      {formatCurrency(coverage.limit)}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Deductibles */}
-            <div>
-              <h4 className="font-semibold text-gray-900 mb-3">Deductibles</h4>
-              <div className="space-y-3">
-                {analysisResult.extractedData.deductibles.map((deductible, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-orange-50 border border-orange-200 rounded-lg">
-                    <div>
-                      <div className="font-medium">{deductible.type}</div>
-                      <div className="text-sm text-gray-600">
-                        Applies to: {deductible.appliesTo.join(', ')}
-                      </div>
-                    </div>
-                    <div className="font-semibold text-orange-600">
-                      {deductible.amount ? formatCurrency(deductible.amount) : `${deductible.percentage}%`}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* AI Recommendations */}
-            <div>
-              <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <Brain className="h-5 w-5 text-purple-600" />
-                AI Recommendations
-              </h4>
-              <div className="space-y-2">
-                {analysisResult.recommendations.map((recommendation, index) => (
-                  <div key={index} className="flex items-start gap-2 p-3 bg-purple-50 border border-purple-200 rounded-lg">
-                    <CheckCircle className="h-5 w-5 text-purple-600 mt-0.5 flex-shrink-0" />
-                    <span className="text-purple-800">{recommendation}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Risk Factors */}
-            {analysisResult.riskFactors.length > 0 && (
-              <div>
-                <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                  <AlertCircle className="h-5 w-5 text-amber-600" />
-                  Important Considerations
-                </h4>
-                <div className="space-y-2">
-                  {analysisResult.riskFactors.map((risk, index) => (
-                    <div key={index} className="flex items-start gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
-                      <AlertCircle className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
-                      <span className="text-amber-800">{risk}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* AI Intelligence Features */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t">
-              <Card className="bg-blue-50 border-blue-200">
-                <CardContent className="p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Shield className="h-5 w-5 text-blue-600" />
-                    <span className="font-medium text-blue-900">Fraud Detection</span>
-                  </div>
-                  <div className="text-2xl font-bold text-blue-800">Low Risk</div>
-                  <div className="text-sm text-blue-600">AI Risk Score: 15/100</div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-green-50 border-green-200">
-                <CardContent className="p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <CheckCircle className="h-5 w-5 text-green-600" />
-                    <span className="font-medium text-green-900">Compliance Check</span>
-                  </div>
-                  <div className="text-2xl font-bold text-green-800">Passed</div>
-                  <div className="text-sm text-green-600">All requirements met</div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-purple-50 border-purple-200">
-                <CardContent className="p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Brain className="h-5 w-5 text-purple-600" />
-                    <span className="font-medium text-purple-900">Quality Score</span>
-                  </div>
-                  <div className="text-2xl font-bold text-purple-800">A+</div>
-                  <div className="text-sm text-purple-600">Excellent documentation</div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex gap-3 pt-4 border-t">
-              <Button variant="outline" className="flex items-center gap-2">
-                <Eye className="h-4 w-4" />
-                View Full Analysis
-              </Button>
-              <Button variant="outline" className="flex items-center gap-2">
-                <Download className="h-4 w-4" />
-                Export Analysis
-              </Button>
-              <Button variant="outline" className="flex items-center gap-2 bg-gradient-to-r from-purple-50 to-blue-50">
-                <Sparkles className="h-4 w-4" />
-                Run Advanced AI Analysis
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Benefits of AI Analysis */}
-      {!selectedFile && (
-        <Card className="bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
-          <CardContent className="p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-green-600" />
-              What Our AI Will Extract
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              <div className="flex items-start gap-3">
-                <div className="h-8 w-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Shield className="h-4 w-4 text-green-600" />
-                </div>
-                <div>
-                  <div className="font-medium text-gray-900">Coverage Details</div>
-                  <div className="text-sm text-gray-600">Limits, sublimits, and special provisions</div>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-3">
-                <div className="h-8 w-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <DollarSign className="h-4 w-4 text-blue-600" />
-                </div>
-                <div>
-                  <div className="font-medium text-gray-900">Deductibles</div>
-                  <div className="text-sm text-gray-600">All deductible types and calculations</div>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-3">
-                <div className="h-8 w-8 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Calendar className="h-4 w-4 text-purple-600" />
-                </div>
-                <div>
-                  <div className="font-medium text-gray-900">Important Dates</div>
-                  <div className="text-sm text-gray-600">Policy periods and deadlines</div>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-3">
-                <div className="h-8 w-8 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <FileText className="h-4 w-4 text-orange-600" />
-                </div>
-                <div>
-                  <div className="font-medium text-gray-900">Requirements</div>
-                  <div className="text-sm text-gray-600">Proof of loss and appraisal clauses</div>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-3">
-                <div className="h-8 w-8 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Brain className="h-4 w-4 text-indigo-600" />
-                </div>
-                <div>
-                  <div className="font-medium text-gray-900">Smart Analysis</div>
-                  <div className="text-sm text-gray-600">Risk factors and recommendations</div>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-3">
-                <div className="h-8 w-8 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <AlertCircle className="h-4 w-4 text-red-600" />
-                </div>
-                <div>
-                  <div className="font-medium text-gray-900">Compliance</div>
-                  <div className="text-sm text-gray-600">Regulatory requirements and deadlines</div>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
     </div>
-  )
-}
+  );
+};
