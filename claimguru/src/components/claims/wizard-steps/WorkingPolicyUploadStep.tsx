@@ -27,6 +27,90 @@ export const WorkingPolicyUploadStep: React.FC<WorkingPolicyUploadStepProps> = (
   const [extractionResult, setExtractionResult] = useState<HybridPDFExtractionResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // Auto-map extracted data to wizard form fields
+  const proceedToNextStep = () => {
+    if (!extractionResult) return;
+
+    const mappedData = {
+      ...data,
+      // Policy Details
+      policyDetails: {
+        policyNumber: extractionResult.policyData.policyNumber || '',
+        effectiveDate: extractionResult.policyData.effectiveDate || '',
+        expirationDate: extractionResult.policyData.expirationDate || '',
+        insurerName: extractionResult.policyData.insurerName || '',
+        agentName: (extractionResult.policyData as any).agentName || '',
+        agentPhone: (extractionResult.policyData as any).agentPhone || '',
+      },
+      // Insured Details (auto-populated for next step)
+      insuredDetails: {
+        firstName: extractFirstName(extractionResult.policyData.insuredName || ''),
+        lastName: extractLastName(extractionResult.policyData.insuredName || ''),
+        fullName: extractionResult.policyData.insuredName || '',
+      },
+      // Property Information
+      mailingAddress: {
+        street: extractionResult.policyData.propertyAddress || '',
+        // Parse address components if needed
+      },
+      // Insurance Carrier Info
+      insuranceCarrier: {
+        name: extractionResult.policyData.insurerName || '',
+        policyNumber: extractionResult.policyData.policyNumber || '',
+      },
+      // Coverage Information
+      coverages: extractCoverageArray(extractionResult.policyData.coverageTypes),
+      deductibles: extractDeductibleArray(extractionResult.policyData.deductibles),
+      // Loss Details (pre-populate property address)
+      lossDetails: {
+        lossAddress: extractionResult.policyData.propertyAddress || '',
+      },
+      // Mark as processed by AI
+      aiProcessed: true,
+      extractedFromPDF: true,
+      originalFileName: selectedFile?.name || '',
+    };
+
+    console.log('🎯 Auto-mapping extracted data to wizard fields:', mappedData);
+    
+    // Update wizard data with mapped fields
+    onUpdate(mappedData);
+    
+    // Show success message
+    alert('Policy data has been automatically populated in the form fields. You can review and edit the information in the next steps.');
+  };
+
+  // Helper functions for data mapping
+  const extractFirstName = (fullName: string): string => {
+    const parts = fullName.trim().split(' ');
+    return parts[0] || '';
+  };
+
+  const extractLastName = (fullName: string): string => {
+    const parts = fullName.trim().split(' ');
+    return parts.length > 1 ? parts[parts.length - 1] : '';
+  };
+
+  const extractCoverageArray = (coverageTypes: any): any[] => {
+    if (!coverageTypes || typeof coverageTypes !== 'object') return [];
+    
+    return Object.entries(coverageTypes).map(([type, amount]) => ({
+      type: type,
+      limit: String(amount),
+      description: `Auto-extracted: ${type}`
+    }));
+  };
+
+  const extractDeductibleArray = (deductibles: any): any[] => {
+    if (!deductibles || typeof deductibles !== 'object') return [];
+    
+    return Object.entries(deductibles).map(([type, amount]) => ({
+      type: type,
+      amount: String(amount),
+      description: `Auto-extracted: ${type}`
+    }));
+  };
+
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -53,20 +137,20 @@ export const WorkingPolicyUploadStep: React.FC<WorkingPolicyUploadStepProps> = (
     }
 
     try {
-      // Step 1: PDF.js Extraction
-      setProcessingStep('📄 Step 1: Trying PDF.js (free, fast)...');
+      // Step 1: Document Analysis
+      setProcessingStep('📄 Analyzing document structure and content...');
       await new Promise(resolve => setTimeout(resolve, 500));
 
-      // Step 2: Tesseract OCR (if needed)
-      setProcessingStep('🔤 Step 2: Tesseract OCR fallback (free)...');
+      // Step 2: Text Extraction
+      setProcessingStep('🔤 Extracting text and identifying key information...');
       await new Promise(resolve => setTimeout(resolve, 800));
 
-      // Step 3: Google Vision (if needed)
-      setProcessingStep('👁️ Step 3: Google Vision API (premium)...');
+      // Step 3: Data Processing
+      setProcessingStep('🧠 Processing policy data with AI intelligence...');
       await new Promise(resolve => setTimeout(resolve, 600));
 
-      // Step 4: OpenAI Enhancement
-      setProcessingStep('🧠 Step 4: OpenAI intelligence enhancement...');
+      // Step 4: Field Mapping
+      setProcessingStep('🎯 Preparing data for automatic form population...');
       
       // Call the HYBRID PDF extraction service
       const result = await hybridPdfExtractionService.extractFromPDF(selectedFile);
@@ -74,7 +158,7 @@ export const WorkingPolicyUploadStep: React.FC<WorkingPolicyUploadStepProps> = (
       console.log('✅ Hybrid AI processing completed successfully:', result);
       
       // Step 5: Validation
-      setProcessingStep('✅ Step 5: Validating extracted data...');
+      setProcessingStep('✅ Validating and finalizing extracted data...');
       await new Promise(resolve => setTimeout(resolve, 500));
       
       setExtractionResult(result);
@@ -121,10 +205,10 @@ export const WorkingPolicyUploadStep: React.FC<WorkingPolicyUploadStepProps> = (
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Brain className="h-5 w-5 text-purple-600" />
-            AI-Powered Policy Analysis
+            AI Policy Analysis
           </CardTitle>
           <p className="text-gray-600">
-            Upload your insurance policy for instant AI extraction using Google Vision OCR and OpenAI intelligence
+            Upload your insurance policy document for instant AI-powered data extraction and automatic form population
           </p>
         </CardHeader>
       </Card>
@@ -169,31 +253,21 @@ export const WorkingPolicyUploadStep: React.FC<WorkingPolicyUploadStepProps> = (
         </CardContent>
       </Card>
 
-      {/* Processing Status */}
+      {/* Processing Status - Clean Version */}
       {isProcessing && (
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3 mb-4">
               <LoadingSpinner size="sm" />
               <div>
-                <h4 className="font-medium text-gray-900">AI Processing in Progress</h4>
-                <p className="text-sm text-gray-600">{processingStep}</p>
+                <h4 className="font-medium text-gray-900">ClaimGuru AI Analyzing Document...</h4>
+                <p className="text-sm text-gray-600">Extracting policy information and coverage details</p>
               </div>
             </div>
-            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                <div className="flex items-center gap-2">
-                  <Eye className="h-4 w-4 text-purple-600" />
-                  <span>Google Vision OCR</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Brain className="h-4 w-4 text-purple-600" />
-                  <span>OpenAI Intelligence</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Zap className="h-4 w-4 text-purple-600" />
-                  <span>Real-time Processing</span>
-                </div>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="flex items-center justify-center gap-2">
+                <Brain className="h-5 w-5 text-blue-600" />
+                <span className="font-medium text-blue-900">Intelligent Document Analysis in Progress</span>
               </div>
             </div>
           </CardContent>
@@ -218,79 +292,123 @@ export const WorkingPolicyUploadStep: React.FC<WorkingPolicyUploadStepProps> = (
         </Card>
       )}
 
-      {/* Extraction Results */}
+      {/* Extraction Results - Clean User View */}
       {extractionResult && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <CheckCircle className="h-5 w-5 text-green-600" />
-              Extraction Successful!
+              Policy Successfully Analyzed!
             </CardTitle>
+            <p className="text-sm text-gray-600 mt-2">
+              ClaimGuru has extracted key information from your policy document
+            </p>
           </CardHeader>
           <CardContent className="space-y-6">
-            {/* Processing Summary */}
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
-                <div>
-                  <span className="text-gray-600">Processing Method:</span>
-                  <p className="font-medium capitalize">{extractionResult.processingMethod.replace('-', ' ')}</p>
-                </div>
-                <div>
-                  <span className="text-gray-600">Confidence:</span>
-                  <p className="font-medium text-green-600">{formatConfidence(extractionResult.confidence)}</p>
-                </div>
-                <div>
-                  <span className="text-gray-600">Processing Time:</span>
-                  <p className="font-medium">{(extractionResult.processingTime / 1000).toFixed(1)}s</p>
-                </div>
-                <div>
-                  <span className="text-gray-600">Cost:</span>
-                  <p className="font-medium">${extractionResult.cost.toFixed(3)}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Extracted Policy Data */}
-            <div>
-              <h4 className="font-medium text-gray-900 mb-4">Extracted Policy Information</h4>
+            {/* Policy Information - User Friendly */}
+            <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <FileText className="h-5 w-5 text-blue-600" />
+                Policy Information
+              </h4>
+              
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {Object.entries(extractionResult.policyData).map(([key, value]) => {
-                  if (!value) return null;
+                {/* Policy Basics */}
+                <div className="space-y-3">
+                  <div className="p-3 bg-blue-50 rounded-lg">
+                    <label className="text-sm font-medium text-gray-700">Policy Number</label>
+                    <p className="text-lg font-semibold text-gray-900">{extractionResult.policyData.policyNumber || 'Not found'}</p>
+                  </div>
                   
-                  const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+                  <div className="p-3 bg-blue-50 rounded-lg">
+                    <label className="text-sm font-medium text-gray-700">Insured Party</label>
+                    <p className="text-lg font-semibold text-gray-900">{extractionResult.policyData.insuredName || 'Not found'}</p>
+                  </div>
                   
-                  // Safe rendering for different data types
-                  let displayValue: string;
-                  if (Array.isArray(value)) {
-                    displayValue = value.join(', ');
-                  } else if (typeof value === 'object') {
-                    displayValue = JSON.stringify(value, null, 2);
-                  } else {
-                    displayValue = String(value);
-                  }
+                  <div className="p-3 bg-blue-50 rounded-lg">
+                    <label className="text-sm font-medium text-gray-700">Insurance Company</label>
+                    <p className="text-lg font-semibold text-gray-900">{extractionResult.policyData.insurerName || 'Not found'}</p>
+                  </div>
+                </div>
+                
+                {/* Property & Coverage */}
+                <div className="space-y-3">
+                  <div className="p-3 bg-green-50 rounded-lg">
+                    <label className="text-sm font-medium text-gray-700">Property Address</label>
+                    <p className="text-lg font-semibold text-gray-900">{extractionResult.policyData.propertyAddress || 'Not found'}</p>
+                  </div>
                   
-                  return (
-                    <div key={key} className="p-3 bg-white border border-gray-200 rounded-lg">
-                      <span className="text-sm text-gray-600">{label}:</span>
-                      <p className="font-medium text-gray-900 whitespace-pre-wrap">{displayValue}</p>
-                    </div>
-                  );
-                })}
+                  <div className="p-3 bg-green-50 rounded-lg">
+                    <label className="text-sm font-medium text-gray-700">Policy Period</label>
+                    <p className="text-lg font-semibold text-gray-900">
+                      {extractionResult.policyData.effectiveDate || 'Start: Not found'} - {extractionResult.policyData.expirationDate || 'End: Not found'}
+                    </p>
+                  </div>
+                  
+                  <div className="p-3 bg-green-50 rounded-lg">
+                    <label className="text-sm font-medium text-gray-700">Dwelling Coverage</label>
+                    <p className="text-lg font-semibold text-gray-900">
+                      {extractionResult.policyData.coverageTypes?.['Coverage A - Dwelling'] || 
+                       extractionResult.policyData.coverageAmount || 'Not specified'}
+                    </p>
+                  </div>
+                </div>
               </div>
+
+              {/* Coverage Summary */}
+              {extractionResult.policyData.coverageTypes && (
+                <div className="mt-4 p-4 bg-yellow-50 rounded-lg">
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">Coverage Types Detected</label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                    {Object.entries(extractionResult.policyData.coverageTypes).map(([coverage, amount]) => (
+                      <div key={coverage} className="flex justify-between">
+                        <span className="text-gray-700">{coverage}:</span>
+                        <span className="font-medium text-gray-900">{String(amount)}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Deductible Info */}
+              {extractionResult.policyData.deductibles && (
+                <div className="mt-4 p-4 bg-purple-50 rounded-lg">
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">Deductible Information</label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                    {Object.entries(extractionResult.policyData.deductibles).map(([type, amount]) => (
+                      <div key={type} className="flex justify-between">
+                        <span className="text-gray-700">{type}:</span>
+                        <span className="font-medium text-gray-900">{String(amount)}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* Extracted Text Preview */}
-            <details className="border border-gray-200 rounded-lg">
-              <summary className="p-3 bg-gray-50 cursor-pointer hover:bg-gray-100">
-                <span className="font-medium">View Extracted Text ({extractionResult.extractedText.length} characters)</span>
-              </summary>
-              <div className="p-4 max-h-40 overflow-y-auto">
-                <pre className="whitespace-pre-wrap text-sm text-gray-700 leading-relaxed">
-                  {extractionResult.extractedText.substring(0, 1000)}
-                  {extractionResult.extractedText.length > 1000 && '...'}
-                </pre>
-              </div>
-            </details>
+            {/* Action Buttons */}
+            <div className="flex justify-between items-center">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setExtractionResult(null);
+                  setSelectedFile(null);
+                }}
+                className="flex items-center gap-2"
+              >
+                <Upload className="h-4 w-4" />
+                Upload Different Document
+              </Button>
+              
+              <Button
+                variant="primary"
+                onClick={proceedToNextStep}
+                className="flex items-center gap-2"
+              >
+                Continue with Extracted Data
+                <CheckCircle className="h-4 w-4" />
+              </Button>
+            </div>
           </CardContent>
         </Card>
       )}
