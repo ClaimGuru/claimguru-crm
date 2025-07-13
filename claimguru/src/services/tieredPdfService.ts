@@ -1,6 +1,7 @@
 import * as pdfjsLib from 'pdfjs-dist';
 import Tesseract from 'tesseract.js';
 import { supabase } from '../lib/supabase';
+import { enhancedTesseractService, EnhancedOCRResult } from './enhancedTesseractService';
 
 // Set PDF.js worker path
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf/pdf.worker.js';
@@ -32,6 +33,7 @@ export interface TieredExtractionResult {
     fileSize: number;
     pageCount: number;
     isScanned: boolean;
+    enhancedExtraction?: boolean;
   };
 }
 
@@ -128,8 +130,24 @@ export class TieredPdfService {
       // Tier 2: Tesseract.js (client-side OCR, free)
       const tesseractResult = await this.tryTesseractExtraction(file);
       if (tesseractResult.success && tesseractResult.confidence > 0.6) {
-        console.log('Tesseract extraction successful');
-        return this.formatResult(tesseractResult.text, 'tesseract', tesseractResult.confidence, 0, Date.now() - startTime, file);
+        console.log('Enhanced Tesseract extraction successful');
+        
+        // Use enhanced insurance data extraction if available
+        let enhancedPolicyData = {};
+        if (tesseractResult.enhancedResult) {
+          enhancedPolicyData = enhancedTesseractService.extractInsuranceData(tesseractResult.enhancedResult);
+          console.log('Enhanced insurance data extracted:', enhancedPolicyData);
+        }
+        
+        return this.formatResult(
+          tesseractResult.text, 
+          'tesseract', 
+          tesseractResult.confidence, 
+          0, 
+          Date.now() - startTime, 
+          file,
+          enhancedPolicyData
+        );
       }
 
       console.log('Tesseract extraction insufficient, trying Google Vision...');
@@ -187,36 +205,25 @@ export class TieredPdfService {
     }
   }
 
-  private async tryTesseractExtraction(file: File): Promise<{success: boolean, text: string, confidence: number}> {
+  private async tryTesseractExtraction(file: File): Promise<{success: boolean, text: string, confidence: number, enhancedResult?: EnhancedOCRResult}> {
     try {
-      // Convert PDF to images first
-      const images = await this.convertPdfToImages(file);
+      console.log('Starting enhanced Tesseract extraction...');
       
-      let allText = '';
-      let totalConfidence = 0;
+      // Use the enhanced Tesseract service
+      const enhancedResult = await enhancedTesseractService.extractFromPDF(file);
       
-      for (const image of images.slice(0, 3)) { // Process max 3 pages for performance
-        const result = await Tesseract.recognize(image, 'eng', {
-          logger: (m) => {
-            if (m.status === 'recognizing text') {
-              console.log(`Tesseract progress: ${Math.round(m.progress * 100)}%`);
-            }
-          }
-        });
-        
-        allText += result.data.text + '\n';
-        totalConfidence += result.data.confidence;
-      }
+      const success = enhancedResult.text.length > 50 && enhancedResult.confidence > 0.6;
       
-      const avgConfidence = totalConfidence / images.length / 100; // Normalize to 0-1
+      console.log(`Enhanced Tesseract extraction completed - Success: ${success}, Confidence: ${(enhancedResult.confidence * 100).toFixed(1)}%`);
       
       return {
-        success: allText.length > 50 && avgConfidence > 0.6,
-        text: allText,
-        confidence: avgConfidence
+        success,
+        text: enhancedResult.text,
+        confidence: enhancedResult.confidence,
+        enhancedResult
       };
     } catch (error) {
-      console.error('Tesseract extraction failed:', error);
+      console.error('Enhanced Tesseract extraction failed:', error);
       return { success: false, text: '', confidence: 0 };
     }
   }
@@ -336,9 +343,13 @@ export class TieredPdfService {
     confidence: number, 
     cost: number, 
     processingTime: number,
-    file: File
+    file: File,
+    enhancedPolicyData?: any
   ): TieredExtractionResult {
-    const policyData = this.parseInsuranceData(text);
+    // Use enhanced policy data if available, otherwise fall back to basic parsing
+    const policyData = enhancedPolicyData && Object.keys(enhancedPolicyData).length > 0 
+      ? { ...this.parseInsuranceData(text), ...enhancedPolicyData }
+      : this.parseInsuranceData(text);
     
     return {
       extractedText: text,
@@ -350,7 +361,8 @@ export class TieredPdfService {
       metadata: {
         fileSize: file.size,
         pageCount: 1, // Simplified
-        isScanned: method !== 'pdf.js'
+        isScanned: method !== 'pdf.js',
+        enhancedExtraction: !!enhancedPolicyData
       }
     };
   }
