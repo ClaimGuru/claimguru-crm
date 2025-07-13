@@ -1,0 +1,192 @@
+import React, { useState } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
+import { Button } from '../../ui/Button'
+import { Upload, Brain, AlertTriangle, CheckCircle } from 'lucide-react'
+
+interface MinimalTestStepProps {
+  data: any
+  onUpdate: (data: any) => void
+  onAIProcessing?: (isProcessing: boolean) => void
+}
+
+export const MinimalTestStep: React.FC<MinimalTestStepProps> = ({
+  data,
+  onUpdate,
+  onAIProcessing
+}) => {
+  const [step, setStep] = useState(0)
+  const [processing, setProcessing] = useState(false)
+  const [result, setResult] = useState('')
+
+  const handleStep1 = () => {
+    console.log('Step 1: Basic function call')
+    setStep(1)
+    setResult('Step 1 completed successfully')
+  }
+
+  const handleStep2 = () => {
+    console.log('Step 2: Testing onUpdate callback')
+    try {
+      onUpdate({ ...data, test: 'step2' })
+      setStep(2)
+      setResult('Step 2: onUpdate callback worked')
+    } catch (error) {
+      console.error('Step 2 failed:', error)
+      setResult('Step 2 failed: ' + error.message)
+    }
+  }
+
+  const handleStep3 = () => {
+    console.log('Step 3: Testing onAIProcessing callback')
+    try {
+      if (onAIProcessing) {
+        onAIProcessing(true)
+        setTimeout(() => {
+          onAIProcessing(false)
+          setStep(3)
+          setResult('Step 3: onAIProcessing callback worked')
+        }, 1000)
+      } else {
+        setStep(3)
+        setResult('Step 3: onAIProcessing is undefined')
+      }
+    } catch (error) {
+      console.error('Step 3 failed:', error)
+      setResult('Step 3 failed: ' + error.message)
+    }
+  }
+
+  const handleStep4 = async () => {
+    console.log('Step 4: Testing async processing')
+    setProcessing(true)
+    
+    try {
+      // Test async/await
+      await new Promise(resolve => {
+        console.log('Promise started')
+        setTimeout(() => {
+          console.log('Promise resolved')
+          resolve(true)
+        }, 1000)
+      })
+      
+      setStep(4)
+      setResult('Step 4: Async processing worked')
+    } catch (error) {
+      console.error('Step 4 failed:', error)
+      setResult('Step 4 failed: ' + error.message)
+    } finally {
+      setProcessing(false)
+    }
+  }
+
+  const handleFileTest = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      console.log('File selected:', file.name)
+      setResult(`File selected: ${file.name} (${file.size} bytes)`)
+      setStep(5)
+    }
+  }
+
+  return (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Brain className="h-5 w-5 text-red-600" />
+            MINIMAL TEST - Isolate Issue
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {/* Test Status */}
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="text-blue-900 font-medium">Current Step: {step}</div>
+            <div className="text-blue-800 text-sm mt-1">{result}</div>
+          </div>
+
+          {/* Step-by-step tests */}
+          <div className="grid grid-cols-2 gap-4">
+            <Button
+              onClick={handleStep1}
+              variant={step >= 1 ? "default" : "outline"}
+              className="flex items-center gap-2"
+            >
+              {step >= 1 && <CheckCircle className="h-4 w-4" />}
+              Test 1: Basic Click
+            </Button>
+
+            <Button
+              onClick={handleStep2}
+              variant={step >= 2 ? "default" : "outline"}
+              className="flex items-center gap-2"
+            >
+              {step >= 2 && <CheckCircle className="h-4 w-4" />}
+              Test 2: onUpdate
+            </Button>
+
+            <Button
+              onClick={handleStep3}
+              variant={step >= 3 ? "default" : "outline"}
+              className="flex items-center gap-2"
+            >
+              {step >= 3 && <CheckCircle className="h-4 w-4" />}
+              Test 3: onAIProcessing
+            </Button>
+
+            <Button
+              onClick={handleStep4}
+              disabled={processing}
+              variant={step >= 4 ? "default" : "outline"}
+              className="flex items-center gap-2"
+            >
+              {step >= 4 && <CheckCircle className="h-4 w-4" />}
+              {processing ? 'Testing...' : 'Test 4: Async'}
+            </Button>
+          </div>
+
+          {/* File Upload Test */}
+          <div className="border border-gray-300 rounded-lg p-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Test 5: File Upload
+            </label>
+            <input
+              type="file"
+              onChange={handleFileTest}
+              className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+            />
+          </div>
+
+          {/* Debug Information */}
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <h4 className="font-medium text-gray-900 mb-2">Debug Info:</h4>
+            <div className="text-sm text-gray-700 space-y-1">
+              <div>✅ Component rendered successfully</div>
+              <div>✅ Props: {JSON.stringify({
+                hasData: !!data,
+                hasOnUpdate: !!onUpdate,
+                hasOnAIProcessing: !!onAIProcessing
+              })}</div>
+              <div>✅ Console logging active</div>
+              <div>Current Step: {step}/5</div>
+            </div>
+          </div>
+
+          {/* Instructions */}
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+            <div className="flex items-center gap-2 text-yellow-800 mb-2">
+              <AlertTriangle className="h-4 w-4" />
+              <span className="font-medium">Testing Instructions</span>
+            </div>
+            <div className="text-yellow-700 text-sm space-y-1">
+              <div>1. Click each test button in order</div>
+              <div>2. Watch the "Current Step" counter</div>
+              <div>3. Check browser console (F12) for logs</div>
+              <div>4. Report where it stops working</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
