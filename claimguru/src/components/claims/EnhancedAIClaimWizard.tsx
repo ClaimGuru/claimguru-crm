@@ -25,7 +25,7 @@ import {
 import { EnhancedPolicyUploadStep } from './wizard-steps/EnhancedPolicyUploadStep'
 import { DebugPolicyUploadStep } from './wizard-steps/DebugPolicyUploadStep'
 import { MinimalTestStep } from './wizard-steps/MinimalTestStep'
-import { SimplifiedPolicyUploadStep } from './wizard-steps/SimplifiedPolicyUploadStep'
+import { SimpleWorkingPolicyUploadStep } from './wizard-steps/SimpleWorkingPolicyUploadStep'
 import { EnhancedClientDetailsStep } from './wizard-steps/EnhancedClientDetailsStep'
 import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoStep'
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
@@ -132,7 +132,7 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
       title: 'AI Policy Analysis',
       description: 'Upload policy documents for AI-powered extraction and validation',
       icon: FileText,
-      component: SimplifiedPolicyUploadStep,
+      component: SimpleWorkingPolicyUploadStep,
       required: false
     },
     {
