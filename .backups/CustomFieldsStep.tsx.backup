@@ -4,13 +4,13 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Card } from '../../ui/card';
-import { Button } from '../../ui/button';
-import { Badge } from '../../ui/badge';
+import { Card } from '../../ui/Card';
+import { Button } from '../../ui/Button';
+import { Badge } from '../../ui/Badge';
 import { AlertCircle, CheckCircle } from 'lucide-react';
 import DynamicCustomField from '../../forms/DynamicCustomField';
 import useCustomFields, { useClaimCustomFieldValues } from '../../../hooks/useCustomFields';
-import { useToast } from '../../../contexts/ToastContext';
+import { useToast } from '../../../hooks/useToast';
 
 interface CustomFieldsStepProps {
   claimId?: string;
@@ -28,7 +28,7 @@ export const CustomFieldsStep: React.FC<CustomFieldsStepProps> = ({
   const [fieldValues, setFieldValues] = useState<Record<string, any>>(initialData);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
-  const { showToast } = useToast();
+  const { success, error, warning, info } = useToast();
 
   // Load custom fields for intake wizard
   const { 
@@ -87,7 +87,7 @@ export const CustomFieldsStep: React.FC<CustomFieldsStepProps> = ({
 
   const handleSave = async () => {
     if (!validateAllFields()) {
-      showToast('Please fix the validation errors before continuing', 'error');
+      error('Please fix the validation errors before continuing');
       return;
     }
 
@@ -97,14 +97,14 @@ export const CustomFieldsStep: React.FC<CustomFieldsStepProps> = ({
       // Save to database if we have a claim ID
       if (claimId) {
         await saveAllCustomFieldValues(claimId, fieldValues);
-        showToast('Custom fields saved successfully', 'success');
+        success('Custom fields saved successfully');
       }
 
       // Pass data to parent component
       onComplete(fieldValues);
     } catch (error) {
       console.error('Error saving custom fields:', error);
-      showToast('Failed to save custom fields', 'error');
+      error('Failed to save custom fields');
     } finally {
       setSaving(false);
     }

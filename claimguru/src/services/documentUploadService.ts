@@ -1,10 +1,8 @@
 /**
- * Document Upload Service - FIXED VERSION
+ * Document Upload Service
  * 
- * Handles document upload to Supabase storage using proper client
+ * Handles document upload to Supabase storage and tracking
  */
-
-import { supabase } from '../lib/supabase'
 
 export interface UploadedDocument {
   id: string
@@ -20,12 +18,15 @@ export interface UploadedDocument {
 }
 
 class DocumentUploadService {
+  private supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+  private supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
   constructor() {
-    console.log('DocumentUploadService initialized with proper Supabase client')
+    console.log('DocumentUploadService initialized')
   }
 
   /**
-   * Upload document to Supabase storage using proper client
+   * Upload document to Supabase storage
    */
   async uploadDocument(
     file: File, 
@@ -33,49 +34,47 @@ class DocumentUploadService {
     claimId?: string
   ): Promise<UploadedDocument> {
     try {
-      console.log('🚀 Starting document upload with proper Supabase client')
-      
-      // Generate unique filename with user context
+      // Check if Supabase is configured
+      if (!this.supabaseUrl || !this.supabaseKey || this.supabaseUrl === 'undefined') {
+        throw new Error('Supabase configuration not available. Please configure environment variables or use client-side processing.')
+      }
+
+      // Generate unique filename
       const timestamp = Date.now()
       const cleanFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_')
       const fileName = `${timestamp}_${cleanFileName}`
-      
-      // Use document type as folder structure
-      const bucketName = 'policy-documents'
       const filePath = `${documentType}s/${fileName}`
 
-      console.log(`📁 Uploading: ${file.name} → ${bucketName}/${filePath}`)
-      console.log(`📊 File details: ${file.size} bytes, ${file.type}`)
+      console.log(`Uploading ${file.name} to ${filePath}`)
 
-      // Upload using proper Supabase storage client
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from(bucketName)
-        .upload(filePath, file, {
-          cacheControl: '3600',
-          upsert: false
-        })
+      // Upload to Supabase storage
+      const formData = new FormData()
+      formData.append('file', file)
 
-      if (uploadError) {
-        console.error('❌ Supabase storage upload error:', uploadError)
-        throw new Error(`Supabase upload failed: ${uploadError.message}`)
+      const uploadResponse = await fetch(
+        `${this.supabaseUrl}/storage/v1/object/policy-documents/${filePath}`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${this.supabaseKey}`,
+          },
+          body: file
+        }
+      )
+
+      if (!uploadResponse.ok) {
+        const errorText = await uploadResponse.text()
+        throw new Error(`Upload failed: ${errorText}`)
       }
 
-      console.log('✅ File uploaded to storage:', uploadData.path)
-
-      // Get public URL using proper Supabase method
-      const { data: publicUrlData } = supabase.storage
-        .from(bucketName)
-        .getPublicUrl(filePath)
-
-      const publicUrl = publicUrlData.publicUrl
-
-      console.log('🌐 Public URL generated:', publicUrl)
+      // Get public URL
+      const publicUrl = `${this.supabaseUrl}/storage/v1/object/public/policy-documents/${filePath}`
 
       // Create document record
       const document: UploadedDocument = {
         id: `doc_${timestamp}`,
         fileName: file.name,
-        filePath: uploadData.path,
+        filePath,
         fileSize: file.size,
         mimeType: file.type,
         uploadedAt: new Date().toISOString(),
@@ -87,22 +86,20 @@ class DocumentUploadService {
       // Store document metadata in database
       await this.storeDocumentMetadata(document, claimId)
 
-      console.log('✅ Document upload completed:', document.fileName)
+      console.log('Document uploaded successfully:', document)
       return document
 
     } catch (error) {
-      console.error('❌ Document upload failed:', error)
+      console.error('Document upload failed:', error)
       throw error
     }
   }
 
   /**
-   * Store document metadata in database using proper Supabase client
+   * Store document metadata in database
    */
   private async storeDocumentMetadata(document: UploadedDocument, claimId?: string): Promise<void> {
     try {
-      console.log('💾 Storing document metadata in database')
-      
       const documentData = {
         id: document.id,
         file_name: document.fileName,
@@ -117,25 +114,30 @@ class DocumentUploadService {
         created_at: new Date().toISOString()
       }
 
-      // Use proper Supabase client for database operations
-      const { error } = await supabase
-        .from('documents')
-        .insert(documentData)
+      const response = await fetch(`${this.supabaseUrl}/rest/v1/documents`, {
+        method: 'POST',
+        headers: {
+          'apikey': this.supabaseKey,
+          'Authorization': `Bearer ${this.supabaseKey}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=representation'
+        },
+        body: JSON.stringify(documentData)
+      })
 
-      if (error) {
-        console.warn('⚠️ Failed to store document metadata:', error.message)
+      if (!response.ok) {
+        const errorText = await response.text()
+        console.warn('Failed to store document metadata:', errorText)
         // Don't throw error - document is still uploaded to storage
-      } else {
-        console.log('✅ Document metadata stored successfully')
       }
     } catch (error) {
-      console.warn('⚠️ Failed to store document metadata:', error)
+      console.warn('Failed to store document metadata:', error)
       // Don't throw error - document is still uploaded to storage
     }
   }
 
   /**
-   * Update document extraction status using proper Supabase client
+   * Update document extraction status
    */
   async updateExtractionStatus(
     documentId: string, 
@@ -143,8 +145,6 @@ class DocumentUploadService {
     extractedData?: any
   ): Promise<void> {
     try {
-      console.log(`🔄 Updating extraction status for ${documentId}: ${status}`)
-      
       const updateData: any = {
         extraction_status: status,
         updated_at: new Date().toISOString()
@@ -154,19 +154,24 @@ class DocumentUploadService {
         updateData.extracted_data = extractedData
       }
 
-      // Use proper Supabase client for database updates
-      const { error } = await supabase
-        .from('documents')
-        .update(updateData)
-        .eq('id', documentId)
+      const response = await fetch(
+        `${this.supabaseUrl}/rest/v1/documents?id=eq.${documentId}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'apikey': this.supabaseKey,
+            'Authorization': `Bearer ${this.supabaseKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updateData)
+        }
+      )
 
-      if (error) {
-        console.warn('⚠️ Failed to update extraction status:', error.message)
-      } else {
-        console.log('✅ Extraction status updated successfully')
+      if (!response.ok) {
+        console.warn('Failed to update extraction status:', await response.text())
       }
     } catch (error) {
-      console.warn('⚠️ Failed to update extraction status:', error)
+      console.warn('Failed to update extraction status:', error)
     }
   }
 
@@ -175,104 +180,110 @@ class DocumentUploadService {
    */
   async getClaimDocuments(claimId: string): Promise<UploadedDocument[]> {
     try {
-      console.log(`📄 Fetching documents for claim: ${claimId}`)
-      
-      // Use proper Supabase client for database queries
-      const { data, error } = await supabase
-        .from('documents')
-        .select('*')
-        .eq('claim_id', claimId)
-        .order('created_at', { ascending: false })
+      const response = await fetch(
+        `${this.supabaseUrl}/rest/v1/documents?claim_id=eq.${claimId}&select=*`,
+        {
+          headers: {
+            'apikey': this.supabaseKey,
+            'Authorization': `Bearer ${this.supabaseKey}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      )
 
-      if (error) {
-        console.error('⚠️ Failed to fetch claim documents:', error.message)
-        return []
+      if (response.ok) {
+        const data = await response.json()
+        return data.map(this.mapDocumentFromDB)
       }
-
-      console.log(`✅ Found ${data?.length || 0} documents for claim ${claimId}`)
-      return data ? data.map(this.mapDocumentFromDB) : []
+      
+      return []
     } catch (error) {
-      console.error('⚠️ Failed to fetch claim documents:', error)
+      console.error('Failed to fetch claim documents:', error)
       return []
     }
   }
 
   /**
-   * Get recent documents using proper Supabase client
+   * Get recent documents
    */
   async getRecentDocuments(limit: number = 20): Promise<UploadedDocument[]> {
     try {
-      console.log(`📄 Fetching recent documents (limit: ${limit})`)
-      
-      // Use proper Supabase client for database queries
-      const { data, error } = await supabase
-        .from('documents')
-        .select('*')
-        .order('uploaded_at', { ascending: false })
-        .limit(limit)
+      const response = await fetch(
+        `${this.supabaseUrl}/rest/v1/documents?select=*&order=uploaded_at.desc&limit=${limit}`,
+        {
+          headers: {
+            'apikey': this.supabaseKey,
+            'Authorization': `Bearer ${this.supabaseKey}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      )
 
-      if (error) {
-        console.error('⚠️ Failed to fetch recent documents:', error.message)
-        return []
+      if (response.ok) {
+        const data = await response.json()
+        return data.map(this.mapDocumentFromDB)
       }
-
-      console.log(`✅ Found ${data?.length || 0} recent documents`)
-      return data ? data.map(this.mapDocumentFromDB) : []
+      
+      return []
     } catch (error) {
-      console.error('⚠️ Failed to fetch recent documents:', error)
+      console.error('Failed to fetch recent documents:', error)
       return []
     }
   }
 
   /**
-   * Delete document using proper Supabase client
+   * Delete document
    */
   async deleteDocument(documentId: string): Promise<boolean> {
     try {
-      console.log(`🗑️ Deleting document: ${documentId}`)
+      // Get document info first
+      const response = await fetch(
+        `${this.supabaseUrl}/rest/v1/documents?id=eq.${documentId}&select=file_path`,
+        {
+          headers: {
+            'apikey': this.supabaseKey,
+            'Authorization': `Bearer ${this.supabaseKey}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+
+      if (response.ok) {
+        const documents = await response.json()
+        if (documents.length > 0) {
+          const filePath = documents[0].file_path
+
+          // Delete from storage
+          const deleteResponse = await fetch(
+            `${this.supabaseUrl}/storage/v1/object/policy-documents/${filePath}`,
+            {
+              method: 'DELETE',
+              headers: {
+                'Authorization': `Bearer ${this.supabaseKey}`,
+              }
+            }
+          )
+
+          // Delete from database
+          await fetch(
+            `${this.supabaseUrl}/rest/v1/documents?id=eq.${documentId}`,
+            {
+              method: 'DELETE',
+              headers: {
+                'apikey': this.supabaseKey,
+                'Authorization': `Bearer ${this.supabaseKey}`,
+                'Content-Type': 'application/json'
+              }
+            }
+          )
+
+          return deleteResponse.ok
+        }
+      }
       
-      // Get document info first using Supabase client
-      const { data: documents, error: fetchError } = await supabase
-        .from('documents')
-        .select('file_path')
-        .eq('id', documentId)
-
-      if (fetchError) {
-        console.error('⚠️ Failed to fetch document info:', fetchError.message)
-        return false
-      }
-
-      if (!documents || documents.length === 0) {
-        console.warn('⚠️ Document not found')
-        return false
-      }
-
-      const filePath = documents[0].file_path
-
-      // Delete from storage using Supabase client
-      const { error: storageError } = await supabase.storage
-        .from('policy-documents')
-        .remove([filePath])
-
-      if (storageError) {
-        console.warn('⚠️ Failed to delete from storage:', storageError.message)
-      }
-
-      // Delete from database using Supabase client
-      const { error: dbError } = await supabase
-        .from('documents')
-        .delete()
-        .eq('id', documentId)
-
-      if (dbError) {
-        console.error('⚠️ Failed to delete from database:', dbError.message)
-        return false
-      }
-
-      console.log('✅ Document deleted successfully')
-      return true
+      return false
     } catch (error) {
-      console.error('⚠️ Failed to delete document:', error)
+      console.error('Failed to delete document:', error)
       return false
     }
   }
@@ -296,12 +307,10 @@ class DocumentUploadService {
   }
 
   /**
-   * Process document with AI extraction using proper Supabase functions client
+   * Process document with AI extraction
    */
   async processDocumentWithAI(document: UploadedDocument, documentType: string): Promise<any> {
     try {
-      console.log(`🤖 Processing document with AI: ${document.fileName}`)
-      
       // Update status to processing
       await this.updateExtractionStatus(document.id, 'processing')
 
@@ -310,29 +319,36 @@ class DocumentUploadService {
       const blob = await response.blob()
       const file = new File([blob], document.fileName, { type: document.mimeType })
 
-      // Call the processing edge function using Supabase functions client
+      // Call the processing edge function
       const formData = new FormData()
       formData.append('file', file)
       formData.append('documentType', documentType)
 
-      const { data, error } = await supabase.functions.invoke('process-policy-document', {
-        body: formData
-      })
+      const processResponse = await fetch(
+        `${this.supabaseUrl}/functions/v1/process-policy-document`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${this.supabaseKey}`,
+          },
+          body: formData
+        }
+      )
 
-      if (error) {
-        console.error('⚠️ AI processing failed:', error.message)
+      if (processResponse.ok) {
+        const result = await processResponse.json()
+        
+        // Update status to completed with extracted data
+        await this.updateExtractionStatus(document.id, 'completed', result.data)
+        
+        return result.data
+      } else {
+        // Update status to failed
         await this.updateExtractionStatus(document.id, 'failed')
-        throw new Error(`Document processing failed: ${error.message}`)
+        throw new Error('Document processing failed')
       }
-
-      console.log('✅ AI processing completed successfully')
-      
-      // Update status to completed with extracted data
-      await this.updateExtractionStatus(document.id, 'completed', data)
-      
-      return data
     } catch (error) {
-      console.error('⚠️ AI processing failed:', error)
+      console.error('AI processing failed:', error)
       await this.updateExtractionStatus(document.id, 'failed')
       throw error
     }

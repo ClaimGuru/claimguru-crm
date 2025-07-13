@@ -52,7 +52,7 @@ export function Button({
 }
 
 // Export buttonVariants for use in other components
-export const buttonVariants = (variant: string = 'primary', size: string = 'md') => {
+export const buttonVariants = ({ variant = 'primary', size = 'md' }: { variant?: string; size?: string } = {}) => {
   const baseClasses = 'inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none'
   
   const variants = {
@@ -69,5 +69,5 @@ export const buttonVariants = (variant: string = 'primary', size: string = 'md')
     lg: 'h-11 px-8'
   }
   
-  return clsx(baseClasses, variants[variant] || variants.primary, sizes[size] || sizes.md)
+  return clsx(baseClasses, variants[variant as keyof typeof variants] || variants.primary, sizes[size as keyof typeof sizes] || sizes.md)
 }

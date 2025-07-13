@@ -26,8 +26,6 @@ import {
   TrendingUp
 } from 'lucide-react'
 import { claimWizardAI } from '../../../services/claimWizardAI'
-import { useClients } from '../../../hooks/useClients'
-import { useClaims } from '../../../hooks/useClaims'
 
 interface CompletionStepProps {
   data: any
@@ -36,9 +34,6 @@ interface CompletionStepProps {
 }
 
 export function CompletionStep({ data, onUpdate, onSubmit }: CompletionStepProps) {
-  const { createClient } = useClients()
-  const { createClaim } = useClaims()
-  
   const [submitting, setSubmitting] = useState(false)
   const [aiSummary, setAiSummary] = useState(null)
   const [generatingPPIF, setGeneratingPPIF] = useState(false)
@@ -50,8 +45,6 @@ export function CompletionStep({ data, onUpdate, onSubmit }: CompletionStepProps
   const [fraudAnalysis, setFraudAnalysis] = useState(null)
   const [finalInsights, setFinalInsights] = useState(null)
   const [analyzing, setAnalyzing] = useState(false)
-  const [createdClient, setCreatedClient] = useState(null)
-  const [createdClaim, setCreatedClaim] = useState(null)
 
   useEffect(() => {
     generateAISummary()
@@ -116,84 +109,10 @@ export function CompletionStep({ data, onUpdate, onSubmit }: CompletionStepProps
   const handleSubmit = async () => {
     setSubmitting(true)
     try {
-      console.log('🚀 Starting claim submission with data:', data)
-      
-      // Step 1: Create or use existing client
-      let clientId = data.clientId
-      
-      if (!clientId && data.insuredDetails) {
-        console.log('👤 Creating new client...')
-        const clientData = {
-          client_type: data.clientType || 'residential',
-          first_name: data.insuredDetails.firstName || '',
-          last_name: data.insuredDetails.lastName || '',
-          email: data.insuredDetails.email || '',
-          phone: data.insuredDetails.phone || '',
-          address: {
-            street: data.mailingAddress?.street || data.policyDetails?.propertyAddress || '',
-            city: data.mailingAddress?.city || '',
-            state: data.mailingAddress?.state || '',
-            zip: data.mailingAddress?.zip || ''
-          },
-          company_name: data.insuredDetails.companyName || null,
-          is_organization: data.isOrganization || false
-        }
-        
-        const newClient = await createClient(clientData)
-        clientId = newClient.id
-        setCreatedClient(newClient)
-        console.log('✅ Client created:', newClient.id)
-      }
-      
-      // Step 2: Create claim
-      console.log('📋 Creating claim...')
-      const claimData = {
-        client_id: clientId,
-        file_number: `CG-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 1000)).padStart(3, '0')}`,
-        carrier_claim_number: data.policyDetails?.policyNumber || '',
-        cause_of_loss: data.lossDetails?.causeOfLoss || 'TBD',
-        date_of_loss: data.lossDetails?.dateOfLoss || new Date().toISOString(),
-        claim_status: 'new',
-        
-        // Policy information
-        policy_number: data.policyDetails?.policyNumber || '',
-        policy_effective_date: data.policyDetails?.effectiveDate || null,
-        policy_expiration_date: data.policyDetails?.expirationDate || null,
-        
-        // Property information
-        property_address: data.policyDetails?.propertyAddress || data.mailingAddress?.street || '',
-        
-        // Coverage information
-        coverage_a_dwelling: data.policyDetails?.dwellingCoverage || null,
-        coverage_c_personal_property: data.policyDetails?.personalProperty || null,
-        coverage_e_liability: data.policyDetails?.liability || null,
-        deductible_amount: data.policyDetails?.deductible || null,
-        
-        // Insurance carrier
-        insurance_carrier_id: null, // Will be linked later
-        insurer_name: data.policyDetails?.insurerName || '',
-        
-        // Extracted data indicators
-        ai_extracted: data.extractedPolicyData || false,
-        processing_method: data.processingMethod || 'manual',
-        
-        // Additional metadata
-        intake_method: 'ai_wizard',
-        created_via: 'enhanced_ai_intake_wizard'
-      }
-      
-      const newClaim = await createClaim(claimData)
-      setCreatedClaim(newClaim)
-      console.log('✅ Claim created:', newClaim.id)
-      
-      // Step 3: Call the original onSubmit to close the wizard
       await onSubmit()
-      
-      console.log('🎉 Claim submission completed successfully!')
-      
     } catch (error) {
-      console.error('❌ Error submitting claim:', error)
-      alert(`Error submitting claim: ${error.message}. Please try again.`)
+      console.error('Error submitting claim:', error)
+      alert('Error submitting claim. Please try again.')
     } finally {
       setSubmitting(false)
     }

@@ -53,7 +53,7 @@ export const ClaimFolderManager: React.FC<ClaimFolderManagerProps> = ({
   const [isCreateFolderOpen, setIsCreateFolderOpen] = useState(false);
   const [newFolderName, setNewFolderName] = useState('');
   const [selectedParentFolder, setSelectedParentFolder] = useState<string>('');
-  const { showToast } = useToast();
+  const { success, error, warning, info } = useToast();
 
   useEffect(() => {
     loadFoldersAndDocuments();
@@ -139,7 +139,7 @@ export const ClaimFolderManager: React.FC<ClaimFolderManagerProps> = ({
       setDocuments(mockDocuments);
     } catch (error) {
       console.error('Error loading folders and documents:', error);
-      showToast('Failed to load folder structure', 'error');
+      error('Failed to load folder structure');
     } finally {
       setLoading(false);
     }
@@ -147,7 +147,7 @@ export const ClaimFolderManager: React.FC<ClaimFolderManagerProps> = ({
 
   const createFolder = async () => {
     if (!newFolderName.trim()) {
-      showToast('Folder name is required', 'error');
+      error('Folder name is required');
       return;
     }
 
@@ -169,17 +169,17 @@ export const ClaimFolderManager: React.FC<ClaimFolderManagerProps> = ({
       setNewFolderName('');
       setSelectedParentFolder('');
       setIsCreateFolderOpen(false);
-      showToast('Folder created successfully', 'success');
+      success('Folder created successfully');
     } catch (error) {
       console.error('Error creating folder:', error);
-      showToast('Failed to create folder', 'error');
+      error('Failed to create folder');
     }
   };
 
   const deleteFolder = async (folderId: string) => {
     const folder = folders.find(f => f.id === folderId);
     if (!folder?.is_deletable) {
-      showToast('This system folder cannot be deleted', 'error');
+      error('This system folder cannot be deleted');
       return;
     }
 
@@ -190,10 +190,10 @@ export const ClaimFolderManager: React.FC<ClaimFolderManagerProps> = ({
     try {
       // In production, delete from Supabase and move documents
       setFolders(prev => prev.filter(f => f.id !== folderId));
-      showToast('Folder deleted successfully', 'success');
+      success('Folder deleted successfully');
     } catch (error) {
       console.error('Error deleting folder:', error);
-      showToast('Failed to delete folder', 'error');
+      error('Failed to delete folder');
     }
   };
 

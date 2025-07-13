@@ -8,8 +8,8 @@ import { Plus, Edit, Trash2, Move, Eye, EyeOff } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Card } from '../ui/Card';
-import { Label } from '../ui/label';
-import { Badge } from '../ui/badge';
+import { Label } from '../ui/Label';
+import { Badge } from '../ui/Badge';
 import { Switch } from '../ui/switch';
 import { useToast } from '../../contexts/ToastContext';
 import customFieldService, { CustomField, CustomFieldPlacement } from '../../services/customFieldService';
@@ -60,7 +60,7 @@ export const CustomFieldManager: React.FC<CustomFieldManagerProps> = ({ organiza
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [editingField, setEditingField] = useState<CustomField | null>(null);
   const [loading, setLoading] = useState(true);
-  const { showToast } = useToast();
+  const { success, error, warning, info } = useToast();
 
   // Form state for creating/editing fields
   const [formData, setFormData] = useState({
@@ -94,7 +94,7 @@ export const CustomFieldManager: React.FC<CustomFieldManagerProps> = ({ organiza
       setCustomFields(fields);
     } catch (error) {
       console.error('Error loading custom fields:', error);
-      showToast('Failed to load custom fields', 'error');
+      error('Failed to load custom fields');
     } finally {
       setLoading(false);
     }
@@ -155,7 +155,7 @@ export const CustomFieldManager: React.FC<CustomFieldManagerProps> = ({ organiza
   const handleSave = async () => {
     try {
       if (!formData.field_name || !formData.field_label) {
-        showToast('Field name and label are required', 'error');
+        error('Field name and label are required');
         return;
       }
 
@@ -196,10 +196,10 @@ export const CustomFieldManager: React.FC<CustomFieldManagerProps> = ({ organiza
 
       if (editingField) {
         await customFieldService.updateCustomField(editingField.id, fieldData);
-        showToast('Custom field updated successfully', 'success');
+        success('Custom field updated successfully');
       } else {
         await customFieldService.createCustomField(fieldData);
-        showToast('Custom field created successfully', 'success');
+        success('Custom field created successfully');
       }
 
       setIsCreateDialogOpen(false);
@@ -207,7 +207,7 @@ export const CustomFieldManager: React.FC<CustomFieldManagerProps> = ({ organiza
       loadCustomFields();
     } catch (error) {
       console.error('Error saving custom field:', error);
-      showToast('Failed to save custom field', 'error');
+      error('Failed to save custom field');
     }
   };
 
@@ -218,11 +218,11 @@ export const CustomFieldManager: React.FC<CustomFieldManagerProps> = ({ organiza
 
     try {
       await customFieldService.deleteCustomField(fieldId);
-      showToast('Custom field deleted successfully', 'success');
+      success('Custom field deleted successfully');
       loadCustomFields();
     } catch (error) {
       console.error('Error deleting custom field:', error);
-      showToast('Failed to delete custom field', 'error');
+      error('Failed to delete custom field');
     }
   };
 

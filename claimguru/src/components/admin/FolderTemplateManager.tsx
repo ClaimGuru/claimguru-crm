@@ -65,7 +65,7 @@ export const FolderTemplateManager: React.FC<FolderTemplateManagerProps> = ({ or
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [editingTemplate, setEditingTemplate] = useState<FolderTemplate | null>(null);
   const [loading, setLoading] = useState(true);
-  const { showToast } = useToast();
+  const { success, error, warning, info } = useToast();
 
   // Form state for creating/editing templates
   const [formData, setFormData] = useState({
@@ -86,7 +86,7 @@ export const FolderTemplateManager: React.FC<FolderTemplateManagerProps> = ({ or
       setTemplates(folderTemplates);
     } catch (error) {
       console.error('Error loading folder templates:', error);
-      showToast('Failed to load folder templates', 'error');
+      error('Failed to load folder templates');
     } finally {
       setLoading(false);
     }
@@ -121,7 +121,7 @@ export const FolderTemplateManager: React.FC<FolderTemplateManagerProps> = ({ or
   const handleSave = async () => {
     try {
       if (!formData.template_name) {
-        showToast('Template name is required', 'error');
+        error('Template name is required');
         return;
       }
 
@@ -139,10 +139,10 @@ export const FolderTemplateManager: React.FC<FolderTemplateManagerProps> = ({ or
 
       if (editingTemplate) {
         // TODO: Implement update template when backend supports it
-        showToast('Template updated successfully', 'success');
+        success('Template updated successfully');
       } else {
         // Create new template - for now create via service, later implement proper API
-        showToast('Template created successfully', 'success');
+        success('Template created successfully');
       }
 
       setIsCreateDialogOpen(false);
@@ -150,18 +150,18 @@ export const FolderTemplateManager: React.FC<FolderTemplateManagerProps> = ({ or
       loadTemplates();
     } catch (error) {
       console.error('Error saving folder template:', error);
-      showToast('Failed to save folder template', 'error');
+      error('Failed to save folder template');
     }
   };
 
   const handleSetDefault = async (templateId: string) => {
     try {
       // TODO: Implement set as default when backend supports it
-      showToast('Default template updated', 'success');
+      success('Default template updated');
       loadTemplates();
     } catch (error) {
       console.error('Error setting default template:', error);
-      showToast('Failed to set default template', 'error');
+      error('Failed to set default template');
     }
   };
 

@@ -11,7 +11,7 @@ import { Textarea } from '../ui/Textarea';
 import { Button } from '../ui/Button';
 import { Checkbox } from '../ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/Select';
+import { Select, SelectContent, SelectItem, SelectTrigger } from '../ui/select';
 import { Slider } from '../ui/slider';
 import { Calendar } from '../ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/Popover';
@@ -101,7 +101,6 @@ export const DynamicCustomField: React.FC<DynamicCustomFieldProps> = ({
             value={internalValue || ''}
             onChange={(e) => handleChange(e.target.value)}
             placeholder={field.placeholder_text || ''}
-            disabled={disabled}
             className={error ? 'border-red-500' : ''}
             rows={4}
           />
@@ -248,8 +247,7 @@ export const DynamicCustomField: React.FC<DynamicCustomFieldProps> = ({
         return (
           <Select
             value={internalValue || ''}
-            onValueChange={handleChange}
-            disabled={disabled}
+            onChange={handleChange}
           >
             <SelectTrigger className={error ? 'border-red-500' : ''}>
               <SelectValue placeholder={field.placeholder_text || 'Select an option'} />

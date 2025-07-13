@@ -28,7 +28,7 @@ export const CustomFieldsStep: React.FC<CustomFieldsStepProps> = ({
   const [fieldValues, setFieldValues] = useState<Record<string, any>>(initialData);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
-  const { showToast } = useToast();
+  const { success, error, warning, info } = useToast();
 
   // Load custom fields for intake wizard
   const { 
@@ -87,7 +87,7 @@ export const CustomFieldsStep: React.FC<CustomFieldsStepProps> = ({
 
   const handleSave = async () => {
     if (!validateAllFields()) {
-      showToast('Please fix the validation errors before continuing', 'error');
+      error('Please fix the validation errors before continuing');
       return;
     }
 
@@ -97,14 +97,14 @@ export const CustomFieldsStep: React.FC<CustomFieldsStepProps> = ({
       // Save to database if we have a claim ID
       if (claimId) {
         await saveAllCustomFieldValues(claimId, fieldValues);
-        showToast('Custom fields saved successfully', 'success');
+        success('Custom fields saved successfully');
       }
 
       // Pass data to parent component
       onComplete(fieldValues);
     } catch (error) {
       console.error('Error saving custom fields:', error);
-      showToast('Failed to save custom fields', 'error');
+      error('Failed to save custom fields');
     } finally {
       setSaving(false);
     }
