@@ -23,6 +23,7 @@ import {
 
 // Import enhanced AI wizard step components - HYBRID PDF PROCESSING
 import { WorkingPolicyUploadStep } from './wizard-steps/WorkingPolicyUploadStep'
+import { SimplePDFTestStep } from './wizard-steps/SimplePDFTestStep'
 import { EnhancedClientDetailsStep } from './wizard-steps/EnhancedClientDetailsStep'
 import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoStep'
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
@@ -126,10 +127,10 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
   const steps = [
     {
       id: 'policy-upload',
-      title: 'AI Policy Analysis',
-      description: 'Upload policy documents for Google Vision OCR + OpenAI intelligence',
+      title: 'AI Policy Analysis (TEST)',
+      description: 'Simple PDF upload test to diagnose issues',
       icon: FileText,
-      component: WorkingPolicyUploadStep,
+      component: SimplePDFTestStep,
       required: false
     },
     {
