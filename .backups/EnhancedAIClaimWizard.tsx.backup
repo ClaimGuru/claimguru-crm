@@ -21,10 +21,11 @@ import {
   X
 } from 'lucide-react'
 
-// Import enhanced AI wizard step components - REAL PDF PROCESSING
+// Import enhanced AI wizard step components - DYNAMIC PDF PROCESSING
 import { WorkingPolicyUploadStep } from './wizard-steps/WorkingPolicyUploadStep'
 import { SimplePDFTestStep } from './wizard-steps/SimplePDFTestStep'
 import { RealPolicyUploadStep } from './wizard-steps/RealPolicyUploadStep'
+import { DynamicPolicyUploadStep } from './wizard-steps/DynamicPolicyUploadStep'
 import { EnhancedClientDetailsStep } from './wizard-steps/EnhancedClientDetailsStep'
 import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoStep'
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
@@ -128,10 +129,10 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
   const steps = [
     {
       id: 'policy-upload',
-      title: 'AI Policy Analysis (TEST)',
-      description: 'Simple PDF upload test to diagnose issues',
+      title: 'AI Policy Analysis',
+      description: 'Upload policy documents for real AI-powered data extraction',
       icon: FileText,
-      component: SimplePDFTestStep,
+      component: RealPolicyUploadStep,
       required: false
     },
     {
