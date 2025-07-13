@@ -25,7 +25,7 @@ import {
 import { EnhancedPolicyUploadStep } from './wizard-steps/EnhancedPolicyUploadStep'
 import { SimpleWorkingPolicyUploadStep } from './wizard-steps/SimpleWorkingPolicyUploadStep'
 import { ReliablePolicyUploadStep } from './wizard-steps/ReliablePolicyUploadStep'
-import { FinalWorkingPolicyUploadStep } from './wizard-steps/FinalWorkingPolicyUploadStep'
+import { TieredPolicyUploadStep } from './wizard-steps/TieredPolicyUploadStep'
 import { EnhancedClientDetailsStep } from './wizard-steps/EnhancedClientDetailsStep'
 import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoStep'
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
@@ -129,10 +129,10 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
   const steps = [
     {
       id: 'policy-upload',
-      title: 'AI Policy Analysis',
-      description: 'Upload policy documents for AI-powered extraction and validation',
+      title: 'Tiered AI Policy Analysis',
+      description: 'Advanced PDF processing: PDF.js → Tesseract → Google Vision AI',
       icon: FileText,
-      component: FinalWorkingPolicyUploadStep,
+      component: TieredPolicyUploadStep,
       required: false
     },
     {

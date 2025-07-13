@@ -1,0 +1,30 @@
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx(131,39): error TS2339: Property 'processingMethod' does not exist on type 'PDFExtractionResult'.
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx(132,27): error TS2339: Property 'cost' does not exist on type 'PDFExtractionResult'.
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx(133,32): error TS2339: Property 'metadata' does not exist on type 'PDFExtractionResult'.
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx(158,83): error TS2345: Argument of type '"completed_fallback"' is not assignable to parameter of type '"pending" | "processing" | "completed" | "failed"'.
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx(400,44): error TS2339: Property 'processingMethod' does not exist on type 'PDFExtractionResult'.
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx(417,46): error TS2339: Property 'processingMethod' does not exist on type 'PDFExtractionResult'.
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx(418,46): error TS2339: Property 'processingMethod' does not exist on type 'PDFExtractionResult'.
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx(428,44): error TS2339: Property 'cost' does not exist on type 'PDFExtractionResult'.
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx(432,51): error TS2339: Property 'cost' does not exist on type 'PDFExtractionResult'.
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx(444,45): error TS2339: Property 'metadata' does not exist on type 'PDFExtractionResult'.
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx(445,44): error TS2339: Property 'metadata' does not exist on type 'PDFExtractionResult'.
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx(446,45): error TS2339: Property 'metadata' does not exist on type 'PDFExtractionResult'.
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx(447,46): error TS2339: Property 'metadata' does not exist on type 'PDFExtractionResult'.
+src/components/claims/wizard-steps/EnhancedPolicyUploadStep.tsx(448,46): error TS2339: Property 'metadata' does not exist on type 'PDFExtractionResult'.
+src/components/claims/wizard-steps/ProductionPolicyUploadStep.tsx(554,46): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
+src/components/claims/wizard-steps/WorkingPolicyUploadStep.tsx(214,21): error TS2322: Type '"link"' is not assignable to type '"primary" | "secondary" | "outline" | "ghost" | "danger"'.
+src/components/forms/DynamicCustomField.tsx(9,23): error TS2307: Cannot find module '../ui/Label' or its corresponding type declarations.
+src/components/forms/DynamicCustomField.tsx(10,26): error TS2307: Cannot find module '../ui/Textarea' or its corresponding type declarations.
+src/components/forms/DynamicCustomField.tsx(14,79): error TS2307: Cannot find module '../ui/Select' or its corresponding type declarations.
+src/components/forms/DynamicCustomField.tsx(17,57): error TS2307: Cannot find module '../ui/Popover' or its corresponding type declarations.
+src/components/forms/DynamicCustomField.tsx(18,23): error TS2307: Cannot find module '../ui/Badge' or its corresponding type declarations.
+src/components/ui/calendar.tsx(27,26): error TS2345: Argument of type '{ variant: string; }' is not assignable to parameter of type 'string'.
+src/components/ui/calendar.tsx(39,26): error TS2345: Argument of type '{ variant: string; }' is not assignable to parameter of type 'string'.
+src/services/advancedPdfExtractionService.ts(313,9): error TS2353: Object literal may only specify known properties, and 'logger' does not exist in type 'string[] | Lang[]'.
+src/services/advancedPdfExtractionService.ts(316,20): error TS2339: Property 'loadLanguage' does not exist on type 'Worker'.
+src/services/advancedPdfExtractionService.ts(317,20): error TS2551: Property 'initialize' does not exist on type 'Worker'. Did you mean 'reinitialize'?
+src/services/googleVisionService.ts(84,22): error TS2304: Cannot find name 'createClient'.
+src/services/googleVisionService.ts(157,22): error TS2304: Cannot find name 'createClient'.
+src/services/productionPdfExtractionService.ts(99,7): error TS2322: Type '"client_failed_fallback_to_client" | "textract_failed_fallback_to_client" | "hybrid_failed_fallback_to_client" | "vision_failed_fallback_to_client"' is not assignable to type '"client" | "textract" | "hybrid" | "vision"'.
+  Type '"client_failed_fallback_to_client"' is not assignable to type '"client" | "textract" | "hybrid" | "vision"'.
