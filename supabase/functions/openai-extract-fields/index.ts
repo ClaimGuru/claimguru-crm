@@ -12,7 +12,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    console.log('🤖 OpenAI Comprehensive Extract Fields function called');
+    console.log('🤖 OpenAI Enhanced Deductibles Extract Fields function called');
     
     const { text } = await req.json();
     
@@ -25,7 +25,7 @@ Deno.serve(async (req) => {
       throw new Error('OpenAI API key not configured');
     }
 
-    console.log('📝 Processing comprehensive text of length:', text.length);
+    console.log('📝 Processing enhanced deductibles text of length:', text.length);
 
     const prompt = `
 Extract the following comprehensive insurance policy information from the provided text. Return a JSON object with these exact keys:
@@ -49,7 +49,19 @@ Extract the following comprehensive insurance policy information from the provid
   "coverageD": "string or null",
   "moldLimit": "string or null",
   
-  // Deductibles
+  // Deductibles - Enhanced with specific types
+  "aopDeductible": "string or null",
+  "aopDeductibleType": "string or null",
+  "windHailDeductible": "string or null", 
+  "windHailDeductibleType": "string or null",
+  "namedStormDeductible": "string or null",
+  "namedStormDeductibleType": "string or null",
+  "hurricaneDeductible": "string or null",
+  "hurricaneDeductibleType": "string or null",
+  "tornadoDeductible": "string or null",
+  "tornadoDeductibleType": "string or null",
+  
+  // Legacy deductible fields for compatibility
   "deductible": "string or null",
   "deductibleType": "string or null",
   "deductiblePercentageOf": "string or null",
@@ -70,7 +82,7 @@ Extract the following comprehensive insurance policy information from the provid
   "mortgageeAddress": "string or null",
   "mortgageAccountNumber": "string or null",
   
-  // Property Construction Details
+  // Property Construction Details (moved from Property Information)
   "yearBuilt": "string or null",
   "dwellingStyle": "string or null",
   "numberOfFamilies": "string or null",
@@ -122,10 +134,22 @@ Specific Extraction Rules:
 - Coverage D = Loss of Use/Additional Living Expenses coverage limit
 - Look for patterns like "Coverage A: $500,000" or "Dwelling: $500,000"
 
-**Deductibles:**
-- Extract all deductible amounts and types
-- If deductible is a percentage (like "2% of Coverage A"), note the percentage and what it's based on
-- Look for variations: "AOP deductible", "Wind/Hail deductible", "Named Storm deductible"
+**Deductibles - Enhanced Extraction:**
+- **AOP (All Other Perils) Deductible**: Look for "AOP", "All Other Perils", or general deductible
+- **Wind/Hail Deductible**: Look for "Wind", "Hail", "Wind/Hail", "Windstorm" deductibles
+- **Named Storm Deductible**: Look for "Named Storm", "Named Hurricane", or similar
+- **Hurricane Deductible**: Look for "Hurricane" specific deductibles
+- **Tornado Deductible**: Look for "Tornado" specific deductibles
+
+**For each deductible type:**
+- Extract the amount/percentage (e.g., "$2,500", "2%", "1% of Coverage A")
+- Determine if it's "Stated Amount" (fixed dollar amount) or "Percentage of Coverage A/B/C/D"
+- If percentage, specify which coverage it's based on
+
+**Deductible Type Classification:**
+- If amount like "$2,500", "$1,000" → "Stated Amount"
+- If amount like "2%", "1% of Coverage A", "2% of Dwelling" → "Percentage of Coverage A"
+- Look for patterns: "2% of Coverage A", "1% of dwelling limit", "3% of Coverage A limit"
 
 **Contact Information:**
 - Extract phone numbers in any format: (555) 123-4567, 555-123-4567, 555.123.4567
@@ -172,7 +196,7 @@ Return only the JSON object, no additional text.`;
         messages: [
           {
             role: 'system',
-            content: 'You are a comprehensive insurance document parser. Extract all available information exactly as it appears in documents. Always return valid JSON with all requested fields, using null for missing data.'
+            content: 'You are a comprehensive insurance document parser specializing in deductible extraction. Extract all available information exactly as it appears in documents. Always return valid JSON with all requested fields, using null for missing data. Pay special attention to different deductible types and whether they are stated amounts or percentages of coverage.'
           },
           {
             role: 'user',
@@ -195,7 +219,7 @@ Return only the JSON object, no additional text.`;
       throw new Error('No content returned from OpenAI');
     }
 
-    console.log('🤖 OpenAI comprehensive response length:', extractedText.length);
+    console.log('🤖 OpenAI enhanced deductibles response length:', extractedText.length);
 
     // Parse the JSON response
     let policyData;
@@ -212,24 +236,24 @@ Return only the JSON object, no additional text.`;
       throw new Error('Failed to parse OpenAI response as JSON');
     }
 
-    console.log('✅ Successfully extracted comprehensive policy data:', Object.keys(policyData).filter(k => policyData[k]).length, 'fields');
+    console.log('✅ Successfully extracted enhanced deductibles policy data:', Object.keys(policyData).filter(k => policyData[k]).length, 'fields');
 
     return new Response(JSON.stringify({ 
       success: true,
       policyData,
       confidence: 0.9,
-      method: 'openai-gpt4o-mini-comprehensive',
+      method: 'openai-gpt4o-mini-enhanced-deductibles',
       fieldsExtracted: Object.keys(policyData).filter(k => policyData[k]).length
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
 
   } catch (error) {
-    console.error('❌ OpenAI comprehensive extraction error:', error);
+    console.error('❌ OpenAI enhanced deductibles extraction error:', error);
     
     return new Response(JSON.stringify({
       error: {
-        code: 'OPENAI_COMPREHENSIVE_EXTRACTION_ERROR',
+        code: 'OPENAI_ENHANCED_DEDUCTIBLES_EXTRACTION_ERROR',
         message: error.message
       }
     }), {

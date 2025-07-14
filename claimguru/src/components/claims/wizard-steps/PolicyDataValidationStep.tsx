@@ -101,34 +101,6 @@ const fieldSections = [
         pattern: /[\w\s,#\-]{10,100}/,
         isRequired: false,
         icon: Building
-      },
-      {
-        field: 'yearBuilt',
-        label: 'Year Built',
-        pattern: /\d{4}/,
-        isRequired: false,
-        icon: Calendar
-      },
-      {
-        field: 'dwellingStyle',
-        label: 'Dwelling Style',
-        pattern: /[A-Za-z\s\-]{2,30}/,
-        isRequired: false,
-        icon: Building
-      },
-      {
-        field: 'squareFootage',
-        label: 'Square Footage',
-        pattern: /\d{1,6}/,
-        isRequired: false,
-        icon: Building
-      },
-      {
-        field: 'numberOfStories',
-        label: 'Number of Stories',
-        pattern: /\d{1,2}/,
-        isRequired: false,
-        icon: Building
       }
     ]
   },
@@ -171,20 +143,6 @@ const fieldSections = [
         isRequired: false,
         icon: DollarSign
       },
-      {
-        field: 'deductible',
-        label: 'Deductible',
-        pattern: /\$[\d,]+/,
-        isRequired: false,
-        icon: Shield
-      },
-      {
-        field: 'deductibleType',
-        label: 'Deductible Type',
-        pattern: /[A-Za-z\s\/\-]{2,30}/,
-        isRequired: false,
-        icon: Shield
-      },
       // Legacy field for compatibility
       {
         field: 'coverageAmount',
@@ -192,6 +150,97 @@ const fieldSections = [
         pattern: /\$[\d,]+/,
         isRequired: false,
         icon: DollarSign
+      }
+    ]
+  },
+  {
+    title: 'Deductibles',
+    icon: Shield,
+    fields: [
+      {
+        field: 'aopDeductible',
+        label: 'AOP Deductible (All Other Perils)',
+        pattern: /(\$[\d,]+|[\d.]+%)/,
+        isRequired: false,
+        icon: Shield
+      },
+      {
+        field: 'aopDeductibleType',
+        label: 'AOP Deductible Type',
+        pattern: /(Stated Amount|Percentage of Coverage [A-D])/,
+        isRequired: false,
+        icon: Shield
+      },
+      {
+        field: 'windHailDeductible',
+        label: 'Wind/Hail Deductible',
+        pattern: /(\$[\d,]+|[\d.]+%)/,
+        isRequired: false,
+        icon: Shield
+      },
+      {
+        field: 'windHailDeductibleType',
+        label: 'Wind/Hail Deductible Type',
+        pattern: /(Stated Amount|Percentage of Coverage [A-D])/,
+        isRequired: false,
+        icon: Shield
+      },
+      {
+        field: 'namedStormDeductible',
+        label: 'Named Storm Deductible',
+        pattern: /(\$[\d,]+|[\d.]+%)/,
+        isRequired: false,
+        icon: Shield
+      },
+      {
+        field: 'namedStormDeductibleType',
+        label: 'Named Storm Deductible Type',
+        pattern: /(Stated Amount|Percentage of Coverage [A-D])/,
+        isRequired: false,
+        icon: Shield
+      },
+      {
+        field: 'hurricaneDeductible',
+        label: 'Hurricane Deductible',
+        pattern: /(\$[\d,]+|[\d.]+%)/,
+        isRequired: false,
+        icon: Shield
+      },
+      {
+        field: 'hurricaneDeductibleType',
+        label: 'Hurricane Deductible Type',
+        pattern: /(Stated Amount|Percentage of Coverage [A-D])/,
+        isRequired: false,
+        icon: Shield
+      },
+      {
+        field: 'tornadoDeductible',
+        label: 'Tornado Deductible',
+        pattern: /(\$[\d,]+|[\d.]+%)/,
+        isRequired: false,
+        icon: Shield
+      },
+      {
+        field: 'tornadoDeductibleType',
+        label: 'Tornado Deductible Type',
+        pattern: /(Stated Amount|Percentage of Coverage [A-D])/,
+        isRequired: false,
+        icon: Shield
+      },
+      // Legacy compatibility fields
+      {
+        field: 'deductible',
+        label: 'General Deductible',
+        pattern: /(\$[\d,]+|[\d.]+%)/,
+        isRequired: false,
+        icon: Shield
+      },
+      {
+        field: 'deductibleType',
+        label: 'General Deductible Type',
+        pattern: /(Stated Amount|Percentage of Coverage [A-D]|[A-Za-z\s\/\-]{2,30})/,
+        isRequired: false,
+        icon: Shield
       }
     ]
   },
@@ -287,6 +336,34 @@ const fieldSections = [
     title: 'Construction Details',
     icon: Building,
     fields: [
+      {
+        field: 'yearBuilt',
+        label: 'Year Built',
+        pattern: /\d{4}/,
+        isRequired: false,
+        icon: Calendar
+      },
+      {
+        field: 'dwellingStyle',
+        label: 'Dwelling Style',
+        pattern: /[A-Za-z\s\-]{2,30}/,
+        isRequired: false,
+        icon: Building
+      },
+      {
+        field: 'squareFootage',
+        label: 'Square Footage',
+        pattern: /\d{1,6}/,
+        isRequired: false,
+        icon: Building
+      },
+      {
+        field: 'numberOfStories',
+        label: 'Number of Stories',
+        pattern: /\d{1,2}/,
+        isRequired: false,
+        icon: Building
+      },
       {
         field: 'constructionType',
         label: 'Construction Type',
