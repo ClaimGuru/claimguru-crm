@@ -55,12 +55,14 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
     setIsValidating(true);
 
     try {
+      console.log('Validating extracted data:', extractedData);
+      
       // Define expected fields with validation rules
       const fieldDefinitions = [
         {
           field: 'policyNumber',
           label: 'Policy Number',
-          pattern: /[A-Z0-9\-]{6,20}/,
+          pattern: /[A-Z0-9\-]{5,25}/,
           isRequired: true,
           icon: FileText
         },
@@ -81,35 +83,35 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
         {
           field: 'effectiveDate',
           label: 'Effective Date',
-          pattern: /\\d{1,2}[\/\\-]\\d{1,2}[\/\\-]\\d{2,4}/,
+          pattern: /\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/,
           isRequired: true,
           icon: Calendar
         },
         {
           field: 'expirationDate',
           label: 'Expiration Date',
-          pattern: /\\d{1,2}[\/\\-]\\d{1,2}[\/\\-]\\d{2,4}/,
+          pattern: /\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/,
           isRequired: true,
           icon: Calendar
         },
         {
           field: 'propertyAddress',
           label: 'Property Address',
-          pattern: /[\\w\\s,#\\-]{10,100}/,
+          pattern: /[\w\s,#\-]{10,100}/,
           isRequired: true,
           icon: Building
         },
         {
           field: 'coverageAmount',
           label: 'Coverage Amount',
-          pattern: /\\$[\\d,]+/,
+          pattern: /\$[\d,]+/,
           isRequired: false,
           icon: DollarSign
         },
         {
           field: 'deductible',
           label: 'Deductible',
-          pattern: /\\$[\\d,]+/,
+          pattern: /\$[\d,]+/,
           isRequired: false,
           icon: Shield
         }
@@ -119,7 +121,22 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
       let totalConfidence = 0;
 
       for (const fieldDef of fieldDefinitions) {
-        const extractedValue = extractedData[fieldDef.field] || '';
+        // Get the value from the extracted data - handle both direct fields and nested policyData
+        let extractedValue = '';
+        
+        if (extractedData[fieldDef.field]) {
+          extractedValue = extractedData[fieldDef.field];
+        } else if (extractedData.policyData && extractedData.policyData[fieldDef.field]) {
+          extractedValue = extractedData.policyData[fieldDef.field];
+        } else if (extractedData.extractedPolicyData && extractedData.extractedPolicyData[fieldDef.field]) {
+          extractedValue = extractedData.extractedPolicyData[fieldDef.field];
+        }
+        
+        // Convert to string if needed
+        if (typeof extractedValue !== 'string') {
+          extractedValue = extractedValue ? String(extractedValue) : '';
+        }
+        
         const confidence = calculateFieldConfidence(extractedValue, fieldDef, rawText);
         const suggestions = generateSuggestions(fieldDef.field, rawText, fieldDef.pattern);
 
@@ -138,6 +155,8 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
 
       setValidationResults(results);
       setOverallConfidence((totalConfidence / (fieldDefinitions.length * 3)) * 100);
+
+      console.log('Validation completed:', results.length, 'fields processed');
 
     } catch (error) {
       console.error('Validation failed:', error);
@@ -170,16 +189,57 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
     const suggestions: string[] = [];
     
     try {
-      // Use pattern to find potential matches in raw text
-      const matches = rawText.match(new RegExp(pattern, 'gi'));
-      if (matches) {
-        suggestions.push(...matches.slice(0, 3)); // Max 3 suggestions
+      // Field-specific suggestion patterns
+      switch (field) {
+        case 'policyNumber':
+          const policyMatches = rawText.match(/(?:policy\s*(?:number|#|no|num)?\s*[:.]?\s*)?([A-Z0-9\-]{5,25})/gi) || [];
+          suggestions.push(...policyMatches.slice(0, 5));
+          break;
+          
+        case 'insuredName':
+          const nameMatches = rawText.match(/(?:insured|policyholder|named)\s*[:.]?\s*([A-Z][A-Za-z\s,&'-]{2,50})/gi) || [];
+          suggestions.push(...nameMatches.slice(0, 3));
+          break;
+          
+        case 'insurerName':
+          const insurerMatches = rawText.match(/(?:insurance|company|carrier|insurer)\s*[:.]?\s*([A-Z][A-Za-z\s,&'-]{2,50})/gi) || [];
+          suggestions.push(...insurerMatches.slice(0, 3));
+          break;
+          
+        case 'effectiveDate':
+        case 'expirationDate':
+          const dateMatches = rawText.match(/\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/g) || [];
+          suggestions.push(...dateMatches.slice(0, 5));
+          break;
+          
+        case 'propertyAddress':
+          const addressMatches = rawText.match(/\d+\s+[\w\s,#\-]+(?:street|st|avenue|ave|road|rd|drive|dr|lane|ln|way|blvd|boulevard)/gi) || [];
+          suggestions.push(...addressMatches.slice(0, 3));
+          break;
+          
+        case 'coverageAmount':
+        case 'deductible':
+          const amountMatches = rawText.match(/\$[\d,]+/g) || [];
+          suggestions.push(...amountMatches.slice(0, 5));
+          break;
+          
+        default:
+          // Generic pattern matching
+          const matches = rawText.match(new RegExp(pattern, 'gi'));
+          if (matches) {
+            suggestions.push(...matches.slice(0, 3));
+          }
       }
     } catch (error) {
-      console.warn('Error generating suggestions:', error);
+      console.warn('Error generating suggestions for', field, ':', error);
     }
     
-    return suggestions.filter((s, i, arr) => arr.indexOf(s) === i); // Remove duplicates
+    // Clean and deduplicate suggestions
+    return suggestions
+      .map(s => s.trim())
+      .filter(s => s.length > 0)
+      .filter((s, i, arr) => arr.indexOf(s) === i)
+      .slice(0, 5); // Max 5 suggestions
   };
 
   const handleEdit = (field: string, currentValue: string) => {

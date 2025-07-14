@@ -425,27 +425,41 @@ Original file: ${file.name}
    * Ensure data types are properly formatted for React rendering
    */
   private ensureProperDataTypes(data: any): HybridPDFExtractionResult['policyData'] {
-    const cleanData: HybridPDFExtractionResult['policyData'] = {};
+    const cleanData: any = {};
 
-    // Ensure all values are strings or properly typed arrays
+    // Ensure all values are properly typed
     Object.keys(data).forEach(key => {
       const value = data[key];
       
-      if (Array.isArray(value)) {
-        // Ensure array items are strings
-        cleanData[key as keyof HybridPDFExtractionResult['policyData']] = value.map(item => 
+      if (key === 'coverageTypes' && Array.isArray(value)) {
+        // Handle coverageTypes as string array
+        cleanData[key] = value.map(item => 
           typeof item === 'string' ? item : String(item)
         );
+      } else if (key === 'deductibles' && Array.isArray(value)) {
+        // Handle deductibles as properly structured array
+        cleanData[key] = value.map(item => {
+          if (typeof item === 'object' && item !== null) {
+            return {
+              type: String(item.type || ''),
+              amount: String(item.amount || '')
+            };
+          }
+          return { type: String(item), amount: '' };
+        });
+      } else if (Array.isArray(value)) {
+        // Other arrays become comma-separated strings to prevent React errors
+        cleanData[key] = value.map(item => String(item)).join(', ');
       } else if (typeof value === 'object' && value !== null) {
-        // Convert objects to strings to prevent React rendering errors
-        cleanData[key as keyof HybridPDFExtractionResult['policyData']] = JSON.stringify(value);
+        // Convert objects to JSON strings to prevent React rendering errors
+        cleanData[key] = JSON.stringify(value);
       } else {
         // Ensure primitive values are strings
-        cleanData[key as keyof HybridPDFExtractionResult['policyData']] = String(value || '');
+        cleanData[key] = String(value || '');
       }
     });
 
-    return cleanData;
+    return cleanData as HybridPDFExtractionResult['policyData'];
   }
 }
 
