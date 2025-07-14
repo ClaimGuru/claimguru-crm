@@ -41,6 +41,7 @@ Deno.serve(async (req) => {
   "coverageAmount": "string or null",
   "deductible": "string or null",
   "premium": "string or null",
+  "mortgageAccountNumber": "string or null",
   "coverageTypes": ["array of strings or empty array"]
 }
 

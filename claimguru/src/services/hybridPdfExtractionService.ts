@@ -25,6 +25,7 @@ export interface HybridPDFExtractionResult {
     coverageAmount?: string;
     deductible?: string;
     premium?: string;
+    mortgageAccountNumber?: string;
     coverageTypes?: string[];
     deductibles?: Array<{
       type: string;
@@ -566,6 +567,25 @@ export class HybridPDFExtractionService {
         const amount = match[1].replace(/[^\d]/g, '');
         if (amount.length >= 2) {
           policyData.deductible = '$' + parseInt(amount).toLocaleString();
+          break;
+        }
+      }
+    }
+
+    // Enhanced mortgage account number patterns
+    const mortgagePatterns = [
+      /(?:acc\s*num|account\s*number|loan\s*number|mortgage\s*number)\s*[:.]?\s*([A-Z0-9]{6,20})/i,
+      /loan\s*#\s*[:.]?\s*([A-Z0-9]{6,20})/i,
+      /account\s*[:.]?\s*([A-Z0-9]{6,20})/i,
+      /mortgagee.*?([0-9]{8,15})/i
+    ];
+    
+    for (const pattern of mortgagePatterns) {
+      const match = cleanText.match(pattern);
+      if (match && match[1] && !policyData.mortgageAccountNumber) {
+        const accountNum = match[1].trim();
+        if (accountNum.length >= 6 && accountNum.length <= 20) {
+          policyData.mortgageAccountNumber = accountNum;
           break;
         }
       }
