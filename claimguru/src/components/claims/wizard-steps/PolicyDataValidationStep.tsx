@@ -114,6 +114,13 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
           pattern: /\$[\d,]+/,
           isRequired: false,
           icon: Shield
+        },
+        {
+          field: 'mortgageAccountNumber',
+          label: 'Mortgage Account Number',
+          pattern: /[A-Z0-9\-]{6,20}/,
+          isRequired: false,
+          icon: Building
         }
       ];
 
