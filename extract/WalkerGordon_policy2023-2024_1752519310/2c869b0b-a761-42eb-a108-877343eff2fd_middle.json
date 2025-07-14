@@ -1,0 +1,3481 @@
+{
+    "pdf_info": [
+        {
+            "preproc_blocks": [
+                {
+                    "type": "text",
+                    "bbox": [
+                        450,
+                        23,
+                        544,
+                        82
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                469,
+                                27,
+                                493,
+                                38
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        469,
+                                        27,
+                                        493,
+                                        38
+                                    ],
+                                    "score": 1.0,
+                                    "content": "NEW",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                455,
+                                46,
+                                515,
+                                56
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        455,
+                                        46,
+                                        464,
+                                        55
+                                    ],
+                                    "score": 0.98,
+                                    "content": "X",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        470,
+                                        46,
+                                        515,
+                                        56
+                                    ],
+                                    "score": 1.0,
+                                    "content": "RENEWAL",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                470,
+                                65,
+                                542,
+                                74
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        470,
+                                        65,
+                                        542,
+                                        74
+                                    ],
+                                    "score": 1.0,
+                                    "content": "AMENDEDDATE",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        }
+                    ],
+                    "index": 1
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        65,
+                        83,
+                        119,
+                        94
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                65,
+                                84,
+                                118,
+                                93
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        65,
+                                        84,
+                                        118,
+                                        93
+                                    ],
+                                    "score": 1.0,
+                                    "content": "42-121810-10",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        }
+                    ],
+                    "index": 3
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        64,
+                        114,
+                        230,
+                        125
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                64,
+                                117,
+                                228,
+                                124
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        64,
+                                        117,
+                                        228,
+                                        124
+                                    ],
+                                    "score": 0.99,
+                                    "content": "NAMEDINSURED/MAILINGADDRESS",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        }
+                    ],
+                    "index": 4
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        306,
+                        113,
+                        364,
+                        126
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                306,
+                                115,
+                                364,
+                                125
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        306,
+                                        115,
+                                        364,
+                                        125
+                                    ],
+                                    "score": 1.0,
+                                    "content": "MORTGAGEE",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        }
+                    ],
+                    "index": 5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        64,
+                        129,
+                        184,
+                        173
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                65,
+                                131,
+                                170,
+                                140
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        65,
+                                        131,
+                                        170,
+                                        140
+                                    ],
+                                    "score": 1.0,
+                                    "content": "GORDONPAULWALKER",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                65,
+                                142,
+                                182,
+                                151
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        65,
+                                        142,
+                                        182,
+                                        151
+                                    ],
+                                    "score": 1.0,
+                                    "content": "SHERILYNNETTEWALKER",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        },
+                        {
+                            "bbox": [
+                                65,
+                                152,
+                                156,
+                                161
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        65,
+                                        152,
+                                        156,
+                                        161
+                                    ],
+                                    "score": 1.0,
+                                    "content": "1303CAMBRIDGEDR.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        },
+                        {
+                            "bbox": [
+                                64,
+                                163,
+                                173,
+                                173
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        64,
+                                        163,
+                                        173,
+                                        173
+                                    ],
+                                    "score": 0.96,
+                                    "content": "FRIENDSWOOD, TX 77546",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        }
+                    ],
+                    "index": 7.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        64,
+                        182,
+                        166,
+                        193
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                63,
+                                183,
+                                165,
+                                192
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        63,
+                                        183,
+                                        165,
+                                        192
+                                    ],
+                                    "score": 0.98,
+                                    "content": "POLICY PERIOD: 12 mths",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        }
+                    ],
+                    "index": 10
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        427,
+                        183,
+                        521,
+                        193
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                426,
+                                183,
+                                521,
+                                192
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        426,
+                                        183,
+                                        521,
+                                        192
+                                    ],
+                                    "score": 1.0,
+                                    "content": "PREMISES/DWELLING",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        }
+                    ],
+                    "index": 11
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        63,
+                        208,
+                        185,
+                        218
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                63,
+                                208,
+                                185,
+                                218
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        63,
+                                        208,
+                                        185,
+                                        218
+                                    ],
+                                    "score": 0.99,
+                                    "content": "EFFECTIVE DATE: 08/21/2023",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        }
+                    ],
+                    "index": 12
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        305,
+                        196,
+                        413,
+                        218
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                305,
+                                197,
+                                395,
+                                207
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        305,
+                                        197,
+                                        395,
+                                        207
+                                    ],
+                                    "score": 0.99,
+                                    "content": "1303CAMBRIDGE DR",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        },
+                        {
+                            "bbox": [
+                                305,
+                                208,
+                                413,
+                                217
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        305,
+                                        208,
+                                        413,
+                                        217
+                                    ],
+                                    "score": 0.99,
+                                    "content": "FRIENDSWOOD,TX77546",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        }
+                    ],
+                    "index": 13.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        64,
+                        232,
+                        274,
+                        264
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                64,
+                                233,
+                                194,
+                                242
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        64,
+                                        233,
+                                        194,
+                                        242
+                                    ],
+                                    "score": 1.0,
+                                    "content": "EXPIRATIONDATE:08/21/2024",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        },
+                        {
+                            "bbox": [
+                                73,
+                                244,
+                                273,
+                                253
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        73,
+                                        244,
+                                        273,
+                                        253
+                                    ],
+                                    "score": 0.95,
+                                    "content": "12:01 A.M. STANDARD TIME AT THE LOCATION",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        },
+                        {
+                            "bbox": [
+                                73,
+                                255,
+                                256,
+                                263
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        73,
+                                        255,
+                                        256,
+                                        263
+                                    ],
+                                    "score": 1.0,
+                                    "content": "OFTHERESIDENCEPREMISES/DWELLING",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        }
+                    ],
+                    "index": 16
+                },
+                {
+                    "type": "table",
+                    "bbox": [
+                        61,
+                        277,
+                        552,
+                        761
+                    ],
+                    "blocks": [
+                        {
+                            "type": "table_body",
+                            "bbox": [
+                                61,
+                                277,
+                                552,
+                                761
+                            ],
+                            "group_id": 0,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        277,
+                                        552,
+                                        761
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                61,
+                                                277,
+                                                552,
+                                                761
+                                            ],
+                                            "score": 0.9999060034751892,
+                                            "html": "<html><body><table><tr><td colspan=\"3\">CONSTRUCTION:Brick/Veneer PPC: 3 COUNTY:GALVESTON LIMIT: INSIDE</td></tr><tr><td>COVERAGES</td><td>LIMITS OF LIABILITY</td><td>PREMIUM</td></tr><tr><td colspan=\"3\">SECTIONIPROPERTY</td></tr><tr><td>Coverage A. Dwelling</td><td>$434,070</td><td>$5,485.00</td></tr><tr><td>Coverage B.Other Structures</td><td>$43,407</td><td>INCL</td></tr><tr><td>Coverage C. Personal Property</td><td>$173,628</td><td>INCL</td></tr><tr><td>Coverage D. Loss of Use</td><td>$86,814</td><td>INCL</td></tr><tr><td>SECTIONILIABILITY</td><td></td><td></td></tr><tr><td colspan=\"3\"></td></tr><tr><td>Coverage E. Personal Liability</td><td>$500,000</td><td>$35.00</td></tr><tr><td>Coverage F. Medical Payments</td><td>$5,000</td><td>$10.00 $5,530.00</td></tr><tr><td colspan=\"3\">BASICPREMIUM OTHERCOVERAGESANDENDORSEMENTS</td></tr><tr><td>Endorsement number and title HA.CEHO3 (0118) - Coverage Extension HA.HHAA (1119) - Home Sharing Host Activities Amendatory Endorsement HA.HO3SP (0820) - Special Provisions - Texas HO 00 03 10 00 - Homeowners 3 Special Form HO-105 (7-92)-Residence Glass Coverage</td><td></td><td>$50.00</td></tr><tr><td>Renewal Adjustment Discount</td><td></td><td></td></tr><tr><td></td><td></td><td>$9.00 INCL</td></tr><tr><td></td><td></td><td>INCL</td></tr><tr><td>Claim Renewal Discount</td><td></td><td></td></tr><tr><td>Companion Product Discount</td><td></td><td>INCL</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Security Features Discount Maximum Discount Adjustment</td><td></td><td>INCL</td></tr><tr><td></td><td></td><td>INCL</td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></table></body></html>",
+                                            "type": "table",
+                                            "image_path": "cznq85.jpg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "index": 19,
+                            "virtual_lines": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        277,
+                                        552,
+                                        438.33333333333337
+                                    ],
+                                    "spans": [],
+                                    "index": 18
+                                },
+                                {
+                                    "bbox": [
+                                        61,
+                                        438.33333333333337,
+                                        552,
+                                        599.6666666666667
+                                    ],
+                                    "spans": [],
+                                    "index": 19
+                                },
+                                {
+                                    "bbox": [
+                                        61,
+                                        599.6666666666667,
+                                        552,
+                                        761.0000000000001
+                                    ],
+                                    "spans": [],
+                                    "index": 20
+                                }
+                            ]
+                        }
+                    ],
+                    "index": 19
+                }
+            ],
+            "layout_bboxes": [],
+            "page_idx": 0,
+            "page_size": [
+                612.0,
+                792.0
+            ],
+            "_layout_tree": [],
+            "images": [],
+            "tables": [
+                {
+                    "type": "table",
+                    "bbox": [
+                        61,
+                        277,
+                        552,
+                        761
+                    ],
+                    "blocks": [
+                        {
+                            "type": "table_body",
+                            "bbox": [
+                                61,
+                                277,
+                                552,
+                                761
+                            ],
+                            "group_id": 0,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        277,
+                                        552,
+                                        761
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                61,
+                                                277,
+                                                552,
+                                                761
+                                            ],
+                                            "score": 0.9999060034751892,
+                                            "html": "<html><body><table><tr><td colspan=\"3\">CONSTRUCTION:Brick/Veneer PPC: 3 COUNTY:GALVESTON LIMIT: INSIDE</td></tr><tr><td>COVERAGES</td><td>LIMITS OF LIABILITY</td><td>PREMIUM</td></tr><tr><td colspan=\"3\">SECTIONIPROPERTY</td></tr><tr><td>Coverage A. Dwelling</td><td>$434,070</td><td>$5,485.00</td></tr><tr><td>Coverage B.Other Structures</td><td>$43,407</td><td>INCL</td></tr><tr><td>Coverage C. Personal Property</td><td>$173,628</td><td>INCL</td></tr><tr><td>Coverage D. Loss of Use</td><td>$86,814</td><td>INCL</td></tr><tr><td>SECTIONILIABILITY</td><td></td><td></td></tr><tr><td colspan=\"3\"></td></tr><tr><td>Coverage E. Personal Liability</td><td>$500,000</td><td>$35.00</td></tr><tr><td>Coverage F. Medical Payments</td><td>$5,000</td><td>$10.00 $5,530.00</td></tr><tr><td colspan=\"3\">BASICPREMIUM OTHERCOVERAGESANDENDORSEMENTS</td></tr><tr><td>Endorsement number and title HA.CEHO3 (0118) - Coverage Extension HA.HHAA (1119) - Home Sharing Host Activities Amendatory Endorsement HA.HO3SP (0820) - Special Provisions - Texas HO 00 03 10 00 - Homeowners 3 Special Form HO-105 (7-92)-Residence Glass Coverage</td><td></td><td>$50.00</td></tr><tr><td>Renewal Adjustment Discount</td><td></td><td></td></tr><tr><td></td><td></td><td>$9.00 INCL</td></tr><tr><td></td><td></td><td>INCL</td></tr><tr><td>Claim Renewal Discount</td><td></td><td></td></tr><tr><td>Companion Product Discount</td><td></td><td>INCL</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Security Features Discount Maximum Discount Adjustment</td><td></td><td>INCL</td></tr><tr><td></td><td></td><td>INCL</td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></table></body></html>",
+                                            "type": "table",
+                                            "image_path": "cznq85.jpg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "index": 19,
+                            "virtual_lines": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        277,
+                                        552,
+                                        438.33333333333337
+                                    ],
+                                    "spans": [],
+                                    "index": 18
+                                },
+                                {
+                                    "bbox": [
+                                        61,
+                                        438.33333333333337,
+                                        552,
+                                        599.6666666666667
+                                    ],
+                                    "spans": [],
+                                    "index": 19
+                                },
+                                {
+                                    "bbox": [
+                                        61,
+                                        599.6666666666667,
+                                        552,
+                                        761.0000000000001
+                                    ],
+                                    "spans": [],
+                                    "index": 20
+                                }
+                            ]
+                        }
+                    ],
+                    "index": 19
+                }
+            ],
+            "interline_equations": [],
+            "discarded_blocks": [
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        542,
+                        774,
+                        585,
+                        784
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                542,
+                                774,
+                                586,
+                                784
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        542,
+                                        774,
+                                        586,
+                                        784
+                                    ],
+                                    "score": 0.96,
+                                    "content": "Page 1 of 2",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        21,
+                        776,
+                        91,
+                        785
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                20,
+                                776,
+                                91,
+                                786
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        20,
+                                        776,
+                                        91,
+                                        786
+                                    ],
+                                    "score": 0.99,
+                                    "content": "TXDECHO3 (0217)",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        185,
+                        23,
+                        438,
+                        78
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                260,
+                                24,
+                                361,
+                                33
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        260,
+                                        24,
+                                        361,
+                                        33
+                                    ],
+                                    "score": 1.0,
+                                    "content": "DECLARATIONSPAGE",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                212,
+                                34,
+                                409,
+                                43
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        212,
+                                        34,
+                                        409,
+                                        43
+                                    ],
+                                    "score": 1.0,
+                                    "content": "TEXASHOMEOWNERSPOLICY-FORMHO-3",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                193,
+                                46,
+                                428,
+                                55
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        193,
+                                        46,
+                                        428,
+                                        55
+                                    ],
+                                    "score": 0.99,
+                                    "content": "HOMEOWNERSOFAMERICAINSURANCECOMPANY",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                184,
+                                56,
+                                437,
+                                65
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        184,
+                                        56,
+                                        437,
+                                        65
+                                    ],
+                                    "score": 0.99,
+                                    "content": "1400CORPORATEDRIVE,SUITE300IRVING,TEXAS75038",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                265,
+                                66,
+                                356,
+                                75
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        265,
+                                        66,
+                                        356,
+                                        75
+                                    ],
+                                    "score": 1.0,
+                                    "content": "ASTOCKCOMPANY",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "need_drop": false,
+            "drop_reason": [],
+            "para_blocks": [
+                {
+                    "type": "text",
+                    "bbox": [
+                        450,
+                        23,
+                        544,
+                        82
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                469,
+                                27,
+                                493,
+                                38
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        469,
+                                        27,
+                                        493,
+                                        38
+                                    ],
+                                    "score": 1.0,
+                                    "content": "NEW",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                455,
+                                46,
+                                515,
+                                56
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        455,
+                                        46,
+                                        464,
+                                        55
+                                    ],
+                                    "score": 0.98,
+                                    "content": "X",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        470,
+                                        46,
+                                        515,
+                                        56
+                                    ],
+                                    "score": 1.0,
+                                    "content": "RENEWAL",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                470,
+                                65,
+                                542,
+                                74
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        470,
+                                        65,
+                                        542,
+                                        74
+                                    ],
+                                    "score": 1.0,
+                                    "content": "AMENDEDDATE",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        }
+                    ],
+                    "index": 1,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        455,
+                        27,
+                        542,
+                        74
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        65,
+                        83,
+                        119,
+                        94
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                65,
+                                84,
+                                118,
+                                93
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        65,
+                                        84,
+                                        118,
+                                        93
+                                    ],
+                                    "score": 1.0,
+                                    "content": "42-121810-10",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        }
+                    ],
+                    "index": 3,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        64,
+                        114,
+                        230,
+                        125
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                64,
+                                117,
+                                228,
+                                124
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        64,
+                                        117,
+                                        228,
+                                        124
+                                    ],
+                                    "score": 0.99,
+                                    "content": "NAMEDINSURED/MAILINGADDRESS",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        }
+                    ],
+                    "index": 4,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        64,
+                        117,
+                        228,
+                        124
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        306,
+                        113,
+                        364,
+                        126
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                306,
+                                115,
+                                364,
+                                125
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        306,
+                                        115,
+                                        364,
+                                        125
+                                    ],
+                                    "score": 1.0,
+                                    "content": "MORTGAGEE",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        }
+                    ],
+                    "index": 5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        306,
+                        115,
+                        364,
+                        125
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        64,
+                        129,
+                        184,
+                        173
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                65,
+                                131,
+                                170,
+                                140
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        65,
+                                        131,
+                                        170,
+                                        140
+                                    ],
+                                    "score": 1.0,
+                                    "content": "GORDONPAULWALKER",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                65,
+                                142,
+                                182,
+                                151
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        65,
+                                        142,
+                                        182,
+                                        151
+                                    ],
+                                    "score": 1.0,
+                                    "content": "SHERILYNNETTEWALKER",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        },
+                        {
+                            "bbox": [
+                                65,
+                                152,
+                                156,
+                                161
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        65,
+                                        152,
+                                        156,
+                                        161
+                                    ],
+                                    "score": 1.0,
+                                    "content": "1303CAMBRIDGEDR.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        },
+                        {
+                            "bbox": [
+                                64,
+                                163,
+                                173,
+                                173
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        64,
+                                        163,
+                                        173,
+                                        173
+                                    ],
+                                    "score": 0.96,
+                                    "content": "FRIENDSWOOD, TX 77546",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        }
+                    ],
+                    "index": 7.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        64,
+                        131,
+                        182,
+                        173
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        64,
+                        182,
+                        166,
+                        193
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                63,
+                                183,
+                                165,
+                                192
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        63,
+                                        183,
+                                        165,
+                                        192
+                                    ],
+                                    "score": 0.98,
+                                    "content": "POLICY PERIOD: 12 mths",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        }
+                    ],
+                    "index": 10,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        63,
+                        183,
+                        165,
+                        192
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        427,
+                        183,
+                        521,
+                        193
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                426,
+                                183,
+                                521,
+                                192
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        426,
+                                        183,
+                                        521,
+                                        192
+                                    ],
+                                    "score": 1.0,
+                                    "content": "PREMISES/DWELLING",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        }
+                    ],
+                    "index": 11,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        426,
+                        183,
+                        521,
+                        192
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        63,
+                        208,
+                        185,
+                        218
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                63,
+                                208,
+                                185,
+                                218
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        63,
+                                        208,
+                                        185,
+                                        218
+                                    ],
+                                    "score": 0.99,
+                                    "content": "EFFECTIVE DATE: 08/21/2023",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        }
+                    ],
+                    "index": 12,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        63,
+                        208,
+                        185,
+                        218
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        305,
+                        196,
+                        413,
+                        218
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                305,
+                                197,
+                                395,
+                                207
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        305,
+                                        197,
+                                        395,
+                                        207
+                                    ],
+                                    "score": 0.99,
+                                    "content": "1303CAMBRIDGE DR",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        },
+                        {
+                            "bbox": [
+                                305,
+                                208,
+                                413,
+                                217
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        305,
+                                        208,
+                                        413,
+                                        217
+                                    ],
+                                    "score": 0.99,
+                                    "content": "FRIENDSWOOD,TX77546",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        }
+                    ],
+                    "index": 13.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        305,
+                        197,
+                        413,
+                        217
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        64,
+                        232,
+                        274,
+                        264
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                64,
+                                233,
+                                194,
+                                242
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        64,
+                                        233,
+                                        194,
+                                        242
+                                    ],
+                                    "score": 1.0,
+                                    "content": "EXPIRATIONDATE:08/21/2024",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        },
+                        {
+                            "bbox": [
+                                73,
+                                244,
+                                273,
+                                253
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        73,
+                                        244,
+                                        273,
+                                        253
+                                    ],
+                                    "score": 0.95,
+                                    "content": "12:01 A.M. STANDARD TIME AT THE LOCATION",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        },
+                        {
+                            "bbox": [
+                                73,
+                                255,
+                                256,
+                                263
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        73,
+                                        255,
+                                        256,
+                                        263
+                                    ],
+                                    "score": 1.0,
+                                    "content": "OFTHERESIDENCEPREMISES/DWELLING",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        }
+                    ],
+                    "index": 16,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        64,
+                        233,
+                        273,
+                        263
+                    ]
+                },
+                {
+                    "type": "table",
+                    "bbox": [
+                        61,
+                        277,
+                        552,
+                        761
+                    ],
+                    "blocks": [
+                        {
+                            "type": "table_body",
+                            "bbox": [
+                                61,
+                                277,
+                                552,
+                                761
+                            ],
+                            "group_id": 0,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        277,
+                                        552,
+                                        761
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                61,
+                                                277,
+                                                552,
+                                                761
+                                            ],
+                                            "score": 0.9999060034751892,
+                                            "html": "<html><body><table><tr><td colspan=\"3\">CONSTRUCTION:Brick/Veneer PPC: 3 COUNTY:GALVESTON LIMIT: INSIDE</td></tr><tr><td>COVERAGES</td><td>LIMITS OF LIABILITY</td><td>PREMIUM</td></tr><tr><td colspan=\"3\">SECTIONIPROPERTY</td></tr><tr><td>Coverage A. Dwelling</td><td>$434,070</td><td>$5,485.00</td></tr><tr><td>Coverage B.Other Structures</td><td>$43,407</td><td>INCL</td></tr><tr><td>Coverage C. Personal Property</td><td>$173,628</td><td>INCL</td></tr><tr><td>Coverage D. Loss of Use</td><td>$86,814</td><td>INCL</td></tr><tr><td>SECTIONILIABILITY</td><td></td><td></td></tr><tr><td colspan=\"3\"></td></tr><tr><td>Coverage E. Personal Liability</td><td>$500,000</td><td>$35.00</td></tr><tr><td>Coverage F. Medical Payments</td><td>$5,000</td><td>$10.00 $5,530.00</td></tr><tr><td colspan=\"3\">BASICPREMIUM OTHERCOVERAGESANDENDORSEMENTS</td></tr><tr><td>Endorsement number and title HA.CEHO3 (0118) - Coverage Extension HA.HHAA (1119) - Home Sharing Host Activities Amendatory Endorsement HA.HO3SP (0820) - Special Provisions - Texas HO 00 03 10 00 - Homeowners 3 Special Form HO-105 (7-92)-Residence Glass Coverage</td><td></td><td>$50.00</td></tr><tr><td>Renewal Adjustment Discount</td><td></td><td></td></tr><tr><td></td><td></td><td>$9.00 INCL</td></tr><tr><td></td><td></td><td>INCL</td></tr><tr><td>Claim Renewal Discount</td><td></td><td></td></tr><tr><td>Companion Product Discount</td><td></td><td>INCL</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Security Features Discount Maximum Discount Adjustment</td><td></td><td>INCL</td></tr><tr><td></td><td></td><td>INCL</td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></table></body></html>",
+                                            "type": "table",
+                                            "image_path": "cznq85.jpg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "index": 19,
+                            "virtual_lines": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        277,
+                                        552,
+                                        438.33333333333337
+                                    ],
+                                    "spans": [],
+                                    "index": 18
+                                },
+                                {
+                                    "bbox": [
+                                        61,
+                                        438.33333333333337,
+                                        552,
+                                        599.6666666666667
+                                    ],
+                                    "spans": [],
+                                    "index": 19
+                                },
+                                {
+                                    "bbox": [
+                                        61,
+                                        599.6666666666667,
+                                        552,
+                                        761.0000000000001
+                                    ],
+                                    "spans": [],
+                                    "index": 20
+                                }
+                            ]
+                        }
+                    ],
+                    "index": 19,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                }
+            ]
+        },
+        {
+            "preproc_blocks": [
+                {
+                    "type": "table",
+                    "bbox": [
+                        61,
+                        21,
+                        549,
+                        111
+                    ],
+                    "blocks": [
+                        {
+                            "type": "table_body",
+                            "bbox": [
+                                61,
+                                21,
+                                549,
+                                111
+                            ],
+                            "group_id": 0,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        21,
+                                        549,
+                                        111
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                61,
+                                                21,
+                                                549,
+                                                111
+                                            ],
+                                            "score": 0.9998286962509155,
+                                            "html": "<html><body><table><tr><td>DEDUCTIBLE</td><td>AMOUNTOF</td><td>DEDUCTIBLE ADJUSTMENT</td></tr><tr><td>(SECTIONIONLY)</td><td>DEDUCTIBLE $8,681</td><td>PREMIUM</td></tr><tr><td>DEDUCTIBLE CLAUSE 1 - Windstorm, Hurricane, Hail, and Wind Driven Rain</td><td></td><td>INCL</td></tr><tr><td>DEDUCTIBLECLAUSE2-AllOtherPerils</td><td>$4,341</td><td>INCL</td></tr><tr><td></td><td>TOTALPOLICYPREMIUM</td><td>$5,709.00</td></tr><tr><td colspan=\"3\"></td></tr></table></body></html>",
+                                            "type": "table",
+                                            "image_path": "qzlvzy.jpg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "index": 1,
+                            "virtual_lines": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        21,
+                                        549,
+                                        51.0
+                                    ],
+                                    "spans": [],
+                                    "index": 0
+                                },
+                                {
+                                    "bbox": [
+                                        61,
+                                        51.0,
+                                        549,
+                                        81.0
+                                    ],
+                                    "spans": [],
+                                    "index": 1
+                                },
+                                {
+                                    "bbox": [
+                                        61,
+                                        81.0,
+                                        549,
+                                        111.0
+                                    ],
+                                    "spans": [],
+                                    "index": 2
+                                }
+                            ]
+                        },
+                        {
+                            "type": "table_caption",
+                            "bbox": [
+                                155,
+                                111,
+                                457,
+                                123
+                            ],
+                            "group_id": 0,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        155,
+                                        111,
+                                        456,
+                                        122
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                155,
+                                                113,
+                                                288,
+                                                122
+                                            ],
+                                            "score": 0.95,
+                                            "content": "A FULLY EARNEDMGAFEE OF",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "bbox": [
+                                                288,
+                                                111,
+                                                319,
+                                                122
+                                            ],
+                                            "score": 0.81,
+                                            "content": "\\mathbb{S}120.00\\",
+                                            "type": "inline_equation"
+                                        },
+                                        {
+                                            "bbox": [
+                                                320,
+                                                113,
+                                                456,
+                                                122
+                                            ],
+                                            "score": 0.99,
+                                            "content": "IS INCLUDED IN THIS PREMIUM",
+                                            "type": "text"
+                                        }
+                                    ],
+                                    "index": 3
+                                }
+                            ],
+                            "index": 3
+                        }
+                    ],
+                    "index": 2.0
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        145,
+                        132,
+                        472,
+                        143
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                145,
+                                132,
+                                472,
+                                143
+                            ],
+                            "spans": [],
+                            "index": 5
+                        }
+                    ],
+                    "index": 5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        63,
+                        136,
+                        502,
+                        227
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                144,
+                                134,
+                                473,
+                                144
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        144,
+                                        134,
+                                        473,
+                                        144
+                                    ],
+                                    "score": 0.98,
+                                    "content": "THIS POLICY INCLUDES THE PERILS OF WINDS'TORM, HURRICANE AND HAIL",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        },
+                        {
+                            "bbox": [
+                                117,
+                                150,
+                                196,
+                                160
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        117,
+                                        150,
+                                        196,
+                                        160
+                                    ],
+                                    "score": 0.99,
+                                    "content": "H MICHAEL VERN",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                117,
+                                162,
+                                235,
+                                172
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        117,
+                                        162,
+                                        235,
+                                        172
+                                    ],
+                                    "score": 1.0,
+                                    "content": "VERNINSURANCEGROUP",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        },
+                        {
+                            "bbox": [
+                                61,
+                                174,
+                                217,
+                                185
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        174,
+                                        217,
+                                        185
+                                    ],
+                                    "score": 0.98,
+                                    "content": "AGENCYAT3311EBROADWAY ST",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        },
+                        {
+                            "bbox": [
+                                117,
+                                186,
+                                212,
+                                197
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        117,
+                                        186,
+                                        212,
+                                        197
+                                    ],
+                                    "score": 0.99,
+                                    "content": "PEARLAND, TX 77581",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        },
+                        {
+                            "bbox": [
+                                118,
+                                199,
+                                182,
+                                209
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        118,
+                                        199,
+                                        182,
+                                        209
+                                    ],
+                                    "score": 0.99,
+                                    "content": "(281) 922-1616",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        },
+                        {
+                            "bbox": [
+                                118,
+                                211,
+                                248,
+                                222
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        118,
+                                        211,
+                                        248,
+                                        222
+                                    ],
+                                    "score": 1.0,
+                                    "content": "AGENCY CODE:1178-000-000",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        }
+                    ],
+                    "index": 8
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        132,
+                        238,
+                        478,
+                        251
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                133,
+                                242,
+                                478,
+                                250
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        133,
+                                        242,
+                                        478,
+                                        250
+                                    ],
+                                    "score": 0.99,
+                                    "content": "OTHERCOVERAGES,LIMITSANDEXCLUSIONSAPPLY-REFER TOYOURPOLICY",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        }
+                    ],
+                    "index": 12
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        246,
+                        270,
+                        316,
+                        280
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                245,
+                                270,
+                                315,
+                                280
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        245,
+                                        270,
+                                        315,
+                                        280
+                                    ],
+                                    "score": 0.96,
+                                    "content": "MORTGAGEE #2",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        }
+                    ],
+                    "index": 13
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        425,
+                        270,
+                        495,
+                        281
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                426,
+                                270,
+                                495,
+                                280
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        426,
+                                        270,
+                                        495,
+                                        280
+                                    ],
+                                    "score": 1.0,
+                                    "content": "MORTGAGEE#3",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        }
+                    ],
+                    "index": 14
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        63,
+                        283,
+                        230,
+                        331
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                64,
+                                286,
+                                228,
+                                298
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        64,
+                                        286,
+                                        228,
+                                        298
+                                    ],
+                                    "score": 0.99,
+                                    "content": "LOANDEPOT.COM, LLC, ISAOA/ATIMA",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        },
+                        {
+                            "bbox": [
+                                65,
+                                298,
+                                120,
+                                308
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        65,
+                                        298,
+                                        120,
+                                        308
+                                    ],
+                                    "score": 0.9,
+                                    "content": "PO BOX 7114",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        },
+                        {
+                            "bbox": [
+                                64,
+                                308,
+                                134,
+                                319
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        64,
+                                        308,
+                                        134,
+                                        319
+                                    ],
+                                    "score": 0.96,
+                                    "content": "TROY , MI 48007",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        },
+                        {
+                            "bbox": [
+                                65,
+                                320,
+                                151,
+                                330
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        65,
+                                        320,
+                                        151,
+                                        330
+                                    ],
+                                    "score": 0.99,
+                                    "content": "Acc Num: 5000391580",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        }
+                    ],
+                    "index": 16.5
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        35,
+                        371,
+                        140,
+                        381
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                35,
+                                370,
+                                140,
+                                383
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        35,
+                                        370,
+                                        140,
+                                        383
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Important Information",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        }
+                    ],
+                    "index": 19
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        34,
+                        382,
+                        574,
+                        426
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                33,
+                                380,
+                                550,
+                                397
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        33,
+                                        380,
+                                        550,
+                                        397
+                                    ],
+                                    "score": 0.98,
+                                    "content": "The dollar amount of each percentage deductible may change at renewal if the value of your home changes. Please",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20
+                        },
+                        {
+                            "bbox": [
+                                35,
+                                394,
+                                574,
+                                407
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        35,
+                                        394,
+                                        574,
+                                        407
+                                    ],
+                                    "score": 0.98,
+                                    "content": "understand that this change in limits could impact your \"Windstorm, Hurricane, Hail and Wind Driven Rain\" deductible and",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 21
+                        },
+                        {
+                            "bbox": [
+                                34,
+                                405,
+                                184,
+                                418
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        34,
+                                        405,
+                                        184,
+                                        418
+                                    ],
+                                    "score": 0.97,
+                                    "content": "your\"All Other Perils\" deductible.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 22
+                        },
+                        {
+                            "bbox": [
+                                34,
+                                415,
+                                571,
+                                430
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        34,
+                                        415,
+                                        571,
+                                        430
+                                    ],
+                                    "score": 0.99,
+                                    "content": "Please reference the Other Coverages and Endorsements section above to determine if any of the following special deductibles apply.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 23
+                        }
+                    ],
+                    "index": 21.5
+                },
+                {
+                    "type": "table",
+                    "bbox": [
+                        61,
+                        435,
+                        551,
+                        690
+                    ],
+                    "blocks": [
+                        {
+                            "type": "table_body",
+                            "bbox": [
+                                61,
+                                435,
+                                551,
+                                690
+                            ],
+                            "group_id": 1,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        435,
+                                        551,
+                                        690
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                61,
+                                                435,
+                                                551,
+                                                690
+                                            ],
+                                            "score": 0.9985677599906921,
+                                            "html": "<html><body><table><tr><td>Additional Coverage</td><td>SpecialDeductible</td></tr><tr><td>Identity Fraud Expense Coverage - HA.IDT</td><td>$100 applies for claims settled under this endorsement</td></tr><tr><td>Special Provisions-Texas-HA.HO3SP Water Back-up & SumpDischarge or Overflow</td><td>$250 applies for claims settled under this coverage</td></tr><tr><td>Service Line Coverage - HA. SL</td><td>$500 applies for claims settled under this coverage</td></tr><tr><td>Residence Glass Coverage -HO-105</td><td>$0for claims settled under this endorsement</td></tr><tr><td>Scheduled Personal Property - HA.SPP</td><td>$0 applies for claims settled under this endorsement</td></tr><tr><td>Coverage Extension - HA.HO.CEHO3 Fire Department Service Charge Consequential Loss Lock Replacement Coverage Reward Reward Reimbursement Coverage Credit Card, Electronic Fund Transfer Card or Access Device,Forgery and Counterfeit Money</td><td>$0 applies for claims settled under this endorsement $0 applies for claims settled under this endorsement $0 applies for claims settled under this endorsement $0 applies for claims settled under this endorsement $O applies for claims settled under this endorsement</td></tr></table></body></html>",
+                                            "type": "table",
+                                            "image_path": "z72ywm.jpg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "index": 25,
+                            "virtual_lines": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        435,
+                                        551,
+                                        520.0
+                                    ],
+                                    "spans": [],
+                                    "index": 24
+                                },
+                                {
+                                    "bbox": [
+                                        61,
+                                        520.0,
+                                        551,
+                                        605.0
+                                    ],
+                                    "spans": [],
+                                    "index": 25
+                                },
+                                {
+                                    "bbox": [
+                                        61,
+                                        605.0,
+                                        551,
+                                        690.0
+                                    ],
+                                    "spans": [],
+                                    "index": 26
+                                }
+                            ]
+                        }
+                    ],
+                    "index": 25
+                }
+            ],
+            "layout_bboxes": [],
+            "page_idx": 1,
+            "page_size": [
+                612.0,
+                792.0
+            ],
+            "_layout_tree": [],
+            "images": [],
+            "tables": [
+                {
+                    "type": "table",
+                    "bbox": [
+                        61,
+                        21,
+                        549,
+                        111
+                    ],
+                    "blocks": [
+                        {
+                            "type": "table_body",
+                            "bbox": [
+                                61,
+                                21,
+                                549,
+                                111
+                            ],
+                            "group_id": 0,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        21,
+                                        549,
+                                        111
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                61,
+                                                21,
+                                                549,
+                                                111
+                                            ],
+                                            "score": 0.9998286962509155,
+                                            "html": "<html><body><table><tr><td>DEDUCTIBLE</td><td>AMOUNTOF</td><td>DEDUCTIBLE ADJUSTMENT</td></tr><tr><td>(SECTIONIONLY)</td><td>DEDUCTIBLE $8,681</td><td>PREMIUM</td></tr><tr><td>DEDUCTIBLE CLAUSE 1 - Windstorm, Hurricane, Hail, and Wind Driven Rain</td><td></td><td>INCL</td></tr><tr><td>DEDUCTIBLECLAUSE2-AllOtherPerils</td><td>$4,341</td><td>INCL</td></tr><tr><td></td><td>TOTALPOLICYPREMIUM</td><td>$5,709.00</td></tr><tr><td colspan=\"3\"></td></tr></table></body></html>",
+                                            "type": "table",
+                                            "image_path": "qzlvzy.jpg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "index": 1,
+                            "virtual_lines": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        21,
+                                        549,
+                                        51.0
+                                    ],
+                                    "spans": [],
+                                    "index": 0
+                                },
+                                {
+                                    "bbox": [
+                                        61,
+                                        51.0,
+                                        549,
+                                        81.0
+                                    ],
+                                    "spans": [],
+                                    "index": 1
+                                },
+                                {
+                                    "bbox": [
+                                        61,
+                                        81.0,
+                                        549,
+                                        111.0
+                                    ],
+                                    "spans": [],
+                                    "index": 2
+                                }
+                            ]
+                        },
+                        {
+                            "type": "table_caption",
+                            "bbox": [
+                                155,
+                                111,
+                                457,
+                                123
+                            ],
+                            "group_id": 0,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        155,
+                                        111,
+                                        456,
+                                        122
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                155,
+                                                113,
+                                                288,
+                                                122
+                                            ],
+                                            "score": 0.95,
+                                            "content": "A FULLY EARNEDMGAFEE OF",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "bbox": [
+                                                288,
+                                                111,
+                                                319,
+                                                122
+                                            ],
+                                            "score": 0.81,
+                                            "content": "\\mathbb{S}120.00\\",
+                                            "type": "inline_equation"
+                                        },
+                                        {
+                                            "bbox": [
+                                                320,
+                                                113,
+                                                456,
+                                                122
+                                            ],
+                                            "score": 0.99,
+                                            "content": "IS INCLUDED IN THIS PREMIUM",
+                                            "type": "text"
+                                        }
+                                    ],
+                                    "index": 3
+                                }
+                            ],
+                            "index": 3
+                        }
+                    ],
+                    "index": 2.0
+                },
+                {
+                    "type": "table",
+                    "bbox": [
+                        61,
+                        435,
+                        551,
+                        690
+                    ],
+                    "blocks": [
+                        {
+                            "type": "table_body",
+                            "bbox": [
+                                61,
+                                435,
+                                551,
+                                690
+                            ],
+                            "group_id": 1,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        435,
+                                        551,
+                                        690
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                61,
+                                                435,
+                                                551,
+                                                690
+                                            ],
+                                            "score": 0.9985677599906921,
+                                            "html": "<html><body><table><tr><td>Additional Coverage</td><td>SpecialDeductible</td></tr><tr><td>Identity Fraud Expense Coverage - HA.IDT</td><td>$100 applies for claims settled under this endorsement</td></tr><tr><td>Special Provisions-Texas-HA.HO3SP Water Back-up & SumpDischarge or Overflow</td><td>$250 applies for claims settled under this coverage</td></tr><tr><td>Service Line Coverage - HA. SL</td><td>$500 applies for claims settled under this coverage</td></tr><tr><td>Residence Glass Coverage -HO-105</td><td>$0for claims settled under this endorsement</td></tr><tr><td>Scheduled Personal Property - HA.SPP</td><td>$0 applies for claims settled under this endorsement</td></tr><tr><td>Coverage Extension - HA.HO.CEHO3 Fire Department Service Charge Consequential Loss Lock Replacement Coverage Reward Reward Reimbursement Coverage Credit Card, Electronic Fund Transfer Card or Access Device,Forgery and Counterfeit Money</td><td>$0 applies for claims settled under this endorsement $0 applies for claims settled under this endorsement $0 applies for claims settled under this endorsement $0 applies for claims settled under this endorsement $O applies for claims settled under this endorsement</td></tr></table></body></html>",
+                                            "type": "table",
+                                            "image_path": "z72ywm.jpg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "index": 25,
+                            "virtual_lines": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        435,
+                                        551,
+                                        520.0
+                                    ],
+                                    "spans": [],
+                                    "index": 24
+                                },
+                                {
+                                    "bbox": [
+                                        61,
+                                        520.0,
+                                        551,
+                                        605.0
+                                    ],
+                                    "spans": [],
+                                    "index": 25
+                                },
+                                {
+                                    "bbox": [
+                                        61,
+                                        605.0,
+                                        551,
+                                        690.0
+                                    ],
+                                    "spans": [],
+                                    "index": 26
+                                }
+                            ]
+                        }
+                    ],
+                    "index": 25
+                }
+            ],
+            "interline_equations": [],
+            "discarded_blocks": [
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        533,
+                        778,
+                        576,
+                        787
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                533,
+                                778,
+                                576,
+                                788
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        533,
+                                        778,
+                                        576,
+                                        788
+                                    ],
+                                    "score": 0.94,
+                                    "content": "Page 2 of 2",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        40,
+                        779,
+                        109,
+                        789
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                39,
+                                780,
+                                109,
+                                790
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        39,
+                                        780,
+                                        109,
+                                        790
+                                    ],
+                                    "score": 0.98,
+                                    "content": "TXDECHO3 (0217)",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "need_drop": false,
+            "drop_reason": [],
+            "para_blocks": [
+                {
+                    "type": "table",
+                    "bbox": [
+                        61,
+                        21,
+                        549,
+                        111
+                    ],
+                    "blocks": [
+                        {
+                            "type": "table_body",
+                            "bbox": [
+                                61,
+                                21,
+                                549,
+                                111
+                            ],
+                            "group_id": 0,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        21,
+                                        549,
+                                        111
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                61,
+                                                21,
+                                                549,
+                                                111
+                                            ],
+                                            "score": 0.9998286962509155,
+                                            "html": "<html><body><table><tr><td>DEDUCTIBLE</td><td>AMOUNTOF</td><td>DEDUCTIBLE ADJUSTMENT</td></tr><tr><td>(SECTIONIONLY)</td><td>DEDUCTIBLE $8,681</td><td>PREMIUM</td></tr><tr><td>DEDUCTIBLE CLAUSE 1 - Windstorm, Hurricane, Hail, and Wind Driven Rain</td><td></td><td>INCL</td></tr><tr><td>DEDUCTIBLECLAUSE2-AllOtherPerils</td><td>$4,341</td><td>INCL</td></tr><tr><td></td><td>TOTALPOLICYPREMIUM</td><td>$5,709.00</td></tr><tr><td colspan=\"3\"></td></tr></table></body></html>",
+                                            "type": "table",
+                                            "image_path": "qzlvzy.jpg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "index": 1,
+                            "virtual_lines": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        21,
+                                        549,
+                                        51.0
+                                    ],
+                                    "spans": [],
+                                    "index": 0
+                                },
+                                {
+                                    "bbox": [
+                                        61,
+                                        51.0,
+                                        549,
+                                        81.0
+                                    ],
+                                    "spans": [],
+                                    "index": 1
+                                },
+                                {
+                                    "bbox": [
+                                        61,
+                                        81.0,
+                                        549,
+                                        111.0
+                                    ],
+                                    "spans": [],
+                                    "index": 2
+                                }
+                            ]
+                        },
+                        {
+                            "type": "table_caption",
+                            "bbox": [
+                                155,
+                                111,
+                                457,
+                                123
+                            ],
+                            "group_id": 0,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        155,
+                                        111,
+                                        456,
+                                        122
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                155,
+                                                113,
+                                                288,
+                                                122
+                                            ],
+                                            "score": 0.95,
+                                            "content": "A FULLY EARNEDMGAFEE OF",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "bbox": [
+                                                288,
+                                                111,
+                                                319,
+                                                122
+                                            ],
+                                            "score": 0.81,
+                                            "content": "\\mathbb{S}120.00\\",
+                                            "type": "inline_equation"
+                                        },
+                                        {
+                                            "bbox": [
+                                                320,
+                                                113,
+                                                456,
+                                                122
+                                            ],
+                                            "score": 0.99,
+                                            "content": "IS INCLUDED IN THIS PREMIUM",
+                                            "type": "text"
+                                        }
+                                    ],
+                                    "index": 3
+                                }
+                            ],
+                            "index": 3
+                        }
+                    ],
+                    "index": 2.0,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        145,
+                        132,
+                        472,
+                        143
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                145,
+                                132,
+                                472,
+                                143
+                            ],
+                            "spans": [],
+                            "index": 5
+                        }
+                    ],
+                    "index": 5,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        145,
+                        132,
+                        472,
+                        143
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        63,
+                        136,
+                        502,
+                        227
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                144,
+                                134,
+                                473,
+                                144
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        144,
+                                        134,
+                                        473,
+                                        144
+                                    ],
+                                    "score": 0.98,
+                                    "content": "THIS POLICY INCLUDES THE PERILS OF WINDS'TORM, HURRICANE AND HAIL",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        },
+                        {
+                            "bbox": [
+                                117,
+                                150,
+                                196,
+                                160
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        117,
+                                        150,
+                                        196,
+                                        160
+                                    ],
+                                    "score": 0.99,
+                                    "content": "H MICHAEL VERN",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                117,
+                                162,
+                                235,
+                                172
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        117,
+                                        162,
+                                        235,
+                                        172
+                                    ],
+                                    "score": 1.0,
+                                    "content": "VERNINSURANCEGROUP",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        },
+                        {
+                            "bbox": [
+                                61,
+                                174,
+                                217,
+                                185
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        174,
+                                        217,
+                                        185
+                                    ],
+                                    "score": 0.98,
+                                    "content": "AGENCYAT3311EBROADWAY ST",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        },
+                        {
+                            "bbox": [
+                                117,
+                                186,
+                                212,
+                                197
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        117,
+                                        186,
+                                        212,
+                                        197
+                                    ],
+                                    "score": 0.99,
+                                    "content": "PEARLAND, TX 77581",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        },
+                        {
+                            "bbox": [
+                                118,
+                                199,
+                                182,
+                                209
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        118,
+                                        199,
+                                        182,
+                                        209
+                                    ],
+                                    "score": 0.99,
+                                    "content": "(281) 922-1616",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        },
+                        {
+                            "bbox": [
+                                118,
+                                211,
+                                248,
+                                222
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        118,
+                                        211,
+                                        248,
+                                        222
+                                    ],
+                                    "score": 1.0,
+                                    "content": "AGENCY CODE:1178-000-000",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        }
+                    ],
+                    "index": 8,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        61,
+                        134,
+                        473,
+                        222
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        132,
+                        238,
+                        478,
+                        251
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                133,
+                                242,
+                                478,
+                                250
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        133,
+                                        242,
+                                        478,
+                                        250
+                                    ],
+                                    "score": 0.99,
+                                    "content": "OTHERCOVERAGES,LIMITSANDEXCLUSIONSAPPLY-REFER TOYOURPOLICY",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        }
+                    ],
+                    "index": 12,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        133,
+                        242,
+                        478,
+                        250
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        246,
+                        270,
+                        316,
+                        280
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                245,
+                                270,
+                                315,
+                                280
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        245,
+                                        270,
+                                        315,
+                                        280
+                                    ],
+                                    "score": 0.96,
+                                    "content": "MORTGAGEE #2",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        }
+                    ],
+                    "index": 13,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        245,
+                        270,
+                        315,
+                        280
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        425,
+                        270,
+                        495,
+                        281
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                426,
+                                270,
+                                495,
+                                280
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        426,
+                                        270,
+                                        495,
+                                        280
+                                    ],
+                                    "score": 1.0,
+                                    "content": "MORTGAGEE#3",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        }
+                    ],
+                    "index": 14,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        426,
+                        270,
+                        495,
+                        280
+                    ]
+                },
+                {
+                    "type": "list",
+                    "bbox": [
+                        63,
+                        283,
+                        230,
+                        331
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                64,
+                                286,
+                                228,
+                                298
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        64,
+                                        286,
+                                        228,
+                                        298
+                                    ],
+                                    "score": 0.99,
+                                    "content": "LOANDEPOT.COM, LLC, ISAOA/ATIMA",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                65,
+                                298,
+                                120,
+                                308
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        65,
+                                        298,
+                                        120,
+                                        308
+                                    ],
+                                    "score": 0.9,
+                                    "content": "PO BOX 7114",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                64,
+                                308,
+                                134,
+                                319
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        64,
+                                        308,
+                                        134,
+                                        319
+                                    ],
+                                    "score": 0.96,
+                                    "content": "TROY , MI 48007",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                65,
+                                320,
+                                151,
+                                330
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        65,
+                                        320,
+                                        151,
+                                        330
+                                    ],
+                                    "score": 0.99,
+                                    "content": "Acc Num: 5000391580",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18,
+                            "is_list_start_line": true
+                        }
+                    ],
+                    "index": 16.5,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        64,
+                        286,
+                        228,
+                        330
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        35,
+                        371,
+                        140,
+                        381
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                35,
+                                370,
+                                140,
+                                383
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        35,
+                                        370,
+                                        140,
+                                        383
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Important Information",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        }
+                    ],
+                    "index": 19,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        34,
+                        382,
+                        574,
+                        426
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                33,
+                                380,
+                                550,
+                                397
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        33,
+                                        380,
+                                        550,
+                                        397
+                                    ],
+                                    "score": 0.98,
+                                    "content": "The dollar amount of each percentage deductible may change at renewal if the value of your home changes. Please",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20
+                        },
+                        {
+                            "bbox": [
+                                35,
+                                394,
+                                574,
+                                407
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        35,
+                                        394,
+                                        574,
+                                        407
+                                    ],
+                                    "score": 0.98,
+                                    "content": "understand that this change in limits could impact your \"Windstorm, Hurricane, Hail and Wind Driven Rain\" deductible and",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 21
+                        },
+                        {
+                            "bbox": [
+                                34,
+                                405,
+                                184,
+                                418
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        34,
+                                        405,
+                                        184,
+                                        418
+                                    ],
+                                    "score": 0.97,
+                                    "content": "your\"All Other Perils\" deductible.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 22
+                        },
+                        {
+                            "bbox": [
+                                34,
+                                415,
+                                571,
+                                430
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        34,
+                                        415,
+                                        571,
+                                        430
+                                    ],
+                                    "score": 0.99,
+                                    "content": "Please reference the Other Coverages and Endorsements section above to determine if any of the following special deductibles apply.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 23
+                        }
+                    ],
+                    "index": 21.5,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        33,
+                        380,
+                        574,
+                        430
+                    ]
+                },
+                {
+                    "type": "table",
+                    "bbox": [
+                        61,
+                        435,
+                        551,
+                        690
+                    ],
+                    "blocks": [
+                        {
+                            "type": "table_body",
+                            "bbox": [
+                                61,
+                                435,
+                                551,
+                                690
+                            ],
+                            "group_id": 1,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        435,
+                                        551,
+                                        690
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                61,
+                                                435,
+                                                551,
+                                                690
+                                            ],
+                                            "score": 0.9985677599906921,
+                                            "html": "<html><body><table><tr><td>Additional Coverage</td><td>SpecialDeductible</td></tr><tr><td>Identity Fraud Expense Coverage - HA.IDT</td><td>$100 applies for claims settled under this endorsement</td></tr><tr><td>Special Provisions-Texas-HA.HO3SP Water Back-up & SumpDischarge or Overflow</td><td>$250 applies for claims settled under this coverage</td></tr><tr><td>Service Line Coverage - HA. SL</td><td>$500 applies for claims settled under this coverage</td></tr><tr><td>Residence Glass Coverage -HO-105</td><td>$0for claims settled under this endorsement</td></tr><tr><td>Scheduled Personal Property - HA.SPP</td><td>$0 applies for claims settled under this endorsement</td></tr><tr><td>Coverage Extension - HA.HO.CEHO3 Fire Department Service Charge Consequential Loss Lock Replacement Coverage Reward Reward Reimbursement Coverage Credit Card, Electronic Fund Transfer Card or Access Device,Forgery and Counterfeit Money</td><td>$0 applies for claims settled under this endorsement $0 applies for claims settled under this endorsement $0 applies for claims settled under this endorsement $0 applies for claims settled under this endorsement $O applies for claims settled under this endorsement</td></tr></table></body></html>",
+                                            "type": "table",
+                                            "image_path": "z72ywm.jpg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "index": 25,
+                            "virtual_lines": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        435,
+                                        551,
+                                        520.0
+                                    ],
+                                    "spans": [],
+                                    "index": 24
+                                },
+                                {
+                                    "bbox": [
+                                        61,
+                                        520.0,
+                                        551,
+                                        605.0
+                                    ],
+                                    "spans": [],
+                                    "index": 25
+                                },
+                                {
+                                    "bbox": [
+                                        61,
+                                        605.0,
+                                        551,
+                                        690.0
+                                    ],
+                                    "spans": [],
+                                    "index": 26
+                                }
+                            ]
+                        }
+                    ],
+                    "index": 25,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                }
+            ]
+        }
+    ],
+    "_parse_type": "ocr",
+    "_version_name": "0.10.6"
+}
