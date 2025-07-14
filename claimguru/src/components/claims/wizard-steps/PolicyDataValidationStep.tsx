@@ -1,0 +1,473 @@
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card';
+import { Button } from '../../ui/Button';
+import { Input } from '../../ui/Input';
+import { LoadingSpinner } from '../../ui/LoadingSpinner';
+import { 
+  CheckCircle, 
+  AlertTriangle, 
+  Edit3, 
+  Save, 
+  X, 
+  Brain,
+  FileText,
+  User,
+  Building,
+  Calendar,
+  DollarSign,
+  Shield
+} from 'lucide-react';
+
+interface PolicyDataValidationStepProps {
+  extractedData: any;
+  rawText: string;
+  onValidated: (validatedData: any) => void;
+  onReject: () => void;
+}
+
+interface ValidationResult {
+  field: string;
+  label: string;
+  value: string;
+  confidence: 'high' | 'medium' | 'low';
+  suggestions?: string[];
+  isRequired: boolean;
+  icon: React.ComponentType<any>;
+}
+
+export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> = ({
+  extractedData,
+  rawText,
+  onValidated,
+  onReject
+}) => {
+  const [validationResults, setValidationResults] = useState<ValidationResult[]>([]);
+  const [editingField, setEditingField] = useState<string | null>(null);
+  const [editValue, setEditValue] = useState<string>('');
+  const [isValidating, setIsValidating] = useState(true);
+  const [overallConfidence, setOverallConfidence] = useState<number>(0);
+
+  useEffect(() => {
+    validateExtractedData();
+  }, [extractedData, rawText]);
+
+  const validateExtractedData = async () => {
+    setIsValidating(true);
+
+    try {
+      // Define expected fields with validation rules
+      const fieldDefinitions = [
+        {
+          field: 'policyNumber',
+          label: 'Policy Number',
+          pattern: /[A-Z0-9\-]{6,20}/,
+          isRequired: true,
+          icon: FileText
+        },
+        {
+          field: 'insuredName',
+          label: 'Insured Name',
+          pattern: /[A-Za-z\s&,]{2,50}/,
+          isRequired: true,
+          icon: User
+        },
+        {
+          field: 'insurerName',
+          label: 'Insurance Company',
+          pattern: /[A-Za-z\s&.,]{2,50}/,
+          isRequired: true,
+          icon: Building
+        },
+        {
+          field: 'effectiveDate',
+          label: 'Effective Date',
+          pattern: /\\d{1,2}[\/\\-]\\d{1,2}[\/\\-]\\d{2,4}/,
+          isRequired: true,
+          icon: Calendar
+        },
+        {
+          field: 'expirationDate',
+          label: 'Expiration Date',
+          pattern: /\\d{1,2}[\/\\-]\\d{1,2}[\/\\-]\\d{2,4}/,
+          isRequired: true,
+          icon: Calendar
+        },
+        {
+          field: 'propertyAddress',
+          label: 'Property Address',
+          pattern: /[\\w\\s,#\\-]{10,100}/,
+          isRequired: true,
+          icon: Building
+        },
+        {
+          field: 'coverageAmount',
+          label: 'Coverage Amount',
+          pattern: /\\$[\\d,]+/,
+          isRequired: false,
+          icon: DollarSign
+        },
+        {
+          field: 'deductible',
+          label: 'Deductible',
+          pattern: /\\$[\\d,]+/,
+          isRequired: false,
+          icon: Shield
+        }
+      ];
+
+      const results: ValidationResult[] = [];
+      let totalConfidence = 0;
+
+      for (const fieldDef of fieldDefinitions) {
+        const extractedValue = extractedData[fieldDef.field] || '';
+        const confidence = calculateFieldConfidence(extractedValue, fieldDef, rawText);
+        const suggestions = generateSuggestions(fieldDef.field, rawText, fieldDef.pattern);
+
+        results.push({
+          field: fieldDef.field,
+          label: fieldDef.label,
+          value: extractedValue,
+          confidence,
+          suggestions,
+          isRequired: fieldDef.isRequired,
+          icon: fieldDef.icon
+        });
+
+        totalConfidence += confidence === 'high' ? 3 : confidence === 'medium' ? 2 : 1;
+      }
+
+      setValidationResults(results);
+      setOverallConfidence((totalConfidence / (fieldDefinitions.length * 3)) * 100);
+
+    } catch (error) {
+      console.error('Validation failed:', error);
+    } finally {
+      setIsValidating(false);
+    }
+  };
+
+  const calculateFieldConfidence = (value: string, fieldDef: any, rawText: string): 'high' | 'medium' | 'low' => {
+    if (!value || value.trim() === '') return 'low';
+    
+    // Check if value matches expected pattern
+    if (fieldDef.pattern && fieldDef.pattern.test(value)) {
+      // Check if the value appears in the raw text
+      if (rawText.toLowerCase().includes(value.toLowerCase())) {
+        return 'high';
+      }
+      return 'medium';
+    }
+    
+    // Even if pattern doesn't match, if it's a reasonable length and appears in text
+    if (value.length > 2 && rawText.toLowerCase().includes(value.toLowerCase())) {
+      return 'medium';
+    }
+    
+    return 'low';
+  };
+
+  const generateSuggestions = (field: string, rawText: string, pattern: RegExp): string[] => {
+    const suggestions: string[] = [];
+    
+    try {
+      // Use pattern to find potential matches in raw text
+      const matches = rawText.match(new RegExp(pattern, 'gi'));
+      if (matches) {
+        suggestions.push(...matches.slice(0, 3)); // Max 3 suggestions
+      }
+    } catch (error) {
+      console.warn('Error generating suggestions:', error);
+    }
+    
+    return suggestions.filter((s, i, arr) => arr.indexOf(s) === i); // Remove duplicates
+  };
+
+  const handleEdit = (field: string, currentValue: string) => {
+    setEditingField(field);
+    setEditValue(currentValue);
+  };
+
+  const handleSave = (field: string) => {
+    setValidationResults(prev => 
+      prev.map(result => 
+        result.field === field 
+          ? { ...result, value: editValue, confidence: 'high' } // User-corrected = high confidence
+          : result
+      )
+    );
+    setEditingField(null);
+    setEditValue('');
+  };
+
+  const handleCancel = () => {
+    setEditingField(null);
+    setEditValue('');
+  };
+
+  const handleAcceptSuggestion = (field: string, suggestion: string) => {
+    setValidationResults(prev => 
+      prev.map(result => 
+        result.field === field 
+          ? { ...result, value: suggestion, confidence: 'medium' }
+          : result
+      )
+    );
+  };
+
+  const handleValidateAndProceed = () => {
+    const validatedData = {};
+    validationResults.forEach(result => {
+      validatedData[result.field] = result.value;
+    });
+
+    // Add validation metadata
+    const finalData = {
+      ...validatedData,
+      validationMetadata: {
+        overallConfidence,
+        userValidated: true,
+        validatedAt: new Date().toISOString(),
+        fieldCount: validationResults.length,
+        requiredFieldsComplete: validationResults
+          .filter(r => r.isRequired)
+          .every(r => r.value && r.value.trim() !== ''),
+        highConfidenceFields: validationResults.filter(r => r.confidence === 'high').length,
+        mediumConfidenceFields: validationResults.filter(r => r.confidence === 'medium').length,
+        lowConfidenceFields: validationResults.filter(r => r.confidence === 'low').length
+      }
+    };
+
+    onValidated(finalData);
+  };
+
+  const getConfidenceColor = (confidence: string) => {
+    switch (confidence) {
+      case 'high': return 'text-green-600 bg-green-50 border-green-200';
+      case 'medium': return 'text-yellow-600 bg-yellow-50 border-yellow-200';
+      case 'low': return 'text-red-600 bg-red-50 border-red-200';
+      default: return 'text-gray-600 bg-gray-50 border-gray-200';
+    }
+  };
+
+  const getConfidenceIcon = (confidence: string) => {
+    switch (confidence) {
+      case 'high': return <CheckCircle className=\"h-4 w-4\" />;
+      case 'medium': return <AlertTriangle className=\"h-4 w-4\" />;
+      case 'low': return <X className=\"h-4 w-4\" />;
+      default: return <AlertTriangle className=\"h-4 w-4\" />;
+    }
+  };
+
+  if (isValidating) {
+    return (
+      <div className=\"flex items-center justify-center p-12\">
+        <div className=\"text-center space-y-4\">
+          <LoadingSpinner size=\"lg\" />
+          <div>
+            <h3 className=\"text-lg font-medium text-gray-900\">Validating Extracted Data</h3>
+            <p className=\"text-gray-600\">AI is analyzing and confirming the extracted policy information...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const requiredFieldsComplete = validationResults
+    .filter(r => r.isRequired)
+    .every(r => r.value && r.value.trim() !== '');
+
+  return (
+    <div className=\"space-y-6\">
+      {/* Header */}
+      <Card>
+        <CardHeader>
+          <CardTitle className=\"flex items-center gap-2\">
+            <Brain className=\"h-5 w-5 text-purple-600\" />
+            AI Data Validation & Confirmation
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className=\"space-y-4\">
+            {/* Overall Confidence */}
+            <div className=\"bg-blue-50 border border-blue-200 rounded-lg p-4\">
+              <div className=\"flex items-center justify-between\">
+                <div>
+                  <h4 className=\"font-medium text-blue-900\">Overall Extraction Confidence</h4>
+                  <p className=\"text-sm text-blue-700\">
+                    Based on pattern matching and text analysis
+                  </p>
+                </div>
+                <div className=\"text-right\">
+                  <div className=\"text-2xl font-bold text-blue-900\">{Math.round(overallConfidence)}%</div>
+                  <div className=\"text-xs text-blue-600\">
+                    {overallConfidence >= 80 ? 'Excellent' : 
+                     overallConfidence >= 60 ? 'Good' : 
+                     overallConfidence >= 40 ? 'Fair' : 'Poor'}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Instructions */}
+            <div className=\"bg-yellow-50 border border-yellow-200 rounded-lg p-4\">
+              <div className=\"flex items-start gap-3\">
+                <AlertTriangle className=\"h-5 w-5 text-yellow-600 mt-0.5\" />
+                <div>
+                  <h4 className=\"font-medium text-yellow-900\">Please Review & Confirm</h4>
+                  <p className=\"text-sm text-yellow-700 mt-1\">
+                    Review each extracted field below. Click \"Edit\" to correct any inaccurate data, 
+                    or use AI suggestions if available. All required fields must be completed to proceed.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Field Validation Results */}
+      <div className=\"grid gap-4\">
+        {validationResults.map((result) => {
+          const Icon = result.icon;
+          const isEditing = editingField === result.field;
+
+          return (
+            <Card key={result.field} className={`border-l-4 ${
+              result.confidence === 'high' ? 'border-l-green-500' :
+              result.confidence === 'medium' ? 'border-l-yellow-500' : 'border-l-red-500'
+            }`}>
+              <CardContent className=\"p-4\">
+                <div className=\"flex items-start justify-between\">
+                  <div className=\"flex items-start gap-3 flex-1\">
+                    <Icon className=\"h-5 w-5 text-gray-600 mt-1\" />
+                    <div className=\"flex-1\">
+                      <div className=\"flex items-center gap-2 mb-2\">
+                        <h4 className=\"font-medium text-gray-900\">{result.label}</h4>
+                        {result.isRequired && (
+                          <span className=\"text-xs bg-red-100 text-red-700 px-2 py-1 rounded\">
+                            Required
+                          </span>
+                        )}
+                        <div className={`flex items-center gap-1 text-xs px-2 py-1 rounded border ${getConfidenceColor(result.confidence)}`}>
+                          {getConfidenceIcon(result.confidence)}
+                          {result.confidence} confidence
+                        </div>
+                      </div>
+
+                      {/* Value Display/Edit */}
+                      {isEditing ? (
+                        <div className=\"space-y-2\">
+                          <Input
+                            value={editValue}
+                            onChange={(e) => setEditValue(e.target.value)}
+                            className=\"w-full\"
+                            placeholder={`Enter ${result.label.toLowerCase()}`}
+                          />
+                          <div className=\"flex gap-2\">
+                            <Button
+                              onClick={() => handleSave(result.field)}
+                              variant=\"primary\"
+                              size=\"sm\"
+                              className=\"flex items-center gap-1\"
+                            >
+                              <Save className=\"h-3 w-3\" />
+                              Save
+                            </Button>
+                            <Button
+                              onClick={handleCancel}
+                              variant=\"outline\"
+                              size=\"sm\"
+                              className=\"flex items-center gap-1\"
+                            >
+                              <X className=\"h-3 w-3\" />
+                              Cancel
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className=\"space-y-2\">
+                          <div className=\"flex items-center gap-2\">
+                            <span className={`font-mono text-sm px-2 py-1 rounded ${
+                              result.value ? 'bg-gray-100 text-gray-900' : 'bg-red-50 text-red-600'
+                            }`}>
+                              {result.value || 'Not found'}
+                            </span>
+                            <Button
+                              onClick={() => handleEdit(result.field, result.value)}
+                              variant=\"outline\"
+                              size=\"sm\"
+                              className=\"flex items-center gap-1\"
+                            >
+                              <Edit3 className=\"h-3 w-3\" />
+                              Edit
+                            </Button>
+                          </div>
+
+                          {/* AI Suggestions */}
+                          {result.suggestions && result.suggestions.length > 0 && (
+                            <div className=\"space-y-1\">
+                              <p className=\"text-xs text-gray-600\">AI Suggestions:</p>
+                              <div className=\"flex flex-wrap gap-1\">
+                                {result.suggestions.map((suggestion, idx) => (
+                                  <button
+                                    key={idx}
+                                    onClick={() => handleAcceptSuggestion(result.field, suggestion)}
+                                    className=\"text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 px-2 py-1 rounded border border-blue-200 transition-colors\"
+                                  >
+                                    {suggestion}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+
+      {/* Action Buttons */}
+      <div className=\"flex justify-between items-center pt-6 border-t\">
+        <Button
+          onClick={onReject}
+          variant=\"outline\"
+          className=\"flex items-center gap-2\"
+        >
+          <X className=\"h-4 w-4\" />
+          Reject & Re-upload
+        </Button>
+
+        <div className=\"flex gap-3\">
+          <div className=\"text-sm text-gray-600\">
+            {requiredFieldsComplete ? (
+              <span className=\"text-green-600 flex items-center gap-1\">
+                <CheckCircle className=\"h-4 w-4\" />
+                All required fields complete
+              </span>
+            ) : (
+              <span className=\"text-red-600 flex items-center gap-1\">
+                <AlertTriangle className=\"h-4 w-4\" />
+                Complete required fields to proceed
+              </span>
+            )}
+          </div>
+
+          <Button
+            onClick={handleValidateAndProceed}
+            disabled={!requiredFieldsComplete}
+            variant=\"primary\"
+            className=\"flex items-center gap-2\"
+          >
+            <CheckCircle className=\"h-4 w-4\" />
+            Confirm & Proceed
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -4,6 +4,7 @@ import { Button } from '../../ui/Button';
 import { FileText, Upload, CheckCircle, AlertCircle, Brain, Eye, Clock, Check, X } from 'lucide-react';
 import { LoadingSpinner } from '../../ui/LoadingSpinner';
 import { HybridPDFExtractionService } from '../../../services/hybridPdfExtractionService';
+import { PolicyDataValidationStep } from './PolicyDataValidationStep';
 
 interface FixedRealPDFExtractionStepProps {
   data: any;
@@ -23,6 +24,8 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
   const [error, setError] = useState<string | null>(null);
   const [rawText, setRawText] = useState<string>('');
   const [processingDetails, setProcessingDetails] = useState<any>(null);
+  const [showValidation, setShowValidation] = useState(false);
+  const [validatedData, setValidatedData] = useState<any>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -75,6 +78,9 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
         methodsAttempted: result.metadata.methodsAttempted
       });
       
+      // Show validation step after successful extraction
+      setShowValidation(true);
+      
     } catch (error) {
       console.error('❌ Hybrid PDF extraction failed:', error);
       setError(`Extraction failed: ${error.message}`);
@@ -86,10 +92,55 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
     }
   };
 
+  const handleValidationComplete = (validatedPolicyData: any) => {
+    console.log('User validated and confirmed policy data:', validatedPolicyData);
+    
+    setValidatedData(validatedPolicyData);
+    
+    // Create unique claim identifier
+    const claimId = `claim_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    
+    onUpdate({
+      ...data,
+      claimId: claimId,
+      policyDetails: validatedPolicyData,
+      extractedPolicyData: true,
+      fileProcessed: file?.name,
+      dataConfirmed: true,
+      validationComplete: true,
+      confirmationTimestamp: new Date().toISOString(),
+      processingComplete: true,
+      rawExtractedText: rawText,
+      processingDetails: processingDetails
+    });
+    
+    setIsConfirmed(true);
+    setShowValidation(false);
+    
+    // Show success message and instruction to proceed
+    setTimeout(() => {
+      alert('✅ Data validated and confirmed successfully! Please click the "Next" button at the bottom to continue to Client Information.');
+    }, 500);
+  };
+
+  const handleValidationReject = () => {
+    console.log('User rejected extracted data, starting over');
+    
+    // Reset everything to start over
+    setFile(null);
+    setExtractedData(null);
+    setValidatedData(null);
+    setShowValidation(false);
+    setIsConfirmed(false);
+    setRawText('');
+    setProcessingDetails(null);
+    setError(null);
+  };
+
   const confirmAndSaveData = () => {
     if (!extractedData) return;
     
-    console.log('User confirmed real extracted data:', extractedData);
+    console.log('User confirmed real extracted data (legacy path):', extractedData);
     
     // Create unique claim identifier
     const claimId = `claim_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -108,6 +159,11 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
     });
     
     setIsConfirmed(true);
+    
+    // Show success message and instruction to proceed
+    setTimeout(() => {
+      alert('✅ Data confirmed successfully! Please click the "Next" button at the bottom to continue to Client Information.');
+    }, 500);
   };
 
   const rejectAndRetry = () => {
