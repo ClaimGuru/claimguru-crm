@@ -137,54 +137,7 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
     setError(null);
   };
 
-  const confirmAndSaveData = () => {
-    if (!extractedData) return;
-    
-    console.log('User confirmed real extracted data (legacy path):', extractedData);
-    
-    // Create unique claim identifier
-    const claimId = `claim_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
-    onUpdate({
-      ...data,
-      claimId: claimId,
-      policyDetails: extractedData,
-      extractedPolicyData: true,
-      fileProcessed: file?.name,
-      dataConfirmed: true,
-      confirmationTimestamp: new Date().toISOString(),
-      processingComplete: true,
-      rawExtractedText: rawText,
-      processingDetails: processingDetails
-    });
-    
-    setIsConfirmed(true);
-    
-    // Show success message and instruction to proceed
-    setTimeout(() => {
-      alert('✅ Data confirmed successfully! Please click the "Next" button at the bottom to continue to Client Information.');
-    }, 500);
-  };
-
-  const rejectAndRetry = () => {
-    console.log('User rejected extracted data, clearing for retry');
-    setExtractedData(null);
-    setRawText('');
-    setIsConfirmed(false);
-    setProcessingDetails(null);
-  };
-
-  // Show validation step if data has been extracted
-  if (showValidation && extractedData && rawText) {
-    return (
-      <PolicyDataValidationStep
-        extractedData={extractedData}
-        rawText={rawText}
-        onValidated={handleValidationComplete}
-        onReject={handleValidationReject}
-      />
-    );
-  }
+  // Legacy functions removed - now using PolicyDataValidationStep
 
   return (
     <div className="space-y-6">
