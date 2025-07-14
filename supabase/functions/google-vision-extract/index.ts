@@ -3,15 +3,15 @@
  * Uses the GOOGLEMAPS_API key for Google Vision OCR
  */
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE, PATCH',
-  'Access-Control-Max-Age': '86400',
-  'Access-Control-Allow-Credentials': 'false'
-};
-
 Deno.serve(async (req) => {
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE, PATCH',
+    'Access-Control-Max-Age': '86400',
+    'Access-Control-Allow-Credentials': 'false'
+  };
+
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { status: 200, headers: corsHeaders });
@@ -22,7 +22,6 @@ Deno.serve(async (req) => {
     const apiKey = Deno.env.get('GOOGLEMAPS_API');
     
     if (!apiKey) {
-      console.error('Google API key not configured');
       throw new Error('Google API key not configured');
     }
 

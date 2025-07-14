@@ -3,15 +3,15 @@
  * Uses OPENAI_API_KEY for intelligent parsing of insurance documents
  */
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE, PATCH',
-  'Access-Control-Max-Age': '86400',
-  'Access-Control-Allow-Credentials': 'false'
-};
-
 Deno.serve(async (req) => {
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE, PATCH',
+    'Access-Control-Max-Age': '86400',
+    'Access-Control-Allow-Credentials': 'false'
+  };
+
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { status: 200, headers: corsHeaders });
@@ -22,7 +22,6 @@ Deno.serve(async (req) => {
     const openaiKey = Deno.env.get('OPENAI_API_KEY') || Deno.env.get('OPENAI') || Deno.env.get('OPENAIKEY');
     
     if (!openaiKey) {
-      console.error('OpenAI API key not configured');
       throw new Error('OpenAI API key not configured');
     }
 
@@ -59,7 +58,7 @@ Rules:
 - Extract all coverage types found (e.g., "Dwelling", "Personal Property", etc.)
 
 Document text:
-${text.substring(0, 8000)}`; // Limit text to avoid token limits
+${text}`;
 
     // Call OpenAI API
     const openaiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -97,9 +96,7 @@ ${text.substring(0, 8000)}`; // Limit text to avoid token limits
     // Parse the JSON response from OpenAI
     let policyData;
     try {
-      // Clean the response to ensure it's valid JSON
-      const cleanedContent = extractedContent.trim().replace(/```json|```/g, '');
-      policyData = JSON.parse(cleanedContent);
+      policyData = JSON.parse(extractedContent.trim());
     } catch (parseError) {
       console.error('Failed to parse OpenAI response as JSON:', extractedContent);
       throw new Error('Invalid JSON response from OpenAI');
