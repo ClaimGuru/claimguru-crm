@@ -137,54 +137,7 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
     setError(null);
   };
 
-  const confirmAndSaveData = () => {
-    if (!extractedData) return;
-    
-    console.log('User confirmed real extracted data (legacy path):', extractedData);
-    
-    // Create unique claim identifier
-    const claimId = `claim_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
-    onUpdate({
-      ...data,
-      claimId: claimId,
-      policyDetails: extractedData,
-      extractedPolicyData: true,
-      fileProcessed: file?.name,
-      dataConfirmed: true,
-      confirmationTimestamp: new Date().toISOString(),
-      processingComplete: true,
-      rawExtractedText: rawText,
-      processingDetails: processingDetails
-    });
-    
-    setIsConfirmed(true);
-    
-    // Show success message and instruction to proceed
-    setTimeout(() => {
-      alert('✅ Data confirmed successfully! Please click the "Next" button at the bottom to continue to Client Information.');
-    }, 500);
-  };
-
-  const rejectAndRetry = () => {
-    console.log('User rejected extracted data, clearing for retry');
-    setExtractedData(null);
-    setRawText('');
-    setIsConfirmed(false);
-    setProcessingDetails(null);
-  };
-
-  // Show validation step if data has been extracted
-  if (showValidation && extractedData && rawText) {
-    return (
-      <PolicyDataValidationStep
-        extractedData={extractedData}
-        rawText={rawText}
-        onValidated={handleValidationComplete}
-        onReject={handleValidationReject}
-      />
-    );
-  }
+  // Legacy functions removed - now using PolicyDataValidationStep
 
   return (
     <div className="space-y-6">
@@ -289,72 +242,14 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
             </div>
           )}
 
-          {/* Extracted Data Results */}
-          {extractedData && !isConfirmed && (
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-              <div className="flex items-center gap-2 mb-3">
-                <CheckCircle className="h-5 w-5 text-green-600" />
-                <h4 className="font-medium text-green-900">Extraction Successful - Please Review</h4>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-                {extractedData.policyNumber && (
-                  <div className="p-2 bg-white rounded-lg">
-                    <span className="text-gray-600 text-sm">Policy Number:</span>
-                    <p className="font-medium text-green-800">{extractedData.policyNumber}</p>
-                  </div>
-                )}
-                {extractedData.insuredName && (
-                  <div className="p-2 bg-white rounded-lg">
-                    <span className="text-gray-600 text-sm">Insured Name:</span>
-                    <p className="font-medium text-green-800">{extractedData.insuredName}</p>
-                  </div>
-                )}
-                {extractedData.insurerName && (
-                  <div className="p-2 bg-white rounded-lg">
-                    <span className="text-gray-600 text-sm">Insurance Company:</span>
-                    <p className="font-medium text-green-800">{extractedData.insurerName}</p>
-                  </div>
-                )}
-                {extractedData.propertyAddress && (
-                  <div className="p-2 bg-white rounded-lg">
-                    <span className="text-gray-600 text-sm">Property Address:</span>
-                    <p className="font-medium text-green-800">{extractedData.propertyAddress}</p>
-                  </div>
-                )}
-                {extractedData.effectiveDate && (
-                  <div className="p-2 bg-white rounded-lg">
-                    <span className="text-gray-600 text-sm">Effective Date:</span>
-                    <p className="font-medium text-green-800">{extractedData.effectiveDate}</p>
-                  </div>
-                )}
-                {extractedData.coverageAmount && (
-                  <div className="p-2 bg-white rounded-lg">
-                    <span className="text-gray-600 text-sm">Coverage Amount:</span>
-                    <p className="font-medium text-green-800">{extractedData.coverageAmount}</p>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex gap-3 justify-center">
-                <Button
-                  onClick={confirmAndSaveData}
-                  variant="primary"
-                  className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
-                >
-                  <Check className="h-4 w-4" />
-                  Confirm & Continue
-                </Button>
-                <Button
-                  onClick={rejectAndRetry}
-                  variant="outline"
-                  className="flex items-center gap-2"
-                >
-                  <X className="h-4 w-4" />
-                  Reject & Retry
-                </Button>
-              </div>
-            </div>
+          {/* Policy Data Validation Step */}
+          {showValidation && extractedData && rawText && (
+            <PolicyDataValidationStep
+              extractedData={extractedData}
+              rawText={rawText}
+              onValidated={handleValidationComplete}
+              onReject={handleValidationReject}
+            />
           )}
 
           {/* Confirmation Message */}
