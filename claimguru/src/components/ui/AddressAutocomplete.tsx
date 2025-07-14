@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Loader } from '@googlemaps/js-api-loader'
 import { Input } from './Input'
 import { MapPin, AlertCircle } from 'lucide-react'
+import { configService } from '../../services/configService'
 
 interface AddressAutocompleteProps {
   value: string
@@ -34,13 +35,13 @@ export function AddressAutocomplete({
   const inputRef = useRef<HTMLInputElement>(null)
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null)
   
-  // Get API key from environment variables
-  const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'DEMO_MODE'
+  // Get API key from configuration service
+  const { apiKey: API_KEY, isEnabled: isGoogleMapsEnabled } = configService.getGoogleMapsConfig()
 
   useEffect(() => {
     const initializeAutocomplete = async () => {
       try {
-        if (API_KEY === 'DEMO_MODE') {
+        if (!isGoogleMapsEnabled || !API_KEY) {
           setApiError('Google Maps API key not configured. Using demo mode.')
           setIsLoading(false)
           return

@@ -176,7 +176,7 @@ export const getAddressSuggestions = async (input: string): Promise<string[]> =>
   
   try {
     // Call Google Places Autocomplete API
-    const autocompleteUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&types=address&key=${getApiKey()}`;
+    const autocompleteUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&types=address&key=${GOOGLE_PLACES_API_KEY}`;
     
     // Use a proxy to avoid CORS issues and protect API key
     const proxyUrl = '/api/google-places-proxy';
