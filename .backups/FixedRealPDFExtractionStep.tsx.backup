@@ -108,11 +108,6 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
     });
     
     setIsConfirmed(true);
-    
-    // Show success message and instruction to proceed
-    setTimeout(() => {
-      alert('✅ Data confirmed successfully! Please click the "Next" button at the bottom to continue to Client Information.');
-    }, 500);
   };
 
   const rejectAndRetry = () => {
