@@ -35,6 +35,297 @@ interface ValidationResult {
   icon: React.ComponentType<any>;
 }
 
+// Define field definitions organized by sections - moved to component level
+const fieldSections = [
+  {
+    title: 'Basic Policy Information',
+    icon: FileText,
+    fields: [
+      {
+        field: 'policyNumber',
+        label: 'Policy Number',
+        pattern: /[A-Z0-9\-]{5,25}/,
+        isRequired: true,
+        icon: FileText
+      },
+      {
+        field: 'effectiveDate',
+        label: 'Effective Date',
+        pattern: /\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/,
+        isRequired: true,
+        icon: Calendar
+      },
+      {
+        field: 'expirationDate',
+        label: 'Expiration Date',
+        pattern: /\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/,
+        isRequired: true,
+        icon: Calendar
+      }
+    ]
+  },
+  {
+    title: 'Insured Information',
+    icon: User,
+    fields: [
+      {
+        field: 'insuredName',
+        label: 'Insured Name',
+        pattern: /[A-Za-z\s&,]{2,50}/,
+        isRequired: true,
+        icon: User
+      },
+      {
+        field: 'coinsuredName',
+        label: 'Co-Insured Name',
+        pattern: /[A-Za-z\s&,]{2,50}/,
+        isRequired: false,
+        icon: User
+      }
+    ]
+  },
+  {
+    title: 'Property Information',
+    icon: Building,
+    fields: [
+      {
+        field: 'propertyAddress',
+        label: 'Property Address',
+        pattern: /[\w\s,#\-]{10,100}/,
+        isRequired: true,
+        icon: Building
+      },
+      {
+        field: 'mailingAddress',
+        label: 'Mailing Address',
+        pattern: /[\w\s,#\-]{10,100}/,
+        isRequired: false,
+        icon: Building
+      },
+      {
+        field: 'yearBuilt',
+        label: 'Year Built',
+        pattern: /\d{4}/,
+        isRequired: false,
+        icon: Calendar
+      },
+      {
+        field: 'dwellingStyle',
+        label: 'Dwelling Style',
+        pattern: /[A-Za-z\s\-]{2,30}/,
+        isRequired: false,
+        icon: Building
+      },
+      {
+        field: 'squareFootage',
+        label: 'Square Footage',
+        pattern: /\d{1,6}/,
+        isRequired: false,
+        icon: Building
+      },
+      {
+        field: 'numberOfStories',
+        label: 'Number of Stories',
+        pattern: /\d{1,2}/,
+        isRequired: false,
+        icon: Building
+      }
+    ]
+  },
+  {
+    title: 'Coverage Details',
+    icon: Shield,
+    fields: [
+      {
+        field: 'coverageA',
+        label: 'Coverage A (Dwelling)',
+        pattern: /\$[\d,]+/,
+        isRequired: false,
+        icon: DollarSign
+      },
+      {
+        field: 'coverageB',
+        label: 'Coverage B (Other Structures)',
+        pattern: /\$[\d,]+/,
+        isRequired: false,
+        icon: DollarSign
+      },
+      {
+        field: 'coverageC',
+        label: 'Coverage C (Personal Property)',
+        pattern: /\$[\d,]+/,
+        isRequired: false,
+        icon: DollarSign
+      },
+      {
+        field: 'coverageD',
+        label: 'Coverage D (Loss of Use)',
+        pattern: /\$[\d,]+/,
+        isRequired: false,
+        icon: DollarSign
+      },
+      {
+        field: 'moldLimit',
+        label: 'Mold Coverage Limit',
+        pattern: /\$[\d,]+/,
+        isRequired: false,
+        icon: DollarSign
+      },
+      {
+        field: 'deductible',
+        label: 'Deductible',
+        pattern: /\$[\d,]+/,
+        isRequired: false,
+        icon: Shield
+      },
+      {
+        field: 'deductibleType',
+        label: 'Deductible Type',
+        pattern: /[A-Za-z\s\/\-]{2,30}/,
+        isRequired: false,
+        icon: Shield
+      },
+      // Legacy field for compatibility
+      {
+        field: 'coverageAmount',
+        label: 'Total Coverage Amount',
+        pattern: /\$[\d,]+/,
+        isRequired: false,
+        icon: DollarSign
+      }
+    ]
+  },
+  {
+    title: 'Insurer Information',
+    icon: Building,
+    fields: [
+      {
+        field: 'insurerName',
+        label: 'Insurance Company',
+        pattern: /[A-Za-z\s&.,]{2,50}/,
+        isRequired: true,
+        icon: Building
+      },
+      {
+        field: 'insurerPhone',
+        label: 'Insurer Phone',
+        pattern: /[\d\-\(\)\.\s]{10,15}/,
+        isRequired: false,
+        icon: Building
+      },
+      {
+        field: 'insurerAddress',
+        label: 'Insurer Address',
+        pattern: /[\w\s,#\-]{10,100}/,
+        isRequired: false,
+        icon: Building
+      }
+    ]
+  },
+  {
+    title: 'Agent Information',
+    icon: User,
+    fields: [
+      {
+        field: 'agentName',
+        label: 'Agent Name',
+        pattern: /[A-Za-z\s&,]{2,50}/,
+        isRequired: false,
+        icon: User
+      },
+      {
+        field: 'agentPhone',
+        label: 'Agent Phone',
+        pattern: /[\d\-\(\)\.\s]{10,15}/,
+        isRequired: false,
+        icon: User
+      },
+      {
+        field: 'agentAddress',
+        label: 'Agent Address',
+        pattern: /[\w\s,#\-]{10,100}/,
+        isRequired: false,
+        icon: User
+      }
+    ]
+  },
+  {
+    title: 'Mortgagee Information',
+    icon: Building,
+    fields: [
+      {
+        field: 'mortgageeName',
+        label: 'Mortgagee Name',
+        pattern: /[A-Za-z\s&.,]{2,50}/,
+        isRequired: false,
+        icon: Building
+      },
+      {
+        field: 'mortgageePhone',
+        label: 'Mortgagee Phone',
+        pattern: /[\d\-\(\)\.\s]{10,15}/,
+        isRequired: false,
+        icon: Building
+      },
+      {
+        field: 'mortgageeAddress',
+        label: 'Mortgagee Address',
+        pattern: /[\w\s,#\-]{10,100}/,
+        isRequired: false,
+        icon: Building
+      },
+      {
+        field: 'mortgageAccountNumber',
+        label: 'Mortgage Account Number',
+        pattern: /[A-Z0-9\-]{6,20}/,
+        isRequired: false,
+        icon: FileText
+      }
+    ]
+  },
+  {
+    title: 'Construction Details',
+    icon: Building,
+    fields: [
+      {
+        field: 'constructionType',
+        label: 'Construction Type',
+        pattern: /[A-Za-z\s\-]{2,30}/,
+        isRequired: false,
+        icon: Building
+      },
+      {
+        field: 'foundationType',
+        label: 'Foundation Type',
+        pattern: /[A-Za-z\s\-]{2,30}/,
+        isRequired: false,
+        icon: Building
+      },
+      {
+        field: 'roofMaterialType',
+        label: 'Roof Material',
+        pattern: /[A-Za-z\s\-]{2,30}/,
+        isRequired: false,
+        icon: Building
+      },
+      {
+        field: 'sidingType',
+        label: 'Siding Type',
+        pattern: /[A-Za-z\s\-]{2,30}/,
+        isRequired: false,
+        icon: Building
+      },
+      {
+        field: 'heatingAndCooling',
+        label: 'Heating & Cooling',
+        pattern: /[A-Za-z\s\-]{2,50}/,
+        isRequired: false,
+        icon: Building
+      }
+    ]
+  }
+];
+
 export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> = ({
   extractedData,
   rawText,
@@ -57,72 +348,10 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
     try {
       console.log('Validating extracted data:', extractedData);
       
-      // Define expected fields with validation rules
-      const fieldDefinitions = [
-        {
-          field: 'policyNumber',
-          label: 'Policy Number',
-          pattern: /[A-Z0-9\-]{5,25}/,
-          isRequired: true,
-          icon: FileText
-        },
-        {
-          field: 'insuredName',
-          label: 'Insured Name',
-          pattern: /[A-Za-z\s&,]{2,50}/,
-          isRequired: true,
-          icon: User
-        },
-        {
-          field: 'insurerName',
-          label: 'Insurance Company',
-          pattern: /[A-Za-z\s&.,]{2,50}/,
-          isRequired: true,
-          icon: Building
-        },
-        {
-          field: 'effectiveDate',
-          label: 'Effective Date',
-          pattern: /\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/,
-          isRequired: true,
-          icon: Calendar
-        },
-        {
-          field: 'expirationDate',
-          label: 'Expiration Date',
-          pattern: /\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/,
-          isRequired: true,
-          icon: Calendar
-        },
-        {
-          field: 'propertyAddress',
-          label: 'Property Address',
-          pattern: /[\w\s,#\-]{10,100}/,
-          isRequired: true,
-          icon: Building
-        },
-        {
-          field: 'coverageAmount',
-          label: 'Coverage Amount',
-          pattern: /\$[\d,]+/,
-          isRequired: false,
-          icon: DollarSign
-        },
-        {
-          field: 'deductible',
-          label: 'Deductible',
-          pattern: /\$[\d,]+/,
-          isRequired: false,
-          icon: Shield
-        },
-        {
-          field: 'mortgageAccountNumber',
-          label: 'Mortgage Account Number',
-          pattern: /[A-Z0-9\-]{6,20}/,
-          isRequired: false,
-          icon: Building
-        }
-      ];
+      // Flatten all fields for processing
+      const fieldDefinitions = fieldSections.reduce((acc, section) => {
+        return acc.concat(section.fields);
+      }, []);
 
       const results: ValidationResult[] = [];
       let totalConfidence = 0;
@@ -392,106 +621,130 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
         </CardContent>
       </Card>
 
-      {/* Field Validation Results */}
-      <div className="grid gap-4">
-        {validationResults.map((result) => {
-          const Icon = result.icon;
-          const isEditing = editingField === result.field;
+      {/* Field Validation Results - Organized by Sections */}
+      <div className="space-y-6">
+        {fieldSections.map((section) => {
+          const SectionIcon = section.icon;
+          const sectionFields = validationResults.filter(result => 
+            section.fields.some(field => field.field === result.field)
+          );
+
+          // Only show sections that have fields
+          if (sectionFields.length === 0) return null;
 
           return (
-            <Card key={result.field} className={`border-l-4 ${
-              result.confidence === 'high' ? 'border-l-green-500' :
-              result.confidence === 'medium' ? 'border-l-yellow-500' : 'border-l-red-500'
-            }`}>
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-3 flex-1">
-                    <Icon className="h-5 w-5 text-gray-600 mt-1" />
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h4 className="font-medium text-gray-900">{result.label}</h4>
-                        {result.isRequired && (
-                          <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded">
-                            Required
-                          </span>
-                        )}
-                        <div className={`flex items-center gap-1 text-xs px-2 py-1 rounded border ${getConfidenceColor(result.confidence)}`}>
-                          {getConfidenceIcon(result.confidence)}
-                          {result.confidence} confidence
-                        </div>
-                      </div>
+            <Card key={section.title} className="border-2">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <SectionIcon className="h-5 w-5 text-blue-600" />
+                  {section.title}
+                  <span className="text-sm font-normal text-gray-500">
+                    ({sectionFields.length} field{sectionFields.length !== 1 ? 's' : ''})
+                  </span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {sectionFields.map((result) => {
+                  const Icon = result.icon;
+                  const isEditing = editingField === result.field;
 
-                      {/* Value Display/Edit */}
-                      {isEditing ? (
-                        <div className="space-y-2">
-                          <Input
-                            value={editValue}
-                            onChange={(e) => setEditValue(e.target.value)}
-                            className="w-full"
-                            placeholder={`Enter ${result.label.toLowerCase()}`}
-                          />
-                          <div className="flex gap-2">
-                            <Button
-                              onClick={() => handleSave(result.field)}
-                              variant="primary"
-                              size="sm"
-                              className="flex items-center gap-1"
-                            >
-                              <Save className="h-3 w-3" />
-                              Save
-                            </Button>
-                            <Button
-                              onClick={handleCancel}
-                              variant="outline"
-                              size="sm"
-                              className="flex items-center gap-1"
-                            >
-                              <X className="h-3 w-3" />
-                              Cancel
-                            </Button>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-2">
-                            <span className={`font-mono text-sm px-2 py-1 rounded ${
-                              result.value ? 'bg-gray-100 text-gray-900' : 'bg-red-50 text-red-600'
-                            }`}>
-                              {result.value || 'Not found'}
-                            </span>
-                            <Button
-                              onClick={() => handleEdit(result.field, result.value)}
-                              variant="outline"
-                              size="sm"
-                              className="flex items-center gap-1"
-                            >
-                              <Edit3 className="h-3 w-3" />
-                              Edit
-                            </Button>
-                          </div>
-
-                          {/* AI Suggestions */}
-                          {result.suggestions && result.suggestions.length > 0 && (
-                            <div className="space-y-1">
-                              <p className="text-xs text-gray-600">AI Suggestions:</p>
-                              <div className="flex flex-wrap gap-1">
-                                {result.suggestions.map((suggestion, idx) => (
-                                  <button
-                                    key={idx}
-                                    onClick={() => handleAcceptSuggestion(result.field, suggestion)}
-                                    className="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 px-2 py-1 rounded border border-blue-200 transition-colors"
-                                  >
-                                    {suggestion}
-                                  </button>
-                                ))}
+                  return (
+                    <div key={result.field} className={`border rounded-lg p-4 border-l-4 ${
+                      result.confidence === 'high' ? 'border-l-green-500 bg-green-50/30' :
+                      result.confidence === 'medium' ? 'border-l-yellow-500 bg-yellow-50/30' : 
+                      'border-l-red-500 bg-red-50/30'
+                    }`}>
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-start gap-3 flex-1">
+                          <Icon className="h-4 w-4 text-gray-600 mt-1" />
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <h4 className="font-medium text-gray-900">{result.label}</h4>
+                              {result.isRequired && (
+                                <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded">
+                                  Required
+                                </span>
+                              )}
+                              <div className={`flex items-center gap-1 text-xs px-2 py-1 rounded border ${getConfidenceColor(result.confidence)}`}>
+                                {getConfidenceIcon(result.confidence)}
+                                {result.confidence} confidence
                               </div>
                             </div>
-                          )}
+
+                            {/* Value Display/Edit */}
+                            {isEditing ? (
+                              <div className="space-y-2">
+                                <Input
+                                  value={editValue}
+                                  onChange={(e) => setEditValue(e.target.value)}
+                                  className="w-full"
+                                  placeholder={`Enter ${result.label.toLowerCase()}`}
+                                />
+                                <div className="flex gap-2">
+                                  <Button
+                                    onClick={() => handleSave(result.field)}
+                                    variant="primary"
+                                    size="sm"
+                                    className="flex items-center gap-1"
+                                  >
+                                    <Save className="h-3 w-3" />
+                                    Save
+                                  </Button>
+                                  <Button
+                                    onClick={handleCancel}
+                                    variant="outline"
+                                    size="sm"
+                                    className="flex items-center gap-1"
+                                  >
+                                    <X className="h-3 w-3" />
+                                    Cancel
+                                  </Button>
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="space-y-2">
+                                <div className="flex items-center gap-2">
+                                  <span className={`font-mono text-sm px-2 py-1 rounded ${
+                                    result.value ? 'bg-gray-100 text-gray-900' : 'bg-red-50 text-red-600'
+                                  }`}>
+                                    {result.value || 'Not found'}
+                                  </span>
+                                  <Button
+                                    onClick={() => handleEdit(result.field, result.value)}
+                                    variant="outline"
+                                    size="sm"
+                                    className="flex items-center gap-1"
+                                  >
+                                    <Edit3 className="h-3 w-3" />
+                                    Edit
+                                  </Button>
+                                </div>
+
+                                {/* AI Suggestions */}
+                                {result.suggestions && result.suggestions.length > 0 && (
+                                  <div className="space-y-1">
+                                    <p className="text-xs text-gray-600">AI Suggestions:</p>
+                                    <div className="flex flex-wrap gap-1">
+                                      {result.suggestions.map((suggestion, idx) => (
+                                        <button
+                                          key={idx}
+                                          onClick={() => handleAcceptSuggestion(result.field, suggestion)}
+                                          className="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 px-2 py-1 rounded border border-blue-200 transition-colors"
+                                        >
+                                          {suggestion}
+                                        </button>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      )}
+                      </div>
                     </div>
-                  </div>
-                </div>
+                  );
+                })}
               </CardContent>
             </Card>
           );
