@@ -26,7 +26,7 @@ import { WorkingPolicyUploadStep } from './wizard-steps/WorkingPolicyUploadStep'
 import { SimplePDFTestStep } from './wizard-steps/SimplePDFTestStep'
 import { RealPolicyUploadStep } from './wizard-steps/RealPolicyUploadStep'
 import { DynamicPolicyUploadStep } from './wizard-steps/DynamicPolicyUploadStep'
-import { RealTimePolicyUploadStep } from './wizard-steps/RealTimePolicyUploadStep'
+import { ActualPDFExtractionStep } from './wizard-steps/ActualPDFExtractionStep'
 import { EnhancedClientDetailsStep } from './wizard-steps/EnhancedClientDetailsStep'
 import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoStep'
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
@@ -133,7 +133,7 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
       title: 'Real-Time Policy Analysis with Confirmation',
       description: 'Upload policy documents for accurate real-time extraction - review before saving',
       icon: FileText,
-      component: RealTimePolicyUploadStep,
+      component: ActualPDFExtractionStep,
       required: false
     },
     {
