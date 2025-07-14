@@ -1,0 +1,3712 @@
+{
+    "pdf_info": [
+        {
+            "preproc_blocks": [
+                {
+                    "type": "title",
+                    "bbox": [
+                        53,
+                        111,
+                        257,
+                        127
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                114,
+                                255,
+                                126
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        114,
+                                        255,
+                                        126
+                                    ],
+                                    "score": 1.0,
+                                    "content": "DADDADFADADTTFFDDFDDATFTFTTDDFAFATFDAFTFFTDFDDFATDFTTFDDAFTDTTAF",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        }
+                    ],
+                    "index": 0
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        128,
+                        241,
+                        160
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                128,
+                                240,
+                                137
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        128,
+                                        240,
+                                        137
+                                    ],
+                                    "score": 1.0,
+                                    "content": "TERRY CONNELLY PHYLLIS CONNELLY",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                140,
+                                151,
+                                149
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        140,
+                                        151,
+                                        149
+                                    ],
+                                    "score": 1.0,
+                                    "content": "410 PRESSWOOD DR",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                151,
+                                168,
+                                159
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        151,
+                                        168,
+                                        159
+                                    ],
+                                    "score": 1.0,
+                                    "content": "SPRING TX 773861207",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        }
+                    ],
+                    "index": 2
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        197,
+                        109,
+                        208
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                196,
+                                109,
+                                209
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        196,
+                                        109,
+                                        209
+                                    ],
+                                    "score": 1.0,
+                                    "content": "July 26, 2024",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        }
+                    ],
+                    "index": 4
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        219,
+                        214,
+                        254
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                220,
+                                194,
+                                230
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        220,
+                                        194,
+                                        230
+                                    ],
+                                    "score": 1.0,
+                                    "content": "INSURED:  TERRY CONNELLY",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                232,
+                                185,
+                                242
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        232,
+                                        185,
+                                        242
+                                    ],
+                                    "score": 1.0,
+                                    "content": "DATE OF LOSS:  July 08, 2024",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                244,
+                                213,
+                                253
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        244,
+                                        213,
+                                        253
+                                    ],
+                                    "score": 1.0,
+                                    "content": "CLAIM NUMBER:  0761226547 PBW",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        }
+                    ],
+                    "index": 6
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        345,
+                        219,
+                        491,
+                        253
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                347,
+                                220,
+                                491,
+                                230
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        347,
+                                        220,
+                                        491,
+                                        230
+                                    ],
+                                    "score": 1.0,
+                                    "content": "PHONE NUMBER:  877-224-4583",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        },
+                        {
+                            "bbox": [
+                                346,
+                                232,
+                                477,
+                                241
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        346,
+                                        232,
+                                        477,
+                                        241
+                                    ],
+                                    "score": 1.0,
+                                    "content": "FAX NUMBER:  877-292-9527",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        },
+                        {
+                            "bbox": [
+                                346,
+                                243,
+                                422,
+                                253
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        346,
+                                        243,
+                                        422,
+                                        253
+                                    ],
+                                    "score": 1.0,
+                                    "content": "OFFICE HOURS:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        }
+                    ],
+                    "index": 9
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        53,
+                        263,
+                        165,
+                        279
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                264,
+                                164,
+                                279
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        264,
+                                        164,
+                                        279
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Your Claim Update",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        }
+                    ],
+                    "index": 11
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        289,
+                        268,
+                        302
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                291,
+                                267,
+                                303
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        291,
+                                        267,
+                                        303
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Dear TERRY CONNELLY PHYLLIS CONNELLY,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        }
+                    ],
+                    "index": 12
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        314,
+                        555,
+                        352
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                313,
+                                556,
+                                331
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        313,
+                                        556,
+                                        331
+                                    ],
+                                    "score": 1.0,
+                                    "content": "We’re currently reviewing your claim, but believe you reported that it may involve mold, fungus, wet rot or ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                328,
+                                536,
+                                343
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        328,
+                                        536,
+                                        343
+                                    ],
+                                    "score": 1.0,
+                                    "content": "dry rot, or bacteria. Except as noted below, your policy does not cover losses consisting of or caused by",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                340,
+                                265,
+                                355
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        340,
+                                        265,
+                                        355
+                                    ],
+                                    "score": 1.0,
+                                    "content": "mold, fungus, wet rot and dry rot or bacteria.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        }
+                    ],
+                    "index": 14
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        366,
+                        188,
+                        378
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                366,
+                                188,
+                                380
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        366,
+                                        188,
+                                        380
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Your policy exclusion states:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        }
+                    ],
+                    "index": 16
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        89,
+                        392,
+                        361,
+                        482
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                89,
+                                392,
+                                306,
+                                405
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        89,
+                                        392,
+                                        306,
+                                        405
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Under Dwelling Protection–Coverage A, Other",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        },
+                        {
+                            "bbox": [
+                                88,
+                                405,
+                                349,
+                                418
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        88,
+                                        405,
+                                        349,
+                                        418
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Structures Protection–Coverage B or Personal Property",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        },
+                        {
+                            "bbox": [
+                                89,
+                                419,
+                                340,
+                                431
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        89,
+                                        419,
+                                        340,
+                                        431
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Protection–Coverage C of this policy, we do not cover",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        },
+                        {
+                            "bbox": [
+                                90,
+                                432,
+                                356,
+                                444
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        90,
+                                        432,
+                                        356,
+                                        444
+                                    ],
+                                    "score": 1.0,
+                                    "content": "any loss consisting of or caused by mold, fungus, wet rot,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20
+                        },
+                        {
+                            "bbox": [
+                                90,
+                                444,
+                                361,
+                                456
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        90,
+                                        444,
+                                        361,
+                                        456
+                                    ],
+                                    "score": 1.0,
+                                    "content": "dry rot or other microbes. This includes any loss which, in",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 21
+                        },
+                        {
+                            "bbox": [
+                                90,
+                                457,
+                                356,
+                                469
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        90,
+                                        457,
+                                        356,
+                                        469
+                                    ],
+                                    "score": 1.0,
+                                    "content": "whole or in part, arises out of, is aggravated by or results",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 22
+                        },
+                        {
+                            "bbox": [
+                                89,
+                                470,
+                                341,
+                                482
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        89,
+                                        470,
+                                        341,
+                                        482
+                                    ],
+                                    "score": 1.0,
+                                    "content": "from mold, fungus, wet rot, dry rot or other microbes.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 23
+                        }
+                    ],
+                    "index": 20
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        53,
+                        494,
+                        274,
+                        508
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                495,
+                                274,
+                                509
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        495,
+                                        274,
+                                        509
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Your Policy Includes Remediation Coverage",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 24
+                        }
+                    ],
+                    "index": 24
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        520,
+                        530,
+                        546
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                51,
+                                519,
+                                531,
+                                537
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        519,
+                                        531,
+                                        537
+                                    ],
+                                    "score": 1.0,
+                                    "content": "We want you to know that your policy may pay for remediation (testing, treatment, removal) of mold,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 25
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                534,
+                                331,
+                                549
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        534,
+                                        331,
+                                        549
+                                    ],
+                                    "score": 1.0,
+                                    "content": "fungus, wet rot and dry rot caused by a covered water loss. ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 26
+                        }
+                    ],
+                    "index": 25.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        559,
+                        256,
+                        571
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                560,
+                                256,
+                                573
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        560,
+                                        256,
+                                        573
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Your policy contains wording which states:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 27
+                        }
+                    ],
+                    "index": 27
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        584,
+                        345,
+                        610
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                88,
+                                586,
+                                345,
+                                599
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        88,
+                                        586,
+                                        345,
+                                        599
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Mold, Fungus, Wet Rot And Dry Rot Or Other Microbes",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 28
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                600,
+                                296,
+                                610
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        600,
+                                        296,
+                                        610
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Remediation As A Direct Result Of A Covered Water",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 29
+                        }
+                    ],
+                    "index": 28.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        616,
+                        557,
+                        673
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                613,
+                                77,
+                                624
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        613,
+                                        77,
+                                        624
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Loss ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 30
+                        },
+                        {
+                            "bbox": [
+                                51,
+                                623,
+                                297,
+                                639
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        623,
+                                        297,
+                                        639
+                                    ],
+                                    "score": 1.0,
+                                    "content": "In the event of a covered water loss under Dwelling ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 31
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                637,
+                                303,
+                                652
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        637,
+                                        303,
+                                        652
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Protection–Coverage A, Other Structures Protection–",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 32
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                649,
+                                556,
+                                664
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        650,
+                                        402,
+                                        664
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Coverage B or Personal Property Protection–Coverage C, we will pay up to",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        403,
+                                        649,
+                                        436,
+                                        661
+                                    ],
+                                    "score": 0.86,
+                                    "content": "^\\mathrm{\\Phi5,000}",
+                                    "type": "inline_equation",
+                                    "height": 12,
+                                    "width": 33
+                                },
+                                {
+                                    "bbox": [
+                                        437,
+                                        650,
+                                        556,
+                                        664
+                                    ],
+                                    "score": 1.0,
+                                    "content": " for mold, fungus, wet rot ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 33
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                665,
+                                65,
+                                676
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        665,
+                                        65,
+                                        676
+                                    ],
+                                    "score": 1.0,
+                                    "content": "or",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 34
+                        }
+                    ],
+                    "index": 32
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        675,
+                        313,
+                        713
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                677,
+                                236,
+                                689
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        677,
+                                        236,
+                                        689
+                                    ],
+                                    "score": 1.0,
+                                    "content": "dry rot or other microbes remediation.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 35
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                688,
+                                288,
+                                703
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        688,
+                                        288,
+                                        703
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Remediation means the reasonable and necessary",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 36
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                703,
+                                313,
+                                714
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        703,
+                                        313,
+                                        714
+                                    ],
+                                    "score": 1.0,
+                                    "content": "treatment, removal or disposal of mold, fungus, wet rot",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 37
+                        }
+                    ],
+                    "index": 36
+                }
+            ],
+            "layout_bboxes": [],
+            "page_idx": 0,
+            "page_size": [
+                612.0,
+                792.0
+            ],
+            "_layout_tree": [],
+            "images": [],
+            "tables": [],
+            "interline_equations": [],
+            "discarded_blocks": [
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        54,
+                        40,
+                        398,
+                        73
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                86,
+                                41,
+                                397,
+                                67
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        86,
+                                        43,
+                                        168,
+                                        67
+                                    ],
+                                    "score": 0.9948683977127075,
+                                    "content": "Allstate",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        167,
+                                        59,
+                                        244,
+                                        67
+                                    ],
+                                    "score": 1.0,
+                                    "content": "DALLAS TX 75267",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        170,
+                                        41,
+                                        397,
+                                        59
+                                    ],
+                                    "score": 1.0,
+                                    "content": "APlOl sBtOaXt e6 7V2e0h4i1c le and Property Insurance Company",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                95,
+                                64,
+                                159,
+                                75
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        95,
+                                        64,
+                                        159,
+                                        75
+                                    ],
+                                    "score": 0.9617389440536499,
+                                    "content": "You're in good hands.",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        267,
+                        751,
+                        343,
+                        762
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                268,
+                                751,
+                                343,
+                                762
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        268,
+                                        751,
+                                        343,
+                                        762
+                                    ],
+                                    "score": 1.0,
+                                    "content": "0761226547 PBW",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "need_drop": false,
+            "drop_reason": [],
+            "para_blocks": [
+                {
+                    "type": "title",
+                    "bbox": [
+                        53,
+                        111,
+                        257,
+                        127
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                114,
+                                255,
+                                126
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        114,
+                                        255,
+                                        126
+                                    ],
+                                    "score": 1.0,
+                                    "content": "DADDADFADADTTFFDDFDDATFTFTTDDFAFATFDAFTFFTDFDDFATDFTTFDDAFTDTTAF",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        }
+                    ],
+                    "index": 0,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "list",
+                    "bbox": [
+                        53,
+                        128,
+                        241,
+                        160
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                128,
+                                240,
+                                137
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        128,
+                                        240,
+                                        137
+                                    ],
+                                    "score": 1.0,
+                                    "content": "TERRY CONNELLY PHYLLIS CONNELLY",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                140,
+                                151,
+                                149
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        140,
+                                        151,
+                                        149
+                                    ],
+                                    "score": 1.0,
+                                    "content": "410 PRESSWOOD DR",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                151,
+                                168,
+                                159
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        151,
+                                        168,
+                                        159
+                                    ],
+                                    "score": 1.0,
+                                    "content": "SPRING TX 773861207",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3,
+                            "is_list_start_line": true
+                        }
+                    ],
+                    "index": 2,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        53,
+                        128,
+                        240,
+                        159
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        197,
+                        109,
+                        208
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                196,
+                                109,
+                                209
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        196,
+                                        109,
+                                        209
+                                    ],
+                                    "score": 1.0,
+                                    "content": "July 26, 2024",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        }
+                    ],
+                    "index": 4,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        52,
+                        196,
+                        109,
+                        209
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        219,
+                        214,
+                        254
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                220,
+                                194,
+                                230
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        220,
+                                        194,
+                                        230
+                                    ],
+                                    "score": 1.0,
+                                    "content": "INSURED:  TERRY CONNELLY",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                232,
+                                185,
+                                242
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        232,
+                                        185,
+                                        242
+                                    ],
+                                    "score": 1.0,
+                                    "content": "DATE OF LOSS:  July 08, 2024",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                244,
+                                213,
+                                253
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        244,
+                                        213,
+                                        253
+                                    ],
+                                    "score": 1.0,
+                                    "content": "CLAIM NUMBER:  0761226547 PBW",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        }
+                    ],
+                    "index": 6,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        53,
+                        220,
+                        213,
+                        253
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        345,
+                        219,
+                        491,
+                        253
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                347,
+                                220,
+                                491,
+                                230
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        347,
+                                        220,
+                                        491,
+                                        230
+                                    ],
+                                    "score": 1.0,
+                                    "content": "PHONE NUMBER:  877-224-4583",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        },
+                        {
+                            "bbox": [
+                                346,
+                                232,
+                                477,
+                                241
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        346,
+                                        232,
+                                        477,
+                                        241
+                                    ],
+                                    "score": 1.0,
+                                    "content": "FAX NUMBER:  877-292-9527",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        },
+                        {
+                            "bbox": [
+                                346,
+                                243,
+                                422,
+                                253
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        346,
+                                        243,
+                                        422,
+                                        253
+                                    ],
+                                    "score": 1.0,
+                                    "content": "OFFICE HOURS:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        }
+                    ],
+                    "index": 9,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        346,
+                        220,
+                        491,
+                        253
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        53,
+                        263,
+                        165,
+                        279
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                264,
+                                164,
+                                279
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        264,
+                                        164,
+                                        279
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Your Claim Update",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        }
+                    ],
+                    "index": 11,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        289,
+                        268,
+                        302
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                291,
+                                267,
+                                303
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        291,
+                                        267,
+                                        303
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Dear TERRY CONNELLY PHYLLIS CONNELLY,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        }
+                    ],
+                    "index": 12,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        53,
+                        291,
+                        267,
+                        303
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        314,
+                        555,
+                        352
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                313,
+                                556,
+                                331
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        313,
+                                        556,
+                                        331
+                                    ],
+                                    "score": 1.0,
+                                    "content": "We’re currently reviewing your claim, but believe you reported that it may involve mold, fungus, wet rot or ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                328,
+                                536,
+                                343
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        328,
+                                        536,
+                                        343
+                                    ],
+                                    "score": 1.0,
+                                    "content": "dry rot, or bacteria. Except as noted below, your policy does not cover losses consisting of or caused by",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                340,
+                                265,
+                                355
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        340,
+                                        265,
+                                        355
+                                    ],
+                                    "score": 1.0,
+                                    "content": "mold, fungus, wet rot and dry rot or bacteria.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        }
+                    ],
+                    "index": 14,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        52,
+                        313,
+                        556,
+                        355
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        366,
+                        188,
+                        378
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                366,
+                                188,
+                                380
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        366,
+                                        188,
+                                        380
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Your policy exclusion states:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        }
+                    ],
+                    "index": 16,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        53,
+                        366,
+                        188,
+                        380
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        89,
+                        392,
+                        361,
+                        482
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                89,
+                                392,
+                                306,
+                                405
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        89,
+                                        392,
+                                        306,
+                                        405
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Under Dwelling Protection–Coverage A, Other",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        },
+                        {
+                            "bbox": [
+                                88,
+                                405,
+                                349,
+                                418
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        88,
+                                        405,
+                                        349,
+                                        418
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Structures Protection–Coverage B or Personal Property",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        },
+                        {
+                            "bbox": [
+                                89,
+                                419,
+                                340,
+                                431
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        89,
+                                        419,
+                                        340,
+                                        431
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Protection–Coverage C of this policy, we do not cover",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        },
+                        {
+                            "bbox": [
+                                90,
+                                432,
+                                356,
+                                444
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        90,
+                                        432,
+                                        356,
+                                        444
+                                    ],
+                                    "score": 1.0,
+                                    "content": "any loss consisting of or caused by mold, fungus, wet rot,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20
+                        },
+                        {
+                            "bbox": [
+                                90,
+                                444,
+                                361,
+                                456
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        90,
+                                        444,
+                                        361,
+                                        456
+                                    ],
+                                    "score": 1.0,
+                                    "content": "dry rot or other microbes. This includes any loss which, in",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 21
+                        },
+                        {
+                            "bbox": [
+                                90,
+                                457,
+                                356,
+                                469
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        90,
+                                        457,
+                                        356,
+                                        469
+                                    ],
+                                    "score": 1.0,
+                                    "content": "whole or in part, arises out of, is aggravated by or results",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 22
+                        },
+                        {
+                            "bbox": [
+                                89,
+                                470,
+                                341,
+                                482
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        89,
+                                        470,
+                                        341,
+                                        482
+                                    ],
+                                    "score": 1.0,
+                                    "content": "from mold, fungus, wet rot, dry rot or other microbes.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 23
+                        }
+                    ],
+                    "index": 20,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        88,
+                        392,
+                        361,
+                        482
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        53,
+                        494,
+                        274,
+                        508
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                495,
+                                274,
+                                509
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        495,
+                                        274,
+                                        509
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Your Policy Includes Remediation Coverage",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 24
+                        }
+                    ],
+                    "index": 24,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        520,
+                        530,
+                        546
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                51,
+                                519,
+                                531,
+                                537
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        519,
+                                        531,
+                                        537
+                                    ],
+                                    "score": 1.0,
+                                    "content": "We want you to know that your policy may pay for remediation (testing, treatment, removal) of mold,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 25
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                534,
+                                331,
+                                549
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        534,
+                                        331,
+                                        549
+                                    ],
+                                    "score": 1.0,
+                                    "content": "fungus, wet rot and dry rot caused by a covered water loss. ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 26
+                        }
+                    ],
+                    "index": 25.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        51,
+                        519,
+                        531,
+                        549
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        559,
+                        256,
+                        571
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                560,
+                                256,
+                                573
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        560,
+                                        256,
+                                        573
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Your policy contains wording which states:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 27
+                        }
+                    ],
+                    "index": 27,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        53,
+                        560,
+                        256,
+                        573
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        584,
+                        345,
+                        610
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                88,
+                                586,
+                                345,
+                                599
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        88,
+                                        586,
+                                        345,
+                                        599
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Mold, Fungus, Wet Rot And Dry Rot Or Other Microbes",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 28
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                600,
+                                296,
+                                610
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        600,
+                                        296,
+                                        610
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Remediation As A Direct Result Of A Covered Water",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 29
+                        }
+                    ],
+                    "index": 28.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        54,
+                        586,
+                        345,
+                        610
+                    ]
+                },
+                {
+                    "type": "list",
+                    "bbox": [
+                        53,
+                        616,
+                        557,
+                        673
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                613,
+                                77,
+                                624
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        613,
+                                        77,
+                                        624
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Loss ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 30,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                51,
+                                623,
+                                297,
+                                639
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        623,
+                                        297,
+                                        639
+                                    ],
+                                    "score": 1.0,
+                                    "content": "In the event of a covered water loss under Dwelling ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 31,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                637,
+                                303,
+                                652
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        637,
+                                        303,
+                                        652
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Protection–Coverage A, Other Structures Protection–",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 32,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                649,
+                                556,
+                                664
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        650,
+                                        402,
+                                        664
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Coverage B or Personal Property Protection–Coverage C, we will pay up to",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        403,
+                                        649,
+                                        436,
+                                        661
+                                    ],
+                                    "score": 0.86,
+                                    "content": "^\\mathrm{\\Phi5,000}",
+                                    "type": "inline_equation",
+                                    "height": 12,
+                                    "width": 33
+                                },
+                                {
+                                    "bbox": [
+                                        437,
+                                        650,
+                                        556,
+                                        664
+                                    ],
+                                    "score": 1.0,
+                                    "content": " for mold, fungus, wet rot ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 33,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                665,
+                                65,
+                                676
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        665,
+                                        65,
+                                        676
+                                    ],
+                                    "score": 1.0,
+                                    "content": "or",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 34,
+                            "is_list_start_line": true
+                        }
+                    ],
+                    "index": 32,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        51,
+                        613,
+                        556,
+                        676
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        675,
+                        313,
+                        713
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                677,
+                                236,
+                                689
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        677,
+                                        236,
+                                        689
+                                    ],
+                                    "score": 1.0,
+                                    "content": "dry rot or other microbes remediation.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 35
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                688,
+                                288,
+                                703
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        688,
+                                        288,
+                                        703
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Remediation means the reasonable and necessary",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 36
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                703,
+                                313,
+                                714
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        703,
+                                        313,
+                                        714
+                                    ],
+                                    "score": 1.0,
+                                    "content": "treatment, removal or disposal of mold, fungus, wet rot",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 37
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                43,
+                                320,
+                                55
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        43,
+                                        320,
+                                        55
+                                    ],
+                                    "score": 1.0,
+                                    "content": "or dry rot as required to complete repair or replacement",
+                                    "type": "text",
+                                    "cross_page": true
+                                }
+                            ],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                55,
+                                285,
+                                68
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        55,
+                                        285,
+                                        68
+                                    ],
+                                    "score": 1.0,
+                                    "content": "of property we cover under Dwelling Protection–",
+                                    "type": "text",
+                                    "cross_page": true
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                69,
+                                313,
+                                81
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        69,
+                                        313,
+                                        81
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Coverage A, Other Structures Protection–Coverage B or",
+                                    "type": "text",
+                                    "cross_page": true
+                                }
+                            ],
+                            "index": 2
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                82,
+                                316,
+                                93
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        82,
+                                        316,
+                                        93
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Personal Property Protection–Coverage C damaged by a",
+                                    "type": "text",
+                                    "cross_page": true
+                                }
+                            ],
+                            "index": 3
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                93,
+                                271,
+                                107
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        93,
+                                        271,
+                                        107
+                                    ],
+                                    "score": 1.0,
+                                    "content": "covered water loss, including payment for any",
+                                    "type": "text",
+                                    "cross_page": true
+                                }
+                            ],
+                            "index": 4
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                106,
+                                295,
+                                120
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        106,
+                                        295,
+                                        120
+                                    ],
+                                    "score": 1.0,
+                                    "content": "reasonable increase in living expenses necessary to",
+                                    "type": "text",
+                                    "cross_page": true
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                119,
+                                315,
+                                133
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        119,
+                                        315,
+                                        133
+                                    ],
+                                    "score": 1.0,
+                                    "content": "maintain your normal standard of living if mold, fungus,",
+                                    "type": "text",
+                                    "cross_page": true
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                133,
+                                286,
+                                145
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        133,
+                                        286,
+                                        145
+                                    ],
+                                    "score": 1.0,
+                                    "content": "wet rot or dry rot makes your residence premises",
+                                    "type": "text",
+                                    "cross_page": true
+                                }
+                            ],
+                            "index": 7
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                145,
+                                266,
+                                158
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        145,
+                                        266,
+                                        158
+                                    ],
+                                    "score": 1.0,
+                                    "content": "uninhabitable. Remediation also includes any",
+                                    "type": "text",
+                                    "cross_page": true
+                                }
+                            ],
+                            "index": 8
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                159,
+                                306,
+                                170
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        159,
+                                        306,
+                                        170
+                                    ],
+                                    "score": 1.0,
+                                    "content": "investigation or testing to detect, measure or evaluate",
+                                    "type": "text",
+                                    "cross_page": true
+                                }
+                            ],
+                            "index": 9
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                172,
+                                204,
+                                183
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        172,
+                                        204,
+                                        183
+                                    ],
+                                    "score": 1.0,
+                                    "content": "mold, fungus, wet rot or dry rot.",
+                                    "type": "text",
+                                    "cross_page": true
+                                }
+                            ],
+                            "index": 10
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                185,
+                                298,
+                                196
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        185,
+                                        298,
+                                        196
+                                    ],
+                                    "score": 1.0,
+                                    "content": "This Condition does not increase the limits of liabilit",
+                                    "type": "text",
+                                    "cross_page": true
+                                }
+                            ],
+                            "index": 11
+                        }
+                    ],
+                    "index": 36,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        52,
+                        677,
+                        313,
+                        714
+                    ]
+                }
+            ]
+        },
+        {
+            "preproc_blocks": [],
+            "layout_bboxes": [],
+            "page_idx": 1,
+            "page_size": [
+                612.0,
+                792.0
+            ],
+            "_layout_tree": [],
+            "images": [],
+            "tables": [],
+            "interline_equations": [],
+            "discarded_blocks": [],
+            "need_drop": false,
+            "drop_reason": [],
+            "para_blocks": []
+        },
+        {
+            "preproc_blocks": [
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        42,
+                        321,
+                        196
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                43,
+                                320,
+                                55
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        43,
+                                        320,
+                                        55
+                                    ],
+                                    "score": 1.0,
+                                    "content": "or dry rot as required to complete repair or replacement",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                55,
+                                285,
+                                68
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        55,
+                                        285,
+                                        68
+                                    ],
+                                    "score": 1.0,
+                                    "content": "of property we cover under Dwelling Protection–",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                69,
+                                313,
+                                81
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        69,
+                                        313,
+                                        81
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Coverage A, Other Structures Protection–Coverage B or",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                82,
+                                316,
+                                93
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        82,
+                                        316,
+                                        93
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Personal Property Protection–Coverage C damaged by a",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                93,
+                                271,
+                                107
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        93,
+                                        271,
+                                        107
+                                    ],
+                                    "score": 1.0,
+                                    "content": "covered water loss, including payment for any",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                106,
+                                295,
+                                120
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        106,
+                                        295,
+                                        120
+                                    ],
+                                    "score": 1.0,
+                                    "content": "reasonable increase in living expenses necessary to",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                119,
+                                315,
+                                133
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        119,
+                                        315,
+                                        133
+                                    ],
+                                    "score": 1.0,
+                                    "content": "maintain your normal standard of living if mold, fungus,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                133,
+                                286,
+                                145
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        133,
+                                        286,
+                                        145
+                                    ],
+                                    "score": 1.0,
+                                    "content": "wet rot or dry rot makes your residence premises",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                145,
+                                266,
+                                158
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        145,
+                                        266,
+                                        158
+                                    ],
+                                    "score": 1.0,
+                                    "content": "uninhabitable. Remediation also includes any",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                159,
+                                306,
+                                170
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        159,
+                                        306,
+                                        170
+                                    ],
+                                    "score": 1.0,
+                                    "content": "investigation or testing to detect, measure or evaluate",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                172,
+                                204,
+                                183
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        172,
+                                        204,
+                                        183
+                                    ],
+                                    "score": 1.0,
+                                    "content": "mold, fungus, wet rot or dry rot.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                185,
+                                298,
+                                196
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        185,
+                                        298,
+                                        196
+                                    ],
+                                    "score": 1.0,
+                                    "content": "This Condition does not increase the limits of liabilit",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        }
+                    ],
+                    "index": 5.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        210,
+                        530,
+                        247
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                51,
+                                208,
+                                530,
+                                225
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        208,
+                                        530,
+                                        225
+                                    ],
+                                    "score": 1.0,
+                                    "content": "If we find that any mold, fungus, wet or dry rot caused by a covered water loss, your policy provides a ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                222,
+                                505,
+                                237
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        223,
+                                        114,
+                                        237
+                                    ],
+                                    "score": 1.0,
+                                    "content": "maximum of",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        114,
+                                        222,
+                                        162,
+                                        234
+                                    ],
+                                    "score": 0.77,
+                                    "content": "\\Phi5,000.00\\",
+                                    "type": "inline_equation",
+                                    "height": 12,
+                                    "width": 48
+                                },
+                                {
+                                    "bbox": [
+                                        162,
+                                        223,
+                                        505,
+                                        237
+                                    ],
+                                    "score": 1.0,
+                                    "content": " for mold, fungus, wet rot or dry rot remediation.  We will let you know if ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                234,
+                                345,
+                                249
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        234,
+                                        345,
+                                        249
+                                    ],
+                                    "score": 1.0,
+                                    "content": "remediation is available as soon as we finish the claim review.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        }
+                    ],
+                    "index": 13
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        261,
+                        494,
+                        273
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                261,
+                                495,
+                                275
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        261,
+                                        495,
+                                        275
+                                    ],
+                                    "score": 1.0,
+                                    "content": "We're here to help. If you need additional information, please visit MyClaim.com or contact us.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        }
+                    ],
+                    "index": 15
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        287,
+                        94,
+                        298
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                286,
+                                94,
+                                299
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        286,
+                                        94,
+                                        299
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Sincerely,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        }
+                    ],
+                    "index": 16
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        53,
+                        309,
+                        189,
+                        327
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                310,
+                                187,
+                                328
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        310,
+                                        187,
+                                        328
+                                    ],
+                                    "score": 1.0,
+                                    "content": "SURU BALOGUN ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        }
+                    ],
+                    "index": 17
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        335,
+                        255,
+                        369
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                336,
+                                132,
+                                346
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        336,
+                                        132,
+                                        346
+                                    ],
+                                    "score": 1.0,
+                                    "content": "SURU BALOGUN",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                348,
+                                167,
+                                358
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        348,
+                                        167,
+                                        358
+                                    ],
+                                    "score": 1.0,
+                                    "content": "877-224-4583 Ext. 1226721",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                358,
+                                255,
+                                371
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        358,
+                                        255,
+                                        371
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Allstate Vehicle and Property Insurance Company",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20
+                        }
+                    ],
+                    "index": 19
+                }
+            ],
+            "layout_bboxes": [],
+            "page_idx": 2,
+            "page_size": [
+                612.0,
+                792.0
+            ],
+            "_layout_tree": [],
+            "images": [],
+            "tables": [],
+            "interline_equations": [],
+            "discarded_blocks": [
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        54,
+                        750,
+                        92,
+                        759
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                750,
+                                94,
+                                760
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        750,
+                                        94,
+                                        760
+                                    ],
+                                    "score": 1.0,
+                                    "content": "PROA017 ",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        268,
+                        751,
+                        342,
+                        761
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                268,
+                                752,
+                                343,
+                                762
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        268,
+                                        752,
+                                        343,
+                                        762
+                                    ],
+                                    "score": 1.0,
+                                    "content": "0761226547 PBW",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "need_drop": false,
+            "drop_reason": [],
+            "para_blocks": [
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        42,
+                        321,
+                        196
+                    ],
+                    "lines": [],
+                    "index": 5.5,
+                    "page_num": "page_2",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        53,
+                        43,
+                        320,
+                        196
+                    ],
+                    "lines_deleted": true
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        210,
+                        530,
+                        247
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                51,
+                                208,
+                                530,
+                                225
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        208,
+                                        530,
+                                        225
+                                    ],
+                                    "score": 1.0,
+                                    "content": "If we find that any mold, fungus, wet or dry rot caused by a covered water loss, your policy provides a ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                222,
+                                505,
+                                237
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        223,
+                                        114,
+                                        237
+                                    ],
+                                    "score": 1.0,
+                                    "content": "maximum of",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        114,
+                                        222,
+                                        162,
+                                        234
+                                    ],
+                                    "score": 0.77,
+                                    "content": "\\Phi5,000.00\\",
+                                    "type": "inline_equation",
+                                    "height": 12,
+                                    "width": 48
+                                },
+                                {
+                                    "bbox": [
+                                        162,
+                                        223,
+                                        505,
+                                        237
+                                    ],
+                                    "score": 1.0,
+                                    "content": " for mold, fungus, wet rot or dry rot remediation.  We will let you know if ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                234,
+                                345,
+                                249
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        234,
+                                        345,
+                                        249
+                                    ],
+                                    "score": 1.0,
+                                    "content": "remediation is available as soon as we finish the claim review.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        }
+                    ],
+                    "index": 13,
+                    "page_num": "page_2",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        51,
+                        208,
+                        530,
+                        249
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        261,
+                        494,
+                        273
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                261,
+                                495,
+                                275
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        261,
+                                        495,
+                                        275
+                                    ],
+                                    "score": 1.0,
+                                    "content": "We're here to help. If you need additional information, please visit MyClaim.com or contact us.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        }
+                    ],
+                    "index": 15,
+                    "page_num": "page_2",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        53,
+                        261,
+                        495,
+                        275
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        287,
+                        94,
+                        298
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                286,
+                                94,
+                                299
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        286,
+                                        94,
+                                        299
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Sincerely,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        }
+                    ],
+                    "index": 16,
+                    "page_num": "page_2",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        52,
+                        286,
+                        94,
+                        299
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        53,
+                        309,
+                        189,
+                        327
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                310,
+                                187,
+                                328
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        310,
+                                        187,
+                                        328
+                                    ],
+                                    "score": 1.0,
+                                    "content": "SURU BALOGUN ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        }
+                    ],
+                    "index": 17,
+                    "page_num": "page_2",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "list",
+                    "bbox": [
+                        53,
+                        335,
+                        255,
+                        369
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                336,
+                                132,
+                                346
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        336,
+                                        132,
+                                        346
+                                    ],
+                                    "score": 1.0,
+                                    "content": "SURU BALOGUN",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                348,
+                                167,
+                                358
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        348,
+                                        167,
+                                        358
+                                    ],
+                                    "score": 1.0,
+                                    "content": "877-224-4583 Ext. 1226721",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                358,
+                                255,
+                                371
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        358,
+                                        255,
+                                        371
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Allstate Vehicle and Property Insurance Company",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20,
+                            "is_list_start_line": true
+                        }
+                    ],
+                    "index": 19,
+                    "page_num": "page_2",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        53,
+                        336,
+                        255,
+                        371
+                    ]
+                }
+            ]
+        },
+        {
+            "preproc_blocks": [],
+            "layout_bboxes": [],
+            "page_idx": 3,
+            "page_size": [
+                612.0,
+                792.0
+            ],
+            "_layout_tree": [],
+            "images": [],
+            "tables": [],
+            "interline_equations": [],
+            "discarded_blocks": [],
+            "need_drop": false,
+            "drop_reason": [],
+            "para_blocks": []
+        }
+    ],
+    "_parse_type": "txt",
+    "_version_name": "0.10.6"
+}

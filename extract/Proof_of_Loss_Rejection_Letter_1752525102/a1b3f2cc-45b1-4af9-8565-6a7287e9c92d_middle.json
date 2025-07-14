@@ -1,0 +1,1876 @@
+{
+    "pdf_info": [
+        {
+            "preproc_blocks": [
+                {
+                    "type": "text",
+                    "bbox": [
+                        221,
+                        68,
+                        243,
+                        77
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                220,
+                                68,
+                                244,
+                                78
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        220,
+                                        68,
+                                        244,
+                                        78
+                                    ],
+                                    "score": 0.99,
+                                    "content": "SP 01",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        }
+                    ],
+                    "index": 1
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        38,
+                        71,
+                        177,
+                        97
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                39,
+                                70,
+                                178,
+                                81
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        39,
+                                        70,
+                                        178,
+                                        81
+                                    ],
+                                    "score": 0.96,
+                                    "content": "Allstate VehicleandProperty InsuranceCompany",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                39,
+                                79,
+                                86,
+                                89
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        39,
+                                        79,
+                                        86,
+                                        89
+                                    ],
+                                    "score": 0.94,
+                                    "content": "PO Box 672041,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        },
+                        {
+                            "bbox": [
+                                39,
+                                88,
+                                93,
+                                98
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        39,
+                                        88,
+                                        93,
+                                        98
+                                    ],
+                                    "score": 0.98,
+                                    "content": "Dallas,TX75267",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        }
+                    ],
+                    "index": 2
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        399,
+                        75,
+                        531,
+                        124
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                399,
+                                76,
+                                531,
+                                87
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        399,
+                                        76,
+                                        531,
+                                        87
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Claim number: 000753551472",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        },
+                        {
+                            "bbox": [
+                                399,
+                                88,
+                                514,
+                                99
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        399,
+                                        88,
+                                        514,
+                                        99
+                                    ],
+                                    "score": 0.99,
+                                    "content": "Date of loss: May 01, 2024",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                398,
+                                100,
+                                437,
+                                112
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        398,
+                                        100,
+                                        437,
+                                        112
+                                    ],
+                                    "score": 0.99,
+                                    "content": "Insured:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                398,
+                                113,
+                                452,
+                                123
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        398,
+                                        113,
+                                        452,
+                                        123
+                                    ],
+                                    "score": 1.0,
+                                    "content": "JosueDeras",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        }
+                    ],
+                    "index": 5.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        52,
+                        117,
+                        258,
+                        168
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                134,
+                                225,
+                                144
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        134,
+                                        225,
+                                        144
+                                    ],
+                                    "score": 0.99,
+                                    "content": "DEPENDABLECLAIMSSPECIALISTSLLC",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                145,
+                                117,
+                                155
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        145,
+                                        117,
+                                        155
+                                    ],
+                                    "score": 0.99,
+                                    "content": "5115MISTYLN",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                158,
+                                157,
+                                168
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        158,
+                                        157,
+                                        168
+                                    ],
+                                    "score": 0.98,
+                                    "content": "BACLIFF,TX77518-2182",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        }
+                    ],
+                    "index": 9
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        399,
+                        132,
+                        527,
+                        180
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                399,
+                                132,
+                                518,
+                                144
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        399,
+                                        132,
+                                        518,
+                                        144
+                                    ],
+                                    "score": 0.99,
+                                    "content": "800-326-0950 Ext 1211299",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        },
+                        {
+                            "bbox": [
+                                399,
+                                144,
+                                506,
+                                156
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        399,
+                                        144,
+                                        506,
+                                        156
+                                    ],
+                                    "score": 0.99,
+                                    "content": "Dedicated claim contact:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        },
+                        {
+                            "bbox": [
+                                399,
+                                157,
+                                468,
+                                168
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        399,
+                                        157,
+                                        468,
+                                        168
+                                    ],
+                                    "score": 0.96,
+                                    "content": "Edgar Wilson li",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        },
+                        {
+                            "bbox": [
+                                399,
+                                169,
+                                526,
+                                180
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        399,
+                                        169,
+                                        526,
+                                        180
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Direct phone: 800-326-0950",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        }
+                    ],
+                    "index": 12.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        399,
+                        190,
+                        543,
+                        202
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                399,
+                                189,
+                                542,
+                                204
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        399,
+                                        189,
+                                        542,
+                                        204
+                                    ],
+                                    "score": 0.98,
+                                    "content": "Visit us anytime at MyClaim.com",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        }
+                    ],
+                    "index": 15
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        66,
+                        304,
+                        408,
+                        322
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                68,
+                                306,
+                                407,
+                                323
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        306,
+                                        407,
+                                        323
+                                    ],
+                                    "score": 0.98,
+                                    "content": "Unable to Accept Your Estimate as a Proof of Loss",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        }
+                    ],
+                    "index": 16
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        66,
+                        337,
+                        242,
+                        348
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                66,
+                                338,
+                                242,
+                                350
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        66,
+                                        338,
+                                        242,
+                                        350
+                                    ],
+                                    "score": 0.98,
+                                    "content": "Hello Dependable Claims Specialists LLC ,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        }
+                    ],
+                    "index": 17
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        67,
+                        363,
+                        504,
+                        386
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                65,
+                                363,
+                                505,
+                                378
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        65,
+                                        363,
+                                        505,
+                                        378
+                                    ],
+                                    "score": 0.99,
+                                    "content": "This letter is to acknowledge that the supplement from Dependable Claims Specialists LLC in the amount of",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        },
+                        {
+                            "bbox": [
+                                66,
+                                376,
+                                311,
+                                388
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        66,
+                                        376,
+                                        311,
+                                        388
+                                    ],
+                                    "score": 0.99,
+                                    "content": "$319,063.78 was received in our office on October 30, 2024.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        }
+                    ],
+                    "index": 18.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        67,
+                        399,
+                        312,
+                        410
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                66,
+                                401,
+                                313,
+                                412
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        66,
+                                        401,
+                                        313,
+                                        412
+                                    ],
+                                    "score": 0.99,
+                                    "content": "After an inspection with a large loss adjuster and an engineer",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20
+                        }
+                    ],
+                    "index": 20
+                }
+            ],
+            "layout_bboxes": [],
+            "page_idx": 0,
+            "page_size": [
+                612.0,
+                792.0
+            ],
+            "_layout_tree": [],
+            "images": [],
+            "tables": [],
+            "interline_equations": [],
+            "discarded_blocks": [
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        26,
+                        31,
+                        169,
+                        68
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                73,
+                                40,
+                                167,
+                                63
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        73,
+                                        40,
+                                        167,
+                                        63
+                                    ],
+                                    "score": 0.96,
+                                    "content": "Allstate.",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        594,
+                        312,
+                        604,
+                        493
+                    ],
+                    "lines": []
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        486,
+                        758,
+                        600,
+                        780
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                485,
+                                760,
+                                537,
+                                773
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        485,
+                                        760,
+                                        537,
+                                        773
+                                    ],
+                                    "score": 1.0,
+                                    "content": "(Continued)",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        399,
+                        42,
+                        575,
+                        65
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                527,
+                                41,
+                                574,
+                                54
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        527,
+                                        41,
+                                        574,
+                                        54
+                                    ],
+                                    "score": 0.95,
+                                    "content": "Page 1of 2",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                399,
+                                54,
+                                557,
+                                65
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        399,
+                                        54,
+                                        557,
+                                        65
+                                    ],
+                                    "score": 0.99,
+                                    "content": "Information as of November 14, 2024",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "need_drop": false,
+            "drop_reason": [],
+            "para_blocks": [
+                {
+                    "type": "text",
+                    "bbox": [
+                        221,
+                        68,
+                        243,
+                        77
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                220,
+                                68,
+                                244,
+                                78
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        220,
+                                        68,
+                                        244,
+                                        78
+                                    ],
+                                    "score": 0.99,
+                                    "content": "SP 01",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        }
+                    ],
+                    "index": 1,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        220,
+                        68,
+                        244,
+                        78
+                    ]
+                },
+                {
+                    "type": "list",
+                    "bbox": [
+                        38,
+                        71,
+                        177,
+                        97
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                39,
+                                70,
+                                178,
+                                81
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        39,
+                                        70,
+                                        178,
+                                        81
+                                    ],
+                                    "score": 0.96,
+                                    "content": "Allstate VehicleandProperty InsuranceCompany",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                39,
+                                79,
+                                86,
+                                89
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        39,
+                                        79,
+                                        86,
+                                        89
+                                    ],
+                                    "score": 0.94,
+                                    "content": "PO Box 672041,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                39,
+                                88,
+                                93,
+                                98
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        39,
+                                        88,
+                                        93,
+                                        98
+                                    ],
+                                    "score": 0.98,
+                                    "content": "Dallas,TX75267",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                399,
+                                76,
+                                531,
+                                87
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        399,
+                                        76,
+                                        531,
+                                        87
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Claim number: 000753551472",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                399,
+                                88,
+                                514,
+                                99
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        399,
+                                        88,
+                                        514,
+                                        99
+                                    ],
+                                    "score": 0.99,
+                                    "content": "Date of loss: May 01, 2024",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                398,
+                                100,
+                                437,
+                                112
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        398,
+                                        100,
+                                        437,
+                                        112
+                                    ],
+                                    "score": 0.99,
+                                    "content": "Insured:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                398,
+                                113,
+                                452,
+                                123
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        398,
+                                        113,
+                                        452,
+                                        123
+                                    ],
+                                    "score": 1.0,
+                                    "content": "JosueDeras",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                134,
+                                225,
+                                144
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        134,
+                                        225,
+                                        144
+                                    ],
+                                    "score": 0.99,
+                                    "content": "DEPENDABLECLAIMSSPECIALISTSLLC",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                145,
+                                117,
+                                155
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        145,
+                                        117,
+                                        155
+                                    ],
+                                    "score": 0.99,
+                                    "content": "5115MISTYLN",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                158,
+                                157,
+                                168
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        158,
+                                        157,
+                                        168
+                                    ],
+                                    "score": 0.98,
+                                    "content": "BACLIFF,TX77518-2182",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10,
+                            "is_list_start_line": true
+                        }
+                    ],
+                    "index": 2,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        39,
+                        70,
+                        178,
+                        98
+                    ]
+                },
+                {
+                    "type": "list",
+                    "bbox": [
+                        399,
+                        75,
+                        531,
+                        124
+                    ],
+                    "lines": [],
+                    "index": 5.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        398,
+                        76,
+                        531,
+                        123
+                    ],
+                    "lines_deleted": true
+                },
+                {
+                    "type": "list",
+                    "bbox": [
+                        52,
+                        117,
+                        258,
+                        168
+                    ],
+                    "lines": [],
+                    "index": 9,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        53,
+                        134,
+                        225,
+                        168
+                    ],
+                    "lines_deleted": true
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        399,
+                        132,
+                        527,
+                        180
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                399,
+                                132,
+                                518,
+                                144
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        399,
+                                        132,
+                                        518,
+                                        144
+                                    ],
+                                    "score": 0.99,
+                                    "content": "800-326-0950 Ext 1211299",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        },
+                        {
+                            "bbox": [
+                                399,
+                                144,
+                                506,
+                                156
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        399,
+                                        144,
+                                        506,
+                                        156
+                                    ],
+                                    "score": 0.99,
+                                    "content": "Dedicated claim contact:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        },
+                        {
+                            "bbox": [
+                                399,
+                                157,
+                                468,
+                                168
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        399,
+                                        157,
+                                        468,
+                                        168
+                                    ],
+                                    "score": 0.96,
+                                    "content": "Edgar Wilson li",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        },
+                        {
+                            "bbox": [
+                                399,
+                                169,
+                                526,
+                                180
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        399,
+                                        169,
+                                        526,
+                                        180
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Direct phone: 800-326-0950",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        }
+                    ],
+                    "index": 12.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        399,
+                        132,
+                        526,
+                        180
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        399,
+                        190,
+                        543,
+                        202
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                399,
+                                189,
+                                542,
+                                204
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        399,
+                                        189,
+                                        542,
+                                        204
+                                    ],
+                                    "score": 0.98,
+                                    "content": "Visit us anytime at MyClaim.com",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        }
+                    ],
+                    "index": 15,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        399,
+                        189,
+                        542,
+                        204
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        66,
+                        304,
+                        408,
+                        322
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                68,
+                                306,
+                                407,
+                                323
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        306,
+                                        407,
+                                        323
+                                    ],
+                                    "score": 0.98,
+                                    "content": "Unable to Accept Your Estimate as a Proof of Loss",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        }
+                    ],
+                    "index": 16,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        66,
+                        337,
+                        242,
+                        348
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                66,
+                                338,
+                                242,
+                                350
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        66,
+                                        338,
+                                        242,
+                                        350
+                                    ],
+                                    "score": 0.98,
+                                    "content": "Hello Dependable Claims Specialists LLC ,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        }
+                    ],
+                    "index": 17,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        66,
+                        338,
+                        242,
+                        350
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        67,
+                        363,
+                        504,
+                        386
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                65,
+                                363,
+                                505,
+                                378
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        65,
+                                        363,
+                                        505,
+                                        378
+                                    ],
+                                    "score": 0.99,
+                                    "content": "This letter is to acknowledge that the supplement from Dependable Claims Specialists LLC in the amount of",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        },
+                        {
+                            "bbox": [
+                                66,
+                                376,
+                                311,
+                                388
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        66,
+                                        376,
+                                        311,
+                                        388
+                                    ],
+                                    "score": 0.99,
+                                    "content": "$319,063.78 was received in our office on October 30, 2024.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        }
+                    ],
+                    "index": 18.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        65,
+                        363,
+                        505,
+                        388
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        67,
+                        399,
+                        312,
+                        410
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                66,
+                                401,
+                                313,
+                                412
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        66,
+                                        401,
+                                        313,
+                                        412
+                                    ],
+                                    "score": 0.99,
+                                    "content": "After an inspection with a large loss adjuster and an engineer",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20
+                        }
+                    ],
+                    "index": 20,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        66,
+                        401,
+                        313,
+                        412
+                    ]
+                }
+            ]
+        },
+        {
+            "preproc_blocks": [
+                {
+                    "type": "title",
+                    "bbox": [
+                        69,
+                        114,
+                        284,
+                        131
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                70,
+                                116,
+                                283,
+                                131
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        70,
+                                        116,
+                                        283,
+                                        131
+                                    ],
+                                    "score": 1.0,
+                                    "content": "State-specific communications:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        }
+                    ],
+                    "index": 0
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        70,
+                        138,
+                        537,
+                        162
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                70,
+                                139,
+                                536,
+                                152
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        70,
+                                        139,
+                                        536,
+                                        152
+                                    ],
+                                    "score": 0.98,
+                                    "content": "Any person who knowingly presents a false or fraudulent claim for the payment of a loss is guilty of a crime and",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                68,
+                                150,
+                                305,
+                                164
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        150,
+                                        305,
+                                        164
+                                    ],
+                                    "score": 0.97,
+                                    "content": "may be subject to fines and confinement in state prison.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        }
+                    ],
+                    "index": 1.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        69,
+                        177,
+                        128,
+                        201
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                69,
+                                175,
+                                129,
+                                190
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        69,
+                                        175,
+                                        129,
+                                        190
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Carbon Copy:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        },
+                        {
+                            "bbox": [
+                                68,
+                                189,
+                                122,
+                                201
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        189,
+                                        122,
+                                        201
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Josue Deras",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        }
+                    ],
+                    "index": 3.5
+                }
+            ],
+            "layout_bboxes": [],
+            "page_idx": 1,
+            "page_size": [
+                612.0,
+                792.0
+            ],
+            "_layout_tree": [],
+            "images": [],
+            "tables": [],
+            "interline_equations": [],
+            "discarded_blocks": [
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        527,
+                        41,
+                        575,
+                        53
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                526,
+                                40,
+                                576,
+                                55
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        526,
+                                        40,
+                                        576,
+                                        55
+                                    ],
+                                    "score": 0.99,
+                                    "content": "Page 2 of 2",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        33,
+                        42,
+                        164,
+                        53
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                34,
+                                41,
+                                164,
+                                54
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        34,
+                                        41,
+                                        164,
+                                        54
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Claim number: 000753551472",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        588,
+                        365,
+                        604,
+                        533
+                    ],
+                    "lines": []
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        510,
+                        212,
+                        539,
+                        223
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                510,
+                                214,
+                                539,
+                                222
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        510,
+                                        214,
+                                        539,
+                                        222
+                                    ],
+                                    "score": 0.98,
+                                    "content": "GENI001",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "need_drop": false,
+            "drop_reason": [],
+            "para_blocks": [
+                {
+                    "type": "title",
+                    "bbox": [
+                        69,
+                        114,
+                        284,
+                        131
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                70,
+                                116,
+                                283,
+                                131
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        70,
+                                        116,
+                                        283,
+                                        131
+                                    ],
+                                    "score": 1.0,
+                                    "content": "State-specific communications:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        }
+                    ],
+                    "index": 0,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        70,
+                        138,
+                        537,
+                        162
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                70,
+                                139,
+                                536,
+                                152
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        70,
+                                        139,
+                                        536,
+                                        152
+                                    ],
+                                    "score": 0.98,
+                                    "content": "Any person who knowingly presents a false or fraudulent claim for the payment of a loss is guilty of a crime and",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                68,
+                                150,
+                                305,
+                                164
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        150,
+                                        305,
+                                        164
+                                    ],
+                                    "score": 0.97,
+                                    "content": "may be subject to fines and confinement in state prison.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        }
+                    ],
+                    "index": 1.5,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        68,
+                        139,
+                        536,
+                        164
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        69,
+                        177,
+                        128,
+                        201
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                69,
+                                175,
+                                129,
+                                190
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        69,
+                                        175,
+                                        129,
+                                        190
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Carbon Copy:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        },
+                        {
+                            "bbox": [
+                                68,
+                                189,
+                                122,
+                                201
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        189,
+                                        122,
+                                        201
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Josue Deras",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        }
+                    ],
+                    "index": 3.5,
+                    "page_num": "page_1",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        68,
+                        175,
+                        129,
+                        201
+                    ]
+                }
+            ]
+        }
+    ],
+    "_parse_type": "ocr",
+    "_version_name": "0.10.6"
+}
