@@ -22,7 +22,7 @@ import {
 } from 'lucide-react'
 
 // Import enhanced AI wizard step components - REAL PDF DATA EXTRACTION
-import { RealPDFExtractionStep } from './wizard-steps/RealPDFExtractionStep'
+import { FixedRealPDFExtractionStep } from './wizard-steps/FixedRealPDFExtractionStep'
 import { EnhancedClientDetailsStep } from './wizard-steps/EnhancedClientDetailsStep'
 import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoStep'
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
@@ -129,7 +129,7 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
       title: 'REAL PDF Data Extraction - No More Fake Data!',
       description: 'Upload YOUR actual policy document and we will extract YOUR real data from it',
       icon: FileText,
-      component: RealPDFExtractionStep,
+      component: FixedRealPDFExtractionStep,
       required: false
     },
     {
