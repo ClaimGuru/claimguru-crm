@@ -242,6 +242,17 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
             </div>
           )}
 
+          {/* DEBUG: Show validation state */}
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+            <h4 className="font-medium text-yellow-800 mb-2">🔍 Debug: Validation State</h4>
+            <div className="text-sm text-yellow-700 space-y-1">
+              <div>showValidation: {showValidation ? '✅ TRUE' : '❌ FALSE'}</div>
+              <div>extractedData: {extractedData ? '✅ TRUE' : '❌ FALSE'}</div>
+              <div>rawText: {rawText ? '✅ TRUE' : '❌ FALSE'}</div>
+              <div>All conditions met: {(showValidation && extractedData && rawText) ? '✅ YES - Should show validation' : '❌ NO - Missing condition'}</div>
+            </div>
+          </div>
+
           {/* Policy Data Validation Step */}
           {showValidation && extractedData && rawText && (
             <PolicyDataValidationStep
@@ -250,6 +261,22 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
               onValidated={handleValidationComplete}
               onReject={handleValidationReject}
             />
+          )}
+
+          {/* Force show validation for debugging */}
+          {!showValidation && extractedData && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+              <h4 className="font-medium text-red-800 mb-2">🚨 Debug: Force Show Validation</h4>
+              <p className="text-sm text-red-700 mb-3">
+                Data was extracted but validation isn't showing. Forcing validation step:
+              </p>
+              <PolicyDataValidationStep
+                extractedData={extractedData}
+                rawText={rawText || 'Debug mode - no raw text available'}
+                onValidated={handleValidationComplete}
+                onReject={handleValidationReject}
+              />
+            </div>
           )}
 
           {/* Confirmation Message */}

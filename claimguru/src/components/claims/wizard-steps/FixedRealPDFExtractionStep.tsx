@@ -279,6 +279,22 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
             </div>
           )}
 
+          {/* FORCE VALIDATION STEP - ALWAYS SHOW AFTER EXTRACTION */}
+          {extractedData && rawText && !isConfirmed && (
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+              <h3 className="text-lg font-semibold text-blue-900 mb-4 flex items-center gap-2">
+                <CheckCircle className="h-5 w-5" />
+                Extracted Policy Data - Please Review & Validate
+              </h3>
+              <PolicyDataValidationStep
+                extractedData={extractedData}
+                rawText={rawText}
+                onValidated={handleValidationComplete}
+                onReject={handleValidationReject}
+              />
+            </div>
+          )}
+
           {/* Confirmation Message */}
           {isConfirmed && (
             <div className="bg-green-100 border border-green-300 rounded-lg p-4 text-center">
