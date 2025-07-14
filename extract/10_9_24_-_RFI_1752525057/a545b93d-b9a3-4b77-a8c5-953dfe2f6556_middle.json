@@ -1,0 +1,2689 @@
+{
+    "pdf_info": [
+        {
+            "preproc_blocks": [
+                {
+                    "type": "text",
+                    "bbox": [
+                        34,
+                        137,
+                        123,
+                        171
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                35,
+                                136,
+                                118,
+                                150
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        35,
+                                        136,
+                                        118,
+                                        150
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Anne Champagne",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                36,
+                                149,
+                                107,
+                                159
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        36,
+                                        149,
+                                        107,
+                                        159
+                                    ],
+                                    "score": 1.0,
+                                    "content": "1908 W 25th St",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                35,
+                                160,
+                                123,
+                                170
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        35,
+                                        160,
+                                        123,
+                                        170
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Houston, TX 77008",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        }
+                    ],
+                    "index": 1
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        405,
+                        70,
+                        486,
+                        97
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                407,
+                                72,
+                                470,
+                                82
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        407,
+                                        72,
+                                        470,
+                                        82
+                                    ],
+                                    "score": 1.0,
+                                    "content": "YOUR CLAIM",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        },
+                        {
+                            "bbox": [
+                                406,
+                                85,
+                                485,
+                                96
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        85,
+                                        485,
+                                        96
+                                    ],
+                                    "score": 1.0,
+                                    "content": "PROFESSIONAL",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        }
+                    ],
+                    "index": 3.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        406,
+                        123,
+                        530,
+                        165
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                408,
+                                125,
+                                529,
+                                138
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        408,
+                                        125,
+                                        529,
+                                        138
+                                    ],
+                                    "score": 1.0,
+                                    "content": "BRANDON HUNT",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                407,
+                                141,
+                                516,
+                                151
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        407,
+                                        141,
+                                        516,
+                                        151
+                                    ],
+                                    "score": 1.0,
+                                    "content": "bhunt2@travelers.com",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                407,
+                                153,
+                                502,
+                                164
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        407,
+                                        153,
+                                        502,
+                                        164
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Call (346) 406-7221",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        }
+                    ],
+                    "index": 6
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        406,
+                        190,
+                        519,
+                        202
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                407,
+                                191,
+                                517,
+                                201
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        407,
+                                        191,
+                                        517,
+                                        201
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Claim number: I8C6659",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        }
+                    ],
+                    "index": 8
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        13,
+                        257,
+                        89,
+                        269
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                13,
+                                256,
+                                89,
+                                270
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        13,
+                                        256,
+                                        89,
+                                        270
+                                    ],
+                                    "score": 1.0,
+                                    "content": "October 9, 2024",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        }
+                    ],
+                    "index": 9
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        14,
+                        287,
+                        118,
+                        298
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                14,
+                                286,
+                                117,
+                                299
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        14,
+                                        286,
+                                        117,
+                                        299
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Dear Anne Champagne,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        }
+                    ],
+                    "index": 10
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        13,
+                        311,
+                        247,
+                        329
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                14,
+                                311,
+                                245,
+                                329
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        14,
+                                        311,
+                                        245,
+                                        329
+                                    ],
+                                    "score": 1.0,
+                                    "content": "We're following up on your claim",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        }
+                    ],
+                    "index": 11
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        13,
+                        340,
+                        370,
+                        365
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                13,
+                                340,
+                                369,
+                                354
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        13,
+                                        340,
+                                        369,
+                                        354
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Thank you for taking time to speak with me. As we discussed, I need the following",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        },
+                        {
+                            "bbox": [
+                                13,
+                                353,
+                                203,
+                                365
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        13,
+                                        353,
+                                        203,
+                                        365
+                                    ],
+                                    "score": 1.0,
+                                    "content": "information In order to evaluate your claim.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        }
+                    ],
+                    "index": 12.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        13,
+                        400,
+                        360,
+                        425
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                13,
+                                400,
+                                358,
+                                414
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        13,
+                                        400,
+                                        358,
+                                        414
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Please send the information within the next 10 days. If I don't hear from you, I'll",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        },
+                        {
+                            "bbox": [
+                                14,
+                                414,
+                                210,
+                                425
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        14,
+                                        414,
+                                        210,
+                                        425
+                                    ],
+                                    "score": 1.0,
+                                    "content": "assume you don't want to pursue your claim.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        }
+                    ],
+                    "index": 14.5
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        13,
+                        446,
+                        97,
+                        462
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                14,
+                                446,
+                                98,
+                                462
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        14,
+                                        446,
+                                        98,
+                                        462
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Questions?",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        }
+                    ],
+                    "index": 16
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        13,
+                        474,
+                        207,
+                        486
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                13,
+                                474,
+                                208,
+                                488
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        13,
+                                        474,
+                                        208,
+                                        488
+                                    ],
+                                    "score": 1.0,
+                                    "content": "If you have any questions, please contact us.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        }
+                    ],
+                    "index": 17
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        14,
+                        497,
+                        362,
+                        523
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                14,
+                                498,
+                                361,
+                                513
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        14,
+                                        498,
+                                        361,
+                                        513
+                                    ],
+                                    "score": 1.0,
+                                    "content": "* For Florida Claims Only : Florida licensed adjusters are appointed as Company",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        },
+                        {
+                            "bbox": [
+                                14,
+                                510,
+                                105,
+                                524
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        14,
+                                        510,
+                                        105,
+                                        524
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Employee Adjusters.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        }
+                    ],
+                    "index": 18.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        406,
+                        258,
+                        542,
+                        271
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                408,
+                                259,
+                                540,
+                                271
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        408,
+                                        259,
+                                        540,
+                                        271
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Date of loss: August 13, 2024",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20
+                        }
+                    ],
+                    "index": 20
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        406,
+                        326,
+                        507,
+                        364
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                406,
+                                325,
+                                469,
+                                338
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        325,
+                                        469,
+                                        338
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Loss location:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 21
+                        },
+                        {
+                            "bbox": [
+                                406,
+                                338,
+                                487,
+                                349
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        338,
+                                        487,
+                                        349
+                                    ],
+                                    "score": 1.0,
+                                    "content": "1908 W 25TH ST",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 22
+                        },
+                        {
+                            "bbox": [
+                                406,
+                                352,
+                                506,
+                                363
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        352,
+                                        506,
+                                        363
+                                    ],
+                                    "score": 1.0,
+                                    "content": "HOUSTON TX 77008",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 23
+                        }
+                    ],
+                    "index": 22
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        406,
+                        419,
+                        470,
+                        430
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                406,
+                                418,
+                                471,
+                                431
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        418,
+                                        471,
+                                        431
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Insured name:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 24
+                        }
+                    ],
+                    "index": 24
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        406,
+                        445,
+                        473,
+                        485
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                406,
+                                446,
+                                474,
+                                458
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        446,
+                                        474,
+                                        458
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Policy number:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 25
+                        },
+                        {
+                            "bbox": [
+                                406,
+                                460,
+                                466,
+                                474
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        460,
+                                        466,
+                                        474
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Underwriting",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 26
+                        },
+                        {
+                            "bbox": [
+                                406,
+                                472,
+                                453,
+                                486
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        472,
+                                        453,
+                                        486
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Company:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 27
+                        }
+                    ],
+                    "index": 26
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        492,
+                        421,
+                        584,
+                        509
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                493,
+                                418,
+                                524,
+                                430
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        493,
+                                        418,
+                                        524,
+                                        430
+                                    ],
+                                    "score": 1.0,
+                                    "content": "ANNE",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 28
+                        },
+                        {
+                            "bbox": [
+                                493,
+                                431,
+                                560,
+                                441
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        493,
+                                        431,
+                                        560,
+                                        441
+                                    ],
+                                    "score": 1.0,
+                                    "content": "CHAMPAGNE",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 29
+                        },
+                        {
+                            "bbox": [
+                                494,
+                                446,
+                                583,
+                                456
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        494,
+                                        446,
+                                        583,
+                                        456
+                                    ],
+                                    "score": 1.0,
+                                    "content": "615843239-633-1",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 30
+                        },
+                        {
+                            "bbox": [
+                                493,
+                                460,
+                                553,
+                                471
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        493,
+                                        460,
+                                        553,
+                                        471
+                                    ],
+                                    "score": 1.0,
+                                    "content": "TRAVELERS",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 31
+                        },
+                        {
+                            "bbox": [
+                                493,
+                                473,
+                                549,
+                                483
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        493,
+                                        473,
+                                        549,
+                                        483
+                                    ],
+                                    "score": 1.0,
+                                    "content": "PERSONAL",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 32
+                        },
+                        {
+                            "bbox": [
+                                493,
+                                485,
+                                554,
+                                496
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        493,
+                                        485,
+                                        554,
+                                        496
+                                    ],
+                                    "score": 1.0,
+                                    "content": "INSURANCE",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 33
+                        },
+                        {
+                            "bbox": [
+                                493,
+                                497,
+                                546,
+                                507
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        493,
+                                        497,
+                                        546,
+                                        507
+                                    ],
+                                    "score": 1.0,
+                                    "content": "COMPANY",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 34
+                        }
+                    ],
+                    "index": 31
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        405,
+                        555,
+                        544,
+                        583
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                407,
+                                558,
+                                514,
+                                568
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        407,
+                                        558,
+                                        514,
+                                        568
+                                    ],
+                                    "score": 1.0,
+                                    "content": "KEEP TRACK OF YOUR",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 35
+                        },
+                        {
+                            "bbox": [
+                                407,
+                                571,
+                                543,
+                                581
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        407,
+                                        571,
+                                        543,
+                                        581
+                                    ],
+                                    "score": 1.0,
+                                    "content": "CLAIM WITH MYTRAVELERS",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 36
+                        }
+                    ],
+                    "index": 35.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        406,
+                        597,
+                        564,
+                        636
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                406,
+                                598,
+                                541,
+                                609
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        598,
+                                        541,
+                                        609
+                                    ],
+                                    "score": 1.0,
+                                    "content": "There's no need to wait for the",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 37
+                        },
+                        {
+                            "bbox": [
+                                407,
+                                612,
+                                562,
+                                623
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        407,
+                                        612,
+                                        562,
+                                        623
+                                    ],
+                                    "score": 1.0,
+                                    "content": "mail - get real-time updates online",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 38
+                        },
+                        {
+                            "bbox": [
+                                406,
+                                625,
+                                488,
+                                636
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        625,
+                                        488,
+                                        636
+                                    ],
+                                    "score": 1.0,
+                                    "content": "with MyTravelers",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 39
+                        }
+                    ],
+                    "index": 38
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        406,
+                        649,
+                        578,
+                        675
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                406,
+                                650,
+                                577,
+                                663
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        650,
+                                        577,
+                                        663
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Log in to https://signin.travelers.com or",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 40
+                        },
+                        {
+                            "bbox": [
+                                406,
+                                662,
+                                489,
+                                676
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        662,
+                                        489,
+                                        676
+                                    ],
+                                    "score": 1.0,
+                                    "content": "download the app.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 41
+                        }
+                    ],
+                    "index": 40.5
+                }
+            ],
+            "layout_bboxes": [],
+            "page_idx": 0,
+            "page_size": [
+                611.9998168945312,
+                792.0
+            ],
+            "_layout_tree": [],
+            "images": [],
+            "tables": [],
+            "interline_equations": [],
+            "discarded_blocks": [
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        406,
+                        289,
+                        430,
+                        320
+                    ],
+                    "lines": []
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        13,
+                        662,
+                        373,
+                        714
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                56,
+                                672,
+                                342,
+                                681
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        56,
+                                        673,
+                                        102,
+                                        681
+                                    ],
+                                    "score": 0.9905297756195068,
+                                    "content": "REPORTED",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        172,
+                                        672,
+                                        222,
+                                        681
+                                    ],
+                                    "score": 0.9846867322921753,
+                                    "content": "IN PROCESS",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        288,
+                                        673,
+                                        342,
+                                        681
+                                    ],
+                                    "score": 0.9604647159576416,
+                                    "content": "WRAPPING UP",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        13,
+                        43,
+                        120,
+                        67
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                12,
+                                51,
+                                116,
+                                65
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        12,
+                                        51,
+                                        116,
+                                        65
+                                    ],
+                                    "score": 0.9748940467834473,
+                                    "content": "TRAVELERSJ",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        406,
+                        387,
+                        432,
+                        416
+                    ],
+                    "lines": []
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        406,
+                        224,
+                        440,
+                        255
+                    ],
+                    "lines": []
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        14,
+                        725,
+                        68,
+                        736
+                    ],
+                    "lines": []
+                }
+            ],
+            "need_drop": false,
+            "drop_reason": [],
+            "para_blocks": [
+                {
+                    "type": "text",
+                    "bbox": [
+                        34,
+                        137,
+                        123,
+                        171
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                35,
+                                136,
+                                118,
+                                150
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        35,
+                                        136,
+                                        118,
+                                        150
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Anne Champagne",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                36,
+                                149,
+                                107,
+                                159
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        36,
+                                        149,
+                                        107,
+                                        159
+                                    ],
+                                    "score": 1.0,
+                                    "content": "1908 W 25th St",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                35,
+                                160,
+                                123,
+                                170
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        35,
+                                        160,
+                                        123,
+                                        170
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Houston, TX 77008",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        }
+                    ],
+                    "index": 1,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        35,
+                        136,
+                        123,
+                        170
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        405,
+                        70,
+                        486,
+                        97
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                407,
+                                72,
+                                470,
+                                82
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        407,
+                                        72,
+                                        470,
+                                        82
+                                    ],
+                                    "score": 1.0,
+                                    "content": "YOUR CLAIM",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        },
+                        {
+                            "bbox": [
+                                406,
+                                85,
+                                485,
+                                96
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        85,
+                                        485,
+                                        96
+                                    ],
+                                    "score": 1.0,
+                                    "content": "PROFESSIONAL",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        }
+                    ],
+                    "index": 3.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        406,
+                        72,
+                        485,
+                        96
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        406,
+                        123,
+                        530,
+                        165
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                408,
+                                125,
+                                529,
+                                138
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        408,
+                                        125,
+                                        529,
+                                        138
+                                    ],
+                                    "score": 1.0,
+                                    "content": "BRANDON HUNT",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                407,
+                                141,
+                                516,
+                                151
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        407,
+                                        141,
+                                        516,
+                                        151
+                                    ],
+                                    "score": 1.0,
+                                    "content": "bhunt2@travelers.com",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                407,
+                                153,
+                                502,
+                                164
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        407,
+                                        153,
+                                        502,
+                                        164
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Call (346) 406-7221",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        }
+                    ],
+                    "index": 6,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        407,
+                        125,
+                        529,
+                        164
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        406,
+                        190,
+                        519,
+                        202
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                407,
+                                191,
+                                517,
+                                201
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        407,
+                                        191,
+                                        517,
+                                        201
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Claim number: I8C6659",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        }
+                    ],
+                    "index": 8,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        407,
+                        191,
+                        517,
+                        201
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        13,
+                        257,
+                        89,
+                        269
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                13,
+                                256,
+                                89,
+                                270
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        13,
+                                        256,
+                                        89,
+                                        270
+                                    ],
+                                    "score": 1.0,
+                                    "content": "October 9, 2024",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        }
+                    ],
+                    "index": 9,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        13,
+                        256,
+                        89,
+                        270
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        14,
+                        287,
+                        118,
+                        298
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                14,
+                                286,
+                                117,
+                                299
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        14,
+                                        286,
+                                        117,
+                                        299
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Dear Anne Champagne,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        }
+                    ],
+                    "index": 10,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        14,
+                        286,
+                        117,
+                        299
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        13,
+                        311,
+                        247,
+                        329
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                14,
+                                311,
+                                245,
+                                329
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        14,
+                                        311,
+                                        245,
+                                        329
+                                    ],
+                                    "score": 1.0,
+                                    "content": "We're following up on your claim",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        }
+                    ],
+                    "index": 11,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        13,
+                        340,
+                        370,
+                        365
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                13,
+                                340,
+                                369,
+                                354
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        13,
+                                        340,
+                                        369,
+                                        354
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Thank you for taking time to speak with me. As we discussed, I need the following",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        },
+                        {
+                            "bbox": [
+                                13,
+                                353,
+                                203,
+                                365
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        13,
+                                        353,
+                                        203,
+                                        365
+                                    ],
+                                    "score": 1.0,
+                                    "content": "information In order to evaluate your claim.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        }
+                    ],
+                    "index": 12.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        13,
+                        340,
+                        369,
+                        365
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        13,
+                        400,
+                        360,
+                        425
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                13,
+                                400,
+                                358,
+                                414
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        13,
+                                        400,
+                                        358,
+                                        414
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Please send the information within the next 10 days. If I don't hear from you, I'll",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        },
+                        {
+                            "bbox": [
+                                14,
+                                414,
+                                210,
+                                425
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        14,
+                                        414,
+                                        210,
+                                        425
+                                    ],
+                                    "score": 1.0,
+                                    "content": "assume you don't want to pursue your claim.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        }
+                    ],
+                    "index": 14.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        13,
+                        400,
+                        358,
+                        425
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        13,
+                        446,
+                        97,
+                        462
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                14,
+                                446,
+                                98,
+                                462
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        14,
+                                        446,
+                                        98,
+                                        462
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Questions?",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        }
+                    ],
+                    "index": 16,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        13,
+                        474,
+                        207,
+                        486
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                13,
+                                474,
+                                208,
+                                488
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        13,
+                                        474,
+                                        208,
+                                        488
+                                    ],
+                                    "score": 1.0,
+                                    "content": "If you have any questions, please contact us.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        }
+                    ],
+                    "index": 17,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        13,
+                        474,
+                        208,
+                        488
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        14,
+                        497,
+                        362,
+                        523
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                14,
+                                498,
+                                361,
+                                513
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        14,
+                                        498,
+                                        361,
+                                        513
+                                    ],
+                                    "score": 1.0,
+                                    "content": "* For Florida Claims Only : Florida licensed adjusters are appointed as Company",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        },
+                        {
+                            "bbox": [
+                                14,
+                                510,
+                                105,
+                                524
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        14,
+                                        510,
+                                        105,
+                                        524
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Employee Adjusters.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        }
+                    ],
+                    "index": 18.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        14,
+                        498,
+                        361,
+                        524
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        406,
+                        258,
+                        542,
+                        271
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                408,
+                                259,
+                                540,
+                                271
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        408,
+                                        259,
+                                        540,
+                                        271
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Date of loss: August 13, 2024",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20
+                        }
+                    ],
+                    "index": 20,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        408,
+                        259,
+                        540,
+                        271
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        406,
+                        326,
+                        507,
+                        364
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                406,
+                                325,
+                                469,
+                                338
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        325,
+                                        469,
+                                        338
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Loss location:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 21
+                        },
+                        {
+                            "bbox": [
+                                406,
+                                338,
+                                487,
+                                349
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        338,
+                                        487,
+                                        349
+                                    ],
+                                    "score": 1.0,
+                                    "content": "1908 W 25TH ST",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 22
+                        },
+                        {
+                            "bbox": [
+                                406,
+                                352,
+                                506,
+                                363
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        352,
+                                        506,
+                                        363
+                                    ],
+                                    "score": 1.0,
+                                    "content": "HOUSTON TX 77008",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 23
+                        }
+                    ],
+                    "index": 22,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        406,
+                        325,
+                        506,
+                        363
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        406,
+                        419,
+                        470,
+                        430
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                406,
+                                418,
+                                471,
+                                431
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        418,
+                                        471,
+                                        431
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Insured name:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 24
+                        }
+                    ],
+                    "index": 24,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        406,
+                        418,
+                        471,
+                        431
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        406,
+                        445,
+                        473,
+                        485
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                406,
+                                446,
+                                474,
+                                458
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        446,
+                                        474,
+                                        458
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Policy number:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 25
+                        },
+                        {
+                            "bbox": [
+                                406,
+                                460,
+                                466,
+                                474
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        460,
+                                        466,
+                                        474
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Underwriting",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 26
+                        },
+                        {
+                            "bbox": [
+                                406,
+                                472,
+                                453,
+                                486
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        472,
+                                        453,
+                                        486
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Company:",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 27
+                        }
+                    ],
+                    "index": 26,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        406,
+                        446,
+                        474,
+                        486
+                    ]
+                },
+                {
+                    "type": "list",
+                    "bbox": [
+                        492,
+                        421,
+                        584,
+                        509
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                493,
+                                418,
+                                524,
+                                430
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        493,
+                                        418,
+                                        524,
+                                        430
+                                    ],
+                                    "score": 1.0,
+                                    "content": "ANNE",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 28,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                493,
+                                431,
+                                560,
+                                441
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        493,
+                                        431,
+                                        560,
+                                        441
+                                    ],
+                                    "score": 1.0,
+                                    "content": "CHAMPAGNE",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 29,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                494,
+                                446,
+                                583,
+                                456
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        494,
+                                        446,
+                                        583,
+                                        456
+                                    ],
+                                    "score": 1.0,
+                                    "content": "615843239-633-1",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 30,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                493,
+                                460,
+                                553,
+                                471
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        493,
+                                        460,
+                                        553,
+                                        471
+                                    ],
+                                    "score": 1.0,
+                                    "content": "TRAVELERS",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 31,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                493,
+                                473,
+                                549,
+                                483
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        493,
+                                        473,
+                                        549,
+                                        483
+                                    ],
+                                    "score": 1.0,
+                                    "content": "PERSONAL",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 32,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                493,
+                                485,
+                                554,
+                                496
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        493,
+                                        485,
+                                        554,
+                                        496
+                                    ],
+                                    "score": 1.0,
+                                    "content": "INSURANCE",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 33,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                493,
+                                497,
+                                546,
+                                507
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        493,
+                                        497,
+                                        546,
+                                        507
+                                    ],
+                                    "score": 1.0,
+                                    "content": "COMPANY",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 34,
+                            "is_list_start_line": true
+                        }
+                    ],
+                    "index": 31,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        493,
+                        418,
+                        583,
+                        507
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        405,
+                        555,
+                        544,
+                        583
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                407,
+                                558,
+                                514,
+                                568
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        407,
+                                        558,
+                                        514,
+                                        568
+                                    ],
+                                    "score": 1.0,
+                                    "content": "KEEP TRACK OF YOUR",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 35
+                        },
+                        {
+                            "bbox": [
+                                407,
+                                571,
+                                543,
+                                581
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        407,
+                                        571,
+                                        543,
+                                        581
+                                    ],
+                                    "score": 1.0,
+                                    "content": "CLAIM WITH MYTRAVELERS",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 36
+                        }
+                    ],
+                    "index": 35.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        406,
+                        597,
+                        564,
+                        636
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                406,
+                                598,
+                                541,
+                                609
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        598,
+                                        541,
+                                        609
+                                    ],
+                                    "score": 1.0,
+                                    "content": "There's no need to wait for the",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 37
+                        },
+                        {
+                            "bbox": [
+                                407,
+                                612,
+                                562,
+                                623
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        407,
+                                        612,
+                                        562,
+                                        623
+                                    ],
+                                    "score": 1.0,
+                                    "content": "mail - get real-time updates online",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 38
+                        },
+                        {
+                            "bbox": [
+                                406,
+                                625,
+                                488,
+                                636
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        625,
+                                        488,
+                                        636
+                                    ],
+                                    "score": 1.0,
+                                    "content": "with MyTravelers",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 39
+                        }
+                    ],
+                    "index": 38,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        406,
+                        598,
+                        562,
+                        636
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        406,
+                        649,
+                        578,
+                        675
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                406,
+                                650,
+                                577,
+                                663
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        650,
+                                        577,
+                                        663
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Log in to https://signin.travelers.com or",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 40
+                        },
+                        {
+                            "bbox": [
+                                406,
+                                662,
+                                489,
+                                676
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        406,
+                                        662,
+                                        489,
+                                        676
+                                    ],
+                                    "score": 1.0,
+                                    "content": "download the app.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 41
+                        }
+                    ],
+                    "index": 40.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        611.9998168945312,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        406,
+                        650,
+                        577,
+                        676
+                    ]
+                }
+            ]
+        }
+    ],
+    "_parse_type": "txt",
+    "_version_name": "0.10.6"
+}

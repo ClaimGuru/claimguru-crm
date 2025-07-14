@@ -1,0 +1,1868 @@
+{
+    "pdf_info": [
+        {
+            "preproc_blocks": [
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        125,
+                        168,
+                        159
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                127,
+                                138,
+                                136
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        127,
+                                        138,
+                                        136
+                                    ],
+                                    "score": 1.0,
+                                    "content": "TERRY CONNELLY",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                138,
+                                151,
+                                148
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        138,
+                                        151,
+                                        148
+                                    ],
+                                    "score": 1.0,
+                                    "content": "410 PRESSWOOD DR",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                149,
+                                168,
+                                158
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        149,
+                                        168,
+                                        158
+                                    ],
+                                    "score": 1.0,
+                                    "content": "SPRING TX 773861207",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        }
+                    ],
+                    "index": 1
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        195,
+                        109,
+                        207
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                195,
+                                109,
+                                208
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        195,
+                                        109,
+                                        208
+                                    ],
+                                    "score": 1.0,
+                                    "content": "July 08, 2024",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        }
+                    ],
+                    "index": 3
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        218,
+                        213,
+                        253
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                219,
+                                194,
+                                229
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        219,
+                                        194,
+                                        229
+                                    ],
+                                    "score": 1.0,
+                                    "content": "INSURED:  TERRY CONNELLY",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                230,
+                                185,
+                                240
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        230,
+                                        185,
+                                        240
+                                    ],
+                                    "score": 1.0,
+                                    "content": "DATE OF LOSS:  July 08, 2024",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                243,
+                                212,
+                                252
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        243,
+                                        212,
+                                        252
+                                    ],
+                                    "score": 1.0,
+                                    "content": "CLAIM NUMBER:  0761226547 NCC",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        }
+                    ],
+                    "index": 5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        346,
+                        218,
+                        491,
+                        241
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                347,
+                                219,
+                                491,
+                                228
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        347,
+                                        219,
+                                        491,
+                                        228
+                                    ],
+                                    "score": 1.0,
+                                    "content": "PHONE NUMBER:  800-547-8676",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                347,
+                                231,
+                                477,
+                                240
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        347,
+                                        231,
+                                        477,
+                                        240
+                                    ],
+                                    "score": 1.0,
+                                    "content": "FAX NUMBER:  877-292-9527",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        }
+                    ],
+                    "index": 6.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        265,
+                        235,
+                        280
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                55,
+                                266,
+                                234,
+                                281
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        55,
+                                        266,
+                                        234,
+                                        281
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Claim Acknowledgement Letter",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        }
+                    ],
+                    "index": 9
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        297,
+                        169,
+                        309
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                298,
+                                169,
+                                309
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        298,
+                                        169,
+                                        309
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Dear TERRY CONNELLY,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        }
+                    ],
+                    "index": 10
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        321,
+                        558,
+                        346
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                321,
+                                558,
+                                336
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        321,
+                                        558,
+                                        336
+                                    ],
+                                    "score": 1.0,
+                                    "content": "We are writing to let you know that we received your claim and started working on it. Losses are always difficult,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                333,
+                                407,
+                                349
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        333,
+                                        407,
+                                        349
+                                    ],
+                                    "score": 1.0,
+                                    "content": "but please be assured that we will work to resolve your claim quickly and fairly.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        }
+                    ],
+                    "index": 11.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        355,
+                        559,
+                        431
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                355,
+                                558,
+                                370
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        355,
+                                        558,
+                                        370
+                                    ],
+                                    "score": 1.0,
+                                    "content": "We wanted to let you know that we will need your help to accurately estimate your damages which includes your",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                369,
+                                558,
+                                383
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        369,
+                                        558,
+                                        383
+                                    ],
+                                    "score": 1.0,
+                                    "content": "input on the age and condition of the items before they were damaged. The options for condition are “new”,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        },
+                        {
+                            "bbox": [
+                                51,
+                                380,
+                                560,
+                                397
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        380,
+                                        560,
+                                        397
+                                    ],
+                                    "score": 1.0,
+                                    "content": "“above average”, “average”, and “below average”. Information about age and condition is used, in part, to ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                393,
+                                559,
+                                408
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        393,
+                                        559,
+                                        408
+                                    ],
+                                    "score": 1.0,
+                                    "content": "determine the amount of any depreciation that may be applicable. “Depreciation” refers to a decrease in an item’s",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                407,
+                                559,
+                                420
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        407,
+                                        559,
+                                        420
+                                    ],
+                                    "score": 1.0,
+                                    "content": "value due to age and condition and other factors. We look forward to discussing these details with you as well as ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                418,
+                                353,
+                                434
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        418,
+                                        353,
+                                        434
+                                    ],
+                                    "score": 1.0,
+                                    "content": "whether your policy provides the replacement cost coverage option.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        }
+                    ],
+                    "index": 15.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        450,
+                        558,
+                        488
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                51,
+                                450,
+                                559,
+                                466
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        450,
+                                        559,
+                                        466
+                                    ],
+                                    "score": 1.0,
+                                    "content": "We have a dedicated team of claim professionals that can assist you during the claim process. Just so you are",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        },
+                        {
+                            "bbox": [
+                                51,
+                                462,
+                                560,
+                                479
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        462,
+                                        560,
+                                        479
+                                    ],
+                                    "score": 1.0,
+                                    "content": "aware, one or more Allstate Vehicle and Property Insurance Company representatives may contact you about ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                476,
+                                191,
+                                490
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        476,
+                                        191,
+                                        490
+                                    ],
+                                    "score": 1.0,
+                                    "content": "different aspects of your claim.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 21
+                        }
+                    ],
+                    "index": 20
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        497,
+                        495,
+                        510
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                498,
+                                496,
+                                512
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        498,
+                                        496,
+                                        512
+                                    ],
+                                    "score": 1.0,
+                                    "content": "We're here to help. If you need additional information, please visit MyClaim.com or contact us. ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 22
+                        }
+                    ],
+                    "index": 22
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        535,
+                        94,
+                        546
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                534,
+                                95,
+                                547
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        534,
+                                        95,
+                                        547
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Sincerely,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 23
+                        }
+                    ],
+                    "index": 23
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        54,
+                        557,
+                        166,
+                        575
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                558,
+                                165,
+                                574
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        558,
+                                        165,
+                                        574
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Your Claim Team",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 24
+                        }
+                    ],
+                    "index": 24
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        584,
+                        255,
+                        618
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                584,
+                                127,
+                                595
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        584,
+                                        127,
+                                        595
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Your Claim Team",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 25
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                595,
+                                111,
+                                606
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        595,
+                                        111,
+                                        606
+                                    ],
+                                    "score": 1.0,
+                                    "content": "800-547-8676",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 26
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                606,
+                                254,
+                                619
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        606,
+                                        254,
+                                        619
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Allstate Vehicle and Property Insurance Company",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 27
+                        }
+                    ],
+                    "index": 26
+                }
+            ],
+            "layout_bboxes": [],
+            "page_idx": 0,
+            "page_size": [
+                612.0,
+                792.0
+            ],
+            "_layout_tree": [],
+            "images": [],
+            "tables": [],
+            "interline_equations": [],
+            "discarded_blocks": [
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        54,
+                        40,
+                        398,
+                        72
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                87,
+                                40,
+                                398,
+                                68
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        87,
+                                        43,
+                                        169,
+                                        67
+                                    ],
+                                    "score": 0.9886396527290344,
+                                    "content": "Allstate",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        165,
+                                        58,
+                                        245,
+                                        68
+                                    ],
+                                    "score": 1.0,
+                                    "content": "DALLAS TX 75267",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        170,
+                                        40,
+                                        398,
+                                        59
+                                    ],
+                                    "score": 1.0,
+                                    "content": "APlOl sBtOaXt e6 7V2e0h4i1c le and Property Insurance Company",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                96,
+                                64,
+                                160,
+                                75
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        96,
+                                        64,
+                                        160,
+                                        75
+                                    ],
+                                    "score": 0.9762547612190247,
+                                    "content": "You're in good hands.",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        53,
+                        749,
+                        92,
+                        758
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                749,
+                                92,
+                                759
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        749,
+                                        92,
+                                        759
+                                    ],
+                                    "score": 1.0,
+                                    "content": "PROA019",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        268,
+                        751,
+                        342,
+                        761
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                268,
+                                752,
+                                342,
+                                762
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        268,
+                                        752,
+                                        342,
+                                        762
+                                    ],
+                                    "score": 1.0,
+                                    "content": "0761226547 NCC",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "need_drop": false,
+            "drop_reason": [],
+            "para_blocks": [
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        125,
+                        168,
+                        159
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                127,
+                                138,
+                                136
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        127,
+                                        138,
+                                        136
+                                    ],
+                                    "score": 1.0,
+                                    "content": "TERRY CONNELLY",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                138,
+                                151,
+                                148
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        138,
+                                        151,
+                                        148
+                                    ],
+                                    "score": 1.0,
+                                    "content": "410 PRESSWOOD DR",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                149,
+                                168,
+                                158
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        149,
+                                        168,
+                                        158
+                                    ],
+                                    "score": 1.0,
+                                    "content": "SPRING TX 773861207",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        }
+                    ],
+                    "index": 1,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        53,
+                        127,
+                        168,
+                        158
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        195,
+                        109,
+                        207
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                195,
+                                109,
+                                208
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        195,
+                                        109,
+                                        208
+                                    ],
+                                    "score": 1.0,
+                                    "content": "July 08, 2024",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        }
+                    ],
+                    "index": 3,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        52,
+                        195,
+                        109,
+                        208
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        218,
+                        213,
+                        253
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                219,
+                                194,
+                                229
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        219,
+                                        194,
+                                        229
+                                    ],
+                                    "score": 1.0,
+                                    "content": "INSURED:  TERRY CONNELLY",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                230,
+                                185,
+                                240
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        230,
+                                        185,
+                                        240
+                                    ],
+                                    "score": 1.0,
+                                    "content": "DATE OF LOSS:  July 08, 2024",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                243,
+                                212,
+                                252
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        243,
+                                        212,
+                                        252
+                                    ],
+                                    "score": 1.0,
+                                    "content": "CLAIM NUMBER:  0761226547 NCC",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        }
+                    ],
+                    "index": 5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        53,
+                        219,
+                        212,
+                        252
+                    ]
+                },
+                {
+                    "type": "index",
+                    "bbox": [
+                        346,
+                        218,
+                        491,
+                        241
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                347,
+                                219,
+                                491,
+                                228
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        347,
+                                        219,
+                                        491,
+                                        228
+                                    ],
+                                    "score": 1.0,
+                                    "content": "PHONE NUMBER:  800-547-8676",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                347,
+                                231,
+                                477,
+                                240
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        347,
+                                        231,
+                                        477,
+                                        240
+                                    ],
+                                    "score": 1.0,
+                                    "content": "FAX NUMBER:  877-292-9527",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7,
+                            "is_list_start_line": true
+                        }
+                    ],
+                    "index": 6.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        347,
+                        219,
+                        491,
+                        240
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        265,
+                        235,
+                        280
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                55,
+                                266,
+                                234,
+                                281
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        55,
+                                        266,
+                                        234,
+                                        281
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Claim Acknowledgement Letter",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        }
+                    ],
+                    "index": 9,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        55,
+                        266,
+                        234,
+                        281
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        297,
+                        169,
+                        309
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                298,
+                                169,
+                                309
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        298,
+                                        169,
+                                        309
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Dear TERRY CONNELLY,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        }
+                    ],
+                    "index": 10,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        53,
+                        298,
+                        169,
+                        309
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        321,
+                        558,
+                        346
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                321,
+                                558,
+                                336
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        321,
+                                        558,
+                                        336
+                                    ],
+                                    "score": 1.0,
+                                    "content": "We are writing to let you know that we received your claim and started working on it. Losses are always difficult,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                333,
+                                407,
+                                349
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        333,
+                                        407,
+                                        349
+                                    ],
+                                    "score": 1.0,
+                                    "content": "but please be assured that we will work to resolve your claim quickly and fairly.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        }
+                    ],
+                    "index": 11.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        52,
+                        321,
+                        558,
+                        349
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        355,
+                        559,
+                        431
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                355,
+                                558,
+                                370
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        355,
+                                        558,
+                                        370
+                                    ],
+                                    "score": 1.0,
+                                    "content": "We wanted to let you know that we will need your help to accurately estimate your damages which includes your",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                369,
+                                558,
+                                383
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        369,
+                                        558,
+                                        383
+                                    ],
+                                    "score": 1.0,
+                                    "content": "input on the age and condition of the items before they were damaged. The options for condition are “new”,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        },
+                        {
+                            "bbox": [
+                                51,
+                                380,
+                                560,
+                                397
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        380,
+                                        560,
+                                        397
+                                    ],
+                                    "score": 1.0,
+                                    "content": "“above average”, “average”, and “below average”. Information about age and condition is used, in part, to ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                393,
+                                559,
+                                408
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        393,
+                                        559,
+                                        408
+                                    ],
+                                    "score": 1.0,
+                                    "content": "determine the amount of any depreciation that may be applicable. “Depreciation” refers to a decrease in an item’s",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        },
+                        {
+                            "bbox": [
+                                54,
+                                407,
+                                559,
+                                420
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        407,
+                                        559,
+                                        420
+                                    ],
+                                    "score": 1.0,
+                                    "content": "value due to age and condition and other factors. We look forward to discussing these details with you as well as ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                418,
+                                353,
+                                434
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        418,
+                                        353,
+                                        434
+                                    ],
+                                    "score": 1.0,
+                                    "content": "whether your policy provides the replacement cost coverage option.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        }
+                    ],
+                    "index": 15.5,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        51,
+                        355,
+                        560,
+                        434
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        450,
+                        558,
+                        488
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                51,
+                                450,
+                                559,
+                                466
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        450,
+                                        559,
+                                        466
+                                    ],
+                                    "score": 1.0,
+                                    "content": "We have a dedicated team of claim professionals that can assist you during the claim process. Just so you are",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        },
+                        {
+                            "bbox": [
+                                51,
+                                462,
+                                560,
+                                479
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        51,
+                                        462,
+                                        560,
+                                        479
+                                    ],
+                                    "score": 1.0,
+                                    "content": "aware, one or more Allstate Vehicle and Property Insurance Company representatives may contact you about ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                476,
+                                191,
+                                490
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        476,
+                                        191,
+                                        490
+                                    ],
+                                    "score": 1.0,
+                                    "content": "different aspects of your claim.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 21
+                        }
+                    ],
+                    "index": 20,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        51,
+                        450,
+                        560,
+                        490
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        54,
+                        497,
+                        495,
+                        510
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                498,
+                                496,
+                                512
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        498,
+                                        496,
+                                        512
+                                    ],
+                                    "score": 1.0,
+                                    "content": "We're here to help. If you need additional information, please visit MyClaim.com or contact us. ",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 22
+                        }
+                    ],
+                    "index": 22,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        53,
+                        498,
+                        496,
+                        512
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        53,
+                        535,
+                        94,
+                        546
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                534,
+                                95,
+                                547
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        534,
+                                        95,
+                                        547
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Sincerely,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 23
+                        }
+                    ],
+                    "index": 23,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        52,
+                        534,
+                        95,
+                        547
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        54,
+                        557,
+                        166,
+                        575
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                558,
+                                165,
+                                574
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        558,
+                                        165,
+                                        574
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Your Claim Team",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 24
+                        }
+                    ],
+                    "index": 24,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ]
+                },
+                {
+                    "type": "list",
+                    "bbox": [
+                        53,
+                        584,
+                        255,
+                        618
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                53,
+                                584,
+                                127,
+                                595
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        584,
+                                        127,
+                                        595
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Your Claim Team",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 25,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                595,
+                                111,
+                                606
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        595,
+                                        111,
+                                        606
+                                    ],
+                                    "score": 1.0,
+                                    "content": "800-547-8676",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 26,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                52,
+                                606,
+                                254,
+                                619
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        606,
+                                        254,
+                                        619
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Allstate Vehicle and Property Insurance Company",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 27,
+                            "is_list_start_line": true
+                        }
+                    ],
+                    "index": 26,
+                    "page_num": "page_0",
+                    "page_size": [
+                        612.0,
+                        792.0
+                    ],
+                    "bbox_fs": [
+                        52,
+                        584,
+                        254,
+                        619
+                    ]
+                }
+            ]
+        },
+        {
+            "preproc_blocks": [],
+            "layout_bboxes": [],
+            "page_idx": 1,
+            "page_size": [
+                612.0,
+                792.0
+            ],
+            "_layout_tree": [],
+            "images": [],
+            "tables": [],
+            "interline_equations": [],
+            "discarded_blocks": [],
+            "need_drop": false,
+            "drop_reason": [],
+            "para_blocks": []
+        }
+    ],
+    "_parse_type": "txt",
+    "_version_name": "0.10.6"
+}
