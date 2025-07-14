@@ -1,0 +1,1550 @@
+
+> react_repo@0.0.0 build
+> yes | pnpm install && rm -rf node_modules/.vite-temp && tsc -b && vite build
+
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +479
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Progress: resolved 479, reused 0, downloaded 0, added 0
+1Progress: resolved 479, reused 0, downloaded 43, added 0
+76, added 3Progress: resolved 479, reused 0, downloaded 109, added 7
+Downloading pdfjs-dist@3.11.174: 0.00 B/9.27 MB
+Downloading pdfjs-dist@3.11.174: 4.23 kB/9.27 MB
+Progress: resolved 479, reused 0, downloaded 151, added 11
+7, added 193.92 M93, added 239, added 296.53221, added 3441, added 469.1566, added 50310, added 64Downloading pdfjs-dist@3.11.174: 9.27 MB/9.27 MB, done
+Progress: resolved 479, reused 0, downloaded 310, added 64
+Downloading tesseract.js-core@5.1.1: 0.00 B/11.32 MB
+Downloading tesseract.js-core@5.1.1: 3.29 kB/11.32 MB
+23, added 7248, added 762.62 M66, added 843.9389, added 88412, added 937.8Progress: resolved 479, reused 0, downloaded 455, added 102
+72, added 118
+   ╭──────────────────────────────────────────╮
+   │                                          │
+   │   Update available! 10.12.4 → 10.13.1.   │
+   │   Changelog: https://pnpm.io/v/10.13.1   │
+   │     To update, run: pnpm add -g pnpm     │
+   │                                          │
+   ╰──────────────────────────────────────────╯
+
+Progress: resolved 479, reused 0, downloaded 472, added 118
+Downloading tesseract.js-core@5.1.1: 7.83 MB/11.32 MB
+Downloading tesseract.js-core@5.1.1: 11.32 MB/11.32 MB, done
+Progress: resolved 479, reused 0, downloaded 472, added 118
+6, added 1607, added 23834578, added 476Progress: resolved 479, reused 0, downloaded 479, added 479, done
+
+dependencies:
++ @googlemaps/js-api-loader 1.16.10
++ @hookform/resolvers 3.10.0
++ @radix-ui/react-accordion 1.2.4
++ @radix-ui/react-alert-dialog 1.1.7
++ @radix-ui/react-aspect-ratio 1.1.3
++ @radix-ui/react-avatar 1.1.4
++ @radix-ui/react-checkbox 1.1.5
++ @radix-ui/react-collapsible 1.1.4
++ @radix-ui/react-context-menu 2.2.7
++ @radix-ui/react-dialog 1.1.7
++ @radix-ui/react-dropdown-menu 2.1.7
++ @radix-ui/react-hover-card 1.1.7
++ @radix-ui/react-label 2.1.3
++ @radix-ui/react-menubar 1.1.7
++ @radix-ui/react-navigation-menu 1.2.6
++ @radix-ui/react-popover 1.1.7
++ @radix-ui/react-progress 1.1.3
++ @radix-ui/react-radio-group 1.2.4
++ @radix-ui/react-scroll-area 1.2.4
++ @radix-ui/react-select 2.1.7
++ @radix-ui/react-separator 1.1.3
++ @radix-ui/react-slider 1.2.4
++ @radix-ui/react-slot 1.2.0
++ @radix-ui/react-switch 1.1.4
++ @radix-ui/react-tabs 1.1.4
++ @radix-ui/react-toast 1.2.7
++ @radix-ui/react-toggle 1.1.3
++ @radix-ui/react-toggle-group 1.1.3
++ @radix-ui/react-tooltip 1.2.0
++ @supabase/supabase-js 2.50.4
++ @tanstack/react-query 5.82.0
++ @tanstack/react-table 8.21.3
++ @types/google.maps 3.58.1
++ class-variance-authority 0.7.1
++ clsx 2.1.1
++ cmdk 1.0.0
++ date-fns 3.6.0
++ embla-carousel-react 8.6.0
++ input-otp 1.4.2
++ lucide-react 0.364.0
++ next-themes 0.4.6
++ pdfjs-dist 3.11.174
++ react 18.3.1
++ react-day-picker 8.10.1
++ react-dom 18.3.1
++ react-dropzone 14.3.8
++ react-hook-form 7.55.0
++ react-resizable-panels 2.1.7
++ react-router-dom 6.30.0
++ recharts 2.15.2
++ sonner 1.7.4
++ tailwind-merge 2.6.0
++ tailwindcss-animate 1.0.7
++ tesseract.js 5.1.1
++ vaul 1.1.2
++ zod 3.24.2
+
+devDependencies:
++ @eslint/js 9.24.0
++ @types/node 22.14.1
++ @types/react 18.3.20
++ @types/react-dom 18.3.6
++ @types/react-router-dom 5.3.3
++ @vitejs/plugin-react 4.3.4
++ autoprefixer 10.4.20
++ eslint 9.24.0
++ eslint-plugin-react-hooks 5.2.0
++ eslint-plugin-react-refresh 0.4.19
++ globals 15.15.0
++ postcss 8.4.49
++ tailwindcss 3.4.16
++ typescript 5.6.3
++ typescript-eslint 8.29.1
++ vite 6.2.6
+
+╭ Warning ─────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│   Ignored build scripts: canvas, esbuild, tesseract.js.                      │
+│   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+│   to run scripts.                                                            │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Done in 13.9s using pnpm v10.12.4
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:254:50 - error TS1127: Invalid character.
+
+254       case 'high': return <CheckCircle className=\"h-4 w-4\" />;
+                                                     
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:254:51 - error TS1003: Identifier expected.
+
+254       case 'high': return <CheckCircle className=\"h-4 w-4\" />;
+                                                      ~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:254:65 - error TS1002: Unterminated string literal.
+
+254       case 'high': return <CheckCircle className=\"h-4 w-4\" />;
+                                                                    
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:255:54 - error TS1127: Invalid character.
+
+255       case 'medium': return <AlertTriangle className=\"h-4 w-4\" />;
+                                                         
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:255:55 - error TS1003: Identifier expected.
+
+255       case 'medium': return <AlertTriangle className=\"h-4 w-4\" />;
+                                                          ~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:255:69 - error TS1002: Unterminated string literal.
+
+255       case 'medium': return <AlertTriangle className=\"h-4 w-4\" />;
+                                                                        
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:256:39 - error TS1127: Invalid character.
+
+256       case 'low': return <X className=\"h-4 w-4\" />;
+                                          
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:256:40 - error TS1003: Identifier expected.
+
+256       case 'low': return <X className=\"h-4 w-4\" />;
+                                           ~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:256:54 - error TS1002: Unterminated string literal.
+
+256       case 'low': return <X className=\"h-4 w-4\" />;
+                                                         
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:257:48 - error TS1127: Invalid character.
+
+257       default: return <AlertTriangle className=\"h-4 w-4\" />;
+                                                   
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:257:49 - error TS1003: Identifier expected.
+
+257       default: return <AlertTriangle className=\"h-4 w-4\" />;
+                                                    ~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:257:63 - error TS1002: Unterminated string literal.
+
+257       default: return <AlertTriangle className=\"h-4 w-4\" />;
+                                                                  
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:263:22 - error TS1127: Invalid character.
+
+263       <div className=\"flex items-center justify-center p-12\">
+                         
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:263:23 - error TS1003: Identifier expected.
+
+263       <div className=\"flex items-center justify-center p-12\">
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:263:64 - error TS1002: Unterminated string literal.
+
+263       <div className=\"flex items-center justify-center p-12\">
+                                                                   
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:264:14 - error TS1005: ';' expected.
+
+264         <div className=\"text-center space-y-4\">
+                 ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:264:24 - error TS1127: Invalid character.
+
+264         <div className=\"text-center space-y-4\">
+                           
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:264:50 - error TS1002: Unterminated string literal.
+
+264         <div className=\"text-center space-y-4\">
+                                                     
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:265:27 - error TS1005: ';' expected.
+
+265           <LoadingSpinner size=\"lg\" />
+                              ~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:265:32 - error TS1127: Invalid character.
+
+265           <LoadingSpinner size=\"lg\" />
+                                   
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:265:41 - error TS1002: Unterminated string literal.
+
+265           <LoadingSpinner size=\"lg\" />
+                                            
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:267:27 - error TS1127: Invalid character.
+
+267             <h3 className=\"text-lg font-medium text-gray-900\">Validating Extracted Data</h3>
+                              
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:267:28 - error TS1003: Identifier expected.
+
+267             <h3 className=\"text-lg font-medium text-gray-900\">Validating Extracted Data</h3>
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:267:95 - error TS1002: Unterminated string literal.
+
+267             <h3 className=\"text-lg font-medium text-gray-900\">Validating Extracted Data</h3>
+                                                                                                  
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:268:16 - error TS1005: ';' expected.
+
+268             <p className=\"text-gray-600\">AI is analyzing and confirming the extracted policy information...</p>
+                   ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:268:26 - error TS1127: Invalid character.
+
+268             <p className=\"text-gray-600\">AI is analyzing and confirming the extracted policy information...</p>
+                             
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:268:114 - error TS1002: Unterminated string literal.
+
+268             <p className=\"text-gray-600\">AI is analyzing and confirming the extracted policy information...</p>
+                                                                                                                     
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:269:11 - error TS1128: Declaration or statement expected.
+
+269           </div>
+              ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:270:9 - error TS1109: Expression expected.
+
+270         </div>
+            ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:271:7 - error TS1109: Expression expected.
+
+271       </div>
+          ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:272:5 - error TS1109: Expression expected.
+
+272     );
+        ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:273:3 - error TS1128: Declaration or statement expected.
+
+273   }
+      ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:280:20 - error TS1127: Invalid character.
+
+280     <div className=\"space-y-6\">
+                       
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:280:21 - error TS1003: Identifier expected.
+
+280     <div className=\"space-y-6\">
+                        ~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:280:34 - error TS1002: Unterminated string literal.
+
+280     <div className=\"space-y-6\">
+                                     
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:282:7 - error TS2657: JSX expressions must have one parent element.
+
+282       <Card>
+          ~~~~~~
+283         <CardHeader>
+    ~~~~~~~~~~~~~~~~~~~~
+... 
+297                     Based on pattern matching and text analysis
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+298                   </p>
+    ~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:284:32 - error TS1127: Invalid character.
+
+284           <CardTitle className=\"flex items-center gap-2\">
+                                   
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:284:59 - error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+284           <CardTitle className=\"flex items-center gap-2\">
+                                                              ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:285:30 - error TS1127: Invalid character.
+
+285             <Brain className=\"h-5 w-5 text-purple-600\" />
+                                 
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:285:59 - error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+285             <Brain className=\"h-5 w-5 text-purple-600\" />
+                                                              ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:287:13 - error TS17002: Expected corresponding JSX closing tag for 'CardHeader'.
+
+287           </CardTitle>
+                ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:288:11 - error TS17002: Expected corresponding JSX closing tag for 'Card'.
+
+288         </CardHeader>
+              ~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:290:26 - error TS1127: Invalid character.
+
+290           <div className=\"space-y-4\">
+                             
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:290:39 - error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+290           <div className=\"space-y-4\">
+                                          ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:292:28 - error TS1127: Invalid character.
+
+292             <div className=\"bg-blue-50 border border-blue-200 rounded-lg p-4\">
+                               
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:292:80 - error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+292             <div className=\"bg-blue-50 border border-blue-200 rounded-lg p-4\">
+                                                                                   ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:293:30 - error TS1127: Invalid character.
+
+293               <div className=\"flex items-center justify-between\">
+                                 
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:293:67 - error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+293               <div className=\"flex items-center justify-between\">
+                                                                      ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:295:33 - error TS1127: Invalid character.
+
+295                   <h4 className=\"font-medium text-blue-900\">Overall Extraction Confidence</h4>
+                                    
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:295:62 - error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+295                   <h4 className=\"font-medium text-blue-900\">Overall Extraction Confidence</h4>
+                                                                 ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:295:94 - error TS17002: Expected corresponding JSX closing tag for 'div'.
+
+295                   <h4 className=\"font-medium text-blue-900\">Overall Extraction Confidence</h4>
+                                                                                                 ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:296:32 - error TS1127: Invalid character.
+
+296                   <p className=\"text-sm text-blue-700\">
+                                   
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:296:57 - error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+296                   <p className=\"text-sm text-blue-700\">
+                                                            ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:298:21 - error TS17002: Expected corresponding JSX closing tag for 'CardContent'.
+
+298                   </p>
+                        ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:299:17 - error TS1128: Declaration or statement expected.
+
+299                 </div>
+                    ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:300:32 - error TS1127: Invalid character.
+
+300                 <div className=\"text-right\">
+                                   
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:300:33 - error TS1003: Identifier expected.
+
+300                 <div className=\"text-right\">
+                                    ~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:300:47 - error TS1002: Unterminated string literal.
+
+300                 <div className=\"text-right\">
+                                                  
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:301:24 - error TS1005: ';' expected.
+
+301                   <div className=\"text-2xl font-bold text-blue-900\">{Math.round(overallConfidence)}%</div>
+                           ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:301:34 - error TS1127: Invalid character.
+
+301                   <div className=\"text-2xl font-bold text-blue-900\">{Math.round(overallConfidence)}%</div>
+                                     
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:301:109 - error TS1002: Unterminated string literal.
+
+301                   <div className=\"text-2xl font-bold text-blue-900\">{Math.round(overallConfidence)}%</div>
+                                                                                                                
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:302:24 - error TS1005: ';' expected.
+
+302                   <div className=\"text-xs text-blue-600\">
+                           ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:302:34 - error TS1127: Invalid character.
+
+302                   <div className=\"text-xs text-blue-600\">
+                                     
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:302:60 - error TS1002: Unterminated string literal.
+
+302                   <div className=\"text-xs text-blue-600\">
+                                                               
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:306:19 - error TS1128: Declaration or statement expected.
+
+306                   </div>
+                      ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:307:17 - error TS1109: Expression expected.
+
+307                 </div>
+                    ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:308:15 - error TS1109: Expression expected.
+
+308               </div>
+                  ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:309:13 - error TS1109: Expression expected.
+
+309             </div>
+                ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:312:18 - error TS1005: ';' expected.
+
+312             <div className=\"bg-yellow-50 border border-yellow-200 rounded-lg p-4\">
+                     ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:312:28 - error TS1127: Invalid character.
+
+312             <div className=\"bg-yellow-50 border border-yellow-200 rounded-lg p-4\">
+                               
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:312:85 - error TS1002: Unterminated string literal.
+
+312             <div className=\"bg-yellow-50 border border-yellow-200 rounded-lg p-4\">
+                                                                                        
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:313:20 - error TS1005: ';' expected.
+
+313               <div className=\"flex items-start gap-3\">
+                       ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:313:30 - error TS1127: Invalid character.
+
+313               <div className=\"flex items-start gap-3\">
+                                 
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:313:57 - error TS1002: Unterminated string literal.
+
+313               <div className=\"flex items-start gap-3\">
+                                                            
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:314:32 - error TS1005: ';' expected.
+
+314                 <AlertTriangle className=\"h-5 w-5 text-yellow-600 mt-0.5\" />
+                                   ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:314:42 - error TS1127: Invalid character.
+
+314                 <AlertTriangle className=\"h-5 w-5 text-yellow-600 mt-0.5\" />
+                                             
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:314:79 - error TS1002: Unterminated string literal.
+
+314                 <AlertTriangle className=\"h-5 w-5 text-yellow-600 mt-0.5\" />
+                                                                                  
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:316:33 - error TS1127: Invalid character.
+
+316                   <h4 className=\"font-medium text-yellow-900\">Please Review & Confirm</h4>
+                                    
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:316:34 - error TS1003: Identifier expected.
+
+316                   <h4 className=\"font-medium text-yellow-900\">Please Review & Confirm</h4>
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:316:93 - error TS1002: Unterminated string literal.
+
+316                   <h4 className=\"font-medium text-yellow-900\">Please Review & Confirm</h4>
+                                                                                                
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:317:22 - error TS1005: ';' expected.
+
+317                   <p className=\"text-sm text-yellow-700 mt-1\">
+                         ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:317:32 - error TS1127: Invalid character.
+
+317                   <p className=\"text-sm text-yellow-700 mt-1\">
+                                   
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:317:65 - error TS1002: Unterminated string literal.
+
+317                   <p className=\"text-sm text-yellow-700 mt-1\">
+                                                                    
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:318:21 - error TS1434: Unexpected keyword or identifier.
+
+318                     Review each extracted field below. Click \"Edit\" to correct any inaccurate data,
+                        ~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:318:28 - error TS1434: Unexpected keyword or identifier.
+
+318                     Review each extracted field below. Click \"Edit\" to correct any inaccurate data,
+                               ~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:318:33 - error TS1434: Unexpected keyword or identifier.
+
+318                     Review each extracted field below. Click \"Edit\" to correct any inaccurate data,
+                                    ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:318:43 - error TS1435: Unknown keyword or identifier. Did you mean 'yield'?
+
+318                     Review each extracted field below. Click \"Edit\" to correct any inaccurate data,
+                                              ~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:318:62 - error TS1127: Invalid character.
+
+318                     Review each extracted field below. Click \"Edit\" to correct any inaccurate data,
+                                                                 
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:318:103 - error TS1002: Unterminated string literal.
+
+318                     Review each extracted field below. Click \"Edit\" to correct any inaccurate data,
+                                                                                                         
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:319:21 - error TS1434: Unexpected keyword or identifier.
+
+319                     or use AI suggestions if available. All required fields must be completed to proceed.
+                        ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:319:24 - error TS1434: Unexpected keyword or identifier.
+
+319                     or use AI suggestions if available. All required fields must be completed to proceed.
+                           ~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:319:28 - error TS1434: Unexpected keyword or identifier.
+
+319                     or use AI suggestions if available. All required fields must be completed to proceed.
+                               ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:319:31 - error TS1434: Unexpected keyword or identifier.
+
+319                     or use AI suggestions if available. All required fields must be completed to proceed.
+                                  ~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:319:46 - error TS1005: '(' expected.
+
+319                     or use AI suggestions if available. All required fields must be completed to proceed.
+                                                 ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:319:61 - error TS1005: ')' expected.
+
+319                     or use AI suggestions if available. All required fields must be completed to proceed.
+                                                                ~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:319:70 - error TS1434: Unexpected keyword or identifier.
+
+319                     or use AI suggestions if available. All required fields must be completed to proceed.
+                                                                         ~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:319:77 - error TS1434: Unexpected keyword or identifier.
+
+319                     or use AI suggestions if available. All required fields must be completed to proceed.
+                                                                                ~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:319:82 - error TS1434: Unexpected keyword or identifier.
+
+319                     or use AI suggestions if available. All required fields must be completed to proceed.
+                                                                                     ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:319:85 - error TS1434: Unexpected keyword or identifier.
+
+319                     or use AI suggestions if available. All required fields must be completed to proceed.
+                                                                                        ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:319:95 - error TS1434: Unexpected keyword or identifier.
+
+319                     or use AI suggestions if available. All required fields must be completed to proceed.
+                                                                                                  ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:320:19 - error TS1003: Identifier expected.
+
+320                   </p>
+                      ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:321:17 - error TS1109: Expression expected.
+
+321                 </div>
+                    ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:322:15 - error TS1109: Expression expected.
+
+322               </div>
+                  ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:323:13 - error TS1109: Expression expected.
+
+323             </div>
+                ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:324:11 - error TS1109: Expression expected.
+
+324           </div>
+              ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:325:9 - error TS1109: Expression expected.
+
+325         </CardContent>
+            ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:326:7 - error TS1109: Expression expected.
+
+326       </Card>
+          ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:329:12 - error TS1005: ';' expected.
+
+329       <div className=\"grid gap-4\">
+               ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:329:22 - error TS1127: Invalid character.
+
+329       <div className=\"grid gap-4\">
+                         
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:329:37 - error TS1002: Unterminated string literal.
+
+329       <div className=\"grid gap-4\">
+                                        
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:339:38 - error TS1127: Invalid character.
+
+339               <CardContent className=\"p-4\">
+                                         
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:339:45 - error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+339               <CardContent className=\"p-4\">
+                                                ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:340:32 - error TS1127: Invalid character.
+
+340                 <div className=\"flex items-start justify-between\">
+                                   
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:340:68 - error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+340                 <div className=\"flex items-start justify-between\">
+                                                                       ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:341:34 - error TS1127: Invalid character.
+
+341                   <div className=\"flex items-start gap-3 flex-1\">
+                                     
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:341:67 - error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+341                   <div className=\"flex items-start gap-3 flex-1\">
+                                                                      ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:342:37 - error TS1127: Invalid character.
+
+342                     <Icon className=\"h-5 w-5 text-gray-600 mt-1\" />
+                                        
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:342:69 - error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+342                     <Icon className=\"h-5 w-5 text-gray-600 mt-1\" />
+                                                                        ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:343:36 - error TS1127: Invalid character.
+
+343                     <div className=\"flex-1\">
+                                       
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:343:46 - error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+343                     <div className=\"flex-1\">
+                                                 ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:344:38 - error TS1127: Invalid character.
+
+344                       <div className=\"flex items-center gap-2 mb-2\">
+                                         
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:344:70 - error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+344                       <div className=\"flex items-center gap-2 mb-2\">
+                                                                         ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:345:39 - error TS1127: Invalid character.
+
+345                         <h4 className=\"font-medium text-gray-900\">{result.label}</h4>
+                                          
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:345:68 - error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+
+345                         <h4 className=\"font-medium text-gray-900\">{result.label}</h4>
+                                                                       ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:345:85 - error TS17002: Expected corresponding JSX closing tag for 'Card'.
+
+345                         <h4 className=\"font-medium text-gray-900\">{result.label}</h4>
+                                                                                        ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:346:25 - error TS1005: ')' expected.
+
+346                         {result.isRequired && (
+                            ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:347:43 - error TS1127: Invalid character.
+
+347                           <span className=\"text-xs bg-red-100 text-red-700 px-2 py-1 rounded\">
+                                              
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:347:44 - error TS1003: Identifier expected.
+
+347                           <span className=\"text-xs bg-red-100 text-red-700 px-2 py-1 rounded\">
+                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:347:97 - error TS1002: Unterminated string literal.
+
+347                           <span className=\"text-xs bg-red-100 text-red-700 px-2 py-1 rounded\">
+                                                                                                    
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:349:27 - error TS1128: Declaration or statement expected.
+
+349                           </span>
+                              ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:350:25 - error TS1109: Expression expected.
+
+350                         )}
+                            ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:355:23 - error TS1128: Declaration or statement expected.
+
+355                       </div>
+                          ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:359:40 - error TS1127: Invalid character.
+
+359                         <div className=\"space-y-2\">
+                                           
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:359:41 - error TS1003: Identifier expected.
+
+359                         <div className=\"space-y-2\">
+                                            ~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:359:54 - error TS1002: Unterminated string literal.
+
+359                         <div className=\"space-y-2\">
+                                                         
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:362:39 - error TS1136: Property assignment expected.
+
+362                             onChange={(e) => setEditValue(e.target.value)}
+                                          ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:362:43 - error TS1005: ';' expected.
+
+362                             onChange={(e) => setEditValue(e.target.value)}
+                                              ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:363:39 - error TS1127: Invalid character.
+
+363                             className=\"w-full\"
+                                          
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:363:49 - error TS1002: Unterminated string literal.
+
+363                             className=\"w-full\"
+                                                    
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:364:42 - error TS1136: Property assignment expected.
+
+364                             placeholder={`Enter ${result.label.toLowerCase()}`}
+                                             ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:364:79 - error TS1128: Declaration or statement expected.
+
+364                             placeholder={`Enter ${result.label.toLowerCase()}`}
+                                                                                  ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:365:27 - error TS1161: Unterminated regular expression literal.
+
+365                           />
+                              ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:366:32 - error TS1005: ';' expected.
+
+366                           <div className=\"flex gap-2\">
+                                   ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:366:42 - error TS1127: Invalid character.
+
+366                           <div className=\"flex gap-2\">
+                                             
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:366:57 - error TS1002: Unterminated string literal.
+
+366                           <div className=\"flex gap-2\">
+                                                            
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:368:40 - error TS1136: Property assignment expected.
+
+368                               onClick={() => handleSave(result.field)}
+                                           ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:368:43 - error TS1005: ';' expected.
+
+368                               onClick={() => handleSave(result.field)}
+                                              ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:368:70 - error TS1128: Declaration or statement expected.
+
+368                               onClick={() => handleSave(result.field)}
+                                                                         ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:369:39 - error TS1127: Invalid character.
+
+369                               variant=\"primary\"
+                                          
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:369:50 - error TS1002: Unterminated string literal.
+
+369                               variant=\"primary\"
+                                                     
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:370:36 - error TS1127: Invalid character.
+
+370                               size=\"sm\"
+                                       
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:370:42 - error TS1002: Unterminated string literal.
+
+370                               size=\"sm\"
+                                             
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:371:41 - error TS1127: Invalid character.
+
+371                               className=\"flex items-center gap-1\"
+                                            
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:371:68 - error TS1002: Unterminated string literal.
+
+371                               className=\"flex items-center gap-1\"
+                                                                       
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:373:47 - error TS1127: Invalid character.
+
+373                               <Save className=\"h-3 w-3\" />
+                                                  
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:373:48 - error TS1003: Identifier expected.
+
+373                               <Save className=\"h-3 w-3\" />
+                                                   ~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:373:61 - error TS1002: Unterminated string literal.
+
+373                               <Save className=\"h-3 w-3\" />
+                                                                
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:375:29 - error TS1128: Declaration or statement expected.
+
+375                             </Button>
+                                ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:378:39 - error TS1127: Invalid character.
+
+378                               variant=\"outline\"
+                                          
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:378:40 - error TS1003: Identifier expected.
+
+378                               variant=\"outline\"
+                                           ~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:378:50 - error TS1002: Unterminated string literal.
+
+378                               variant=\"outline\"
+                                                     
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:379:36 - error TS1127: Invalid character.
+
+379                               size=\"sm\"
+                                       
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:379:42 - error TS1002: Unterminated string literal.
+
+379                               size=\"sm\"
+                                             
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:380:41 - error TS1127: Invalid character.
+
+380                               className=\"flex items-center gap-1\"
+                                            
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:380:68 - error TS1002: Unterminated string literal.
+
+380                               className=\"flex items-center gap-1\"
+                                                                       
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:382:44 - error TS1127: Invalid character.
+
+382                               <X className=\"h-3 w-3\" />
+                                               
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:382:45 - error TS1003: Identifier expected.
+
+382                               <X className=\"h-3 w-3\" />
+                                                ~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:382:58 - error TS1002: Unterminated string literal.
+
+382                               <X className=\"h-3 w-3\" />
+                                                             
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:384:29 - error TS1128: Declaration or statement expected.
+
+384                             </Button>
+                                ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:385:27 - error TS1109: Expression expected.
+
+385                           </div>
+                              ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:386:25 - error TS1109: Expression expected.
+
+386                         </div>
+                            ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:387:23 - error TS1109: Expression expected.
+
+387                       ) : (
+                          ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:387:25 - error TS1128: Declaration or statement expected.
+
+387                       ) : (
+                            ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:388:40 - error TS1127: Invalid character.
+
+388                         <div className=\"space-y-2\">
+                                           
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:388:41 - error TS1003: Identifier expected.
+
+388                         <div className=\"space-y-2\">
+                                            ~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:388:54 - error TS1002: Unterminated string literal.
+
+388                         <div className=\"space-y-2\">
+                                                         
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:389:32 - error TS1005: ';' expected.
+
+389                           <div className=\"flex items-center gap-2\">
+                                   ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:389:42 - error TS1127: Invalid character.
+
+389                           <div className=\"flex items-center gap-2\">
+                                             
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:389:70 - error TS1002: Unterminated string literal.
+
+389                           <div className=\"flex items-center gap-2\">
+                                                                         
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:390:35 - error TS1005: ';' expected.
+
+390                             <span className={`font-mono text-sm px-2 py-1 rounded ${
+                                      ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:390:46 - error TS1136: Property assignment expected.
+
+390                             <span className={`font-mono text-sm px-2 py-1 rounded ${
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:392:31 - error TS1128: Declaration or statement expected.
+
+392                             }`}>
+                                  ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:392:32 - error TS1109: Expression expected.
+
+392                             }`}>
+                                   ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:393:38 - error TS1005: ',' expected.
+
+393                               {result.value || 'Not found'}
+                                         ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:394:29 - error TS1128: Declaration or statement expected.
+
+394                             </span>
+                                ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:397:39 - error TS1127: Invalid character.
+
+397                               variant=\"outline\"
+                                          
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:397:40 - error TS1003: Identifier expected.
+
+397                               variant=\"outline\"
+                                           ~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:397:50 - error TS1002: Unterminated string literal.
+
+397                               variant=\"outline\"
+                                                     
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:398:36 - error TS1127: Invalid character.
+
+398                               size=\"sm\"
+                                       
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:398:42 - error TS1002: Unterminated string literal.
+
+398                               size=\"sm\"
+                                             
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:399:41 - error TS1127: Invalid character.
+
+399                               className=\"flex items-center gap-1\"
+                                            
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:399:68 - error TS1002: Unterminated string literal.
+
+399                               className=\"flex items-center gap-1\"
+                                                                       
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:401:48 - error TS1127: Invalid character.
+
+401                               <Edit3 className=\"h-3 w-3\" />
+                                                   
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:401:49 - error TS1003: Identifier expected.
+
+401                               <Edit3 className=\"h-3 w-3\" />
+                                                    ~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:401:62 - error TS1002: Unterminated string literal.
+
+401                               <Edit3 className=\"h-3 w-3\" />
+                                                                 
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:403:29 - error TS1128: Declaration or statement expected.
+
+403                             </Button>
+                                ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:404:27 - error TS1109: Expression expected.
+
+404                           </div>
+                              ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:408:44 - error TS1127: Invalid character.
+
+408                             <div className=\"space-y-1\">
+                                               
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:408:45 - error TS1003: Identifier expected.
+
+408                             <div className=\"space-y-1\">
+                                                ~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:408:58 - error TS1002: Unterminated string literal.
+
+408                             <div className=\"space-y-1\">
+                                                             
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:409:34 - error TS1005: ';' expected.
+
+409                               <p className=\"text-xs text-gray-600\">AI Suggestions:</p>
+                                     ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:409:44 - error TS1127: Invalid character.
+
+409                               <p className=\"text-xs text-gray-600\">AI Suggestions:</p>
+                                               
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:409:89 - error TS1002: Unterminated string literal.
+
+409                               <p className=\"text-xs text-gray-600\">AI Suggestions:</p>
+                                                                                            
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:410:36 - error TS1005: ';' expected.
+
+410                               <div className=\"flex flex-wrap gap-1\">
+                                       ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:410:46 - error TS1127: Invalid character.
+
+410                               <div className=\"flex flex-wrap gap-1\">
+                                                 
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:410:71 - error TS1002: Unterminated string literal.
+
+410                               <div className=\"flex flex-wrap gap-1\">
+                                                                          
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:415:47 - error TS1127: Invalid character.
+
+415                                     className=\"text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 px-2 py-1 rounded border border-blue-200 transition-colors\"
+                                                  
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:415:48 - error TS1003: Identifier expected.
+
+415                                     className=\"text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 px-2 py-1 rounded border border-blue-200 transition-colors\"
+                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:415:160 - error TS1002: Unterminated string literal.
+
+415                                     className=\"text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 px-2 py-1 rounded border border-blue-200 transition-colors\"
+                                                                                                                                                                   
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:418:35 - error TS1005: ',' expected.
+
+418                                   </button>
+                                      ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:419:33 - error TS1109: Expression expected.
+
+419                                 ))}
+                                    ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:419:34 - error TS1005: ';' expected.
+
+419                                 ))}
+                                     ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:420:31 - error TS1128: Declaration or statement expected.
+
+420                               </div>
+                                  ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:421:29 - error TS1109: Expression expected.
+
+421                             </div>
+                                ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:422:27 - error TS1109: Expression expected.
+
+422                           )}
+                              ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:423:25 - error TS1128: Declaration or statement expected.
+
+423                         </div>
+                            ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:424:23 - error TS1109: Expression expected.
+
+424                       )}
+                          ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:424:24 - error TS1128: Declaration or statement expected.
+
+424                       )}
+                           ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:425:21 - error TS1128: Declaration or statement expected.
+
+425                     </div>
+                        ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:426:19 - error TS1109: Expression expected.
+
+426                   </div>
+                      ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:427:17 - error TS1109: Expression expected.
+
+427                 </div>
+                    ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:428:15 - error TS1109: Expression expected.
+
+428               </CardContent>
+                  ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:429:13 - error TS1109: Expression expected.
+
+429             </Card>
+                ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:430:11 - error TS1109: Expression expected.
+
+430           );
+              ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:431:9 - error TS1128: Declaration or statement expected.
+
+431         })}
+            ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:431:10 - error TS1128: Declaration or statement expected.
+
+431         })}
+             ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:431:11 - error TS1128: Declaration or statement expected.
+
+431         })}
+              ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:432:7 - error TS1128: Declaration or statement expected.
+
+432       </div>
+          ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:435:12 - error TS1005: ';' expected.
+
+435       <div className=\"flex justify-between items-center pt-6 border-t\">
+               ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:435:22 - error TS1127: Invalid character.
+
+435       <div className=\"flex justify-between items-center pt-6 border-t\">
+                         
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:435:74 - error TS1002: Unterminated string literal.
+
+435       <div className=\"flex justify-between items-center pt-6 border-t\">
+                                                                             
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:438:19 - error TS1127: Invalid character.
+
+438           variant=\"outline\"
+                      
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:438:30 - error TS1002: Unterminated string literal.
+
+438           variant=\"outline\"
+                                 
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:439:21 - error TS1127: Invalid character.
+
+439           className=\"flex items-center gap-2\"
+                        
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:439:48 - error TS1002: Unterminated string literal.
+
+439           className=\"flex items-center gap-2\"
+                                                   
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:441:24 - error TS1127: Invalid character.
+
+441           <X className=\"h-4 w-4\" />
+                           
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:441:25 - error TS1003: Identifier expected.
+
+441           <X className=\"h-4 w-4\" />
+                            ~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:441:38 - error TS1002: Unterminated string literal.
+
+441           <X className=\"h-4 w-4\" />
+                                         
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:443:9 - error TS1128: Declaration or statement expected.
+
+443         </Button>
+            ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:445:24 - error TS1127: Invalid character.
+
+445         <div className=\"flex gap-3\">
+                           
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:445:25 - error TS1003: Identifier expected.
+
+445         <div className=\"flex gap-3\">
+                            ~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:445:39 - error TS1002: Unterminated string literal.
+
+445         <div className=\"flex gap-3\">
+                                          
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:446:16 - error TS1005: ';' expected.
+
+446           <div className=\"text-sm text-gray-600\">
+                   ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:446:26 - error TS1127: Invalid character.
+
+446           <div className=\"text-sm text-gray-600\">
+                             
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:446:52 - error TS1002: Unterminated string literal.
+
+446           <div className=\"text-sm text-gray-600\">
+                                                       
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:448:31 - error TS1127: Invalid character.
+
+448               <span className=\"text-green-600 flex items-center gap-1\">
+                                  
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:448:32 - error TS1003: Identifier expected.
+
+448               <span className=\"text-green-600 flex items-center gap-1\">
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:448:74 - error TS1002: Unterminated string literal.
+
+448               <span className=\"text-green-600 flex items-center gap-1\">
+                                                                             
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:449:30 - error TS1005: ';' expected.
+
+449                 <CheckCircle className=\"h-4 w-4\" />
+                                 ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:449:40 - error TS1127: Invalid character.
+
+449                 <CheckCircle className=\"h-4 w-4\" />
+                                           
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:449:54 - error TS1002: Unterminated string literal.
+
+449                 <CheckCircle className=\"h-4 w-4\" />
+                                                         
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:450:17 - error TS1434: Unexpected keyword or identifier.
+
+450                 All required fields complete
+                    ~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:450:21 - error TS1435: Unknown keyword or identifier. Did you mean 'require'?
+
+450                 All required fields complete
+                        ~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:450:30 - error TS1434: Unexpected keyword or identifier.
+
+450                 All required fields complete
+                                 ~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:451:15 - error TS1128: Declaration or statement expected.
+
+451               </span>
+                  ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:452:13 - error TS1109: Expression expected.
+
+452             ) : (
+                ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:452:15 - error TS1128: Declaration or statement expected.
+
+452             ) : (
+                  ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:453:31 - error TS1127: Invalid character.
+
+453               <span className=\"text-red-600 flex items-center gap-1\">
+                                  
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:453:32 - error TS1003: Identifier expected.
+
+453               <span className=\"text-red-600 flex items-center gap-1\">
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:453:72 - error TS1002: Unterminated string literal.
+
+453               <span className=\"text-red-600 flex items-center gap-1\">
+                                                                           
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:454:32 - error TS1005: ';' expected.
+
+454                 <AlertTriangle className=\"h-4 w-4\" />
+                                   ~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:454:42 - error TS1127: Invalid character.
+
+454                 <AlertTriangle className=\"h-4 w-4\" />
+                                             
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:454:56 - error TS1002: Unterminated string literal.
+
+454                 <AlertTriangle className=\"h-4 w-4\" />
+                                                           
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:455:17 - error TS1434: Unexpected keyword or identifier.
+
+455                 Complete required fields to proceed
+                    ~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:455:26 - error TS1435: Unknown keyword or identifier. Did you mean 'require'?
+
+455                 Complete required fields to proceed
+                             ~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:455:35 - error TS1434: Unexpected keyword or identifier.
+
+455                 Complete required fields to proceed
+                                      ~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:455:42 - error TS1434: Unexpected keyword or identifier.
+
+455                 Complete required fields to proceed
+                                             ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:456:15 - error TS1128: Declaration or statement expected.
+
+456               </span>
+                  ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:457:13 - error TS1109: Expression expected.
+
+457             )}
+                ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:458:11 - error TS1128: Declaration or statement expected.
+
+458           </div>
+              ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:463:21 - error TS1127: Invalid character.
+
+463             variant=\"primary\"
+                        
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:463:22 - error TS1003: Identifier expected.
+
+463             variant=\"primary\"
+                         ~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:463:32 - error TS1002: Unterminated string literal.
+
+463             variant=\"primary\"
+                                   
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:464:23 - error TS1127: Invalid character.
+
+464             className=\"flex items-center gap-2\"
+                          
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:464:50 - error TS1002: Unterminated string literal.
+
+464             className=\"flex items-center gap-2\"
+                                                     
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:466:36 - error TS1127: Invalid character.
+
+466             <CheckCircle className=\"h-4 w-4\" />
+                                       
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:466:37 - error TS1003: Identifier expected.
+
+466             <CheckCircle className=\"h-4 w-4\" />
+                                        ~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:466:50 - error TS1002: Unterminated string literal.
+
+466             <CheckCircle className=\"h-4 w-4\" />
+                                                     
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:468:11 - error TS1128: Declaration or statement expected.
+
+468           </Button>
+              ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:469:9 - error TS1109: Expression expected.
+
+469         </div>
+            ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:470:7 - error TS1109: Expression expected.
+
+470       </div>
+          ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:471:5 - error TS1109: Expression expected.
+
+471     </div>
+        ~~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:472:3 - error TS1109: Expression expected.
+
+472   );
+      ~
+
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:473:1 - error TS1128: Declaration or statement expected.
+
+473 };
+    ~
+
+
+Found 284 errors.
+

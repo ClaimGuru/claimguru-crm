@@ -251,21 +251,21 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
 
   const getConfidenceIcon = (confidence: string) => {
     switch (confidence) {
-      case 'high': return <CheckCircle className="h-4 w-4" />;
-      case 'medium': return <AlertTriangle className="h-4 w-4" />;
-      case 'low': return <X className="h-4 w-4" />;
-      default: return <AlertTriangle className="h-4 w-4" />;
+      case 'high': return <CheckCircle className=\"h-4 w-4\" />;
+      case 'medium': return <AlertTriangle className=\"h-4 w-4\" />;
+      case 'low': return <X className=\"h-4 w-4\" />;
+      default: return <AlertTriangle className=\"h-4 w-4\" />;
     }
   };
 
   if (isValidating) {
     return (
-      <div className="flex items-center justify-center p-12">
-        <div className="text-center space-y-4">
-          <LoadingSpinner size="lg" />
+      <div className=\"flex items-center justify-center p-12\">
+        <div className=\"text-center space-y-4\">
+          <LoadingSpinner size=\"lg\" />
           <div>
-            <h3 className="text-lg font-medium text-gray-900">Validating Extracted Data</h3>
-            <p className="text-gray-600">AI is analyzing and confirming the extracted policy information...</p>
+            <h3 className=\"text-lg font-medium text-gray-900\">Validating Extracted Data</h3>
+            <p className=\"text-gray-600\">AI is analyzing and confirming the extracted policy information...</p>
           </div>
         </div>
       </div>
@@ -277,29 +277,29 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
     .every(r => r.value && r.value.trim() !== '');
 
   return (
-    <div className="space-y-6">
+    <div className=\"space-y-6\">
       {/* Header */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Brain className="h-5 w-5 text-purple-600" />
+          <CardTitle className=\"flex items-center gap-2\">
+            <Brain className=\"h-5 w-5 text-purple-600\" />
             AI Data Validation & Confirmation
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
+          <div className=\"space-y-4\">
             {/* Overall Confidence */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <div className="flex items-center justify-between">
+            <div className=\"bg-blue-50 border border-blue-200 rounded-lg p-4\">
+              <div className=\"flex items-center justify-between\">
                 <div>
-                  <h4 className="font-medium text-blue-900">Overall Extraction Confidence</h4>
-                  <p className="text-sm text-blue-700">
+                  <h4 className=\"font-medium text-blue-900\">Overall Extraction Confidence</h4>
+                  <p className=\"text-sm text-blue-700\">
                     Based on pattern matching and text analysis
                   </p>
                 </div>
-                <div className="text-right">
-                  <div className="text-2xl font-bold text-blue-900">{Math.round(overallConfidence)}%</div>
-                  <div className="text-xs text-blue-600">
+                <div className=\"text-right\">
+                  <div className=\"text-2xl font-bold text-blue-900\">{Math.round(overallConfidence)}%</div>
+                  <div className=\"text-xs text-blue-600\">
                     {overallConfidence >= 80 ? 'Excellent' : 
                      overallConfidence >= 60 ? 'Good' : 
                      overallConfidence >= 40 ? 'Fair' : 'Poor'}
@@ -309,13 +309,13 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
             </div>
 
             {/* Instructions */}
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-              <div className="flex items-start gap-3">
-                <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5" />
+            <div className=\"bg-yellow-50 border border-yellow-200 rounded-lg p-4\">
+              <div className=\"flex items-start gap-3\">
+                <AlertTriangle className=\"h-5 w-5 text-yellow-600 mt-0.5\" />
                 <div>
-                  <h4 className="font-medium text-yellow-900">Please Review & Confirm</h4>
-                  <p className="text-sm text-yellow-700 mt-1">
-                    Review each extracted field below. Click "Edit" to correct any inaccurate data, 
+                  <h4 className=\"font-medium text-yellow-900\">Please Review & Confirm</h4>
+                  <p className=\"text-sm text-yellow-700 mt-1\">
+                    Review each extracted field below. Click \"Edit\" to correct any inaccurate data, 
                     or use AI suggestions if available. All required fields must be completed to proceed.
                   </p>
                 </div>
@@ -326,7 +326,7 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
       </Card>
 
       {/* Field Validation Results */}
-      <div className="grid gap-4">
+      <div className=\"grid gap-4\">
         {validationResults.map((result) => {
           const Icon = result.icon;
           const isEditing = editingField === result.field;
@@ -336,15 +336,15 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
               result.confidence === 'high' ? 'border-l-green-500' :
               result.confidence === 'medium' ? 'border-l-yellow-500' : 'border-l-red-500'
             }`}>
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-3 flex-1">
-                    <Icon className="h-5 w-5 text-gray-600 mt-1" />
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h4 className="font-medium text-gray-900">{result.label}</h4>
+              <CardContent className=\"p-4\">
+                <div className=\"flex items-start justify-between\">
+                  <div className=\"flex items-start gap-3 flex-1\">
+                    <Icon className=\"h-5 w-5 text-gray-600 mt-1\" />
+                    <div className=\"flex-1\">
+                      <div className=\"flex items-center gap-2 mb-2\">
+                        <h4 className=\"font-medium text-gray-900\">{result.label}</h4>
                         {result.isRequired && (
-                          <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded">
+                          <span className=\"text-xs bg-red-100 text-red-700 px-2 py-1 rounded\">
                             Required
                           </span>
                         )}
@@ -356,37 +356,37 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
 
                       {/* Value Display/Edit */}
                       {isEditing ? (
-                        <div className="space-y-2">
+                        <div className=\"space-y-2\">
                           <Input
                             value={editValue}
                             onChange={(e) => setEditValue(e.target.value)}
-                            className="w-full"
+                            className=\"w-full\"
                             placeholder={`Enter ${result.label.toLowerCase()}`}
                           />
-                          <div className="flex gap-2">
+                          <div className=\"flex gap-2\">
                             <Button
                               onClick={() => handleSave(result.field)}
-                              variant="primary"
-                              size="sm"
-                              className="flex items-center gap-1"
+                              variant=\"primary\"
+                              size=\"sm\"
+                              className=\"flex items-center gap-1\"
                             >
-                              <Save className="h-3 w-3" />
+                              <Save className=\"h-3 w-3\" />
                               Save
                             </Button>
                             <Button
                               onClick={handleCancel}
-                              variant="outline"
-                              size="sm"
-                              className="flex items-center gap-1"
+                              variant=\"outline\"
+                              size=\"sm\"
+                              className=\"flex items-center gap-1\"
                             >
-                              <X className="h-3 w-3" />
+                              <X className=\"h-3 w-3\" />
                               Cancel
                             </Button>
                           </div>
                         </div>
                       ) : (
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-2">
+                        <div className=\"space-y-2\">
+                          <div className=\"flex items-center gap-2\">
                             <span className={`font-mono text-sm px-2 py-1 rounded ${
                               result.value ? 'bg-gray-100 text-gray-900' : 'bg-red-50 text-red-600'
                             }`}>
@@ -394,25 +394,25 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
                             </span>
                             <Button
                               onClick={() => handleEdit(result.field, result.value)}
-                              variant="outline"
-                              size="sm"
-                              className="flex items-center gap-1"
+                              variant=\"outline\"
+                              size=\"sm\"
+                              className=\"flex items-center gap-1\"
                             >
-                              <Edit3 className="h-3 w-3" />
+                              <Edit3 className=\"h-3 w-3\" />
                               Edit
                             </Button>
                           </div>
 
                           {/* AI Suggestions */}
                           {result.suggestions && result.suggestions.length > 0 && (
-                            <div className="space-y-1">
-                              <p className="text-xs text-gray-600">AI Suggestions:</p>
-                              <div className="flex flex-wrap gap-1">
+                            <div className=\"space-y-1\">
+                              <p className=\"text-xs text-gray-600\">AI Suggestions:</p>
+                              <div className=\"flex flex-wrap gap-1\">
                                 {result.suggestions.map((suggestion, idx) => (
                                   <button
                                     key={idx}
                                     onClick={() => handleAcceptSuggestion(result.field, suggestion)}
-                                    className="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 px-2 py-1 rounded border border-blue-200 transition-colors"
+                                    className=\"text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 px-2 py-1 rounded border border-blue-200 transition-colors\"
                                   >
                                     {suggestion}
                                   </button>
@@ -432,26 +432,26 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
       </div>
 
       {/* Action Buttons */}
-      <div className="flex justify-between items-center pt-6 border-t">
+      <div className=\"flex justify-between items-center pt-6 border-t\">
         <Button
           onClick={onReject}
-          variant="outline"
-          className="flex items-center gap-2"
+          variant=\"outline\"
+          className=\"flex items-center gap-2\"
         >
-          <X className="h-4 w-4" />
+          <X className=\"h-4 w-4\" />
           Reject & Re-upload
         </Button>
 
-        <div className="flex gap-3">
-          <div className="text-sm text-gray-600">
+        <div className=\"flex gap-3\">
+          <div className=\"text-sm text-gray-600\">
             {requiredFieldsComplete ? (
-              <span className="text-green-600 flex items-center gap-1">
-                <CheckCircle className="h-4 w-4" />
+              <span className=\"text-green-600 flex items-center gap-1\">
+                <CheckCircle className=\"h-4 w-4\" />
                 All required fields complete
               </span>
             ) : (
-              <span className="text-red-600 flex items-center gap-1">
-                <AlertTriangle className="h-4 w-4" />
+              <span className=\"text-red-600 flex items-center gap-1\">
+                <AlertTriangle className=\"h-4 w-4\" />
                 Complete required fields to proceed
               </span>
             )}
@@ -460,10 +460,10 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
           <Button
             onClick={handleValidateAndProceed}
             disabled={!requiredFieldsComplete}
-            variant="primary"
-            className="flex items-center gap-2"
+            variant=\"primary\"
+            className=\"flex items-center gap-2\"
           >
-            <CheckCircle className="h-4 w-4" />
+            <CheckCircle className=\"h-4 w-4\" />
             Confirm & Proceed
           </Button>
         </div>

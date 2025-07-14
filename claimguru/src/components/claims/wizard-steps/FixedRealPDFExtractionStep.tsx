@@ -78,8 +78,9 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
         methodsAttempted: result.metadata.methodsAttempted
       });
       
-      // Show validation step after successful extraction
+      // GUARANTEED to show validation step after successful extraction
       setShowValidation(true);
+      console.log('Extraction successful, showing validation step with data:', result.policyData);
       
     } catch (error) {
       console.error('❌ Hybrid PDF extraction failed:', error);
@@ -249,38 +250,44 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
               <div>showValidation: {showValidation ? '✅ TRUE' : '❌ FALSE'}</div>
               <div>extractedData: {extractedData ? '✅ TRUE' : '❌ FALSE'}</div>
               <div>rawText: {rawText ? '✅ TRUE' : '❌ FALSE'}</div>
-              <div>All conditions met: {(showValidation && extractedData && rawText) ? '✅ YES - Should show validation' : '❌ NO - Missing condition'}</div>
+              <div>All conditions met: {(extractedData && rawText) ? '✅ YES - Should show validation' : '❌ NO - Missing condition'}</div>
+              {extractedData && (
+                <div>
+                  <strong>Extracted Data Keys:</strong> {Object.keys(extractedData).join(', ')}
+                </div>
+              )}
+            </div>
+            <div className="mt-2">
+              <button 
+                onClick={() => {
+                  console.log('Force validation button clicked');
+                  setShowValidation(true);
+                  // Create sample data if none exists
+                  if (!extractedData) {
+                    const sampleData = {
+                      policyNumber: 'SAMPLE-123',
+                      insuredName: 'John Doe',
+                      insurerName: 'ABC Insurance',
+                      effectiveDate: '01/01/2023',
+                      expirationDate: '12/31/2023',
+                      propertyAddress: '123 Main St, Anytown, USA',
+                      coverageAmount: '$500,000',
+                      deductible: '$1,000'
+                    };
+                    setExtractedData(sampleData);
+                    setRawText('Sample raw text for debugging');
+                    console.log('Created sample data:', sampleData);
+                  }
+                }}
+                className="px-2 py-1 bg-green-600 text-white rounded text-xs"
+              >
+                Force Show Validation
+              </button>
             </div>
           </div>
 
-          {/* Policy Data Validation Step */}
-          {showValidation && extractedData && rawText && (
-            <PolicyDataValidationStep
-              extractedData={extractedData}
-              rawText={rawText}
-              onValidated={handleValidationComplete}
-              onReject={handleValidationReject}
-            />
-          )}
-
-          {/* Force show validation for debugging */}
-          {!showValidation && extractedData && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
-              <h4 className="font-medium text-red-800 mb-2">🚨 Debug: Force Show Validation</h4>
-              <p className="text-sm text-red-700 mb-3">
-                Data was extracted but validation isn't showing. Forcing validation step:
-              </p>
-              <PolicyDataValidationStep
-                extractedData={extractedData}
-                rawText={rawText || 'Debug mode - no raw text available'}
-                onValidated={handleValidationComplete}
-                onReject={handleValidationReject}
-              />
-            </div>
-          )}
-
-          {/* FORCE VALIDATION STEP - ALWAYS SHOW AFTER EXTRACTION */}
-          {extractedData && rawText && !isConfirmed && (
+          {/* SIMPLIFIED VALIDATION STEP - SINGLE SOURCE OF TRUTH */}
+          {extractedData && !isConfirmed && (
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
               <h3 className="text-lg font-semibold text-blue-900 mb-4 flex items-center gap-2">
                 <CheckCircle className="h-5 w-5" />
@@ -288,7 +295,7 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
               </h3>
               <PolicyDataValidationStep
                 extractedData={extractedData}
-                rawText={rawText}
+                rawText={rawText || 'Raw text not available'}
                 onValidated={handleValidationComplete}
                 onReject={handleValidationReject}
               />
