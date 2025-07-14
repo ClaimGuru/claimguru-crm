@@ -1,11 +1,11 @@
 /**
  * HYBRID PDF EXTRACTION SERVICE - ClaimGuru
  * 
- * REAL Multi-Tier Implementation:
- * 1. PDF.js (Free, client-side) - with quality evaluation
- * 2. Tesseract.js OCR (Free fallback for scanned docs)  
- * 3. Google Vision API (Premium, only when needed)
- * 4. OpenAI Enhancement (Always applied to extracted text)
+ * MOST ACCURATE Multi-Tier Implementation:
+ * 1. PDF.js (Free, client-side) - Fast text extraction
+ * 2. Tesseract.js OCR (Free, comprehensive OCR)
+ * 3. Google Vision API (Premium, high-accuracy OCR)
+ * 4. OpenAI Enhancement (Always applied to best text)
  * 5. Advanced Regex Parsing (Reliable fallback)
  */
 
@@ -78,61 +78,64 @@ export class HybridPDFExtractionService {
       
       console.log(`📄 PDF.js Result: ${extractedText.length} chars, Quality Score: ${qualityScore}/100`);
       
-      // Check if PDF.js extraction is good enough
-      if (qualityScore >= 70 && extractedText.length > 500) {
-        confidence = 0.90;
-        processingMethod = 'pdf-js';
-        console.log('✅ PDF.js extraction sufficient - proceeding to enhancement');
-      } else if (qualityScore >= 40 && extractedText.length > 200) {
-        confidence = 0.70;
-        processingMethod = 'pdf-js';
-        console.log('⚠️ PDF.js extraction mediocre but usable - proceeding to enhancement');
-      } else {
-        // PDF.js extraction poor - try OCR methods
-        console.log('⚠️ PDF.js extraction poor - trying OCR methods...');
+      // Always continue with ALL methods for maximum accuracy
+      let bestText = extractedText;
+      let bestConfidence = 0.85;
+      let bestMethod: 'pdf-js' | 'tesseract' | 'google-vision' | 'fallback' = 'pdf-js';
+      let bestQuality = qualityScore;
+      
+      console.log(`📄 PDF.js baseline: ${extractedText.length} chars, Quality: ${qualityScore}`);
+      
+      // STEP 2: ALWAYS try Tesseract.js OCR for comprehensive text extraction
+      console.log('🔤 STEP 2: Running Tesseract.js OCR for comprehensive extraction...');
+      methodsAttempted.push('tesseract');
+      
+      try {
+        const tesseractResult = await this.extractWithTesseract(file);
+        const tesseractQuality = this.evaluateTextQuality(tesseractResult.text);
+        console.log(`🔤 Tesseract result: ${tesseractResult.text.length} chars, Quality: ${tesseractQuality}`);
         
-        // STEP 2: Try Google Vision API (Premium, more reliable than Tesseract)
-        console.log('👁️ STEP 2: Attempting Google Vision API...');
-        methodsAttempted.push('google-vision');
-        
-        try {
-          const visionResult = await this.extractWithGoogleVision(file);
-          if (visionResult.text.length > extractedText.length * 0.5) {
-            extractedText = visionResult.text;
-            confidence = visionResult.confidence;
-            processingMethod = 'google-vision';
-            cost = 0.015; // Approximate cost per page
-            qualityScore = this.evaluateTextQuality(extractedText);
-            console.log('✅ Google Vision successful:', extractedText.length, 'characters');
-          } else {
-            throw new Error('Google Vision didn\'t improve extraction');
-          }
-        } catch (visionError) {
-          console.log('⚠️ Google Vision failed:', visionError.message);
-          
-          // STEP 3: Try Tesseract.js OCR (Free fallback)
-          console.log('🔤 STEP 3: Attempting Tesseract.js OCR...');
-          methodsAttempted.push('tesseract');
-          
-          try {
-            const tesseractResult = await this.extractWithTesseract(file);
-            if (tesseractResult.text.length > extractedText.length * 0.3) {
-              extractedText = tesseractResult.text;
-              confidence = tesseractResult.confidence;
-              processingMethod = 'tesseract';
-              qualityScore = this.evaluateTextQuality(extractedText);
-              console.log('✅ Tesseract OCR successful:', extractedText.length, 'characters');
-            } else {
-              throw new Error('Tesseract didn\'t improve extraction');
-            }
-          } catch (tesseractError) {
-            console.log('⚠️ Tesseract failed, using best available text');
-            // Use the best text we have (from PDF.js)
-            confidence = 0.3;
-            processingMethod = 'pdf-js';
-          }
+        // Use Tesseract if it's significantly better or much longer
+        if (tesseractQuality > bestQuality || tesseractResult.text.length > bestText.length * 1.5) {
+          bestText = tesseractResult.text;
+          bestConfidence = tesseractResult.confidence;
+          bestMethod = 'tesseract';
+          bestQuality = tesseractQuality;
+          console.log('✅ Tesseract provides better extraction');
         }
+      } catch (tesseractError) {
+        console.log('⚠️ Tesseract failed:', tesseractError.message);
       }
+      
+      // STEP 3: ALWAYS try Google Vision API for highest accuracy
+      console.log('👁️ STEP 3: Running Google Vision API for maximum accuracy...');
+      methodsAttempted.push('google-vision');
+      
+      try {
+        const visionResult = await this.extractWithGoogleVision(file);
+        const visionQuality = this.evaluateTextQuality(visionResult.text);
+        console.log(`👁️ Google Vision result: ${visionResult.text.length} chars, Quality: ${visionQuality}`);
+        
+        // Use Google Vision if it's better quality or much longer
+        if (visionQuality > bestQuality || visionResult.text.length > bestText.length * 1.2) {
+          bestText = visionResult.text;
+          bestConfidence = visionResult.confidence;
+          bestMethod = 'google-vision';
+          bestQuality = visionQuality;
+          cost = 0.015; // Approximate cost per page
+          console.log('✅ Google Vision provides best extraction');
+        }
+      } catch (visionError) {
+        console.log('⚠️ Google Vision failed:', visionError.message);
+      }
+      
+      // Use the best result from all methods
+      extractedText = bestText;
+      confidence = bestConfidence;
+      processingMethod = bestMethod;
+      qualityScore = bestQuality;
+      
+      console.log(`🏆 Best result: ${bestMethod} with ${extractedText.length} chars, Quality: ${qualityScore}`);
 
       // STEP 4: ALWAYS enhance with AI parsing (OpenAI + Advanced Regex)
       console.log('🧠 STEP 4: Enhancing with AI intelligence...');

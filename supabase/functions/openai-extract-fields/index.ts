@@ -1,8 +1,3 @@
-/**
- * OpenAI Intelligent Field Extraction
- * Uses OPENAI_API_KEY for intelligent parsing of insurance documents
- */
-
 Deno.serve(async (req) => {
   const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
@@ -12,114 +7,123 @@ Deno.serve(async (req) => {
     'Access-Control-Allow-Credentials': 'false'
   };
 
-  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { status: 200, headers: corsHeaders });
   }
 
   try {
-    // Get OpenAI API key from environment
-    const openaiKey = Deno.env.get('OPENAI_API_KEY') || Deno.env.get('OPENAI') || Deno.env.get('OPENAIKEY');
+    console.log('🤖 OpenAI Extract Fields function called');
     
-    if (!openaiKey) {
+    const { text } = await req.json();
+    
+    if (!text) {
+      throw new Error('No text provided for extraction');
+    }
+
+    const apiKey = Deno.env.get('OPENAI_API_KEY');
+    if (!apiKey) {
       throw new Error('OpenAI API key not configured');
     }
 
-    // Parse request body
-    const { text } = await req.json();
-    
-    if (!text || text.trim().length === 0) {
-      throw new Error('No text provided for analysis');
-    }
+    console.log('📝 Processing text of length:', text.length);
 
-    console.log(`Processing text for field extraction. Length: ${text.length} characters`);
-
-    // Create OpenAI prompt for insurance document analysis
-    const prompt = `You are an expert insurance document analyzer. Extract the following fields from this insurance policy document text and return ONLY a valid JSON object with these exact field names:
+    const prompt = `
+Extract the following insurance policy information from the provided text. Return a JSON object with these exact keys:
 
 {
   "policyNumber": "string or null",
   "insuredName": "string or null", 
+  "insurerName": "string or null",
   "effectiveDate": "string or null",
   "expirationDate": "string or null",
-  "insurerName": "string or null",
   "propertyAddress": "string or null",
   "coverageAmount": "string or null",
   "deductible": "string or null",
   "premium": "string or null",
-  "coverageTypes": ["array of strings or empty array"]
+  "mortgageAccountNumber": "string or null"
 }
 
 Rules:
-- Return ONLY the JSON object, no other text
-- Use null for missing fields
-- Format dates as MM/DD/YYYY if found
-- Include dollar signs in amounts (e.g., "$350,000")
-- Extract all coverage types found (e.g., "Dwelling", "Personal Property", etc.)
+- Extract exact values as they appear in the document
+- For dates, preserve the original format
+- For monetary amounts, include $ sign and commas
+- If a field is not found, set it to null
+- Look for variations of field names (e.g., "Policy No", "Policy #", etc.)
+- For mortgage account number, look for loan numbers, account numbers, mortgagee information
 
-Document text:
-${text}`;
+Text to analyze:
+${text}
 
-    // Call OpenAI API
-    const openaiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+Return only the JSON object, no additional text.`;
+
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
+        'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${openaiKey}`
       },
       body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4o-mini',
         messages: [
+          {
+            role: 'system',
+            content: 'You are a precise insurance document parser. Extract information exactly as it appears in documents. Always return valid JSON.'
+          },
           {
             role: 'user',
             content: prompt
           }
         ],
-        max_tokens: 500,
+        max_tokens: 1500,
         temperature: 0.1
       })
     });
 
-    if (!openaiResponse.ok) {
-      const errorText = await openaiResponse.text();
-      console.error('OpenAI API error:', errorText);
-      throw new Error(`OpenAI API error: ${openaiResponse.status}`);
+    if (!response.ok) {
+      throw new Error(`OpenAI API error: ${response.status}`);
     }
 
-    const openaiResult = await openaiResponse.json();
-    const extractedContent = openaiResult.choices[0]?.message?.content;
-    
-    if (!extractedContent) {
-      throw new Error('No response from OpenAI');
+    const result = await response.json();
+    const extractedText = result.choices[0]?.message?.content;
+
+    if (!extractedText) {
+      throw new Error('No content returned from OpenAI');
     }
 
-    // Parse the JSON response from OpenAI
+    console.log('🤖 OpenAI raw response:', extractedText);
+
+    // Parse the JSON response
     let policyData;
     try {
-      policyData = JSON.parse(extractedContent.trim());
+      // Clean the response to extract JSON
+      const jsonMatch = extractedText.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        policyData = JSON.parse(jsonMatch[0]);
+      } else {
+        throw new Error('No JSON found in response');
+      }
     } catch (parseError) {
-      console.error('Failed to parse OpenAI response as JSON:', extractedContent);
-      throw new Error('Invalid JSON response from OpenAI');
+      console.error('❌ JSON parsing failed:', parseError);
+      throw new Error('Failed to parse OpenAI response as JSON');
     }
 
-    console.log('Field extraction successful:', Object.keys(policyData));
-    
-    // Return successful response
-    return new Response(JSON.stringify({
+    console.log('✅ Successfully extracted policy data:', Object.keys(policyData));
+
+    return new Response(JSON.stringify({ 
+      success: true,
       policyData,
-      extractedFields: Object.keys(policyData).filter(key => policyData[key] !== null),
-      processingMethod: 'openai-gpt-3.5'
+      confidence: 0.9,
+      method: 'openai-gpt4o-mini'
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
 
   } catch (error) {
-    console.error('OpenAI field extraction failed:', error);
+    console.error('❌ OpenAI extraction error:', error);
     
-    // Return error response
     return new Response(JSON.stringify({
       error: {
-        code: 'OPENAI_EXTRACTION_FAILED',
+        code: 'OPENAI_EXTRACTION_ERROR',
         message: error.message
       }
     }), {

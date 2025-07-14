@@ -154,10 +154,10 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
           <div className="bg-green-50 border border-green-200 rounded-lg p-4">
             <div className="flex items-center gap-2 text-green-800">
               <CheckCircle className="h-4 w-4" />
-              <span className="font-medium">HYBRID Multi-Tier Processing System Active</span>
+              <span className="font-medium">MAXIMUM ACCURACY Multi-Tier Processing System</span>
             </div>
             <p className="text-green-700 text-sm mt-1">
-              Uses PDF.js → Tesseract OCR → Google Vision → OpenAI Enhancement for maximum accuracy
+              Runs ALL methods: PDF.js → Tesseract OCR → Google Vision → OpenAI Enhancement, then selects the best result
             </p>
           </div>
 
@@ -243,50 +243,7 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
             </div>
           )}
 
-          {/* DEBUG: Show validation state */}
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
-            <h4 className="font-medium text-yellow-800 mb-2">🔍 Debug: Validation State</h4>
-            <div className="text-sm text-yellow-700 space-y-1">
-              <div>showValidation: {showValidation ? '✅ TRUE' : '❌ FALSE'}</div>
-              <div>extractedData: {extractedData ? '✅ TRUE' : '❌ FALSE'}</div>
-              <div>rawText: {rawText ? '✅ TRUE' : '❌ FALSE'}</div>
-              <div>All conditions met: {(extractedData && rawText) ? '✅ YES - Should show validation' : '❌ NO - Missing condition'}</div>
-              {extractedData && (
-                <div>
-                  <strong>Extracted Data Keys:</strong> {Object.keys(extractedData).join(', ')}
-                </div>
-              )}
-            </div>
-            <div className="mt-2">
-              <button 
-                onClick={() => {
-                  console.log('Force validation button clicked');
-                  setShowValidation(true);
-                  // Create sample data if none exists
-                  if (!extractedData) {
-                    const sampleData = {
-                      policyNumber: 'SAMPLE-123',
-                      insuredName: 'John Doe',
-                      insurerName: 'ABC Insurance',
-                      effectiveDate: '01/01/2023',
-                      expirationDate: '12/31/2023',
-                      propertyAddress: '123 Main St, Anytown, USA',
-                      coverageAmount: '$500,000',
-                      deductible: '$1,000'
-                    };
-                    setExtractedData(sampleData);
-                    setRawText('Sample raw text for debugging');
-                    console.log('Created sample data:', sampleData);
-                  }
-                }}
-                className="px-2 py-1 bg-green-600 text-white rounded text-xs"
-              >
-                Force Show Validation
-              </button>
-            </div>
-          </div>
-
-          {/* SIMPLIFIED VALIDATION STEP - SINGLE SOURCE OF TRUTH */}
+          {/* Policy Data Validation Step - Show when data is extracted */}
           {extractedData && !isConfirmed && (
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
               <h3 className="text-lg font-semibold text-blue-900 mb-4 flex items-center gap-2">
