@@ -21,12 +21,8 @@ import {
   X
 } from 'lucide-react'
 
-// Import enhanced AI wizard step components - REAL-TIME PDF PROCESSING WITH CONFIRMATION
-import { WorkingPolicyUploadStep } from './wizard-steps/WorkingPolicyUploadStep'
-import { SimplePDFTestStep } from './wizard-steps/SimplePDFTestStep'
-import { RealPolicyUploadStep } from './wizard-steps/RealPolicyUploadStep'
-import { DynamicPolicyUploadStep } from './wizard-steps/DynamicPolicyUploadStep'
-import { ActualPDFExtractionStep } from './wizard-steps/ActualPDFExtractionStep'
+// Import enhanced AI wizard step components - REAL PDF DATA EXTRACTION
+import { RealPDFExtractionStep } from './wizard-steps/RealPDFExtractionStep'
 import { EnhancedClientDetailsStep } from './wizard-steps/EnhancedClientDetailsStep'
 import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoStep'
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
@@ -130,10 +126,10 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
   const steps = [
     {
       id: 'policy-upload',
-      title: 'Real-Time Policy Analysis with Confirmation',
-      description: 'Upload policy documents for accurate real-time extraction - review before saving',
+      title: 'REAL PDF Data Extraction - No More Fake Data!',
+      description: 'Upload YOUR actual policy document and we will extract YOUR real data from it',
       icon: FileText,
-      component: ActualPDFExtractionStep,
+      component: RealPDFExtractionStep,
       required: false
     },
     {
