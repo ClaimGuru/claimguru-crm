@@ -16,21 +16,93 @@ export interface HybridPDFExtractionResult {
   cost: number;
   processingTime: number;
   policyData: {
+    // Basic Policy Information
     policyNumber?: string;
     insuredName?: string;
+    coinsuredName?: string;
     effectiveDate?: string;
     expirationDate?: string;
-    insurerName?: string;
+    
+    // Addresses
     propertyAddress?: string;
-    coverageAmount?: string;
+    mailingAddress?: string;
+    
+    // Coverage Information
+    coverageA?: string;  // Dwelling
+    coverageB?: string;  // Other Structures
+    coverageC?: string;  // Personal Property
+    coverageD?: string;  // Loss of Use
+    moldLimit?: string;
+    
+    // Deductibles
     deductible?: string;
-    premium?: string;
-    mortgageAccountNumber?: string;
-    coverageTypes?: string[];
+    deductibleType?: string; // percentage or flat amount
+    deductiblePercentageOf?: string; // what the percentage is based on
     deductibles?: Array<{
       type: string;
       amount: string;
+      isPercentage?: boolean;
+      percentageOf?: string;
     }>;
+    
+    // Insurer Information
+    insurerName?: string;
+    insurerPhone?: string;
+    insurerAddress?: string;
+    
+    // Agent Information
+    agentName?: string;
+    agentPhone?: string;
+    agentAddress?: string;
+    
+    // Mortgagee Information
+    mortgageeName?: string;
+    mortgageePhone?: string;
+    mortgageeAddress?: string;
+    mortgageAccountNumber?: string;
+    
+    // Property Construction Details
+    yearBuilt?: string;
+    dwellingStyle?: string;
+    numberOfFamilies?: string;
+    squareFootage?: string;
+    numberOfStories?: string;
+    numberOfBathrooms?: string;
+    numberOfEmployees?: string;
+    
+    // Construction Materials
+    foundationType?: string;
+    constructionType?: string;
+    sidingType?: string;
+    roofMaterialType?: string;
+    exteriorWallTypes?: string;
+    interiorWallPartition?: string;
+    
+    // Roof Details
+    roofSquareFootage?: string;
+    ageOfRoof?: string;
+    roofSurfaceMaterial?: string;
+    
+    // Garage and Structures
+    garageType?: string;
+    garageNumberOfCars?: string;
+    attachedStructures?: string;
+    
+    // Additional Features
+    pool?: string;
+    finishedBasement?: string;
+    heatingAndCooling?: string;
+    interiorDetails?: string;
+    additionalDetails?: string;
+    treeOverhang?: string;
+    
+    // Safety and Protection
+    fireProtectionDetails?: string;
+    
+    // Legacy fields for compatibility
+    coverageAmount?: string;
+    premium?: string;
+    coverageTypes?: string[];
   };
   metadata: {
     pageCount?: number;

@@ -12,7 +12,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    console.log('🤖 OpenAI Extract Fields function called');
+    console.log('🤖 OpenAI Comprehensive Extract Fields function called');
     
     const { text } = await req.json();
     
@@ -25,31 +25,136 @@ Deno.serve(async (req) => {
       throw new Error('OpenAI API key not configured');
     }
 
-    console.log('📝 Processing text of length:', text.length);
+    console.log('📝 Processing comprehensive text of length:', text.length);
 
     const prompt = `
-Extract the following insurance policy information from the provided text. Return a JSON object with these exact keys:
+Extract the following comprehensive insurance policy information from the provided text. Return a JSON object with these exact keys:
 
 {
+  // Basic Policy Information
   "policyNumber": "string or null",
-  "insuredName": "string or null", 
-  "insurerName": "string or null",
+  "insuredName": "string or null",
+  "coinsuredName": "string or null",
   "effectiveDate": "string or null",
   "expirationDate": "string or null",
+  
+  // Addresses
   "propertyAddress": "string or null",
-  "coverageAmount": "string or null",
+  "mailingAddress": "string or null",
+  
+  // Coverage Information
+  "coverageA": "string or null",
+  "coverageB": "string or null", 
+  "coverageC": "string or null",
+  "coverageD": "string or null",
+  "moldLimit": "string or null",
+  
+  // Deductibles
   "deductible": "string or null",
-  "premium": "string or null",
-  "mortgageAccountNumber": "string or null"
+  "deductibleType": "string or null",
+  "deductiblePercentageOf": "string or null",
+  
+  // Insurer Information
+  "insurerName": "string or null",
+  "insurerPhone": "string or null",
+  "insurerAddress": "string or null",
+  
+  // Agent Information
+  "agentName": "string or null",
+  "agentPhone": "string or null",
+  "agentAddress": "string or null",
+  
+  // Mortgagee Information
+  "mortgageeName": "string or null",
+  "mortgageePhone": "string or null", 
+  "mortgageeAddress": "string or null",
+  "mortgageAccountNumber": "string or null",
+  
+  // Property Construction Details
+  "yearBuilt": "string or null",
+  "dwellingStyle": "string or null",
+  "numberOfFamilies": "string or null",
+  "squareFootage": "string or null",
+  "numberOfStories": "string or null",
+  "numberOfBathrooms": "string or null",
+  "numberOfEmployees": "string or null",
+  
+  // Construction Materials
+  "foundationType": "string or null",
+  "constructionType": "string or null",
+  "sidingType": "string or null",
+  "roofMaterialType": "string or null",
+  "exteriorWallTypes": "string or null",
+  "interiorWallPartition": "string or null",
+  
+  // Roof Details
+  "roofSquareFootage": "string or null",
+  "ageOfRoof": "string or null",
+  "roofSurfaceMaterial": "string or null",
+  
+  // Garage and Structures
+  "garageType": "string or null",
+  "garageNumberOfCars": "string or null",
+  "attachedStructures": "string or null",
+  
+  // Additional Features
+  "pool": "string or null",
+  "finishedBasement": "string or null",
+  "heatingAndCooling": "string or null",
+  "interiorDetails": "string or null",
+  "additionalDetails": "string or null",
+  "treeOverhang": "string or null",
+  
+  // Safety and Protection
+  "fireProtectionDetails": "string or null",
+  
+  // Legacy compatibility
+  "coverageAmount": "string or null",
+  "premium": "string or null"
 }
 
-Rules:
+Specific Extraction Rules:
+
+**Coverage Information:**
+- Coverage A = Dwelling coverage limit
+- Coverage B = Other Structures coverage limit  
+- Coverage C = Personal Property coverage limit
+- Coverage D = Loss of Use/Additional Living Expenses coverage limit
+- Look for patterns like "Coverage A: $500,000" or "Dwelling: $500,000"
+
+**Deductibles:**
+- Extract all deductible amounts and types
+- If deductible is a percentage (like "2% of Coverage A"), note the percentage and what it's based on
+- Look for variations: "AOP deductible", "Wind/Hail deductible", "Named Storm deductible"
+
+**Contact Information:**
+- Extract phone numbers in any format: (555) 123-4567, 555-123-4567, 555.123.4567
+- Extract full addresses including city, state, zip
+- Look for agent, insurer, and mortgagee contact details
+
+**Property Details:**
+- Extract construction details like "Built in 1973; 1 family; 1683 sq. ft.; ranch -1 story"
+- Look for foundation types: slab, basement, crawl space
+- Extract roof materials: composition, metal, tile, etc.
+- Note garage details: attached, detached, number of cars
+
+**Construction Information:**
+- Siding types: wood, vinyl, brick, stucco, etc.
+- Foundation details: slab at grade, basement, etc.
+- Construction types: frame, masonry, etc.
+- Wall types and materials
+
+**Safety Features:**
+- Fire protection: fire department distance, subscription, sprinkler systems
+- Security systems and features
+
+General Rules:
 - Extract exact values as they appear in the document
 - For dates, preserve the original format
 - For monetary amounts, include $ sign and commas
 - If a field is not found, set it to null
-- Look for variations of field names (e.g., "Policy No", "Policy #", etc.)
-- For mortgage account number, look for loan numbers, account numbers, mortgagee information
+- Look for variations of field names and terminology
+- Separate mailing address from property address if different
 
 Text to analyze:
 ${text}
@@ -67,14 +172,14 @@ Return only the JSON object, no additional text.`;
         messages: [
           {
             role: 'system',
-            content: 'You are a precise insurance document parser. Extract information exactly as it appears in documents. Always return valid JSON.'
+            content: 'You are a comprehensive insurance document parser. Extract all available information exactly as it appears in documents. Always return valid JSON with all requested fields, using null for missing data.'
           },
           {
             role: 'user',
             content: prompt
           }
         ],
-        max_tokens: 1500,
+        max_tokens: 3000,
         temperature: 0.1
       })
     });
@@ -90,7 +195,7 @@ Return only the JSON object, no additional text.`;
       throw new Error('No content returned from OpenAI');
     }
 
-    console.log('🤖 OpenAI raw response:', extractedText);
+    console.log('🤖 OpenAI comprehensive response length:', extractedText.length);
 
     // Parse the JSON response
     let policyData;
@@ -107,23 +212,24 @@ Return only the JSON object, no additional text.`;
       throw new Error('Failed to parse OpenAI response as JSON');
     }
 
-    console.log('✅ Successfully extracted policy data:', Object.keys(policyData));
+    console.log('✅ Successfully extracted comprehensive policy data:', Object.keys(policyData).filter(k => policyData[k]).length, 'fields');
 
     return new Response(JSON.stringify({ 
       success: true,
       policyData,
       confidence: 0.9,
-      method: 'openai-gpt4o-mini'
+      method: 'openai-gpt4o-mini-comprehensive',
+      fieldsExtracted: Object.keys(policyData).filter(k => policyData[k]).length
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
 
   } catch (error) {
-    console.error('❌ OpenAI extraction error:', error);
+    console.error('❌ OpenAI comprehensive extraction error:', error);
     
     return new Response(JSON.stringify({
       error: {
-        code: 'OPENAI_EXTRACTION_ERROR',
+        code: 'OPENAI_COMPREHENSIVE_EXTRACTION_ERROR',
         message: error.message
       }
     }), {
