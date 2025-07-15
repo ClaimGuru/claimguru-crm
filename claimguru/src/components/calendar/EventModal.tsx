@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button } from '../ui/Button'
 import { Input } from '../ui/Input'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card'
+import { AddressAutocomplete } from '../ui/AddressAutocomplete'
 import { X, Calendar, Clock, MapPin, Users, Repeat, Bell } from 'lucide-react'
 
 interface EventFormData {
@@ -175,14 +176,13 @@ export function EventModal({ isOpen, onClose, onSave, selectedDate, event }: Eve
 
             {/* Location */}
             <div>
-              <label className="block text-sm font-medium mb-1 flex items-center gap-1">
-                <MapPin className="h-4 w-4" />
-                Location
-              </label>
-              <Input
+              <AddressAutocomplete
                 value={formData.location}
-                onChange={(e) => handleInputChange('location', e.target.value)}
-                placeholder="Enter location or address"
+                onChange={(address, details) => {
+                  handleInputChange('location', address)
+                }}
+                label="Location"
+                placeholder="Enter location or address for autocomplete..."
               />
             </div>
 

@@ -5,6 +5,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import { supabase } from '../../lib/supabase'
 import type { Client } from '../../lib/supabase'
 import { LeadSourceSelector } from './LeadSourceSelector'
+import { AddressAutocomplete } from '../ui/AddressAutocomplete'
 
 interface ClientFormProps {
   client?: Client | null
@@ -235,15 +236,33 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Address *
-            </label>
-            <input
-              type="text"
-              name="address_line_1"
+            <AddressAutocomplete
               value={formData.address_line_1}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              onChange={(address, details) => {
+                // Update the main address field
+                setFormData(prev => ({ ...prev, address_line_1: address }))
+                
+                // Auto-populate other fields from Google Places details if available
+                if (details?.address_components) {
+                  const components = details.address_components
+                  const streetNumber = components.find(c => c.types.includes('street_number'))?.long_name || ''
+                  const route = components.find(c => c.types.includes('route'))?.long_name || ''
+                  const city = components.find(c => c.types.includes('locality'))?.long_name || 
+                              components.find(c => c.types.includes('administrative_area_level_3'))?.long_name || ''
+                  const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || ''
+                  const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || ''
+                  
+                  setFormData(prev => ({
+                    ...prev,
+                    address_line_1: details.formatted_address || address,
+                    city: city || prev.city,
+                    state: state || prev.state,
+                    zip_code: zipCode || prev.zip_code
+                  }))
+                }
+              }}
+              label="Address *"
+              placeholder="Start typing address for autocomplete..."
               required
             />
           </div>
@@ -260,6 +279,7 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
+                placeholder="Auto-filled from address"
               />
             </div>
             <div>
@@ -273,6 +293,7 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
+                placeholder="Auto-filled from address"
               />
             </div>
             <div>
@@ -286,6 +307,7 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
+                placeholder="Auto-filled from address"
               />
             </div>
           </div>

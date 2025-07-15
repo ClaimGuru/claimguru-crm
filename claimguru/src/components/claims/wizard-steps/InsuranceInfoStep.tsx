@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
 import { Button } from '../../ui/Button'
+import { AddressAutocomplete } from '../../ui/AddressAutocomplete'
 import { 
   Shield, 
   Brain, 
@@ -332,12 +333,28 @@ export function InsuranceInfoStep({ data, onUpdate }: InsuranceInfoStepProps) {
             </h4>
             
             <div className="grid grid-cols-1 gap-4">
-              <input
-                type="text"
+              <AddressAutocomplete
                 value={insuranceInfo.companyAddress.addressLine1}
-                onChange={(e) => handleAddressChange('insurance', 'addressLine1', e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                placeholder="Street address"
+                onChange={(address, details) => {
+                  // Update the main address field
+                  handleAddressChange('insurance', 'addressLine1', address)
+                  
+                  // Auto-populate other fields from Google Places details if available
+                  if (details?.address_components) {
+                    const components = details.address_components
+                    const city = components.find(c => c.types.includes('locality'))?.long_name || 
+                                components.find(c => c.types.includes('administrative_area_level_3'))?.long_name || ''
+                    const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || ''
+                    const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || ''
+                    
+                    if (city) handleAddressChange('insurance', 'city', city)
+                    if (state) handleAddressChange('insurance', 'state', state)
+                    if (zipCode) handleAddressChange('insurance', 'zipCode', zipCode)
+                    if (details.formatted_address) handleAddressChange('insurance', 'addressLine1', details.formatted_address)
+                  }
+                }}
+                label="Insurance Company Address"
+                placeholder="Start typing company address for autocomplete..."
               />
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -346,21 +363,21 @@ export function InsuranceInfoStep({ data, onUpdate }: InsuranceInfoStepProps) {
                   value={insuranceInfo.companyAddress.city}
                   onChange={(e) => handleAddressChange('insurance', 'city', e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                  placeholder="City"
+                  placeholder="Auto-filled from address"
                 />
                 <input
                   type="text"
                   value={insuranceInfo.companyAddress.state}
                   onChange={(e) => handleAddressChange('insurance', 'state', e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                  placeholder="State"
+                  placeholder="Auto-filled from address"
                 />
                 <input
                   type="text"
                   value={insuranceInfo.companyAddress.zipCode}
                   onChange={(e) => handleAddressChange('insurance', 'zipCode', e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                  placeholder="ZIP Code"
+                  placeholder="Auto-filled from address"
                 />
               </div>
             </div>
@@ -551,12 +568,28 @@ export function InsuranceInfoStep({ data, onUpdate }: InsuranceInfoStepProps) {
               </h4>
               
               <div className="grid grid-cols-1 gap-4">
-                <input
-                  type="text"
+                <AddressAutocomplete
                   value={mortgageInfo.address.addressLine1}
-                  onChange={(e) => handleAddressChange('mortgage', 'addressLine1', e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                  placeholder="Street address"
+                  onChange={(address, details) => {
+                    // Update the main address field
+                    handleAddressChange('mortgage', 'addressLine1', address)
+                    
+                    // Auto-populate other fields from Google Places details if available
+                    if (details?.address_components) {
+                      const components = details.address_components
+                      const city = components.find(c => c.types.includes('locality'))?.long_name || 
+                                  components.find(c => c.types.includes('administrative_area_level_3'))?.long_name || ''
+                      const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || ''
+                      const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || ''
+                      
+                      if (city) handleAddressChange('mortgage', 'city', city)
+                      if (state) handleAddressChange('mortgage', 'state', state)
+                      if (zipCode) handleAddressChange('mortgage', 'zipCode', zipCode)
+                      if (details.formatted_address) handleAddressChange('mortgage', 'addressLine1', details.formatted_address)
+                    }
+                  }}
+                  label="Mortgage Company Address"
+                  placeholder="Start typing mortgage company address for autocomplete..."
                 />
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -565,21 +598,21 @@ export function InsuranceInfoStep({ data, onUpdate }: InsuranceInfoStepProps) {
                     value={mortgageInfo.address.city}
                     onChange={(e) => handleAddressChange('mortgage', 'city', e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                    placeholder="City"
+                    placeholder="Auto-filled from address"
                   />
                   <input
                     type="text"
                     value={mortgageInfo.address.state}
                     onChange={(e) => handleAddressChange('mortgage', 'state', e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                    placeholder="State"
+                    placeholder="Auto-filled from address"
                   />
                   <input
                     type="text"
                     value={mortgageInfo.address.zipCode}
                     onChange={(e) => handleAddressChange('mortgage', 'zipCode', e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                    placeholder="ZIP Code"
+                    placeholder="Auto-filled from address"
                   />
                 </div>
               </div>

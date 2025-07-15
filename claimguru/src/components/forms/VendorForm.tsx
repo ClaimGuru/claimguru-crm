@@ -14,6 +14,7 @@ import {
   Calendar
 } from 'lucide-react'
 import type { Vendor } from '../../lib/supabase'
+import { AddressAutocomplete } from '../ui/AddressAutocomplete'
 
 interface VendorFormProps {
   vendor?: Vendor | null
@@ -303,15 +304,31 @@ export function VendorForm({ vendor, onSave, onCancel }: VendorFormProps) {
         </h4>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Street Address
-          </label>
-          <input
-            type="text"
+          <AddressAutocomplete
             value={formData.street_address}
-            onChange={(e) => setFormData(prev => ({ ...prev, street_address: e.target.value }))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-            placeholder="Enter street address..."
+            onChange={(address, details) => {
+              // Update the main address field
+              setFormData(prev => ({ ...prev, street_address: address }))
+              
+              // Auto-populate other fields from Google Places details if available
+              if (details?.address_components) {
+                const components = details.address_components
+                const city = components.find(c => c.types.includes('locality'))?.long_name || 
+                            components.find(c => c.types.includes('administrative_area_level_3'))?.long_name || ''
+                const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || ''
+                const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || ''
+                
+                setFormData(prev => ({
+                  ...prev,
+                  street_address: details.formatted_address || address,
+                  city: city || prev.city,
+                  state: state || prev.state,
+                  zip_code: zipCode || prev.zip_code
+                }))
+              }
+            }}
+            label="Street Address"
+            placeholder="Start typing address for autocomplete..."
           />
         </div>
         
@@ -325,7 +342,7 @@ export function VendorForm({ vendor, onSave, onCancel }: VendorFormProps) {
               value={formData.city}
               onChange={(e) => setFormData(prev => ({ ...prev, city: e.target.value }))}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              placeholder="Enter city..."
+              placeholder="Auto-filled from address"
             />
           </div>
           
@@ -338,7 +355,7 @@ export function VendorForm({ vendor, onSave, onCancel }: VendorFormProps) {
               value={formData.state}
               onChange={(e) => setFormData(prev => ({ ...prev, state: e.target.value }))}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              placeholder="State"
+              placeholder="Auto-filled from address"
             />
           </div>
           
@@ -351,7 +368,7 @@ export function VendorForm({ vendor, onSave, onCancel }: VendorFormProps) {
               value={formData.zip_code}
               onChange={(e) => setFormData(prev => ({ ...prev, zip_code: e.target.value }))}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              placeholder="12345"
+              placeholder="Auto-filled from address"
             />
           </div>
         </div>

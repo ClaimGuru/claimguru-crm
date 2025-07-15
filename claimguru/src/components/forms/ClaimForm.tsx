@@ -4,6 +4,7 @@ import { X, Save, FileText, User, Calendar, DollarSign, MapPin } from 'lucide-re
 import { useAuth } from '../../contexts/AuthContext'
 import { supabase } from '../../lib/supabase'
 import type { Claim, Client } from '../../lib/supabase'
+import { AddressAutocomplete } from '../ui/AddressAutocomplete'
 
 interface Property {
   id: string

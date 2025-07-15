@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
 import { Button } from '../../ui/Button'
+import { AddressAutocomplete } from '../../ui/AddressAutocomplete'
 import { 
   Users, 
   Building, 
@@ -600,14 +601,32 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Mailing Address *</label>
             <div className="grid grid-cols-1 gap-4">
-              <input
-                type="text"
+              <AddressAutocomplete
                 value={mailingAddress.addressLine1}
-                onChange={(e) => setMailingAddress(prev => ({ ...prev, addressLine1: e.target.value }))}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                placeholder="Street address"
+                onChange={(address, details) => {
+                  // Update the main address field
+                  setMailingAddress(prev => ({ ...prev, addressLine1: address }))
+                  
+                  // Auto-populate other fields from Google Places details if available
+                  if (details?.address_components) {
+                    const components = details.address_components
+                    const city = components.find(c => c.types.includes('locality'))?.long_name || 
+                                components.find(c => c.types.includes('administrative_area_level_3'))?.long_name || ''
+                    const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || ''
+                    const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || ''
+                    
+                    setMailingAddress(prev => ({
+                      ...prev,
+                      addressLine1: details.formatted_address || address,
+                      city: city || prev.city,
+                      state: state || prev.state,
+                      zipCode: zipCode || prev.zipCode
+                    }))
+                  }
+                }}
+                label="Mailing Address *"
+                placeholder="Start typing address for autocomplete..."
                 required
               />
               <input
@@ -623,7 +642,7 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
                   value={mailingAddress.city}
                   onChange={(e) => setMailingAddress(prev => ({ ...prev, city: e.target.value }))}
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                  placeholder="City"
+                  placeholder="Auto-filled from address"
                   required
                 />
                 <input
@@ -631,7 +650,7 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
                   value={mailingAddress.state}
                   onChange={(e) => setMailingAddress(prev => ({ ...prev, state: e.target.value }))}
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                  placeholder="State"
+                  placeholder="Auto-filled from address"
                   required
                 />
                 <input
@@ -639,7 +658,7 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
                   value={mailingAddress.zipCode}
                   onChange={(e) => setMailingAddress(prev => ({ ...prev, zipCode: e.target.value }))}
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                  placeholder="ZIP Code"
+                  placeholder="Auto-filled from address"
                   required
                 />
               </div>

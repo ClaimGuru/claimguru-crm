@@ -36,21 +36,26 @@ class ConfigService {
   }
 
   private getGoogleMapsApiKey(): string {
-    // Try multiple possible environment variable names
+    // Try multiple possible environment variable names, prioritizing the secret
     const possibleKeys = [
+      import.meta.env.GOOGLEMAPS_API, // From secrets
+      import.meta.env.VITE_GOOGLEMAPS_API, // Vite version of secret
       import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
       import.meta.env.VITE_GOOGLE_PLACES_API_KEY,
       import.meta.env.GOOGLE_MAPS_API_KEY,
       import.meta.env.GOOGLEMAPS_API_KEY,
-      import.meta.env.GOOGLE_PLACES_API_KEY
+      import.meta.env.GOOGLE_PLACES_API_KEY,
+      process.env.GOOGLEMAPS_API // Server-side access
     ];
 
     for (const key of possibleKeys) {
       if (key && key !== '' && key !== 'undefined' && key !== 'DEMO_MODE') {
+        console.log('🗝️ Google Maps API key found and configured');
         return key;
       }
     }
 
+    console.warn('⚠️ Google Maps API key not found in environment variables');
     return '';
   }
 
