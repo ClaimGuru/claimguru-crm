@@ -63,37 +63,64 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
   const [isValidating, setIsValidating] = useState(false)
   const [autoPopulated, setAutoPopulated] = useState(false)
 
+  // Debug: Log available data on component load
+  useEffect(() => {
+    console.log('📊 Insurance Step Data Debug:', {
+      hasExtractedPolicyData: !!data.extractedPolicyData,
+      hasPolicyDetails: !!data.policyDetails,
+      validationComplete: data.validationComplete,
+      dataConfirmed: data.dataConfirmed,
+      processingComplete: data.processingComplete,
+      extractedPolicyDataKeys: data.extractedPolicyData ? Object.keys(data.extractedPolicyData) : 'none',
+      policyDetailsKeys: data.policyDetails ? Object.keys(data.policyDetails) : 'none',
+      autoPopulated: autoPopulated
+    })
+    
+    if (data.policyDetails?.deductibles) {
+      console.log('📄 Available deductibles in policyDetails:', data.policyDetails.deductibles)
+    }
+    
+    if (data.extractedPolicyData?.deductibles) {
+      console.log('📄 Available deductibles in extractedPolicyData:', data.extractedPolicyData.deductibles)
+    }
+  }, [data])
+
   // Auto-populate data from PDF extraction
   useEffect(() => {
-    if (data.extractedPolicyData && data.validationComplete && !autoPopulated) {
-      console.log('🚀 Auto-populating insurance details from extracted PDF data:', data.extractedPolicyData)
+    // Check if PDF data was validated and confirmed
+    if (data.validationComplete && data.policyDetails && !autoPopulated) {
+      console.log('🚀 Auto-populating insurance details from validated PDF data:', data.policyDetails)
       
       // Auto-populate insurance carrier
-      if (data.extractedPolicyData.insurerName) {
+      if (data.policyDetails.insurerName) {
         setInsuranceCarrier(prev => ({
           ...prev,
-          name: data.extractedPolicyData.insurerName
+          name: data.policyDetails.insurerName
         }))
+        console.log('✅ Auto-populated carrier:', data.policyDetails.insurerName)
       }
       
       // Auto-populate policy details
       const newPolicyDetails = { ...policyDetails }
-      if (data.extractedPolicyData.policyNumber) {
-        newPolicyDetails.policyNumber = data.extractedPolicyData.policyNumber
+      if (data.policyDetails.policyNumber) {
+        newPolicyDetails.policyNumber = data.policyDetails.policyNumber
+        console.log('✅ Auto-populated policy number:', data.policyDetails.policyNumber)
       }
-      if (data.extractedPolicyData.effectiveDate) {
-        newPolicyDetails.effectiveDate = data.extractedPolicyData.effectiveDate
+      if (data.policyDetails.effectiveDate) {
+        newPolicyDetails.effectiveDate = data.policyDetails.effectiveDate
+        console.log('✅ Auto-populated effective date:', data.policyDetails.effectiveDate)
       }
-      if (data.extractedPolicyData.expirationDate) {
-        newPolicyDetails.expirationDate = data.extractedPolicyData.expirationDate
+      if (data.policyDetails.expirationDate) {
+        newPolicyDetails.expirationDate = data.policyDetails.expirationDate
+        console.log('✅ Auto-populated expiration date:', data.policyDetails.expirationDate)
       }
       setPolicyDetails(newPolicyDetails)
       
-      // Auto-populate deductibles from extracted data
-      if (data.extractedPolicyData.deductibles && data.extractedPolicyData.deductibles.length > 0) {
-        console.log('📋 Auto-populating deductibles:', data.extractedPolicyData.deductibles)
+      // Auto-populate deductibles from validated data
+      if (data.policyDetails.deductibles && data.policyDetails.deductibles.length > 0) {
+        console.log('📋 Auto-populating deductibles from validated data:', data.policyDetails.deductibles)
         
-        const autoDeductibles: Deductible[] = data.extractedPolicyData.deductibles.map((ded: any, index: number) => ({
+        const autoDeductibles: Deductible[] = data.policyDetails.deductibles.map((ded: any, index: number) => ({
           id: `auto-${Date.now()}-${index}`,
           type: ded.type || 'All Other Perils',
           amount: ded.amount || 0,
@@ -105,20 +132,25 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
         console.log('✅ Deductibles auto-populated:', autoDeductibles)
       }
       
-      // Auto-populate coverages if available
-      if (data.extractedPolicyData.coverageAmount) {
-        const autoCoverages: Coverage[] = [{
-          id: `auto-dwelling-${Date.now()}`,
-          type: 'Dwelling',
-          limit: parseInt(data.extractedPolicyData.coverageAmount.replace(/[^0-9]/g, '')) || 0
-        }]
-        setCoverages(prev => [...prev, ...autoCoverages])
+      // Auto-populate coverages if available  
+      if (data.policyDetails.coverageAmount) {
+        const coverageAmountStr = String(data.policyDetails.coverageAmount)
+        const coverageAmountNum = parseInt(coverageAmountStr.replace(/[^0-9]/g, '')) || 0
+        if (coverageAmountNum > 0) {
+          const autoCoverages: Coverage[] = [{
+            id: `auto-dwelling-${Date.now()}`,
+            type: 'Dwelling',
+            limit: coverageAmountNum
+          }]
+          setCoverages(prev => [...prev, ...autoCoverages])
+          console.log('✅ Auto-populated coverage:', autoCoverages)
+        }
       }
       
       setAutoPopulated(true)
       console.log('✅ Insurance details auto-population completed')
     }
-  }, [data.extractedPolicyData, data.validationComplete])
+  }, [data.validationComplete, data.policyDetails, autoPopulated])
 
   // Update parent data whenever local state changes
   useEffect(() => {
@@ -134,33 +166,35 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
 
   // AI Validation Functions
   const validateInsuranceInfo = async () => {
-    if (!data.extractedPolicyData) return
+    if (!data.extractedPolicyData && !data.policyDetails) return
 
     setIsValidating(true)
     onAIProcessing?.(true)
 
     try {
+      const extractedData = data.policyDetails || data.extractedPolicyData
+      
       // Validate policy number
       const policyValidation = await enhancedClaimWizardAI.validatePolicyNumber(
         policyDetails.policyNumber,
-        data.extractedPolicyData.policyNumber
+        extractedData.policyNumber
       )
 
       // Validate loss date against policy period
       const lossDateValidation = await enhancedClaimWizardAI.validateLossDate(
         data.lossDetails?.lossDate || '',
-        data.extractedPolicyData.effectiveDate || '',
-        data.extractedPolicyData.expirationDate || ''
+        extractedData.effectiveDate || '',
+        extractedData.expirationDate || ''
       )
 
       // Get coverage suggestions
       const suggestedCoverages = await enhancedClaimWizardAI.suggestCoverages(
-        data.extractedPolicyData
+        extractedData
       )
 
       // Get deductible suggestions
       const suggestedDeductibles = await enhancedClaimWizardAI.suggestDeductibles(
-        data.extractedPolicyData
+        extractedData
       )
 
       // Check for duplicate payments
@@ -172,7 +206,7 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
         )
       }
 
-      setValidationResults({
+      const newValidationResults = {
         policyNumber: policyValidation,
         lossDate: lossDateValidation,
         coverages: suggestedCoverages,
@@ -180,10 +214,28 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
         carrier: {
           isValid: true,
           message: 'Carrier information verified',
-          severity: 'info'
+          severity: 'info' as 'info'
         },
         priorPayments: priorPaymentValidation
-      })
+      }
+      
+      setValidationResults(newValidationResults)
+      
+      // Auto-populate deductibles from AI suggestions if not already populated
+      if (suggestedDeductibles.length > 0 && deductibles.length === 0) {
+        console.log('🤖 Auto-populating deductibles from AI validation results:', suggestedDeductibles)
+        
+        const autoDeductibles: Deductible[] = suggestedDeductibles.map((ded: any, index: number) => ({
+          id: `ai-auto-${Date.now()}-${index}`,
+          type: ded.type,
+          amount: ded.amount,
+          isPercentage: false
+        }))
+        
+        setDeductibles(autoDeductibles)
+        console.log('✅ AI-suggested deductibles auto-populated:', autoDeductibles)
+      }
+      
     } catch (error) {
       console.error('Insurance validation failed:', error)
     } finally {
@@ -192,12 +244,13 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
     }
   }
 
-  // Auto-validate when key data changes
+  // Auto-validate when key data changes or component loads with validated data
   useEffect(() => {
-    if (data.extractedPolicyData && policyDetails.policyNumber) {
+    if ((data.extractedPolicyData || data.policyDetails) && (policyDetails.policyNumber || data.policyDetails?.policyNumber)) {
+      console.log('🔍 Triggering AI validation with available data')
       validateInsuranceInfo()
     }
-  }, [policyDetails.policyNumber, data.lossDetails?.lossDate, data.extractedPolicyData])
+  }, [policyDetails.policyNumber, data.lossDetails?.lossDate, data.extractedPolicyData, data.policyDetails, data.validationComplete])
 
   // Coverage Management
   const addCoverage = () => {
