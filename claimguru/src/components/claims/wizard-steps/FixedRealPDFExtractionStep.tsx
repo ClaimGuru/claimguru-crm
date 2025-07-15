@@ -277,6 +277,33 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
             </div>
           )}
 
+          {/* Debug Info - Only show if extraction completed but no data */}
+          {!extractedData && rawText && !isProcessing && !error && (
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <div className="flex items-center gap-2 text-yellow-800">
+                <AlertCircle className="h-4 w-4" />
+                <span className="font-medium">Extraction Completed but No Structured Data Found</span>
+              </div>
+              <p className="text-yellow-700 text-sm mt-1">
+                Text was extracted from the PDF but no policy data structure could be identified. 
+                This may occur with scanned documents or non-standard policy formats.
+              </p>
+              <div className="mt-3 flex gap-2">
+                <Button
+                  onClick={() => {
+                    setRawText('');
+                    setProcessingDetails(null);
+                  }}
+                  variant="outline"
+                  size="sm"
+                  className="text-yellow-700 border-yellow-300 hover:bg-yellow-100"
+                >
+                  Try Different Document
+                </Button>
+              </div>
+            </div>
+          )}
+
           {/* Confirmation Message */}
           {isConfirmed && (
             <div className="bg-green-100 border border-green-300 rounded-lg p-4 text-center">
