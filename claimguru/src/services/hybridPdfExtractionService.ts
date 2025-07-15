@@ -150,7 +150,7 @@ export class HybridPDFExtractionService {
       
       console.log(`📄 PDF.js Result: ${extractedText.length} chars, Quality Score: ${qualityScore}/100`);
       
-      // Always continue with ALL methods for maximum accuracy
+      // Smart extraction strategy - use additional methods only when needed
       let bestText = extractedText;
       let bestConfidence = 0.85;
       let bestMethod: 'pdf-js' | 'tesseract' | 'google-vision' | 'fallback' = 'pdf-js';
@@ -158,47 +158,104 @@ export class HybridPDFExtractionService {
       
       console.log(`📄 PDF.js baseline: ${extractedText.length} chars, Quality: ${qualityScore}`);
       
-      // STEP 2: ALWAYS try Tesseract.js OCR for comprehensive text extraction
-      console.log('🔤 STEP 2: Running Tesseract.js OCR for comprehensive extraction...');
-      methodsAttempted.push('tesseract');
+      // Early exit condition: If PDF.js produces high-quality results, skip expensive methods
+      const isHighQuality = qualityScore >= 85 && extractedText.length > 5000;
+      const isGoodQuality = qualityScore >= 70 && extractedText.length > 2000;
       
-      try {
-        const tesseractResult = await this.extractWithTesseract(file);
-        const tesseractQuality = this.evaluateTextQuality(tesseractResult.text);
-        console.log(`🔤 Tesseract result: ${tesseractResult.text.length} chars, Quality: ${tesseractQuality}`);
+      if (isHighQuality) {
+        console.log('🚀 PDF.js quality is excellent (≥85%), skipping additional methods for speed');
+      } else if (isGoodQuality) {
+        console.log('⚡ PDF.js quality is good (≥70%), using quick enhancement only');
         
-        // Use Tesseract if it's significantly better or much longer
-        if (tesseractQuality > bestQuality || tesseractResult.text.length > bestText.length * 1.5) {
-          bestText = tesseractResult.text;
-          bestConfidence = tesseractResult.confidence;
-          bestMethod = 'tesseract';
-          bestQuality = tesseractQuality;
-          console.log('✅ Tesseract provides better extraction');
-        }
-      } catch (tesseractError) {
-        console.log('⚠️ Tesseract failed:', tesseractError.message);
-      }
-      
-      // STEP 3: ALWAYS try Google Vision API for highest accuracy
-      console.log('👁️ STEP 3: Running Google Vision API for maximum accuracy...');
-      methodsAttempted.push('google-vision');
-      
-      try {
-        const visionResult = await this.extractWithGoogleVision(file);
-        const visionQuality = this.evaluateTextQuality(visionResult.text);
-        console.log(`👁️ Google Vision result: ${visionResult.text.length} chars, Quality: ${visionQuality}`);
+        // Try only Tesseract with timeout for moderate quality
+        console.log('🔤 STEP 2: Quick Tesseract OCR (with 30s timeout)...');
+        methodsAttempted.push('tesseract');
         
-        // Use Google Vision if it's better quality or much longer
-        if (visionQuality > bestQuality || visionResult.text.length > bestText.length * 1.2) {
-          bestText = visionResult.text;
-          bestConfidence = visionResult.confidence;
-          bestMethod = 'google-vision';
-          bestQuality = visionQuality;
-          cost = 0.015; // Approximate cost per page
-          console.log('✅ Google Vision provides best extraction');
+        try {
+          const tesseractResult = await Promise.race([
+            this.extractWithTesseract(file),
+            new Promise<{ text: string; confidence: number }>((_, reject) => 
+              setTimeout(() => reject(new Error('Tesseract timeout')), 30000)
+            )
+          ]);
+          
+          const tesseractQuality = this.evaluateTextQuality(tesseractResult.text);
+          console.log(`🔤 Tesseract result: ${tesseractResult.text.length} chars, Quality: ${tesseractQuality}`);
+          
+          // Use Tesseract if it's significantly better
+          if (tesseractQuality > bestQuality + 10 || tesseractResult.text.length > bestText.length * 1.5) {
+            bestText = tesseractResult.text;
+            bestConfidence = tesseractResult.confidence;
+            bestMethod = 'tesseract';
+            bestQuality = tesseractQuality;
+            console.log('✅ Tesseract provides better extraction');
+          }
+        } catch (tesseractError) {
+          console.log('⚠️ Tesseract failed or timed out:', tesseractError.message);
         }
-      } catch (visionError) {
-        console.log('⚠️ Google Vision failed:', visionError.message);
+      } else {
+        console.log('🔄 PDF.js quality is low, trying all extraction methods...');
+        
+        // STEP 2: Try Tesseract.js OCR with timeout
+        console.log('🔤 STEP 2: Running Tesseract.js OCR (with 45s timeout)...');
+        methodsAttempted.push('tesseract');
+        
+        try {
+          const tesseractResult = await Promise.race([
+            this.extractWithTesseract(file),
+            new Promise<{ text: string; confidence: number }>((_, reject) => 
+              setTimeout(() => reject(new Error('Tesseract timeout')), 45000)
+            )
+          ]);
+          
+          const tesseractQuality = this.evaluateTextQuality(tesseractResult.text);
+          console.log(`🔤 Tesseract result: ${tesseractResult.text.length} chars, Quality: ${tesseractQuality}`);
+          
+          // Use Tesseract if it's better
+          if (tesseractQuality > bestQuality || tesseractResult.text.length > bestText.length * 1.5) {
+            bestText = tesseractResult.text;
+            bestConfidence = tesseractResult.confidence;
+            bestMethod = 'tesseract';
+            bestQuality = tesseractQuality;
+            console.log('✅ Tesseract provides better extraction');
+          }
+        } catch (tesseractError) {
+          console.log('⚠️ Tesseract failed or timed out:', tesseractError.message);
+        }
+        
+        // STEP 3: Try Google Vision API only if still low quality and file is small enough
+        if (bestQuality < 60 && file.size < 2 * 1024 * 1024) { // Only for files < 2MB
+          console.log('👁️ STEP 3: Running Google Vision API (with 30s timeout)...');
+          methodsAttempted.push('google-vision');
+          
+          try {
+            const visionResult = await Promise.race([
+              this.extractWithGoogleVision(file),
+              new Promise<{ text: string; confidence: number }>((_, reject) => 
+                setTimeout(() => reject(new Error('Google Vision timeout')), 30000)
+              )
+            ]);
+            
+            const visionQuality = this.evaluateTextQuality(visionResult.text);
+            console.log(`👁️ Google Vision result: ${visionResult.text.length} chars, Quality: ${visionQuality}`);
+            
+            // Use Google Vision if it's better quality
+            if (visionQuality > bestQuality || visionResult.text.length > bestText.length * 1.2) {
+              bestText = visionResult.text;
+              bestConfidence = visionResult.confidence;
+              bestMethod = 'google-vision';
+              bestQuality = visionQuality;
+              cost = 0.015; // Approximate cost per page
+              console.log('✅ Google Vision provides best extraction');
+            }
+          } catch (visionError) {
+            console.log('⚠️ Google Vision failed or timed out:', visionError.message);
+          }
+        } else if (bestQuality >= 60) {
+          console.log('⚡ Quality sufficient, skipping Google Vision API');
+        } else {
+          console.log('📁 File too large for Google Vision API, skipping');
+        }
       }
       
       // Use the best result from all methods
@@ -209,9 +266,21 @@ export class HybridPDFExtractionService {
       
       console.log(`🏆 Best result: ${bestMethod} with ${extractedText.length} chars, Quality: ${qualityScore}`);
 
-      // STEP 4: ALWAYS enhance with AI parsing (OpenAI + Advanced Regex)
-      console.log('🧠 STEP 4: Enhancing with AI intelligence...');
-      const policyData = await this.enhanceWithAI(extractedText);
+      // STEP 4: Enhance with AI parsing (with timeout for reliability)
+      console.log('🧠 STEP 4: Enhancing with AI intelligence (with 20s timeout)...');
+      let policyData;
+      try {
+        policyData = await Promise.race([
+          this.enhanceWithAI(bestText),
+          new Promise<any>((_, reject) => 
+            setTimeout(() => reject(new Error('AI enhancement timeout')), 20000)
+          )
+        ]);
+        console.log('✅ AI enhancement completed successfully');
+      } catch (aiError) {
+        console.warn('⚠️ AI enhancement failed or timed out, using regex fallback:', aiError.message);
+        policyData = this.parseWithAdvancedRegex(bestText);
+      }
 
       const processingTime = Date.now() - startTime;
 
@@ -370,7 +439,14 @@ export class HybridPDFExtractionService {
         }
 
         const { data: { text, confidence } } = await Tesseract.recognize(canvas, 'eng', {
-          logger: m => console.log('Tesseract:', m)
+          logger: m => {
+            // Only log important progress milestones to reduce noise
+            if (m.status === 'recognizing text' && (m.progress === 0 || m.progress >= 0.9 || m.progress % 0.2 < 0.05)) {
+              console.log(`Tesseract progress: ${Math.round(m.progress * 100)}%`);
+            } else if (m.status !== 'recognizing text') {
+              console.log('Tesseract:', m.status);
+            }
+          }
         });
 
         if (text.trim().length > 0) {
