@@ -187,25 +187,40 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
             </p>
           </div>
 
-          {/* File Upload */}
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-gray-400 transition-colors">
-            <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+          {/* Enhanced Clickable File Upload */}
+          <div 
+            className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-green-400 hover:bg-green-50 transition-all duration-200 cursor-pointer select-none group"
+            onClick={() => document.getElementById('policy-file-input')?.click()}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                document.getElementById('policy-file-input')?.click();
+              }
+            }}
+            aria-label="Click to upload insurance policy document"
+          >
+            <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4 transition-colors group-hover:text-green-500" />
             <div className="space-y-2">
               <h3 className="text-lg font-medium text-gray-900">
-                Upload Insurance Policy Document
+                Click anywhere here to upload your policy
               </h3>
               <p className="text-gray-600">
                 Upload your PDF for intelligent multi-tier extraction and analysis
               </p>
-              <div className="mt-4">
-                <input
-                  type="file"
-                  accept=".pdf"
-                  onChange={handleFileChange}
-                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
-                />
+              <div className="mt-4 inline-flex items-center gap-2 px-6 py-3 bg-green-100 text-green-700 rounded-lg text-sm font-medium transition-colors group-hover:bg-green-200">
+                <Upload className="h-4 w-4" />
+                Choose Policy Document
               </div>
             </div>
+            <input
+              id="policy-file-input"
+              type="file"
+              accept=".pdf"
+              onChange={handleFileChange}
+              className="hidden"
+            />
           </div>
 
           {/* Selected File Info */}

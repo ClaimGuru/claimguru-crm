@@ -95,33 +95,43 @@ export function DocumentUpload({ onClose, onUpload }: DocumentUploadProps) {
         </div>
 
         <div className="p-6">
-          {/* Upload Area */}
+          {/* Enhanced Clickable Upload Area */}
           <div
-            className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+            className={`border-2 border-dashed rounded-lg p-8 text-center transition-all duration-200 cursor-pointer select-none ${
               dragActive
-                ? 'border-blue-500 bg-blue-50'
-                : 'border-gray-300 hover:border-gray-400'
+                ? 'border-blue-500 bg-blue-50 scale-105'
+                : 'border-gray-300 hover:border-blue-400 hover:bg-blue-50 hover:scale-102'
             }`}
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}
             onDragOver={handleDrag}
             onDrop={handleDrop}
+            onClick={() => fileInputRef.current?.click()}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                fileInputRef.current?.click();
+              }
+            }}
+            aria-label="Click to upload files or drag and drop"
           >
-            <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+            <Upload className={`h-12 w-12 mx-auto mb-4 transition-colors ${
+              dragActive ? 'text-blue-500' : 'text-gray-400 group-hover:text-blue-500'
+            }`} />
             <div className="space-y-2">
               <p className="text-lg font-medium text-gray-900">
-                Drop files here or click to upload
+                Click anywhere here to upload files
               </p>
               <p className="text-sm text-gray-600">
-                Support for images, PDFs, videos, and documents up to 50MB
+                Or drag and drop files • Support for images, PDFs, videos, and documents up to 50MB
               </p>
             </div>
-            <Button
-              className="mt-4"
-              onClick={() => fileInputRef.current?.click()}
-            >
-              Select Files
-            </Button>
+            <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium transition-colors hover:bg-blue-200">
+              <Upload className="h-4 w-4" />
+              Choose Files
+            </div>
             <input
               ref={fileInputRef}
               type="file"

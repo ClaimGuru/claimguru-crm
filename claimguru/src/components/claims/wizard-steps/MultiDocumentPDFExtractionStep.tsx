@@ -223,26 +223,41 @@ export const MultiDocumentPDFExtractionStep: React.FC<MultiDocumentPDFExtraction
             </p>
           </div>
 
-          {/* File Upload */}
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-gray-400 transition-colors">
-            <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+          {/* Enhanced Clickable File Upload Area */}
+          <div 
+            className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-purple-400 hover:bg-purple-50 transition-all duration-200 cursor-pointer select-none group"
+            onClick={() => document.getElementById('insurance-file-input')?.click()}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                document.getElementById('insurance-file-input')?.click();
+              }
+            }}
+            aria-label="Click to upload insurance documents"
+          >
+            <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4 transition-colors group-hover:text-purple-500" />
             <div className="space-y-2">
               <h3 className="text-lg font-medium text-gray-900">
-                Upload Insurance Documents
+                Click anywhere here to upload documents
               </h3>
               <p className="text-gray-600">
                 Upload multiple PDFs: policies, claim letters, settlements, assessments, etc.
               </p>
-              <div className="mt-4">
-                <input
-                  type="file"
-                  accept=".pdf"
-                  multiple
-                  onChange={handleFileSelection}
-                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
-                />
+              <div className="mt-4 inline-flex items-center gap-2 px-6 py-3 bg-purple-100 text-purple-700 rounded-lg text-sm font-medium transition-colors group-hover:bg-purple-200">
+                <Upload className="h-4 w-4" />
+                Choose Insurance Documents
               </div>
             </div>
+            <input
+              id="insurance-file-input"
+              type="file"
+              accept=".pdf"
+              multiple
+              onChange={handleFileSelection}
+              className="hidden"
+            />
           </div>
 
           {/* Selected Files */}
