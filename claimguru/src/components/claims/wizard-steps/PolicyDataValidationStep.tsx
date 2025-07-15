@@ -18,7 +18,13 @@ import {
   Shield,
   Hash,
   Link,
-  Info
+  Info,
+  RefreshCw,
+  Check,
+  Minus,
+  Eye,
+  ThumbsUp,
+  ThumbsDown
 } from 'lucide-react';
 
 interface PolicyDataValidationStepProps {
@@ -26,7 +32,8 @@ interface PolicyDataValidationStepProps {
   rawText: string;
   onValidated: (validatedData: any) => void;
   onReject: () => void;
-  identifierAnalysis?: any; // NEW: Optional identifier analysis data
+  onReAnalyze?: () => void; // NEW: Re-analyze function
+  identifierAnalysis?: any; // Optional identifier analysis data
 }
 
 interface ValidationResult {
@@ -37,6 +44,8 @@ interface ValidationResult {
   suggestions?: string[];
   isRequired: boolean;
   icon: React.ComponentType<any>;
+  status: 'pending' | 'accepted' | 'rejected' | 'modified';
+  originalValue?: string;
 }
 
 // Define field definitions organized by sections - moved to component level
@@ -412,6 +421,7 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
   rawText,
   onValidated,
   onReject,
+  onReAnalyze,
   identifierAnalysis
 }) => {
   const [validationResults, setValidationResults] = useState<ValidationResult[]>([]);
@@ -465,14 +475,27 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
           confidence,
           suggestions,
           isRequired: fieldDef.isRequired,
-          icon: fieldDef.icon
+          icon: fieldDef.icon,
+          status: 'pending',
+          originalValue: extractedValue
         });
 
-        totalConfidence += confidence === 'high' ? 3 : confidence === 'medium' ? 2 : 1;
+        // Improved confidence scoring
+        const confidenceScore = confidence === 'high' ? 100 : confidence === 'medium' ? 60 : 20;
+        const fieldWeight = fieldDef.isRequired ? 2 : 1; // Weight required fields more heavily
+        totalConfidence += confidenceScore * fieldWeight;
       }
 
       setValidationResults(results);
-      setOverallConfidence((totalConfidence / (fieldDefinitions.length * 3)) * 100);
+      
+      // Calculate weighted overall confidence
+      const totalPossibleScore = fieldDefinitions.reduce((sum, fieldDef) => {
+        const fieldWeight = fieldDef.isRequired ? 2 : 1;
+        return sum + (100 * fieldWeight);
+      }, 0);
+      
+      const calculatedConfidence = totalPossibleScore > 0 ? (totalConfidence / totalPossibleScore) * 100 : 0;
+      setOverallConfidence(Math.max(calculatedConfidence, 5)); // Minimum 5% to avoid 0%
 
       console.log('Validation completed:', results.length, 'fields processed');
 
@@ -486,20 +509,55 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
   const calculateFieldConfidence = (value: string, fieldDef: any, rawText: string): 'high' | 'medium' | 'low' => {
     if (!value || value.trim() === '') return 'low';
     
-    // Check if value matches expected pattern
+    let score = 0;
+    
+    // Pattern matching score (40 points)
     if (fieldDef.pattern && fieldDef.pattern.test(value)) {
-      // Check if the value appears in the raw text
-      if (rawText.toLowerCase().includes(value.toLowerCase())) {
-        return 'high';
+      score += 40;
+    } else if (value.length > 2) {
+      score += 20; // Partial credit for having content
+    }
+    
+    // Text presence score (30 points)
+    if (rawText.toLowerCase().includes(value.toLowerCase())) {
+      score += 30;
+    } else {
+      // Check for partial matches
+      const words = value.toLowerCase().split(/\s+/);
+      const foundWords = words.filter(word => word.length > 2 && rawText.toLowerCase().includes(word));
+      if (foundWords.length > 0) {
+        score += 15 * (foundWords.length / words.length);
       }
-      return 'medium';
     }
     
-    // Even if pattern doesn't match, if it's a reasonable length and appears in text
-    if (value.length > 2 && rawText.toLowerCase().includes(value.toLowerCase())) {
-      return 'medium';
+    // Length and format score (20 points)
+    if (value.length >= 5 && value.length <= 100) {
+      score += 20;
+    } else if (value.length > 2) {
+      score += 10;
     }
     
+    // Field-specific scoring (10 points)
+    switch (fieldDef.field) {
+      case 'policyNumber':
+        if (/^[A-Z0-9\-]{5,25}$/.test(value)) score += 10;
+        break;
+      case 'effectiveDate':
+      case 'expirationDate':
+        if (/^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}$/.test(value)) score += 10;
+        break;
+      case 'coverageA':
+      case 'coverageAmount':
+      case 'deductible':
+        if (/^\$[\d,]+$/.test(value)) score += 10;
+        break;
+      default:
+        if (value.length > 3) score += 5;
+    }
+    
+    // Convert score to confidence level
+    if (score >= 70) return 'high';
+    if (score >= 40) return 'medium';
     return 'low';
   };
 
@@ -569,7 +627,7 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
     setValidationResults(prev => 
       prev.map(result => 
         result.field === field 
-          ? { ...result, value: editValue, confidence: 'high' } // User-corrected = high confidence
+          ? { ...result, value: editValue, confidence: 'high', status: 'modified' } // User-corrected = high confidence
           : result
       )
     );
@@ -586,7 +644,27 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
     setValidationResults(prev => 
       prev.map(result => 
         result.field === field 
-          ? { ...result, value: suggestion, confidence: 'medium' }
+          ? { ...result, value: suggestion, confidence: 'medium', status: 'modified' }
+          : result
+      )
+    );
+  };
+
+  const handleAcceptField = (field: string) => {
+    setValidationResults(prev => 
+      prev.map(result => 
+        result.field === field 
+          ? { ...result, status: 'accepted' }
+          : result
+      )
+    );
+  };
+
+  const handleRejectField = (field: string) => {
+    setValidationResults(prev => 
+      prev.map(result => 
+        result.field === field 
+          ? { ...result, status: 'rejected', value: '' }
           : result
       )
     );
@@ -798,12 +876,25 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
                     Based on pattern matching and text analysis
                   </p>
                 </div>
-                <div className="text-right">
-                  <div className="text-2xl font-bold text-blue-900">{Math.round(overallConfidence)}%</div>
-                  <div className="text-xs text-blue-600">
-                    {overallConfidence >= 80 ? 'Excellent' : 
-                     overallConfidence >= 60 ? 'Good' : 
-                     overallConfidence >= 40 ? 'Fair' : 'Poor'}
+                <div className="flex items-center gap-4">
+                  {onReAnalyze && (
+                    <Button
+                      onClick={onReAnalyze}
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center gap-2 text-blue-700 border-blue-300 hover:bg-blue-100"
+                    >
+                      <RefreshCw className="h-4 w-4" />
+                      Re-Analyze Document
+                    </Button>
+                  )}
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-blue-900">{Math.round(overallConfidence)}%</div>
+                    <div className="text-xs text-blue-600">
+                      {overallConfidence >= 80 ? 'Excellent' : 
+                       overallConfidence >= 60 ? 'Good' : 
+                       overallConfidence >= 40 ? 'Fair' : 'Poor'}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -874,6 +965,19 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
                                 {getConfidenceIcon(result.confidence)}
                                 {result.confidence} confidence
                               </div>
+                              {result.status !== 'pending' && (
+                                <div className={`flex items-center gap-1 text-xs px-2 py-1 rounded ${
+                                  result.status === 'accepted' ? 'bg-green-100 text-green-700' :
+                                  result.status === 'rejected' ? 'bg-red-100 text-red-700' :
+                                  'bg-blue-100 text-blue-700'
+                                }`}>
+                                  {result.status === 'accepted' && <Check className="h-3 w-3" />}
+                                  {result.status === 'rejected' && <X className="h-3 w-3" />}
+                                  {result.status === 'modified' && <Edit3 className="h-3 w-3" />}
+                                  {result.status === 'accepted' ? 'Accepted' :
+                                   result.status === 'rejected' ? 'Rejected' : 'Modified'}
+                                </div>
+                              )}
                             </div>
 
                             {/* Value Display/Edit */}
@@ -908,33 +1012,71 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
                               </div>
                             ) : (
                               <div className="space-y-2">
-                                <div className="flex items-center gap-2">
-                                  <span className={`font-mono text-sm px-2 py-1 rounded ${
-                                    result.value ? 'bg-gray-100 text-gray-900' : 'bg-red-50 text-red-600'
-                                  }`}>
-                                    {result.value || 'Not found'}
-                                  </span>
-                                  <Button
-                                    onClick={() => handleEdit(result.field, result.value)}
-                                    variant="outline"
-                                    size="sm"
-                                    className="flex items-center gap-1"
-                                  >
-                                    <Edit3 className="h-3 w-3" />
-                                    Edit
-                                  </Button>
+                                <div className="space-y-2">
+                                  <div className="flex items-center gap-2">
+                                    <span className={`font-mono text-sm px-3 py-2 rounded border ${
+                                      result.status === 'accepted' ? 'bg-green-50 text-green-900 border-green-200' :
+                                      result.status === 'rejected' ? 'bg-red-50 text-red-600 border-red-200' :
+                                      result.value ? 'bg-gray-100 text-gray-900 border-gray-200' : 'bg-red-50 text-red-600 border-red-200'
+                                    }`}>
+                                      {result.value || 'Not found'}
+                                    </span>
+                                    <div className="flex gap-1">
+                                      {result.value && result.status === 'pending' && (
+                                        <>
+                                          <Button
+                                            onClick={() => handleAcceptField(result.field)}
+                                            variant="outline"
+                                            size="sm"
+                                            className="flex items-center gap-1 text-green-700 border-green-300 hover:bg-green-50"
+                                            title="Accept this value"
+                                          >
+                                            <ThumbsUp className="h-3 w-3" />
+                                            Accept
+                                          </Button>
+                                          <Button
+                                            onClick={() => handleRejectField(result.field)}
+                                            variant="outline"
+                                            size="sm"
+                                            className="flex items-center gap-1 text-red-700 border-red-300 hover:bg-red-50"
+                                            title="Reject this value"
+                                          >
+                                            <ThumbsDown className="h-3 w-3" />
+                                            Reject
+                                          </Button>
+                                        </>
+                                      )}
+                                      <Button
+                                        onClick={() => handleEdit(result.field, result.value)}
+                                        variant="outline"
+                                        size="sm"
+                                        className="flex items-center gap-1"
+                                        title="Edit this value"
+                                      >
+                                        <Edit3 className="h-3 w-3" />
+                                        Edit
+                                      </Button>
+                                    </div>
+                                  </div>
+                                  {result.originalValue && result.value !== result.originalValue && (
+                                    <div className="text-xs text-gray-500 flex items-center gap-1">
+                                      <Eye className="h-3 w-3" />
+                                      Original: <span className="font-mono">{result.originalValue}</span>
+                                    </div>
+                                  )}
                                 </div>
 
                                 {/* AI Suggestions */}
                                 {result.suggestions && result.suggestions.length > 0 && (
                                   <div className="space-y-1">
-                                    <p className="text-xs text-gray-600">AI Suggestions:</p>
+                                    <p className="text-xs text-gray-600 font-medium">💡 AI Suggestions ({result.suggestions.length}):</p>
                                     <div className="flex flex-wrap gap-1">
                                       {result.suggestions.map((suggestion, idx) => (
                                         <button
                                           key={idx}
                                           onClick={() => handleAcceptSuggestion(result.field, suggestion)}
-                                          className="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 px-2 py-1 rounded border border-blue-200 transition-colors"
+                                          className="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 px-2 py-1 rounded border border-blue-200 transition-colors font-mono"
+                                          title={`Click to use: ${suggestion}`}
                                         >
                                           {suggestion}
                                         </button>
@@ -956,18 +1098,55 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
         })}
       </div>
 
+      {/* Field Summary */}
+      <Card className="bg-gray-50">
+        <CardContent className="p-4">
+          <h4 className="font-medium text-gray-900 mb-3">Field Validation Summary</h4>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+              <span>Accepted: {validationResults.filter(r => r.status === 'accepted').length}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+              <span>Modified: {validationResults.filter(r => r.status === 'modified').length}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+              <span>Rejected: {validationResults.filter(r => r.status === 'rejected').length}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
+              <span>Pending: {validationResults.filter(r => r.status === 'pending').length}</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Action Buttons */}
       <div className="flex justify-between items-center pt-6 border-t">
-        <Button
-          onClick={onReject}
-          variant="outline"
-          className="flex items-center gap-2"
-        >
-          <X className="h-4 w-4" />
-          Reject & Re-upload
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            onClick={onReject}
+            variant="outline"
+            className="flex items-center gap-2"
+          >
+            <X className="h-4 w-4" />
+            Reject & Re-upload
+          </Button>
+          {onReAnalyze && (
+            <Button
+              onClick={onReAnalyze}
+              variant="outline"
+              className="flex items-center gap-2 text-blue-700 border-blue-300 hover:bg-blue-50"
+            >
+              <RefreshCw className="h-4 w-4" />
+              Re-Analyze Document
+            </Button>
+          )}
+        </div>
 
-        <div className="flex gap-3">
+        <div className="flex items-center gap-3">
           <div className="text-sm text-gray-600">
             {requiredFieldsComplete ? (
               <span className="text-green-600 flex items-center gap-1">

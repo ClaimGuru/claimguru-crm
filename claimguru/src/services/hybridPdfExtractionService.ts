@@ -152,30 +152,33 @@ export class HybridPDFExtractionService {
       
       // Smart extraction strategy - use additional methods only when needed
       let bestText = extractedText;
-      let bestConfidence = 0.85;
+      let bestConfidence = this.qualityToConfidence(qualityScore);
       let bestMethod: 'pdf-js' | 'tesseract' | 'google-vision' | 'fallback' = 'pdf-js';
       let bestQuality = qualityScore;
       
       console.log(`📄 PDF.js baseline: ${extractedText.length} chars, Quality: ${qualityScore}`);
       
-      // Early exit condition: If PDF.js produces high-quality results, skip expensive methods
-      const isHighQuality = qualityScore >= 85 && extractedText.length > 5000;
-      const isGoodQuality = qualityScore >= 70 && extractedText.length > 2000;
+      // OPTIMIZED Early exit conditions for better performance vs accuracy trade-off
+      const isExcellentQuality = qualityScore >= 90 && extractedText.length > 8000;
+      const isHighQuality = qualityScore >= 75 && extractedText.length > 4000;
+      const isGoodQuality = qualityScore >= 60 && extractedText.length > 2000;
       
-      if (isHighQuality) {
-        console.log('🚀 PDF.js quality is excellent (≥85%), skipping additional methods for speed');
+      if (isExcellentQuality) {
+        console.log('🚀 PDF.js quality is excellent (≥90%), skipping additional methods for optimal speed');
+      } else if (isHighQuality) {
+        console.log('⚡ PDF.js quality is high (≥75%), using quick Tesseract enhancement only');
       } else if (isGoodQuality) {
         console.log('⚡ PDF.js quality is good (≥70%), using quick enhancement only');
         
-        // Try only Tesseract with timeout for moderate quality
-        console.log('🔤 STEP 2: Quick Tesseract OCR (with 30s timeout)...');
+        // Try only Tesseract with optimized timeout for high quality
+        console.log('🔤 STEP 2: Quick Tesseract OCR (with 25s timeout)...');
         methodsAttempted.push('tesseract');
         
         try {
           const tesseractResult = await Promise.race([
             this.extractWithTesseract(file),
             new Promise<{ text: string; confidence: number }>((_, reject) => 
-              setTimeout(() => reject(new Error('Tesseract timeout')), 30000)
+              setTimeout(() => reject(new Error('Tesseract timeout')), 25000)
             )
           ]);
           
@@ -185,7 +188,7 @@ export class HybridPDFExtractionService {
           // Use Tesseract if it's significantly better
           if (tesseractQuality > bestQuality + 10 || tesseractResult.text.length > bestText.length * 1.5) {
             bestText = tesseractResult.text;
-            bestConfidence = tesseractResult.confidence;
+            bestConfidence = Math.max(tesseractResult.confidence, this.qualityToConfidence(tesseractQuality));
             bestMethod = 'tesseract';
             bestQuality = tesseractQuality;
             console.log('✅ Tesseract provides better extraction');
@@ -197,14 +200,14 @@ export class HybridPDFExtractionService {
         console.log('🔄 PDF.js quality is low, trying all extraction methods...');
         
         // STEP 2: Try Tesseract.js OCR with timeout
-        console.log('🔤 STEP 2: Running Tesseract.js OCR (with 45s timeout)...');
+        console.log('🔤 STEP 2: Running Tesseract.js OCR (with 50s timeout)...');
         methodsAttempted.push('tesseract');
         
         try {
           const tesseractResult = await Promise.race([
             this.extractWithTesseract(file),
             new Promise<{ text: string; confidence: number }>((_, reject) => 
-              setTimeout(() => reject(new Error('Tesseract timeout')), 45000)
+              setTimeout(() => reject(new Error('Tesseract timeout')), 50000)
             )
           ]);
           
@@ -214,7 +217,7 @@ export class HybridPDFExtractionService {
           // Use Tesseract if it's better
           if (tesseractQuality > bestQuality || tesseractResult.text.length > bestText.length * 1.5) {
             bestText = tesseractResult.text;
-            bestConfidence = tesseractResult.confidence;
+            bestConfidence = Math.max(tesseractResult.confidence, this.qualityToConfidence(tesseractQuality));
             bestMethod = 'tesseract';
             bestQuality = tesseractQuality;
             console.log('✅ Tesseract provides better extraction');
@@ -224,15 +227,15 @@ export class HybridPDFExtractionService {
         }
         
         // STEP 3: Try Google Vision API only if still low quality and file is small enough
-        if (bestQuality < 60 && file.size < 2 * 1024 * 1024) { // Only for files < 2MB
-          console.log('👁️ STEP 3: Running Google Vision API (with 30s timeout)...');
+        if (bestQuality < 60 && file.size < 4 * 1024 * 1024) { // Only for files < 4MB
+          console.log('👁️ STEP 3: Running Google Vision API (with 35s timeout)...');
           methodsAttempted.push('google-vision');
           
           try {
             const visionResult = await Promise.race([
               this.extractWithGoogleVision(file),
               new Promise<{ text: string; confidence: number }>((_, reject) => 
-                setTimeout(() => reject(new Error('Google Vision timeout')), 30000)
+                setTimeout(() => reject(new Error('Google Vision timeout')), 35000)
               )
             ]);
             
@@ -242,7 +245,7 @@ export class HybridPDFExtractionService {
             // Use Google Vision if it's better quality
             if (visionQuality > bestQuality || visionResult.text.length > bestText.length * 1.2) {
               bestText = visionResult.text;
-              bestConfidence = visionResult.confidence;
+              bestConfidence = Math.max(visionResult.confidence, this.qualityToConfidence(visionQuality));
               bestMethod = 'google-vision';
               bestQuality = visionQuality;
               cost = 0.015; // Approximate cost per page
@@ -319,6 +322,19 @@ export class HybridPDFExtractionService {
         }
       };
     }
+  }
+
+  /**
+   * Convert quality score to confidence value
+   */
+  private qualityToConfidence(qualityScore: number): number {
+    // Convert quality score (0-100) to confidence (0-1)
+    // Apply a more realistic confidence curve
+    if (qualityScore >= 80) return 0.9 + (qualityScore - 80) * 0.005; // 0.9 to 1.0
+    if (qualityScore >= 60) return 0.7 + (qualityScore - 60) * 0.01;  // 0.7 to 0.9
+    if (qualityScore >= 40) return 0.5 + (qualityScore - 40) * 0.01;  // 0.5 to 0.7
+    if (qualityScore >= 20) return 0.3 + (qualityScore - 20) * 0.01;  // 0.3 to 0.5
+    return Math.max(0.05, qualityScore * 0.015); // Minimum 5% confidence
   }
 
   /**

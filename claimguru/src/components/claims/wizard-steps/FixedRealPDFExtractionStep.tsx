@@ -143,6 +143,27 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
     setError(null);
   };
 
+  const handleReAnalyze = async () => {
+    if (!file) {
+      setError("No file available for re-analysis");
+      return;
+    }
+
+    console.log('🔄 Re-analyzing document:', file.name);
+    
+    // Reset validation state but keep the file
+    setExtractedData(null);
+    setValidatedData(null);
+    setShowValidation(false);
+    setIsConfirmed(false);
+    setRawText('');
+    setProcessingDetails(null);
+    setError(null);
+    
+    // Run extraction again
+    await extractRealPolicyData();
+  };
+
   // Legacy functions removed - now using PolicyDataValidationStep
 
   return (
@@ -260,6 +281,7 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
                 rawText={rawText || 'Raw text not available'}
                 onValidated={handleValidationComplete}
                 onReject={handleValidationReject}
+                onReAnalyze={handleReAnalyze}
               />
             </div>
           )}
