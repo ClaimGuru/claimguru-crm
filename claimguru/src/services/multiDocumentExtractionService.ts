@@ -6,6 +6,7 @@
 import { HybridPDFExtractionService } from './hybridPdfExtractionService';
 import { EnhancedHybridPdfExtractionService } from './enhancedHybridPdfExtractionService';
 import DocumentClassificationService, { DocumentClassificationResult } from './documentClassificationService';
+import { IdentifierExtractionService, IdentifierExtractionResult } from './identifierExtractionService';
 
 export interface DocumentExtractionResult {
   documentInfo: {
@@ -20,6 +21,7 @@ export interface DocumentExtractionResult {
   extractedData: any;
   rawText: string;
   classification: DocumentClassificationResult;
+  identifierAnalysis: IdentifierExtractionResult; // NEW: Comprehensive identifier analysis
   validationSchema: any;
   processingNotes: string[];
 }
@@ -38,12 +40,14 @@ export class MultiDocumentExtractionService {
   private hybridExtractor: HybridPDFExtractionService;
   private enhancedExtractor: EnhancedHybridPdfExtractionService;
   private classifier: DocumentClassificationService;
+  private identifierExtractor: IdentifierExtractionService; // NEW: Identifier extraction service
   private useEnhancedExtraction: boolean = true; // Feature flag
 
   constructor() {
     this.hybridExtractor = new HybridPDFExtractionService();
     this.enhancedExtractor = new EnhancedHybridPdfExtractionService();
     this.classifier = new DocumentClassificationService();
+    this.identifierExtractor = new IdentifierExtractionService(); // NEW: Initialize identifier extractor
   }
 
   /**
@@ -146,18 +150,32 @@ export class MultiDocumentExtractionService {
 
     console.log(`📋 Document classified as: ${classification.documentType} (${classification.confidence.toFixed(1)}% confidence)`);
 
-    // Step 3: Apply specialized extraction based on document type
+    // Step 3: NEW - Comprehensive identifier extraction and validation
+    const identifierAnalysis = await this.identifierExtractor.extractIdentifiers(
+      basicExtraction.extractedText,
+      file.name
+    );
+
+    console.log(`🔍 Identifier analysis complete:`, {
+      policy: identifierAnalysis.policyNumber || 'None',
+      claim: identifierAnalysis.claimNumber || 'None',
+      relationship: identifierAnalysis.relationshipStatus,
+      docType: identifierAnalysis.documentType
+    });
+
+    // Step 4: Apply specialized extraction based on document type
     const specializedData = await this.applySpecializedExtraction(
       basicExtraction.extractedText,
       classification,
-      basicExtraction.policyData
+      basicExtraction.policyData,
+      identifierAnalysis // Pass identifier analysis
     );
 
-    // Step 4: Create validation schema
+    // Step 5: Create validation schema
     const validationSchema = this.createValidationSchema(classification);
 
-    // Step 5: Generate processing notes
-    const processingNotes = this.generateProcessingNotes(classification, basicExtraction);
+    // Step 6: Generate processing notes
+    const processingNotes = this.generateProcessingNotes(classification, basicExtraction, identifierAnalysis);
 
     const processingTime = Date.now() - startTime;
 
@@ -174,6 +192,7 @@ export class MultiDocumentExtractionService {
       extractedData: specializedData,
       rawText: basicExtraction.extractedText,
       classification,
+      identifierAnalysis, // NEW: Include comprehensive identifier analysis
       validationSchema,
       processingNotes
     };
@@ -185,9 +204,32 @@ export class MultiDocumentExtractionService {
   private async applySpecializedExtraction(
     text: string,
     classification: DocumentClassificationResult,
-    basicData: any
+    basicData: any,
+    identifierAnalysis?: IdentifierExtractionResult // NEW: Include identifier analysis
   ): Promise<any> {
     const extractedData = { ...basicData };
+
+    // Enhance extracted data with identifier analysis
+    if (identifierAnalysis) {
+      extractedData.policyNumber = identifierAnalysis.policyNumber || extractedData.policyNumber;
+      extractedData.claimNumber = identifierAnalysis.claimNumber || extractedData.claimNumber;
+      extractedData.fileNumber = identifierAnalysis.fileNumber || extractedData.fileNumber;
+      extractedData.carrierClaimNumber = identifierAnalysis.carrierClaimNumber || extractedData.carrierClaimNumber;
+      
+      // Add identifier metadata
+      extractedData.identifierMetadata = {
+        documentType: identifierAnalysis.documentType,
+        primaryIdentifier: identifierAnalysis.primaryIdentifier,
+        relationshipStatus: identifierAnalysis.relationshipStatus,
+        hasMultipleIdentifiers: identifierAnalysis.hasMultipleIdentifiers,
+        validationMessage: identifierAnalysis.validationMessage,
+        suggestions: identifierAnalysis.suggestions,
+        confidenceScores: {
+          policyNumber: identifierAnalysis.policyNumberConfidence,
+          claimNumber: identifierAnalysis.claimNumberConfidence
+        }
+      };
+    }
 
     switch (classification.documentType) {
       case 'insurance_policy':
@@ -504,7 +546,8 @@ export class MultiDocumentExtractionService {
    */
   private generateProcessingNotes(
     classification: DocumentClassificationResult,
-    extraction: any
+    extraction: any,
+    identifierAnalysis?: IdentifierExtractionResult
   ): string[] {
     const notes = [...classification.processingNotes];
     
@@ -516,6 +559,22 @@ export class MultiDocumentExtractionService {
       notes.push('High quality text extraction achieved');
     } else if (extraction.confidence < 0.5) {
       notes.push('Low quality text extraction - may require manual review');
+    }
+
+    // Add identifier analysis notes
+    if (identifierAnalysis) {
+      if (identifierAnalysis.policyNumber) {
+        notes.push(`Policy Number identified: ${identifierAnalysis.policyNumber} (${Math.round(identifierAnalysis.policyNumberConfidence * 100)}% confidence)`);
+      }
+      if (identifierAnalysis.claimNumber) {
+        notes.push(`Claim Number identified: ${identifierAnalysis.claimNumber} (${Math.round(identifierAnalysis.claimNumberConfidence * 100)}% confidence)`);
+      }
+      if (identifierAnalysis.relationshipStatus !== 'valid') {
+        notes.push(`⚠️ Identifier validation: ${identifierAnalysis.validationMessage}`);
+      }
+      if (identifierAnalysis.suggestions.length > 0) {
+        notes.push(`Suggestions: ${identifierAnalysis.suggestions.join(', ')}`);
+      }
     }
 
     return notes;

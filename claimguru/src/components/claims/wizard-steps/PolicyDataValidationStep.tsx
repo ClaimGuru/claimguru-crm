@@ -15,7 +15,10 @@ import {
   Building,
   Calendar,
   DollarSign,
-  Shield
+  Shield,
+  Hash,
+  Link,
+  Info
 } from 'lucide-react';
 
 interface PolicyDataValidationStepProps {
@@ -23,6 +26,7 @@ interface PolicyDataValidationStepProps {
   rawText: string;
   onValidated: (validatedData: any) => void;
   onReject: () => void;
+  identifierAnalysis?: any; // NEW: Optional identifier analysis data
 }
 
 interface ValidationResult {
@@ -407,7 +411,8 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
   extractedData,
   rawText,
   onValidated,
-  onReject
+  onReject,
+  identifierAnalysis
 }) => {
   const [validationResults, setValidationResults] = useState<ValidationResult[]>([]);
   const [editingField, setEditingField] = useState<string | null>(null);
@@ -661,6 +666,94 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
+            {/* CRITICAL IDENTIFIERS SECTION */}
+            {(extractedData.policyNumber || extractedData.claimNumber || identifierAnalysis) && (
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <h4 className="font-medium text-yellow-900 mb-3 flex items-center gap-2">
+                  <Hash className="h-4 w-4" />
+                  Critical Identifiers - Policy & Claim Numbers
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Policy Number */}
+                  <div className="bg-white rounded-lg p-3 border">
+                    <div className="flex items-center gap-2 mb-2">
+                      <FileText className="h-4 w-4 text-blue-600" />
+                      <span className="font-medium text-gray-900">Policy Number</span>
+                      {identifierAnalysis?.policyNumberConfidence && (
+                        <span className={`text-xs px-2 py-1 rounded ${
+                          identifierAnalysis.policyNumberConfidence > 0.8 ? 'bg-green-100 text-green-700' :
+                          identifierAnalysis.policyNumberConfidence > 0.5 ? 'bg-yellow-100 text-yellow-700' :
+                          'bg-red-100 text-red-700'
+                        }`}>
+                          {Math.round(identifierAnalysis.policyNumberConfidence * 100)}% confidence
+                        </span>
+                      )}
+                    </div>
+                    <div className="font-mono text-sm bg-gray-50 p-2 rounded">
+                      {extractedData.policyNumber || 'Not found'}
+                    </div>
+                  </div>
+
+                  {/* Claim Number */}
+                  <div className="bg-white rounded-lg p-3 border">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Hash className="h-4 w-4 text-green-600" />
+                      <span className="font-medium text-gray-900">Claim Number</span>
+                      {identifierAnalysis?.claimNumberConfidence && (
+                        <span className={`text-xs px-2 py-1 rounded ${
+                          identifierAnalysis.claimNumberConfidence > 0.8 ? 'bg-green-100 text-green-700' :
+                          identifierAnalysis.claimNumberConfidence > 0.5 ? 'bg-yellow-100 text-yellow-700' :
+                          'bg-red-100 text-red-700'
+                        }`}>
+                          {Math.round(identifierAnalysis.claimNumberConfidence * 100)}% confidence
+                        </span>
+                      )}
+                    </div>
+                    <div className="font-mono text-sm bg-gray-50 p-2 rounded">
+                      {extractedData.claimNumber || 'Not found'}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Relationship Status */}
+                {identifierAnalysis && (
+                  <div className="mt-3 p-3 bg-white rounded-lg border">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Link className="h-4 w-4 text-purple-600" />
+                      <span className="font-medium text-gray-900">Identifier Relationship</span>
+                      <span className={`text-xs px-2 py-1 rounded ${
+                        identifierAnalysis.relationshipStatus === 'valid' ? 'bg-green-100 text-green-700' :
+                        identifierAnalysis.relationshipStatus === 'missing' ? 'bg-red-100 text-red-700' :
+                        'bg-yellow-100 text-yellow-700'
+                      }`}>
+                        {identifierAnalysis.relationshipStatus}
+                      </span>
+                    </div>
+                    <div className="text-sm text-gray-700">
+                      <p><strong>Document Type:</strong> {identifierAnalysis.documentType || 'Unknown'}</p>
+                      <p><strong>Primary Focus:</strong> {identifierAnalysis.primaryIdentifier || 'Unknown'}</p>
+                      {identifierAnalysis.validationMessage && (
+                        <p><strong>Status:</strong> {identifierAnalysis.validationMessage}</p>
+                      )}
+                      {identifierAnalysis.hasMultipleIdentifiers && (
+                        <p className="text-blue-600">✓ Both policy and claim identifiers found</p>
+                      )}
+                    </div>
+                    {identifierAnalysis.suggestions && identifierAnalysis.suggestions.length > 0 && (
+                      <div className="mt-2 p-2 bg-blue-50 rounded">
+                        <p className="text-xs font-medium text-blue-800">Suggestions:</p>
+                        <ul className="text-xs text-blue-700 list-disc list-inside mt-1">
+                          {identifierAnalysis.suggestions.map((suggestion: string, idx: number) => (
+                            <li key={idx}>{suggestion}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Overall Confidence */}
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
               <div className="flex items-center justify-between">

@@ -12,7 +12,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    console.log('🤖 OpenAI Enhanced Deductibles Extract Fields function called');
+    console.log('🤖 OpenAI Enhanced Identifier + Deductibles Extract Fields function called');
     
     const { text } = await req.json();
     
@@ -25,14 +25,24 @@ Deno.serve(async (req) => {
       throw new Error('OpenAI API key not configured');
     }
 
-    console.log('📝 Processing enhanced deductibles text of length:', text.length);
+    console.log('📝 Processing enhanced identifier + deductibles text of length:', text.length);
 
     const prompt = `
-Extract the following comprehensive insurance policy information from the provided text. Return a JSON object with these exact keys:
+Extract the following comprehensive insurance document information from the provided text. This could be a policy document OR a claim-related document. Return a JSON object with these exact keys:
 
 {
-  // Basic Policy Information
+  // CRITICAL IDENTIFIERS - Extract ALL that are present
   "policyNumber": "string or null",
+  "claimNumber": "string or null",
+  "fileNumber": "string or null",
+  "carrierClaimNumber": "string or null",
+  
+  // Document Context
+  "documentType": "string or null", // policy, claim, communication, settlement, etc.
+  "primaryFocus": "string or null", // policy_info, claim_processing, settlement, etc.
+  "identifierContext": "string or null", // which identifier is primary for this document
+  
+  // Basic Policy Information
   "insuredName": "string or null",
   "coinsuredName": "string or null",
   "effectiveDate": "string or null",
@@ -127,6 +137,17 @@ Extract the following comprehensive insurance policy information from the provid
 
 Specific Extraction Rules:
 
+**CRITICAL IDENTIFIER EXTRACTION (HIGHEST PRIORITY):**
+- **Policy Number**: Look for "Policy Number", "Policy #", "Policy No", or similar patterns
+- **Claim Number**: Look for "Claim Number", "Claim #", "File Number", "Our File", "Reference Number", or similar
+- **File Number**: Internal claim reference numbers
+- **Carrier Claim Number**: Insurance company's internal claim number
+
+**Document Type Classification:**
+- Determine if this is: "policy", "claim", "communication", "settlement", "rfi", "ror", "acknowledgement"
+- Identify primary focus: "policy_info", "claim_processing", "settlement", "information_request"
+- Note which identifier is most relevant for this document type
+
 **Coverage Information:**
 - Coverage A = Dwelling coverage limit
 - Coverage B = Other Structures coverage limit  
@@ -172,13 +193,25 @@ Specific Extraction Rules:
 - Fire protection: fire department distance, subscription, sprinkler systems
 - Security systems and features
 
+**IDENTIFIER EXTRACTION RULES (CRITICAL):**
+- **Policy documents**: Should always have policyNumber, may have claimNumber if claim-related
+- **Claim documents**: Should have both claimNumber AND policyNumber for proper relationship
+- **Communication documents**: Extract both identifiers to establish context
+- **Look for patterns**: 
+  - Policy: "Policy Number ABC123", "Policy # DEF456", "Pol No: GHI789"
+  - Claim: "Claim Number CLM123", "File # 2024-001", "Our Reference: REF456"
+- **Common locations**: Headers, footers, first paragraph, signature blocks
+- **Multiple identifiers**: If both present, extract both to show relationship
+
 General Rules:
+- **IDENTIFIERS ARE HIGHEST PRIORITY** - extract these first and most carefully
 - Extract exact values as they appear in the document
 - For dates, preserve the original format
 - For monetary amounts, include $ sign and commas
 - If a field is not found, set it to null
 - Look for variations of field names and terminology
 - Separate mailing address from property address if different
+- **Always extract both policy and claim numbers when present**
 
 Text to analyze:
 ${text}
@@ -196,7 +229,7 @@ Return only the JSON object, no additional text.`;
         messages: [
           {
             role: 'system',
-            content: 'You are a comprehensive insurance document parser specializing in deductible extraction. Extract all available information exactly as it appears in documents. Always return valid JSON with all requested fields, using null for missing data. Pay special attention to different deductible types and whether they are stated amounts or percentages of coverage.'
+            content: 'You are a comprehensive insurance document parser specializing in identifier and deductible extraction. Extract all available information exactly as it appears in documents. ALWAYS extract both policy numbers and claim numbers when present. Always return valid JSON with all requested fields, using null for missing data. Pay special attention to different deductible types and whether they are stated amounts or percentages of coverage.'
           },
           {
             role: 'user',
@@ -219,7 +252,7 @@ Return only the JSON object, no additional text.`;
       throw new Error('No content returned from OpenAI');
     }
 
-    console.log('🤖 OpenAI enhanced deductibles response length:', extractedText.length);
+    console.log('🤖 OpenAI enhanced identifier + deductibles response length:', extractedText.length);
 
     // Parse the JSON response
     let policyData;
@@ -236,24 +269,35 @@ Return only the JSON object, no additional text.`;
       throw new Error('Failed to parse OpenAI response as JSON');
     }
 
-    console.log('✅ Successfully extracted enhanced deductibles policy data:', Object.keys(policyData).filter(k => policyData[k]).length, 'fields');
+    console.log('✅ Successfully extracted enhanced identifier + deductibles policy data:', Object.keys(policyData).filter(k => policyData[k]).length, 'fields');
+    console.log('🆔 Identifiers found:', {
+      policyNumber: policyData.policyNumber || 'None',
+      claimNumber: policyData.claimNumber || 'None',
+      documentType: policyData.documentType || 'Unknown'
+    });
 
     return new Response(JSON.stringify({ 
       success: true,
       policyData,
       confidence: 0.9,
-      method: 'openai-gpt4o-mini-enhanced-deductibles',
-      fieldsExtracted: Object.keys(policyData).filter(k => policyData[k]).length
+      method: 'openai-gpt4o-mini-enhanced-identifiers-deductibles',
+      fieldsExtracted: Object.keys(policyData).filter(k => policyData[k]).length,
+      identifiersExtracted: {
+        policyNumber: !!policyData.policyNumber,
+        claimNumber: !!policyData.claimNumber,
+        fileNumber: !!policyData.fileNumber,
+        carrierClaimNumber: !!policyData.carrierClaimNumber
+      }
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
 
   } catch (error) {
-    console.error('❌ OpenAI enhanced deductibles extraction error:', error);
+    console.error('❌ OpenAI enhanced identifier + deductibles extraction error:', error);
     
     return new Response(JSON.stringify({
       error: {
-        code: 'OPENAI_ENHANCED_DEDUCTIBLES_EXTRACTION_ERROR',
+        code: 'OPENAI_ENHANCED_IDENTIFIERS_DEDUCTIBLES_EXTRACTION_ERROR',
         message: error.message
       }
     }), {
