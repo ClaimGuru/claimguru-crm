@@ -122,34 +122,67 @@ export class EnhancedHybridPdfExtractionService extends HybridPDFExtractionServi
    * Extract using specific method - Uses parent class public interface
    */
   private async extractWithMethod(file: File, method: string): Promise<any> {
-    // For now, all methods use the parent class's hybrid approach
-    // which internally decides the best method
-    const baseResult = await super.extractFromPDF(file);
-    
-    return {
-      extractedText: baseResult.extractedText,
-      confidence: baseResult.confidence,
-      processingMethod: baseResult.processingMethod,
-      cost: baseResult.cost,
-      policyData: baseResult.policyData,
-      method: method // Track which method was requested
-    };
+    try {
+      // For now, all methods use the parent class's hybrid approach
+      // which internally decides the best method
+      const baseResult = await super.extractFromPDF(file);
+      
+      // Ensure all required properties are present with fallbacks
+      return {
+        extractedText: baseResult.extractedText || '',
+        confidence: typeof baseResult.confidence === 'number' ? baseResult.confidence : 0.1,
+        processingMethod: baseResult.processingMethod || 'unknown',
+        cost: typeof baseResult.cost === 'number' ? baseResult.cost : 0,
+        policyData: baseResult.policyData || {},
+        method: method // Track which method was requested
+      };
+    } catch (error) {
+      console.warn(`⚠️ Method ${method} failed:`, error.message);
+      // Return a minimal fallback result
+      return {
+        extractedText: '',
+        confidence: 0.05,
+        processingMethod: 'failed',
+        cost: 0,
+        policyData: {},
+        method: method,
+        error: error.message
+      };
+    }
   }
 
   /**
    * Fuse results from multiple extraction methods
    */
   private async fuseResults(results: any[], file: File): Promise<any> {
-    if (results.length === 0) {
-      throw new Error('No successful extractions to fuse');
+    // Filter out invalid results
+    const validResults = results.filter(result => 
+      result && 
+      typeof result === 'object' &&
+      typeof result.confidence === 'number' &&
+      result.policyData &&
+      typeof result.policyData === 'object'
+    );
+    
+    if (validResults.length === 0) {
+      console.warn('⚠️ No valid extraction results to fuse, using fallback');
+      // Return a basic fallback result
+      return {
+        extractedText: '',
+        confidence: 0.1,
+        processingMethod: 'fallback',
+        cost: 0,
+        policyData: {},
+        fusedFromMethods: []
+      };
     }
 
-    console.log('🔀 Fusing results from multiple methods...');
+    console.log(`🔀 Fusing results from ${validResults.length} valid extraction methods...`);
     
     // Find the result with highest weighted confidence
-    const bestResult = results.reduce((best, current) => {
-      const weightedScore = current.confidence * (current.weight || 1);
-      const bestWeightedScore = best.confidence * (best.weight || 1);
+    const bestResult = validResults.reduce((best, current) => {
+      const weightedScore = (current.confidence || 0) * (current.weight || 1);
+      const bestWeightedScore = (best.confidence || 0) * (best.weight || 1);
       return weightedScore > bestWeightedScore ? current : best;
     });
 
@@ -158,20 +191,20 @@ export class EnhancedHybridPdfExtractionService extends HybridPDFExtractionServi
     const allFields = new Set<string>();
     
     // Collect all unique fields
-    results.forEach(result => {
+    validResults.forEach(result => {
       Object.keys(result.policyData || {}).forEach(field => allFields.add(field));
     });
 
     // For each field, find the best value across all results
     for (const field of allFields) {
-      const fieldCandidates = results
+      const fieldCandidates = validResults
         .map(result => ({
           value: result.policyData?.[field],
-          confidence: result.confidence,
-          method: result.method,
+          confidence: result.confidence || 0,
+          method: result.method || 'unknown',
           weight: result.weight || 1
         }))
-        .filter(candidate => candidate.value && candidate.value !== 'null')
+        .filter(candidate => candidate.value && candidate.value !== 'null' && candidate.value !== undefined)
         .sort((a, b) => (b.confidence * b.weight) - (a.confidence * a.weight));
 
       if (fieldCandidates.length > 0) {
@@ -188,10 +221,10 @@ export class EnhancedHybridPdfExtractionService extends HybridPDFExtractionServi
     return {
       ...bestResult,
       policyData: fusedPolicyData,
-      extractedText: this.fuseTexts(results),
-      confidence: this.calculateFusedConfidence(results),
+      extractedText: this.fuseTexts(validResults),
+      confidence: this.calculateFusedConfidence(validResults),
       processingMethod: 'fused',
-      fusedFromMethods: results.map(r => r.method)
+      fusedFromMethods: validResults.map(r => r.method || 'unknown')
     };
   }
 
@@ -239,23 +272,58 @@ export class EnhancedHybridPdfExtractionService extends HybridPDFExtractionServi
    * Fuse text from multiple extractions
    */
   private fuseTexts(results: any[]): string {
-    // Return the longest text as it likely has the most complete content
-    return results.reduce((longest, current) => {
-      return current.extractedText.length > longest.extractedText.length 
-        ? current.extractedText 
-        : longest.extractedText;
-    }, { extractedText: '' }).extractedText;
+    // Filter out results with undefined or null extractedText
+    const validResults = results.filter(result => 
+      result && 
+      result.extractedText && 
+      typeof result.extractedText === 'string' && 
+      result.extractedText.length > 0
+    );
+    
+    if (validResults.length === 0) {
+      console.warn('⚠️ No valid text results to fuse, returning empty string');
+      return '';
+    }
+    
+    // Return the longest valid text as it likely has the most complete content
+    return validResults.reduce((longest, current) => {
+      const currentText = current.extractedText || '';
+      const longestText = longest.extractedText || longest;
+      
+      return currentText.length > longestText.length 
+        ? currentText 
+        : longestText;
+    }, validResults[0].extractedText);
   }
 
   /**
    * Calculate confidence for fused result
    */
   private calculateFusedConfidence(results: any[]): number {
-    // Weight average of all confidences
-    const totalWeight = results.reduce((sum, result) => sum + (result.weight || 1), 0);
-    const weightedSum = results.reduce((sum, result) => sum + (result.confidence * (result.weight || 1)), 0);
+    if (!results || results.length === 0) {
+      return 0.1; // Minimum confidence for no results
+    }
     
-    return Math.min(weightedSum / totalWeight, 1.0);
+    // Filter out results with invalid confidence values
+    const validConfidenceResults = results.filter(result => 
+      result && 
+      typeof result.confidence === 'number' && 
+      !isNaN(result.confidence) &&
+      result.confidence >= 0
+    );
+    
+    if (validConfidenceResults.length === 0) {
+      return 0.1; // Minimum confidence for no valid results
+    }
+    
+    // Weight average of all confidences
+    const totalWeight = validConfidenceResults.reduce((sum, result) => sum + (result.weight || 1), 0);
+    const weightedSum = validConfidenceResults.reduce((sum, result) => {
+      const confidence = Math.min(Math.max(result.confidence || 0, 0), 1); // Clamp between 0 and 1
+      return sum + (confidence * (result.weight || 1));
+    }, 0);
+    
+    return totalWeight > 0 ? Math.min(weightedSum / totalWeight, 1.0) : 0.1;
   }
 
   /**
