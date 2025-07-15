@@ -127,19 +127,8 @@ export class MultiDocumentExtractionService {
   private async processDocument(file: File): Promise<DocumentExtractionResult> {
     const startTime = Date.now();
 
-    // Step 1: Use enhanced extraction if enabled, otherwise fallback to basic
-    let basicExtraction: any;
-    if (this.useEnhancedExtraction) {
-      console.log('🚀 Using Enhanced Hybrid Extraction with Confidence Building');
-      try {
-        basicExtraction = await this.enhancedExtractor.extractWithConfidenceBuilding(file);
-      } catch (error) {
-        console.warn('⚠️ Enhanced extraction failed, falling back to basic:', error.message);
-        basicExtraction = await this.hybridExtractor.extractFromPDF(file);
-      }
-    } else {
-      basicExtraction = await this.hybridExtractor.extractFromPDF(file);
-    }
+    // Step 1: Basic extraction using hybrid service
+    const basicExtraction = await this.hybridExtractor.extractFromPDF(file);
 
     // Step 2: Classify document type
     const classification = this.classifier.classifyDocument(basicExtraction.extractedText);
