@@ -26,10 +26,15 @@ import {
 import { useAuth } from '../../contexts/AuthContext'
 import { WizardProgressService } from '../../services/wizardProgressService'
 
-// Import enhanced AI wizard step components - REAL PDF DATA EXTRACTION
+// Import enhanced AI wizard step components - INTELLIGENT AI FLOW
 import { FixedRealPDFExtractionStep } from './wizard-steps/FixedRealPDFExtractionStep'
 import { MultiDocumentPDFExtractionStep } from './wizard-steps/MultiDocumentPDFExtractionStep'
+// New intelligent workflow components
+import { PolicyDocumentUploadStep } from './wizard-steps/PolicyDocumentUploadStep'
+import { AdditionalDocumentsStep } from './wizard-steps/AdditionalDocumentsStep'
 import { EnhancedClientDetailsStep } from './wizard-steps/EnhancedClientDetailsStep'
+import { IntelligentClientDetailsStep } from './wizard-steps/IntelligentClientDetailsStep'
+import { intelligentWizardService } from '../../services/intelligentWizardService'
 import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoStep'
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
 import { PersonalPropertyStep } from './wizard-steps/PersonalPropertyStep'
@@ -53,26 +58,57 @@ interface EnhancedAIIntakeWizardProps {
 interface WizardData {
   clientType: string
   isOrganization: boolean
+  
+  // Enhanced AI Data Storage
+  extractedPolicyData?: {
+    validated: boolean
+    confidence: number
+    source: 'ai_extraction' | 'manual_entry'
+    extractedAt?: string
+  }
+  additionalDocuments?: {
+    documents: any[]
+    aiAnalysis?: any
+    processedAt?: string
+  }
+  aiSuggestions?: {
+    descriptions?: string[]
+    insights?: string[]
+    recommendations?: string[]
+  }
+  
   insuredDetails: {
     firstName?: string
     lastName?: string
     organizationName?: string
     phone?: string
     email?: string
+    // AI enhancement flags
+    aiSuggested?: boolean
+    confidenceScore?: number
   }
   mailingAddress: {
     address?: string
     city?: string
     state?: string
     zipCode?: string
+    aiSuggested?: boolean
   }
   policyDetails: {
     policyNumber?: string
     effectiveDate?: string
     expirationDate?: string
+    insuredName?: string
+    insurerName?: string
+    propertyAddress?: string
+    coverageAmount?: string
+    deductible?: string
+    aiExtracted?: boolean
+    validationComplete?: boolean
   }
   insuranceCarrier: {
     name?: string
+    aiSuggested?: boolean
   }
   coverages: any[]
   deductibles: any[]
@@ -83,6 +119,9 @@ interface WizardData {
     causeOfLoss?: string
     estimatedAmount?: number
     propertyAddress?: string
+    description?: string
+    aiSuggestedDescription?: string
+    documentBasedInsights?: string[]
   }
   personalPropertyDamage: boolean
   otherStructuresDamage: boolean
@@ -138,43 +177,57 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
   const steps = [
     {
       id: 'policy-upload',
-      title: 'Multi-Document AI Processing',
-      description: 'Upload multiple documents (policies, letters, settlements) for intelligent processing',
-      icon: Brain,
-      component: MultiDocumentPDFExtractionStep,
-      required: false
+      title: 'Policy & Declaration Upload',
+      description: 'Upload your insurance policy or declaration page for AI extraction and validation',
+      icon: FileText,
+      component: PolicyDocumentUploadStep,
+      required: true,
+      priority: 'high'
+    },
+    {
+      id: 'additional-documents',
+      title: 'Additional Claim Documents',
+      description: 'Upload supporting documents: photos, estimates, correspondence, reports',
+      icon: Package,
+      component: AdditionalDocumentsStep,
+      required: false,
+      priority: 'medium'
     },
     {
       id: 'client-details',
       title: 'Client Information',
-      description: 'Enter client details with AI cross-verification',
+      description: 'Verify AI-extracted client details and complete missing information',
       icon: Users,
-      component: EnhancedClientDetailsStep,
-      required: true
+      component: IntelligentClientDetailsStep,
+      required: true,
+      aiEnhanced: true
     },
     {
       id: 'insurance-info',
       title: 'Insurance Details',
-      description: 'Insurance information with AI validation and suggestions',
+      description: 'Confirm AI-extracted policy information and coverage details',
       icon: Shield,
       component: EnhancedInsuranceInfoStep,
-      required: true
+      required: true,
+      aiEnhanced: true
     },
     {
       id: 'claim-info',
       title: 'Claim Information',
-      description: 'Loss details with AI insights and analysis',
+      description: 'Describe loss details with AI-assisted writing and document insights',
       icon: Home,
       component: ClaimInformationStep,
-      required: true
+      required: true,
+      aiEnhanced: true
     },
     {
       id: 'property',
       title: 'Property Analysis',
-      description: 'AI-powered property damage assessment',
+      description: 'AI-powered property damage assessment based on uploaded documents',
       icon: Package,
       component: PersonalPropertyStep,
-      required: false
+      required: false,
+      aiEnhanced: true
     },
     {
       id: 'building-construction',
@@ -252,8 +305,22 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
   ]
 
   const updateWizardData = (newData: any) => {
+    const updatedData = { ...wizardData, ...newData }
     setWizardData(prev => ({ ...prev, ...newData }))
     setHasUnsavedChanges(true)
+    
+    // Update intelligent wizard service with extracted policy data
+    if (newData.extractedPolicyData) {
+      console.log('🧠 Setting extracted policy data in intelligent service:', newData.extractedPolicyData)
+      intelligentWizardService.setExtractedPolicyData(newData.extractedPolicyData)
+    }
+    
+    // Update intelligent wizard service with processed documents
+    if (newData.additionalDocuments && Array.isArray(newData.additionalDocuments)) {
+      console.log('📄 Setting processed documents in intelligent service:', newData.additionalDocuments.length)
+      intelligentWizardService.addProcessedDocuments(newData.additionalDocuments)
+    }
+    
     // Auto-save after 2 seconds of inactivity
     debouncedSave()
   }

@@ -43,12 +43,44 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
   const [isValidating, setIsValidating] = useState(false)
   const [autoPopulated, setAutoPopulated] = useState(false)
 
-  // Check if data was auto-populated from PDF
+  // Check if data was auto-populated from policy extraction
   useEffect(() => {
-    if (data.dataPopulatedFromPDF) {
+    if (data.extractedPolicyData?.validated) {
       setAutoPopulated(true)
+      
+      // Auto-populate fields from extracted policy data
+      if (data.policyDetails?.insuredName && !insuredDetails.firstName && !insuredDetails.organizationName) {
+        const name = data.policyDetails.insuredName
+        if (name.includes('LLC') || name.includes('Inc') || name.includes('Corp')) {
+          setIsOrganization(true)
+          setInsuredDetails(prev => ({
+            ...prev,
+            organizationName: name,
+            aiSuggested: true,
+            confidenceScore: data.extractedPolicyData?.confidence || 0
+          }))
+        } else {
+          const nameParts = name.split(' ')
+          setInsuredDetails(prev => ({
+            ...prev,
+            firstName: nameParts[0] || '',
+            lastName: nameParts.slice(1).join(' ') || '',
+            aiSuggested: true,
+            confidenceScore: data.extractedPolicyData?.confidence || 0
+          }))
+        }
+      }
+      
+      // Auto-populate address from policy
+      if (data.policyDetails?.propertyAddress && !mailingAddress.address) {
+        setMailingAddress(prev => ({
+          ...prev,
+          address: data.policyDetails.propertyAddress,
+          aiSuggested: true
+        }))
+      }
     }
-  }, [data.dataPopulatedFromPDF])
+  }, [data.extractedPolicyData, data.policyDetails])
 
   // Update parent data whenever local state changes
   useEffect(() => {
@@ -155,18 +187,40 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
 
   return (
     <div className="space-y-6">
-      {/* Auto-Population Notice */}
+      {/* AI Auto-Population Notice */}
       {autoPopulated && (
         <Card className="border-green-200 bg-green-50">
           <CardContent className="pt-6">
             <div className="flex items-center gap-2 mb-2">
-              <CheckCircle className="h-5 w-5 text-green-600" />
-              <span className="font-semibold text-green-800">Auto-Populated from Policy Document</span>
+              <Brain className="h-5 w-5 text-green-600" />
+              <span className="font-semibold text-green-800">AI-Extracted from Policy Document</span>
+              {data.extractedPolicyData?.confidence && (
+                <span className="text-xs bg-green-200 text-green-800 px-2 py-1 rounded">
+                  {Math.round(data.extractedPolicyData.confidence * 100)}% confidence
+                </span>
+              )}
             </div>
             <p className="text-sm text-green-700">
-              Client information has been extracted from your policy document. 
-              Please review and update any information as needed.
+              Client information has been intelligently extracted from your policy document. 
+              Fields marked with <Brain className="h-3 w-3 inline text-green-600" /> are AI-suggested. Please review and confirm.
             </p>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Additional Documents Insights */}
+      {data.aiSuggestions?.insights && data.aiSuggestions.insights.length > 0 && (
+        <Card className="border-blue-200 bg-blue-50">
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-2 mb-2">
+              <Brain className="h-5 w-5 text-blue-600" />
+              <span className="font-semibold text-blue-800">AI Document Insights</span>
+            </div>
+            <div className="text-sm text-blue-700 space-y-1">
+              {data.aiSuggestions.insights.slice(0, 3).map((insight, index) => (
+                <p key={index}>• {insight}</p>
+              ))}
+            </div>
           </CardContent>
         </Card>
       )}
@@ -256,17 +310,35 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
           {isOrganization ? (
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Organization Name</label>
-                <input
-                  type="text"
-                  value={insuredDetails.organizationName || ''}
-                  onChange={(e) => setInsuredDetails({
-                    ...insuredDetails,
-                    organizationName: e.target.value
-                  })}
-                  className="w-full p-2 border rounded-lg"
-                  placeholder="Enter organization name"
-                />
+                <label className="block text-sm font-medium mb-1 flex items-center gap-2">
+                  Organization Name
+                  {insuredDetails.aiSuggested && (
+                    <span className="flex items-center gap-1 text-xs text-green-600">
+                      <Brain className="h-3 w-3" />
+                      AI-suggested
+                    </span>
+                  )}
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={insuredDetails.organizationName || ''}
+                    onChange={(e) => setInsuredDetails({
+                      ...insuredDetails,
+                      organizationName: e.target.value,
+                      aiSuggested: false // Clear AI flag when manually edited
+                    })}
+                    className={`w-full p-2 border rounded-lg ${
+                      insuredDetails.aiSuggested ? 'border-green-300 bg-green-50' : 'border-gray-300'
+                    }`}
+                    placeholder="Enter organization name"
+                  />
+                  {insuredDetails.confidenceScore && (
+                    <div className="absolute right-2 top-2 text-xs text-gray-500">
+                      {Math.round(insuredDetails.confidenceScore * 100)}%
+                    </div>
+                  )}
+                </div>
                 {/* AI Validation for Organization Name */}
                 {validationResults.client && (
                   <div className="mt-2">
@@ -308,28 +380,50 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
             /* Individual Details */
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-1">First Name</label>
+                <label className="block text-sm font-medium mb-1 flex items-center gap-2">
+                  First Name
+                  {insuredDetails.aiSuggested && (
+                    <span className="flex items-center gap-1 text-xs text-green-600">
+                      <Brain className="h-3 w-3" />
+                      AI-suggested
+                    </span>
+                  )}
+                </label>
                 <input
                   type="text"
                   value={insuredDetails.firstName || ''}
                   onChange={(e) => setInsuredDetails({
                     ...insuredDetails,
-                    firstName: e.target.value
+                    firstName: e.target.value,
+                    aiSuggested: false
                   })}
-                  className="w-full p-2 border rounded-lg"
+                  className={`w-full p-2 border rounded-lg ${
+                    insuredDetails.aiSuggested ? 'border-green-300 bg-green-50' : 'border-gray-300'
+                  }`}
                   placeholder="First name"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Last Name</label>
+                <label className="block text-sm font-medium mb-1 flex items-center gap-2">
+                  Last Name
+                  {insuredDetails.aiSuggested && (
+                    <span className="flex items-center gap-1 text-xs text-green-600">
+                      <Brain className="h-3 w-3" />
+                      AI-suggested
+                    </span>
+                  )}
+                </label>
                 <input
                   type="text"
                   value={insuredDetails.lastName || ''}
                   onChange={(e) => setInsuredDetails({
                     ...insuredDetails,
-                    lastName: e.target.value
+                    lastName: e.target.value,
+                    aiSuggested: false
                   })}
-                  className="w-full p-2 border rounded-lg"
+                  className={`w-full p-2 border rounded-lg ${
+                    insuredDetails.aiSuggested ? 'border-green-300 bg-green-50' : 'border-gray-300'
+                  }`}
                   placeholder="Last name"
                 />
               </div>
@@ -449,6 +543,12 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
           <CardTitle className="flex items-center gap-2">
             <MapPin className="h-5 w-5" />
             Address Information
+            {mailingAddress.aiSuggested && (
+              <span className="flex items-center gap-1 text-sm text-green-600">
+                <Brain className="h-4 w-4" />
+                AI-extracted from policy
+              </span>
+            )}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">

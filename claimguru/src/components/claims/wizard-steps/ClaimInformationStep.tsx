@@ -20,6 +20,7 @@ import {
   Clock
 } from 'lucide-react'
 import { claimWizardAI, DamageAnalysisResult, SettlementPrediction } from '../../../services/claimWizardAI'
+import { intelligentWizardService } from '../../../services/intelligentWizardService'
 
 interface ClaimInformationStepProps {
   data: any
@@ -33,6 +34,7 @@ export function ClaimInformationStep({ data, onUpdate }: ClaimInformationStepPro
     causeOfLoss: data.lossDetails?.causeOfLoss || '',
     severity: data.lossDetails?.severity || '',
     lossDescription: data.lossDetails?.lossDescription || '',
+    aiSuggestedDescription: data.lossDetails?.aiSuggestedDescription || '',
     yearBuilt: data.lossDetails?.yearBuilt || '',
     isFEMA: data.lossDetails?.isFEMA || false,
     isHabitable: data.lossDetails?.isHabitable || true,
@@ -176,11 +178,24 @@ export function ClaimInformationStep({ data, onUpdate }: ClaimInformationStepPro
 
     setAiGenerating(true)
     try {
-      const description = await claimWizardAI.generateLossDescription(
-        lossDetails,
-        data.aiExtractedData
-      )
-      handleInputChange('lossDescription', description)
+      // Use enhanced AI service if available
+      if (data.extractedPolicyData) {
+        const enhancedResult = await intelligentWizardService.generateEnhancedLossDescription(lossDetails)
+        handleInputChange('lossDescription', enhancedResult.description)
+        handleInputChange('aiSuggestedDescription', {
+          description: enhancedResult.description,
+          confidence: enhancedResult.confidence,
+          sources: enhancedResult.sources,
+          enhancements: enhancedResult.enhancements
+        })
+      } else {
+        // Fallback to basic AI service
+        const description = await claimWizardAI.generateLossDescription(
+          lossDetails,
+          data.aiExtractedData
+        )
+        handleInputChange('lossDescription', description)
+      }
     } catch (error) {
       console.error('Error generating loss description:', error)
       alert('Error generating description. Please try again.')
@@ -489,15 +504,45 @@ export function ClaimInformationStep({ data, onUpdate }: ClaimInformationStepPro
         </CardContent>
       </Card>
 
-      {/* AI-Powered Loss Description */}
+      {/* AI-Powered Loss Description with Document Intelligence */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-3">
             <Brain className="h-6 w-6 text-purple-600" />
-            AI-Generated Loss Description
+            AI-Enhanced Loss Description
+            {data.additionalDocuments?.documents?.length > 0 && (
+              <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">
+                Enhanced with {data.additionalDocuments.documents.length} documents
+              </span>
+            )}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+          {/* AI Suggestions from Documents */}
+          {data.aiSuggestions?.descriptions && data.aiSuggestions.descriptions.length > 0 && (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <Sparkles className="h-5 w-5 text-green-600" />
+                <span className="font-medium text-green-800">AI Suggestions from Uploaded Documents</span>
+              </div>
+              <div className="space-y-2">
+                {data.aiSuggestions.descriptions.map((suggestion, index) => (
+                  <div key={index} className="flex items-center justify-between p-2 bg-white rounded border border-green-200">
+                    <span className="text-sm text-green-700 flex-1 mr-3">{suggestion}</span>
+                    <Button
+                      onClick={() => handleInputChange('lossDescription', suggestion)}
+                      size="sm"
+                      variant="outline"
+                      className="text-green-600 border-green-300 hover:bg-green-100 flex-shrink-0"
+                    >
+                      Use This
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="flex items-center gap-3 mb-4">
             <Button
               onClick={generateAILossDescription}
@@ -512,31 +557,97 @@ export function ClaimInformationStep({ data, onUpdate }: ClaimInformationStepPro
               ) : (
                 <>
                   <Zap className="h-4 w-4" />
-                  Generate Professional Description
+                  Generate with AI
+                  {data.additionalDocuments?.documents?.length > 0 && ' + Documents'}
                 </>
               )}
             </Button>
             
             {lossDetails.lossDescription && (
-              <Button variant="outline" className="flex items-center gap-2">
+              <Button 
+                variant="outline" 
+                className="flex items-center gap-2"
+                onClick={generateAILossDescription}
+              >
                 <RefreshCw className="h-4 w-4" />
                 Regenerate
+              </Button>
+            )}
+
+            {data.aiSuggestions?.recommendations?.length > 0 && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2 text-blue-600 border-blue-300 hover:bg-blue-50"
+                onClick={() => {
+                  const insights = "\n\nAI Document Insights:\n" + data.aiSuggestions.recommendations.map(r => `• ${r}`).join('\n')
+                  handleInputChange('lossDescription', lossDetails.lossDescription + insights)
+                }}
+              >
+                <Eye className="h-4 w-4" />
+                Add Document Insights
               </Button>
             )}
           </div>
 
           <textarea
             value={lossDetails.lossDescription}
-            onChange={(e) => handleInputChange('lossDescription', e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+            onChange={(e) => {
+              handleInputChange('lossDescription', e.target.value)
+              // Clear AI flag when manually edited
+              if (lossDetails.aiSuggestedDescription && e.target.value !== lossDetails.aiSuggestedDescription) {
+                handleInputChange('aiSuggestedDescription', '')
+              }
+            }}
+            className={`w-full p-3 border rounded-md focus:ring-purple-500 focus:border-purple-500 ${
+              lossDetails.aiSuggestedDescription ? 'border-green-300 bg-green-50' : 'border-gray-300'
+            }`}
             rows={8}
-            placeholder="AI will generate a professional loss description based on policy language and claim details..."
+            placeholder={
+              data.additionalDocuments?.documents?.length > 0 
+                ? 'AI will generate a professional description using your policy information and uploaded documents...'
+                : 'AI will generate a professional loss description based on policy language and claim details...'
+            }
           />
 
-          {lossDetails.lossDescription && (
-            <div className="text-sm text-green-600 flex items-center gap-1">
-              <CheckCircle className="h-4 w-4" />
-              Professional description generated using policy language
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              {lossDetails.lossDescription && (
+                <div className="text-sm text-green-600 flex items-center gap-1">
+                  <CheckCircle className="h-4 w-4" />
+                  Professional description generated
+                  {lossDetails.aiSuggestedDescription && ' with AI intelligence'}
+                </div>
+              )}
+              {data.additionalDocuments?.documents?.length > 0 && (
+                <div className="text-xs text-blue-600 flex items-center gap-1">
+                  <Brain className="h-3 w-3" />
+                  Enhanced with insights from {data.additionalDocuments.documents.length} uploaded document{data.additionalDocuments.documents.length > 1 ? 's' : ''}
+                </div>
+              )}
+            </div>
+            {lossDetails.lossDescription?.length > 0 && (
+              <span className="text-xs text-gray-400">
+                {lossDetails.lossDescription.length} characters
+              </span>
+            )}
+          </div>
+
+          {/* Document-based insights */}
+          {data.aiSuggestions?.insights && data.aiSuggestions.insights.length > 0 && (
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+              <div className="flex items-center gap-2 mb-2">
+                <Eye className="h-4 w-4 text-blue-600" />
+                <span className="text-sm font-medium text-blue-800">Available Document Insights</span>
+              </div>
+              <div className="text-sm text-blue-700 space-y-1">
+                {data.aiSuggestions.insights.slice(0, 3).map((insight, index) => (
+                  <p key={index}>• {insight}</p>
+                ))}
+                {data.aiSuggestions.insights.length > 3 && (
+                  <p className="text-blue-600 italic">+{data.aiSuggestions.insights.length - 3} more insights available</p>
+                )}
+              </div>
             </div>
           )}
         </CardContent>
