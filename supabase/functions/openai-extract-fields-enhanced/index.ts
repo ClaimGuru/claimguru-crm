@@ -35,6 +35,14 @@ CRITICAL COINSURED DETECTION RULES:
 3. Look for explicit terms: "Co-insured", "Additional Insured", "Joint Insured", "Spouse"
 4. Married couples are commonly listed as primary insured and coinsured
 
+CRITICAL HURRICANE DEDUCTIBLE CONSOLIDATION RULES:
+1. "Hurricane deductible", "Windstorm deductible", and "Named Storm deductible" are ALL THE SAME THING
+2. If you find any of these terms, put the value in the "hurricaneDeductible" field
+3. Do NOT use "namedStormDeductible" field - it should remain empty
+4. Examples: "Windstorm Deductible: 2%" → hurricaneDeductible: "2%"
+5. Examples: "Named Storm Deductible: $5,000" → hurricaneDeductible: "$5,000"
+6. Examples: "Hurricane Deductible: 1%" → hurricaneDeductible: "1%"
+
 Extract these fields in JSON format:
 
 {
@@ -63,12 +71,10 @@ Extract these fields in JSON format:
   "coverageAmount": "Total coverage amount",
   "aopDeductible": "All Other Perils deductible",
   "aopDeductibleType": "AOP deductible type (Stated Amount/Percentage)",
-  "windHailDeductible": "Wind/Hail deductible",
+  "windHailDeductible": "Wind/Hail deductible (separate from hurricane)",
   "windHailDeductibleType": "Wind/Hail deductible type",
-  "namedStormDeductible": "Named Storm deductible",
-  "namedStormDeductibleType": "Named Storm deductible type",
-  "hurricaneDeductible": "Hurricane deductible",
-  "hurricaneDeductibleType": "Hurricane deductible type",
+  "hurricaneDeductible": "Hurricane deductible (also called Windstorm, Named Storm, or Hurricane deductible - these are all the same thing)",
+  "hurricaneDeductibleType": "Hurricane deductible type (Stated Amount/Percentage)",
   "tornadoDeductible": "Tornado deductible",
   "tornadoDeductibleType": "Tornado deductible type",
   "deductible": "General deductible amount",
@@ -178,8 +184,7 @@ ${text}
       'agentName', 'agentPhone', 'agentAddress', 'mortgageeName', 'mortgageePhone',
       'mortgageeAddress', 'mortgageAccountNumber', 'coverageA', 'coverageB', 'coverageC',
       'coverageD', 'moldLimit', 'coverageAmount', 'aopDeductible', 'aopDeductibleType',
-      'windHailDeductible', 'windHailDeductibleType', 'namedStormDeductible',
-      'namedStormDeductibleType', 'hurricaneDeductible', 'hurricaneDeductibleType',
+      'windHailDeductible', 'windHailDeductibleType', 'hurricaneDeductible', 'hurricaneDeductibleType',
       'tornadoDeductible', 'tornadoDeductibleType', 'deductible', 'deductibleType',
       'yearBuilt', 'dwellingStyle', 'squareFootage', 'numberOfStories',
       'constructionType', 'foundationType', 'roofMaterialType', 'sidingType',
@@ -189,6 +194,35 @@ ${text}
     for (const field of expectedFields) {
       if (policyData[field] && policyData[field] !== "" && policyData[field] !== null) {
         cleanedData[field] = String(policyData[field]).trim();
+      }
+    }
+
+    // Consolidate hurricane deductible terminology
+    // Windstorm, Named Storm, and Hurricane deductibles are all the same thing
+    if (!cleanedData.hurricaneDeductible) {
+      // Check for Named Storm deductible and move it to hurricaneDeductible
+      if (policyData.namedStormDeductible && policyData.namedStormDeductible !== "" && policyData.namedStormDeductible !== null) {
+        cleanedData.hurricaneDeductible = String(policyData.namedStormDeductible).trim();
+        console.log(`✅ Consolidated Named Storm deductible to Hurricane deductible: "${cleanedData.hurricaneDeductible}"`);
+      }
+      
+      // Check for Windstorm deductible in the raw data (in case it's extracted differently)
+      if (policyData.windstormDeductible && policyData.windstormDeductible !== "" && policyData.windstormDeductible !== null) {
+        cleanedData.hurricaneDeductible = String(policyData.windstormDeductible).trim();
+        console.log(`✅ Consolidated Windstorm deductible to Hurricane deductible: "${cleanedData.hurricaneDeductible}"`);
+      }
+    }
+
+    // Do the same for deductible types
+    if (!cleanedData.hurricaneDeductibleType) {
+      if (policyData.namedStormDeductibleType && policyData.namedStormDeductibleType !== "" && policyData.namedStormDeductibleType !== null) {
+        cleanedData.hurricaneDeductibleType = String(policyData.namedStormDeductibleType).trim();
+        console.log(`✅ Consolidated Named Storm deductible type to Hurricane deductible type: "${cleanedData.hurricaneDeductibleType}"`);
+      }
+      
+      if (policyData.windstormDeductibleType && policyData.windstormDeductibleType !== "" && policyData.windstormDeductibleType !== null) {
+        cleanedData.hurricaneDeductibleType = String(policyData.windstormDeductibleType).trim();
+        console.log(`✅ Consolidated Windstorm deductible type to Hurricane deductible type: "${cleanedData.hurricaneDeductibleType}"`);
       }
     }
 

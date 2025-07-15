@@ -199,22 +199,8 @@ const fieldSections = [
         icon: Shield
       },
       {
-        field: 'namedStormDeductible',
-        label: 'Named Storm Deductible',
-        pattern: /(\$[\d,]+|[\d.]+%)/,
-        isRequired: false,
-        icon: Shield
-      },
-      {
-        field: 'namedStormDeductibleType',
-        label: 'Named Storm Deductible Type',
-        pattern: /(Stated Amount|Percentage of Coverage [A-D])/,
-        isRequired: false,
-        icon: Shield
-      },
-      {
         field: 'hurricaneDeductible',
-        label: 'Hurricane Deductible',
+        label: 'Hurricane Deductible (includes Windstorm & Named Storm)',
         pattern: /(\$[\d,]+|[\d.]+%)/,
         isRequired: false,
         icon: Shield

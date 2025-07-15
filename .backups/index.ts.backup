@@ -4,7 +4,6 @@ Deno.serve(async (req) => {
     'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
     'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE, PATCH',
     'Access-Control-Max-Age': '86400',
-    'Access-Control-Allow-Credentials': 'false'
   };
 
   if (req.method === 'OPTIONS') {
@@ -12,171 +11,114 @@ Deno.serve(async (req) => {
   }
 
   try {
-    console.log('🤖 OpenAI Comprehensive Extract Fields function called');
-    
     const { text } = await req.json();
     
-    if (!text) {
-      throw new Error('No text provided for extraction');
+    if (!text || text.trim().length < 10) {
+      throw new Error('Text is required and must be at least 10 characters long');
     }
 
-    const apiKey = Deno.env.get('OPENAI_API_KEY');
-    if (!apiKey) {
+    // Get OpenAI API key from environment
+    const openaiApiKey = Deno.env.get('OPENAI_API_KEY');
+    if (!openaiApiKey) {
       throw new Error('OpenAI API key not configured');
     }
 
-    console.log('📝 Processing comprehensive text of length:', text.length);
+    console.log('Processing text of length:', text.length);
 
+    // Enhanced prompt with specific coinsured detection
     const prompt = `
-Extract the following comprehensive insurance policy information from the provided text. Return a JSON object with these exact keys:
+You are an expert insurance document analyzer. Extract ALL available information from this insurance policy text with special attention to identifying coinsured parties.
+
+CRITICAL COINSURED DETECTION RULES:
+1. When you find TWO names for insured parties, the SECOND name is typically the COINSURED
+2. Look for patterns like "John Smith and Mary Smith" - John is insured, Mary is coinsured
+3. Look for explicit terms: "Co-insured", "Additional Insured", "Joint Insured", "Spouse"
+4. Married couples are commonly listed as primary insured and coinsured
+
+CRITICAL HURRICANE DEDUCTIBLE CONSOLIDATION RULES:
+1. "Hurricane deductible", "Windstorm deductible", and "Named Storm deductible" are ALL THE SAME THING
+2. If you find any of these terms, put the value in the "hurricaneDeductible" field
+3. Do NOT use "namedStormDeductible" field - it should remain empty
+4. Examples: "Windstorm Deductible: 2%" → hurricaneDeductible: "2%"
+5. Examples: "Named Storm Deductible: $5,000" → hurricaneDeductible: "$5,000"
+6. Examples: "Hurricane Deductible: 1%" → hurricaneDeductible: "1%"
+
+Extract these fields in JSON format:
 
 {
-  // Basic Policy Information
-  "policyNumber": "string or null",
-  "insuredName": "string or null",
-  "coinsuredName": "string or null",
-  "effectiveDate": "string or null",
-  "expirationDate": "string or null",
-  
-  // Addresses
-  "propertyAddress": "string or null",
-  "mailingAddress": "string or null",
-  
-  // Coverage Information
-  "coverageA": "string or null",
-  "coverageB": "string or null", 
-  "coverageC": "string or null",
-  "coverageD": "string or null",
-  "moldLimit": "string or null",
-  
-  // Deductibles - Enhanced with specific types
-  "aopDeductible": "string or null",
-  "aopDeductibleType": "string or null",
-  "windHailDeductible": "string or null", 
-  "windHailDeductibleType": "string or null",
-  "namedStormDeductible": "string or null",
-  "namedStormDeductibleType": "string or null",
-  "hurricaneDeductible": "string or null",
-  "hurricaneDeductibleType": "string or null",
-  "tornadoDeductible": "string or null",
-  "tornadoDeductibleType": "string or null",
-  
-  // Legacy deductible fields for compatibility
-  "deductible": "string or null",
-  "deductibleType": "string or null",
-  "deductiblePercentageOf": "string or null",
-  
-  // Insurer Information
-  "insurerName": "string or null",
-  "insurerPhone": "string or null",
-  "insurerAddress": "string or null",
-  
-  // Agent Information
-  "agentName": "string or null",
-  "agentPhone": "string or null",
-  "agentAddress": "string or null",
-  
-  // Mortgagee Information
-  "mortgageeName": "string or null",
-  "mortgageePhone": "string or null", 
-  "mortgageeAddress": "string or null",
-  "mortgageAccountNumber": "string or null",
-  
-  // Property Construction Details
-  "yearBuilt": "string or null",
-  "dwellingStyle": "string or null",
-  "numberOfFamilies": "string or null",
-  "squareFootage": "string or null",
-  "numberOfStories": "string or null",
-  "numberOfBathrooms": "string or null",
-  "numberOfEmployees": "string or null",
-  
-  // Construction Materials
-  "foundationType": "string or null",
-  "constructionType": "string or null",
-  "sidingType": "string or null",
-  "roofMaterialType": "string or null",
-  "exteriorWallTypes": "string or null",
-  "interiorWallPartition": "string or null",
-  
-  // Roof Details
-  "roofSquareFootage": "string or null",
-  "ageOfRoof": "string or null",
-  "roofSurfaceMaterial": "string or null",
-  
-  // Garage and Structures
-  "garageType": "string or null",
-  "garageNumberOfCars": "string or null",
-  "attachedStructures": "string or null",
-  
-  // Additional Features
-  "pool": "string or null",
-  "finishedBasement": "string or null",
-  "heatingAndCooling": "string or null",
-  "interiorDetails": "string or null",
-  "additionalDetails": "string or null",
-  "treeOverhang": "string or null",
-  
-  // Safety and Protection
-  "fireProtectionDetails": "string or null",
-  
-  // Legacy compatibility
-  "coverageAmount": "string or null",
-  "premium": "string or null"
+  "policyNumber": "Policy/certificate number",
+  "insuredName": "PRIMARY insured person name",
+  "coinsuredName": "SECONDARY insured person name (spouse/joint policyholder)",
+  "effectiveDate": "Policy start date",
+  "expirationDate": "Policy end date",
+  "propertyAddress": "Property/risk location address (including Insured Location, Insured Property, Insured Premises)",
+  "mailingAddress": "Mailing address if different",
+  "insurerName": "Insurance company name",
+  "insurerPhone": "Insurance company phone",
+  "insurerAddress": "Insurance company address",
+  "agentName": "Insurance agent name",
+  "agentPhone": "Insurance agent phone",
+  "agentAddress": "Insurance agent address",
+  "mortgageeName": "Mortgagee/lender name",
+  "mortgageePhone": "Mortgagee phone",
+  "mortgageeAddress": "Mortgagee address",
+  "mortgageAccountNumber": "Mortgage/loan account number",
+  "coverageA": "Coverage A (Dwelling) amount",
+  "coverageB": "Coverage B (Other Structures) amount",
+  "coverageC": "Coverage C (Personal Property) amount",
+  "coverageD": "Coverage D (Loss of Use) amount",
+  "moldLimit": "Mold coverage limit",
+  "coverageAmount": "Total coverage amount",
+  "aopDeductible": "All Other Perils deductible",
+  "aopDeductibleType": "AOP deductible type (Stated Amount/Percentage)",
+  "windHailDeductible": "Wind/Hail deductible (separate from hurricane)",
+  "windHailDeductibleType": "Wind/Hail deductible type",
+  "hurricaneDeductible": "Hurricane deductible (also called Windstorm, Named Storm, or Hurricane deductible - these are all the same thing)",
+  "hurricaneDeductibleType": "Hurricane deductible type (Stated Amount/Percentage)",
+  "tornadoDeductible": "Tornado deductible",
+  "tornadoDeductibleType": "Tornado deductible type",
+  "deductible": "General deductible amount",
+  "deductibleType": "General deductible type",
+  "yearBuilt": "Year property was built",
+  "dwellingStyle": "Dwelling style/type",
+  "squareFootage": "Square footage",
+  "numberOfStories": "Number of stories",
+  "constructionType": "Construction type",
+  "foundationType": "Foundation type",
+  "roofMaterialType": "Roof material",
+  "sidingType": "Siding type",
+  "heatingAndCooling": "Heating and cooling system"
 }
 
-Specific Extraction Rules:
+EXAMPLES OF COINSURED PATTERNS TO LOOK FOR:
+- "Insured: John Smith and Mary Smith" → insuredName: "John Smith", coinsuredName: "Mary Smith"
+- "Named Insured: Robert Jones, Co-insured: Susan Jones" → insuredName: "Robert Jones", coinsuredName: "Susan Jones"
+- "Policyholder: Michael Brown & Jennifer Brown" → insuredName: "Michael Brown", coinsuredName: "Jennifer Brown"
+- "Insured: David Wilson; Spouse: Lisa Wilson" → insuredName: "David Wilson", coinsuredName: "Lisa Wilson"
 
-**Coverage Information:**
-- Coverage A = Dwelling coverage limit
-- Coverage B = Other Structures coverage limit  
-- Coverage C = Personal Property coverage limit
-- Coverage D = Loss of Use/Additional Living Expenses coverage limit
-- Look for patterns like "Coverage A: $500,000" or "Dwelling: $500,000"
+EXAMPLES OF PROPERTY ADDRESS PATTERNS TO LOOK FOR:
+- "Property Address: 123 Main Street, Dallas, TX 75001" → propertyAddress: "123 Main Street, Dallas, TX 75001"
+- "Insured Location: 456 Oak Avenue, Houston, TX 77001" → propertyAddress: "456 Oak Avenue, Houston, TX 77001"
+- "Insured Property: 789 Pine Drive, Austin, TX 78701" → propertyAddress: "789 Pine Drive, Austin, TX 78701"
+- "Insured Premises: 321 Elm Court, San Antonio, TX 78201" → propertyAddress: "321 Elm Court, San Antonio, TX 78201"
+- "Premises Address: 654 Maple Lane, Fort Worth, TX 76101" → propertyAddress: "654 Maple Lane, Fort Worth, TX 76101"
 
-**Deductibles:**
-- Extract all deductible amounts and types
-- If deductible is a percentage (like "2% of Coverage A"), note the percentage and what it's based on
-- Look for variations: "AOP deductible", "Wind/Hail deductible", "Named Storm deductible"
-
-**Contact Information:**
-- Extract phone numbers in any format: (555) 123-4567, 555-123-4567, 555.123.4567
-- Extract full addresses including city, state, zip
-- Look for agent, insurer, and mortgagee contact details
-
-**Property Details:**
-- Extract construction details like "Built in 1973; 1 family; 1683 sq. ft.; ranch -1 story"
-- Look for foundation types: slab, basement, crawl space
-- Extract roof materials: composition, metal, tile, etc.
-- Note garage details: attached, detached, number of cars
-
-**Construction Information:**
-- Siding types: wood, vinyl, brick, stucco, etc.
-- Foundation details: slab at grade, basement, etc.
-- Construction types: frame, masonry, etc.
-- Wall types and materials
-
-**Safety Features:**
-- Fire protection: fire department distance, subscription, sprinkler systems
-- Security systems and features
-
-General Rules:
-- Extract exact values as they appear in the document
-- For dates, preserve the original format
-- For monetary amounts, include $ sign and commas
-- If a field is not found, set it to null
-- Look for variations of field names and terminology
-- Separate mailing address from property address if different
+Rules:
+- Extract exact values as they appear
+- Use standard date format MM/DD/YYYY
+- Include $ signs for monetary amounts
+- Return empty string "" for missing fields
+- Focus on accuracy over completeness
+- Pay special attention to multiple names and identify coinsured correctly
 
 Text to analyze:
 ${text}
-
-Return only the JSON object, no additional text.`;
+`;
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
+        'Authorization': `Bearer ${openaiApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -184,69 +126,111 @@ Return only the JSON object, no additional text.`;
         messages: [
           {
             role: 'system',
-            content: 'You are a comprehensive insurance document parser. Extract all available information exactly as it appears in documents. Always return valid JSON with all requested fields, using null for missing data.'
+            content: 'You are an expert insurance document analyzer. Extract information accurately and pay special attention to identifying coinsured parties.'
           },
           {
             role: 'user',
             content: prompt
           }
         ],
-        max_tokens: 3000,
-        temperature: 0.1
-      })
+        temperature: 0.1,
+        max_tokens: 2000
+      }),
     });
 
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error('OpenAI API error:', response.status, errorText);
       throw new Error(`OpenAI API error: ${response.status}`);
     }
 
-    const result = await response.json();
-    const extractedText = result.choices[0]?.message?.content;
-
-    if (!extractedText) {
-      throw new Error('No content returned from OpenAI');
+    const data = await response.json();
+    
+    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+      throw new Error('Invalid response from OpenAI API');
     }
 
-    console.log('🤖 OpenAI comprehensive response length:', extractedText.length);
+    const extractedText = data.choices[0].message.content;
+    console.log('OpenAI response length:', extractedText.length);
 
-    // Parse the JSON response
+    // Parse JSON response
     let policyData;
     try {
-      // Clean the response to extract JSON
+      // Clean the response - remove markdown formatting if present
+      const cleanedText = extractedText.replace(/```json\n?|\n?```/g, '').trim();
+      policyData = JSON.parse(cleanedText);
+    } catch (parseError) {
+      console.error('JSON parsing error:', parseError);
+      console.error('Raw response:', extractedText);
+      
+      // Try to extract JSON from the response
       const jsonMatch = extractedText.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
-        policyData = JSON.parse(jsonMatch[0]);
+        try {
+          policyData = JSON.parse(jsonMatch[0]);
+        } catch {
+          throw new Error('Failed to parse JSON response from OpenAI');
+        }
       } else {
-        throw new Error('No JSON found in response');
+        throw new Error('No valid JSON found in OpenAI response');
       }
-    } catch (parseError) {
-      console.error('❌ JSON parsing failed:', parseError);
-      throw new Error('Failed to parse OpenAI response as JSON');
     }
 
-    console.log('✅ Successfully extracted comprehensive policy data:', Object.keys(policyData).filter(k => policyData[k]).length, 'fields');
+    // Validate and clean the data
+    const cleanedData = {};
+    const expectedFields = [
+      'policyNumber', 'insuredName', 'coinsuredName', 'effectiveDate', 'expirationDate',
+      'propertyAddress', 'mailingAddress', 'insurerName', 'insurerPhone', 'insurerAddress',
+      'agentName', 'agentPhone', 'agentAddress', 'mortgageeName', 'mortgageePhone',
+      'mortgageeAddress', 'mortgageAccountNumber', 'coverageA', 'coverageB', 'coverageC',
+      'coverageD', 'moldLimit', 'coverageAmount', 'aopDeductible', 'aopDeductibleType',
+      'windHailDeductible', 'windHailDeductibleType', 'hurricaneDeductible', 'hurricaneDeductibleType',
+      'tornadoDeductible', 'tornadoDeductibleType', 'deductible', 'deductibleType',
+      'yearBuilt', 'dwellingStyle', 'squareFootage', 'numberOfStories',
+      'constructionType', 'foundationType', 'roofMaterialType', 'sidingType',
+      'heatingAndCooling'
+    ];
 
-    return new Response(JSON.stringify({ 
-      success: true,
-      policyData,
-      confidence: 0.9,
-      method: 'openai-gpt4o-mini-comprehensive',
-      fieldsExtracted: Object.keys(policyData).filter(k => policyData[k]).length
-    }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-    });
+    for (const field of expectedFields) {
+      if (policyData[field] && policyData[field] !== "" && policyData[field] !== null) {
+        cleanedData[field] = String(policyData[field]).trim();
+      }
+    }
+
+    // Log coinsured detection results
+    if (cleanedData.coinsuredName) {
+      console.log(`✅ Coinsured detected: Primary="${cleanedData.insuredName}", Coinsured="${cleanedData.coinsuredName}"`);
+    } else if (cleanedData.insuredName) {
+      console.log(`ℹ️ Single insured detected: "${cleanedData.insuredName}"`);
+    }
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        policyData: cleanedData,
+        extractedFields: Object.keys(cleanedData).length,
+        coinsuredDetected: !!cleanedData.coinsuredName
+      }),
+      {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      }
+    );
 
   } catch (error) {
-    console.error('❌ OpenAI comprehensive extraction error:', error);
+    console.error('OpenAI extraction error:', error);
     
-    return new Response(JSON.stringify({
-      error: {
-        code: 'OPENAI_COMPREHENSIVE_EXTRACTION_ERROR',
-        message: error.message
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: {
+          code: 'EXTRACTION_ERROR',
+          message: error.message || 'Failed to extract policy data'
+        }
+      }),
+      {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       }
-    }), {
-      status: 500,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-    });
+    );
   }
 });

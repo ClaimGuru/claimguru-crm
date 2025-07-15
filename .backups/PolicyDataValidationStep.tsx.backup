@@ -15,7 +15,16 @@ import {
   Building,
   Calendar,
   DollarSign,
-  Shield
+  Shield,
+  Hash,
+  Link,
+  Info,
+  RefreshCw,
+  Check,
+  Minus,
+  Eye,
+  ThumbsUp,
+  ThumbsDown
 } from 'lucide-react';
 
 interface PolicyDataValidationStepProps {
@@ -23,6 +32,8 @@ interface PolicyDataValidationStepProps {
   rawText: string;
   onValidated: (validatedData: any) => void;
   onReject: () => void;
+  onReAnalyze?: () => void; // NEW: Re-analyze function
+  identifierAnalysis?: any; // Optional identifier analysis data
 }
 
 interface ValidationResult {
@@ -33,6 +44,8 @@ interface ValidationResult {
   suggestions?: string[];
   isRequired: boolean;
   icon: React.ComponentType<any>;
+  status: 'pending' | 'accepted' | 'rejected' | 'modified';
+  originalValue?: string;
 }
 
 // Define field definitions organized by sections - moved to component level
@@ -337,6 +350,34 @@ const fieldSections = [
     icon: Building,
     fields: [
       {
+        field: 'yearBuilt',
+        label: 'Year Built',
+        pattern: /\d{4}/,
+        isRequired: false,
+        icon: Calendar
+      },
+      {
+        field: 'dwellingStyle',
+        label: 'Dwelling Style',
+        pattern: /[A-Za-z\s\-]{2,30}/,
+        isRequired: false,
+        icon: Building
+      },
+      {
+        field: 'squareFootage',
+        label: 'Square Footage',
+        pattern: /\d{1,6}/,
+        isRequired: false,
+        icon: Building
+      },
+      {
+        field: 'numberOfStories',
+        label: 'Number of Stories',
+        pattern: /\d{1,2}/,
+        isRequired: false,
+        icon: Building
+      },
+      {
         field: 'constructionType',
         label: 'Construction Type',
         pattern: /[A-Za-z\s\-]{2,30}/,
@@ -379,7 +420,9 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
   extractedData,
   rawText,
   onValidated,
-  onReject
+  onReject,
+  onReAnalyze,
+  identifierAnalysis
 }) => {
   const [validationResults, setValidationResults] = useState<ValidationResult[]>([]);
   const [editingField, setEditingField] = useState<string | null>(null);
@@ -432,14 +475,27 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
           confidence,
           suggestions,
           isRequired: fieldDef.isRequired,
-          icon: fieldDef.icon
+          icon: fieldDef.icon,
+          status: 'pending',
+          originalValue: extractedValue
         });
 
-        totalConfidence += confidence === 'high' ? 3 : confidence === 'medium' ? 2 : 1;
+        // Improved confidence scoring
+        const confidenceScore = confidence === 'high' ? 100 : confidence === 'medium' ? 60 : 20;
+        const fieldWeight = fieldDef.isRequired ? 2 : 1; // Weight required fields more heavily
+        totalConfidence += confidenceScore * fieldWeight;
       }
 
       setValidationResults(results);
-      setOverallConfidence((totalConfidence / (fieldDefinitions.length * 3)) * 100);
+      
+      // Calculate weighted overall confidence
+      const totalPossibleScore = fieldDefinitions.reduce((sum, fieldDef) => {
+        const fieldWeight = fieldDef.isRequired ? 2 : 1;
+        return sum + (100 * fieldWeight);
+      }, 0);
+      
+      const calculatedConfidence = totalPossibleScore > 0 ? (totalConfidence / totalPossibleScore) * 100 : 0;
+      setOverallConfidence(Math.max(calculatedConfidence, 5)); // Minimum 5% to avoid 0%
 
       console.log('Validation completed:', results.length, 'fields processed');
 
@@ -453,20 +509,55 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
   const calculateFieldConfidence = (value: string, fieldDef: any, rawText: string): 'high' | 'medium' | 'low' => {
     if (!value || value.trim() === '') return 'low';
     
-    // Check if value matches expected pattern
+    let score = 0;
+    
+    // Pattern matching score (40 points)
     if (fieldDef.pattern && fieldDef.pattern.test(value)) {
-      // Check if the value appears in the raw text
-      if (rawText.toLowerCase().includes(value.toLowerCase())) {
-        return 'high';
+      score += 40;
+    } else if (value.length > 2) {
+      score += 20; // Partial credit for having content
+    }
+    
+    // Text presence score (30 points)
+    if (rawText.toLowerCase().includes(value.toLowerCase())) {
+      score += 30;
+    } else {
+      // Check for partial matches
+      const words = value.toLowerCase().split(/\s+/);
+      const foundWords = words.filter(word => word.length > 2 && rawText.toLowerCase().includes(word));
+      if (foundWords.length > 0) {
+        score += 15 * (foundWords.length / words.length);
       }
-      return 'medium';
     }
     
-    // Even if pattern doesn't match, if it's a reasonable length and appears in text
-    if (value.length > 2 && rawText.toLowerCase().includes(value.toLowerCase())) {
-      return 'medium';
+    // Length and format score (20 points)
+    if (value.length >= 5 && value.length <= 100) {
+      score += 20;
+    } else if (value.length > 2) {
+      score += 10;
     }
     
+    // Field-specific scoring (10 points)
+    switch (fieldDef.field) {
+      case 'policyNumber':
+        if (/^[A-Z0-9\-]{5,25}$/.test(value)) score += 10;
+        break;
+      case 'effectiveDate':
+      case 'expirationDate':
+        if (/^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}$/.test(value)) score += 10;
+        break;
+      case 'coverageA':
+      case 'coverageAmount':
+      case 'deductible':
+        if (/^\$[\d,]+$/.test(value)) score += 10;
+        break;
+      default:
+        if (value.length > 3) score += 5;
+    }
+    
+    // Convert score to confidence level
+    if (score >= 70) return 'high';
+    if (score >= 40) return 'medium';
     return 'low';
   };
 
@@ -498,8 +589,16 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
           break;
           
         case 'propertyAddress':
-          const addressMatches = rawText.match(/\d+\s+[\w\s,#\-]+(?:street|st|avenue|ave|road|rd|drive|dr|lane|ln|way|blvd|boulevard)/gi) || [];
-          suggestions.push(...addressMatches.slice(0, 3));
+          // Enhanced property address patterns including insured location, property, premises
+          const propertyAddressPatterns = [
+            /(?:property\s+address|insured\s+location|insured\s+property|insured\s+premises|premises\s+address)\s*[:.]?\s*([0-9][\w\s,#\-]+(?:street|st|avenue|ave|road|rd|drive|dr|lane|ln|way|blvd|boulevard|circle|ct|court|place|pl)[^\n]*)/gi,
+            /\d+\s+[\w\s,#\-]+(?:street|st|avenue|ave|road|rd|drive|dr|lane|ln|way|blvd|boulevard|circle|ct|court|place|pl)/gi
+          ];
+          
+          for (const pattern of propertyAddressPatterns) {
+            const matches = rawText.match(pattern) || [];
+            suggestions.push(...matches.slice(0, 2));
+          }
           break;
           
         case 'coverageAmount':
@@ -536,7 +635,7 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
     setValidationResults(prev => 
       prev.map(result => 
         result.field === field 
-          ? { ...result, value: editValue, confidence: 'high' } // User-corrected = high confidence
+          ? { ...result, value: editValue, confidence: 'high', status: 'modified' } // User-corrected = high confidence
           : result
       )
     );
@@ -553,7 +652,27 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
     setValidationResults(prev => 
       prev.map(result => 
         result.field === field 
-          ? { ...result, value: suggestion, confidence: 'medium' }
+          ? { ...result, value: suggestion, confidence: 'medium', status: 'modified' }
+          : result
+      )
+    );
+  };
+
+  const handleAcceptField = (field: string) => {
+    setValidationResults(prev => 
+      prev.map(result => 
+        result.field === field 
+          ? { ...result, status: 'accepted' }
+          : result
+      )
+    );
+  };
+
+  const handleRejectField = (field: string) => {
+    setValidationResults(prev => 
+      prev.map(result => 
+        result.field === field 
+          ? { ...result, status: 'rejected', value: '' }
           : result
       )
     );
@@ -633,21 +752,184 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {/* Overall Confidence */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="font-medium text-blue-900">Overall Extraction Confidence</h4>
-                  <p className="text-sm text-blue-700">
-                    Based on pattern matching and text analysis
-                  </p>
+            {/* LEARNING INSIGHTS SECTION */}
+            {extractedData.intelligenceMetadata && (
+              <div className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-lg p-4 mb-4">
+                <h4 className="font-medium text-purple-900 mb-3 flex items-center gap-2">
+                  <Brain className="h-4 w-4" />
+                  AI Learning Insights
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                  <div className="bg-white rounded p-3">
+                    <div className="font-medium text-purple-800">Carrier Identified</div>
+                    <div className="text-purple-700">
+                      {extractedData.intelligenceMetadata.carrierIdentified || 'Unknown'}
+                    </div>
+                  </div>
+                  <div className="bg-white rounded p-3">
+                    <div className="font-medium text-purple-800">Extraction Method</div>
+                    <div className="text-purple-700 capitalize">
+                      {extractedData.intelligenceMetadata.extractionMethod.replace('_', ' ')}
+                    </div>
+                  </div>
+                  <div className="bg-white rounded p-3">
+                    <div className="font-medium text-purple-800">Learning Applied</div>
+                    <div className="text-purple-700">
+                      {extractedData.intelligenceMetadata.rulesApplied.carrierSpecific ? '✅ Yes' : '❌ No'}
+                    </div>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-2xl font-bold text-blue-900">{Math.round(overallConfidence)}%</div>
+                {extractedData.intelligenceMetadata.rulesApplied.carrierSpecific && (
+                  <div className="mt-3 p-2 bg-green-50 rounded text-sm text-green-700">
+                    🎯 This document was processed using learned patterns from previous documents by this carrier
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* CRITICAL IDENTIFIERS SECTION */}
+            {(extractedData.policyNumber || extractedData.claimNumber || identifierAnalysis) && (
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <h4 className="font-medium text-yellow-900 mb-3 flex items-center gap-2">
+                  <Hash className="h-4 w-4" />
+                  Critical Identifiers - Policy & Claim Numbers
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Policy Number */}
+                  <div className="bg-white rounded-lg p-3 border">
+                    <div className="flex items-center gap-2 mb-2">
+                      <FileText className="h-4 w-4 text-blue-600" />
+                      <span className="font-medium text-gray-900">Policy Number</span>
+                      {identifierAnalysis?.policyNumberConfidence && (
+                        <span className={`text-xs px-2 py-1 rounded ${
+                          identifierAnalysis.policyNumberConfidence > 0.8 ? 'bg-green-100 text-green-700' :
+                          identifierAnalysis.policyNumberConfidence > 0.5 ? 'bg-yellow-100 text-yellow-700' :
+                          'bg-red-100 text-red-700'
+                        }`}>
+                          {Math.round(identifierAnalysis.policyNumberConfidence * 100)}% confidence
+                        </span>
+                      )}
+                    </div>
+                    <div className="font-mono text-sm bg-gray-50 p-2 rounded">
+                      {extractedData.policyNumber || 'Not found'}
+                    </div>
+                  </div>
+
+                  {/* Claim Number */}
+                  <div className="bg-white rounded-lg p-3 border">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Hash className="h-4 w-4 text-green-600" />
+                      <span className="font-medium text-gray-900">Claim Number</span>
+                      {identifierAnalysis?.claimNumberConfidence && (
+                        <span className={`text-xs px-2 py-1 rounded ${
+                          identifierAnalysis.claimNumberConfidence > 0.8 ? 'bg-green-100 text-green-700' :
+                          identifierAnalysis.claimNumberConfidence > 0.5 ? 'bg-yellow-100 text-yellow-700' :
+                          'bg-red-100 text-red-700'
+                        }`}>
+                          {Math.round(identifierAnalysis.claimNumberConfidence * 100)}% confidence
+                        </span>
+                      )}
+                    </div>
+                    <div className="font-mono text-sm bg-gray-50 p-2 rounded">
+                      {extractedData.claimNumber || 'Not found'}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Relationship Status */}
+                {identifierAnalysis && (
+                  <div className="mt-3 p-3 bg-white rounded-lg border">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Link className="h-4 w-4 text-purple-600" />
+                      <span className="font-medium text-gray-900">Identifier Relationship</span>
+                      <span className={`text-xs px-2 py-1 rounded ${
+                        identifierAnalysis.relationshipStatus === 'valid' ? 'bg-green-100 text-green-700' :
+                        identifierAnalysis.relationshipStatus === 'missing' ? 'bg-red-100 text-red-700' :
+                        'bg-yellow-100 text-yellow-700'
+                      }`}>
+                        {identifierAnalysis.relationshipStatus}
+                      </span>
+                    </div>
+                    <div className="text-sm text-gray-700">
+                      <p><strong>Document Type:</strong> {identifierAnalysis.documentType || 'Unknown'}</p>
+                      <p><strong>Primary Focus:</strong> {identifierAnalysis.primaryIdentifier || 'Unknown'}</p>
+                      {identifierAnalysis.validationMessage && (
+                        <p><strong>Status:</strong> {identifierAnalysis.validationMessage}</p>
+                      )}
+                      {identifierAnalysis.hasMultipleIdentifiers && (
+                        <p className="text-blue-600">✓ Both policy and claim identifiers found</p>
+                      )}
+                    </div>
+                    {identifierAnalysis.suggestions && identifierAnalysis.suggestions.length > 0 && (
+                      <div className="mt-2 p-2 bg-blue-50 rounded">
+                        <p className="text-xs font-medium text-blue-800">Suggestions:</p>
+                        <ul className="text-xs text-blue-700 list-disc list-inside mt-1">
+                          {identifierAnalysis.suggestions.map((suggestion: string, idx: number) => (
+                            <li key={idx}>{suggestion}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Overall Confidence - ENHANCED */}
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-6">
+              <div className="flex items-center justify-between">
+                <div className="flex-1">
+                  <h4 className="font-semibold text-blue-900 text-lg mb-1">Overall Extraction Confidence</h4>
+                  <p className="text-sm text-blue-700 mb-3">
+                    AI analysis based on pattern matching, text structure, and field validation
+                  </p>
+                  
+                  {/* Confidence Progress Bar */}
+                  <div className="w-full bg-blue-100 rounded-full h-3 mb-2">
+                    <div 
+                      className={`h-3 rounded-full transition-all duration-500 ${
+                        overallConfidence >= 80 ? 'bg-green-500' :
+                        overallConfidence >= 60 ? 'bg-yellow-500' :
+                        overallConfidence >= 40 ? 'bg-orange-500' : 'bg-red-500'
+                      }`}
+                      style={{ width: `${Math.max(overallConfidence, 5)}%` }}
+                    ></div>
+                  </div>
                   <div className="text-xs text-blue-600">
-                    {overallConfidence >= 80 ? 'Excellent' : 
-                     overallConfidence >= 60 ? 'Good' : 
-                     overallConfidence >= 40 ? 'Fair' : 'Poor'}
+                    {overallConfidence >= 80 ? '🟢 Excellent - High accuracy expected' : 
+                     overallConfidence >= 60 ? '🟡 Good - Review recommended' : 
+                     overallConfidence >= 40 ? '🟠 Fair - Manual verification needed' : '🔴 Poor - Re-analysis recommended'}
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-4 ml-6">
+                  {onReAnalyze && (
+                    <div className="flex flex-col gap-2">
+                      <Button
+                        onClick={onReAnalyze}
+                        variant="outline"
+                        size="sm"
+                        className="flex items-center gap-2 text-blue-700 border-blue-300 hover:bg-blue-100 font-medium"
+                      >
+                        <RefreshCw className="h-4 w-4" />
+                        Re-Analyze Document
+                      </Button>
+                      {overallConfidence < 50 && (
+                        <div className="text-xs text-orange-600 text-center">
+                          ⚠️ Low confidence detected
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  <div className="text-right">
+                    <div className={`text-3xl font-bold ${
+                      overallConfidence >= 80 ? 'text-green-600' :
+                      overallConfidence >= 60 ? 'text-yellow-600' :
+                      overallConfidence >= 40 ? 'text-orange-600' : 'text-red-600'
+                    }`}>{Math.round(overallConfidence)}%</div>
+                    <div className="text-xs text-gray-600 font-medium">
+                      Confidence Score
+                    </div>
                   </div>
                 </div>
               </div>
@@ -658,10 +940,12 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
               <div className="flex items-start gap-3">
                 <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5" />
                 <div>
-                  <h4 className="font-medium text-yellow-900">Please Review & Confirm</h4>
+                  <h4 className="font-medium text-yellow-900">Please Review & Confirm Each Field</h4>
                   <p className="text-sm text-yellow-700 mt-1">
-                    Review each extracted field below. Click "Edit" to correct any inaccurate data, 
-                    or use AI suggestions if available. All required fields must be completed to proceed.
+                    ✅ <strong>Accept</strong> correct values • ❌ <strong>Reject</strong> incorrect values • ✏️ <strong>Edit</strong> to modify • 💡 Click <strong>AI suggestions</strong> to use them
+                  </p>
+                  <p className="text-xs text-yellow-600 mt-2 font-medium">
+                    You can approve fields individually - you don't need to approve all at once!
                   </p>
                 </div>
               </div>
@@ -718,6 +1002,19 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
                                 {getConfidenceIcon(result.confidence)}
                                 {result.confidence} confidence
                               </div>
+                              {result.status !== 'pending' && (
+                                <div className={`flex items-center gap-1 text-xs px-2 py-1 rounded ${
+                                  result.status === 'accepted' ? 'bg-green-100 text-green-700' :
+                                  result.status === 'rejected' ? 'bg-red-100 text-red-700' :
+                                  'bg-blue-100 text-blue-700'
+                                }`}>
+                                  {result.status === 'accepted' && <Check className="h-3 w-3" />}
+                                  {result.status === 'rejected' && <X className="h-3 w-3" />}
+                                  {result.status === 'modified' && <Edit3 className="h-3 w-3" />}
+                                  {result.status === 'accepted' ? 'Accepted' :
+                                   result.status === 'rejected' ? 'Rejected' : 'Modified'}
+                                </div>
+                              )}
                             </div>
 
                             {/* Value Display/Edit */}
@@ -752,33 +1049,86 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
                               </div>
                             ) : (
                               <div className="space-y-2">
-                                <div className="flex items-center gap-2">
-                                  <span className={`font-mono text-sm px-2 py-1 rounded ${
-                                    result.value ? 'bg-gray-100 text-gray-900' : 'bg-red-50 text-red-600'
-                                  }`}>
-                                    {result.value || 'Not found'}
-                                  </span>
-                                  <Button
-                                    onClick={() => handleEdit(result.field, result.value)}
-                                    variant="outline"
-                                    size="sm"
-                                    className="flex items-center gap-1"
-                                  >
-                                    <Edit3 className="h-3 w-3" />
-                                    Edit
-                                  </Button>
+                                <div className="space-y-2">
+                                  <div className="flex items-center gap-2">
+                                    <span className={`font-mono text-sm px-3 py-2 rounded border ${
+                                      result.status === 'accepted' ? 'bg-green-50 text-green-900 border-green-200' :
+                                      result.status === 'rejected' ? 'bg-red-50 text-red-600 border-red-200' :
+                                      result.value ? 'bg-gray-100 text-gray-900 border-gray-200' : 'bg-red-50 text-red-600 border-red-200'
+                                    }`}>
+                                      {result.value || 'Not found'}
+                                    </span>
+                                    <div className="flex flex-wrap gap-2">
+                                      {result.value && result.status === 'pending' && (
+                                        <div className="flex gap-1">
+                                          <Button
+                                            onClick={() => handleAcceptField(result.field)}
+                                            variant="outline"
+                                            size="sm"
+                                            className="flex items-center gap-1 text-green-700 border-green-300 hover:bg-green-50 font-medium px-3"
+                                            title="Accept this value as correct"
+                                          >
+                                            <ThumbsUp className="h-3 w-3" />
+                                            ✓ Accept
+                                          </Button>
+                                          <Button
+                                            onClick={() => handleRejectField(result.field)}
+                                            variant="outline"
+                                            size="sm"
+                                            className="flex items-center gap-1 text-red-700 border-red-300 hover:bg-red-50 font-medium px-3"
+                                            title="Reject this value as incorrect"
+                                          >
+                                            <ThumbsDown className="h-3 w-3" />
+                                            × Reject
+                                          </Button>
+                                        </div>
+                                      )}
+                                      
+                                      {/* Always show edit button */}
+                                      <Button
+                                        onClick={() => handleEdit(result.field, result.value)}
+                                        variant="outline"
+                                        size="sm"
+                                        className="flex items-center gap-1 text-blue-700 border-blue-300 hover:bg-blue-50"
+                                        title="Edit or modify this value"
+                                      >
+                                        <Edit3 className="h-3 w-3" />
+                                        Edit
+                                      </Button>
+                                      
+                                      {/* Status indicator for processed fields */}
+                                      {result.status !== 'pending' && (
+                                        <div className={`flex items-center gap-1 px-2 py-1 rounded text-xs font-medium ${
+                                          result.status === 'accepted' ? 'bg-green-100 text-green-700' :
+                                          result.status === 'rejected' ? 'bg-red-100 text-red-700' :
+                                          'bg-blue-100 text-blue-700'
+                                        }`}>
+                                          {result.status === 'accepted' && '✓ Accepted'}
+                                          {result.status === 'rejected' && '× Rejected'}
+                                          {result.status === 'modified' && '✎ Modified'}
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                  {result.originalValue && result.value !== result.originalValue && (
+                                    <div className="text-xs text-gray-500 flex items-center gap-1">
+                                      <Eye className="h-3 w-3" />
+                                      Original: <span className="font-mono">{result.originalValue}</span>
+                                    </div>
+                                  )}
                                 </div>
 
                                 {/* AI Suggestions */}
                                 {result.suggestions && result.suggestions.length > 0 && (
                                   <div className="space-y-1">
-                                    <p className="text-xs text-gray-600">AI Suggestions:</p>
+                                    <p className="text-xs text-gray-600 font-medium">💡 AI Suggestions ({result.suggestions.length}):</p>
                                     <div className="flex flex-wrap gap-1">
                                       {result.suggestions.map((suggestion, idx) => (
                                         <button
                                           key={idx}
                                           onClick={() => handleAcceptSuggestion(result.field, suggestion)}
-                                          className="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 px-2 py-1 rounded border border-blue-200 transition-colors"
+                                          className="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 px-2 py-1 rounded border border-blue-200 transition-colors font-mono"
+                                          title={`Click to use: ${suggestion}`}
                                         >
                                           {suggestion}
                                         </button>
@@ -800,18 +1150,55 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
         })}
       </div>
 
+      {/* Field Summary */}
+      <Card className="bg-gray-50">
+        <CardContent className="p-4">
+          <h4 className="font-medium text-gray-900 mb-3">Field Validation Summary</h4>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+              <span>Accepted: {validationResults.filter(r => r.status === 'accepted').length}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+              <span>Modified: {validationResults.filter(r => r.status === 'modified').length}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+              <span>Rejected: {validationResults.filter(r => r.status === 'rejected').length}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
+              <span>Pending: {validationResults.filter(r => r.status === 'pending').length}</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Action Buttons */}
       <div className="flex justify-between items-center pt-6 border-t">
-        <Button
-          onClick={onReject}
-          variant="outline"
-          className="flex items-center gap-2"
-        >
-          <X className="h-4 w-4" />
-          Reject & Re-upload
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            onClick={onReject}
+            variant="outline"
+            className="flex items-center gap-2"
+          >
+            <X className="h-4 w-4" />
+            Reject & Re-upload
+          </Button>
+          {onReAnalyze && (
+            <Button
+              onClick={onReAnalyze}
+              variant="outline"
+              className="flex items-center gap-2 text-blue-700 border-blue-300 hover:bg-blue-50"
+            >
+              <RefreshCw className="h-4 w-4" />
+              Re-Analyze Document
+            </Button>
+          )}
+        </div>
 
-        <div className="flex gap-3">
+        <div className="flex items-center gap-3">
           <div className="text-sm text-gray-600">
             {requiredFieldsComplete ? (
               <span className="text-green-600 flex items-center gap-1">

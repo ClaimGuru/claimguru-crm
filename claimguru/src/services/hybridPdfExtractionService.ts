@@ -897,6 +897,43 @@ export class HybridPDFExtractionService {
       }
     }
 
+    // Hurricane deductible patterns (Windstorm, Named Storm, Hurricane are all the same)
+    const hurricaneDeductiblePatterns = [
+      /(?:hurricane|windstorm|named\s+storm)\s+(?:deductible|ded)\s*[:.]?\s*([0-9.]+%|\$?[0-9,]+)/i,
+      /(?:hurricane|windstorm|named\s+storm)\s*[:.]?\s*([0-9.]+%|\$?[0-9,]+)/i,
+      /deductible\s*[-–]\s*(?:hurricane|windstorm|named\s+storm)\s*[:.]?\s*([0-9.]+%|\$?[0-9,]+)/i
+    ];
+
+    let hurricaneDeductible = '';
+    for (const pattern of hurricaneDeductiblePatterns) {
+      const match = cleanText.match(pattern);
+      if (match && match[1] && !hurricaneDeductible) {
+        hurricaneDeductible = match[1].trim();
+        // Add $ if it's a number without % and doesn't already have $
+        if (!/[%$]/.test(hurricaneDeductible) && /^\d+/.test(hurricaneDeductible)) {
+          const amount = hurricaneDeductible.replace(/[^\d]/g, '');
+          if (amount.length >= 2) {
+            hurricaneDeductible = '$' + parseInt(amount).toLocaleString();
+          }
+        }
+        console.log(`✅ Hurricane deductible detected: "${hurricaneDeductible}"`);
+        break;
+      }
+    }
+
+    // Add to deductibles array if found
+    if (hurricaneDeductible) {
+      if (!policyData.deductibles) {
+        policyData.deductibles = [];
+      }
+      policyData.deductibles.push({
+        type: 'Hurricane',
+        amount: hurricaneDeductible,
+        isPercentage: hurricaneDeductible.includes('%'),
+        percentageOf: hurricaneDeductible.includes('%') ? 'Coverage A (Dwelling)' : undefined
+      });
+    }
+
     // Enhanced mortgage account number patterns
     const mortgagePatterns = [
       /(?:acc\s*num|account\s*number|loan\s*number|mortgage\s*number)\s*[:.]?\s*([A-Z0-9]{6,20})/i,

@@ -207,7 +207,7 @@ export class HybridPDFExtractionService {
           const tesseractResult = await Promise.race([
             this.extractWithTesseract(file),
             new Promise<{ text: string; confidence: number }>((_, reject) => 
-              setTimeout(() => reject(new Error('Tesseract timeout')), 45000)
+              setTimeout(() => reject(new Error('Tesseract timeout')), 50000)
             )
           ]);
           
@@ -268,6 +268,7 @@ export class HybridPDFExtractionService {
       qualityScore = bestQuality;
       
       console.log(`🏆 Best result: ${bestMethod} with ${extractedText.length} chars, Quality: ${qualityScore}`);
+      console.log(`🏆 Final confidence calculated: ${(confidence * 100).toFixed(1)}%`);
 
       // STEP 4: Enhance with AI parsing (with timeout for reliability)
       console.log('🧠 STEP 4: Enhancing with AI intelligence (with 20s timeout)...');
@@ -286,8 +287,9 @@ export class HybridPDFExtractionService {
       }
 
       const processingTime = Date.now() - startTime;
-
-      return {
+      
+      // Final validation and logging
+      const finalResult = {
         extractedText,
         confidence,
         processingMethod,
@@ -302,6 +304,18 @@ export class HybridPDFExtractionService {
           qualityScore
         }
       };
+      
+      console.log('📋 FINAL EXTRACTION SUMMARY:');
+      console.log(`   📄 File: ${file.name} (${(file.size/1024).toFixed(1)}KB)`);
+      console.log(`   ⚡ Method: ${processingMethod}`);
+      console.log(`   📊 Quality Score: ${qualityScore}/100`);
+      console.log(`   🎯 Confidence: ${(confidence * 100).toFixed(1)}%`);
+      console.log(`   ⏱️ Processing Time: ${processingTime}ms`);
+      console.log(`   💰 Cost: $${cost.toFixed(3)}`);
+      console.log(`   📝 Text Length: ${extractedText.length} chars`);
+      console.log(`   🔍 Fields Extracted: ${Object.keys(policyData || {}).filter(k => policyData[k]).length}`);
+      
+      return finalResult;
 
     } catch (error) {
       console.error('❌ Hybrid extraction completely failed:', error);
@@ -328,56 +342,136 @@ export class HybridPDFExtractionService {
    * Convert quality score to confidence value
    */
   private qualityToConfidence(qualityScore: number): number {
+    console.log('🔢 Converting quality score to confidence:', qualityScore);
     // Convert quality score (0-100) to confidence (0-1)
-    // Apply a more realistic confidence curve
-    if (qualityScore >= 80) return 0.9 + (qualityScore - 80) * 0.005; // 0.9 to 1.0
-    if (qualityScore >= 60) return 0.7 + (qualityScore - 60) * 0.01;  // 0.7 to 0.9
-    if (qualityScore >= 40) return 0.5 + (qualityScore - 40) * 0.01;  // 0.5 to 0.7
-    if (qualityScore >= 20) return 0.3 + (qualityScore - 20) * 0.01;  // 0.3 to 0.5
-    return Math.max(0.05, qualityScore * 0.015); // Minimum 5% confidence
+    // Apply a more realistic confidence curve with better minimum thresholds
+    
+    // Ensure we have a valid quality score
+    const validScore = Math.max(0, Math.min(100, qualityScore || 0));
+    
+    let confidence: number;
+    if (validScore >= 90) {
+      confidence = 0.90 + (validScore - 90) * 0.01; // 0.90 to 1.0
+    } else if (validScore >= 80) {
+      confidence = 0.80 + (validScore - 80) * 0.01; // 0.80 to 0.90
+    } else if (validScore >= 70) {
+      confidence = 0.70 + (validScore - 70) * 0.01; // 0.70 to 0.80
+    } else if (validScore >= 60) {
+      confidence = 0.60 + (validScore - 60) * 0.01; // 0.60 to 0.70
+    } else if (validScore >= 50) {
+      confidence = 0.50 + (validScore - 50) * 0.01; // 0.50 to 0.60
+    } else if (validScore >= 40) {
+      confidence = 0.40 + (validScore - 40) * 0.01; // 0.40 to 0.50
+    } else if (validScore >= 30) {
+      confidence = 0.30 + (validScore - 30) * 0.01; // 0.30 to 0.40
+    } else if (validScore >= 20) {
+      confidence = 0.25 + (validScore - 20) * 0.005; // 0.25 to 0.30
+    } else {
+      confidence = Math.max(0.30, validScore * 0.0167); // Minimum 30% confidence, scale up from there
+    }
+    
+    // Add bonus for having any recognizable content
+    if (validScore > 10) {
+      confidence = Math.max(confidence, 0.35); // Ensure at least 35% for any recognizable content
+    }
+    
+    console.log('🔢 Quality score:', validScore, '→ Confidence:', (confidence * 100).toFixed(1) + '%');
+    return Math.min(1.0, confidence); // Cap at 100%
   }
 
   /**
    * Evaluate text quality for decision making
    */
   private evaluateTextQuality(text: string): number {
-    if (!text || text.length < 50) return 0;
+    console.log('📊 Evaluating text quality for', text?.length || 0, 'characters');
+    
+    if (!text || text.length < 10) {
+      console.log('📊 Text too short, returning 0');
+      return 0;
+    }
     
     let score = 0;
+    const cleanText = text.trim();
     
-    // Length score (up to 30 points)
-    if (text.length > 5000) score += 30;
-    else if (text.length > 1000) score += 20;
-    else if (text.length > 500) score += 15;
-    else if (text.length > 200) score += 10;
+    // Length score (up to 25 points) - More generous scoring
+    if (cleanText.length > 8000) score += 25;
+    else if (cleanText.length > 4000) score += 22;
+    else if (cleanText.length > 2000) score += 18;
+    else if (cleanText.length > 1000) score += 15;
+    else if (cleanText.length > 500) score += 12;
+    else if (cleanText.length > 200) score += 8;
+    else if (cleanText.length > 50) score += 5;
     
-    // Insurance keywords score (up to 40 points)
+    console.log('📊 Length score:', score, 'for', cleanText.length, 'chars');
+    
+    // Insurance keywords score (up to 35 points) - Enhanced keywords
     const insuranceKeywords = [
       'policy', 'insured', 'coverage', 'deductible', 'premium', 'liability',
-      'dwelling', 'property', 'effective', 'expiration', 'carrier', 'limit'
+      'dwelling', 'property', 'effective', 'expiration', 'carrier', 'limit',
+      'insurance', 'claim', 'homeowners', 'auto', 'vehicle', 'accident',
+      'damage', 'loss', 'adjuster', 'agent', 'company', 'underwriter',
+      'mortgagee', 'named', 'perils', 'wind', 'hail', 'fire', 'theft'
     ];
     
+    const lowerText = cleanText.toLowerCase();
     const foundKeywords = insuranceKeywords.filter(keyword => 
-      text.toLowerCase().includes(keyword)
-    ).length;
-    score += Math.min(foundKeywords * 3, 40);
+      lowerText.includes(keyword)
+    );
     
-    // Structure score (up to 20 points)
-    const hasNumbers = /\$[\d,]+|\d{1,2}\/\d{1,2}\/\d{2,4}/.test(text);
-    const hasAddresses = /\d+\s+[\w\s]+(?:street|st|avenue|ave|road|rd|drive|dr|lane|ln|way|blvd|boulevard)/i.test(text);
+    const keywordScore = Math.min(foundKeywords.length * 1.5, 35);
+    score += keywordScore;
+    
+    console.log('📊 Found keywords:', foundKeywords.length, 'Score:', keywordScore);
+    
+    // Critical identifiers score (up to 25 points)
+    let identifierScore = 0;
+    const hasPolicyNumber = /[A-Z0-9\-]{5,25}/.test(text);
+    const hasPhoneNumber = /\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{4}/.test(text);
+    const hasAddress = /\d+\s+[\w\s]+(?:street|st|avenue|ave|road|rd|drive|dr|lane|ln|way|blvd|boulevard)/i.test(text);
+    const hasMoneyAmounts = /\$[\d,]+/.test(text);
+    const hasDates = /\d{1,2}[/\-]\d{1,2}[/\-]\d{2,4}/.test(text);
+    
+    if (hasPolicyNumber) identifierScore += 8;
+    if (hasPhoneNumber) identifierScore += 5;
+    if (hasAddress) identifierScore += 6;
+    if (hasMoneyAmounts) identifierScore += 4;
+    if (hasDates) identifierScore += 2;
+    
+    score += identifierScore;
+    console.log('📊 Identifier score:', identifierScore);
+    
+    // Structure and formatting score (up to 15 points)
+    let structureScore = 0;
     const hasProperNouns = /[A-Z][a-z]+\s+[A-Z][a-z]+/.test(text);
+    const hasLineBreaks = text.includes('\n');
+    const hasColons = text.includes(':');
+    const hasCommas = text.includes(',');
     
-    if (hasNumbers) score += 7;
-    if (hasAddresses) score += 7;
-    if (hasProperNouns) score += 6;
+    if (hasProperNouns) structureScore += 5;
+    if (hasLineBreaks) structureScore += 3;
+    if (hasColons) structureScore += 4;
+    if (hasCommas) structureScore += 3;
     
-    // Readability score (up to 10 points)
-    const readableRatio = (text.match(/[a-zA-Z]/g) || []).length / text.length;
-    if (readableRatio > 0.7) score += 10;
-    else if (readableRatio > 0.5) score += 7;
-    else if (readableRatio > 0.3) score += 4;
+    score += structureScore;
+    console.log('📊 Structure score:', structureScore);
     
-    return Math.min(score, 100);
+    // Readability score (up to 15 points) - Ensure text is readable
+    const alphaChars = (text.match(/[a-zA-Z]/g) || []).length;
+    const totalChars = text.length;
+    const readableRatio = alphaChars / totalChars;
+    
+    let readabilityScore = 0;
+    if (readableRatio > 0.6) readabilityScore = 15;
+    else if (readableRatio > 0.4) readabilityScore = 10;
+    else if (readableRatio > 0.2) readabilityScore = 5;
+    
+    score += readabilityScore;
+    console.log('📊 Readability score:', readabilityScore, 'ratio:', readableRatio.toFixed(2));
+    
+    const finalScore = Math.min(score, 100);
+    console.log('📊 Final quality score:', finalScore, '/ 100');
+    
+    return finalScore;
   }
 
   /**
@@ -537,12 +631,12 @@ export class HybridPDFExtractionService {
   }
 
   /**
-   * STEP 4: AI Enhancement (OpenAI + Advanced Regex) with Data Formatting
+   * STEP 4: AI Enhancement (OpenAI + Advanced Regex) with Enhanced Coinsured Detection
    */
   private async enhanceWithAI(text: string): Promise<HybridPDFExtractionResult['policyData']> {
     try {
-      console.log('🧠 Attempting OpenAI enhancement...');
-      const response = await fetch(`${this.supabaseUrl}/functions/v1/openai-extract-fields`, {
+      console.log('🧠 Attempting enhanced OpenAI extraction with coinsured detection...');
+      const response = await fetch(`${this.supabaseUrl}/functions/v1/openai-extract-fields-enhanced`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${this.supabaseKey}`,
@@ -553,18 +647,21 @@ export class HybridPDFExtractionService {
 
       if (response.ok) {
         const result = await response.json();
-        if (result.policyData && Object.keys(result.policyData).length > 0) {
-          console.log('✅ OpenAI enhancement successful');
+        if (result.success && result.policyData && Object.keys(result.policyData).length > 0) {
+          console.log('✅ Enhanced OpenAI extraction successful');
+          if (result.coinsuredDetected) {
+            console.log('🤝 Coinsured party detected by AI!');
+          }
           const cleanedData = this.formatExtractedData(result.policyData);
           return this.ensureProperDataTypes(cleanedData);
         }
       }
       
-      console.warn('⚠️ OpenAI enhancement failed, using advanced regex parsing');
+      console.warn('⚠️ Enhanced OpenAI extraction failed, using advanced regex parsing');
       const regexData = this.parseWithAdvancedRegex(text);
       return this.formatExtractedData(regexData);
     } catch (error) {
-      console.warn('⚠️ OpenAI enhancement error:', error.message);
+      console.warn('⚠️ Enhanced OpenAI extraction error:', error.message);
       const regexData = this.parseWithAdvancedRegex(text);
       return this.formatExtractedData(regexData);
     }
@@ -621,7 +718,7 @@ export class HybridPDFExtractionService {
       }
     }
 
-    // Enhanced insured name patterns
+    // Enhanced insured name patterns with coinsured detection
     const namePatterns = [
       /(?:named\s+)?insured\s*[:.]?\s*([A-Z][A-Za-z\s,&.'-]{2,50})/i,
       /insured\s*name\s*[:.]?\s*([A-Z][A-Za-z\s,&.'-]{2,50})/i,
@@ -629,14 +726,71 @@ export class HybridPDFExtractionService {
       /name\s*of\s*insured\s*[:.]?\s*([A-Z][A-Za-z\s,&.'-]{2,50})/i
     ];
     
+    // Find all potential insured names
+    const allInsuredNames: string[] = [];
     for (const pattern of namePatterns) {
+      const matches = cleanText.matchAll(new RegExp(pattern.source, 'gi'));
+      for (const match of matches) {
+        if (match && match[1]) {
+          const name = match[1].trim().replace(/[,.;]$/, '');
+          if (name.length > 2 && name.length < 50 && !allInsuredNames.includes(name)) {
+            allInsuredNames.push(name);
+          }
+        }
+      }
+    }
+    
+    // Look for explicit coinsured patterns
+    const coinsuredPatterns = [
+      /(?:co\s*[-]?\s*insured|coinsured)\s*[:.]?\s*([A-Z][A-Za-z\s,&.'-]{2,50})/i,
+      /(?:additional\s+insured|joint\s+insured)\s*[:.]?\s*([A-Z][A-Za-z\s,&.'-]{2,50})/i,
+      /(?:spouse|husband|wife)\s*[:.]?\s*([A-Z][A-Za-z\s,&.'-]{2,50})/i,
+      /(?:and|&)\s+([A-Z][A-Za-z\s,&.'-]{2,50})(?:\s+(?:co\s*[-]?\s*insured|coinsured))?/i
+    ];
+    
+    // Check for explicit coinsured mentions
+    for (const pattern of coinsuredPatterns) {
       const match = cleanText.match(pattern);
-      if (match && match[1] && !policyData.insuredName) {
+      if (match && match[1] && !policyData.coinsuredName) {
         const name = match[1].trim().replace(/[,.;]$/, '');
         if (name.length > 2 && name.length < 50) {
-          policyData.insuredName = name;
+          policyData.coinsuredName = name;
           break;
         }
+      }
+    }
+    
+    // Smart detection: if we found multiple names and no explicit coinsured
+    if (allInsuredNames.length >= 2 && !policyData.coinsuredName) {
+      // Look for patterns indicating joint names
+      const jointPatterns = [
+        /([A-Z][A-Za-z\s,&.'-]{2,50})\s+(?:and|&)\s+([A-Z][A-Za-z\s,&.'-]{2,50})/i,
+        /([A-Z][A-Za-z\s,&.'-]{2,50})\s*[,;]\s*([A-Z][A-Za-z\s,&.'-]{2,50})/i
+      ];
+      
+      for (const pattern of jointPatterns) {
+        const match = cleanText.match(pattern);
+        if (match && match[1] && match[2]) {
+          const firstName = match[1].trim().replace(/[,.;]$/, '');
+          const secondName = match[2].trim().replace(/[,.;]$/, '');
+          
+          if (firstName.length > 2 && firstName.length < 50 && 
+              secondName.length > 2 && secondName.length < 50) {
+            policyData.insuredName = firstName;
+            policyData.coinsuredName = secondName;
+            console.log(`🤝 Detected joint insured: "${firstName}" and coinsured: "${secondName}"`);
+            break;
+          }
+        }
+      }
+    }
+    
+    // If no joint pattern found but we have multiple names, use the first two
+    if (!policyData.insuredName && allInsuredNames.length > 0) {
+      policyData.insuredName = allInsuredNames[0];
+      if (allInsuredNames.length > 1 && !policyData.coinsuredName) {
+        policyData.coinsuredName = allInsuredNames[1];
+        console.log(`👥 Multiple names detected - Primary: "${policyData.insuredName}", Coinsured: "${policyData.coinsuredName}"`);
       }
     }
 
@@ -687,11 +841,12 @@ export class HybridPDFExtractionService {
       }
     }
 
-    // Enhanced address patterns
+    // Enhanced address patterns with comprehensive property address terms
     const addressPatterns = [
-      /(?:property\s+address|insured\s+location|risk\s+location|location\s+of\s+risk)\s*[:.]?\s*([0-9][A-Za-z0-9\s,.'-]{5,100})/i,
-      /address\s*[:.]?\s*([0-9][A-Za-z0-9\s,.'-]{5,100})/i,
-      /located\s+at\s*[:.]?\s*([0-9][A-Za-z0-9\s,.'-]{5,100})/i
+      /(?:property\s+address|insured\s+location|insured\s+property|insured\s+premises|risk\s+location|location\s+of\s+risk|premises\s+address)\s*[:.]?\s*([0-9][A-Za-z0-9\s,.'-]{5,100})/i,
+      /(?:address\s+of\s+(?:property|premises|location))\s*[:.]?\s*([0-9][A-Za-z0-9\s,.'-]{5,100})/i,
+      /(?:situated\s+at|located\s+at|premises\s+located)\s*[:.]?\s*([0-9][A-Za-z0-9\s,.'-]{5,100})/i,
+      /address\s*[:.]?\s*([0-9][A-Za-z0-9\s,.'-]{5,100})/i
     ];
     
     for (const pattern of addressPatterns) {
@@ -845,6 +1000,11 @@ File size: ${(file.size / 1024).toFixed(1)} KB
     // Format names (add spaces between concatenated names)
     if (result.insuredName && typeof result.insuredName === 'string') {
       result.insuredName = this.formatName(result.insuredName);
+    }
+    
+    // Format coinsured name
+    if (result.coinsuredName && typeof result.coinsuredName === 'string') {
+      result.coinsuredName = this.formatName(result.coinsuredName);
     }
     
     // Format company names
