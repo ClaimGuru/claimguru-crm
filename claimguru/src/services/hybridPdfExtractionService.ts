@@ -344,25 +344,38 @@ export class HybridPDFExtractionService {
   private qualityToConfidence(qualityScore: number): number {
     console.log('🔢 Converting quality score to confidence:', qualityScore);
     // Convert quality score (0-100) to confidence (0-1)
-    // Apply a more realistic confidence curve with minimum thresholds
+    // Apply a more realistic confidence curve with better minimum thresholds
     
     // Ensure we have a valid quality score
     const validScore = Math.max(0, Math.min(100, qualityScore || 0));
     
     let confidence: number;
-    if (validScore >= 80) {
-      confidence = 0.85 + (validScore - 80) * 0.0075; // 0.85 to 1.0
+    if (validScore >= 90) {
+      confidence = 0.90 + (validScore - 90) * 0.01; // 0.90 to 1.0
+    } else if (validScore >= 80) {
+      confidence = 0.80 + (validScore - 80) * 0.01; // 0.80 to 0.90
+    } else if (validScore >= 70) {
+      confidence = 0.70 + (validScore - 70) * 0.01; // 0.70 to 0.80
     } else if (validScore >= 60) {
-      confidence = 0.65 + (validScore - 60) * 0.01;   // 0.65 to 0.85
+      confidence = 0.60 + (validScore - 60) * 0.01; // 0.60 to 0.70
+    } else if (validScore >= 50) {
+      confidence = 0.50 + (validScore - 50) * 0.01; // 0.50 to 0.60
     } else if (validScore >= 40) {
-      confidence = 0.45 + (validScore - 40) * 0.01;   // 0.45 to 0.65
+      confidence = 0.40 + (validScore - 40) * 0.01; // 0.40 to 0.50
+    } else if (validScore >= 30) {
+      confidence = 0.30 + (validScore - 30) * 0.01; // 0.30 to 0.40
     } else if (validScore >= 20) {
-      confidence = 0.25 + (validScore - 20) * 0.01;   // 0.25 to 0.45
+      confidence = 0.25 + (validScore - 20) * 0.005; // 0.25 to 0.30
     } else {
-      confidence = Math.max(0.15, validScore * 0.0125); // Minimum 15% confidence
+      confidence = Math.max(0.30, validScore * 0.0167); // Minimum 30% confidence, scale up from there
     }
     
-    console.log('🔢 Quality score:', validScore, '→ Confidence:', confidence);
+    // Add bonus for having any recognizable content
+    if (validScore > 10) {
+      confidence = Math.max(confidence, 0.35); // Ensure at least 35% for any recognizable content
+    }
+    
+    console.log('🔢 Quality score:', validScore, '→ Confidence:', (confidence * 100).toFixed(1) + '%');
     return Math.min(1.0, confidence); // Cap at 100%
   }
 

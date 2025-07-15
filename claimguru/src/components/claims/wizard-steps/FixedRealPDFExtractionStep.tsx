@@ -102,7 +102,12 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
     
     // Map extracted data to wizard form fields using the new mapping service
     console.log('🗺️ Auto-populating wizard fields with extracted data...');
+    console.log('📄 Validated policy data:', validatedPolicyData);
+    console.log('📄 Existing wizard data:', data);
+    
     const mappedWizardData = PolicyDataMappingService.mergeWithExistingData(data, validatedPolicyData);
+    
+    console.log('🎆 Merged wizard data for auto-population:', mappedWizardData);
     
     onUpdate({
       ...mappedWizardData,

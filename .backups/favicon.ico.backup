@@ -1,0 +1,3 @@
+# Creating a text-based favicon placeholder that will be converted to proper binary format during deployment
+# This is a temporary fix for the favicon 404 error
+favicon-placeholder

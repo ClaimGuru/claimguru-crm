@@ -932,10 +932,12 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
               <div className="flex items-start gap-3">
                 <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5" />
                 <div>
-                  <h4 className="font-medium text-yellow-900">Please Review & Confirm</h4>
+                  <h4 className="font-medium text-yellow-900">Please Review & Confirm Each Field</h4>
                   <p className="text-sm text-yellow-700 mt-1">
-                    Review each extracted field below. Click "Edit" to correct any inaccurate data, 
-                    or use AI suggestions if available. All required fields must be completed to proceed.
+                    ✅ <strong>Accept</strong> correct values • ❌ <strong>Reject</strong> incorrect values • ✏️ <strong>Edit</strong> to modify • 💡 Click <strong>AI suggestions</strong> to use them
+                  </p>
+                  <p className="text-xs text-yellow-600 mt-2 font-medium">
+                    You can approve fields individually - you don't need to approve all at once!
                   </p>
                 </div>
               </div>
