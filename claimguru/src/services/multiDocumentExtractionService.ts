@@ -7,7 +7,7 @@ import { HybridPDFExtractionService } from './hybridPdfExtractionService';
 import { EnhancedHybridPdfExtractionService } from './enhancedHybridPdfExtractionService';
 import DocumentClassificationService, { DocumentClassificationResult } from './documentClassificationService';
 import { IdentifierExtractionService, IdentifierExtractionResult } from './identifierExtractionService';
-import IntelligentExtractionService, { IntelligentExtractionResult } from './intelligentExtractionService';
+import { IntelligentExtractionService, IntelligentExtractionResult } from './intelligentExtractionService';
 
 export interface DocumentExtractionResult {
   documentInfo: {
@@ -697,10 +697,18 @@ export class MultiDocumentExtractionService {
     }
 
     try {
-      await this.intelligentExtractor.learnFromUserFeedback(
-        documentResult.intelligentExtraction,
-        userCorrections
-      );
+      // Convert to feedback format expected by the learning service
+      const feedback = {
+        documentId: 'manual_correction',
+        carrierId: documentResult.intelligentExtraction?.carrierIdentified?.carrierId,
+        fieldName: 'multiple_fields',
+        correctValue: JSON.stringify(userCorrections),
+        foundValue: JSON.stringify(documentResult.extractedData),
+        userCorrection: true,
+        context: documentResult.rawText
+      };
+      
+      await this.intelligentExtractor.learnFromUserFeedback(feedback);
       
       console.log('📚 Successfully learned from user feedback');
     } catch (error) {
@@ -727,7 +735,8 @@ export class MultiDocumentExtractionService {
    * Enable/disable learning system
    */
   public setLearningEnabled(enabled: boolean): void {
-    this.intelligentExtractor.setLearningEnabled(enabled);
+    // Learning is always enabled with the new carrier learning system
+    console.log(`📚 Learning system is always enabled with carrier-specific patterns`);
   }
 
   /**

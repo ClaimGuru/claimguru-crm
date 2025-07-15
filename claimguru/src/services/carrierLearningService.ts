@@ -342,7 +342,7 @@ export class CarrierLearningService {
       pattern = {
         carrierId,
         carrierName: this.getCarrierDisplayName(carrierId),
-        documentType,
+        documentType: documentType as 'policy' | 'letter' | 'claim_form',
         fieldPatterns: [],
         layoutSignatures: [],
         extractionSuccess: 0,
