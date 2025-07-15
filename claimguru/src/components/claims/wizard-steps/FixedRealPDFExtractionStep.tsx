@@ -79,6 +79,15 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
         methodsAttempted: result.metadata.methodsAttempted
       });
       
+      // Debug logging for extracted data
+      console.log('📊 Extraction Results Set:', {
+        extractedText: result.extractedText?.length ? `${result.extractedText.length} chars` : 'empty',
+        policyData: result.policyData,
+        policyDataKeys: result.policyData ? Object.keys(result.policyData) : 'none',
+        processingMethod: result.processingMethod,
+        willShowValidation: !!(result.policyData && result.extractedText)
+      });
+      
       console.log('✅ Extraction successful, validation step will be shown with data:', result.policyData);
       
     } catch (error) {
@@ -267,7 +276,17 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
           )}
 
           {/* Policy Data Validation Step - Show when data is extracted */}
-          {extractedData && !isConfirmed && (
+          {(() => {
+            const shouldShow = extractedData && !isConfirmed;
+            console.log('🔍 PolicyDataValidation Render Check:', {
+              extractedData: !!extractedData,
+              isConfirmed,
+              shouldShow,
+              extractedDataKeys: extractedData ? Object.keys(extractedData) : 'none',
+              rawTextLength: rawText?.length || 0
+            });
+            return shouldShow;
+          })() && (
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
               <h3 className="text-lg font-semibold text-blue-900 mb-4 flex items-center gap-2">
                 <CheckCircle className="h-5 w-5" />
