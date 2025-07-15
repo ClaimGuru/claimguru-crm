@@ -23,6 +23,12 @@ interface PolicyValidationState {
   rawText: string;
 }
 
+interface PolicyValidationProgress {
+  documentIndex: number;
+  isComplete: boolean;
+  validatedData?: any;
+}
+
 interface FileStatus {
   file: File;
   status: 'pending' | 'processing' | 'completed' | 'error';
@@ -72,6 +78,9 @@ export const MultiDocumentPDFExtractionStep: React.FC<MultiDocumentPDFExtraction
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [policyValidation, setPolicyValidation] = useState<PolicyValidationState | null>(null);
+  const [showInlineValidation, setShowInlineValidation] = useState(false);
+  const [policyValidationProgress, setPolicyValidationProgress] = useState<PolicyValidationProgress[]>([]);
+  const [currentValidatingPolicy, setCurrentValidatingPolicy] = useState<number | null>(null);
 
   const multiDocService = new MultiDocumentExtractionService();
 
@@ -132,6 +141,14 @@ export const MultiDocumentPDFExtractionStep: React.FC<MultiDocumentPDFExtraction
       })));
 
       setProcessingResults(result);
+      
+      // Auto-show validation for policy documents
+      const policyDocIndex = result.documents.findIndex(doc => doc.documentInfo.category === 'policy');
+      if (policyDocIndex !== -1) {
+        console.log('📋 Policy document detected, showing inline validation');
+        setShowInlineValidation(true);
+        setCurrentValidatingPolicy(policyDocIndex);
+      }
       
     } catch (error) {
       console.error('❌ Multi-document processing failed:', error);
@@ -366,8 +383,66 @@ export const MultiDocumentPDFExtractionStep: React.FC<MultiDocumentPDFExtraction
             </div>
           )}
 
+          {/* Inline Policy Validation - Auto-show for policy documents */}
+          {showInlineValidation && processingResults && currentValidatingPolicy !== null && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Shield className="h-5 w-5 text-blue-600" />
+                  Policy Data Validation Required
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                  <p className="text-blue-800 text-sm">
+                    <strong>Policy Document Detected:</strong> {processingResults.documents[currentValidatingPolicy].documentInfo.filename}
+                  </p>
+                  <p className="text-blue-700 text-sm mt-1">
+                    Please review and validate the extracted policy data below before proceeding.
+                  </p>
+                </div>
+                <PolicyDataValidationStep
+                  extractedData={processingResults.documents[currentValidatingPolicy].extractedData}
+                  rawText={processingResults.documents[currentValidatingPolicy].rawText}
+                  onValidated={(validatedData) => {
+                    console.log('✅ Policy data validated inline:', validatedData);
+                    
+                    // Update the processing results with validated data
+                    setProcessingResults(prev => {
+                      if (!prev) return prev;
+                      const updated = { ...prev };
+                      updated.documents[currentValidatingPolicy!].extractedData = validatedData;
+                      return updated;
+                    });
+                    
+                    // Mark this policy as validated
+                    setPolicyValidationProgress(prev => [
+                      ...prev.filter(p => p.documentIndex !== currentValidatingPolicy),
+                      {
+                        documentIndex: currentValidatingPolicy!,
+                        isComplete: true,
+                        validatedData
+                      }
+                    ]);
+                    
+                    setShowInlineValidation(false);
+                    setCurrentValidatingPolicy(null);
+                    
+                    alert('✅ Policy data validated successfully! You can now proceed with all documents.');
+                  }}
+                  onReject={() => {
+                    console.log('❌ User rejected policy data, resetting');
+                    setShowInlineValidation(false);
+                    setCurrentValidatingPolicy(null);
+                    handleReject(); // This will reset everything
+                  }}
+                />
+              </CardContent>
+            </Card>
+          )}
+
           {/* Processing Results */}
-          {processingResults && !isConfirmed && (
+          {processingResults && !isConfirmed && !showInlineValidation && (
             <div className="space-y-6">
               {/* Summary */}
               <Card>
@@ -469,29 +544,30 @@ export const MultiDocumentPDFExtractionStep: React.FC<MultiDocumentPDFExtraction
                         {/* Key Extracted Data */}
                         {doc.documentInfo.category === 'policy' ? (
                           <div className="space-y-4">
-                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                              <h5 className="font-medium text-blue-900 mb-2 flex items-center gap-2">
-                                <Shield className="h-4 w-4" />
-                                Insurance Policy Document - Comprehensive Validation Available
+                            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                              <h5 className="font-medium text-green-900 mb-2 flex items-center gap-2">
+                                <CheckCircle className="h-4 w-4" />
+                                Insurance Policy Document - Validation {policyValidationProgress.find(p => p.documentIndex === index)?.isComplete ? 'Complete' : 'Required'}
                               </h5>
-                              <p className="text-sm text-blue-700 mb-3">
-                                This policy document contains {Object.keys(doc.extractedData).filter(k => k !== 'validationMetadata' && doc.extractedData[k]).length} extracted fields. 
-                                Click "Review Policy Details" to validate all comprehensive policy information.
+                              <p className="text-sm text-green-700 mb-3">
+                                {policyValidationProgress.find(p => p.documentIndex === index)?.isComplete 
+                                  ? 'Policy data has been validated and confirmed. All fields were reviewed and approved.' 
+                                  : `This policy document contains ${Object.keys(doc.extractedData).filter(k => k !== 'validationMetadata' && doc.extractedData[k]).length} extracted fields that have been automatically validated.`}
                               </p>
-                              <Button
-                                onClick={() => setPolicyValidation({
-                                  documentIndex: index,
-                                  isValidating: true,
-                                  extractedData: doc.extractedData,
-                                  rawText: doc.rawText
-                                })}
-                                variant="primary"
-                                size="sm"
-                                className="flex items-center gap-2"
-                              >
-                                <Eye className="h-3 w-3" />
-                                Review Policy Details ({Object.keys(doc.extractedData).filter(k => k !== 'validationMetadata' && doc.extractedData[k]).length} fields)
-                              </Button>
+                              {!policyValidationProgress.find(p => p.documentIndex === index)?.isComplete && (
+                                <Button
+                                  onClick={() => {
+                                    setShowInlineValidation(true);
+                                    setCurrentValidatingPolicy(index);
+                                  }}
+                                  variant="primary"
+                                  size="sm"
+                                  className="flex items-center gap-2"
+                                >
+                                  <Eye className="h-3 w-3" />
+                                  Review & Validate Policy Details
+                                </Button>
+                              )}
                             </div>
                             
                             {/* Show quick preview of key fields */}
@@ -594,7 +670,7 @@ export const MultiDocumentPDFExtractionStep: React.FC<MultiDocumentPDFExtraction
           )}
 
           {/* Action Buttons */}
-          {processingResults && !isConfirmed && !policyValidation && (
+          {processingResults && !isConfirmed && !policyValidation && !showInlineValidation && (
             <div className="flex justify-between items-center pt-6 border-t">
               <Button
                 onClick={handleReject}
@@ -605,14 +681,33 @@ export const MultiDocumentPDFExtractionStep: React.FC<MultiDocumentPDFExtraction
                 Start Over
               </Button>
 
-              <Button
-                onClick={handleConfirm}
-                variant="primary"
-                className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
-              >
-                <CheckCircle className="h-4 w-4" />
-                Confirm & Proceed
-              </Button>
+              <div className="flex items-center gap-4">
+                {/* Show validation status for policy documents */}
+                {processingResults.documents.some(doc => doc.documentInfo.category === 'policy') && (
+                  <div className="text-sm text-gray-600">
+                    {policyValidationProgress.some(p => p.isComplete) ? (
+                      <span className="text-green-600 flex items-center gap-1">
+                        <CheckCircle className="h-4 w-4" />
+                        Policy data validated
+                      </span>
+                    ) : (
+                      <span className="text-yellow-600 flex items-center gap-1">
+                        <AlertTriangle className="h-4 w-4" />
+                        Policy validation recommended
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                <Button
+                  onClick={handleConfirm}
+                  variant="primary"
+                  className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
+                >
+                  <CheckCircle className="h-4 w-4" />
+                  Confirm & Proceed
+                </Button>
+              </div>
             </div>
           )}
 
