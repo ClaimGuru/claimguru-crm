@@ -206,29 +206,39 @@ export class MultiDocumentExtractionService {
    * Specialized extraction methods for different document types
    */
   private extractPolicyData(text: string, baseData: any): any {
+    // IMPORTANT: baseData already contains comprehensive OpenAI extraction with 34+ fields
+    // We should enhance it, not overwrite it
+    console.log('📋 Enhancing policy data - preserving comprehensive extraction');
+    console.log('📊 Base data fields:', Object.keys(baseData).filter(k => baseData[k]).length);
+    
     const policyData = { ...baseData };
 
-    // Enhanced policy extraction patterns
-    const patterns = {
+    // Only enhance missing critical fields with targeted patterns
+    const enhancementPatterns = {
       policyNumber: /(?:policy\s*(?:number|#|no)\s*[:.]?\s*)([A-Z0-9\-]{5,25})/i,
       insuredName: /(?:named\s*insured|insured|policyholder)\s*[:.]?\s*([A-Z][A-Za-z\s,&'-]{2,50})/i,
-      propertyAddress: /(?:property\s*address|residence|premises)\s*[:.]?\s*([\w\s,#\-]{10,100})/i,
-      effectiveDate: /(?:effective|policy\s*period\s*begins?)\s*[:.]?\s*(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/i,
-      expirationDate: /(?:expir|policy\s*period\s*ends?)\s*[:.]?\s*(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/i,
-      coverageA: /(?:coverage\s*a|dwelling)\s*[:.]?\s*\$?([\d,]+)/i,
-      deductible: /(?:deductible|ded)\s*[:.]?\s*\$?([\d,]+)/i,
-      insurerName: /(?:insurance\s*company|insurer|carrier)\s*[:.]?\s*([A-Z][A-Za-z\s&.,'-]{2,50})/i
+      propertyAddress: /(?:property\s*address|residence|premises|risk\s*location)\s*[:.]?\s*([\w\s,#\-]{10,100})/i,
+      effectiveDate: /(?:effective|policy\s*period\s*begins?|from)\s*[:.]?\s*(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/i,
+      expirationDate: /(?:expir|policy\s*period\s*ends?|to)\s*[:.]?\s*(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/i,
+      insurerName: /(?:insurance\s*company|insurer|carrier|issued\s*by)\s*[:.]?\s*([A-Z][A-Za-z\s&.,'-]{2,50})/i
     };
 
-    Object.entries(patterns).forEach(([field, pattern]) => {
-      if (!policyData[field]) {
+    // Only fill in missing critical fields - preserve comprehensive OpenAI extraction
+    Object.entries(enhancementPatterns).forEach(([field, pattern]) => {
+      if (!policyData[field] || policyData[field] === 'null' || policyData[field] === null) {
         const match = text.match(pattern);
-        if (match) {
+        if (match && match[1]) {
           policyData[field] = match[1].trim();
+          console.log(`🔧 Enhanced missing field: ${field} = ${match[1].trim()}`);
         }
       }
     });
 
+    // Add document-specific metadata
+    policyData.documentType = 'insurance_policy';
+    policyData.extractionEnhanced = true;
+    
+    console.log('✅ Policy data enhancement complete - fields preserved:', Object.keys(policyData).filter(k => policyData[k] && policyData[k] !== 'null').length);
     return policyData;
   }
 
