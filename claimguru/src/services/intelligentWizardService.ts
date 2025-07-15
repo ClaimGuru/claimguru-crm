@@ -209,7 +209,7 @@ export class IntelligentWizardService {
       return {};
     }
 
-    const suggestions = {
+    const suggestions: any = {
       firstName: this.extractFirstName(this.extractedPolicyData.insuredName),
       lastName: this.extractLastName(this.extractedPolicyData.insuredName),
       phone: this.extractedPolicyData.phoneNumber,
@@ -221,7 +221,29 @@ export class IntelligentWizardService {
       _confidence: 'high'
     };
     
-    console.log('✅ Generated client details suggestions');
+    // Enhanced coinsured detection and suggestions
+    if (this.extractedPolicyData.coinsuredName) {
+      console.log('🤝 Coinsured detected:', this.extractedPolicyData.coinsuredName);
+      
+      // Add coinsured information suggestions
+      suggestions.coinsuredInfo = {
+        firstName: this.extractFirstName(this.extractedPolicyData.coinsuredName),
+        lastName: this.extractLastName(this.extractedPolicyData.coinsuredName),
+        relationship: this.determineRelationship(this.extractedPolicyData.insuredName, this.extractedPolicyData.coinsuredName),
+        _aiSuggested: true,
+        _confidence: 'high'
+      };
+      
+      // Add insights about multiple policyholders
+      suggestions._insights = suggestions._insights || [];
+      suggestions._insights.push({
+        type: 'coinsured_detected',
+        message: `Policy has multiple insured parties: ${this.extractedPolicyData.insuredName} (Primary) and ${this.extractedPolicyData.coinsuredName} (Co-insured)`,
+        recommendation: 'Consider collecting contact information for both insured parties'
+      });
+    }
+    
+    console.log('✅ Generated client details suggestions with coinsured analysis');
     return suggestions;
   }
 
@@ -476,6 +498,40 @@ export class IntelligentWizardService {
       state: parts[2]?.split(' ')[0] || '',
       zipCode: parts[2]?.split(' ')[1] || ''
     };
+  }
+
+  private determineRelationship(primaryName?: string, coinsuredName?: string): string {
+    if (!primaryName || !coinsuredName) return 'Co-insured';
+    
+    // Extract last names for comparison
+    const primaryLastName = this.extractLastName(primaryName).toLowerCase();
+    const coinsuredLastName = this.extractLastName(coinsuredName).toLowerCase();
+    
+    // If same last name, likely spouse
+    if (primaryLastName && coinsuredLastName && primaryLastName === coinsuredLastName) {
+      // Check for common spouse patterns
+      const primaryFirst = this.extractFirstName(primaryName).toLowerCase();
+      const coinsuredFirst = this.extractFirstName(coinsuredName).toLowerCase();
+      
+      // Look for gender-based name patterns to determine spouse relationship
+      const maleNames = ['john', 'robert', 'michael', 'david', 'james', 'william', 'richard', 'thomas', 'charles', 'christopher'];
+      const femaleNames = ['mary', 'patricia', 'jennifer', 'linda', 'elizabeth', 'barbara', 'susan', 'jessica', 'sarah', 'karen'];
+      
+      const primaryIsMale = maleNames.includes(primaryFirst);
+      const primaryIsFemale = femaleNames.includes(primaryFirst);
+      const coinsuredIsMale = maleNames.includes(coinsuredFirst);
+      const coinsuredIsFemale = femaleNames.includes(coinsuredFirst);
+      
+      // If opposite genders with same last name, likely spouse
+      if ((primaryIsMale && coinsuredIsFemale) || (primaryIsFemale && coinsuredIsMale)) {
+        return 'Spouse';
+      }
+    }
+    
+    // Look for explicit relationship indicators in the original text
+    // This would require access to the raw extracted text, but for now we'll use patterns
+    
+    return 'Co-insured'; // Default fallback
   }
 
   private extractDatesFromDocuments(documents: ProcessedDocument[]): string[] {

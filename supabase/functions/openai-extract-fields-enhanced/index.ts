@@ -1,0 +1,224 @@
+Deno.serve(async (req) => {
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE, PATCH',
+    'Access-Control-Max-Age': '86400',
+  };
+
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { status: 200, headers: corsHeaders });
+  }
+
+  try {
+    const { text } = await req.json();
+    
+    if (!text || text.trim().length < 10) {
+      throw new Error('Text is required and must be at least 10 characters long');
+    }
+
+    // Get OpenAI API key from environment
+    const openaiApiKey = Deno.env.get('OPENAI_API_KEY');
+    if (!openaiApiKey) {
+      throw new Error('OpenAI API key not configured');
+    }
+
+    console.log('Processing text of length:', text.length);
+
+    // Enhanced prompt with specific coinsured detection
+    const prompt = `
+You are an expert insurance document analyzer. Extract ALL available information from this insurance policy text with special attention to identifying coinsured parties.
+
+CRITICAL COINSURED DETECTION RULES:
+1. When you find TWO names for insured parties, the SECOND name is typically the COINSURED
+2. Look for patterns like "John Smith and Mary Smith" - John is insured, Mary is coinsured
+3. Look for explicit terms: "Co-insured", "Additional Insured", "Joint Insured", "Spouse"
+4. Married couples are commonly listed as primary insured and coinsured
+
+Extract these fields in JSON format:
+
+{
+  "policyNumber": "Policy/certificate number",
+  "insuredName": "PRIMARY insured person name",
+  "coinsuredName": "SECONDARY insured person name (spouse/joint policyholder)",
+  "effectiveDate": "Policy start date",
+  "expirationDate": "Policy end date",
+  "propertyAddress": "Property/risk location address",
+  "mailingAddress": "Mailing address if different",
+  "insurerName": "Insurance company name",
+  "insurerPhone": "Insurance company phone",
+  "insurerAddress": "Insurance company address",
+  "agentName": "Insurance agent name",
+  "agentPhone": "Insurance agent phone",
+  "agentAddress": "Insurance agent address",
+  "mortgageeName": "Mortgagee/lender name",
+  "mortgageePhone": "Mortgagee phone",
+  "mortgageeAddress": "Mortgagee address",
+  "mortgageAccountNumber": "Mortgage/loan account number",
+  "coverageA": "Coverage A (Dwelling) amount",
+  "coverageB": "Coverage B (Other Structures) amount",
+  "coverageC": "Coverage C (Personal Property) amount",
+  "coverageD": "Coverage D (Loss of Use) amount",
+  "moldLimit": "Mold coverage limit",
+  "coverageAmount": "Total coverage amount",
+  "aopDeductible": "All Other Perils deductible",
+  "aopDeductibleType": "AOP deductible type (Stated Amount/Percentage)",
+  "windHailDeductible": "Wind/Hail deductible",
+  "windHailDeductibleType": "Wind/Hail deductible type",
+  "namedStormDeductible": "Named Storm deductible",
+  "namedStormDeductibleType": "Named Storm deductible type",
+  "hurricaneDeductible": "Hurricane deductible",
+  "hurricaneDeductibleType": "Hurricane deductible type",
+  "tornadoDeductible": "Tornado deductible",
+  "tornadoDeductibleType": "Tornado deductible type",
+  "deductible": "General deductible amount",
+  "deductibleType": "General deductible type",
+  "yearBuilt": "Year property was built",
+  "dwellingStyle": "Dwelling style/type",
+  "squareFootage": "Square footage",
+  "numberOfStories": "Number of stories",
+  "constructionType": "Construction type",
+  "foundationType": "Foundation type",
+  "roofMaterialType": "Roof material",
+  "sidingType": "Siding type",
+  "heatingAndCooling": "Heating and cooling system"
+}
+
+EXAMPLES OF COINSURED PATTERNS TO LOOK FOR:
+- "Insured: John Smith and Mary Smith" → insuredName: "John Smith", coinsuredName: "Mary Smith"
+- "Named Insured: Robert Jones, Co-insured: Susan Jones" → insuredName: "Robert Jones", coinsuredName: "Susan Jones"
+- "Policyholder: Michael Brown & Jennifer Brown" → insuredName: "Michael Brown", coinsuredName: "Jennifer Brown"
+- "Insured: David Wilson; Spouse: Lisa Wilson" → insuredName: "David Wilson", coinsuredName: "Lisa Wilson"
+
+Rules:
+- Extract exact values as they appear
+- Use standard date format MM/DD/YYYY
+- Include $ signs for monetary amounts
+- Return empty string "" for missing fields
+- Focus on accuracy over completeness
+- Pay special attention to multiple names and identify coinsured correctly
+
+Text to analyze:
+${text}
+`;
+
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${openaiApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are an expert insurance document analyzer. Extract information accurately and pay special attention to identifying coinsured parties.'
+          },
+          {
+            role: 'user',
+            content: prompt
+          }
+        ],
+        temperature: 0.1,
+        max_tokens: 2000
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('OpenAI API error:', response.status, errorText);
+      throw new Error(`OpenAI API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+      throw new Error('Invalid response from OpenAI API');
+    }
+
+    const extractedText = data.choices[0].message.content;
+    console.log('OpenAI response length:', extractedText.length);
+
+    // Parse JSON response
+    let policyData;
+    try {
+      // Clean the response - remove markdown formatting if present
+      const cleanedText = extractedText.replace(/```json\n?|\n?```/g, '').trim();
+      policyData = JSON.parse(cleanedText);
+    } catch (parseError) {
+      console.error('JSON parsing error:', parseError);
+      console.error('Raw response:', extractedText);
+      
+      // Try to extract JSON from the response
+      const jsonMatch = extractedText.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        try {
+          policyData = JSON.parse(jsonMatch[0]);
+        } catch {
+          throw new Error('Failed to parse JSON response from OpenAI');
+        }
+      } else {
+        throw new Error('No valid JSON found in OpenAI response');
+      }
+    }
+
+    // Validate and clean the data
+    const cleanedData = {};
+    const expectedFields = [
+      'policyNumber', 'insuredName', 'coinsuredName', 'effectiveDate', 'expirationDate',
+      'propertyAddress', 'mailingAddress', 'insurerName', 'insurerPhone', 'insurerAddress',
+      'agentName', 'agentPhone', 'agentAddress', 'mortgageeName', 'mortgageePhone',
+      'mortgageeAddress', 'mortgageAccountNumber', 'coverageA', 'coverageB', 'coverageC',
+      'coverageD', 'moldLimit', 'coverageAmount', 'aopDeductible', 'aopDeductibleType',
+      'windHailDeductible', 'windHailDeductibleType', 'namedStormDeductible',
+      'namedStormDeductibleType', 'hurricaneDeductible', 'hurricaneDeductibleType',
+      'tornadoDeductible', 'tornadoDeductibleType', 'deductible', 'deductibleType',
+      'yearBuilt', 'dwellingStyle', 'squareFootage', 'numberOfStories',
+      'constructionType', 'foundationType', 'roofMaterialType', 'sidingType',
+      'heatingAndCooling'
+    ];
+
+    for (const field of expectedFields) {
+      if (policyData[field] && policyData[field] !== "" && policyData[field] !== null) {
+        cleanedData[field] = String(policyData[field]).trim();
+      }
+    }
+
+    // Log coinsured detection results
+    if (cleanedData.coinsuredName) {
+      console.log(`✅ Coinsured detected: Primary="${cleanedData.insuredName}", Coinsured="${cleanedData.coinsuredName}"`);
+    } else if (cleanedData.insuredName) {
+      console.log(`ℹ️ Single insured detected: "${cleanedData.insuredName}"`);
+    }
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        policyData: cleanedData,
+        extractedFields: Object.keys(cleanedData).length,
+        coinsuredDetected: !!cleanedData.coinsuredName
+      }),
+      {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      }
+    );
+
+  } catch (error) {
+    console.error('OpenAI extraction error:', error);
+    
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: {
+          code: 'EXTRACTION_ERROR',
+          message: error.message || 'Failed to extract policy data'
+        }
+      }),
+      {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      }
+    );
+  }
+});

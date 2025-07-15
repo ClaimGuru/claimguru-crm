@@ -631,12 +631,12 @@ export class HybridPDFExtractionService {
   }
 
   /**
-   * STEP 4: AI Enhancement (OpenAI + Advanced Regex) with Data Formatting
+   * STEP 4: AI Enhancement (OpenAI + Advanced Regex) with Enhanced Coinsured Detection
    */
   private async enhanceWithAI(text: string): Promise<HybridPDFExtractionResult['policyData']> {
     try {
-      console.log('🧠 Attempting OpenAI enhancement...');
-      const response = await fetch(`${this.supabaseUrl}/functions/v1/openai-extract-fields`, {
+      console.log('🧠 Attempting enhanced OpenAI extraction with coinsured detection...');
+      const response = await fetch(`${this.supabaseUrl}/functions/v1/openai-extract-fields-enhanced`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${this.supabaseKey}`,
@@ -647,18 +647,21 @@ export class HybridPDFExtractionService {
 
       if (response.ok) {
         const result = await response.json();
-        if (result.policyData && Object.keys(result.policyData).length > 0) {
-          console.log('✅ OpenAI enhancement successful');
+        if (result.success && result.policyData && Object.keys(result.policyData).length > 0) {
+          console.log('✅ Enhanced OpenAI extraction successful');
+          if (result.coinsuredDetected) {
+            console.log('🤝 Coinsured party detected by AI!');
+          }
           const cleanedData = this.formatExtractedData(result.policyData);
           return this.ensureProperDataTypes(cleanedData);
         }
       }
       
-      console.warn('⚠️ OpenAI enhancement failed, using advanced regex parsing');
+      console.warn('⚠️ Enhanced OpenAI extraction failed, using advanced regex parsing');
       const regexData = this.parseWithAdvancedRegex(text);
       return this.formatExtractedData(regexData);
     } catch (error) {
-      console.warn('⚠️ OpenAI enhancement error:', error.message);
+      console.warn('⚠️ Enhanced OpenAI extraction error:', error.message);
       const regexData = this.parseWithAdvancedRegex(text);
       return this.formatExtractedData(regexData);
     }
@@ -715,7 +718,7 @@ export class HybridPDFExtractionService {
       }
     }
 
-    // Enhanced insured name patterns
+    // Enhanced insured name patterns with coinsured detection
     const namePatterns = [
       /(?:named\s+)?insured\s*[:.]?\s*([A-Z][A-Za-z\s,&.'-]{2,50})/i,
       /insured\s*name\s*[:.]?\s*([A-Z][A-Za-z\s,&.'-]{2,50})/i,
@@ -723,14 +726,71 @@ export class HybridPDFExtractionService {
       /name\s*of\s*insured\s*[:.]?\s*([A-Z][A-Za-z\s,&.'-]{2,50})/i
     ];
     
+    // Find all potential insured names
+    const allInsuredNames: string[] = [];
     for (const pattern of namePatterns) {
+      const matches = cleanText.matchAll(new RegExp(pattern.source, 'gi'));
+      for (const match of matches) {
+        if (match && match[1]) {
+          const name = match[1].trim().replace(/[,.;]$/, '');
+          if (name.length > 2 && name.length < 50 && !allInsuredNames.includes(name)) {
+            allInsuredNames.push(name);
+          }
+        }
+      }
+    }
+    
+    // Look for explicit coinsured patterns
+    const coinsuredPatterns = [
+      /(?:co\s*[-]?\s*insured|coinsured)\s*[:.]?\s*([A-Z][A-Za-z\s,&.'-]{2,50})/i,
+      /(?:additional\s+insured|joint\s+insured)\s*[:.]?\s*([A-Z][A-Za-z\s,&.'-]{2,50})/i,
+      /(?:spouse|husband|wife)\s*[:.]?\s*([A-Z][A-Za-z\s,&.'-]{2,50})/i,
+      /(?:and|&)\s+([A-Z][A-Za-z\s,&.'-]{2,50})(?:\s+(?:co\s*[-]?\s*insured|coinsured))?/i
+    ];
+    
+    // Check for explicit coinsured mentions
+    for (const pattern of coinsuredPatterns) {
       const match = cleanText.match(pattern);
-      if (match && match[1] && !policyData.insuredName) {
+      if (match && match[1] && !policyData.coinsuredName) {
         const name = match[1].trim().replace(/[,.;]$/, '');
         if (name.length > 2 && name.length < 50) {
-          policyData.insuredName = name;
+          policyData.coinsuredName = name;
           break;
         }
+      }
+    }
+    
+    // Smart detection: if we found multiple names and no explicit coinsured
+    if (allInsuredNames.length >= 2 && !policyData.coinsuredName) {
+      // Look for patterns indicating joint names
+      const jointPatterns = [
+        /([A-Z][A-Za-z\s,&.'-]{2,50})\s+(?:and|&)\s+([A-Z][A-Za-z\s,&.'-]{2,50})/i,
+        /([A-Z][A-Za-z\s,&.'-]{2,50})\s*[,;]\s*([A-Z][A-Za-z\s,&.'-]{2,50})/i
+      ];
+      
+      for (const pattern of jointPatterns) {
+        const match = cleanText.match(pattern);
+        if (match && match[1] && match[2]) {
+          const firstName = match[1].trim().replace(/[,.;]$/, '');
+          const secondName = match[2].trim().replace(/[,.;]$/, '');
+          
+          if (firstName.length > 2 && firstName.length < 50 && 
+              secondName.length > 2 && secondName.length < 50) {
+            policyData.insuredName = firstName;
+            policyData.coinsuredName = secondName;
+            console.log(`🤝 Detected joint insured: "${firstName}" and coinsured: "${secondName}"`);
+            break;
+          }
+        }
+      }
+    }
+    
+    // If no joint pattern found but we have multiple names, use the first two
+    if (!policyData.insuredName && allInsuredNames.length > 0) {
+      policyData.insuredName = allInsuredNames[0];
+      if (allInsuredNames.length > 1 && !policyData.coinsuredName) {
+        policyData.coinsuredName = allInsuredNames[1];
+        console.log(`👥 Multiple names detected - Primary: "${policyData.insuredName}", Coinsured: "${policyData.coinsuredName}"`);
       }
     }
 
@@ -939,6 +999,11 @@ File size: ${(file.size / 1024).toFixed(1)} KB
     // Format names (add spaces between concatenated names)
     if (result.insuredName && typeof result.insuredName === 'string') {
       result.insuredName = this.formatName(result.insuredName);
+    }
+    
+    // Format coinsured name
+    if (result.coinsuredName && typeof result.coinsuredName === 'string') {
+      result.coinsuredName = this.formatName(result.coinsuredName);
     }
     
     // Format company names
