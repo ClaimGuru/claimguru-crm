@@ -589,8 +589,16 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
           break;
           
         case 'propertyAddress':
-          const addressMatches = rawText.match(/\d+\s+[\w\s,#\-]+(?:street|st|avenue|ave|road|rd|drive|dr|lane|ln|way|blvd|boulevard)/gi) || [];
-          suggestions.push(...addressMatches.slice(0, 3));
+          // Enhanced property address patterns including insured location, property, premises
+          const propertyAddressPatterns = [
+            /(?:property\s+address|insured\s+location|insured\s+property|insured\s+premises|premises\s+address)\s*[:.]?\s*([0-9][\w\s,#\-]+(?:street|st|avenue|ave|road|rd|drive|dr|lane|ln|way|blvd|boulevard|circle|ct|court|place|pl)[^\n]*)/gi,
+            /\d+\s+[\w\s,#\-]+(?:street|st|avenue|ave|road|rd|drive|dr|lane|ln|way|blvd|boulevard|circle|ct|court|place|pl)/gi
+          ];
+          
+          for (const pattern of propertyAddressPatterns) {
+            const matches = rawText.match(pattern) || [];
+            suggestions.push(...matches.slice(0, 2));
+          }
           break;
           
         case 'coverageAmount':

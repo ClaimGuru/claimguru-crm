@@ -841,11 +841,12 @@ export class HybridPDFExtractionService {
       }
     }
 
-    // Enhanced address patterns
+    // Enhanced address patterns with comprehensive property address terms
     const addressPatterns = [
-      /(?:property\s+address|insured\s+location|risk\s+location|location\s+of\s+risk)\s*[:.]?\s*([0-9][A-Za-z0-9\s,.'-]{5,100})/i,
-      /address\s*[:.]?\s*([0-9][A-Za-z0-9\s,.'-]{5,100})/i,
-      /located\s+at\s*[:.]?\s*([0-9][A-Za-z0-9\s,.'-]{5,100})/i
+      /(?:property\s+address|insured\s+location|insured\s+property|insured\s+premises|risk\s+location|location\s+of\s+risk|premises\s+address)\s*[:.]?\s*([0-9][A-Za-z0-9\s,.'-]{5,100})/i,
+      /(?:address\s+of\s+(?:property|premises|location))\s*[:.]?\s*([0-9][A-Za-z0-9\s,.'-]{5,100})/i,
+      /(?:situated\s+at|located\s+at|premises\s+located)\s*[:.]?\s*([0-9][A-Za-z0-9\s,.'-]{5,100})/i,
+      /address\s*[:.]?\s*([0-9][A-Za-z0-9\s,.'-]{5,100})/i
     ];
     
     for (const pattern of addressPatterns) {

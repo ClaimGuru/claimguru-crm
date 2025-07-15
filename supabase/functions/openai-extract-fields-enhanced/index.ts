@@ -43,7 +43,7 @@ Extract these fields in JSON format:
   "coinsuredName": "SECONDARY insured person name (spouse/joint policyholder)",
   "effectiveDate": "Policy start date",
   "expirationDate": "Policy end date",
-  "propertyAddress": "Property/risk location address",
+  "propertyAddress": "Property/risk location address (including Insured Location, Insured Property, Insured Premises)",
   "mailingAddress": "Mailing address if different",
   "insurerName": "Insurance company name",
   "insurerPhone": "Insurance company phone",
@@ -89,6 +89,13 @@ EXAMPLES OF COINSURED PATTERNS TO LOOK FOR:
 - "Named Insured: Robert Jones, Co-insured: Susan Jones" → insuredName: "Robert Jones", coinsuredName: "Susan Jones"
 - "Policyholder: Michael Brown & Jennifer Brown" → insuredName: "Michael Brown", coinsuredName: "Jennifer Brown"
 - "Insured: David Wilson; Spouse: Lisa Wilson" → insuredName: "David Wilson", coinsuredName: "Lisa Wilson"
+
+EXAMPLES OF PROPERTY ADDRESS PATTERNS TO LOOK FOR:
+- "Property Address: 123 Main Street, Dallas, TX 75001" → propertyAddress: "123 Main Street, Dallas, TX 75001"
+- "Insured Location: 456 Oak Avenue, Houston, TX 77001" → propertyAddress: "456 Oak Avenue, Houston, TX 77001"
+- "Insured Property: 789 Pine Drive, Austin, TX 78701" → propertyAddress: "789 Pine Drive, Austin, TX 78701"
+- "Insured Premises: 321 Elm Court, San Antonio, TX 78201" → propertyAddress: "321 Elm Court, San Antonio, TX 78201"
+- "Premises Address: 654 Maple Lane, Fort Worth, TX 76101" → propertyAddress: "654 Maple Lane, Fort Worth, TX 76101"
 
 Rules:
 - Extract exact values as they appear
