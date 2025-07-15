@@ -12,6 +12,7 @@ import { HybridPDFExtractionService } from './hybridPdfExtractionService';
 import { EnhancedHybridPdfExtractionService } from './enhancedHybridPdfExtractionService';
 import AdaptiveLearningService from './adaptiveLearningService';
 import { IdentifierExtractionService, IdentifierExtractionResult } from './identifierExtractionService';
+import { CarrierLearningService } from './carrierLearningService';
 
 export interface IntelligentExtractionResult {
   // Extracted data
@@ -60,12 +61,14 @@ export class IntelligentExtractionService {
   private enhancedExtractor: EnhancedHybridPdfExtractionService;
   private adaptiveLearning: AdaptiveLearningService;
   private identifierExtractor: IdentifierExtractionService;
+  private carrierLearning: CarrierLearningService;
 
   constructor() {
     this.hybridExtractor = new HybridPDFExtractionService();
     this.enhancedExtractor = new EnhancedHybridPdfExtractionService();
     this.adaptiveLearning = new AdaptiveLearningService();
     this.identifierExtractor = new IdentifierExtractionService();
+    this.carrierLearning = new CarrierLearningService();
   }
 
   /**
@@ -81,7 +84,13 @@ export class IntelligentExtractionService {
       const text = basicExtraction.extractedText;
 
       // Step 2: Identify carrier using learned patterns
-      const carrierIdentification = this.adaptiveLearning.identifyCarrier(text);
+      const carrierId = await this.carrierLearning.identifyCarrier(text);
+      const carrierIdentification = {
+        carrierId,
+        carrierName: carrierId ? this.getCarrierDisplayName(carrierId) : null,
+        confidence: carrierId ? 0.9 : 0,
+        isLearned: carrierId ? true : false
+      };
       
       // Step 3: Analyze document type and extract identifiers
       const identifierAnalysis = await this.identifierExtractor.extractIdentifiers(text, file.name);

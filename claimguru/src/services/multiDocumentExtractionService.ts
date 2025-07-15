@@ -103,13 +103,13 @@ export class MultiDocumentExtractionService {
             fileNumber: null,
             carrierClaimNumber: null,
             documentType: 'unknown',
-            primaryIdentifier: null,
-            confidence: {
-              overall: 0,
-              policyNumber: 0,
-              claimNumber: 0
-            },
-            analysisNotes: ['Error processing file']
+            primaryIdentifier: 'none',
+            hasMultipleIdentifiers: false,
+            policyNumberConfidence: 0,
+            claimNumberConfidence: 0,
+            relationshipStatus: 'missing',
+            validationMessage: 'Error processing file',
+            suggestions: []
           },
           validationSchema: {},
           processingNotes: [`Failed to process: ${error.message}`]
