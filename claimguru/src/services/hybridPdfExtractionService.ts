@@ -268,6 +268,7 @@ export class HybridPDFExtractionService {
       qualityScore = bestQuality;
       
       console.log(`🏆 Best result: ${bestMethod} with ${extractedText.length} chars, Quality: ${qualityScore}`);
+      console.log(`🏆 Final confidence calculated: ${(confidence * 100).toFixed(1)}%`);
 
       // STEP 4: Enhance with AI parsing (with timeout for reliability)
       console.log('🧠 STEP 4: Enhancing with AI intelligence (with 20s timeout)...');
@@ -286,8 +287,9 @@ export class HybridPDFExtractionService {
       }
 
       const processingTime = Date.now() - startTime;
-
-      return {
+      
+      // Final validation and logging
+      const finalResult = {
         extractedText,
         confidence,
         processingMethod,
@@ -302,6 +304,18 @@ export class HybridPDFExtractionService {
           qualityScore
         }
       };
+      
+      console.log('📋 FINAL EXTRACTION SUMMARY:');
+      console.log(`   📄 File: ${file.name} (${(file.size/1024).toFixed(1)}KB)`);
+      console.log(`   ⚡ Method: ${processingMethod}`);
+      console.log(`   📊 Quality Score: ${qualityScore}/100`);
+      console.log(`   🎯 Confidence: ${(confidence * 100).toFixed(1)}%`);
+      console.log(`   ⏱️ Processing Time: ${processingTime}ms`);
+      console.log(`   💰 Cost: $${cost.toFixed(3)}`);
+      console.log(`   📝 Text Length: ${extractedText.length} chars`);
+      console.log(`   🔍 Fields Extracted: ${Object.keys(policyData || {}).filter(k => policyData[k]).length}`);
+      
+      return finalResult;
 
     } catch (error) {
       console.error('❌ Hybrid extraction completely failed:', error);
@@ -328,56 +342,123 @@ export class HybridPDFExtractionService {
    * Convert quality score to confidence value
    */
   private qualityToConfidence(qualityScore: number): number {
+    console.log('🔢 Converting quality score to confidence:', qualityScore);
     // Convert quality score (0-100) to confidence (0-1)
-    // Apply a more realistic confidence curve
-    if (qualityScore >= 80) return 0.9 + (qualityScore - 80) * 0.005; // 0.9 to 1.0
-    if (qualityScore >= 60) return 0.7 + (qualityScore - 60) * 0.01;  // 0.7 to 0.9
-    if (qualityScore >= 40) return 0.5 + (qualityScore - 40) * 0.01;  // 0.5 to 0.7
-    if (qualityScore >= 20) return 0.3 + (qualityScore - 20) * 0.01;  // 0.3 to 0.5
-    return Math.max(0.05, qualityScore * 0.015); // Minimum 5% confidence
+    // Apply a more realistic confidence curve with minimum thresholds
+    
+    // Ensure we have a valid quality score
+    const validScore = Math.max(0, Math.min(100, qualityScore || 0));
+    
+    let confidence: number;
+    if (validScore >= 80) {
+      confidence = 0.85 + (validScore - 80) * 0.0075; // 0.85 to 1.0
+    } else if (validScore >= 60) {
+      confidence = 0.65 + (validScore - 60) * 0.01;   // 0.65 to 0.85
+    } else if (validScore >= 40) {
+      confidence = 0.45 + (validScore - 40) * 0.01;   // 0.45 to 0.65
+    } else if (validScore >= 20) {
+      confidence = 0.25 + (validScore - 20) * 0.01;   // 0.25 to 0.45
+    } else {
+      confidence = Math.max(0.15, validScore * 0.0125); // Minimum 15% confidence
+    }
+    
+    console.log('🔢 Quality score:', validScore, '→ Confidence:', confidence);
+    return Math.min(1.0, confidence); // Cap at 100%
   }
 
   /**
    * Evaluate text quality for decision making
    */
   private evaluateTextQuality(text: string): number {
-    if (!text || text.length < 50) return 0;
+    console.log('📊 Evaluating text quality for', text?.length || 0, 'characters');
+    
+    if (!text || text.length < 10) {
+      console.log('📊 Text too short, returning 0');
+      return 0;
+    }
     
     let score = 0;
+    const cleanText = text.trim();
     
-    // Length score (up to 30 points)
-    if (text.length > 5000) score += 30;
-    else if (text.length > 1000) score += 20;
-    else if (text.length > 500) score += 15;
-    else if (text.length > 200) score += 10;
+    // Length score (up to 25 points) - More generous scoring
+    if (cleanText.length > 8000) score += 25;
+    else if (cleanText.length > 4000) score += 22;
+    else if (cleanText.length > 2000) score += 18;
+    else if (cleanText.length > 1000) score += 15;
+    else if (cleanText.length > 500) score += 12;
+    else if (cleanText.length > 200) score += 8;
+    else if (cleanText.length > 50) score += 5;
     
-    // Insurance keywords score (up to 40 points)
+    console.log('📊 Length score:', score, 'for', cleanText.length, 'chars');
+    
+    // Insurance keywords score (up to 35 points) - Enhanced keywords
     const insuranceKeywords = [
       'policy', 'insured', 'coverage', 'deductible', 'premium', 'liability',
-      'dwelling', 'property', 'effective', 'expiration', 'carrier', 'limit'
+      'dwelling', 'property', 'effective', 'expiration', 'carrier', 'limit',
+      'insurance', 'claim', 'homeowners', 'auto', 'vehicle', 'accident',
+      'damage', 'loss', 'adjuster', 'agent', 'company', 'underwriter',
+      'mortgagee', 'named', 'perils', 'wind', 'hail', 'fire', 'theft'
     ];
     
+    const lowerText = cleanText.toLowerCase();
     const foundKeywords = insuranceKeywords.filter(keyword => 
-      text.toLowerCase().includes(keyword)
-    ).length;
-    score += Math.min(foundKeywords * 3, 40);
+      lowerText.includes(keyword)
+    );
     
-    // Structure score (up to 20 points)
-    const hasNumbers = /\$[\d,]+|\d{1,2}\/\d{1,2}\/\d{2,4}/.test(text);
-    const hasAddresses = /\d+\s+[\w\s]+(?:street|st|avenue|ave|road|rd|drive|dr|lane|ln|way|blvd|boulevard)/i.test(text);
+    const keywordScore = Math.min(foundKeywords.length * 1.5, 35);
+    score += keywordScore;
+    
+    console.log('📊 Found keywords:', foundKeywords.length, 'Score:', keywordScore);
+    
+    // Critical identifiers score (up to 25 points)
+    let identifierScore = 0;
+    const hasPolicyNumber = /[A-Z0-9\-]{5,25}/.test(text);
+    const hasPhoneNumber = /\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{4}/.test(text);
+    const hasAddress = /\d+\s+[\w\s]+(?:street|st|avenue|ave|road|rd|drive|dr|lane|ln|way|blvd|boulevard)/i.test(text);
+    const hasMoneyAmounts = /\$[\d,]+/.test(text);
+    const hasDates = /\d{1,2}[/\-]\d{1,2}[/\-]\d{2,4}/.test(text);
+    
+    if (hasPolicyNumber) identifierScore += 8;
+    if (hasPhoneNumber) identifierScore += 5;
+    if (hasAddress) identifierScore += 6;
+    if (hasMoneyAmounts) identifierScore += 4;
+    if (hasDates) identifierScore += 2;
+    
+    score += identifierScore;
+    console.log('📊 Identifier score:', identifierScore);
+    
+    // Structure and formatting score (up to 15 points)
+    let structureScore = 0;
     const hasProperNouns = /[A-Z][a-z]+\s+[A-Z][a-z]+/.test(text);
+    const hasLineBreaks = text.includes('\n');
+    const hasColons = text.includes(':');
+    const hasCommas = text.includes(',');
     
-    if (hasNumbers) score += 7;
-    if (hasAddresses) score += 7;
-    if (hasProperNouns) score += 6;
+    if (hasProperNouns) structureScore += 5;
+    if (hasLineBreaks) structureScore += 3;
+    if (hasColons) structureScore += 4;
+    if (hasCommas) structureScore += 3;
     
-    // Readability score (up to 10 points)
-    const readableRatio = (text.match(/[a-zA-Z]/g) || []).length / text.length;
-    if (readableRatio > 0.7) score += 10;
-    else if (readableRatio > 0.5) score += 7;
-    else if (readableRatio > 0.3) score += 4;
+    score += structureScore;
+    console.log('📊 Structure score:', structureScore);
     
-    return Math.min(score, 100);
+    // Readability score (up to 15 points) - Ensure text is readable
+    const alphaChars = (text.match(/[a-zA-Z]/g) || []).length;
+    const totalChars = text.length;
+    const readableRatio = alphaChars / totalChars;
+    
+    let readabilityScore = 0;
+    if (readableRatio > 0.6) readabilityScore = 15;
+    else if (readableRatio > 0.4) readabilityScore = 10;
+    else if (readableRatio > 0.2) readabilityScore = 5;
+    
+    score += readabilityScore;
+    console.log('📊 Readability score:', readabilityScore, 'ratio:', readableRatio.toFixed(2));
+    
+    const finalScore = Math.min(score, 100);
+    console.log('📊 Final quality score:', finalScore, '/ 100');
+    
+    return finalScore;
   }
 
   /**

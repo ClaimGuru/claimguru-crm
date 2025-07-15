@@ -18,8 +18,13 @@ import {
   Building2,
   UserCheck,
   CheckSquare,
-  X
+  X,
+  Save,
+  Clock,
+  RotateCcw
 } from 'lucide-react'
+import { useAuth } from '../../contexts/AuthContext'
+import { WizardProgressService } from '../../services/wizardProgressService'
 
 // Import enhanced AI wizard step components - REAL PDF DATA EXTRACTION
 import { FixedRealPDFExtractionStep } from './wizard-steps/FixedRealPDFExtractionStep'
@@ -97,6 +102,7 @@ interface WizardData {
 }
 
 export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: EnhancedAIIntakeWizardProps) {
+  const { userProfile } = useAuth()
   const [currentStep, setCurrentStep] = useState(0)
   const [wizardData, setWizardData] = useState<WizardData>({
     clientType: 'residential',
@@ -118,12 +124,16 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
     contractInformation: {},
     personnelAssignments: [],
     officeTasks: [],
-    organizationId: 'demo-org-123',
+    organizationId: userProfile?.organization_id || 'demo-org-123',
     organizationPolicies: {},
     customFields: {}
   })
   const [isAIProcessing, setIsAIProcessing] = useState(false)
   const [stepValidation, setStepValidation] = useState({})
+  const [progressId, setProgressId] = useState<string | null>(null)
+  const [isSaving, setIsSaving] = useState(false)
+  const [lastSaved, setLastSaved] = useState<Date | null>(null)
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
 
   const steps = [
     {
@@ -243,6 +253,147 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
 
   const updateWizardData = (newData: any) => {
     setWizardData(prev => ({ ...prev, ...newData }))
+    setHasUnsavedChanges(true)
+    // Auto-save after 2 seconds of inactivity
+    debouncedSave()
+  }
+
+  // Debounced save function
+  const debouncedSave = React.useCallback(
+    debounce(() => {
+      saveProgress()
+    }, 2000),
+    [wizardData, currentStep]
+  )
+
+  // Debounce utility function
+  function debounce(func: Function, wait: number) {
+    let timeout: NodeJS.Timeout
+    return function executedFunction(...args: any[]) {
+      const later = () => {
+        clearTimeout(timeout)
+        func(...args)
+      }
+      clearTimeout(timeout)
+      timeout = setTimeout(later, wait)
+    }
+  }
+
+  // Save progress function
+  const saveProgress = async (stepOverride?: number) => {
+    if (!userProfile?.id || !userProfile?.organization_id) {
+      console.warn('Cannot save progress: missing user profile')
+      return
+    }
+
+    setIsSaving(true)
+    try {
+      const stepStatuses = {}
+      steps.forEach((step, index) => {
+        const validation = stepValidation[step.id]
+        stepStatuses[step.id] = {
+          completed: index < currentStep,
+          required: step.required,
+          validation_errors: validation?.errors || [],
+          completed_at: index < currentStep ? new Date().toISOString() : undefined
+        }
+      })
+
+      const progressData = {
+        user_id: userProfile.id,
+        organization_id: userProfile.organization_id,
+        wizard_type: 'claim' as const,
+        current_step: stepOverride ?? currentStep,
+        total_steps: steps.length,
+        progress_percentage: Math.round(((stepOverride ?? currentStep) / steps.length) * 100),
+        wizard_data: wizardData,
+        step_statuses: stepStatuses,
+        last_saved_at: new Date().toISOString(),
+        last_active_at: new Date().toISOString(),
+        expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+      }
+
+      const savedProgress = await WizardProgressService.saveProgress(progressData)
+      if (savedProgress) {
+        setProgressId(savedProgress.id!)
+        setLastSaved(new Date())
+        setHasUnsavedChanges(false)
+        console.log('✅ Progress saved successfully')
+      }
+    } catch (error) {
+      console.error('❌ Failed to save progress:', error)
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  // Load existing progress on mount
+  useEffect(() => {
+    const loadExistingProgress = async () => {
+      if (!userProfile?.id || !userProfile?.organization_id) return
+
+      try {
+        const existingProgress = await WizardProgressService.loadProgress(
+          userProfile.id,
+          userProfile.organization_id,
+          'claim'
+        )
+
+        if (existingProgress && existingProgress.progress_percentage < 100) {
+          const shouldRestore = window.confirm(
+            `You have an incomplete claim wizard (${existingProgress.progress_percentage}% complete). Would you like to continue where you left off?`
+          )
+
+          if (shouldRestore) {
+            setProgressId(existingProgress.id!)
+            setCurrentStep(existingProgress.current_step)
+            setWizardData(existingProgress.wizard_data)
+            setLastSaved(new Date(existingProgress.last_saved_at))
+            console.log('✅ Restored wizard progress')
+          } else {
+            // User chose not to restore, delete the old progress
+            if (existingProgress.id) {
+              await WizardProgressService.deleteProgress(existingProgress.id)
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Failed to load existing progress:', error)
+      }
+    }
+
+    loadExistingProgress()
+  }, [userProfile])
+
+  // Format time ago utility
+  const formatTimeAgo = (date: Date): string => {
+    const now = new Date()
+    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000)
+    
+    if (diffInSeconds < 60) return 'just now'
+    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`
+    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`
+    return `${Math.floor(diffInSeconds / 86400)}d ago`
+  }
+
+  // Handle manual save
+  const handleManualSave = async () => {
+    await saveProgress()
+  }
+
+  // Handle wizard cancellation
+  const handleCancel = async () => {
+    if (hasUnsavedChanges && progressId) {
+      const shouldDelete = window.confirm(
+        'You have unsaved changes. Do you want to save your progress before closing?'
+      )
+      
+      if (shouldDelete) {
+        await saveProgress()
+      }
+    }
+    
+    onCancel?.()
   }
 
   const handleAIProcessing = (processing: boolean) => {
@@ -290,7 +441,7 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
     }))
   }, [wizardData, currentStep])
 
-  const nextStep = () => {
+  const nextStep = async () => {
     const currentStepData = steps[currentStep]
     const validation = stepValidation[currentStepData.id]
     
@@ -300,6 +451,8 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
     }
 
     if (currentStep < steps.length - 1) {
+      // Save progress before advancing
+      await saveProgress(currentStep + 1)
       setCurrentStep(currentStep + 1)
     }
   }
@@ -316,6 +469,12 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
 
   const handleComplete = async (finalData?: any) => {
     const completedData = { ...wizardData, ...finalData }
+    
+    // Mark wizard as completed in progress tracking
+    if (progressId) {
+      await WizardProgressService.markCompleted(progressId, completedData)
+    }
+    
     onComplete?.(completedData)
   }
 
@@ -350,19 +509,53 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
               </div>
             </div>
             <div className="flex items-center gap-4">
-              {isAIProcessing && (
-                <div className="flex items-center gap-2 text-purple-100">
-                  <Sparkles className="h-5 w-5 animate-pulse" />
-                  <span className="text-sm">AI Processing...</span>
-                </div>
-              )}
-              <Button
-                onClick={onCancel}
-                variant="outline"
-                className="text-white border-white hover:bg-white hover:text-purple-600"
-              >
-                <X className="h-4 w-4" />
-              </Button>
+              {/* Progress Save Status */}
+              <div className="flex items-center gap-3 text-purple-100">
+                {isSaving && (
+                  <div className="flex items-center gap-1">
+                    <Save className="h-4 w-4 animate-pulse" />
+                    <span className="text-sm">Saving...</span>
+                  </div>
+                )}
+                {lastSaved && !isSaving && (
+                  <div className="flex items-center gap-1">
+                    <Clock className="h-4 w-4" />
+                    <span className="text-xs">
+                      Saved {formatTimeAgo(lastSaved)}
+                    </span>
+                  </div>
+                )}
+                {hasUnsavedChanges && !isSaving && (
+                  <div className="flex items-center gap-1 text-yellow-200">
+                    <AlertCircle className="h-4 w-4" />
+                    <span className="text-xs">Unsaved changes</span>
+                  </div>
+                )}
+                {isAIProcessing && (
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="h-5 w-5 animate-pulse" />
+                    <span className="text-sm">AI Processing...</span>
+                  </div>
+                )}
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  onClick={handleManualSave}
+                  variant="outline"
+                  size="sm"
+                  disabled={isSaving || !hasUnsavedChanges}
+                  className="text-white border-white hover:bg-white hover:text-purple-600"
+                >
+                  <Save className="h-4 w-4" />
+                </Button>
+                <Button
+                  onClick={handleCancel}
+                  variant="outline"
+                  className="text-white border-white hover:bg-white hover:text-purple-600"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -440,15 +633,37 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
         {/* Footer Navigation */}
         <div className="border-t border-gray-200 p-6 bg-gray-50">
           <div className="flex justify-between items-center">
-            <Button
-              onClick={prevStep}
-              disabled={currentStep === 0}
-              variant="outline"
-              className="flex items-center gap-2"
-            >
-              <ChevronLeft className="h-4 w-4" />
-              Previous
-            </Button>
+            <div className="flex items-center gap-3">
+              <Button
+                onClick={prevStep}
+                disabled={currentStep === 0}
+                variant="outline"
+                className="flex items-center gap-2"
+              >
+                <ChevronLeft className="h-4 w-4" />
+                Previous
+              </Button>
+              
+              {/* Progress save controls */}
+              <div className="flex items-center gap-2">
+                <Button
+                  onClick={handleManualSave}
+                  variant="outline"
+                  size="sm"
+                  disabled={isSaving || !hasUnsavedChanges}
+                  className="flex items-center gap-1"
+                >
+                  <Save className="h-3 w-3" />
+                  {isSaving ? 'Saving...' : 'Save Progress'}
+                </Button>
+                
+                {lastSaved && (
+                  <span className="text-xs text-gray-500">
+                    Saved {formatTimeAgo(lastSaved)}
+                  </span>
+                )}
+              </div>
+            </div>
 
             <div className="flex items-center gap-2">
               {stepValidation[steps[currentStep].id]?.errors && (

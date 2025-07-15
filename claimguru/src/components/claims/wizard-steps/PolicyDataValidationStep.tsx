@@ -867,33 +867,60 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
               </div>
             )}
 
-            {/* Overall Confidence */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            {/* Overall Confidence - ENHANCED */}
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-6">
               <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="font-medium text-blue-900">Overall Extraction Confidence</h4>
-                  <p className="text-sm text-blue-700">
-                    Based on pattern matching and text analysis
+                <div className="flex-1">
+                  <h4 className="font-semibold text-blue-900 text-lg mb-1">Overall Extraction Confidence</h4>
+                  <p className="text-sm text-blue-700 mb-3">
+                    AI analysis based on pattern matching, text structure, and field validation
                   </p>
+                  
+                  {/* Confidence Progress Bar */}
+                  <div className="w-full bg-blue-100 rounded-full h-3 mb-2">
+                    <div 
+                      className={`h-3 rounded-full transition-all duration-500 ${
+                        overallConfidence >= 80 ? 'bg-green-500' :
+                        overallConfidence >= 60 ? 'bg-yellow-500' :
+                        overallConfidence >= 40 ? 'bg-orange-500' : 'bg-red-500'
+                      }`}
+                      style={{ width: `${Math.max(overallConfidence, 5)}%` }}
+                    ></div>
+                  </div>
+                  <div className="text-xs text-blue-600">
+                    {overallConfidence >= 80 ? '🟢 Excellent - High accuracy expected' : 
+                     overallConfidence >= 60 ? '🟡 Good - Review recommended' : 
+                     overallConfidence >= 40 ? '🟠 Fair - Manual verification needed' : '🔴 Poor - Re-analysis recommended'}
+                  </div>
                 </div>
-                <div className="flex items-center gap-4">
+                
+                <div className="flex items-center gap-4 ml-6">
                   {onReAnalyze && (
-                    <Button
-                      onClick={onReAnalyze}
-                      variant="outline"
-                      size="sm"
-                      className="flex items-center gap-2 text-blue-700 border-blue-300 hover:bg-blue-100"
-                    >
-                      <RefreshCw className="h-4 w-4" />
-                      Re-Analyze Document
-                    </Button>
+                    <div className="flex flex-col gap-2">
+                      <Button
+                        onClick={onReAnalyze}
+                        variant="outline"
+                        size="sm"
+                        className="flex items-center gap-2 text-blue-700 border-blue-300 hover:bg-blue-100 font-medium"
+                      >
+                        <RefreshCw className="h-4 w-4" />
+                        Re-Analyze Document
+                      </Button>
+                      {overallConfidence < 50 && (
+                        <div className="text-xs text-orange-600 text-center">
+                          ⚠️ Low confidence detected
+                        </div>
+                      )}
+                    </div>
                   )}
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-blue-900">{Math.round(overallConfidence)}%</div>
-                    <div className="text-xs text-blue-600">
-                      {overallConfidence >= 80 ? 'Excellent' : 
-                       overallConfidence >= 60 ? 'Good' : 
-                       overallConfidence >= 40 ? 'Fair' : 'Poor'}
+                    <div className={`text-3xl font-bold ${
+                      overallConfidence >= 80 ? 'text-green-600' :
+                      overallConfidence >= 60 ? 'text-yellow-600' :
+                      overallConfidence >= 40 ? 'text-orange-600' : 'text-red-600'
+                    }`}>{Math.round(overallConfidence)}%</div>
+                    <div className="text-xs text-gray-600 font-medium">
+                      Confidence Score
                     </div>
                   </div>
                 </div>
@@ -1021,41 +1048,56 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
                                     }`}>
                                       {result.value || 'Not found'}
                                     </span>
-                                    <div className="flex gap-1">
+                                    <div className="flex flex-wrap gap-2">
                                       {result.value && result.status === 'pending' && (
-                                        <>
+                                        <div className="flex gap-1">
                                           <Button
                                             onClick={() => handleAcceptField(result.field)}
                                             variant="outline"
                                             size="sm"
-                                            className="flex items-center gap-1 text-green-700 border-green-300 hover:bg-green-50"
-                                            title="Accept this value"
+                                            className="flex items-center gap-1 text-green-700 border-green-300 hover:bg-green-50 font-medium px-3"
+                                            title="Accept this value as correct"
                                           >
                                             <ThumbsUp className="h-3 w-3" />
-                                            Accept
+                                            ✓ Accept
                                           </Button>
                                           <Button
                                             onClick={() => handleRejectField(result.field)}
                                             variant="outline"
                                             size="sm"
-                                            className="flex items-center gap-1 text-red-700 border-red-300 hover:bg-red-50"
-                                            title="Reject this value"
+                                            className="flex items-center gap-1 text-red-700 border-red-300 hover:bg-red-50 font-medium px-3"
+                                            title="Reject this value as incorrect"
                                           >
                                             <ThumbsDown className="h-3 w-3" />
-                                            Reject
+                                            × Reject
                                           </Button>
-                                        </>
+                                        </div>
                                       )}
+                                      
+                                      {/* Always show edit button */}
                                       <Button
                                         onClick={() => handleEdit(result.field, result.value)}
                                         variant="outline"
                                         size="sm"
-                                        className="flex items-center gap-1"
-                                        title="Edit this value"
+                                        className="flex items-center gap-1 text-blue-700 border-blue-300 hover:bg-blue-50"
+                                        title="Edit or modify this value"
                                       >
                                         <Edit3 className="h-3 w-3" />
                                         Edit
                                       </Button>
+                                      
+                                      {/* Status indicator for processed fields */}
+                                      {result.status !== 'pending' && (
+                                        <div className={`flex items-center gap-1 px-2 py-1 rounded text-xs font-medium ${
+                                          result.status === 'accepted' ? 'bg-green-100 text-green-700' :
+                                          result.status === 'rejected' ? 'bg-red-100 text-red-700' :
+                                          'bg-blue-100 text-blue-700'
+                                        }`}>
+                                          {result.status === 'accepted' && '✓ Accepted'}
+                                          {result.status === 'rejected' && '× Rejected'}
+                                          {result.status === 'modified' && '✎ Modified'}
+                                        </div>
+                                      )}
                                     </div>
                                   </div>
                                   {result.originalValue && result.value !== result.originalValue && (
