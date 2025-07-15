@@ -264,7 +264,7 @@ export class WizardProgressService {
 
         if (error) {
           // Handle 406 Not Acceptable error
-          if (error.message?.includes('406')) {
+          if (error.message?.includes('406') || error.status === 406) {
             console.warn('🔄 Database RLS issue on load (406), switching to local storage fallback');
             this.fallbackMode = true;
             return this.loadFromLocalStorage(userId, organizationId, wizardType);

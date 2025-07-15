@@ -386,9 +386,17 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
         setLastSaved(new Date())
         setHasUnsavedChanges(false)
         console.log('✅ Progress saved successfully')
+      } else {
+        // Even if saving fails, don't block the wizard
+        setLastSaved(new Date())
+        setHasUnsavedChanges(false)
+        console.warn('⚠️ Progress saving failed, but wizard continues to function')
       }
     } catch (error) {
       console.error('❌ Failed to save progress:', error)
+      // Don't block the wizard even if progress saving fails
+      setLastSaved(new Date())
+      setHasUnsavedChanges(false)
     } finally {
       setIsSaving(false)
     }
@@ -456,6 +464,19 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
 
     loadExistingProgress()
   }, [userProfile])
+
+  // Periodic sync check to restore database connectivity
+  useEffect(() => {
+    const syncInterval = setInterval(async () => {
+      try {
+        await WizardProgressService.checkAndSync()
+      } catch (error) {
+        console.warn('Sync check failed:', error)
+      }
+    }, 30000) // Check every 30 seconds
+
+    return () => clearInterval(syncInterval)
+  }, [])
 
   // Format time ago utility
   const formatTimeAgo = (date: Date): string => {

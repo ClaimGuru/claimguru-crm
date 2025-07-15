@@ -386,9 +386,17 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
         setLastSaved(new Date())
         setHasUnsavedChanges(false)
         console.log('✅ Progress saved successfully')
+      } else {
+        // Even if saving fails, don't block the wizard
+        setLastSaved(new Date())
+        setHasUnsavedChanges(false)
+        console.warn('⚠️ Progress saving failed, but wizard continues to function')
       }
     } catch (error) {
       console.error('❌ Failed to save progress:', error)
+      // Don't block the wizard even if progress saving fails
+      setLastSaved(new Date())
+      setHasUnsavedChanges(false)
     } finally {
       setIsSaving(false)
     }
@@ -396,15 +404,13 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
 
   // Initialize intelligent wizard service whenever wizard data changes
   useEffect(() => {
-    console.log('🔄 Wizard data changed, checking for intelligent service initialization...', wizardData);
-    
     if (wizardData.extractedPolicyData) {
-      console.log('🧠 Initializing/updating intelligent service with policy data:', wizardData.extractedPolicyData);
+      console.log('🧠 Initializing intelligent service with policy data');
       intelligentWizardService.setExtractedPolicyData(wizardData.extractedPolicyData);
     }
     
     if (wizardData.additionalDocuments && Array.isArray(wizardData.additionalDocuments)) {
-      console.log('📄 Initializing/updating intelligent service with documents:', wizardData.additionalDocuments.length);
+      console.log('📄 Initializing intelligent service with documents:', wizardData.additionalDocuments.length);
       intelligentWizardService.addProcessedDocuments(wizardData.additionalDocuments);
     }
   }, [wizardData.extractedPolicyData, wizardData.additionalDocuments]);
