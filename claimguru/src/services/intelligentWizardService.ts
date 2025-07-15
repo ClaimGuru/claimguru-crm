@@ -204,9 +204,12 @@ export class IntelligentWizardService {
   // Private helper methods
 
   private getClientDetailsSuggestions(): any {
-    if (!this.extractedPolicyData) return {};
+    if (!this.extractedPolicyData) {
+      console.log('❌ No extracted policy data available for client suggestions');
+      return {};
+    }
 
-    return {
+    const suggestions = {
       firstName: this.extractFirstName(this.extractedPolicyData.insuredName),
       lastName: this.extractLastName(this.extractedPolicyData.insuredName),
       phone: this.extractedPolicyData.phoneNumber,
@@ -217,6 +220,9 @@ export class IntelligentWizardService {
       _aiSuggested: true,
       _confidence: 'high'
     };
+    
+    console.log('✅ Generated client details suggestions');
+    return suggestions;
   }
 
   private getInsuranceInfoSuggestions(): any {

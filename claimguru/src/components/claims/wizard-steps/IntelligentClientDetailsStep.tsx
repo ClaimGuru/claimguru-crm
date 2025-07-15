@@ -66,12 +66,16 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
   }, [data.extractedPolicyData]);
 
   const loadAISuggestions = async () => {
-    if (!data.extractedPolicyData) return;
+    if (!data.extractedPolicyData) {
+      console.log('❌ No extracted policy data available for AI suggestions');
+      return;
+    }
 
     setIsProcessingAI(true);
     try {
-      // Get pre-populated suggestions
+      // Get pre-populated suggestions (intelligent service should already be initialized by main wizard)
       const suggestions = intelligentWizardService.getPrePopulatedData('client-details');
+      console.log('💡 AI suggestions loaded successfully');
       
       if (suggestions._aiSuggested) {
         const aiSuggestions: AISuggestion[] = [];
@@ -233,6 +237,8 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
 
   return (
     <div className="space-y-6">
+
+
       {/* AI Suggestions Header */}
       {(hasUnappliedSuggestions || isProcessingAI) && (
         <Card className="border-blue-200 bg-blue-50">

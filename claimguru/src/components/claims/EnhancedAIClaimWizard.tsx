@@ -394,6 +394,19 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
     }
   }
 
+  // Initialize intelligent wizard service whenever wizard data changes
+  useEffect(() => {
+    if (wizardData.extractedPolicyData) {
+      console.log('🧠 Initializing intelligent service with policy data');
+      intelligentWizardService.setExtractedPolicyData(wizardData.extractedPolicyData);
+    }
+    
+    if (wizardData.additionalDocuments && Array.isArray(wizardData.additionalDocuments)) {
+      console.log('📄 Initializing intelligent service with documents:', wizardData.additionalDocuments.length);
+      intelligentWizardService.addProcessedDocuments(wizardData.additionalDocuments);
+    }
+  }, [wizardData.extractedPolicyData, wizardData.additionalDocuments]);
+
   // Load existing progress on mount
   useEffect(() => {
     const loadExistingProgress = async () => {
@@ -416,7 +429,19 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
             setCurrentStep(existingProgress.current_step)
             setWizardData(existingProgress.wizard_data)
             setLastSaved(new Date(existingProgress.last_saved_at))
-            console.log('✅ Restored wizard progress')
+            
+            // Initialize intelligent wizard service with restored data
+            if (existingProgress.wizard_data.extractedPolicyData) {
+              console.log('🧠 Initializing intelligent service with restored policy data:', existingProgress.wizard_data.extractedPolicyData)
+              intelligentWizardService.setExtractedPolicyData(existingProgress.wizard_data.extractedPolicyData)
+            }
+            
+            if (existingProgress.wizard_data.additionalDocuments && Array.isArray(existingProgress.wizard_data.additionalDocuments)) {
+              console.log('📄 Initializing intelligent service with restored documents:', existingProgress.wizard_data.additionalDocuments.length)
+              intelligentWizardService.addProcessedDocuments(existingProgress.wizard_data.additionalDocuments)
+            }
+            
+            console.log('✅ Restored wizard progress and initialized intelligent service')
           } else {
             // User chose not to restore, delete the old progress
             if (existingProgress.id) {

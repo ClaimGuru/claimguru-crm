@@ -92,21 +92,50 @@ export const PolicyDocumentUploadStep: React.FC<PolicyDocumentUploadStepProps> =
   const handleValidationComplete = (validatedPolicyData: any) => {
     console.log('✅ Policy data validated and confirmed:', validatedPolicyData);
     
+    // Create properly formatted extracted policy data for the intelligent wizard service
+    const extractedPolicyData = {
+      // Core policy data
+      policyNumber: validatedPolicyData.policyNumber,
+      insuredName: validatedPolicyData.insuredName,
+      propertyAddress: validatedPolicyData.propertyAddress,
+      insurerName: validatedPolicyData.insurerName,
+      effectiveDate: validatedPolicyData.effectiveDate,
+      expirationDate: validatedPolicyData.expirationDate,
+      coverageAmount: validatedPolicyData.coverageAmount,
+      deductible: validatedPolicyData.deductible,
+      
+      // Additional metadata
+      validated: true,
+      confidence: processingDetails?.confidence || 0,
+      source: 'ai_extraction',
+      extractedAt: new Date().toISOString(),
+      
+      // Derived data for easy access
+      phoneNumber: validatedPolicyData.phoneNumber,
+      email: validatedPolicyData.email,
+      mailingAddress: validatedPolicyData.mailingAddress || {
+        addressLine1: validatedPolicyData.propertyAddress,
+        city: '',
+        state: '',
+        zipCode: ''
+      }
+    };
+    
+    console.log('🧠 Formatted policy data for intelligent service:', extractedPolicyData);
+    
     // Update wizard data with validated policy information
     onUpdate({
       ...data,
+      // Store the full validated policy data
       policyDetails: {
         ...validatedPolicyData,
         aiExtracted: true,
         validationComplete: true,
         extractedAt: new Date().toISOString()
       },
-      extractedPolicyData: {
-        validated: true,
-        confidence: processingDetails?.confidence || 0,
-        source: 'ai_extraction',
-        extractedAt: new Date().toISOString()
-      },
+      // Store extracted data in the format expected by intelligentWizardService
+      extractedPolicyData: extractedPolicyData,
+      
       // Pre-populate client details from policy
       insuredDetails: {
         ...data.insuredDetails,

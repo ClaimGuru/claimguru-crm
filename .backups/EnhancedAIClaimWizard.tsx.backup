@@ -305,8 +305,22 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
   ]
 
   const updateWizardData = (newData: any) => {
+    const updatedData = { ...wizardData, ...newData }
     setWizardData(prev => ({ ...prev, ...newData }))
     setHasUnsavedChanges(true)
+    
+    // Update intelligent wizard service with extracted policy data
+    if (newData.extractedPolicyData) {
+      console.log('🧠 Setting extracted policy data in intelligent service:', newData.extractedPolicyData)
+      intelligentWizardService.setExtractedPolicyData(newData.extractedPolicyData)
+    }
+    
+    // Update intelligent wizard service with processed documents
+    if (newData.additionalDocuments && Array.isArray(newData.additionalDocuments)) {
+      console.log('📄 Setting processed documents in intelligent service:', newData.additionalDocuments.length)
+      intelligentWizardService.addProcessedDocuments(newData.additionalDocuments)
+    }
+    
     // Auto-save after 2 seconds of inactivity
     debouncedSave()
   }
@@ -380,6 +394,21 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
     }
   }
 
+  // Initialize intelligent wizard service whenever wizard data changes
+  useEffect(() => {
+    console.log('🔄 Wizard data changed, checking for intelligent service initialization...', wizardData);
+    
+    if (wizardData.extractedPolicyData) {
+      console.log('🧠 Initializing/updating intelligent service with policy data:', wizardData.extractedPolicyData);
+      intelligentWizardService.setExtractedPolicyData(wizardData.extractedPolicyData);
+    }
+    
+    if (wizardData.additionalDocuments && Array.isArray(wizardData.additionalDocuments)) {
+      console.log('📄 Initializing/updating intelligent service with documents:', wizardData.additionalDocuments.length);
+      intelligentWizardService.addProcessedDocuments(wizardData.additionalDocuments);
+    }
+  }, [wizardData.extractedPolicyData, wizardData.additionalDocuments]);
+
   // Load existing progress on mount
   useEffect(() => {
     const loadExistingProgress = async () => {
@@ -402,7 +431,19 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
             setCurrentStep(existingProgress.current_step)
             setWizardData(existingProgress.wizard_data)
             setLastSaved(new Date(existingProgress.last_saved_at))
-            console.log('✅ Restored wizard progress')
+            
+            // Initialize intelligent wizard service with restored data
+            if (existingProgress.wizard_data.extractedPolicyData) {
+              console.log('🧠 Initializing intelligent service with restored policy data:', existingProgress.wizard_data.extractedPolicyData)
+              intelligentWizardService.setExtractedPolicyData(existingProgress.wizard_data.extractedPolicyData)
+            }
+            
+            if (existingProgress.wizard_data.additionalDocuments && Array.isArray(existingProgress.wizard_data.additionalDocuments)) {
+              console.log('📄 Initializing intelligent service with restored documents:', existingProgress.wizard_data.additionalDocuments.length)
+              intelligentWizardService.addProcessedDocuments(existingProgress.wizard_data.additionalDocuments)
+            }
+            
+            console.log('✅ Restored wizard progress and initialized intelligent service')
           } else {
             // User chose not to restore, delete the old progress
             if (existingProgress.id) {
