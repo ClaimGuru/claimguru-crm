@@ -32,6 +32,7 @@ import { ExpertsProvidersStep } from './wizard-steps/ExpertsProvidersStep'
 import { MortgageInformationStep } from './wizard-steps/MortgageInformationStep'
 import { ReferralInformationStep } from './wizard-steps/ReferralInformationStep'
 import { ContractInformationStep } from './wizard-steps/ContractInformationStep'
+import { BuildingConstructionStep } from './wizard-steps/BuildingConstructionStep'
 import { PersonnelAssignmentStep } from './wizard-steps/PersonnelAssignmentStep'
 import { OfficeTasksStep } from './wizard-steps/OfficeTasksStep'
 import { CoverageIssueReviewStep } from './wizard-steps/CoverageIssueReviewStep'
@@ -163,6 +164,14 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
       description: 'AI-powered property damage assessment',
       icon: Package,
       component: PersonalPropertyStep,
+      required: false
+    },
+    {
+      id: 'building-construction',
+      title: 'Building Construction',
+      description: 'Building details and construction specifications (Optional)',
+      icon: Building2,
+      component: BuildingConstructionStep,
       required: false
     },
     {

@@ -4,6 +4,7 @@ import { Button } from '../../ui/Button';
 import { FileText, Upload, CheckCircle, AlertCircle, Brain, Eye, Clock, Check, X } from 'lucide-react';
 import { LoadingSpinner } from '../../ui/LoadingSpinner';
 import { HybridPDFExtractionService } from '../../../services/hybridPdfExtractionService';
+import { PolicyDataMappingService } from '../../../services/policyDataMappingService';
 import { PolicyDataValidationStep } from './PolicyDataValidationStep';
 
 interface FixedRealPDFExtractionStepProps {
@@ -101,8 +102,12 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
     // Create unique claim identifier
     const claimId = `claim_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
+    // Map extracted data to wizard form fields using the new mapping service
+    console.log('🗺️ Auto-populating wizard fields with extracted data...');
+    const mappedWizardData = PolicyDataMappingService.mergeWithExistingData(data, validatedPolicyData);
+    
     onUpdate({
-      ...data,
+      ...mappedWizardData,
       claimId: claimId,
       policyDetails: validatedPolicyData,
       extractedPolicyData: true,
@@ -118,9 +123,9 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
     setIsConfirmed(true);
     setShowValidation(false);
     
-    // Show success message and instruction to proceed
+    // Show success message with information about auto-population
     setTimeout(() => {
-      alert('✅ Data validated and confirmed successfully! Please click the "Next" button at the bottom to continue to Client Information.');
+      alert('✅ Data validated and confirmed successfully!\n\n🔄 Wizard forms have been automatically populated with the extracted data.\n\nPlease click "Next" to review and edit the populated information.');
     }, 500);
   };
 

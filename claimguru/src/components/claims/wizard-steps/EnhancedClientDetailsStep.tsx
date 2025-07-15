@@ -41,6 +41,14 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
     coInsured: []
   })
   const [isValidating, setIsValidating] = useState(false)
+  const [autoPopulated, setAutoPopulated] = useState(false)
+
+  // Check if data was auto-populated from PDF
+  useEffect(() => {
+    if (data.dataPopulatedFromPDF) {
+      setAutoPopulated(true)
+    }
+  }, [data.dataPopulatedFromPDF])
 
   // Update parent data whenever local state changes
   useEffect(() => {
@@ -147,6 +155,22 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
 
   return (
     <div className="space-y-6">
+      {/* Auto-Population Notice */}
+      {autoPopulated && (
+        <Card className="border-green-200 bg-green-50">
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-2 mb-2">
+              <CheckCircle className="h-5 w-5 text-green-600" />
+              <span className="font-semibold text-green-800">Auto-Populated from Policy Document</span>
+            </div>
+            <p className="text-sm text-green-700">
+              Client information has been extracted from your policy document. 
+              Please review and update any information as needed.
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
       {/* AI Validation Header */}
       {data.extractedPolicyData && (
         <Card className="border-blue-200 bg-blue-50">
