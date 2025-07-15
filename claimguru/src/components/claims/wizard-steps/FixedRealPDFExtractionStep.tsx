@@ -25,7 +25,7 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
   const [error, setError] = useState<string | null>(null);
   const [rawText, setRawText] = useState<string>('');
   const [processingDetails, setProcessingDetails] = useState<any>(null);
-  const [showValidation, setShowValidation] = useState(false);
+
   const [validatedData, setValidatedData] = useState<any>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,9 +79,7 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
         methodsAttempted: result.metadata.methodsAttempted
       });
       
-      // GUARANTEED to show validation step after successful extraction
-      setShowValidation(true);
-      console.log('Extraction successful, showing validation step with data:', result.policyData);
+      console.log('✅ Extraction successful, validation step will be shown with data:', result.policyData);
       
     } catch (error) {
       console.error('❌ Hybrid PDF extraction failed:', error);
@@ -121,7 +119,6 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
     });
     
     setIsConfirmed(true);
-    setShowValidation(false);
     
     // Show success message with information about auto-population
     setTimeout(() => {
@@ -136,33 +133,13 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
     setFile(null);
     setExtractedData(null);
     setValidatedData(null);
-    setShowValidation(false);
     setIsConfirmed(false);
     setRawText('');
     setProcessingDetails(null);
     setError(null);
   };
 
-  const handleReAnalyze = async () => {
-    if (!file) {
-      setError("No file available for re-analysis");
-      return;
-    }
 
-    console.log('🔄 Re-analyzing document:', file.name);
-    
-    // Reset validation state but keep the file
-    setExtractedData(null);
-    setValidatedData(null);
-    setShowValidation(false);
-    setIsConfirmed(false);
-    setRawText('');
-    setProcessingDetails(null);
-    setError(null);
-    
-    // Run extraction again
-    await extractRealPolicyData();
-  };
 
   // Legacy functions removed - now using PolicyDataValidationStep
 
@@ -296,7 +273,6 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
                 rawText={rawText || 'Raw text not available'}
                 onValidated={handleValidationComplete}
                 onReject={handleValidationReject}
-                onReAnalyze={handleReAnalyze}
               />
             </div>
           )}
