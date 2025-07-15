@@ -79,8 +79,9 @@ export class IntelligentExtractionService {
     console.log(`🧠 Starting intelligent extraction for: ${file.name}`);
 
     try {
-      // Step 1: Get basic text extraction
-      const basicExtraction = await this.enhancedExtractor.extractWithConfidenceBuilding(file);
+      // Step 1: Get basic text extraction using optimized hybrid service
+      console.log('🧠 Using optimized hybrid extraction for base data...');
+      const basicExtraction = await this.hybridExtractor.extractFromPDF(file);
       const text = basicExtraction.extractedText;
 
       // Step 2: Identify carrier using learned patterns
@@ -158,7 +159,7 @@ export class IntelligentExtractionService {
         },
         
         processingTime,
-        cost: basicExtraction.cost,
+        cost: basicExtraction.cost || 0,
         processingMethod: 'intelligent_carrier_learning'
       };
 

@@ -176,19 +176,10 @@ export class MultiDocumentExtractionService {
       }
     }
     
-    // Step 2: Fallback to enhanced or basic extraction if intelligent extraction failed or is disabled
+    // Step 2: Fallback to optimized hybrid extraction if intelligent extraction failed or is disabled
     if (!intelligentResult) {
-      if (this.useEnhancedExtraction) {
-        console.log('🚀 Using Enhanced Hybrid Extraction with Confidence Building');
-        try {
-          basicExtraction = await this.enhancedExtractor.extractWithConfidenceBuilding(file);
-        } catch (error) {
-          console.warn('⚠️ Enhanced extraction failed, falling back to basic:', error.message);
-          basicExtraction = await this.hybridExtractor.extractFromPDF(file);
-        }
-      } else {
-        basicExtraction = await this.hybridExtractor.extractFromPDF(file);
-      }
+      console.log('⚡ Using optimized hybrid extraction as fallback');
+      basicExtraction = await this.hybridExtractor.extractFromPDF(file);
     }
 
     // Step 3: Classify document type (use intelligent result if available)
