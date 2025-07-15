@@ -1,0 +1,427 @@
+{
+  "test_info": {
+    "timestamp": "2025-07-15T04:40:28.916599",
+    "application_url": "https://ljqtg04f4s.space.minimax.io",
+    "test_type": "Multi-Document Processing Demonstration",
+    "total_documents_available": 25
+  },
+  "document_inventory": {
+    "documents": [
+      {
+        "filename": "Delabano Below Deductible Letter.pdf",
+        "filepath": "/workspace/user_input_files/Delabano Below Deductible Letter.pdf",
+        "category": "communication",
+        "document_type": "communication_letter",
+        "confidence": 0.9,
+        "size_kb": 146.7,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "Proof of Loss Rejection Letter.pdf",
+        "filepath": "/workspace/user_input_files/Proof of Loss Rejection Letter.pdf",
+        "category": "communication",
+        "document_type": "rejection_letter",
+        "confidence": 0.9,
+        "size_kb": 70.8,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "Certified Copy Policy.pdf",
+        "filepath": "/workspace/user_input_files/Certified Copy Policy.pdf",
+        "category": "policy",
+        "document_type": "insurance_policy",
+        "confidence": 0.9,
+        "size_kb": 1370.4,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "Certified Policy.pdf",
+        "filepath": "/workspace/user_input_files/Certified Policy.pdf",
+        "category": "policy",
+        "document_type": "insurance_policy",
+        "confidence": 0.9,
+        "size_kb": 508.0,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "Delabano Policy.pdf",
+        "filepath": "/workspace/user_input_files/Delabano Policy.pdf",
+        "category": "policy",
+        "document_type": "insurance_policy",
+        "confidence": 0.9,
+        "size_kb": 281.3,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "Jose Diaz Certified Policy.pdf",
+        "filepath": "/workspace/user_input_files/Jose Diaz Certified Policy.pdf",
+        "category": "policy",
+        "document_type": "insurance_policy",
+        "confidence": 0.9,
+        "size_kb": 1596.1,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "Josue&Maria Deras_Allstate Home Ins Policy 2024.pdf",
+        "filepath": "/workspace/user_input_files/Josue&Maria Deras_Allstate Home Ins Policy 2024.pdf",
+        "category": "policy",
+        "document_type": "insurance_policy",
+        "confidence": 0.9,
+        "size_kb": 457.2,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "Policy Print version.pdf",
+        "filepath": "/workspace/user_input_files/Policy Print version.pdf",
+        "category": "policy",
+        "document_type": "insurance_policy",
+        "confidence": 0.9,
+        "size_kb": 30986.4,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "Policy.pdf",
+        "filepath": "/workspace/user_input_files/Policy.pdf",
+        "category": "policy",
+        "document_type": "insurance_policy",
+        "confidence": 0.9,
+        "size_kb": 1272.9,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "WalkerGordon_policy2023-2024.pdf",
+        "filepath": "/workspace/user_input_files/WalkerGordon_policy2023-2024.pdf",
+        "category": "policy",
+        "document_type": "insurance_policy",
+        "confidence": 0.9,
+        "size_kb": 293.0,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "cert pol.pdf",
+        "filepath": "/workspace/user_input_files/cert pol.pdf",
+        "category": "policy",
+        "document_type": "insurance_policy",
+        "confidence": 0.9,
+        "size_kb": 3563.2,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "homeowners policy.pdf",
+        "filepath": "/workspace/user_input_files/homeowners policy.pdf",
+        "category": "policy",
+        "document_type": "insurance_policy",
+        "confidence": 0.9,
+        "size_kb": 1137.1,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "y of Policy 2.pdf",
+        "filepath": "/workspace/user_input_files/y of Policy 2.pdf",
+        "category": "policy",
+        "document_type": "insurance_policy",
+        "confidence": 0.9,
+        "size_kb": 1343.9,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "10_9_24 - RFI.pdf",
+        "filepath": "/workspace/user_input_files/10_9_24 - RFI.pdf",
+        "category": "processing",
+        "document_type": "request_for_information",
+        "confidence": 0.9,
+        "size_kb": 77.4,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "8_13_24 - ROR.pdf",
+        "filepath": "/workspace/user_input_files/8_13_24 - ROR.pdf",
+        "category": "processing",
+        "document_type": "reservation_of_rights",
+        "confidence": 0.9,
+        "size_kb": 274.8,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "Final Draft Jose.pdf",
+        "filepath": "/workspace/user_input_files/Final Draft Jose.pdf",
+        "category": "unknown",
+        "document_type": "unknown_document",
+        "confidence": 0.5,
+        "size_kb": 292.2,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "ai_intake_wizard_implementation_report.pdf",
+        "filepath": "/workspace/user_input_files/ai_intake_wizard_implementation_report.pdf",
+        "category": "unknown",
+        "document_type": "unknown_document",
+        "confidence": 0.5,
+        "size_kb": 307.5,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "automatic_google_vision_integration_report.pdf",
+        "filepath": "/workspace/user_input_files/automatic_google_vision_integration_report.pdf",
+        "category": "unknown",
+        "document_type": "unknown_document",
+        "confidence": 0.5,
+        "size_kb": 7.9,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "claimguru_comprehensive_audit_and_roadmap.pdf",
+        "filepath": "/workspace/user_input_files/claimguru_comprehensive_audit_and_roadmap.pdf",
+        "category": "unknown",
+        "document_type": "unknown_document",
+        "confidence": 0.5,
+        "size_kb": 447.1,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "claimguru_comprehensive_testing_report.pdf",
+        "filepath": "/workspace/user_input_files/claimguru_comprehensive_testing_report.pdf",
+        "category": "unknown",
+        "document_type": "unknown_document",
+        "confidence": 0.5,
+        "size_kb": 358.0,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "claimguru_implementation_report.pdf",
+        "filepath": "/workspace/user_input_files/claimguru_implementation_report.pdf",
+        "category": "unknown",
+        "document_type": "unknown_document",
+        "confidence": 0.5,
+        "size_kb": 316.2,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "claimguru_scheduling_integrations_summary.pdf",
+        "filepath": "/workspace/user_input_files/claimguru_scheduling_integrations_summary.pdf",
+        "category": "unknown",
+        "document_type": "unknown_document",
+        "confidence": 0.5,
+        "size_kb": 371.1,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "enhanced_sidebar_implementation_report.pdf",
+        "filepath": "/workspace/user_input_files/enhanced_sidebar_implementation_report.pdf",
+        "category": "unknown",
+        "document_type": "unknown_document",
+        "confidence": 0.5,
+        "size_kb": 368.3,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "tiered_pdf_implementation_report.pdf",
+        "filepath": "/workspace/user_input_files/tiered_pdf_implementation_report.pdf",
+        "category": "unknown",
+        "document_type": "unknown_document",
+        "confidence": 0.5,
+        "size_kb": 337.9,
+        "suitable_for_multi_processing": true
+      },
+      {
+        "filename": "todo.pdf",
+        "filepath": "/workspace/user_input_files/todo.pdf",
+        "category": "unknown",
+        "document_type": "unknown_document",
+        "confidence": 0.5,
+        "size_kb": 323.8,
+        "suitable_for_multi_processing": true
+      }
+    ],
+    "categories_summary": {
+      "communication": {
+        "count": 2,
+        "documents": [
+          "Delabano Below Deductible Letter.pdf",
+          "Proof of Loss Rejection Letter.pdf"
+        ],
+        "total_size_kb": 217.5
+      },
+      "policy": {
+        "count": 11,
+        "documents": [
+          "Certified Copy Policy.pdf",
+          "Certified Policy.pdf",
+          "Delabano Policy.pdf",
+          "Jose Diaz Certified Policy.pdf",
+          "Josue&Maria Deras_Allstate Home Ins Policy 2024.pdf",
+          "Policy Print version.pdf",
+          "Policy.pdf",
+          "WalkerGordon_policy2023-2024.pdf",
+          "cert pol.pdf",
+          "homeowners policy.pdf",
+          "y of Policy 2.pdf"
+        ],
+        "total_size_kb": 42809.5
+      },
+      "processing": {
+        "count": 2,
+        "documents": [
+          "10_9_24 - RFI.pdf",
+          "8_13_24 - ROR.pdf"
+        ],
+        "total_size_kb": 352.20000000000005
+      },
+      "unknown": {
+        "count": 10,
+        "documents": [
+          "Final Draft Jose.pdf",
+          "ai_intake_wizard_implementation_report.pdf",
+          "automatic_google_vision_integration_report.pdf",
+          "claimguru_comprehensive_audit_and_roadmap.pdf",
+          "claimguru_comprehensive_testing_report.pdf",
+          "claimguru_implementation_report.pdf",
+          "claimguru_scheduling_integrations_summary.pdf",
+          "enhanced_sidebar_implementation_report.pdf",
+          "tiered_pdf_implementation_report.pdf",
+          "todo.pdf"
+        ],
+        "total_size_kb": 3130.0000000000005
+      }
+    },
+    "total_size_kb": 46509.200000000004
+  },
+  "workflow_analysis": {
+    "workflow_stage": "disputed_claim",
+    "categories_detected": [
+      "processing",
+      "policy",
+      "unknown",
+      "communication"
+    ],
+    "total_documents": 25,
+    "processing_complexity": "high"
+  },
+  "test_scenarios": [
+    {
+      "name": "Single Policy Analysis",
+      "description": "Process a single insurance policy document",
+      "documents": [
+        {
+          "filename": "Certified Copy Policy.pdf",
+          "filepath": "/workspace/user_input_files/Certified Copy Policy.pdf",
+          "category": "policy",
+          "document_type": "insurance_policy",
+          "confidence": 0.9,
+          "size_kb": 1370.4,
+          "suitable_for_multi_processing": true
+        }
+      ],
+      "expected_outcome": "Extract comprehensive policy details including coverage, deductibles, and terms"
+    },
+    {
+      "name": "Claim Filing Package",
+      "description": "Process policy + communication documents together",
+      "documents": [
+        {
+          "filename": "Delabano Below Deductible Letter.pdf",
+          "filepath": "/workspace/user_input_files/Delabano Below Deductible Letter.pdf",
+          "category": "communication",
+          "document_type": "communication_letter",
+          "confidence": 0.9,
+          "size_kb": 146.7,
+          "suitable_for_multi_processing": true
+        },
+        {
+          "filename": "Proof of Loss Rejection Letter.pdf",
+          "filepath": "/workspace/user_input_files/Proof of Loss Rejection Letter.pdf",
+          "category": "communication",
+          "document_type": "rejection_letter",
+          "confidence": 0.9,
+          "size_kb": 70.8,
+          "suitable_for_multi_processing": true
+        },
+        {
+          "filename": "Certified Copy Policy.pdf",
+          "filepath": "/workspace/user_input_files/Certified Copy Policy.pdf",
+          "category": "policy",
+          "document_type": "insurance_policy",
+          "confidence": 0.9,
+          "size_kb": 1370.4,
+          "suitable_for_multi_processing": true
+        }
+      ],
+      "expected_outcome": "Identify claim context, extract policy details, and analyze communication timeline"
+    },
+    {
+      "name": "Complex Investigation Analysis",
+      "description": "Process multiple document types for comprehensive claim analysis",
+      "documents": [
+        {
+          "filename": "Delabano Below Deductible Letter.pdf",
+          "filepath": "/workspace/user_input_files/Delabano Below Deductible Letter.pdf",
+          "category": "communication",
+          "document_type": "communication_letter",
+          "confidence": 0.9,
+          "size_kb": 146.7,
+          "suitable_for_multi_processing": true
+        },
+        {
+          "filename": "Proof of Loss Rejection Letter.pdf",
+          "filepath": "/workspace/user_input_files/Proof of Loss Rejection Letter.pdf",
+          "category": "communication",
+          "document_type": "rejection_letter",
+          "confidence": 0.9,
+          "size_kb": 70.8,
+          "suitable_for_multi_processing": true
+        },
+        {
+          "filename": "Certified Copy Policy.pdf",
+          "filepath": "/workspace/user_input_files/Certified Copy Policy.pdf",
+          "category": "policy",
+          "document_type": "insurance_policy",
+          "confidence": 0.9,
+          "size_kb": 1370.4,
+          "suitable_for_multi_processing": true
+        },
+        {
+          "filename": "Certified Policy.pdf",
+          "filepath": "/workspace/user_input_files/Certified Policy.pdf",
+          "category": "policy",
+          "document_type": "insurance_policy",
+          "confidence": 0.9,
+          "size_kb": 508.0,
+          "suitable_for_multi_processing": true
+        }
+      ],
+      "expected_outcome": "Full workflow analysis, document relationships, and processing recommendations"
+    },
+    {
+      "name": "Dispute Resolution Analysis",
+      "description": "Analyze documents related to claim disputes and investigations",
+      "documents": [
+        {
+          "filename": "Proof of Loss Rejection Letter.pdf",
+          "filepath": "/workspace/user_input_files/Proof of Loss Rejection Letter.pdf",
+          "category": "communication",
+          "document_type": "rejection_letter",
+          "confidence": 0.9,
+          "size_kb": 70.8,
+          "suitable_for_multi_processing": true
+        }
+      ],
+      "expected_outcome": "Identify dispute reasons, required actions, and response strategies"
+    }
+  ],
+  "capabilities_demonstrated": [
+    "Automatic document classification",
+    "Multi-document workflow analysis",
+    "Intelligent data extraction and consolidation",
+    "Context-aware processing recommendations",
+    "Document relationship identification",
+    "Claim stage determination"
+  ],
+  "technical_features": [
+    "HybridPDFExtractionService integration",
+    "DocumentClassificationService usage",
+    "Multi-tier AI processing (PDF.js \u2192 OCR \u2192 Vision \u2192 OpenAI)",
+    "Cost optimization and processing efficiency",
+    "Real-time progress tracking",
+    "Comprehensive error handling"
+  ]
+}

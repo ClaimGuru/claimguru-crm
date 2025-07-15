@@ -23,6 +23,7 @@ import {
 
 // Import enhanced AI wizard step components - REAL PDF DATA EXTRACTION
 import { FixedRealPDFExtractionStep } from './wizard-steps/FixedRealPDFExtractionStep'
+import { MultiDocumentPDFExtractionStep } from './wizard-steps/MultiDocumentPDFExtractionStep'
 import { EnhancedClientDetailsStep } from './wizard-steps/EnhancedClientDetailsStep'
 import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoStep'
 import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
@@ -126,10 +127,10 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
   const steps = [
     {
       id: 'policy-upload',
-      title: 'REAL PDF Data Extraction - No More Fake Data!',
-      description: 'Upload YOUR actual policy document and we will extract YOUR real data from it',
-      icon: FileText,
-      component: FixedRealPDFExtractionStep,
+      title: 'Multi-Document AI Processing',
+      description: 'Upload multiple documents (policies, letters, settlements) for intelligent processing',
+      icon: Brain,
+      component: MultiDocumentPDFExtractionStep,
       required: false
     },
     {
