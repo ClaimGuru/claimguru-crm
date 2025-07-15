@@ -8,11 +8,19 @@ import {
 } from 'lucide-react';
 import { LoadingSpinner } from '../../ui/LoadingSpinner';
 import MultiDocumentExtractionService, { DocumentExtractionResult, MultiDocumentResult } from '../../../services/multiDocumentExtractionService';
+import { PolicyDataValidationStep } from './PolicyDataValidationStep';
 
 interface MultiDocumentPDFExtractionStepProps {
   data: any;
   onUpdate: (data: any) => void;
   onAIProcessing?: (isProcessing: boolean) => void;
+}
+
+interface PolicyValidationState {
+  documentIndex: number;
+  isValidating: boolean;
+  extractedData: any;
+  rawText: string;
 }
 
 interface FileStatus {
@@ -63,6 +71,7 @@ export const MultiDocumentPDFExtractionStep: React.FC<MultiDocumentPDFExtraction
   const [processingResults, setProcessingResults] = useState<MultiDocumentResult | null>(null);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [policyValidation, setPolicyValidation] = useState<PolicyValidationState | null>(null);
 
   const multiDocService = new MultiDocumentExtractionService();
 
@@ -443,21 +452,66 @@ export const MultiDocumentPDFExtractionStep: React.FC<MultiDocumentPDFExtraction
                         </div>
                         
                         {/* Key Extracted Data */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                          {Object.entries(doc.extractedData)
-                            .filter(([key, value]) => value && key !== 'validationMetadata')
-                            .slice(0, 6)
-                            .map(([key, value]) => (
-                              <div key={key} className="flex justify-between">
-                                <span className="text-gray-600 capitalize">
-                                  {key.replace(/([A-Z])/g, ' $1').trim()}:
-                                </span>
-                                <span className="font-medium text-gray-900 text-right">
-                                  {typeof value === 'string' ? value : JSON.stringify(value)}
-                                </span>
-                              </div>
-                            ))}
-                        </div>
+                        {doc.documentInfo.category === 'policy' ? (
+                          <div className="space-y-4">
+                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                              <h5 className="font-medium text-blue-900 mb-2 flex items-center gap-2">
+                                <Shield className="h-4 w-4" />
+                                Insurance Policy Document - Comprehensive Validation Available
+                              </h5>
+                              <p className="text-sm text-blue-700 mb-3">
+                                This policy document contains {Object.keys(doc.extractedData).filter(k => k !== 'validationMetadata' && doc.extractedData[k]).length} extracted fields. 
+                                Click "Review Policy Details" to validate all comprehensive policy information.
+                              </p>
+                              <Button
+                                onClick={() => setPolicyValidation({
+                                  documentIndex: index,
+                                  isValidating: true,
+                                  extractedData: doc.extractedData,
+                                  rawText: doc.rawText
+                                })}
+                                variant="primary"
+                                size="sm"
+                                className="flex items-center gap-2"
+                              >
+                                <Eye className="h-3 w-3" />
+                                Review Policy Details ({Object.keys(doc.extractedData).filter(k => k !== 'validationMetadata' && doc.extractedData[k]).length} fields)
+                              </Button>
+                            </div>
+                            
+                            {/* Show quick preview of key fields */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                              {Object.entries(doc.extractedData)
+                                .filter(([key, value]) => value && key !== 'validationMetadata')
+                                .filter(([key]) => ['policyNumber', 'insuredName', 'propertyAddress', 'effectiveDate', 'coverageAmount', 'insurerName'].includes(key))
+                                .map(([key, value]) => (
+                                  <div key={key} className="flex justify-between">
+                                    <span className="text-gray-600 capitalize">
+                                      {key.replace(/([A-Z])/g, ' $1').trim()}:
+                                    </span>
+                                    <span className="font-medium text-gray-900 text-right">
+                                      {typeof value === 'string' ? value : JSON.stringify(value)}
+                                    </span>
+                                  </div>
+                                ))}
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            {Object.entries(doc.extractedData)
+                              .filter(([key, value]) => value && key !== 'validationMetadata')
+                              .map(([key, value]) => (
+                                <div key={key} className="flex justify-between">
+                                  <span className="text-gray-600 capitalize">
+                                    {key.replace(/([A-Z])/g, ' $1').trim()}:
+                                  </span>
+                                  <span className="font-medium text-gray-900 text-right">
+                                    {typeof value === 'string' ? value : JSON.stringify(value)}
+                                  </span>
+                                </div>
+                              ))}
+                          </div>
+                        )}
 
                         {/* Processing Notes */}
                         {doc.processingNotes.length > 0 && (
@@ -480,8 +534,52 @@ export const MultiDocumentPDFExtractionStep: React.FC<MultiDocumentPDFExtraction
             </div>
           )}
 
+          {/* Policy Data Validation Modal */}
+          {policyValidation && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+              <div className="bg-white rounded-lg shadow-xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+                <div className="p-6 border-b">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-xl font-semibold flex items-center gap-2">
+                      <Shield className="h-5 w-5 text-blue-600" />
+                      Comprehensive Policy Data Validation
+                    </h3>
+                    <Button
+                      onClick={() => setPolicyValidation(null)}
+                      variant="outline"
+                      size="sm"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <PolicyDataValidationStep
+                    extractedData={policyValidation.extractedData}
+                    rawText={policyValidation.rawText}
+                    onValidated={(validatedData) => {
+                      // Update the processing results with validated data
+                      setProcessingResults(prev => {
+                        if (!prev) return prev;
+                        const updated = { ...prev };
+                        updated.documents[policyValidation.documentIndex].extractedData = validatedData;
+                        return updated;
+                      });
+                      setPolicyValidation(null);
+                      alert('✅ Policy data validated successfully! You can now proceed with all documents.');
+                    }}
+                    onReject={() => {
+                      setPolicyValidation(null);
+                      alert('❌ Policy validation cancelled. You can re-upload the document if needed.');
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Action Buttons */}
-          {processingResults && !isConfirmed && (
+          {processingResults && !isConfirmed && !policyValidation && (
             <div className="flex justify-between items-center pt-6 border-t">
               <Button
                 onClick={handleReject}
