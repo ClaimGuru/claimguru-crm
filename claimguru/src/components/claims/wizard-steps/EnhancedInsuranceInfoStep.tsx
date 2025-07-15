@@ -63,12 +63,62 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
   const [isValidating, setIsValidating] = useState(false)
   const [autoPopulated, setAutoPopulated] = useState(false)
 
-  // Check if data was auto-populated from PDF
+  // Auto-populate data from PDF extraction
   useEffect(() => {
-    if (data.dataPopulatedFromPDF) {
+    if (data.extractedPolicyData && data.validationComplete && !autoPopulated) {
+      console.log('🚀 Auto-populating insurance details from extracted PDF data:', data.extractedPolicyData)
+      
+      // Auto-populate insurance carrier
+      if (data.extractedPolicyData.insurerName) {
+        setInsuranceCarrier(prev => ({
+          ...prev,
+          name: data.extractedPolicyData.insurerName
+        }))
+      }
+      
+      // Auto-populate policy details
+      const newPolicyDetails = { ...policyDetails }
+      if (data.extractedPolicyData.policyNumber) {
+        newPolicyDetails.policyNumber = data.extractedPolicyData.policyNumber
+      }
+      if (data.extractedPolicyData.effectiveDate) {
+        newPolicyDetails.effectiveDate = data.extractedPolicyData.effectiveDate
+      }
+      if (data.extractedPolicyData.expirationDate) {
+        newPolicyDetails.expirationDate = data.extractedPolicyData.expirationDate
+      }
+      setPolicyDetails(newPolicyDetails)
+      
+      // Auto-populate deductibles from extracted data
+      if (data.extractedPolicyData.deductibles && data.extractedPolicyData.deductibles.length > 0) {
+        console.log('📋 Auto-populating deductibles:', data.extractedPolicyData.deductibles)
+        
+        const autoDeductibles: Deductible[] = data.extractedPolicyData.deductibles.map((ded: any, index: number) => ({
+          id: `auto-${Date.now()}-${index}`,
+          type: ded.type || 'All Other Perils',
+          amount: ded.amount || 0,
+          isPercentage: ded.isPercentage || false,
+          percentageOf: ded.percentageOf
+        }))
+        
+        setDeductibles(autoDeductibles)
+        console.log('✅ Deductibles auto-populated:', autoDeductibles)
+      }
+      
+      // Auto-populate coverages if available
+      if (data.extractedPolicyData.coverageAmount) {
+        const autoCoverages: Coverage[] = [{
+          id: `auto-dwelling-${Date.now()}`,
+          type: 'Dwelling',
+          limit: parseInt(data.extractedPolicyData.coverageAmount.replace(/[^0-9]/g, '')) || 0
+        }]
+        setCoverages(prev => [...prev, ...autoCoverages])
+      }
+      
       setAutoPopulated(true)
+      console.log('✅ Insurance details auto-population completed')
     }
-  }, [data.dataPopulatedFromPDF])
+  }, [data.extractedPolicyData, data.validationComplete])
 
   // Update parent data whenever local state changes
   useEffect(() => {
@@ -264,8 +314,42 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
               <CheckCircle className="h-5 w-5 text-green-600" />
               <span className="font-semibold text-green-800">Auto-Populated from Policy Document</span>
             </div>
-            <p className="text-sm text-green-700">
-              Insurance information, coverages, and deductibles have been extracted from your policy document. 
+            <p className="text-sm text-green-700 mb-3">
+              The following information has been automatically extracted and populated from your policy document:
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+              {policyDetails.policyNumber && (
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-3 w-3 text-green-600" />
+                  <span>Policy Number</span>
+                </div>
+              )}
+              {insuranceCarrier.name && (
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-3 w-3 text-green-600" />
+                  <span>Insurance Carrier</span>
+                </div>
+              )}
+              {policyDetails.effectiveDate && (
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-3 w-3 text-green-600" />
+                  <span>Policy Dates</span>
+                </div>
+              )}
+              {deductibles.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-3 w-3 text-green-600" />
+                  <span>{deductibles.length} Deductible(s)</span>
+                </div>
+              )}
+              {coverages.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-3 w-3 text-green-600" />
+                  <span>{coverages.length} Coverage(s)</span>
+                </div>
+              )}
+            </div>
+            <p className="text-sm text-green-600 mt-3">
               Please review and update any information as needed.
             </p>
           </CardContent>
@@ -492,8 +576,31 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* AI Deductible Suggestions */}
-          {validationResults.deductibles.length > 0 && (
+          {/* Auto-populated Deductibles Notice */}
+          {autoPopulated && deductibles.length > 0 && (
+            <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <CheckCircle className="h-4 w-4 text-green-600" />
+                <strong className="text-green-800">Deductibles Auto-Populated from Policy</strong>
+              </div>
+              <p className="text-sm text-green-700 mb-2">
+                {deductibles.length} deductible(s) were automatically detected and populated from your policy document.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                {deductibles.map((ded) => (
+                  <div key={ded.id} className="text-sm bg-white border border-green-200 rounded p-2">
+                    <span className="font-medium">{ded.type}:</span>
+                    <span className="ml-2">
+                      {ded.isPercentage ? `${ded.amount}%` : `$${ded.amount.toLocaleString()}`}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* AI Deductible Suggestions (only show if no auto-population) */}
+          {!autoPopulated && validationResults.deductibles.length > 0 && (
             <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
                 <Brain className="h-4 w-4 text-blue-600" />
