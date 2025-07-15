@@ -362,11 +362,16 @@ export class MultiDocumentExtractionService {
     policyData.extractionEnhanced = true;
     
     console.log('✅ Policy data enhancement complete - fields preserved:', Object.keys(policyData).filter(k => policyData[k] && policyData[k] !== 'null').length);
-    return policyData;
+    
+    // Apply formatting to improve readability
+    const formattedData = this.formatExtractedData(policyData);
+    console.log('✨ Applied data formatting for better readability');
+    
+    return formattedData;
   }
 
   private extractRORData(text: string, baseData: any): any {
-    return {
+    const data = {
       ...baseData,
       documentType: 'reservation_of_rights',
       claimNumber: this.extractPattern(text, /(?:claim\s*(?:number|#|no)\s*[:.]?\s*)([A-Z0-9]{5,20})/i),
@@ -376,13 +381,15 @@ export class MultiDocumentExtractionService {
       adjustorInfo: this.extractPattern(text, /(?:claim\s*professional|adjuster|representative)\s*[:.]?\s*([A-Za-z\s]{2,30})/i),
       nextSteps: this.extractPattern(text, /(?:next\s*steps?|will\s*advise|contact|follow\s*up)\s*[:.]?\s*([^.]{10,100})/i)
     };
+    
+    return this.formatExtractedData(data);
   }
 
   private extractRFIData(text: string, baseData: any): any {
     const requestedItems = this.extractListItems(text, /(?:following\s*information|need|required|provide)[\s\S]*?(?=\.|$)/i);
     const deadline = this.extractPattern(text, /(?:within|by)\s*(\d+\s*days?|\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/i);
     
-    return {
+    const data = {
       ...baseData,
       documentType: 'request_for_information',
       claimNumber: this.extractPattern(text, /(?:claim\s*(?:number|#|no)\s*[:.]?\s*)([A-Z0-9]{5,20})/i),
@@ -391,10 +398,12 @@ export class MultiDocumentExtractionService {
       contactInfo: this.extractContactInfo(text),
       submissionMethod: this.extractPattern(text, /(fax|email|mail|upload|submit)/i)
     };
+    
+    return this.formatExtractedData(data);
   }
 
   private extractAcknowledgementData(text: string, baseData: any): any {
-    return {
+    const data = {
       ...baseData,
       documentType: 'acknowledgement_letter',
       claimNumber: this.extractPattern(text, /(?:claim\s*(?:number|#|no)\s*[:.]?\s*)([A-Z0-9]{5,20})/i),
@@ -403,10 +412,12 @@ export class MultiDocumentExtractionService {
       nextSteps: this.extractPattern(text, /(?:will\s*contact|next\s*steps?|expect)\s*[:.]?\s*([^.]{10,100})/i),
       contactInfo: this.extractContactInfo(text)
     };
+    
+    return this.formatExtractedData(data);
   }
 
   private extractSettlementData(text: string, baseData: any): any {
-    return {
+    const data = {
       ...baseData,
       documentType: 'settlement_letter',
       claimNumber: this.extractPattern(text, /(?:claim\s*(?:number|#|no)\s*[:.]?\s*)([A-Z0-9]{5,20})/i),
@@ -415,10 +426,12 @@ export class MultiDocumentExtractionService {
       paymentDate: this.extractPattern(text, /(?:payment\s*date|issued\s*on|sent\s*on)\s*[:.]?\s*(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/i),
       releaseConditions: text.includes('release') || text.includes('waiver')
     };
+    
+    return this.formatExtractedData(data);
   }
 
   private extractRejectionData(text: string, baseData: any): any {
-    return {
+    const data = {
       ...baseData,
       documentType: 'rejection_letter',
       claimNumber: this.extractPattern(text, /(?:claim\s*(?:number|#|no)\s*[:.]?\s*)([A-Z0-9]{5,20})/i),
@@ -427,10 +440,12 @@ export class MultiDocumentExtractionService {
       appealRights: text.includes('appeal') || text.includes('dispute'),
       appealDeadline: this.extractPattern(text, /(?:appeal.*within|dispute.*days?)\s*[:.]?\s*(\d+\s*days?)/i)
     };
+    
+    return this.formatExtractedData(data);
   }
 
   private extractStatusUpdateData(text: string, baseData: any): any {
-    return {
+    const data = {
       ...baseData,
       documentType: 'status_update_letter',
       claimNumber: this.extractPattern(text, /(?:claim\s*(?:number|#|no)\s*[:.]?\s*)([A-Z0-9]{5,20})/i),
@@ -438,10 +453,12 @@ export class MultiDocumentExtractionService {
       coverageDecision: this.extractPattern(text, /(?:may\s*provide|coverage|will\s*pay)\s*[:.]?\s*([^.]{10,100})/i),
       nextSteps: this.extractPattern(text, /(?:will\s*advise|next\s*steps?|upon\s*completion)\s*[:.]?\s*([^.]{10,100})/i)
     };
+    
+    return this.formatExtractedData(data);
   }
 
   private extractGenericData(text: string, baseData: any): any {
-    return {
+    const data = {
       ...baseData,
       documentType: 'unknown',
       extractedText: text.substring(0, 500),
@@ -449,6 +466,8 @@ export class MultiDocumentExtractionService {
       claimReferences: this.extractPattern(text, /(?:claim\s*(?:number|#|no)\s*[:.]?\s*)([A-Z0-9]{5,20})/i),
       contactInfo: this.extractContactInfo(text)
     };
+    
+    return this.formatExtractedData(data);
   }
 
   /**
@@ -747,6 +766,186 @@ export class MultiDocumentExtractionService {
         documentTypeClassification: true
       }
     };
+  }
+
+  /**
+   * Format and clean extracted data for better readability
+   */
+  private formatExtractedData(data: any): any {
+    if (!data || typeof data !== 'object') return data;
+    
+    const result = { ...data };
+    
+    // Format names (add spaces between concatenated names)
+    if (result.insuredName && typeof result.insuredName === 'string') {
+      result.insuredName = this.formatName(result.insuredName);
+    }
+    
+    // Format company names
+    if (result.insurerName && typeof result.insurerName === 'string') {
+      result.insurerName = this.formatCompanyName(result.insurerName);
+    }
+    
+    // Format addresses
+    if (result.propertyAddress && typeof result.propertyAddress === 'string') {
+      result.propertyAddress = this.formatAddress(result.propertyAddress);
+    }
+    
+    if (result.mailingAddress && typeof result.mailingAddress === 'string') {
+      result.mailingAddress = this.formatAddress(result.mailingAddress);
+    }
+    
+    if (result.insurerAddress && typeof result.insurerAddress === 'string') {
+      result.insurerAddress = this.formatAddress(result.insurerAddress);
+    }
+    
+    if (result.agentAddress && typeof result.agentAddress === 'string') {
+      result.agentAddress = this.formatAddress(result.agentAddress);
+    }
+    
+    if (result.mortgageeAddress && typeof result.mortgageeAddress === 'string') {
+      result.mortgageeAddress = this.formatAddress(result.mortgageeAddress);
+    }
+    
+    // Format dates
+    if (result.effectiveDate && typeof result.effectiveDate === 'string') {
+      result.effectiveDate = this.formatDate(result.effectiveDate);
+    }
+    
+    if (result.expirationDate && typeof result.expirationDate === 'string') {
+      result.expirationDate = this.formatDate(result.expirationDate);
+    }
+    
+    // Format phone numbers
+    if (result.insurerPhone && typeof result.insurerPhone === 'string') {
+      result.insurerPhone = this.formatPhoneNumber(result.insurerPhone);
+    }
+    
+    if (result.agentPhone && typeof result.agentPhone === 'string') {
+      result.agentPhone = this.formatPhoneNumber(result.agentPhone);
+    }
+    
+    // Format agent name
+    if (result.agentName && typeof result.agentName === 'string') {
+      result.agentName = this.formatName(result.agentName);
+    }
+    
+    // Format mortgagee name
+    if (result.mortgageeName && typeof result.mortgageeName === 'string') {
+      result.mortgageeName = this.formatCompanyName(result.mortgageeName);
+    }
+    
+    return result;
+  }
+  
+  /**
+   * Format concatenated names by adding spaces
+   */
+  private formatName(name: string): string {
+    // Handle cases like "terryconnellyphyllisconnelly"
+    // Look for capital letters that might indicate name boundaries
+    let formatted = name.replace(/([a-z])([A-Z])/g, '$1 $2');
+    
+    // Handle common name patterns
+    formatted = formatted.replace(/([a-z])([A-Z][a-z])/g, '$1 $2');
+    
+    // Capitalize first letters
+    formatted = formatted.replace(/\b\w/g, l => l.toUpperCase());
+    
+    return formatted.trim();
+  }
+  
+  /**
+   * Format company names
+   */
+  private formatCompanyName(company: string): string {
+    // Handle cases like "allstatevehicleandpropertyinsurancecompany"
+    let formatted = company.toLowerCase();
+    
+    // Add spaces before common company words
+    const companyWords = ['insurance', 'company', 'corporation', 'inc', 'llc', 'group', 'mutual', 'agency', 'services', 'financial', 'property', 'casualty', 'vehicle', 'auto', 'home', 'life'];
+    
+    companyWords.forEach(word => {
+      const regex = new RegExp(`([a-z])(${word})`, 'gi');
+      formatted = formatted.replace(regex, '$1 $2');
+    });
+    
+    // Capitalize words
+    formatted = formatted.replace(/\b\w/g, l => l.toUpperCase());
+    
+    return formatted.trim();
+  }
+  
+  /**
+   * Format addresses by adding spaces and proper formatting
+   */
+  private formatAddress(address: string): string {
+    let formatted = address.toLowerCase();
+    
+    // Add space before state abbreviations (tx, ca, ny, etc.)
+    formatted = formatted.replace(/([a-z])([a-z]{2})(\d{5})/g, '$1 $2 $3');
+    
+    // Add space before zip codes
+    formatted = formatted.replace(/(\w)(\d{5})/g, '$1 $2');
+    
+    // Add spaces before common address words
+    const addressWords = ['st', 'street', 'dr', 'drive', 'ave', 'avenue', 'rd', 'road', 'ln', 'lane', 'ct', 'court', 'pl', 'place', 'blvd', 'boulevard', 'box', 'po'];
+    
+    addressWords.forEach(word => {
+      const regex = new RegExp(`([a-z])(${word})([\s\d]|$)`, 'gi');
+      formatted = formatted.replace(regex, '$1 $2$3');
+    });
+    
+    // Capitalize words
+    formatted = formatted.replace(/\b\w/g, l => l.toUpperCase());
+    
+    return formatted.trim();
+  }
+  
+  /**
+   * Format dates from compressed format
+   */
+  private formatDate(date: string): string {
+    // Handle cases like "june272024"
+    const monthNames = {
+      'january': '01', 'february': '02', 'march': '03', 'april': '04',
+      'may': '05', 'june': '06', 'july': '07', 'august': '08',
+      'september': '09', 'october': '10', 'november': '11', 'december': '12',
+      'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04',
+      'jun': '06', 'jul': '07', 'aug': '08',
+      'sep': '09', 'oct': '10', 'nov': '11', 'dec': '12'
+    };
+    
+    let formatted = date.toLowerCase();
+    
+    // Look for month names followed by numbers
+    for (const [monthName, monthNum] of Object.entries(monthNames)) {
+      const regex = new RegExp(`${monthName}(\d{1,2})(\d{4})`, 'i');
+      const match = formatted.match(regex);
+      if (match) {
+        const day = match[1].padStart(2, '0');
+        const year = match[2];
+        return `${monthNum}/${day}/${year}`;
+      }
+    }
+    
+    return date; // Return original if no pattern matches
+  }
+  
+  /**
+   * Format phone numbers
+   */
+  private formatPhoneNumber(phone: string): string {
+    // Handle cases like "18002557828"
+    const cleaned = phone.replace(/\D/g, '');
+    
+    if (cleaned.length === 10) {
+      return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
+    } else if (cleaned.length === 11 && cleaned.startsWith('1')) {
+      return `1 (${cleaned.slice(1, 4)}) ${cleaned.slice(4, 7)}-${cleaned.slice(7)}`;
+    }
+    
+    return phone; // Return original if doesn't match expected patterns
   }
 }
 

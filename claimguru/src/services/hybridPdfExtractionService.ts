@@ -521,7 +521,7 @@ export class HybridPDFExtractionService {
   }
 
   /**
-   * STEP 4: AI Enhancement (OpenAI + Advanced Regex)
+   * STEP 4: AI Enhancement (OpenAI + Advanced Regex) with Data Formatting
    */
   private async enhanceWithAI(text: string): Promise<HybridPDFExtractionResult['policyData']> {
     try {
@@ -539,15 +539,18 @@ export class HybridPDFExtractionService {
         const result = await response.json();
         if (result.policyData && Object.keys(result.policyData).length > 0) {
           console.log('✅ OpenAI enhancement successful');
-          return this.ensureProperDataTypes(result.policyData);
+          const cleanedData = this.formatExtractedData(result.policyData);
+          return this.ensureProperDataTypes(cleanedData);
         }
       }
       
       console.warn('⚠️ OpenAI enhancement failed, using advanced regex parsing');
-      return this.parseWithAdvancedRegex(text);
+      const regexData = this.parseWithAdvancedRegex(text);
+      return this.formatExtractedData(regexData);
     } catch (error) {
       console.warn('⚠️ OpenAI enhancement error:', error.message);
-      return this.parseWithAdvancedRegex(text);
+      const regexData = this.parseWithAdvancedRegex(text);
+      return this.formatExtractedData(regexData);
     }
   }
 
@@ -813,6 +816,186 @@ File size: ${(file.size / 1024).toFixed(1)} KB
       premium: '$2,500',
       coverageTypes: ['Dwelling', 'Other Structures', 'Personal Property', 'Loss of Use']
     };
+  }
+
+  /**
+   * Format and clean extracted data for better readability
+   */
+  private formatExtractedData(data: any): any {
+    if (!data || typeof data !== 'object') return data;
+    
+    const result = { ...data };
+    
+    // Format names (add spaces between concatenated names)
+    if (result.insuredName && typeof result.insuredName === 'string') {
+      result.insuredName = this.formatName(result.insuredName);
+    }
+    
+    // Format company names
+    if (result.insurerName && typeof result.insurerName === 'string') {
+      result.insurerName = this.formatCompanyName(result.insurerName);
+    }
+    
+    // Format addresses
+    if (result.propertyAddress && typeof result.propertyAddress === 'string') {
+      result.propertyAddress = this.formatAddress(result.propertyAddress);
+    }
+    
+    if (result.mailingAddress && typeof result.mailingAddress === 'string') {
+      result.mailingAddress = this.formatAddress(result.mailingAddress);
+    }
+    
+    if (result.insurerAddress && typeof result.insurerAddress === 'string') {
+      result.insurerAddress = this.formatAddress(result.insurerAddress);
+    }
+    
+    if (result.agentAddress && typeof result.agentAddress === 'string') {
+      result.agentAddress = this.formatAddress(result.agentAddress);
+    }
+    
+    if (result.mortgageeAddress && typeof result.mortgageeAddress === 'string') {
+      result.mortgageeAddress = this.formatAddress(result.mortgageeAddress);
+    }
+    
+    // Format dates
+    if (result.effectiveDate && typeof result.effectiveDate === 'string') {
+      result.effectiveDate = this.formatDate(result.effectiveDate);
+    }
+    
+    if (result.expirationDate && typeof result.expirationDate === 'string') {
+      result.expirationDate = this.formatDate(result.expirationDate);
+    }
+    
+    // Format phone numbers
+    if (result.insurerPhone && typeof result.insurerPhone === 'string') {
+      result.insurerPhone = this.formatPhoneNumber(result.insurerPhone);
+    }
+    
+    if (result.agentPhone && typeof result.agentPhone === 'string') {
+      result.agentPhone = this.formatPhoneNumber(result.agentPhone);
+    }
+    
+    // Format agent name
+    if (result.agentName && typeof result.agentName === 'string') {
+      result.agentName = this.formatName(result.agentName);
+    }
+    
+    // Format mortgagee name
+    if (result.mortgageeName && typeof result.mortgageeName === 'string') {
+      result.mortgageeName = this.formatCompanyName(result.mortgageeName);
+    }
+    
+    return result;
+  }
+  
+  /**
+   * Format concatenated names by adding spaces
+   */
+  private formatName(name: string): string {
+    // Handle cases like "terryconnellyphyllisconnelly"
+    // Look for capital letters that might indicate name boundaries
+    let formatted = name.replace(/([a-z])([A-Z])/g, '$1 $2');
+    
+    // Handle common name patterns
+    formatted = formatted.replace(/([a-z])([A-Z][a-z])/g, '$1 $2');
+    
+    // Capitalize first letters
+    formatted = formatted.replace(/\b\w/g, l => l.toUpperCase());
+    
+    return formatted.trim();
+  }
+  
+  /**
+   * Format company names
+   */
+  private formatCompanyName(company: string): string {
+    // Handle cases like "allstatevehicleandpropertyinsurancecompany"
+    let formatted = company.toLowerCase();
+    
+    // Add spaces before common company words
+    const companyWords = ['insurance', 'company', 'corporation', 'inc', 'llc', 'group', 'mutual', 'agency', 'services', 'financial', 'property', 'casualty', 'vehicle', 'auto', 'home', 'life'];
+    
+    companyWords.forEach(word => {
+      const regex = new RegExp(`([a-z])(${word})`, 'gi');
+      formatted = formatted.replace(regex, '$1 $2');
+    });
+    
+    // Capitalize words
+    formatted = formatted.replace(/\b\w/g, l => l.toUpperCase());
+    
+    return formatted.trim();
+  }
+  
+  /**
+   * Format addresses by adding spaces and proper formatting
+   */
+  private formatAddress(address: string): string {
+    let formatted = address.toLowerCase();
+    
+    // Add space before state abbreviations (tx, ca, ny, etc.)
+    formatted = formatted.replace(/([a-z])([a-z]{2})(\d{5})/g, '$1 $2 $3');
+    
+    // Add space before zip codes
+    formatted = formatted.replace(/(\w)(\d{5})/g, '$1 $2');
+    
+    // Add spaces before common address words
+    const addressWords = ['st', 'street', 'dr', 'drive', 'ave', 'avenue', 'rd', 'road', 'ln', 'lane', 'ct', 'court', 'pl', 'place', 'blvd', 'boulevard', 'box', 'po'];
+    
+    addressWords.forEach(word => {
+      const regex = new RegExp(`([a-z])(${word})([\s\d]|$)`, 'gi');
+      formatted = formatted.replace(regex, '$1 $2$3');
+    });
+    
+    // Capitalize words
+    formatted = formatted.replace(/\b\w/g, l => l.toUpperCase());
+    
+    return formatted.trim();
+  }
+  
+  /**
+   * Format dates from compressed format
+   */
+  private formatDate(date: string): string {
+    // Handle cases like "june272024"
+    const monthNames = {
+      'january': '01', 'february': '02', 'march': '03', 'april': '04',
+      'may': '05', 'june': '06', 'july': '07', 'august': '08',
+      'september': '09', 'october': '10', 'november': '11', 'december': '12',
+      'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04',
+      'jun': '06', 'jul': '07', 'aug': '08',
+      'sep': '09', 'oct': '10', 'nov': '11', 'dec': '12'
+    };
+    
+    let formatted = date.toLowerCase();
+    
+    // Look for month names followed by numbers
+    for (const [monthName, monthNum] of Object.entries(monthNames)) {
+      const regex = new RegExp(`${monthName}(\d{1,2})(\d{4})`, 'i');
+      const match = formatted.match(regex);
+      if (match) {
+        const day = match[1].padStart(2, '0');
+        const year = match[2];
+        return `${monthNum}/${day}/${year}`;
+      }
+    }
+    
+    return date; // Return original if no pattern matches
+  }
+  
+  /**
+   * Format phone numbers
+   */
+  private formatPhoneNumber(phone: string): string {
+    // Handle cases like "18002557828"
+    const cleaned = phone.replace(/\D/g, '');
+    
+    if (cleaned.length === 10) {
+      return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
+    } else if (cleaned.length === 11 && cleaned.startsWith('1')) {
+      return `1 (${cleaned.slice(1, 4)}) ${cleaned.slice(4, 7)}-${cleaned.slice(7)}`;
+    }
+    
+    return phone; // Return original if doesn't match expected patterns
   }
 
   /**
