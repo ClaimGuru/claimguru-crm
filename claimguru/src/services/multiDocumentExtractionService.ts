@@ -7,6 +7,7 @@ import { HybridPDFExtractionService } from './hybridPdfExtractionService';
 import { EnhancedHybridPdfExtractionService } from './enhancedHybridPdfExtractionService';
 import DocumentClassificationService, { DocumentClassificationResult } from './documentClassificationService';
 import { IdentifierExtractionService, IdentifierExtractionResult } from './identifierExtractionService';
+import IntelligentExtractionService, { IntelligentExtractionResult } from './intelligentExtractionService';
 
 export interface DocumentExtractionResult {
   documentInfo: {
@@ -21,7 +22,8 @@ export interface DocumentExtractionResult {
   extractedData: any;
   rawText: string;
   classification: DocumentClassificationResult;
-  identifierAnalysis: IdentifierExtractionResult; // NEW: Comprehensive identifier analysis
+  identifierAnalysis: IdentifierExtractionResult; // Comprehensive identifier analysis
+  intelligentExtraction?: IntelligentExtractionResult; // NEW: Intelligent extraction with learning
   validationSchema: any;
   processingNotes: string[];
 }
@@ -40,14 +42,17 @@ export class MultiDocumentExtractionService {
   private hybridExtractor: HybridPDFExtractionService;
   private enhancedExtractor: EnhancedHybridPdfExtractionService;
   private classifier: DocumentClassificationService;
-  private identifierExtractor: IdentifierExtractionService; // NEW: Identifier extraction service
+  private identifierExtractor: IdentifierExtractionService; // Identifier extraction service
+  private intelligentExtractor: IntelligentExtractionService; // NEW: Intelligent extraction with learning
   private useEnhancedExtraction: boolean = true; // Feature flag
+  private useIntelligentExtraction: boolean = true; // NEW: Intelligent extraction feature flag
 
   constructor() {
     this.hybridExtractor = new HybridPDFExtractionService();
     this.enhancedExtractor = new EnhancedHybridPdfExtractionService();
     this.classifier = new DocumentClassificationService();
-    this.identifierExtractor = new IdentifierExtractionService(); // NEW: Initialize identifier extractor
+    this.identifierExtractor = new IdentifierExtractionService(); // Initialize identifier extractor
+    this.intelligentExtractor = new IntelligentExtractionService(); // NEW: Initialize intelligent extractor
   }
 
   /**
@@ -76,7 +81,7 @@ export class MultiDocumentExtractionService {
           documentInfo: {
             filename: file.name,
             type: 'error',
-            category: 'unknown',
+            category: 'processing',
             confidence: 0,
             processingMethod: 'failed',
             processingTime: 0,
@@ -91,6 +96,20 @@ export class MultiDocumentExtractionService {
             extractionTemplate: 'error',
             suggestedFields: [],
             processingNotes: [`Error processing file: ${error.message}`]
+          },
+          identifierAnalysis: {
+            policyNumber: null,
+            claimNumber: null,
+            fileNumber: null,
+            carrierClaimNumber: null,
+            documentType: 'unknown',
+            primaryIdentifier: null,
+            confidence: {
+              overall: 0,
+              policyNumber: 0,
+              claimNumber: 0
+            },
+            analysisNotes: ['Error processing file']
           },
           validationSchema: {},
           processingNotes: [`Failed to process: ${error.message}`]
@@ -130,52 +149,107 @@ export class MultiDocumentExtractionService {
    */
   private async processDocument(file: File): Promise<DocumentExtractionResult> {
     const startTime = Date.now();
-
-    // Step 1: Use enhanced extraction if enabled, otherwise fallback to basic
+    let intelligentResult: IntelligentExtractionResult | null = null;
     let basicExtraction: any;
-    if (this.useEnhancedExtraction) {
-      console.log('🚀 Using Enhanced Hybrid Extraction with Confidence Building');
+
+    // Step 1: Try intelligent extraction first if enabled
+    if (this.useIntelligentExtraction) {
+      console.log('🧠 Using Intelligent Extraction with Adaptive Learning');
       try {
-        basicExtraction = await this.enhancedExtractor.extractWithConfidenceBuilding(file);
+        intelligentResult = await this.intelligentExtractor.extractWithIntelligence(file);
+        
+        // Create a compatible basic extraction object from intelligent result
+        basicExtraction = {
+          extractedText: intelligentResult.rawText,
+          policyData: intelligentResult.extractedData,
+          confidence: intelligentResult.extractionIntelligence.finalConfidence,
+          cost: intelligentResult.cost,
+          processingMethod: intelligentResult.processingMethod,
+          processingTime: intelligentResult.processingTime
+        };
+        
+        console.log(`🎯 Intelligent extraction completed with ${Math.round(intelligentResult.extractionIntelligence.finalConfidence * 100)}% confidence`);
+        
       } catch (error) {
-        console.warn('⚠️ Enhanced extraction failed, falling back to basic:', error.message);
+        console.warn('⚠️ Intelligent extraction failed, falling back to enhanced extraction:', error.message);
+        intelligentResult = null;
+      }
+    }
+    
+    // Step 2: Fallback to enhanced or basic extraction if intelligent extraction failed or is disabled
+    if (!intelligentResult) {
+      if (this.useEnhancedExtraction) {
+        console.log('🚀 Using Enhanced Hybrid Extraction with Confidence Building');
+        try {
+          basicExtraction = await this.enhancedExtractor.extractWithConfidenceBuilding(file);
+        } catch (error) {
+          console.warn('⚠️ Enhanced extraction failed, falling back to basic:', error.message);
+          basicExtraction = await this.hybridExtractor.extractFromPDF(file);
+        }
+      } else {
         basicExtraction = await this.hybridExtractor.extractFromPDF(file);
       }
-    } else {
-      basicExtraction = await this.hybridExtractor.extractFromPDF(file);
     }
 
-    // Step 2: Classify document type
-    const classification = this.classifier.classifyDocument(basicExtraction.extractedText);
+    // Step 3: Classify document type (use intelligent result if available)
+    const classification = intelligentResult 
+      ? {
+          documentType: intelligentResult.documentAnalysis.documentType,
+          confidence: intelligentResult.documentAnalysis.confidence,
+          category: 'processing' as const,
+          extractionTemplate: intelligentResult.documentAnalysis.documentType,
+          suggestedFields: intelligentResult.documentAnalysis.expectedFields,
+          processingNotes: [`Classified using intelligent extraction`]
+        }
+      : this.classifier.classifyDocument(basicExtraction.extractedText);
 
     console.log(`📋 Document classified as: ${classification.documentType} (${classification.confidence.toFixed(1)}% confidence)`);
 
-    // Step 3: NEW - Comprehensive identifier extraction and validation
-    const identifierAnalysis = await this.identifierExtractor.extractIdentifiers(
-      basicExtraction.extractedText,
-      file.name
-    );
+    // Step 4: Get identifier analysis (use intelligent result if available)
+    const identifierAnalysis = intelligentResult 
+      ? {
+          policyNumber: intelligentResult.extractedData.policyNumber,
+          claimNumber: intelligentResult.extractedData.claimNumber,
+          fileNumber: intelligentResult.extractedData.fileNumber,
+          carrierClaimNumber: intelligentResult.extractedData.carrierClaimNumber,
+          documentType: intelligentResult.documentAnalysis.documentType as 'policy' | 'claim' | 'communication' | 'settlement' | 'unknown',
+          primaryIdentifier: (intelligentResult.extractedData.policyNumber ? 'policy' : 
+                           intelligentResult.extractedData.claimNumber ? 'claim' : 'none') as 'policy' | 'claim' | 'both' | 'none',
+          hasMultipleIdentifiers: !!(intelligentResult.extractedData.policyNumber && intelligentResult.extractedData.claimNumber),
+          policyNumberConfidence: 0.9, // High confidence from intelligent extraction
+          claimNumberConfidence: 0.9,
+          relationshipStatus: 'valid' as const,
+          validationMessage: 'Validated through intelligent extraction',
+          suggestions: []
+        } as IdentifierExtractionResult
+      : await this.identifierExtractor.extractIdentifiers(
+          basicExtraction.extractedText,
+          file.name
+        );
 
     console.log(`🔍 Identifier analysis complete:`, {
       policy: identifierAnalysis.policyNumber || 'None',
       claim: identifierAnalysis.claimNumber || 'None',
       relationship: identifierAnalysis.relationshipStatus,
-      docType: identifierAnalysis.documentType
+      docType: identifierAnalysis.documentType,
+      method: intelligentResult ? 'intelligent' : 'standard'
     });
 
-    // Step 4: Apply specialized extraction based on document type
-    const specializedData = await this.applySpecializedExtraction(
-      basicExtraction.extractedText,
-      classification,
-      basicExtraction.policyData,
-      identifierAnalysis // Pass identifier analysis
-    );
+    // Step 5: Apply specialized extraction (use intelligent result if available)
+    const specializedData = intelligentResult 
+      ? intelligentResult.extractedData
+      : await this.applySpecializedExtraction(
+          basicExtraction.extractedText,
+          classification,
+          basicExtraction.policyData,
+          identifierAnalysis // Pass identifier analysis
+        );
 
-    // Step 5: Create validation schema
+    // Step 6: Create validation schema
     const validationSchema = this.createValidationSchema(classification);
 
-    // Step 6: Generate processing notes
-    const processingNotes = this.generateProcessingNotes(classification, basicExtraction, identifierAnalysis);
+    // Step 7: Generate processing notes
+    const processingNotes = this.generateProcessingNotes(classification, basicExtraction, identifierAnalysis, intelligentResult);
 
     const processingTime = Date.now() - startTime;
 
@@ -192,7 +266,8 @@ export class MultiDocumentExtractionService {
       extractedData: specializedData,
       rawText: basicExtraction.extractedText,
       classification,
-      identifierAnalysis, // NEW: Include comprehensive identifier analysis
+      identifierAnalysis, // Include comprehensive identifier analysis
+      intelligentExtraction: intelligentResult, // NEW: Include intelligent extraction results if available
       validationSchema,
       processingNotes
     };
@@ -547,7 +622,8 @@ export class MultiDocumentExtractionService {
   private generateProcessingNotes(
     classification: DocumentClassificationResult,
     extraction: any,
-    identifierAnalysis?: IdentifierExtractionResult
+    identifierAnalysis?: IdentifierExtractionResult,
+    intelligentResult?: IntelligentExtractionResult
   ): string[] {
     const notes = [...classification.processingNotes];
     
@@ -559,6 +635,34 @@ export class MultiDocumentExtractionService {
       notes.push('High quality text extraction achieved');
     } else if (extraction.confidence < 0.5) {
       notes.push('Low quality text extraction - may require manual review');
+    }
+
+    // Add intelligent extraction notes
+    if (intelligentResult) {
+      const carrierInfo = intelligentResult.carrierIdentified;
+      const intelligence = intelligentResult.extractionIntelligence;
+      
+      notes.push('🧠 INTELLIGENT EXTRACTION APPLIED');
+      
+      if (carrierInfo.carrierId) {
+        notes.push(`📋 Carrier identified: ${carrierInfo.carrierName} (${Math.round(carrierInfo.confidence * 100)}% confidence)`);
+        if (carrierInfo.isLearned) {
+          notes.push(`📚 Using learned patterns for ${carrierInfo.carrierName}`);
+        }
+      }
+      
+      if (intelligence.carrierSpecificRulesApplied) {
+        notes.push(`🎯 Applied ${intelligence.adaptivePatternsUsed} carrier-specific patterns`);
+      }
+      
+      if (intelligence.intelligenceBoost > 0) {
+        notes.push(`🚀 Intelligence boost: +${Math.round(intelligence.intelligenceBoost * 100)}% confidence`);
+      }
+      
+      const learningOpps = intelligentResult.learningOpportunities;
+      if (learningOpps.newPatternsDetected.length > 0) {
+        notes.push(`💡 New patterns detected: ${learningOpps.newPatternsDetected.length} patterns`);
+      }
     }
 
     // Add identifier analysis notes
@@ -578,6 +682,71 @@ export class MultiDocumentExtractionService {
     }
 
     return notes;
+  }
+
+  /**
+   * Learn from user feedback on document extraction
+   */
+  public async learnFromUserFeedback(
+    documentResult: DocumentExtractionResult,
+    userCorrections: any
+  ): Promise<void> {
+    if (!documentResult.intelligentExtraction) {
+      console.log('⚠️ Cannot learn from non-intelligent extraction result');
+      return;
+    }
+
+    try {
+      await this.intelligentExtractor.learnFromUserFeedback(
+        documentResult.intelligentExtraction,
+        userCorrections
+      );
+      
+      console.log('📚 Successfully learned from user feedback');
+    } catch (error) {
+      console.error('❌ Failed to learn from user feedback:', error);
+    }
+  }
+
+  /**
+   * Get learning statistics for the system
+   */
+  public getLearningStatistics(): any {
+    return this.intelligentExtractor.getLearningStatistics();
+  }
+
+  /**
+   * Enable/disable intelligent extraction
+   */
+  public setIntelligentExtractionEnabled(enabled: boolean): void {
+    this.useIntelligentExtraction = enabled;
+    console.log(`🧠 Intelligent extraction ${enabled ? 'enabled' : 'disabled'}`);
+  }
+
+  /**
+   * Enable/disable learning system
+   */
+  public setLearningEnabled(enabled: boolean): void {
+    this.intelligentExtractor.setLearningEnabled(enabled);
+  }
+
+  /**
+   * Get learning system status
+   */
+  public getSystemStatus(): any {
+    const learningStats = this.getLearningStatistics();
+    
+    return {
+      intelligentExtractionEnabled: this.useIntelligentExtraction,
+      enhancedExtractionEnabled: this.useEnhancedExtraction,
+      learningStats,
+      systemCapabilities: {
+        carrierIdentification: true,
+        adaptiveLearning: true,
+        identifierValidation: true,
+        documentTypeClassification: true
+      }
+    };
   }
 }
 

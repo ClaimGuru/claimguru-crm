@@ -666,6 +666,41 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
+            {/* LEARNING INSIGHTS SECTION */}
+            {extractedData.intelligenceMetadata && (
+              <div className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-lg p-4 mb-4">
+                <h4 className="font-medium text-purple-900 mb-3 flex items-center gap-2">
+                  <Brain className="h-4 w-4" />
+                  AI Learning Insights
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                  <div className="bg-white rounded p-3">
+                    <div className="font-medium text-purple-800">Carrier Identified</div>
+                    <div className="text-purple-700">
+                      {extractedData.intelligenceMetadata.carrierIdentified || 'Unknown'}
+                    </div>
+                  </div>
+                  <div className="bg-white rounded p-3">
+                    <div className="font-medium text-purple-800">Extraction Method</div>
+                    <div className="text-purple-700 capitalize">
+                      {extractedData.intelligenceMetadata.extractionMethod.replace('_', ' ')}
+                    </div>
+                  </div>
+                  <div className="bg-white rounded p-3">
+                    <div className="font-medium text-purple-800">Learning Applied</div>
+                    <div className="text-purple-700">
+                      {extractedData.intelligenceMetadata.rulesApplied.carrierSpecific ? '✅ Yes' : '❌ No'}
+                    </div>
+                  </div>
+                </div>
+                {extractedData.intelligenceMetadata.rulesApplied.carrierSpecific && (
+                  <div className="mt-3 p-2 bg-green-50 rounded text-sm text-green-700">
+                    🎯 This document was processed using learned patterns from previous documents by this carrier
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* CRITICAL IDENTIFIERS SECTION */}
             {(extractedData.policyNumber || extractedData.claimNumber || identifierAnalysis) && (
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">

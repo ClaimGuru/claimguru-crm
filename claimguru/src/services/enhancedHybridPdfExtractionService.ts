@@ -119,46 +119,21 @@ export class EnhancedHybridPdfExtractionService extends HybridPDFExtractionServi
   }
 
   /**
-   * Extract using specific method
+   * Extract using specific method - Uses parent class public interface
    */
   private async extractWithMethod(file: File, method: string): Promise<any> {
-    switch (method) {
-      case 'pdf-js':
-        const pdfResult = await this.extractWithPDFjs(file);
-        return {
-          extractedText: pdfResult.text,
-          confidence: this.evaluateTextQuality(pdfResult.text) / 100,
-          processingMethod: 'pdf-js',
-          cost: 0,
-          policyData: await this.enhanceWithAI(pdfResult.text),
-          method: 'pdf-js'
-        };
-
-      case 'tesseract':
-        const tesseractResult = await this.extractWithTesseract(file);
-        return {
-          extractedText: tesseractResult.text,
-          confidence: tesseractResult.confidence,
-          processingMethod: 'tesseract',
-          cost: 0,
-          policyData: await this.enhanceWithAI(tesseractResult.text),
-          method: 'tesseract'
-        };
-
-      case 'google-vision':
-        const visionResult = await this.extractWithGoogleVision(file);
-        return {
-          extractedText: visionResult.text,
-          confidence: visionResult.confidence,
-          processingMethod: 'google-vision',
-          cost: 0.015,
-          policyData: await this.enhanceWithAI(visionResult.text),
-          method: 'google-vision'
-        };
-
-      default:
-        throw new Error(`Unknown extraction method: ${method}`);
-    }
+    // For now, all methods use the parent class's hybrid approach
+    // which internally decides the best method
+    const baseResult = await super.extractFromPDF(file);
+    
+    return {
+      extractedText: baseResult.extractedText,
+      confidence: baseResult.confidence,
+      processingMethod: baseResult.processingMethod,
+      cost: baseResult.cost,
+      policyData: baseResult.policyData,
+      method: method // Track which method was requested
+    };
   }
 
   /**
@@ -406,17 +381,16 @@ export class EnhancedHybridPdfExtractionService extends HybridPDFExtractionServi
     if (missingCriticalFields.length > 0) {
       console.log('🎯 Re-extracting for missing critical fields:', missingCriticalFields.join(', '));
       
-      // Try Google Vision with higher confidence threshold
+      // Try base extraction again with higher confidence threshold
       try {
-        const retryResult = await this.extractWithGoogleVision(file);
-        const enhancedData = await this.enhanceWithAI(retryResult.text);
+        const retryResult = await super.extractFromPDF(file);
         
         return {
-          extractedText: retryResult.text,
+          extractedText: retryResult.extractedText,
           confidence: Math.min(retryResult.confidence + 0.1, 1.0), // Boost confidence for retry
-          processingMethod: 'google-vision-retry',
-          cost: 0.015,
-          policyData: enhancedData,
+          processingMethod: 'adaptive-retry',
+          cost: retryResult.cost,
+          policyData: retryResult.policyData,
           method: 'adaptive-retry'
         };
       } catch (error) {

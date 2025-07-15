@@ -1,0 +1,70 @@
+
+> react_repo@0.0.0 build
+> yes | pnpm install && rm -rf node_modules/.vite-temp && tsc -b && vite build
+
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+╭ Warning ─────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│   Ignored build scripts: canvas, esbuild, tesseract.js.                      │
+│   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+│   to run scripts.                                                            │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Done in 1.1s using pnpm v10.12.4
+src/services/multiDocumentExtractionService.ts:80:22 - error TS2345: Argument of type '{ documentInfo: { filename: string; type: string; category: string; confidence: number; processingMethod: string; processingTime: number; cost: number; }; extractedData: {}; rawText: string; classification: { ...; }; validationSchema: {}; processingNotes: string[]; }' is not assignable to parameter of type 'DocumentExtractionResult'.
+  Property 'identifierAnalysis' is missing in type '{ documentInfo: { filename: string; type: string; category: string; confidence: number; processingMethod: string; processingTime: number; cost: number; }; extractedData: {}; rawText: string; classification: { ...; }; validationSchema: {}; processingNotes: string[]; }' but required in type 'DocumentExtractionResult'.
+
+ 80         results.push({
+                         ~
+ 81           documentInfo: {
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+... 
+101           processingNotes: [`Failed to process: ${error.message}`]
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+102         });
+    ~~~~~~~~~
+
+  src/services/multiDocumentExtractionService.ts:25:3
+    25   identifierAnalysis: IdentifierExtractionResult; // Comprehensive identifier analysis
+         ~~~~~~~~~~~~~~~~~~
+    'identifierAnalysis' is declared here.
+
+src/services/multiDocumentExtractionService.ts:229:11 - error TS2345: Argument of type '{ documentType: string; confidence: number; category: string; extractionTemplate: string; suggestedFields: string[]; processingNotes: string[]; }' is not assignable to parameter of type 'DocumentClassificationResult'.
+  Types of property 'category' are incompatible.
+    Type 'string' is not assignable to type '"policy" | "communication" | "processing" | "assessment"'.
+
+229           classification,
+              ~~~~~~~~~~~~~~
+
+src/services/multiDocumentExtractionService.ts:235:58 - error TS2345: Argument of type '{ documentType: string; confidence: number; category: string; extractionTemplate: string; suggestedFields: string[]; processingNotes: string[]; }' is not assignable to parameter of type 'DocumentClassificationResult'.
+  Types of property 'category' are incompatible.
+    Type 'string' is not assignable to type '"policy" | "communication" | "processing" | "assessment"'.
+
+235     const validationSchema = this.createValidationSchema(classification);
+                                                             ~~~~~~~~~~~~~~
+
+src/services/multiDocumentExtractionService.ts:238:58 - error TS2345: Argument of type '{ documentType: string; confidence: number; category: string; extractionTemplate: string; suggestedFields: string[]; processingNotes: string[]; }' is not assignable to parameter of type 'DocumentClassificationResult'.
+  Types of property 'category' are incompatible.
+    Type 'string' is not assignable to type '"policy" | "communication" | "processing" | "assessment"'.
+
+238     const processingNotes = this.generateProcessingNotes(classification, basicExtraction, identifierAnalysis, intelligentResult);
+                                                             ~~~~~~~~~~~~~~
+
+src/services/multiDocumentExtractionService.ts:254:7 - error TS2322: Type '{ documentType: string; confidence: number; category: string; extractionTemplate: string; suggestedFields: string[]; processingNotes: string[]; }' is not assignable to type 'DocumentClassificationResult'.
+  Types of property 'category' are incompatible.
+    Type 'string' is not assignable to type '"policy" | "communication" | "processing" | "assessment"'.
+
+254       classification,
+          ~~~~~~~~~~~~~~
+
+  src/services/multiDocumentExtractionService.ts:24:3
+    24   classification: DocumentClassificationResult;
+         ~~~~~~~~~~~~~~
+    The expected type comes from property 'classification' which is declared here on type 'DocumentExtractionResult'
+
+
+Found 5 errors.
+
