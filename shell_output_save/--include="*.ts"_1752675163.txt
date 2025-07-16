@@ -1,0 +1,117 @@
+src/components/claims/EnhancedAIClaimWizard.tsx:  mailingAddress: {
+src/components/claims/EnhancedAIClaimWizard.tsx:    mailingAddress: {},
+src/components/claims/EnhancedAIClaimWizard.tsx:        if (!wizardData.mailingAddress?.address) {
+src/components/claims/wizard-steps/CompletionStep.tsx:                {data.mailingAddress?.addressLine1}<br />
+src/components/claims/wizard-steps/CompletionStep.tsx:                {data.mailingAddress?.city}, {data.mailingAddress?.state} {data.mailingAddress?.zipCode}
+src/components/claims/wizard-steps/CompletionStep.tsx:              <div className="text-sm text-gray-900">{data.mailingAddress?.propertyType}</div>
+src/components/claims/wizard-steps/ExpertsProvidersStep.tsx:    if (data.lossDetails && data.mailingAddress && availableProviders.length === 0) {
+src/components/claims/wizard-steps/ExpertsProvidersStep.tsx:  }, [data.lossDetails, data.mailingAddress])
+src/components/claims/wizard-steps/ExpertsProvidersStep.tsx:    if (!data.lossDetails?.causeOfLoss || !data.mailingAddress?.zipCode) {
+src/components/claims/wizard-steps/ExpertsProvidersStep.tsx:        propertyType: data.mailingAddress.propertyType,
+src/components/claims/wizard-steps/ExpertsProvidersStep.tsx:        zipCode: data.mailingAddress.zipCode,
+src/components/claims/wizard-steps/PolicyDocumentUploadStep.tsx:      mailingAddress: validatedPolicyData.mailingAddress || {
+src/components/claims/wizard-steps/PolicyDocumentUploadStep.tsx:      mailingAddress: {
+src/components/claims/wizard-steps/PolicyDocumentUploadStep.tsx:        ...data.mailingAddress,
+src/components/claims/wizard-steps/PolicyDocumentUploadStep.tsx:        address: validatedPolicyData.propertyAddress || data.mailingAddress?.address,
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:  const [mailingAddress, setMailingAddress] = useState(data.mailingAddress || {
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:      if (extractedData.propertyAddress && !mailingAddress.addressLine1) {
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:        setMailingAddress(prev => ({
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:      mailingAddress,
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:      lossAddress: lossAddressSame ? mailingAddress : lossAddress,
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:    hasCoInsured, coInsured, mailingAddress, lossAddressSame, lossAddress,
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:      {/* Mailing Address */}
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:              value={mailingAddress.propertyType}
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:              onChange={(e) => setMailingAddress(prev => ({ ...prev, propertyType: e.target.value }))}
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:                value={mailingAddress.addressLine1}
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:                  setMailingAddress(prev => ({ ...prev, addressLine1: address }))
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:                    setMailingAddress(prev => ({
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:                label="Mailing Address *"
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:                value={mailingAddress.addressLine2}
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:                onChange={(e) => setMailingAddress(prev => ({ ...prev, addressLine2: e.target.value }))}
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:                  value={mailingAddress.city}
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:                  onChange={(e) => setMailingAddress(prev => ({ ...prev, city: e.target.value }))}
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:                  value={mailingAddress.state}
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:                  onChange={(e) => setMailingAddress(prev => ({ ...prev, state: e.target.value }))}
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:                  value={mailingAddress.zipCode}
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:                  onChange={(e) => setMailingAddress(prev => ({ ...prev, zipCode: e.target.value }))}
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:          {/* Loss Address Same as Mailing */}
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:            <span className="font-medium">Loss address is the same as mailing address</span>
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:                Loss address fields would be implemented here similar to mailing address
+src/components/claims/wizard-steps/InsuredDetailsStep.tsx:                  placeholder="Tenant mailing address"
+src/components/claims/wizard-steps/PolicyExtractionValidationStep.tsx:      insuredAddress: 'mailing address section'
+src/components/claims/wizard-steps/RealTimePolicyUploadStep.tsx:        mailingAddress: "410 Presswood Dr, Spring TX 77386-1207",
+src/components/claims/wizard-steps/RealPolicyUploadStep.tsx:          mailingAddress: "1908 W 25TH ST, HOUSTON, TX 77008-1583",
+src/components/claims/wizard-steps/WorkingPolicyUploadStep.tsx:      mailingAddress: {
+src/components/claims/wizard-steps/ClaimInformationStep.tsx:        data.mailingAddress?.city || 'Unknown',
+src/components/claims/wizard-steps/ClaimInformationStep.tsx:    if (!data.mailingAddress?.addressLine1) return
+src/components/claims/wizard-steps/ClaimInformationStep.tsx:        `${data.mailingAddress.addressLine1}, ${data.mailingAddress.city}, ${data.mailingAddress.state}`
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:  const [mailingAddress, setMailingAddress] = useState(data.mailingAddress || {})
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:  const [addressSameAsMailing, setAddressSameAsMailing] = useState(true)
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:      if (data.policyDetails?.propertyAddress && !mailingAddress.address) {
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:        setMailingAddress(prev => ({
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:      mailingAddress,
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:      lossAddress: addressSameAsMailing ? mailingAddress : lossAddress,
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:    clientType, isOrganization, insuredDetails, mailingAddress, lossAddress,
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:    addressSameAsMailing, coInsuredDetails, hasCoInsured, isTenantOccupied, hasUninsuredParty
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:        addressSameAsMailing ? mailingAddress.address : lossAddress.address,
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:    if (data.extractedPolicyData && (insuredDetails.organizationName || mailingAddress.address)) {
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:  }, [insuredDetails.organizationName, mailingAddress.address, data.extractedPolicyData])
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:            {mailingAddress.aiSuggested && (
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:          {/* Mailing Address */}
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:              value={mailingAddress.address || ''}
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:                setMailingAddress({
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:                  ...mailingAddress,
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:              label="Mailing Address"
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:          {/* Loss Address Same as Mailing */}
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:                checked={addressSameAsMailing}
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:                onChange={(e) => setAddressSameAsMailing(e.target.checked)}
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:              <span className="text-sm font-medium">Loss address same as mailing address</span>
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:            {!addressSameAsMailing && (
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:                  value={mailingAddress.gateCode || ''}
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:                  onChange={(e) => setMailingAddress({
+src/components/claims/wizard-steps/EnhancedClientDetailsStep.tsx:                    ...mailingAddress,
+src/components/claims/wizard-steps/DynamicPolicyUploadStep.tsx:        mailingAddress: "456 Oak Avenue, Austin, TX 78701",
+src/components/claims/wizard-steps/DynamicPolicyUploadStep.tsx:        mailingAddress: "1908 W 25TH ST, HOUSTON, TX 77008-1583",
+src/components/claims/wizard-steps/DynamicPolicyUploadStep.tsx:        mailingAddress: `${uniqueId} Extracted Street, Dynamic City, TX 7${String(uniqueId).slice(-4)}`,
+src/components/claims/wizard-steps/PersonalPropertyStep.tsx:    if (!data.lossDetails?.causeOfLoss || !data.mailingAddress?.propertyType) {
+src/components/claims/wizard-steps/PersonalPropertyStep.tsx:        propertyType: data.mailingAddress.propertyType,
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:        field: 'mailingAddress',
+src/components/claims/wizard-steps/PolicyDataValidationStep.tsx:        label: 'Mailing Address',
+src/components/claims/wizard-steps/IntelligentClientDetailsStep.tsx:    mailingAddress: {
+src/components/claims/wizard-steps/IntelligentClientDetailsStep.tsx:      mailingAddress: {
+src/components/claims/wizard-steps/IntelligentClientDetailsStep.tsx:        ...clientDetails.mailingAddress,
+src/components/claims/wizard-steps/IntelligentClientDetailsStep.tsx:          {/* Mailing Address */}
+src/components/claims/wizard-steps/IntelligentClientDetailsStep.tsx:              Mailing Address *
+src/components/claims/wizard-steps/IntelligentClientDetailsStep.tsx:              {aiSuggestions.some(s => s.field.includes('mailingAddress') && s.applied) && (
+src/components/claims/wizard-steps/IntelligentClientDetailsStep.tsx:              value={clientDetails.mailingAddress}
+src/components/forms/ClientForm.tsx:        mailing_same_as_address: true,
+src/lib/supabase.ts:  mailing_same_as_address: boolean
+src/lib/supabase.ts:  mailing_address_line_1?: string
+src/lib/supabase.ts:  mailing_address_line_2?: string
+src/lib/supabase.ts:  mailing_city?: string
+src/lib/supabase.ts:  mailing_state?: string
+src/lib/supabase.ts:  mailing_zip_code?: string
+src/lib/supabase.ts:  mailing_country?: string
+src/hooks/useClients.ts:        mailing_same_as_address: clientData.mailing_same_as_address || true
+src/services/hybridPdfExtractionService.ts:    mailingAddress?: string;
+src/services/hybridPdfExtractionService.ts:    if (result.mailingAddress && typeof result.mailingAddress === 'string') {
+src/services/hybridPdfExtractionService.ts:      result.mailingAddress = this.formatAddress(result.mailingAddress);
+src/services/policyDataMappingService.ts:  mailingAddress?: string;
+src/services/policyDataMappingService.ts:  mailingAddress: {
+src/services/policyDataMappingService.ts:    const addressComponents = this.parseAddress(extractedData.propertyAddress || extractedData.mailingAddress);
+src/services/policyDataMappingService.ts:      mailingAddress: {
+src/services/policyDataMappingService.ts:      mailingAddress: {
+src/services/policyDataMappingService.ts:        ...existingData.mailingAddress,
+src/services/policyDataMappingService.ts:          Object.entries(mappedData.mailingAddress).filter(([_, value]) => value !== undefined)
+src/services/claimWizardAI.ts:            suggestions.mailingAddress = policyData.extractedData.propertyAddress
+src/services/claimWizardAI.ts:            confidence.mailingAddress = 0.90
+src/services/claimWizardAI.ts:            explanations.mailingAddress = 'Property address from policy'
+src/services/claimWizardAI.ts:      const executiveSummary = `This ${allData.lossDetails?.causeOfLoss || 'property damage'} claim involves ${allData.insuredDetails?.firstName || 'the insured'} ${allData.insuredDetails?.lastName || ''} for damage to their ${allData.lossDetails?.propertyType || 'property'} located at ${allData.mailingAddress?.addressLine1 || '[Property Address]'}. 
+src/services/claimWizardAI.ts:      if (allData.mailingAddress && allData.lossAddress && 
+src/services/claimWizardAI.ts:          allData.mailingAddress.addressLine1 !== allData.lossAddress.addressLine1) {
+src/services/claimWizardAI.ts:          field1: 'mailingAddress',
+src/services/claimWizardAI.ts:          issue: 'Mailing address differs from loss address',
+src/services/multiDocumentExtractionService.ts:    if (result.mailingAddress && typeof result.mailingAddress === 'string') {
+src/services/multiDocumentExtractionService.ts:      result.mailingAddress = this.formatAddress(result.mailingAddress);
+src/services/intelligentWizardService.ts:  mailingAddress?: {
+src/services/intelligentWizardService.ts:      mailingAddress: this.extractedPolicyData.mailingAddress || {
