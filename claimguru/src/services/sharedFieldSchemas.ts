@@ -122,16 +122,7 @@ export const clientDetailsSchema: FieldSection = {
         { type: 'phone', message: 'Please enter a valid phone number' }
       ]
     },
-    {
-      id: 'alternatePhone',
-      label: 'Alternate Phone',
-      type: 'tel',
-      required: false,
-      placeholder: '(555) 123-4567',
-      validationRules: [
-        { type: 'phone', message: 'Please enter a valid phone number' }
-      ]
-    },
+
     // Co-Insured Information
     {
       id: 'hasCoInsured',

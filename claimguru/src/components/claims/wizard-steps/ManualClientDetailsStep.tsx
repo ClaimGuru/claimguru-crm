@@ -8,7 +8,10 @@ import {
   MapPin, 
   Phone, 
   Mail,
-  Users
+  Users,
+  Plus,
+  X,
+  Star
 } from 'lucide-react';
 
 interface ManualClientDetailsStepProps {
@@ -29,7 +32,6 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
     primaryPhone: data.primaryPhone || '',
     phoneType: data.phoneType || 'cell', // Default to cell phone
     primaryEmail: data.primaryEmail || '',
-    alternatePhone: data.alternatePhone || '',
     phoneNumbers: data.phoneNumbers || [
       { number: data.primaryPhone || '', type: data.phoneType || 'cell', isPrimary: true }
     ],
@@ -207,7 +209,6 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
       primaryPhone: data.primaryPhone || '',
       phoneType: data.phoneType || 'cell',
       primaryEmail: data.primaryEmail || '',
-      alternatePhone: data.alternatePhone || '',
       phoneNumbers: phoneNumbers,
       mailingAddress: {
         addressLine1: data.mailingAddress?.addressLine1 || '',
@@ -335,41 +336,8 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
           )}
 
           {/* Contact Information */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
-                <Phone className="h-4 w-4" />
-                Primary Phone *
-              </label>
-              <Input
-                type="tel"
-                value={clientDetails.primaryPhone}
-                onChange={(e) => handleInputChange('primaryPhone', e.target.value)}
-                placeholder="(555) 123-4567"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Phone Type
-              </label>
-              <select
-                value={clientDetails.phoneType}
-                onChange={(e) => handleInputChange('phoneType', e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-              >
-                <option value="cell">Cell Phone</option>
-                <option value="home">Home</option>
-                <option value="office">Office</option>
-                <option value="work">Work</option>
-                <option value="business">Business</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-4">
+            {/* Primary Email */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
                 <Mail className="h-4 w-4" />
@@ -384,16 +352,84 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Alternate Phone
-              </label>
-              <Input
-                type="tel"
-                value={clientDetails.alternatePhone}
-                onChange={(e) => handleInputChange('alternatePhone', e.target.value)}
-                placeholder="(555) 123-4567"
-              />
+            {/* Phone Numbers Section */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                  <Phone className="h-4 w-4" />
+                  Phone Numbers *
+                </label>
+                <button
+                  type="button"
+                  onClick={addPhoneNumber}
+                  className="flex items-center gap-1 px-3 py-1 text-sm bg-blue-50 text-blue-600 border border-blue-200 rounded-md hover:bg-blue-100 transition-colors"
+                >
+                  <Plus className="h-3 w-3" />
+                  Add Phone
+                </button>
+              </div>
+              
+              {/* Phone Number List */}
+              <div className="space-y-2">
+                {clientDetails.phoneNumbers.map((phone, index) => (
+                  <div key={index} className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
+                    {/* Primary Phone Indicator */}
+                    <button
+                      type="button"
+                      onClick={() => setPrimaryPhone(index)}
+                      className={`flex-shrink-0 p-1 rounded ${phone.isPrimary ? 'text-yellow-500' : 'text-gray-400 hover:text-yellow-500'}`}
+                      title={phone.isPrimary ? 'Primary Phone' : 'Set as Primary'}
+                    >
+                      <Star className={`h-4 w-4 ${phone.isPrimary ? 'fill-current' : ''}`} />
+                    </button>
+                    
+                    {/* Phone Number Input */}
+                    <div className="flex-1">
+                      <Input
+                        type="tel"
+                        value={phone.number}
+                        onChange={(e) => handlePhoneNumberChange(index, 'number', e.target.value)}
+                        placeholder="(555) 123-4567"
+                        className="w-full"
+                        required={phone.isPrimary}
+                      />
+                    </div>
+                    
+                    {/* Phone Type Select */}
+                    <div className="w-32">
+                      <select
+                        value={phone.type}
+                        onChange={(e) => handlePhoneNumberChange(index, 'type', e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-sm"
+                      >
+                        <option value="cell">Cell</option>
+                        <option value="home">Home</option>
+                        <option value="office">Office</option>
+                        <option value="work">Work</option>
+                        <option value="business">Business</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                    
+                    {/* Remove Button */}
+                    {clientDetails.phoneNumbers.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removePhoneNumber(index)}
+                        className="flex-shrink-0 p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded"
+                        title="Remove Phone Number"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+              
+              {/* Helper Text */}
+              <p className="text-xs text-gray-500">
+                Click the star (⭐) to set a phone number as primary. At least one phone number is required.
+              </p>
             </div>
           </div>
 
