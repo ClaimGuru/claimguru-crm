@@ -166,7 +166,7 @@ export function Claims() {
         </div>
         <div className="flex items-center gap-3">
           <Button 
-            onClick={() => setShowAIWizard(true)}
+            onClick={() => setShowManualWizard(true)}
             className="flex items-center gap-2"
           >
             <Zap className="h-4 w-4" />
