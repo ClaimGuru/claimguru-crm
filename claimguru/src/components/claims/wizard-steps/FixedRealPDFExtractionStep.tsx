@@ -6,6 +6,7 @@ import { LoadingSpinner } from '../../ui/LoadingSpinner';
 import { HybridPDFExtractionService } from '../../../services/hybridPdfExtractionService';
 import { PolicyDataMappingService } from '../../../services/policyDataMappingService';
 import { PolicyDataValidationStep } from './PolicyDataValidationStep';
+import { ConfirmedFieldsService } from '../../../services/confirmedFieldsService';
 
 interface FixedRealPDFExtractionStepProps {
   data: any;
@@ -106,6 +107,24 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
     
     setValidatedData(validatedPolicyData);
     
+    // Initialize confirmed fields system with validated data
+    console.log('🔐 Initializing confirmed fields system with validated data...');
+    ConfirmedFieldsService.initializeWithPDFData(validatedPolicyData, {
+      processingMethod: processingDetails?.processingMethod || 'hybrid',
+      confidence: processingDetails?.confidence || 0.8,
+      cost: processingDetails?.cost || 0
+    });
+    
+    // Auto-confirm high confidence fields
+    Object.entries(validatedPolicyData).forEach(([fieldPath, value]) => {
+      if (value && typeof value === 'string' && value.length > 0) {
+        const field = ConfirmedFieldsService.getField(fieldPath);
+        if (field && field.confidence === 'high') {
+          ConfirmedFieldsService.confirmField(fieldPath, value);
+        }
+      }
+    });
+    
     // Create unique claim identifier
     const claimId = `claim_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
@@ -118,6 +137,10 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
     
     console.log('🎆 Merged wizard data for auto-population:', mappedWizardData);
     
+    // Get confirmed field values for additional data integration
+    const confirmedValues = ConfirmedFieldsService.getConfirmedValues();
+    console.log('🔐 Confirmed field values:', confirmedValues);
+    
     onUpdate({
       ...mappedWizardData,
       claimId: claimId,
@@ -129,14 +152,17 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
       confirmationTimestamp: new Date().toISOString(),
       processingComplete: true,
       rawExtractedText: rawText,
-      processingDetails: processingDetails
+      processingDetails: processingDetails,
+      confirmedFields: confirmedValues, // Add confirmed fields to wizard data
+      confirmedFieldsState: ConfirmedFieldsService.exportState() // Export state for persistence
     });
     
     setIsConfirmed(true);
     
-    // Show success message with information about auto-population
+    // Show success message with confirmation details
+    const summary = ConfirmedFieldsService.getSummary();
     setTimeout(() => {
-      alert('✅ Data validated and confirmed successfully!\n\n🔄 Wizard forms have been automatically populated with the extracted data.\n\nPlease click "Next" to review and edit the populated information.');
+      alert(`✅ Data validated and confirmed successfully!\n\n📊 Field Status:\n• ${summary.confirmedFields} fields confirmed\n• ${summary.pendingFields} fields pending review\n• ${Math.round(summary.completionRate)}% completion rate\n\n🔄 Wizard forms have been automatically populated with the extracted data.\n\nPlease click "Next" to review and confirm the populated information.`);
     }, 500);
   };
 

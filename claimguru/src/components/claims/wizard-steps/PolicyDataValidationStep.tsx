@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card';
 import { Button } from '../../ui/Button';
 import { Input } from '../../ui/Input';
 import { LoadingSpinner } from '../../ui/LoadingSpinner';
+import { ConfirmedFieldsService } from '../../../services/confirmedFieldsService';
 import { 
   CheckCircle, 
   AlertTriangle, 
@@ -686,6 +687,24 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
         lowConfidenceFields: validationResults.filter(r => r.confidence === 'low').length
       }
     };
+
+    // Initialize confirmed fields service with validated data
+    console.log('🔐 Initializing confirmed fields service with validated data');
+    ConfirmedFieldsService.initializeWithPDFData(finalData, {
+      processingMethod: 'hybrid',
+      confidence: overallConfidence / 100,
+      validatedAt: new Date().toISOString()
+    });
+
+    // Auto-confirm high confidence fields
+    const highConfidenceFields = validationResults
+      .filter(result => result.confidence === 'high' && result.value)
+      .map(result => result.field);
+    
+    if (highConfidenceFields.length > 0) {
+      console.log('✅ Auto-confirming high confidence fields:', highConfidenceFields);
+      ConfirmedFieldsService.bulkConfirmFields(highConfidenceFields);
+    }
 
     onValidated(finalData);
   };

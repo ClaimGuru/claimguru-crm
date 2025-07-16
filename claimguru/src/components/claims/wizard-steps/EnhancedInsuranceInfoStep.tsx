@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
 import { Button } from '../../ui/Button'
 import { LoadingSpinner } from '../../ui/LoadingSpinner'
+import { ConfirmedFieldWrapper } from '../../ui/ConfirmedFieldWrapper'
+import { ConfirmedFieldsSummary } from '../../ui/ConfirmedFieldsSummary'
 import { Shield, DollarSign, AlertTriangle, CheckCircle, Brain, Plus, X, Calendar } from 'lucide-react'
 import { enhancedClaimWizardAI, AIValidation } from '../../../services/enhancedClaimWizardAI'
+import { ConfirmedFieldsService } from '../../../services/confirmedFieldsService'
 
 interface Coverage {
   id: string
@@ -104,6 +107,14 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
     }
   }, [data])
 
+  // Restore confirmed fields state if available
+  useEffect(() => {
+    if (data.confirmedFieldsState) {
+      console.log('📎 Restoring confirmed fields state in insurance info step');
+      ConfirmedFieldsService.importState(data.confirmedFieldsState);
+    }
+  }, [data.confirmedFieldsState]);
+
   // Auto-populate data from PDF extraction
   useEffect(() => {
     // Check if PDF data was validated and confirmed
@@ -199,7 +210,8 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
       policyDetails,
       coverages,
       deductibles,
-      priorPayments
+      priorPayments,
+      confirmedFieldsState: ConfirmedFieldsService.exportState() // Keep state in sync
     })
   }, [insuranceCarrier, policyDetails, coverages, deductibles, priorPayments])
 
@@ -398,6 +410,12 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
 
   return (
     <div className="space-y-6">
+      {/* Confirmed Fields Summary */}
+      <ConfirmedFieldsSummary 
+        className="mb-4" 
+        showActions={true}
+      />
+      
       {/* Auto-Population Notice */}
       {autoPopulated && (
         <Card className="border-green-200 bg-green-50">
@@ -496,16 +514,17 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Policy Number</label>
-              <input
-                type="text"
+              <ConfirmedFieldWrapper
+                fieldPath="policyNumber"
+                label="Policy Number"
                 value={policyDetails.policyNumber || ''}
-                onChange={(e) => setPolicyDetails({
-                  ...policyDetails,
-                  policyNumber: e.target.value
-                })}
-                className="w-full p-2 border rounded-lg"
                 placeholder="Enter policy number"
+                required={true}
+                onChange={(value) => setPolicyDetails({
+                  ...policyDetails,
+                  policyNumber: value
+                })}
+                className="w-full"
               />
               {/* AI Policy Number Validation */}
               {validationResults.policyNumber && (
@@ -542,27 +561,31 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
           {/* Policy Dates */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Effective Date</label>
-              <input
-                type="date"
+              <ConfirmedFieldWrapper
+                fieldPath="effectiveDate"
+                label="Effective Date"
                 value={policyDetails.effectiveDate || ''}
-                onChange={(e) => setPolicyDetails({
+                type="date"
+                required={true}
+                onChange={(value) => setPolicyDetails({
                   ...policyDetails,
-                  effectiveDate: e.target.value
+                  effectiveDate: value
                 })}
-                className="w-full p-2 border rounded-lg"
+                className="w-full"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Expiration Date</label>
-              <input
-                type="date"
+              <ConfirmedFieldWrapper
+                fieldPath="expirationDate"
+                label="Expiration Date"
                 value={policyDetails.expirationDate || ''}
-                onChange={(e) => setPolicyDetails({
+                type="date"
+                required={true}
+                onChange={(value) => setPolicyDetails({
                   ...policyDetails,
-                  expirationDate: e.target.value
+                  expirationDate: value
                 })}
-                className="w-full p-2 border rounded-lg"
+                className="w-full"
               />
               {/* AI Loss Date Validation */}
               {validationResults.lossDate && (

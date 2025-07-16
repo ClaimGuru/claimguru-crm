@@ -3,7 +3,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card';
 import { Button } from '../../ui/Button';
 import { Input } from '../../ui/Input';
 import { AddressAutocomplete } from '../../ui/AddressAutocomplete';
+import { ConfirmedFieldWrapper } from '../../ui/ConfirmedFieldWrapper';
+import { ConfirmedFieldsSummary } from '../../ui/ConfirmedFieldsSummary';
 import { intelligentWizardService } from '../../../services/intelligentWizardService';
+import { ConfirmedFieldsService } from '../../../services/confirmedFieldsService';
 import { 
   User, 
   MapPin, 
@@ -61,9 +64,15 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
   const [isProcessingAI, setIsProcessingAI] = useState(false);
 
   useEffect(() => {
+    // Restore confirmed fields state if available
+    if (data.confirmedFieldsState) {
+      console.log('📎 Restoring confirmed fields state in client details step');
+      ConfirmedFieldsService.importState(data.confirmedFieldsState);
+    }
+    
     loadAISuggestions();
     loadInsights();
-  }, [data.extractedPolicyData]);
+  }, [data.extractedPolicyData, data.confirmedFieldsState]);
 
   const loadAISuggestions = async () => {
     if (!data.extractedPolicyData) {
@@ -168,6 +177,10 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
     const updatedDetails = { ...clientDetails };
     setFieldValue(updatedDetails, field, value);
     setClientDetails(updatedDetails);
+    
+    // Update confirmed fields service
+    ConfirmedFieldsService.modifyField(field, value, 'user_entered');
+    
     updateWizardData(updatedDetails);
 
     // Mark corresponding suggestion as applied if values match
@@ -195,7 +208,8 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
   const updateWizardData = (details: any) => {
     onUpdate({
       ...data,
-      clientDetails: details
+      clientDetails: details,
+      confirmedFieldsState: ConfirmedFieldsService.exportState() // Keep state in sync
     });
   };
 
@@ -237,6 +251,16 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
 
   return (
     <div className="space-y-6">
+      {/* Confirmed Fields Summary */}
+      <ConfirmedFieldsSummary
+        onBulkConfirm={() => {
+          // Refresh the component state after bulk confirmation
+          const updatedDetails = { ...clientDetails };
+          setClientDetails(updatedDetails);
+          updateWizardData(updatedDetails);
+        }}
+        showActions={true}
+      />
 
 
       {/* AI Suggestions Header */}
@@ -321,100 +345,77 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
         <CardContent className="space-y-4">
           {/* Personal Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                First Name *
-              </label>
-              <Input
-                type="text"
-                value={clientDetails.firstName}
-                onChange={(e) => handleInputChange('firstName', e.target.value)}
-                placeholder="Enter first name"
-                className={`${
-                  aiSuggestions.some(s => s.field === 'firstName' && s.applied) 
-                    ? 'border-green-200 bg-green-50' 
-                    : ''
-                }`}
-              />
-              {aiSuggestions.some(s => s.field === 'firstName' && s.applied) && (
-                <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
-                  <CheckCircle className="h-3 w-3" />
-                  Auto-filled from policy
-                </p>
-              )}
-            </div>
+            <ConfirmedFieldWrapper
+              fieldPath="firstName"
+              label="First Name"
+              value={clientDetails.firstName || ''}
+              placeholder="Enter first name"
+              required={true}
+              onChange={(value) => handleInputChange('firstName', value)}
+              onConfirm={(value) => {
+                console.log('✅ First name confirmed:', value);
+                handleInputChange('firstName', value);
+              }}
+              onReject={(reason) => {
+                console.log('❌ First name rejected:', reason);
+                handleInputChange('firstName', '');
+              }}
+            />
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Last Name *
-              </label>
-              <Input
-                type="text"
-                value={clientDetails.lastName}
-                onChange={(e) => handleInputChange('lastName', e.target.value)}
-                placeholder="Enter last name"
-                className={`${
-                  aiSuggestions.some(s => s.field === 'lastName' && s.applied) 
-                    ? 'border-green-200 bg-green-50' 
-                    : ''
-                }`}
-              />
-              {aiSuggestions.some(s => s.field === 'lastName' && s.applied) && (
-                <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
-                  <CheckCircle className="h-3 w-3" />
-                  Auto-filled from policy
-                </p>
-              )}
-            </div>
+            <ConfirmedFieldWrapper
+              fieldPath="lastName"
+              label="Last Name"
+              value={clientDetails.lastName || ''}
+              placeholder="Enter last name"
+              required={true}
+              onChange={(value) => handleInputChange('lastName', value)}
+              onConfirm={(value) => {
+                console.log('✅ Last name confirmed:', value);
+                handleInputChange('lastName', value);
+              }}
+              onReject={(reason) => {
+                console.log('❌ Last name rejected:', reason);
+                handleInputChange('lastName', '');
+              }}
+            />
           </div>
 
           {/* Contact Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Phone Number *
-              </label>
-              <Input
-                type="tel"
-                value={clientDetails.phone}
-                onChange={(e) => handleInputChange('phone', e.target.value)}
-                placeholder="(555) 123-4567"
-                className={`${
-                  aiSuggestions.some(s => s.field === 'phone' && s.applied) 
-                    ? 'border-green-200 bg-green-50' 
-                    : ''
-                }`}
-              />
-              {aiSuggestions.some(s => s.field === 'phone' && s.applied) && (
-                <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
-                  <CheckCircle className="h-3 w-3" />
-                  Auto-filled from policy
-                </p>
-              )}
-            </div>
+            <ConfirmedFieldWrapper
+              fieldPath="phone"
+              label="Phone Number"
+              value={clientDetails.phone || ''}
+              placeholder="(555) 123-4567"
+              type="tel"
+              required={true}
+              onChange={(value) => handleInputChange('phone', value)}
+              onConfirm={(value) => {
+                console.log('✅ Phone confirmed:', value);
+                handleInputChange('phone', value);
+              }}
+              onReject={(reason) => {
+                console.log('❌ Phone rejected:', reason);
+                handleInputChange('phone', '');
+              }}
+            />
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email Address
-              </label>
-              <Input
-                type="email"
-                value={clientDetails.email}
-                onChange={(e) => handleInputChange('email', e.target.value)}
-                placeholder="Enter email address"
-                className={`${
-                  aiSuggestions.some(s => s.field === 'email' && s.applied) 
-                    ? 'border-green-200 bg-green-50' 
-                    : ''
-                }`}
-              />
-              {aiSuggestions.some(s => s.field === 'email' && s.applied) && (
-                <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
-                  <CheckCircle className="h-3 w-3" />
-                  Auto-filled from policy
-                </p>
-              )}
-            </div>
+            <ConfirmedFieldWrapper
+              fieldPath="email"
+              label="Email Address"
+              value={clientDetails.email || ''}
+              placeholder="Enter email address"
+              type="email"
+              onChange={(value) => handleInputChange('email', value)}
+              onConfirm={(value) => {
+                console.log('✅ Email confirmed:', value);
+                handleInputChange('email', value);
+              }}
+              onReject={(reason) => {
+                console.log('❌ Email rejected:', reason);
+                handleInputChange('email', '');
+              }}
+            />
           </div>
 
           {/* Mailing Address */}
