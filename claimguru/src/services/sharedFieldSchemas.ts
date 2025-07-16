@@ -131,6 +131,83 @@ export const clientDetailsSchema: FieldSection = {
       validationRules: [
         { type: 'phone', message: 'Please enter a valid phone number' }
       ]
+    },
+    // Co-Insured Information
+    {
+      id: 'hasCoInsured',
+      label: 'Has Co-Insured',
+      type: 'checkbox',
+      required: false
+    },
+    {
+      id: 'coInsuredFirstName',
+      label: 'Co-Insured First Name',
+      type: 'text',
+      required: false,
+      placeholder: 'Enter co-insured first name',
+      showWhen: (data) => data.hasCoInsured === true,
+      validationRules: [
+        { type: 'length', value: { min: 2, max: 50 }, message: 'Name must be 2-50 characters' }
+      ]
+    },
+    {
+      id: 'coInsuredLastName',
+      label: 'Co-Insured Last Name',
+      type: 'text',
+      required: false,
+      placeholder: 'Enter co-insured last name',
+      showWhen: (data) => data.hasCoInsured === true,
+      validationRules: [
+        { type: 'length', value: { min: 2, max: 50 }, message: 'Name must be 2-50 characters' }
+      ]
+    },
+    {
+      id: 'coInsuredEmail',
+      label: 'Co-Insured Email',
+      type: 'email',
+      required: false,
+      placeholder: 'Enter co-insured email address',
+      showWhen: (data) => data.hasCoInsured === true,
+      validationRules: [
+        { type: 'email', message: 'Please enter a valid email address' }
+      ]
+    },
+    {
+      id: 'coInsuredPhone',
+      label: 'Co-Insured Phone',
+      type: 'tel',
+      required: false,
+      placeholder: '(555) 123-4567',
+      showWhen: (data) => data.hasCoInsured === true,
+      validationRules: [
+        { type: 'phone', message: 'Please enter a valid phone number' }
+      ]
+    },
+    {
+      id: 'coInsuredRelationship',
+      label: 'Relationship to Primary Insured',
+      type: 'select',
+      required: false,
+      showWhen: (data) => data.hasCoInsured === true,
+      options: [
+        { value: 'spouse', label: 'Spouse' },
+        { value: 'partner', label: 'Partner' },
+        { value: 'parent', label: 'Parent' },
+        { value: 'child', label: 'Child' },
+        { value: 'sibling', label: 'Sibling' },
+        { value: 'business_partner', label: 'Business Partner' },
+        { value: 'co_owner', label: 'Co-Owner' },
+        { value: 'other', label: 'Other' }
+      ]
+    },
+    {
+      id: 'coInsuredName',
+      label: 'Co-Insured Full Name',
+      type: 'text',
+      required: false,
+      placeholder: 'Full name (auto-populated)',
+      showWhen: (data) => data.hasCoInsured === true,
+      helpText: 'This field is automatically populated from first and last name'
     }
   ]
 }

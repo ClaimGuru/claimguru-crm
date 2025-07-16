@@ -42,7 +42,11 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
     },
     hasCoInsured: data.hasCoInsured || false,
     coInsuredName: data.coInsuredName || '',
-    coInsuredRelationship: data.coInsuredRelationship || ''
+    coInsuredRelationship: data.coInsuredRelationship || '',
+    coInsuredFirstName: data.coInsuredFirstName || '',
+    coInsuredLastName: data.coInsuredLastName || '',
+    coInsuredEmail: data.coInsuredEmail || '',
+    coInsuredPhone: data.coInsuredPhone || ''
   });
 
   const handleInputChange = (field: string, value: string | boolean) => {
@@ -214,7 +218,11 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
       },
       hasCoInsured: data.hasCoInsured || false,
       coInsuredName: data.coInsuredName || '',
-      coInsuredRelationship: data.coInsuredRelationship || ''
+      coInsuredRelationship: data.coInsuredRelationship || '',
+      coInsuredFirstName: data.coInsuredFirstName || '',
+      coInsuredLastName: data.coInsuredLastName || '',
+      coInsuredEmail: data.coInsuredEmail || '',
+      coInsuredPhone: data.coInsuredPhone || ''
     });
   }, [data]);
 
@@ -472,28 +480,87 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
             </div>
 
             {clientDetails.hasCoInsured && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-gray-50 rounded-lg">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Co-Insured Name *
-                  </label>
-                  <Input
-                    type="text"
-                    value={clientDetails.coInsuredName}
-                    onChange={(e) => handleInputChange('coInsuredName', e.target.value)}
-                    placeholder="Full name of co-insured"
-                    required={clientDetails.hasCoInsured}
-                  />
+              <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
+                {/* Co-Insured Name */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Co-Insured First Name *
+                    </label>
+                    <Input
+                      type="text"
+                      value={clientDetails.coInsuredFirstName}
+                      onChange={(e) => {
+                        handleInputChange('coInsuredFirstName', e.target.value);
+                        // Update combined name for backwards compatibility
+                        const fullName = `${e.target.value} ${clientDetails.coInsuredLastName}`.trim();
+                        handleInputChange('coInsuredName', fullName);
+                      }}
+                      placeholder="First name"
+                      required={clientDetails.hasCoInsured}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Co-Insured Last Name *
+                    </label>
+                    <Input
+                      type="text"
+                      value={clientDetails.coInsuredLastName}
+                      onChange={(e) => {
+                        handleInputChange('coInsuredLastName', e.target.value);
+                        // Update combined name for backwards compatibility
+                        const fullName = `${clientDetails.coInsuredFirstName} ${e.target.value}`.trim();
+                        handleInputChange('coInsuredName', fullName);
+                      }}
+                      placeholder="Last name"
+                      required={clientDetails.hasCoInsured}
+                    />
+                  </div>
                 </div>
 
+                {/* Co-Insured Contact Information */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                      <Mail className="h-4 w-4" />
+                      Co-Insured Email *
+                    </label>
+                    <Input
+                      type="email"
+                      value={clientDetails.coInsuredEmail}
+                      onChange={(e) => handleInputChange('coInsuredEmail', e.target.value)}
+                      placeholder="Email address"
+                      required={clientDetails.hasCoInsured}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                      <Phone className="h-4 w-4" />
+                      Co-Insured Phone *
+                    </label>
+                    <Input
+                      type="tel"
+                      value={clientDetails.coInsuredPhone}
+                      onChange={(e) => handleInputChange('coInsuredPhone', e.target.value)}
+                      placeholder="(555) 123-4567"
+                      required={clientDetails.hasCoInsured}
+                    />
+                  </div>
+                </div>
+
+                {/* Relationship */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Relationship
+                    Relationship to Primary Insured *
                   </label>
                   <select
                     value={clientDetails.coInsuredRelationship}
                     onChange={(e) => handleInputChange('coInsuredRelationship', e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    required={clientDetails.hasCoInsured}
                   >
                     <option value="">Select relationship</option>
                     <option value="spouse">Spouse</option>
