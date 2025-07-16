@@ -32,6 +32,25 @@ interface EnhancedInsuranceInfoStepProps {
   onAIProcessing?: (isProcessing: boolean) => void
 }
 
+// Helper function to convert date from MM/DD/YYYY to YYYY-MM-DD format
+const convertDateFormat = (dateStr: string): string => {
+  if (!dateStr) return ''
+  
+  // Handle MM/DD/YYYY format
+  const parts = dateStr.split('/')
+  if (parts.length === 3) {
+    const [month, day, year] = parts
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+  }
+  
+  // If already in YYYY-MM-DD format, return as is
+  if (dateStr.match(/\d{4}-\d{2}-\d{2}/)) {
+    return dateStr
+  }
+  
+  return dateStr
+}
+
 export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps> = ({
   data,
   onUpdate,
@@ -93,11 +112,27 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
       
       // Auto-populate insurance carrier
       if (data.policyDetails.insurerName) {
+        // Map full insurance company names to dropdown options
+        let carrierName = data.policyDetails.insurerName
+        if (carrierName.toLowerCase().includes('allstate')) {
+          carrierName = 'Allstate'
+        } else if (carrierName.toLowerCase().includes('state farm')) {
+          carrierName = 'State Farm'
+        } else if (carrierName.toLowerCase().includes('geico')) {
+          carrierName = 'GEICO'
+        } else if (carrierName.toLowerCase().includes('progressive')) {
+          carrierName = 'Progressive'
+        } else if (carrierName.toLowerCase().includes('usaa')) {
+          carrierName = 'USAA'
+        } else {
+          carrierName = 'Other'
+        }
+        
         setInsuranceCarrier(prev => ({
           ...prev,
-          name: data.policyDetails.insurerName
+          name: carrierName
         }))
-        console.log('✅ Auto-populated carrier:', data.policyDetails.insurerName)
+        console.log('✅ Auto-populated carrier:', carrierName, 'from:', data.policyDetails.insurerName)
       }
       
       // Auto-populate policy details
@@ -106,13 +141,17 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
         newPolicyDetails.policyNumber = data.policyDetails.policyNumber
         console.log('✅ Auto-populated policy number:', data.policyDetails.policyNumber)
       }
+      
+      // Convert date formats from MM/DD/YYYY to YYYY-MM-DD for HTML date inputs
       if (data.policyDetails.effectiveDate) {
-        newPolicyDetails.effectiveDate = data.policyDetails.effectiveDate
-        console.log('✅ Auto-populated effective date:', data.policyDetails.effectiveDate)
+        const convertedEffectiveDate = convertDateFormat(data.policyDetails.effectiveDate)
+        newPolicyDetails.effectiveDate = convertedEffectiveDate
+        console.log('✅ Auto-populated effective date:', convertedEffectiveDate, 'from:', data.policyDetails.effectiveDate)
       }
       if (data.policyDetails.expirationDate) {
-        newPolicyDetails.expirationDate = data.policyDetails.expirationDate
-        console.log('✅ Auto-populated expiration date:', data.policyDetails.expirationDate)
+        const convertedExpirationDate = convertDateFormat(data.policyDetails.expirationDate)
+        newPolicyDetails.expirationDate = convertedExpirationDate
+        console.log('✅ Auto-populated expiration date:', convertedExpirationDate, 'from:', data.policyDetails.expirationDate)
       }
       setPolicyDetails(newPolicyDetails)
       

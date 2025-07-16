@@ -114,13 +114,23 @@ interface WizardData {
   deductibles: any[]
   priorPayments: any[]
   lossDetails: {
-    lossReason?: string
-    lossDate?: string
+    reasonForLoss?: string
+    dateOfLoss?: string
     causeOfLoss?: string
+    severity?: string
+    lossDescription?: string
+    aiSuggestedDescription?: string
+    yearBuilt?: string
+    isFEMA?: boolean
+    isHabitable?: boolean
+    alternativeLiving?: string
+    monthlyLivingCost?: string
+    stateOfEmergency?: boolean
+    personalPropertyDamage?: boolean
+    otherStructuresDamage?: boolean
     estimatedAmount?: number
     propertyAddress?: string
     description?: string
-    aiSuggestedDescription?: string
     documentBasedInsights?: string[]
   }
   personalPropertyDamage: boolean
@@ -541,7 +551,7 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
         break
         
       case 'claim-info':
-        if (!wizardData.lossDetails?.lossReason || !wizardData.lossDetails?.lossDate) {
+        if (!wizardData.lossDetails?.reasonForLoss || !wizardData.lossDetails?.dateOfLoss) {
           isValid = false
           errors.push('Loss reason and date are required')
         }
