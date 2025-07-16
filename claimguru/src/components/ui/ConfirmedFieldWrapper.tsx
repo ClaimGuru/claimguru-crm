@@ -157,7 +157,9 @@ export const ConfirmedFieldWrapper: React.FC<ConfirmedFieldWrapperProps> = ({
                 fieldData.confidence === 'high' ? 'text-green-600' :
                 fieldData.confidence === 'medium' ? 'text-yellow-600' : 'text-red-600'
               }`}>
-                {fieldData.confidence}
+                {typeof fieldData.confidence === 'number' ? 
+                  `${Math.round(fieldData.confidence * 100)}%` : 
+                  fieldData.confidence}
               </span>
             </div>
           )}
@@ -167,7 +169,7 @@ export const ConfirmedFieldWrapper: React.FC<ConfirmedFieldWrapperProps> = ({
           )}
           
           {fieldData.confirmedAt && (
-            <div>Confirmed: {new Date(fieldData.confirmedAt).toLocaleString()}</div>
+            <div>Confirmed: {new Date(fieldData.confirmedAt).toLocaleDateString()} at {new Date(fieldData.confirmedAt).toLocaleTimeString()}</div>
           )}
         </div>
       )}

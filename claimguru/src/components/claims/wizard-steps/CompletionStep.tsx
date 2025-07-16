@@ -26,6 +26,7 @@ import {
   TrendingUp
 } from 'lucide-react'
 import { claimWizardAI } from '../../../services/claimWizardAI'
+import { ConfirmedFieldsService } from '../../../services/confirmedFieldsService'
 
 interface CompletionStepProps {
   data: any
@@ -526,13 +527,24 @@ export function CompletionStep({ data, onUpdate, onSubmit }: CompletionStepProps
             <div>
               <span className="text-sm font-medium text-gray-600">Property:</span>
               <div className="text-sm text-gray-900">
-                {data.mailingAddress?.addressLine1}<br />
-                {data.mailingAddress?.city}, {data.mailingAddress?.state} {data.mailingAddress?.zipCode}
+                {typeof data.mailingAddress === 'object' && data.mailingAddress?.addressLine1 ? (
+                  <>
+                    {data.mailingAddress.addressLine1}<br />
+                    {data.mailingAddress.city}, {data.mailingAddress.state} {data.mailingAddress.zipCode}
+                  </>
+                ) : (
+                  ConfirmedFieldsService.formatDisplayValue(data.mailingAddress) || 'Not provided'
+                )}
               </div>
             </div>
             <div>
               <span className="text-sm font-medium text-gray-600">Property Type:</span>
-              <div className="text-sm text-gray-900">{data.mailingAddress?.propertyType}</div>
+              <div className="text-sm text-gray-900">
+                {typeof data.mailingAddress === 'object' && data.mailingAddress?.propertyType ? 
+                  data.mailingAddress.propertyType : 
+                  'Not specified'
+                }
+              </div>
             </div>
           </CardContent>
         </Card>

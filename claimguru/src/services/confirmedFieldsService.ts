@@ -341,10 +341,70 @@ export class ConfirmedFieldsService {
   }
 
   /**
+   * Format value for display in UI
+   */
+  static formatDisplayValue(value: any): string {
+    if (value === null || value === undefined) return '';
+    if (typeof value === 'string') return value;
+    if (typeof value === 'number') return value.toString();
+    if (typeof value === 'boolean') return value ? 'Yes' : 'No';
+    if (Array.isArray(value)) return value.join(', ');
+    
+    // Handle objects (like mailing address)
+    if (typeof value === 'object') {
+      // Check if it's a mailing address object
+      if (value.addressLine1 || value.city || value.state || value.zipCode) {
+        const parts = [];
+        if (value.addressLine1) parts.push(value.addressLine1);
+        if (value.addressLine2) parts.push(value.addressLine2);
+        if (value.city) parts.push(value.city);
+        if (value.state && value.zipCode) {
+          parts.push(`${value.state} ${value.zipCode}`);
+        } else if (value.state) {
+          parts.push(value.state);
+        } else if (value.zipCode) {
+          parts.push(value.zipCode);
+        }
+        return parts.join(', ');
+      }
+      
+      // Handle date objects
+      if (value instanceof Date) {
+        return value.toLocaleDateString();
+      }
+      
+      // Handle other objects by showing key-value pairs
+      const entries = Object.entries(value)
+        .filter(([_, v]) => v !== null && v !== undefined && v !== '')
+        .map(([k, v]) => `${k}: ${v}`);
+      
+      if (entries.length === 0) return '';
+      if (entries.length === 1) return entries[0].split(': ')[1]; // Just return the value if single property
+      return entries.join(', ');
+    }
+    
+    return String(value);
+  }
+
+  /**
    * Private helper methods
    */
   private static determineConfidence(fieldPath: string, value: any, metadata?: any): 'high' | 'medium' | 'low' {
-    if (metadata?.confidence) return metadata.confidence;
+    if (metadata?.confidence) {
+      const confidence = metadata.confidence;
+      
+      // If it's a number, convert to string category
+      if (typeof confidence === 'number') {
+        if (confidence >= 0.8) return 'high';
+        if (confidence >= 0.5) return 'medium';
+        return 'low';
+      }
+      
+      // If it's already a string, return it
+      if (typeof confidence === 'string') {
+        return confidence as 'high' | 'medium' | 'low';
+      }
+    }
     
     // Simple heuristics for confidence
     if (typeof value === 'string' && value.length > 20) return 'high';
