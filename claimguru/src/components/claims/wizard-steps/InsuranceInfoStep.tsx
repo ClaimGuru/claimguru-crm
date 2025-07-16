@@ -17,6 +17,7 @@ import {
   User,
   Zap
 } from 'lucide-react'
+import { formatPhoneNumber, getPhoneInputProps } from '../../../utils/phoneUtils'
 
 interface InsuranceInfoStepProps {
   data: any
@@ -31,9 +32,21 @@ export function InsuranceInfoStep({ data, onUpdate }: InsuranceInfoStepProps) {
     expirationDate: '',
     claimNumber: '',
     reportedDate: '',
-    agentName: '',
-    agentPhone: '',
-    agentEmail: '',
+    agentInfo: {
+      agencyName: '',
+      agentFirstName: '',
+      agentLastName: '',
+      agentEmail: '',
+      agentPhone: '',
+      agencyLicenseNumber: '',
+      agentAddress: {
+        addressLine1: '',
+        addressLine2: '',
+        city: '',
+        state: '',
+        zipCode: ''
+      }
+    },
     companyAddress: {
       addressLine1: '',
       city: '',
@@ -71,8 +84,14 @@ export function InsuranceInfoStep({ data, onUpdate }: InsuranceInfoStepProps) {
         policyNumber: extractedData.policyNumber || prev.policyNumber,
         effectiveDate: extractedData.effectiveDate || prev.effectiveDate,
         expirationDate: extractedData.expirationDate || prev.expirationDate,
-        agentName: extractedData.agentName || prev.agentName,
-        agentPhone: extractedData.agentPhone || prev.agentPhone
+        agentInfo: {
+          ...prev.agentInfo,
+          agentFirstName: extractedData.agentFirstName || prev.agentInfo?.agentFirstName || '',
+          agentLastName: extractedData.agentLastName || prev.agentInfo?.agentLastName || '',
+          agentEmail: extractedData.agentEmail || prev.agentInfo?.agentEmail || '',
+          agentPhone: extractedData.agentPhone || prev.agentInfo?.agentPhone || '',
+          agencyName: extractedData.agencyName || prev.agentInfo?.agencyName || ''
+        }
       }))
 
       // Perform AI coverage analysis
@@ -125,6 +144,11 @@ export function InsuranceInfoStep({ data, onUpdate }: InsuranceInfoStepProps) {
   const handleInputChange = (section, field, value) => {
     if (section === 'insurance') {
       setInsuranceInfo(prev => ({ ...prev, [field]: value }))
+    } else if (section === 'agent') {
+      setInsuranceInfo(prev => ({
+        ...prev,
+        agentInfo: { ...prev.agentInfo, [field]: value }
+      }))
     } else if (section === 'mortgage') {
       setMortgageInfo(prev => ({ ...prev, [field]: value }))
     }
@@ -135,6 +159,14 @@ export function InsuranceInfoStep({ data, onUpdate }: InsuranceInfoStepProps) {
       setInsuranceInfo(prev => ({
         ...prev,
         companyAddress: { ...prev.companyAddress, [field]: value }
+      }))
+    } else if (section === 'agent') {
+      setInsuranceInfo(prev => ({
+        ...prev,
+        agentInfo: {
+          ...prev.agentInfo,
+          agentAddress: { ...prev.agentInfo.agentAddress, [field]: value }
+        }
       }))
     } else if (section === 'mortgage') {
       setMortgageInfo(prev => ({
@@ -280,47 +312,190 @@ export function InsuranceInfoStep({ data, onUpdate }: InsuranceInfoStepProps) {
           <div className="border-t pt-4">
             <h4 className="font-medium text-gray-900 mb-4 flex items-center gap-2">
               <User className="h-5 w-5 text-green-600" />
-              Insurance Agent Information
+              Insurance Agent & Agency Information
             </h4>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Agent Name
-                </label>
-                <input
-                  type="text"
-                  value={insuranceInfo.agentName}
-                  onChange={(e) => handleInputChange('insurance', 'agentName', e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                  placeholder="Agent name"
-                />
+            {/* Agency Information */}
+            <div className="bg-gray-50 p-4 rounded-lg mb-4">
+              <h5 className="font-medium text-gray-800 mb-3 flex items-center gap-2">
+                <Building className="h-4 w-4 text-blue-600" />
+                Agency Details
+              </h5>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Agency Name *
+                  </label>
+                  <input
+                    type="text"
+                    value={insuranceInfo.agentInfo?.agencyName || ''}
+                    onChange={(e) => handleInputChange('agent', 'agencyName', e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                    placeholder="Insurance agency name"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Agency License Number
+                  </label>
+                  <input
+                    type="text"
+                    value={insuranceInfo.agentInfo?.agencyLicenseNumber || ''}
+                    onChange={(e) => handleInputChange('agent', 'agencyLicenseNumber', e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                    placeholder="License number"
+                  />
+                </div>
               </div>
+            </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Agent Phone
-                </label>
-                <input
-                  type="tel"
-                  value={insuranceInfo.agentPhone}
-                  onChange={(e) => handleInputChange('insurance', 'agentPhone', e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                  placeholder="(555) 123-4567"
-                />
+            {/* Agent Personal Information */}
+            <div className="bg-blue-50 p-4 rounded-lg mb-4">
+              <h5 className="font-medium text-gray-800 mb-3 flex items-center gap-2">
+                <User className="h-4 w-4 text-green-600" />
+                Agent Details
+              </h5>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Agent First Name *
+                  </label>
+                  <input
+                    type="text"
+                    value={insuranceInfo.agentInfo?.agentFirstName || ''}
+                    onChange={(e) => handleInputChange('agent', 'agentFirstName', e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                    placeholder="First name"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Agent Last Name *
+                  </label>
+                  <input
+                    type="text"
+                    value={insuranceInfo.agentInfo?.agentLastName || ''}
+                    onChange={(e) => handleInputChange('agent', 'agentLastName', e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                    placeholder="Last name"
+                    required
+                  />
+                </div>
               </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Agent Phone *
+                  </label>
+                  <input
+                    type="tel"
+                    value={insuranceInfo.agentInfo?.agentPhone || ''}
+                    onChange={(e) => handleInputChange('agent', 'agentPhone', formatPhoneNumber(e.target.value))}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                    placeholder="(555) 123-4567"
+                    {...getPhoneInputProps()}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Agent Email *
+                  </label>
+                  <input
+                    type="email"
+                    value={insuranceInfo.agentInfo?.agentEmail || ''}
+                    onChange={(e) => handleInputChange('agent', 'agentEmail', e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                    placeholder="agent@insurance.com"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Agent Email
-                </label>
-                <input
-                  type="email"
-                  value={insuranceInfo.agentEmail}
-                  onChange={(e) => handleInputChange('insurance', 'agentEmail', e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                  placeholder="agent@insurance.com"
+            {/* Agent Address */}
+            <div className="bg-green-50 p-4 rounded-lg">
+              <h5 className="font-medium text-gray-800 mb-3 flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-orange-600" />
+                Agent/Agency Address
+              </h5>
+              
+              <div className="space-y-4">
+                <AddressAutocomplete
+                  value={insuranceInfo.agentInfo?.agentAddress?.addressLine1 || ''}
+                  onChange={(address, details) => {
+                    handleAddressChange('agent', 'addressLine1', address)
+                    
+                    if (details?.address_components) {
+                      const components = details.address_components
+                      const city = components.find(c => c.types.includes('locality'))?.long_name || 
+                                  components.find(c => c.types.includes('administrative_area_level_3'))?.long_name || ''
+                      const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || ''
+                      const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || ''
+                      
+                      if (city) handleAddressChange('agent', 'city', city)
+                      if (state) handleAddressChange('agent', 'state', state)
+                      if (zipCode) handleAddressChange('agent', 'zipCode', zipCode)
+                    }
+                  }}
+                  label="Agent/Agency Address"
+                  placeholder="Start typing agent/agency address..."
                 />
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Address Line 2 (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    value={insuranceInfo.agentInfo?.agentAddress?.addressLine2 || ''}
+                    onChange={(e) => handleAddressChange('agent', 'addressLine2', e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                    placeholder="Suite, Unit, etc."
+                  />
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      value={insuranceInfo.agentInfo?.agentAddress?.city || ''}
+                      onChange={(e) => handleAddressChange('agent', 'city', e.target.value)}
+                      className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                      placeholder="City"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      State
+                    </label>
+                    <input
+                      type="text"
+                      value={insuranceInfo.agentInfo?.agentAddress?.state || ''}
+                      onChange={(e) => handleAddressChange('agent', 'state', e.target.value)}
+                      className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                      placeholder="State"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      ZIP Code
+                    </label>
+                    <input
+                      type="text"
+                      value={insuranceInfo.agentInfo?.agentAddress?.zipCode || ''}
+                      onChange={(e) => handleAddressChange('agent', 'zipCode', e.target.value)}
+                      className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                      placeholder="ZIP Code"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

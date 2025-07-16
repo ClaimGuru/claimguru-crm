@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card';
 import { Button } from '../../ui/Button';
 import { Input } from '../../ui/Input';
-import { Shield, DollarSign, Plus, X, Calendar, CheckCircle } from 'lucide-react';
+import { AddressAutocomplete } from '../../ui/AddressAutocomplete';
+import { Shield, DollarSign, Plus, X, Calendar, CheckCircle, User, Building, MapPin } from 'lucide-react';
+import { formatPhoneNumber, getPhoneInputProps } from '../../../utils/phoneUtils';
 
 interface Coverage {
   id: string;
@@ -44,7 +46,24 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
   data,
   onUpdate
 }) => {
-  const [insuranceCarrier, setInsuranceCarrier] = useState(data.insuranceCarrier || {});
+  const [insuranceCarrier, setInsuranceCarrier] = useState(data.insuranceCarrier || {
+    name: '',
+    agentInfo: {
+      agencyName: '',
+      agentFirstName: '',
+      agentLastName: '',
+      agentEmail: '',
+      agentPhone: '',
+      agencyLicenseNumber: '',
+      agentAddress: {
+        addressLine1: '',
+        addressLine2: '',
+        city: '',
+        state: '',
+        zipCode: ''
+      }
+    }
+  });
   const [policyDetails, setPolicyDetails] = useState(data.policyDetails || {});
   const [coverages, setCoverages] = useState<Coverage[]>(data.coverages || []);
   const [deductibles, setDeductibles] = useState<Deductible[]>(data.deductibles || []);
@@ -214,30 +233,247 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
             </label>
           </div>
 
-          {/* Agent Information */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Agent Name</label>
-              <Input
-                value={insuranceCarrier.agentName || ''}
-                onChange={(e) => setInsuranceCarrier({
-                  ...insuranceCarrier,
-                  agentName: e.target.value
-                })}
-                placeholder="Agent name"
-              />
+          {/* Comprehensive Agent Information */}
+          <div className="space-y-6 border-t pt-6">
+            <h4 className="font-medium text-gray-900 mb-4 flex items-center gap-2">
+              <User className="h-5 w-5 text-green-600" />
+              Insurance Agent & Agency Information
+            </h4>
+            
+            {/* Agency Information */}
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h5 className="font-medium text-gray-800 mb-3 flex items-center gap-2">
+                <Building className="h-4 w-4 text-blue-600" />
+                Agency Details
+              </h5>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">Agency Name *</label>
+                  <Input
+                    value={insuranceCarrier.agentInfo?.agencyName || ''}
+                    onChange={(e) => setInsuranceCarrier({
+                      ...insuranceCarrier,
+                      agentInfo: {
+                        ...insuranceCarrier.agentInfo,
+                        agencyName: e.target.value
+                      }
+                    })}
+                    placeholder="Insurance agency name"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Agency License Number</label>
+                  <Input
+                    value={insuranceCarrier.agentInfo?.agencyLicenseNumber || ''}
+                    onChange={(e) => setInsuranceCarrier({
+                      ...insuranceCarrier,
+                      agentInfo: {
+                        ...insuranceCarrier.agentInfo,
+                        agencyLicenseNumber: e.target.value
+                      }
+                    })}
+                    placeholder="License number"
+                  />
+                </div>
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Agent Phone</label>
-              <Input
-                type="tel"
-                value={insuranceCarrier.agentPhone || ''}
-                onChange={(e) => setInsuranceCarrier({
-                  ...insuranceCarrier,
-                  agentPhone: e.target.value
-                })}
-                placeholder="Agent phone number"
-              />
+
+            {/* Agent Personal Information */}
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <h5 className="font-medium text-gray-800 mb-3 flex items-center gap-2">
+                <User className="h-4 w-4 text-green-600" />
+                Agent Details
+              </h5>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">Agent First Name *</label>
+                  <Input
+                    value={insuranceCarrier.agentInfo?.agentFirstName || ''}
+                    onChange={(e) => setInsuranceCarrier({
+                      ...insuranceCarrier,
+                      agentInfo: {
+                        ...insuranceCarrier.agentInfo,
+                        agentFirstName: e.target.value
+                      }
+                    })}
+                    placeholder="First name"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Agent Last Name *</label>
+                  <Input
+                    value={insuranceCarrier.agentInfo?.agentLastName || ''}
+                    onChange={(e) => setInsuranceCarrier({
+                      ...insuranceCarrier,
+                      agentInfo: {
+                        ...insuranceCarrier.agentInfo,
+                        agentLastName: e.target.value
+                      }
+                    })}
+                    placeholder="Last name"
+                    required
+                  />
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">Agent Phone *</label>
+                  <Input
+                    type="tel"
+                    value={insuranceCarrier.agentInfo?.agentPhone || ''}
+                    onChange={(e) => setInsuranceCarrier({
+                      ...insuranceCarrier,
+                      agentInfo: {
+                        ...insuranceCarrier.agentInfo,
+                        agentPhone: formatPhoneNumber(e.target.value)
+                      }
+                    })}
+                    placeholder="(555) 123-4567"
+                    {...getPhoneInputProps()}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Agent Email *</label>
+                  <Input
+                    type="email"
+                    value={insuranceCarrier.agentInfo?.agentEmail || ''}
+                    onChange={(e) => setInsuranceCarrier({
+                      ...insuranceCarrier,
+                      agentInfo: {
+                        ...insuranceCarrier.agentInfo,
+                        agentEmail: e.target.value
+                      }
+                    })}
+                    placeholder="agent@insurance.com"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Agent Address */}
+            <div className="bg-green-50 p-4 rounded-lg">
+              <h5 className="font-medium text-gray-800 mb-3 flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-orange-600" />
+                Agent/Agency Address
+              </h5>
+              
+              <div className="space-y-4">
+                <AddressAutocomplete
+                  value={insuranceCarrier.agentInfo?.agentAddress?.addressLine1 || ''}
+                  onChange={(address, details) => {
+                    setInsuranceCarrier({
+                      ...insuranceCarrier,
+                      agentInfo: {
+                        ...insuranceCarrier.agentInfo,
+                        agentAddress: {
+                          ...insuranceCarrier.agentInfo?.agentAddress,
+                          addressLine1: address
+                        }
+                      }
+                    });
+                    
+                    if (details?.address_components) {
+                      const components = details.address_components;
+                      const city = components.find(c => c.types.includes('locality'))?.long_name || 
+                                  components.find(c => c.types.includes('administrative_area_level_3'))?.long_name || '';
+                      const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || '';
+                      const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || '';
+                      
+                      setInsuranceCarrier(prev => ({
+                        ...prev,
+                        agentInfo: {
+                          ...prev.agentInfo,
+                          agentAddress: {
+                            ...prev.agentInfo?.agentAddress,
+                            city: city || prev.agentInfo?.agentAddress?.city || '',
+                            state: state || prev.agentInfo?.agentAddress?.state || '',
+                            zipCode: zipCode || prev.agentInfo?.agentAddress?.zipCode || ''
+                          }
+                        }
+                      }));
+                    }
+                  }}
+                  label="Agent/Agency Address"
+                  placeholder="Start typing agent/agency address..."
+                />
+                
+                <div>
+                  <label className="block text-sm font-medium mb-1">Address Line 2 (Optional)</label>
+                  <Input
+                    value={insuranceCarrier.agentInfo?.agentAddress?.addressLine2 || ''}
+                    onChange={(e) => setInsuranceCarrier({
+                      ...insuranceCarrier,
+                      agentInfo: {
+                        ...insuranceCarrier.agentInfo,
+                        agentAddress: {
+                          ...insuranceCarrier.agentInfo?.agentAddress,
+                          addressLine2: e.target.value
+                        }
+                      }
+                    })}
+                    placeholder="Suite, Unit, etc."
+                  />
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-1">City</label>
+                    <Input
+                      value={insuranceCarrier.agentInfo?.agentAddress?.city || ''}
+                      onChange={(e) => setInsuranceCarrier({
+                        ...insuranceCarrier,
+                        agentInfo: {
+                          ...insuranceCarrier.agentInfo,
+                          agentAddress: {
+                            ...insuranceCarrier.agentInfo?.agentAddress,
+                            city: e.target.value
+                          }
+                        }
+                      })}
+                      placeholder="City"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">State</label>
+                    <Input
+                      value={insuranceCarrier.agentInfo?.agentAddress?.state || ''}
+                      onChange={(e) => setInsuranceCarrier({
+                        ...insuranceCarrier,
+                        agentInfo: {
+                          ...insuranceCarrier.agentInfo,
+                          agentAddress: {
+                            ...insuranceCarrier.agentInfo?.agentAddress,
+                            state: e.target.value
+                          }
+                        }
+                      })}
+                      placeholder="State"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">ZIP Code</label>
+                    <Input
+                      value={insuranceCarrier.agentInfo?.agentAddress?.zipCode || ''}
+                      onChange={(e) => setInsuranceCarrier({
+                        ...insuranceCarrier,
+                        agentInfo: {
+                          ...insuranceCarrier.agentInfo,
+                          agentAddress: {
+                            ...insuranceCarrier.agentInfo?.agentAddress,
+                            zipCode: e.target.value
+                          }
+                        }
+                      })}
+                      placeholder="ZIP Code"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </CardContent>
