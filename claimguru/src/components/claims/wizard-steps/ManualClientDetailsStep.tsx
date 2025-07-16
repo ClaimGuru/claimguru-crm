@@ -20,28 +20,40 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
   data,
   onUpdate
 }) => {
+  // Initialize data from root level (matching schema expectations)
   const [clientDetails, setClientDetails] = useState({
-    firstName: '',
-    lastName: '',
-    phone: '',
-    phoneType: 'cell', // Default to cell phone
-    email: '',
+    clientType: data.clientType || 'individual',
+    firstName: data.firstName || '',
+    lastName: data.lastName || '',
+    businessName: data.businessName || '',
+    primaryPhone: data.primaryPhone || '',
+    phoneType: data.phoneType || 'cell', // Default to cell phone
+    primaryEmail: data.primaryEmail || '',
+    alternatePhone: data.alternatePhone || '',
     mailingAddress: {
-      addressLine1: '',
-      addressLine2: '',
-      city: '',
-      state: '',
-      zipCode: ''
+      addressLine1: data.mailingAddress?.addressLine1 || '',
+      addressLine2: data.mailingAddress?.addressLine2 || '',
+      city: data.mailingAddress?.city || '',
+      state: data.mailingAddress?.state || '',
+      zipCode: data.mailingAddress?.zipCode || ''
     },
-    hasCoInsured: false,
-    coInsuredName: '',
-    coInsuredRelationship: '',
-    ...data.clientDetails
+    hasCoInsured: data.hasCoInsured || false,
+    coInsuredName: data.coInsuredName || '',
+    coInsuredRelationship: data.coInsuredRelationship || ''
   });
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: string, value: string | boolean) => {
     const updatedDetails = { ...clientDetails };
     setFieldValue(updatedDetails, field, value);
+    setClientDetails(updatedDetails);
+    updateWizardData(updatedDetails);
+  };
+
+  const handleSwitchChange = (field: string, checked: boolean) => {
+    const updatedDetails = {
+      ...clientDetails,
+      [field]: checked
+    };
     setClientDetails(updatedDetails);
     updateWizardData(updatedDetails);
   };
@@ -94,11 +106,38 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
     updateWizardData(updatedDetails);
   };
 
-  const updateWizardData = (details: any) => {
-    onUpdate({
-      ...data,
-      clientDetails: details
+  // Sync local state with prop data changes
+  useEffect(() => {
+    setClientDetails({
+      clientType: data.clientType || 'individual',
+      firstName: data.firstName || '',
+      lastName: data.lastName || '',
+      businessName: data.businessName || '',
+      primaryPhone: data.primaryPhone || '',
+      phoneType: data.phoneType || 'cell',
+      primaryEmail: data.primaryEmail || '',
+      alternatePhone: data.alternatePhone || '',
+      mailingAddress: {
+        addressLine1: data.mailingAddress?.addressLine1 || '',
+        addressLine2: data.mailingAddress?.addressLine2 || '',
+        city: data.mailingAddress?.city || '',
+        state: data.mailingAddress?.state || '',
+        zipCode: data.mailingAddress?.zipCode || ''
+      },
+      hasCoInsured: data.hasCoInsured || false,
+      coInsuredName: data.coInsuredName || '',
+      coInsuredRelationship: data.coInsuredRelationship || ''
     });
+  }, [data]);
+
+  const updateWizardData = (details: any) => {
+    // Update data at root level to match schema expectations
+    const updatedData = {
+      ...data,
+      ...details
+    };
+    console.log('Updating wizard data:', updatedData);
+    onUpdate(updatedData);
   };
 
   // Utility function to set nested field values
@@ -123,8 +162,38 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+          {/* Client Type Selection */}
+          <div className="space-y-3">
+            <label className="block text-sm font-medium text-gray-700">
+              Client Type *
+            </label>
+            <div className="flex gap-6">
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  value="individual"
+                  checked={clientDetails.clientType === 'individual'}
+                  onChange={(e) => handleInputChange('clientType', e.target.value)}
+                  className="text-blue-600 focus:ring-blue-500"
+                />
+                <span className="text-sm">Individual/Residential</span>
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  value="business"
+                  checked={clientDetails.clientType === 'business'}
+                  onChange={(e) => handleInputChange('clientType', e.target.value)}
+                  className="text-blue-600 focus:ring-blue-500"
+                />
+                <span className="text-sm">Business/Commercial</span>
+              </label>
+            </div>
+          </div>
+
           {/* Personal Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {clientDetails.clientType === 'individual' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 First Name *
@@ -150,19 +219,36 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
                 required
               />
             </div>
-          </div>
+            </div>
+          )}
+
+          {/* Business Information */}
+          {clientDetails.clientType === 'business' && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Business Name *
+              </label>
+              <Input
+                type="text"
+                value={clientDetails.businessName || ''}
+                onChange={(e) => handleInputChange('businessName', e.target.value)}
+                placeholder="Enter business name"
+                required
+              />
+            </div>
+          )}
 
           {/* Contact Information */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
                 <Phone className="h-4 w-4" />
-                Phone Number *
+                Primary Phone *
               </label>
               <Input
                 type="tel"
-                value={clientDetails.phone}
-                onChange={(e) => handleInputChange('phone', e.target.value)}
+                value={clientDetails.primaryPhone}
+                onChange={(e) => handleInputChange('primaryPhone', e.target.value)}
                 placeholder="(555) 123-4567"
                 required
               />
@@ -187,29 +273,44 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
-              <Mail className="h-4 w-4" />
-              Email Address
-            </label>
-            <Input
-              type="email"
-              value={clientDetails.email}
-              onChange={(e) => handleInputChange('email', e.target.value)}
-              placeholder="Enter email address"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                <Mail className="h-4 w-4" />
+                Primary Email *
+              </label>
+              <Input
+                type="email"
+                value={clientDetails.primaryEmail}
+                onChange={(e) => handleInputChange('primaryEmail', e.target.value)}
+                placeholder="Enter email address"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Alternate Phone
+              </label>
+              <Input
+                type="tel"
+                value={clientDetails.alternatePhone}
+                onChange={(e) => handleInputChange('alternatePhone', e.target.value)}
+                placeholder="(555) 123-4567"
+              />
+            </div>
           </div>
 
-          {/* Mailing Address */}
+          {/* Mailing Address - Optional for now */}
           <div className="space-y-4">
             <h4 className="text-sm font-medium text-gray-700 flex items-center gap-2">
               <MapPin className="h-4 w-4" />
-              Mailing Address *
+              Mailing Address
             </h4>
             
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Street Address (Address 1) *
+                Street Address (Address 1)
               </label>
               <AddressAutocomplete
                 value={clientDetails.mailingAddress?.addressLine1 || ''}
@@ -233,40 +334,37 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  City *
+                  City
                 </label>
                 <Input
                   type="text"
                   value={clientDetails.mailingAddress?.city || ''}
                   onChange={(e) => handleAddressFieldChange('city', e.target.value)}
                   placeholder="City"
-                  required
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  State *
+                  State
                 </label>
                 <Input
                   type="text"
                   value={clientDetails.mailingAddress?.state || ''}
                   onChange={(e) => handleAddressFieldChange('state', e.target.value)}
                   placeholder="State"
-                  required
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  ZIP Code *
+                  ZIP Code
                 </label>
                 <Input
                   type="text"
                   value={clientDetails.mailingAddress?.zipCode || ''}
                   onChange={(e) => handleAddressFieldChange('zipCode', e.target.value)}
                   placeholder="ZIP Code"
-                  required
                 />
               </div>
             </div>
@@ -281,7 +379,7 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
               </div>
               <Switch
                 checked={clientDetails.hasCoInsured}
-                onCheckedChange={(checked) => handleInputChange('hasCoInsured', checked)}
+                onChange={(checked) => handleSwitchChange('hasCoInsured', checked)}
               />
             </div>
 

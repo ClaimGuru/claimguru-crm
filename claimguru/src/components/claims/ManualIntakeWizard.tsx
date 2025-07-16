@@ -384,7 +384,14 @@ export function ManualIntakeWizard({
     if (!step.required) return true
     
     // Use shared validation logic
-    return canStepProceed(step.id, wizardData, step.required)
+    const canProceedResult = canStepProceed(step.id, wizardData, step.required)
+    console.log(`Step validation for ${step.id}:`, {
+      stepId: step.id,
+      required: step.required,
+      canProceed: canProceedResult,
+      wizardData: wizardData
+    })
+    return canProceedResult
   }
 
   const canProceed = isStepValid(currentStep)
