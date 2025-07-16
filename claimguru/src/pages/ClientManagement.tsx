@@ -292,7 +292,7 @@ export default function ClientManagement() {
     try {
       // TODO: Replace with actual permission check
       // For demo, assume user is subscriber if they have organization_id
-      const isSubscriber = userProfile?.subscription_status === 'active' || userProfile?.role === 'admin';
+      const isSubscriber = userProfile?.role === 'subscriber' || userProfile?.role === 'system_admin';
       
       setPermissions({
         canCreate: true, // Can be granted by subscriber

@@ -467,15 +467,16 @@ export const ClientPermissionModal: React.FC<ClientPermissionModalProps> = ({
 
                     <div className="space-y-2">
                       {filteredUsers.map((user) => (
-                        <Card 
-                          key={user.id} 
-                          className={`border cursor-pointer transition-colors ${
+                        <div
+                          key={user.id}
+                          className={`border cursor-pointer transition-colors rounded-lg ${
                             selectedUsers.has(user.id) 
                               ? 'border-blue-500 bg-blue-50' 
                               : 'border-gray-200 hover:border-gray-300'
                           }`}
                           onClick={() => handleToggleUserSelection(user.id)}
                         >
+                        <Card className="border-none shadow-none bg-transparent">
                           <CardContent className="p-3">
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-3">
@@ -498,6 +499,7 @@ export const ClientPermissionModal: React.FC<ClientPermissionModalProps> = ({
                             </div>
                           </CardContent>
                         </Card>
+                        </div>
                       ))}
                       
                       {filteredUsers.length === 0 && (

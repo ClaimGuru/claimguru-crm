@@ -29,7 +29,11 @@ import {
   Banknote,
   User,
   UserCog,
-  LogOut
+  LogOut,
+  Target,
+  TrendingUp,
+  UserPlus,
+  BarChart2
 } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
 import { useIsMobile } from '../../hooks/use-mobile'
@@ -40,6 +44,14 @@ const navigation = [
   { name: 'Claims', href: '/claims', icon: FileText },
   { name: 'Tasks', href: '/tasks', icon: ClipboardList },
   { name: 'Calendar', href: '/calendar', icon: Calendar },
+]
+
+// Sales & Marketing submenu
+const salesAndMarketingSubmenu = [
+  { name: 'Lead Management', href: '/lead-management', icon: Target },
+  { name: 'Sales Pipeline', href: '/sales-pipeline', icon: TrendingUp },
+  { name: 'Lead Sources', href: '/lead-sources', icon: BarChart2 },
+  { name: 'Referral Program', href: '/referrals', icon: UserPlus },
 ]
 
 // Contacts submenu
@@ -85,6 +97,7 @@ export function Sidebar({ isCollapsed, onClose }: SidebarProps) {
   
   // State for expandable submenus
   const [expandedMenus, setExpandedMenus] = useState<{ [key: string]: boolean }>({
+    salesAndMarketing: false,
     contacts: false,
     financials: false,
     profile: false
@@ -187,6 +200,64 @@ export function Sidebar({ isCollapsed, onClose }: SidebarProps) {
               </NavLink>
             )
           })}
+
+          {/* Sales & Marketing Section with Submenu */}
+          <div className="space-y-1">
+            <button
+              onClick={() => toggleSubmenu('salesAndMarketing')}
+              className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors text-gray-600 hover:bg-gray-100 hover:text-gray-900 group relative ${
+                isCollapsed && !isMobile ? 'justify-center' : 'justify-between'
+              }`}
+              title={isCollapsed && !isMobile ? 'Sales & Marketing' : undefined}
+            >
+              <div className="flex items-center">
+                <Target className={`h-5 w-5 ${isCollapsed && !isMobile ? '' : 'mr-3'}`} />
+                {(!isCollapsed || isMobile) && (
+                  <span className="truncate">Sales & Marketing</span>
+                )}
+              </div>
+              {(!isCollapsed || isMobile) && (
+                expandedMenus.salesAndMarketing ? (
+                  <ChevronDown className="h-4 w-4" />
+                ) : (
+                  <ChevronRight className="h-4 w-4" />
+                )
+              )}
+              
+              {/* Tooltip for collapsed state */}
+              {isCollapsed && !isMobile && (
+                <div className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+                  Sales & Marketing
+                </div>
+              )}
+            </button>
+            
+            {/* Sales & Marketing Submenu */}
+            {(expandedMenus.salesAndMarketing && (!isCollapsed || isMobile)) && (
+              <div className="ml-6 space-y-1">
+                {salesAndMarketingSubmenu.map((item) => {
+                  const Icon = item.icon
+                  return (
+                    <NavLink
+                      key={item.name}
+                      to={item.href}
+                      onClick={isMobile ? onClose : undefined}
+                      className={({ isActive }) =>
+                        `flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                          isActive
+                            ? 'bg-blue-100 text-blue-700'
+                            : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
+                        }`
+                      }
+                    >
+                      <Icon className="h-4 w-4 mr-3" />
+                      <span className="truncate">{item.name}</span>
+                    </NavLink>
+                  )
+                })}
+              </div>
+            )}
+          </div>
 
           {/* Contacts Section with Submenu */}
           <div className="space-y-1">
