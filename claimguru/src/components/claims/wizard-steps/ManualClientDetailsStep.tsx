@@ -529,10 +529,18 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
                       type="text"
                       value={clientDetails.coInsuredFirstName}
                       onChange={(e) => {
-                        handleInputChange('coInsuredFirstName', e.target.value);
-                        // Update combined name for backwards compatibility
-                        const fullName = `${e.target.value} ${clientDetails.coInsuredLastName}`.trim();
-                        handleInputChange('coInsuredName', fullName);
+                        const firstName = e.target.value;
+                        const lastName = clientDetails.coInsuredLastName;
+                        const fullName = `${firstName} ${lastName}`.trim();
+                        
+                        // Update all related fields at once
+                        const updatedDetails = {
+                          ...clientDetails,
+                          coInsuredFirstName: firstName,
+                          coInsuredName: fullName
+                        };
+                        setClientDetails(updatedDetails);
+                        updateWizardData(updatedDetails);
                       }}
                       placeholder="First name"
                       required={clientDetails.hasCoInsured}
@@ -547,10 +555,18 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
                       type="text"
                       value={clientDetails.coInsuredLastName}
                       onChange={(e) => {
-                        handleInputChange('coInsuredLastName', e.target.value);
-                        // Update combined name for backwards compatibility
-                        const fullName = `${clientDetails.coInsuredFirstName} ${e.target.value}`.trim();
-                        handleInputChange('coInsuredName', fullName);
+                        const lastName = e.target.value;
+                        const firstName = clientDetails.coInsuredFirstName;
+                        const fullName = `${firstName} ${lastName}`.trim();
+                        
+                        // Update all related fields at once
+                        const updatedDetails = {
+                          ...clientDetails,
+                          coInsuredLastName: lastName,
+                          coInsuredName: fullName
+                        };
+                        setClientDetails(updatedDetails);
+                        updateWizardData(updatedDetails);
                       }}
                       placeholder="Last name"
                       required={clientDetails.hasCoInsured}
