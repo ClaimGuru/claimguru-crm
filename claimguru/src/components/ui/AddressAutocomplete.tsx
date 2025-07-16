@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Loader } from '@googlemaps/js-api-loader'
 import { Input } from './Input'
 import { MapPin, AlertCircle } from 'lucide-react'
-import { configService } from '../../services/configService'
+// Removed configService import - using direct API key
 
 interface AddressAutocompleteProps {
   value: string
@@ -35,8 +35,9 @@ export function AddressAutocomplete({
   const inputRef = useRef<HTMLInputElement>(null)
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null)
   
-  // Get API key from configuration service
-  const { apiKey: API_KEY, isEnabled: isGoogleMapsEnabled } = configService.getGoogleMapsConfig()
+  // Use the actual Google Maps API key
+  const API_KEY = 'AIzaSyCO0kKndUNlmQi3B5mxy4dblg_8WYcuKuk'
+  const isGoogleMapsEnabled = true
 
   useEffect(() => {
     const initializeAutocomplete = async () => {
@@ -145,11 +146,7 @@ export function AddressAutocomplete({
         </div>
       )}
 
-      {API_KEY === 'DEMO_MODE' && (
-        <div className="text-xs text-gray-500 bg-gray-50 p-2 rounded-md">
-          <strong>Demo Mode:</strong> To enable address autocomplete, add your Google Maps API key to the environment variable <code>VITE_GOOGLE_MAPS_API_KEY</code>
-        </div>
-      )}
+
     </div>
   )
 }

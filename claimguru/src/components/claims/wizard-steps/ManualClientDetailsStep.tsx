@@ -45,13 +45,37 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
     updateWizardData(updatedDetails);
   };
 
-  const handleAddressChange = (addressData: any) => {
+  const handleAddressChange = (address: string, details?: google.maps.places.PlaceResult) => {
+    // Parse the address or use details if available
+    let addressData = {
+      addressLine1: address,
+      addressLine2: '',
+      city: '',
+      state: '',
+      zipCode: ''
+    };
+
+    // If we have place details, extract components
+    if (details && details.address_components) {
+      const components = details.address_components;
+      const streetNumber = components.find(c => c.types.includes('street_number'))?.long_name || '';
+      const street = components.find(c => c.types.includes('route'))?.long_name || '';
+      const city = components.find(c => c.types.includes('locality'))?.long_name || '';
+      const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || '';
+      const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || '';
+      
+      addressData = {
+        addressLine1: `${streetNumber} ${street}`.trim(),
+        addressLine2: '',
+        city: city,
+        state: state,
+        zipCode: zipCode
+      };
+    }
+
     const updatedDetails = {
       ...clientDetails,
-      mailingAddress: {
-        ...clientDetails.mailingAddress,
-        ...addressData
-      }
+      mailingAddress: addressData
     };
     setClientDetails(updatedDetails);
     updateWizardData(updatedDetails);
@@ -152,7 +176,7 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
               Mailing Address *
             </label>
             <AddressAutocomplete
-              value={clientDetails.mailingAddress}
+              value={clientDetails.mailingAddress?.addressLine1 || ''}
               onChange={handleAddressChange}
               placeholder="Start typing address..."
             />
