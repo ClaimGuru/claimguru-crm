@@ -293,9 +293,17 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
               <div className="w-32">
                 <Input
                   type="number"
-                  value={coverage.limit}
+                  value={coverage.limit || ''}
                   onChange={(e) => updateCoverage(coverage.id, 'limit', parseInt(e.target.value) || 0)}
-                  placeholder="Limit"
+                  onFocus={(e) => e.target.select()}
+                  onKeyDown={(e) => {
+                    // Clear field on first digit input if current value is 0
+                    if (coverage.limit === 0 && /\d/.test(e.key)) {
+                      updateCoverage(coverage.id, 'limit', '');
+                    }
+                  }}
+                  placeholder="0"
+                  min="0"
                 />
               </div>
               <Button
@@ -348,9 +356,17 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
               <div className="w-32">
                 <Input
                   type="number"
-                  value={deductible.amount}
+                  value={deductible.amount || ''}
                   onChange={(e) => updateDeductible(deductible.id, 'amount', parseFloat(e.target.value) || 0)}
-                  placeholder="Amount"
+                  onFocus={(e) => e.target.select()}
+                  onKeyDown={(e) => {
+                    // Clear field on first digit input if current value is 0
+                    if (deductible.amount === 0 && /\d/.test(e.key)) {
+                      updateDeductible(deductible.id, 'amount', '');
+                    }
+                  }}
+                  placeholder="0"
+                  min="0"
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -406,9 +422,17 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
               <div className="w-32">
                 <Input
                   type="number"
-                  value={payment.amount}
+                  value={payment.amount || ''}
                   onChange={(e) => updatePriorPayment(payment.id, 'amount', parseFloat(e.target.value) || 0)}
-                  placeholder="Amount"
+                  onFocus={(e) => e.target.select()}
+                  onKeyDown={(e) => {
+                    // Clear field on first digit input if current value is 0
+                    if (payment.amount === 0 && /\d/.test(e.key)) {
+                      updatePriorPayment(payment.id, 'amount', '');
+                    }
+                  }}
+                  placeholder="0"
+                  min="0"
                 />
               </div>
               <div className="w-36">
