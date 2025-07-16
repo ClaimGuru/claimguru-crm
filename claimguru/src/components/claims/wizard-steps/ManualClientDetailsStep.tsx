@@ -52,8 +52,10 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
   });
 
   const handleInputChange = (field: string, value: string | boolean) => {
-    const updatedDetails = { ...clientDetails };
-    setFieldValue(updatedDetails, field, value);
+    const updatedDetails = {
+      ...clientDetails,
+      [field]: value
+    };
     setClientDetails(updatedDetails);
     updateWizardData(updatedDetails);
   };
