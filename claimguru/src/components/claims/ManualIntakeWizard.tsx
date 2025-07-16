@@ -49,10 +49,10 @@ import { useAuth } from '../../contexts/AuthContext'
 import { WizardProgressService } from '../../services/wizardProgressService'
 import { useWizardStepValidation } from '../../hooks/useSharedFieldSchemas'
 
-// Import manual wizard step components (same as AI wizard but without AI features)
-import { IntelligentClientDetailsStep } from './wizard-steps/IntelligentClientDetailsStep'
-import { EnhancedInsuranceInfoStep } from './wizard-steps/EnhancedInsuranceInfoStep'
-import { ClaimInformationStep } from './wizard-steps/ClaimInformationStep'
+// Import manual wizard step components (traditional forms without AI features)
+import { ManualClientDetailsStep } from './wizard-steps/ManualClientDetailsStep'
+import { ManualInsuranceInfoStep } from './wizard-steps/ManualInsuranceInfoStep'
+import { ManualClaimInformationStep } from './wizard-steps/ManualClaimInformationStep'
 import { PersonalPropertyStep } from './wizard-steps/PersonalPropertyStep'
 import { ExpertsProvidersStep } from './wizard-steps/ExpertsProvidersStep'
 import { MortgageInformationStep } from './wizard-steps/MortgageInformationStep'
@@ -152,7 +152,7 @@ export function ManualIntakeWizard({
       title: 'Client Information',
       description: 'Enter client details and contact information',
       icon: Users,
-      component: IntelligentClientDetailsStep,
+      component: ManualClientDetailsStep,
       required: true
     },
     {
@@ -160,7 +160,7 @@ export function ManualIntakeWizard({
       title: 'Insurance Details',
       description: 'Enter policy information and coverage details',
       icon: Shield,
-      component: EnhancedInsuranceInfoStep,
+      component: ManualInsuranceInfoStep,
       required: true
     },
     {
@@ -168,7 +168,7 @@ export function ManualIntakeWizard({
       title: 'Claim Information',
       description: 'Describe the loss details and circumstances',
       icon: Home,
-      component: ClaimInformationStep,
+      component: ManualClaimInformationStep,
       required: true
     },
     {
