@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card';
 import { Input } from '../../ui/Input';
 import { Switch } from '../../ui/Switch';
 import { AddressAutocomplete } from '../../ui/AddressAutocomplete';
+import { formatPhoneNumber, getPhoneInputProps } from '../../../utils/phoneUtils';
 import { 
   User, 
   MapPin, 

@@ -8,7 +8,10 @@ import {
   MapPin, 
   Phone, 
   Mail,
-  Users
+  Users,
+  Plus,
+  X,
+  Star
 } from 'lucide-react';
 
 interface ManualClientDetailsStepProps {
@@ -22,31 +25,37 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
 }) => {
   // Initialize data from root level (matching schema expectations)
   const [clientDetails, setClientDetails] = useState({
-    clientType: 'individual',
-    firstName: '',
-    lastName: '',
-    businessName: '',
-    primaryPhone: '',
-    phoneType: 'cell', // Default to cell phone
-    primaryEmail: '',
-    alternatePhone: '',
+    clientType: data.clientType || 'individual',
+    firstName: data.firstName || '',
+    lastName: data.lastName || '',
+    businessName: data.businessName || '',
+    primaryPhone: data.primaryPhone || '',
+    phoneType: data.phoneType || 'cell', // Default to cell phone
+    primaryEmail: data.primaryEmail || '',
+    phoneNumbers: data.phoneNumbers || [
+      { number: data.primaryPhone || '', type: data.phoneType || 'cell', isPrimary: true }
+    ],
     mailingAddress: {
-      addressLine1: '',
-      addressLine2: '',
-      city: '',
-      state: '',
-      zipCode: ''
+      addressLine1: data.mailingAddress?.addressLine1 || '',
+      addressLine2: data.mailingAddress?.addressLine2 || '',
+      city: data.mailingAddress?.city || '',
+      state: data.mailingAddress?.state || '',
+      zipCode: data.mailingAddress?.zipCode || ''
     },
-    hasCoInsured: false,
-    coInsuredName: '',
-    coInsuredRelationship: '',
-    // Load existing data from root level
-    ...data
+    hasCoInsured: data.hasCoInsured || false,
+    coInsuredName: data.coInsuredName || '',
+    coInsuredRelationship: data.coInsuredRelationship || '',
+    coInsuredFirstName: data.coInsuredFirstName || '',
+    coInsuredLastName: data.coInsuredLastName || '',
+    coInsuredEmail: data.coInsuredEmail || '',
+    coInsuredPhone: data.coInsuredPhone || ''
   });
 
   const handleInputChange = (field: string, value: string | boolean) => {
-    const updatedDetails = { ...clientDetails };
-    setFieldValue(updatedDetails, field, value);
+    const updatedDetails = {
+      ...clientDetails,
+      [field]: value
+    };
     setClientDetails(updatedDetails);
     updateWizardData(updatedDetails);
   };
@@ -61,37 +70,46 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
   };
 
   const handleAddressAutocomplete = (address: string, details?: google.maps.places.PlaceResult) => {
+    console.log('Address autocomplete triggered:', { address, details });
+    
     // Parse the address or use details if available
     let addressData = {
       addressLine1: address,
       addressLine2: clientDetails.mailingAddress.addressLine2 || '',
-      city: '',
-      state: '',
-      zipCode: ''
+      city: clientDetails.mailingAddress.city || '',
+      state: clientDetails.mailingAddress.state || '',
+      zipCode: clientDetails.mailingAddress.zipCode || ''
     };
 
     // If we have place details, extract components
     if (details && details.address_components) {
+      console.log('Extracting address components:', details.address_components);
       const components = details.address_components;
+      
       const streetNumber = components.find(c => c.types.includes('street_number'))?.long_name || '';
       const street = components.find(c => c.types.includes('route'))?.long_name || '';
-      const city = components.find(c => c.types.includes('locality'))?.long_name || '';
+      const city = components.find(c => c.types.includes('locality'))?.long_name || 
+                   components.find(c => c.types.includes('sublocality'))?.long_name || '';
       const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || '';
       const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || '';
       
       addressData = {
-        addressLine1: `${streetNumber} ${street}`.trim(),
+        addressLine1: `${streetNumber} ${street}`.trim() || address,
         addressLine2: clientDetails.mailingAddress.addressLine2 || '',
         city: city,
         state: state,
         zipCode: zipCode
       };
+      
+      console.log('Parsed address data:', addressData);
     }
 
     const updatedDetails = {
       ...clientDetails,
       mailingAddress: addressData
     };
+    
+    console.log('Updating client details with address:', updatedDetails);
     setClientDetails(updatedDetails);
     updateWizardData(updatedDetails);
   };
@@ -108,12 +126,117 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
     updateWizardData(updatedDetails);
   };
 
+  // Phone number management functions
+  const handlePhoneNumberChange = (index: number, field: 'number' | 'type', value: string) => {
+    const updatedPhoneNumbers = [...clientDetails.phoneNumbers];
+    updatedPhoneNumbers[index] = {
+      ...updatedPhoneNumbers[index],
+      [field]: value
+    };
+    
+    // Update primary phone if this is the primary number
+    const updatedDetails = {
+      ...clientDetails,
+      phoneNumbers: updatedPhoneNumbers,
+      primaryPhone: updatedPhoneNumbers.find(p => p.isPrimary)?.number || '',
+      phoneType: updatedPhoneNumbers.find(p => p.isPrimary)?.type || 'cell'
+    };
+    
+    setClientDetails(updatedDetails);
+    updateWizardData(updatedDetails);
+  };
+
+  const addPhoneNumber = () => {
+    const updatedDetails = {
+      ...clientDetails,
+      phoneNumbers: [
+        ...clientDetails.phoneNumbers,
+        { number: '', type: 'cell', isPrimary: false }
+      ]
+    };
+    setClientDetails(updatedDetails);
+    updateWizardData(updatedDetails);
+  };
+
+  const removePhoneNumber = (index: number) => {
+    if (clientDetails.phoneNumbers.length <= 1) return; // Keep at least one phone number
+    
+    const phoneToRemove = clientDetails.phoneNumbers[index];
+    const updatedPhoneNumbers = clientDetails.phoneNumbers.filter((_, i) => i !== index);
+    
+    // If we're removing the primary phone, make the first remaining one primary
+    if (phoneToRemove.isPrimary && updatedPhoneNumbers.length > 0) {
+      updatedPhoneNumbers[0].isPrimary = true;
+    }
+    
+    const updatedDetails = {
+      ...clientDetails,
+      phoneNumbers: updatedPhoneNumbers,
+      primaryPhone: updatedPhoneNumbers.find(p => p.isPrimary)?.number || '',
+      phoneType: updatedPhoneNumbers.find(p => p.isPrimary)?.type || 'cell'
+    };
+    
+    setClientDetails(updatedDetails);
+    updateWizardData(updatedDetails);
+  };
+
+  const setPrimaryPhone = (index: number) => {
+    const updatedPhoneNumbers = clientDetails.phoneNumbers.map((phone, i) => ({
+      ...phone,
+      isPrimary: i === index
+    }));
+    
+    const updatedDetails = {
+      ...clientDetails,
+      phoneNumbers: updatedPhoneNumbers,
+      primaryPhone: updatedPhoneNumbers[index].number,
+      phoneType: updatedPhoneNumbers[index].type
+    };
+    
+    setClientDetails(updatedDetails);
+    updateWizardData(updatedDetails);
+  };
+
+  // Sync local state with prop data changes
+  useEffect(() => {
+    const phoneNumbers = data.phoneNumbers || [
+      { number: data.primaryPhone || '', type: data.phoneType || 'cell', isPrimary: true }
+    ];
+    
+    setClientDetails({
+      clientType: data.clientType || 'individual',
+      firstName: data.firstName || '',
+      lastName: data.lastName || '',
+      businessName: data.businessName || '',
+      primaryPhone: data.primaryPhone || '',
+      phoneType: data.phoneType || 'cell',
+      primaryEmail: data.primaryEmail || '',
+      phoneNumbers: phoneNumbers,
+      mailingAddress: {
+        addressLine1: data.mailingAddress?.addressLine1 || '',
+        addressLine2: data.mailingAddress?.addressLine2 || '',
+        city: data.mailingAddress?.city || '',
+        state: data.mailingAddress?.state || '',
+        zipCode: data.mailingAddress?.zipCode || ''
+      },
+      hasCoInsured: data.hasCoInsured || false,
+      coInsuredName: data.coInsuredName || '',
+      coInsuredRelationship: data.coInsuredRelationship || '',
+      coInsuredFirstName: data.coInsuredFirstName || '',
+      coInsuredLastName: data.coInsuredLastName || '',
+      coInsuredEmail: data.coInsuredEmail || '',
+      coInsuredPhone: data.coInsuredPhone || ''
+    });
+  }, [data]);
+
   const updateWizardData = (details: any) => {
     // Update data at root level to match schema expectations
-    onUpdate({
+    const updatedData = {
       ...data,
       ...details
-    });
+    };
+    console.log('Updating wizard data:', updatedData);
+    onUpdate(updatedData);
   };
 
   // Utility function to set nested field values
@@ -215,41 +338,8 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
           )}
 
           {/* Contact Information */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
-                <Phone className="h-4 w-4" />
-                Primary Phone *
-              </label>
-              <Input
-                type="tel"
-                value={clientDetails.primaryPhone}
-                onChange={(e) => handleInputChange('primaryPhone', e.target.value)}
-                placeholder="(555) 123-4567"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Phone Type
-              </label>
-              <select
-                value={clientDetails.phoneType}
-                onChange={(e) => handleInputChange('phoneType', e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-              >
-                <option value="cell">Cell Phone</option>
-                <option value="home">Home</option>
-                <option value="office">Office</option>
-                <option value="work">Work</option>
-                <option value="business">Business</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-4">
+            {/* Primary Email */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
                 <Mail className="h-4 w-4" />
@@ -264,29 +354,97 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Alternate Phone
-              </label>
-              <Input
-                type="tel"
-                value={clientDetails.alternatePhone}
-                onChange={(e) => handleInputChange('alternatePhone', e.target.value)}
-                placeholder="(555) 123-4567"
-              />
+            {/* Phone Numbers Section */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                  <Phone className="h-4 w-4" />
+                  Phone Numbers *
+                </label>
+                <button
+                  type="button"
+                  onClick={addPhoneNumber}
+                  className="flex items-center gap-1 px-3 py-1 text-sm bg-blue-50 text-blue-600 border border-blue-200 rounded-md hover:bg-blue-100 transition-colors"
+                >
+                  <Plus className="h-3 w-3" />
+                  Add Phone
+                </button>
+              </div>
+              
+              {/* Phone Number List */}
+              <div className="space-y-2">
+                {clientDetails.phoneNumbers.map((phone, index) => (
+                  <div key={index} className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
+                    {/* Primary Phone Indicator */}
+                    <button
+                      type="button"
+                      onClick={() => setPrimaryPhone(index)}
+                      className={`flex-shrink-0 p-1 rounded ${phone.isPrimary ? 'text-yellow-500' : 'text-gray-400 hover:text-yellow-500'}`}
+                      title={phone.isPrimary ? 'Primary Phone' : 'Set as Primary'}
+                    >
+                      <Star className={`h-4 w-4 ${phone.isPrimary ? 'fill-current' : ''}`} />
+                    </button>
+                    
+                    {/* Phone Number Input */}
+                    <div className="flex-1">
+                      <Input
+                        type="tel"
+                        value={phone.number}
+                        onChange={(e) => handlePhoneNumberChange(index, 'number', e.target.value)}
+                        placeholder="(555) 123-4567"
+                        className="w-full"
+                        required={phone.isPrimary}
+                      />
+                    </div>
+                    
+                    {/* Phone Type Select */}
+                    <div className="w-32">
+                      <select
+                        value={phone.type}
+                        onChange={(e) => handlePhoneNumberChange(index, 'type', e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-sm"
+                      >
+                        <option value="cell">Cell</option>
+                        <option value="home">Home</option>
+                        <option value="office">Office</option>
+                        <option value="work">Work</option>
+                        <option value="business">Business</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                    
+                    {/* Remove Button */}
+                    {clientDetails.phoneNumbers.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removePhoneNumber(index)}
+                        className="flex-shrink-0 p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded"
+                        title="Remove Phone Number"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+              
+              {/* Helper Text */}
+              <p className="text-xs text-gray-500">
+                Click the star (⭐) to set a phone number as primary. At least one phone number is required.
+              </p>
             </div>
           </div>
 
-          {/* Mailing Address */}
+          {/* Mailing Address - Optional for now */}
           <div className="space-y-4">
             <h4 className="text-sm font-medium text-gray-700 flex items-center gap-2">
               <MapPin className="h-4 w-4" />
-              Mailing Address *
+              Mailing Address
             </h4>
             
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Street Address (Address 1) *
+                Street Address (Address 1)
               </label>
               <AddressAutocomplete
                 value={clientDetails.mailingAddress?.addressLine1 || ''}
@@ -310,40 +468,37 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  City *
+                  City
                 </label>
                 <Input
                   type="text"
                   value={clientDetails.mailingAddress?.city || ''}
                   onChange={(e) => handleAddressFieldChange('city', e.target.value)}
                   placeholder="City"
-                  required
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  State *
+                  State
                 </label>
                 <Input
                   type="text"
                   value={clientDetails.mailingAddress?.state || ''}
                   onChange={(e) => handleAddressFieldChange('state', e.target.value)}
                   placeholder="State"
-                  required
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  ZIP Code *
+                  ZIP Code
                 </label>
                 <Input
                   type="text"
                   value={clientDetails.mailingAddress?.zipCode || ''}
                   onChange={(e) => handleAddressFieldChange('zipCode', e.target.value)}
                   placeholder="ZIP Code"
-                  required
                 />
               </div>
             </div>
@@ -358,33 +513,108 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
               </div>
               <Switch
                 checked={clientDetails.hasCoInsured}
-                onCheckedChange={(checked) => handleSwitchChange('hasCoInsured', checked)}
+                onChange={(checked) => handleSwitchChange('hasCoInsured', checked)}
               />
             </div>
 
             {clientDetails.hasCoInsured && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-gray-50 rounded-lg">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Co-Insured Name *
-                  </label>
-                  <Input
-                    type="text"
-                    value={clientDetails.coInsuredName}
-                    onChange={(e) => handleInputChange('coInsuredName', e.target.value)}
-                    placeholder="Full name of co-insured"
-                    required={clientDetails.hasCoInsured}
-                  />
+              <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
+                {/* Co-Insured Name */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Co-Insured First Name *
+                    </label>
+                    <Input
+                      type="text"
+                      value={clientDetails.coInsuredFirstName}
+                      onChange={(e) => {
+                        const firstName = e.target.value;
+                        const lastName = clientDetails.coInsuredLastName;
+                        const fullName = `${firstName} ${lastName}`.trim();
+                        
+                        // Update all related fields at once
+                        const updatedDetails = {
+                          ...clientDetails,
+                          coInsuredFirstName: firstName,
+                          coInsuredName: fullName
+                        };
+                        setClientDetails(updatedDetails);
+                        updateWizardData(updatedDetails);
+                      }}
+                      placeholder="First name"
+                      required={clientDetails.hasCoInsured}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Co-Insured Last Name *
+                    </label>
+                    <Input
+                      type="text"
+                      value={clientDetails.coInsuredLastName}
+                      onChange={(e) => {
+                        const lastName = e.target.value;
+                        const firstName = clientDetails.coInsuredFirstName;
+                        const fullName = `${firstName} ${lastName}`.trim();
+                        
+                        // Update all related fields at once
+                        const updatedDetails = {
+                          ...clientDetails,
+                          coInsuredLastName: lastName,
+                          coInsuredName: fullName
+                        };
+                        setClientDetails(updatedDetails);
+                        updateWizardData(updatedDetails);
+                      }}
+                      placeholder="Last name"
+                      required={clientDetails.hasCoInsured}
+                    />
+                  </div>
                 </div>
 
+                {/* Co-Insured Contact Information */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                      <Mail className="h-4 w-4" />
+                      Co-Insured Email *
+                    </label>
+                    <Input
+                      type="email"
+                      value={clientDetails.coInsuredEmail}
+                      onChange={(e) => handleInputChange('coInsuredEmail', e.target.value)}
+                      placeholder="Email address"
+                      required={clientDetails.hasCoInsured}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                      <Phone className="h-4 w-4" />
+                      Co-Insured Phone *
+                    </label>
+                    <Input
+                      type="tel"
+                      value={clientDetails.coInsuredPhone}
+                      onChange={(e) => handleInputChange('coInsuredPhone', e.target.value)}
+                      placeholder="(555) 123-4567"
+                      required={clientDetails.hasCoInsured}
+                    />
+                  </div>
+                </div>
+
+                {/* Relationship */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Relationship
+                    Relationship to Primary Insured *
                   </label>
                   <select
                     value={clientDetails.coInsuredRelationship}
                     onChange={(e) => handleInputChange('coInsuredRelationship', e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    required={clientDetails.hasCoInsured}
                   >
                     <option value="">Select relationship</option>
                     <option value="spouse">Spouse</option>
