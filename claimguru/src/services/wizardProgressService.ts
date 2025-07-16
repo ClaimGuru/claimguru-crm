@@ -11,7 +11,7 @@ export interface WizardProgress {
   id?: string;
   user_id: string;
   organization_id: string;
-  wizard_type: 'claim' | 'client' | 'policy';
+  wizard_type: 'claim' | 'claim_manual' | 'client' | 'policy';
   current_step: number;
   total_steps: number;
   progress_percentage: number;

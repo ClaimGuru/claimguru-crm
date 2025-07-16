@@ -1,0 +1,73 @@
+
+> react_repo@0.0.0 build
+> yes | pnpm install && rm -rf node_modules/.vite-temp && tsc -b && vite build
+
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+╭ Warning ─────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│   Ignored build scripts: canvas, esbuild, tesseract.js.                      │
+│   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+│   to run scripts.                                                            │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Done in 1s using pnpm v10.12.4
+src/components/claims/ManualIntakeWizard.tsx:320:70 - error TS2345: Argument of type '{ user_id: string; organization_id: string; wizard_type: "claim_manual"; current_step: number; total_steps: number; progress_percentage: number; wizard_data: WizardData; step_statuses: {}; last_saved_at: string; last_active_at: string; expires_at: string; }' is not assignable to parameter of type 'Omit<WizardProgress, "id" | "created_at">'.
+  Types of property 'wizard_type' are incompatible.
+    Type '"claim_manual"' is not assignable to type '"claim" | "client" | "policy"'.
+
+320       const savedProgress = await WizardProgressService.saveProgress(progressData)
+                                                                         ~~~~~~~~~~~~
+
+src/components/claims/ManualIntakeWizard.tsx:453:15 - error TS2769: No overload matches this call.
+  Overload 1 of 2, '(props: IntelligentClientDetailsStepProps, deprecatedLegacyContext?: any): string | number | boolean | Iterable<ReactNode> | Element', gave the following error.
+    Type '{ data: WizardData; onUpdate: (newData: any) => void; onValidation: (stepId: string, validation: any) => void; manualEntry: boolean; }' is not assignable to type 'IntrinsicAttributes & IntelligentClientDetailsStepProps'.
+      Property 'onValidation' does not exist on type 'IntrinsicAttributes & IntelligentClientDetailsStepProps'.
+  Overload 2 of 2, '({ data, onUpdate }: ClaimInformationStepProps): string | number | boolean | Iterable<ReactNode> | Element', gave the following error.
+    Type '{ data: WizardData; onUpdate: (newData: any) => void; onValidation: (stepId: string, validation: any) => void; manualEntry: boolean; }' is not assignable to type 'IntrinsicAttributes & ClaimInformationStepProps'.
+      Property 'onValidation' does not exist on type 'IntrinsicAttributes & ClaimInformationStepProps'.
+
+453               onValidation={(stepId: string, validation: any) => {
+                  ~~~~~~~~~~~~
+
+
+src/pages/Claims.tsx:355:8 - error TS2552: Cannot find name 'showManualWizard'. Did you mean 'showAIWizard'?
+
+355       {showManualWizard && (
+           ~~~~~~~~~~~~~~~~
+
+  src/pages/Claims.tsx:37:10
+    37   const [showAIWizard, setShowAIWizard] = useState(false)
+                ~~~~~~~~~~~~
+    'showAIWizard' is declared here.
+
+src/pages/Claims.tsx:356:10 - error TS2304: Cannot find name 'ManualIntakeWizard'.
+
+356         <ManualIntakeWizard
+             ~~~~~~~~~~~~~~~~~~
+
+src/pages/Claims.tsx:357:23 - error TS2552: Cannot find name 'handleManualWizardComplete'. Did you mean 'handleAIWizardComplete'?
+
+357           onComplete={handleManualWizardComplete}
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  src/pages/Claims.tsx:83:9
+    83   const handleAIWizardComplete = async (claimData: any) => {
+               ~~~~~~~~~~~~~~~~~~~~~~
+    'handleAIWizardComplete' is declared here.
+
+src/pages/Claims.tsx:358:21 - error TS2552: Cannot find name 'handleManualWizardCancel'. Did you mean 'handleAIWizardCancel'?
+
+358           onCancel={handleManualWizardCancel}
+                        ~~~~~~~~~~~~~~~~~~~~~~~~
+
+  src/pages/Claims.tsx:96:9
+    96   const handleAIWizardCancel = () => {
+               ~~~~~~~~~~~~~~~~~~~~
+    'handleAIWizardCancel' is declared here.
+
+
+Found 6 errors.
+

@@ -5,8 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { LoadingSpinner } from '../components/ui/LoadingSpinner'
 import { ClaimForm } from '../components/forms/ClaimForm'
-// Removed duplicate wizard imports - using only EnhancedAIIntakeWizard
+// Import both Manual and AI wizards
 import { EnhancedAIIntakeWizard } from '../components/claims/EnhancedAIClaimWizard'
+import { ManualIntakeWizard } from '../components/claims/ManualIntakeWizard'
 import { 
   Plus, 
   Search, 
@@ -33,7 +34,8 @@ export function Claims() {
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [isFormOpen, setIsFormOpen] = useState(false)
-  // Removed old intake wizard - using only AI wizard
+  // Separate state for manual and AI wizards
+  const [showManualWizard, setShowManualWizard] = useState(false)
   const [showAIWizard, setShowAIWizard] = useState(false)
   const [editingClaim, setEditingClaim] = useState<Claim | null>(null)
   const [selectedClaim, setSelectedClaim] = useState<Claim | null>(null)
@@ -78,12 +80,35 @@ export function Claims() {
     setIsFormOpen(true)
   }
 
-  // Removed old intake wizard handlers - using only AI wizard
+  const handleManualWizardComplete = async (claimData: any) => {
+    try {
+      // Create the claim with manually entered data
+      await createClaim({
+        ...claimData,
+        dataSource: 'manual_input',
+        aiEnhanced: false
+      })
+      setShowManualWizard(false)
+      // Refresh claims list
+      window.location.reload()
+    } catch (error) {
+      console.error('Error creating manual claim:', error)
+      alert('Error creating claim. Please try again.')
+    }
+  }
+
+  const handleManualWizardCancel = () => {
+    setShowManualWizard(false)
+  }
 
   const handleAIWizardComplete = async (claimData: any) => {
     try {
       // Create the claim with AI-generated data
-      await createClaim(claimData)
+      await createClaim({
+        ...claimData,
+        dataSource: 'ai_extraction',
+        aiEnhanced: true
+      })
       setShowAIWizard(false)
       // Refresh claims list
       window.location.reload()
@@ -351,7 +376,13 @@ export function Claims() {
         </div>
       )}
 
-      {/* Old intake wizard removed - using only AI wizard */}
+      {/* Manual Intake Wizard */}
+      {showManualWizard && (
+        <ManualIntakeWizard
+          onComplete={handleManualWizardComplete}
+          onCancel={handleManualWizardCancel}
+        />
+      )}
 
       {/* Enhanced AI-Powered Insurance Intake Wizard with Real PDF Processing */}
       {showAIWizard && (

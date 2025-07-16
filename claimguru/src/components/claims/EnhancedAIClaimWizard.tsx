@@ -1,3 +1,28 @@
+/**
+ * AI-ENHANCED INTAKE WIZARD
+ * 
+ * This wizard provides an AI-powered approach for claim intake with advanced features.
+ * Users can upload PDF documents for automatic data extraction and get AI assistance.
+ * 
+ * Key Features:
+ * - PDF upload and intelligent data extraction
+ * - AI-powered field population and suggestions
+ * - Multi-document processing capabilities
+ * - Hybrid extraction methods (PDF.js → Tesseract OCR → Google Vision → OpenAI)
+ * - AI-assisted writing and recommendations
+ * - Confidence scoring and validation
+ * 
+ * Use Cases:
+ * - Clients with policy documents ready for upload
+ * - Complex claims requiring AI analysis
+ * - Cases where time efficiency is critical
+ * - Document-heavy claim processing
+ * 
+ * Field Schema Sharing:
+ * Both Manual and AI wizards use identical field definitions from sharedFieldSchemas.ts
+ * Any changes to field structures automatically apply to both wizards.
+ */
+
 import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card'
 import { Button } from '../ui/Button'
