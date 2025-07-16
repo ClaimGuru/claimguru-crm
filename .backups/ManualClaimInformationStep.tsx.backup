@@ -376,14 +376,7 @@ export function ManualClaimInformationStep({ data, onUpdate }: ManualClaimInform
                     type="number"
                     value={lossDetails.monthlyLivingCost}
                     onChange={(e) => handleInputChange('monthlyLivingCost', e.target.value)}
-                    onFocus={(e) => e.target.select()}
-                    onKeyDown={(e) => {
-                      // Clear field on first digit input if current value is 0
-                      if (lossDetails.monthlyLivingCost === '0' && /\d/.test(e.key)) {
-                        handleInputChange('monthlyLivingCost', '');
-                      }
-                    }}
-                    placeholder="0"
+                    placeholder="Enter monthly cost"
                     min="0"
                   />
                 </div>

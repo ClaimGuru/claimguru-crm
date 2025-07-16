@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card';
 import { Button } from '../../ui/Button';
 import { Input } from '../../ui/Input';
-import { Shield, DollarSign, Plus, X, Calendar } from 'lucide-react';
+import { Shield, DollarSign, Plus, X, Calendar, CheckCircle } from 'lucide-react';
 
 interface Coverage {
   id: string;
@@ -29,6 +29,10 @@ interface PriorPayment {
   amount: number;
   date: string;
   description: string;
+  coverageId?: string; // Which coverage this payment was for
+  recoverableDepreciation?: number;
+  nonRecoverableDepreciation?: number;
+  deductibleApplied?: number;
 }
 
 interface ManualInsuranceInfoStepProps {
@@ -319,8 +323,19 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
                   <option value="Loss of Use">Loss of Use (Coverage D)</option>
                   <option value="Personal Liability">Personal Liability</option>
                   <option value="Medical Payments">Medical Payments</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
+              {coverage.type === 'Other' && (
+                <div className="flex-1">
+                  <Input
+                    value={coverage.otherDescription || ''}
+                    onChange={(e) => updateCoverage(coverage.id, 'otherDescription', e.target.value)}
+                    placeholder="Describe other coverage type"
+                    className="w-full"
+                  />
+                </div>
+              )}
               <div className="w-32">
                 <Input
                   type="number"
@@ -369,55 +384,150 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
         </CardHeader>
         <CardContent className="space-y-4">
           {deductibles.map((deductible) => (
-            <div key={deductible.id} className="flex items-center gap-4 p-3 border rounded-lg">
-              <div className="flex-1">
-                <select
-                  value={deductible.type}
-                  onChange={(e) => updateDeductible(deductible.id, 'type', e.target.value)}
-                  className="w-full p-2 border rounded-lg"
-                >
-                  <option value="">Select deductible type</option>
-                  <option value="All Other Perils">All Other Perils</option>
-                  <option value="Wind/Hail">Wind/Hail</option>
-                  <option value="Hurricane">Hurricane</option>
-                  <option value="Earthquake">Earthquake</option>
-                  <option value="Flood">Flood</option>
-                </select>
+            <div key={deductible.id} className="p-4 border rounded-lg space-y-3">
+              {/* First Row: Type and Other Description */}
+              <div className="flex items-center gap-4">
+                <div className="flex-1">
+                  <label className="block text-sm font-medium mb-1">Deductible Type</label>
+                  <select
+                    value={deductible.type}
+                    onChange={(e) => updateDeductible(deductible.id, 'type', e.target.value)}
+                    className="w-full p-2 border rounded-lg"
+                  >
+                    <option value="">Select deductible type</option>
+                    <option value="All Other Perils">All Other Perils</option>
+                    <option value="Wind/Hail">Wind/Hail</option>
+                    <option value="Windstorm">Windstorm</option>
+                    <option value="Hurricane">Hurricane</option>
+                    <option value="Earthquake">Earthquake</option>
+                    <option value="Flood">Flood</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                {deductible.type === 'Other' && (
+                  <div className="flex-1">
+                    <label className="block text-sm font-medium mb-1">Description</label>
+                    <Input
+                      value={deductible.otherDescription || ''}
+                      onChange={(e) => updateDeductible(deductible.id, 'otherDescription', e.target.value)}
+                      placeholder="Describe other deductible type"
+                      className="w-full"
+                    />
+                  </div>
+                )}
+                <div className="flex items-end">
+                  <Button
+                    onClick={() => removeDeductible(deductible.id)}
+                    variant="ghost"
+                    size="sm"
+                    className="text-red-600 hover:text-red-700"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
-              <div className="w-32">
-                <Input
-                  type="number"
-                  value={deductible.amount || ''}
-                  onChange={(e) => updateDeductible(deductible.id, 'amount', parseFloat(e.target.value) || 0)}
-                  onFocus={(e) => e.target.select()}
-                  onKeyDown={(e) => {
-                    // Clear field on first digit input if current value is 0
-                    if (deductible.amount === 0 && /\d/.test(e.key)) {
-                      updateDeductible(deductible.id, 'amount', '');
-                    }
-                  }}
-                  placeholder="0"
-                  min="0"
-                />
-              </div>
-              <div className="flex items-center gap-2">
-                <label className="flex items-center gap-1">
+
+              {/* Second Row: Percentage Controls */}
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     checked={deductible.isPercentage}
                     onChange={(e) => updateDeductible(deductible.id, 'isPercentage', e.target.checked)}
+                    className="h-4 w-4"
                   />
-                  <span className="text-sm">%</span>
-                </label>
+                  <label className="text-sm font-medium">Calculate as Percentage</label>
+                </div>
+                
+                {deductible.isPercentage && (
+                  <>
+                    <div className="w-48">
+                      <label className="block text-sm font-medium mb-1">Percentage Of</label>
+                      <select
+                        value={deductible.percentageOf || ''}
+                        onChange={(e) => updateDeductible(deductible.id, 'percentageOf', e.target.value)}
+                        className="w-full p-2 border rounded-lg"
+                      >
+                        <option value="">Select coverage</option>
+                        {coverages.map((coverage) => (
+                          <option key={coverage.id} value={coverage.id}>
+                            {coverage.type}{coverage.type === 'Other' && coverage.otherDescription ? ` (${coverage.otherDescription})` : ''} - ${coverage.limit?.toLocaleString() || 0}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    
+                    <div className="w-20">
+                      <label className="block text-sm font-medium mb-1">%</label>
+                      <Input
+                        type="number"
+                        value={deductible.percentageValue || ''}
+                        onChange={(e) => updateDeductible(deductible.id, 'percentageValue', parseFloat(e.target.value) || 0)}
+                        onFocus={(e) => e.target.select()}
+                        placeholder="0"
+                        min="0"
+                        max="100"
+                        step="0.1"
+                      />
+                    </div>
+                  </>
+                )}
               </div>
-              <Button
-                onClick={() => removeDeductible(deductible.id)}
-                variant="ghost"
-                size="sm"
-                className="text-red-600 hover:text-red-700"
-              >
-                <X className="h-4 w-4" />
-              </Button>
+
+              {/* Third Row: Amount and Calculation Display */}
+              <div className="flex items-center gap-4">
+                <div className="w-32">
+                  <label className="block text-sm font-medium mb-1">Amount ($)</label>
+                  <Input
+                    type="number"
+                    value={deductible.amount || ''}
+                    onChange={(e) => updateDeductible(deductible.id, 'amount', parseFloat(e.target.value) || 0)}
+                    onFocus={(e) => e.target.select()}
+                    onKeyDown={(e) => {
+                      // Clear field on first digit input if current value is 0
+                      if (deductible.amount === 0 && /\d/.test(e.key)) {
+                        updateDeductible(deductible.id, 'amount', '');
+                      }
+                    }}
+                    placeholder="0"
+                    min="0"
+                    disabled={deductible.isPercentage && deductible.calculatedAmount && !deductible.isAmountOverridden}
+                  />
+                </div>
+                
+                {deductible.isPercentage && deductible.calculatedAmount && (
+                  <div className="flex-1 text-sm">
+                    <span className="text-gray-600">
+                      Auto-calculated: ${deductible.calculatedAmount.toLocaleString()}
+                      {deductible.isAmountOverridden && (
+                        <span className="text-orange-600 ml-2">(Overridden by user)</span>
+                      )}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Fourth Row: Claim Applicability */}
+              <div className="flex items-center gap-4">
+                <div className="w-48">
+                  <label className="block text-sm font-medium mb-1">Applies to This Claim</label>
+                  <select
+                    value={deductible.appliesTo || ''}
+                    onChange={(e) => updateDeductible(deductible.id, 'appliesTo', e.target.value)}
+                    className="w-full p-2 border rounded-lg"
+                  >
+                    <option value="">Not applicable</option>
+                    <option value="Yes">Yes - This deductible applies</option>
+                    <option value="No">No - This deductible does not apply</option>
+                  </select>
+                </div>
+                {deductible.appliesTo === 'Yes' && (
+                  <div className="text-sm text-green-600 flex items-center gap-1">
+                    <CheckCircle className="h-4 w-4" />
+                    This deductible will be applied to the claim
+                  </div>
+                )}
+              </div>
             </div>
           ))}
           
@@ -442,45 +552,135 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
         </CardHeader>
         <CardContent className="space-y-4">
           {priorPayments.map((payment) => (
-            <div key={payment.id} className="flex items-center gap-4 p-3 border rounded-lg">
-              <div className="flex-1">
-                <Input
-                  value={payment.description}
-                  onChange={(e) => updatePriorPayment(payment.id, 'description', e.target.value)}
-                  placeholder="Payment description"
-                />
+            <div key={payment.id} className="p-4 border rounded-lg space-y-3">
+              {/* First Row: Description and Coverage */}
+              <div className="flex items-center gap-4">
+                <div className="flex-1">
+                  <label className="block text-sm font-medium mb-1">Payment Description</label>
+                  <Input
+                    value={payment.description}
+                    onChange={(e) => updatePriorPayment(payment.id, 'description', e.target.value)}
+                    placeholder="Payment description"
+                  />
+                </div>
+                <div className="w-48">
+                  <label className="block text-sm font-medium mb-1">Coverage Paid For</label>
+                  <select
+                    value={payment.coverageId || ''}
+                    onChange={(e) => updatePriorPayment(payment.id, 'coverageId', e.target.value)}
+                    className="w-full p-2 border rounded-lg"
+                  >
+                    <option value="">Select coverage</option>
+                    {coverages.map((coverage) => (
+                      <option key={coverage.id} value={coverage.id}>
+                        {coverage.type}{coverage.type === 'Other' && coverage.otherDescription ? ` (${coverage.otherDescription})` : ''}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="flex items-end">
+                  <Button
+                    onClick={() => removePriorPayment(payment.id)}
+                    variant="ghost"
+                    size="sm"
+                    className="text-red-600 hover:text-red-700"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
-              <div className="w-32">
-                <Input
-                  type="number"
-                  value={payment.amount || ''}
-                  onChange={(e) => updatePriorPayment(payment.id, 'amount', parseFloat(e.target.value) || 0)}
-                  onFocus={(e) => e.target.select()}
-                  onKeyDown={(e) => {
-                    // Clear field on first digit input if current value is 0
-                    if (payment.amount === 0 && /\d/.test(e.key)) {
-                      updatePriorPayment(payment.id, 'amount', '');
-                    }
-                  }}
-                  placeholder="0"
-                  min="0"
-                />
+
+              {/* Second Row: Amount, Date, and Deductible */}
+              <div className="flex items-center gap-4">
+                <div className="w-32">
+                  <label className="block text-sm font-medium mb-1">Amount ($)</label>
+                  <Input
+                    type="number"
+                    value={payment.amount || ''}
+                    onChange={(e) => updatePriorPayment(payment.id, 'amount', parseFloat(e.target.value) || 0)}
+                    onFocus={(e) => e.target.select()}
+                    onKeyDown={(e) => {
+                      // Clear field on first digit input if current value is 0
+                      if (payment.amount === 0 && /\d/.test(e.key)) {
+                        updatePriorPayment(payment.id, 'amount', '');
+                      }
+                    }}
+                    placeholder="0"
+                    min="0"
+                  />
+                </div>
+                <div className="w-36">
+                  <label className="block text-sm font-medium mb-1">Payment Date</label>
+                  <Input
+                    type="date"
+                    value={payment.date}
+                    onChange={(e) => updatePriorPayment(payment.id, 'date', e.target.value)}
+                  />
+                </div>
+                <div className="w-32">
+                  <label className="block text-sm font-medium mb-1">Deductible Applied ($)</label>
+                  <Input
+                    type="number"
+                    value={payment.deductibleApplied || ''}
+                    onChange={(e) => updatePriorPayment(payment.id, 'deductibleApplied', parseFloat(e.target.value) || 0)}
+                    onFocus={(e) => e.target.select()}
+                    onKeyDown={(e) => {
+                      // Clear field on first digit input if current value is 0
+                      if ((payment.deductibleApplied || 0) === 0 && /\d/.test(e.key)) {
+                        updatePriorPayment(payment.id, 'deductibleApplied', '');
+                      }
+                    }}
+                    placeholder="0"
+                    min="0"
+                  />
+                </div>
               </div>
-              <div className="w-36">
-                <Input
-                  type="date"
-                  value={payment.date}
-                  onChange={(e) => updatePriorPayment(payment.id, 'date', e.target.value)}
-                />
+
+              {/* Third Row: Depreciation Fields */}
+              <div className="flex items-center gap-4">
+                <div className="w-40">
+                  <label className="block text-sm font-medium mb-1">Recoverable Depreciation ($)</label>
+                  <Input
+                    type="number"
+                    value={payment.recoverableDepreciation || ''}
+                    onChange={(e) => updatePriorPayment(payment.id, 'recoverableDepreciation', parseFloat(e.target.value) || 0)}
+                    onFocus={(e) => e.target.select()}
+                    onKeyDown={(e) => {
+                      // Clear field on first digit input if current value is 0
+                      if ((payment.recoverableDepreciation || 0) === 0 && /\d/.test(e.key)) {
+                        updatePriorPayment(payment.id, 'recoverableDepreciation', '');
+                      }
+                    }}
+                    placeholder="0"
+                    min="0"
+                  />
+                </div>
+                <div className="w-40">
+                  <label className="block text-sm font-medium mb-1">Non-Recoverable Depreciation ($)</label>
+                  <Input
+                    type="number"
+                    value={payment.nonRecoverableDepreciation || ''}
+                    onChange={(e) => updatePriorPayment(payment.id, 'nonRecoverableDepreciation', parseFloat(e.target.value) || 0)}
+                    onFocus={(e) => e.target.select()}
+                    onKeyDown={(e) => {
+                      // Clear field on first digit input if current value is 0
+                      if ((payment.nonRecoverableDepreciation || 0) === 0 && /\d/.test(e.key)) {
+                        updatePriorPayment(payment.id, 'nonRecoverableDepreciation', '');
+                      }
+                    }}
+                    placeholder="0"
+                    min="0"
+                  />
+                </div>
+                <div className="flex-1">
+                  {/* Total Calculation Display */}
+                  <div className="text-sm text-gray-600 pt-6">
+                    <span className="font-medium">
+                      Total with Depreciation: ${((payment.amount || 0) + (payment.recoverableDepreciation || 0) + (payment.nonRecoverableDepreciation || 0)).toLocaleString()}
+                    </span>
+                  </div>
+                </div>
               </div>
-              <Button
-                onClick={() => removePriorPayment(payment.id)}
-                variant="ghost"
-                size="sm"
-                className="text-red-600 hover:text-red-700"
-              >
-                <X className="h-4 w-4" />
-              </Button>
             </div>
           ))}
           
@@ -494,6 +694,89 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
           </Button>
         </CardContent>
       </Card>
+
+      {/* Applicable Deductible for This Claim */}
+      {deductibles.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Shield className="h-5 w-5" />
+              Applicable Deductible for This Claim
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <p className="text-sm text-blue-800">
+                  Select which deductible applies to this specific claim. This will be used for calculations and reporting.
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 gap-3">
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Select Applicable Deductible *
+                  </label>
+                  <select
+                    value={applicableDeductible}
+                    onChange={(e) => setApplicableDeductible(e.target.value)}
+                    className="w-full p-3 border rounded-lg"
+                  >
+                    <option value="">Select the deductible that applies to this claim</option>
+                    {deductibles.map((deductible) => (
+                      <option key={deductible.id} value={deductible.id}>
+                        {deductible.type}
+                        {deductible.type === 'Other' && deductible.otherDescription ? ` (${deductible.otherDescription})` : ''} - 
+                        ${deductible.amount?.toLocaleString() || 0}
+                        {deductible.isPercentage && deductible.percentageValue ? ` (${deductible.percentageValue}%)` : ''}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                
+                {applicableDeductible && (
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                    {(() => {
+                      const selectedDeductible = deductibles.find(d => d.id === applicableDeductible);
+                      return selectedDeductible ? (
+                        <div className="text-sm text-green-800">
+                          <div className="flex items-center gap-2 mb-2">
+                            <CheckCircle className="h-4 w-4" />
+                            <span className="font-medium">Selected Deductible Details:</span>
+                          </div>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <span className="font-medium">Type:</span> {selectedDeductible.type}
+                              {selectedDeductible.type === 'Other' && selectedDeductible.otherDescription && (
+                                <span> ({selectedDeductible.otherDescription})</span>
+                              )}
+                            </div>
+                            <div>
+                              <span className="font-medium">Amount:</span> ${selectedDeductible.amount?.toLocaleString() || 0}
+                            </div>
+                            {selectedDeductible.isPercentage && (
+                              <>
+                                <div>
+                                  <span className="font-medium">Percentage:</span> {selectedDeductible.percentageValue}%
+                                </div>
+                                <div>
+                                  <span className="font-medium">Calculated From:</span> {
+                                    coverages.find(c => c.id === selectedDeductible.percentageOf)?.type || 'Unknown Coverage'
+                                  }
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      ) : null;
+                    })()}
+                  </div>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };
