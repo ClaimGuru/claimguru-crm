@@ -32,6 +32,7 @@ export function AddressAutocomplete({
   const [isLoaded, setIsLoaded] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [apiError, setApiError] = useState<string | null>(null)
+  const [isSelectingPlace, setIsSelectingPlace] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null)
   
@@ -66,8 +67,16 @@ export function AddressAutocomplete({
 
           autocomplete.addListener('place_changed', () => {
             const place = autocomplete.getPlace()
+            console.log('🏠 Place selected:', place)
+            
             if (place.formatted_address) {
+              setIsSelectingPlace(true)
               onChange(place.formatted_address, place)
+              
+              // Reset flag after a short delay to allow for state updates
+              setTimeout(() => {
+                setIsSelectingPlace(false)
+              }, 100)
             }
           })
 
@@ -91,13 +100,27 @@ export function AddressAutocomplete({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value
-    onChange(newValue)
+    
+    // Don't trigger onChange if we're in the middle of selecting a place
+    // This prevents conflicts between manual typing and autocomplete selection
+    if (!isSelectingPlace) {
+      console.log('📝 Manual input change:', newValue)
+      onChange(newValue)
+    }
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     // Prevent form submission when Enter is pressed in autocomplete
     if (e.key === 'Enter') {
       e.preventDefault()
+    }
+  }
+
+  const handleFocus = () => {
+    // Ensure autocomplete is active when input is focused
+    if (autocompleteRef.current && inputRef.current) {
+      // Clear any existing bounds to ensure global search
+      autocompleteRef.current.setBounds(undefined)
     }
   }
 
@@ -125,6 +148,7 @@ export function AddressAutocomplete({
           value={value}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
+          onFocus={handleFocus}
           placeholder={apiError ? "Enter address manually" : placeholder}
           className={`pl-10 ${className}`}
           disabled={disabled}

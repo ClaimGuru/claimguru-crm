@@ -4,6 +4,7 @@ import { Button } from '../../ui/Button'
 import { Input } from '../../ui/Input'
 import { LoadingSpinner } from '../../ui/LoadingSpinner'
 import { AddressAutocomplete } from '../../ui/AddressAutocomplete'
+import { formatPhoneNumber, getPhoneInputProps } from '../../../utils/phoneUtils'
 import { User, Building, MapPin, AlertTriangle, CheckCircle, Brain, Users } from 'lucide-react'
 import { enhancedClaimWizardAI, AIValidation } from '../../../services/enhancedClaimWizardAI'
 
@@ -434,15 +435,14 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Phone Number</label>
-              <input
-                type="tel"
+              <Input
+                {...getPhoneInputProps()}
                 value={insuredDetails.phone || ''}
                 onChange={(e) => setInsuredDetails({
                   ...insuredDetails,
-                  phone: e.target.value
+                  phone: formatPhoneNumber(e.target.value)
                 })}
-                className="w-full p-2 border rounded-lg"
-                placeholder="(555) 123-4567"
+                className="w-full"
               />
             </div>
             <div>

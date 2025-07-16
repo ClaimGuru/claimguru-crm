@@ -53,9 +53,16 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
   });
 
   const handleInputChange = (field: string, value: string | boolean) => {
+    let processedValue = value;
+    
+    // Apply phone number formatting for phone fields
+    if (field === 'coInsuredPhone' && typeof value === 'string') {
+      processedValue = formatPhoneNumber(value);
+    }
+    
     const updatedDetails = {
       ...clientDetails,
-      [field]: value
+      [field]: processedValue
     };
     setClientDetails(updatedDetails);
     updateWizardData(updatedDetails);
@@ -71,9 +78,13 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
   };
 
   const handleAddressAutocomplete = (address: string, details?: google.maps.places.PlaceResult) => {
-    console.log('Address autocomplete triggered:', { address, details });
+    console.log('🏠 Address autocomplete triggered:', { 
+      address, 
+      hasDetails: !!details,
+      detailsType: details ? 'PlaceResult' : 'Manual Input'
+    });
     
-    // Parse the address or use details if available
+    // Preserve existing address line 2 when updating
     let addressData = {
       addressLine1: address,
       addressLine2: clientDetails.mailingAddress.addressLine2 || '',
@@ -82,9 +93,9 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
       zipCode: clientDetails.mailingAddress.zipCode || ''
     };
 
-    // If we have place details, extract components
+    // If we have place details, extract and populate all components
     if (details && details.address_components) {
-      console.log('Extracting address components:', details.address_components);
+      console.log('📍 Extracting address components from Google Places:', details.address_components);
       const components = details.address_components;
       
       const streetNumber = components.find(c => c.types.includes('street_number'))?.long_name || '';
@@ -94,15 +105,27 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
       const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || '';
       const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || '';
       
+      // Construct the address line 1 from components or fallback to formatted address
+      const constructedAddress = `${streetNumber} ${street}`.trim();
+      
       addressData = {
-        addressLine1: `${streetNumber} ${street}`.trim() || address,
-        addressLine2: clientDetails.mailingAddress.addressLine2 || '',
-        city: city,
-        state: state,
-        zipCode: zipCode
+        addressLine1: constructedAddress || address, // Use constructed or fallback to formatted
+        addressLine2: clientDetails.mailingAddress.addressLine2 || '', // Preserve existing
+        city: city || clientDetails.mailingAddress.city || '',
+        state: state || clientDetails.mailingAddress.state || '',
+        zipCode: zipCode || clientDetails.mailingAddress.zipCode || ''
       };
       
-      console.log('Parsed address data:', addressData);
+      console.log('✅ Parsed address components:', {
+        streetNumber,
+        street,
+        city,
+        state,
+        zipCode,
+        finalAddressData: addressData
+      });
+    } else {
+      console.log('📝 Using manual address input (no Google Places details)');
     }
 
     const updatedDetails = {
@@ -110,7 +133,7 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
       mailingAddress: addressData
     };
     
-    console.log('Updating client details with address:', updatedDetails);
+    console.log('🔄 Updating client details with new address:', updatedDetails.mailingAddress);
     setClientDetails(updatedDetails);
     updateWizardData(updatedDetails);
   };
@@ -130,10 +153,20 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
   // Phone number management functions
   const handlePhoneNumberChange = (index: number, field: 'number' | 'type', value: string) => {
     const updatedPhoneNumbers = [...clientDetails.phoneNumbers];
-    updatedPhoneNumbers[index] = {
-      ...updatedPhoneNumbers[index],
-      [field]: value
-    };
+    
+    if (field === 'number') {
+      // Apply phone number formatting
+      const formattedValue = formatPhoneNumber(value);
+      updatedPhoneNumbers[index] = {
+        ...updatedPhoneNumbers[index],
+        [field]: formattedValue
+      };
+    } else {
+      updatedPhoneNumbers[index] = {
+        ...updatedPhoneNumbers[index],
+        [field]: value
+      };
+    }
     
     // Update primary phone if this is the primary number
     const updatedDetails = {
@@ -389,10 +422,9 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
                     {/* Phone Number Input */}
                     <div className="flex-1">
                       <Input
-                        type="tel"
+                        {...getPhoneInputProps()}
                         value={phone.number}
                         onChange={(e) => handlePhoneNumberChange(index, 'number', e.target.value)}
-                        placeholder="(555) 123-4567"
                         className="w-full"
                         required={phone.isPrimary}
                       />
@@ -597,10 +629,9 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
                       Co-Insured Phone *
                     </label>
                     <Input
-                      type="tel"
+                      {...getPhoneInputProps()}
                       value={clientDetails.coInsuredPhone}
                       onChange={(e) => handleInputChange('coInsuredPhone', e.target.value)}
-                      placeholder="(555) 123-4567"
                       required={clientDetails.hasCoInsured}
                     />
                   </div>
