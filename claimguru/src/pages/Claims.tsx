@@ -28,6 +28,19 @@ import {
 } from 'lucide-react'
 import type { Claim } from '../lib/supabase'
 
+// Helper function for status colors (moved outside to be accessible by modal)
+const getStatusColor = (status: string) => {
+  switch (status) {
+    case 'new': return 'text-blue-600 bg-blue-100'
+    case 'in_progress': return 'text-orange-600 bg-orange-100'
+    case 'under_review': return 'text-purple-600 bg-purple-100'
+    case 'negotiating': return 'text-yellow-600 bg-yellow-100'
+    case 'settled': return 'text-green-600 bg-green-100'
+    case 'closed': return 'text-gray-600 bg-gray-100'
+    default: return 'text-blue-600 bg-blue-100'
+  }
+}
+
 export function Claims() {
   const { claims, loading, createClaim, updateClaim, deleteClaim } = useClaims()
   const { clients } = useClients()
@@ -63,17 +76,7 @@ export function Claims() {
     }
   }
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'new': return 'text-blue-600 bg-blue-100'
-      case 'in_progress': return 'text-orange-600 bg-orange-100'
-      case 'under_review': return 'text-purple-600 bg-purple-100'
-      case 'negotiating': return 'text-yellow-600 bg-yellow-100'
-      case 'settled': return 'text-green-600 bg-green-100'
-      case 'closed': return 'text-gray-600 bg-gray-100'
-      default: return 'text-blue-600 bg-blue-100'
-    }
-  }
+
 
   const handleAddClaim = () => {
     setEditingClaim(null)
@@ -402,6 +405,196 @@ export function Claims() {
         }}
         onSave={handleSaveClaim}
       />
+
+      {/* Claim Details Modal */}
+      {showDetailsModal && selectedClaim && (
+        <ClaimDetailsModal
+          claim={selectedClaim}
+          client={clients.find(c => c.id === selectedClaim.client_id)}
+          onClose={() => {
+            setShowDetailsModal(false)
+            setSelectedClaim(null)
+          }}
+          onEdit={() => {
+            setShowDetailsModal(false)
+            handleEditClaim(selectedClaim)
+          }}
+        />
+      )}
+    </div>
+  )
+}
+
+// Claim Details Modal Component
+interface ClaimDetailsModalProps {
+  claim: Claim
+  client?: any
+  onClose: () => void
+  onEdit: () => void
+}
+
+function ClaimDetailsModal({ claim, client, onClose, onEdit }: ClaimDetailsModalProps) {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full h-[90vh] flex flex-col">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">
+              {claim.file_number || `Claim #${claim.id.slice(0, 8)}`}
+            </h2>
+            <p className="text-gray-600">
+              {claim.cause_of_loss || 'General Loss'} • Created {new Date(claim.created_at).toLocaleDateString()}
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button onClick={onEdit} className="flex items-center gap-2">
+              <Edit className="h-4 w-4" />
+              Edit
+            </Button>
+            <Button variant="outline" onClick={onClose}>
+              <ArrowLeft className="h-4 w-4" />
+              Close
+            </Button>
+          </div>
+        </div>
+        
+        <div className="flex-1 overflow-y-auto p-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Claim Information */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5 text-blue-600" />
+                  Claim Information
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div>
+                  <label className="text-sm text-gray-600">File Number</label>
+                  <p className="font-semibold">{claim.file_number}</p>
+                </div>
+                <div>
+                  <label className="text-sm text-gray-600">Carrier Claim Number</label>
+                  <p className="font-semibold">{claim.carrier_claim_number || 'Not provided'}</p>
+                </div>
+                <div>
+                  <label className="text-sm text-gray-600">Date of Loss</label>
+                  <p className="font-semibold">
+                    {claim.date_of_loss ? new Date(claim.date_of_loss).toLocaleDateString() : 'Not provided'}
+                  </p>
+                </div>
+                <div>
+                  <label className="text-sm text-gray-600">Cause of Loss</label>
+                  <p className="font-semibold">{claim.cause_of_loss || 'Not specified'}</p>
+                </div>
+                <div>
+                  <label className="text-sm text-gray-600">Status</label>
+                  <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(claim.claim_status)}`}>
+                    {claim.claim_status.charAt(0).toUpperCase() + claim.claim_status.slice(1).replace('_', ' ')}
+                  </span>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Client Information */}
+            {client && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="h-5 w-5 text-green-600" />
+                    Client Information
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div>
+                    <label className="text-sm text-gray-600">Name</label>
+                    <p className="font-semibold">
+                      {client.client_type === 'business' 
+                        ? client.business_name 
+                        : `${client.first_name} ${client.last_name}`
+                      }
+                    </p>
+                  </div>
+                  <div>
+                    <label className="text-sm text-gray-600">Phone</label>
+                    <p className="font-semibold">{client.phone}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm text-gray-600">Email</label>
+                    <p className="font-semibold">{client.email}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm text-gray-600">Address</label>
+                    <p className="font-semibold">
+                      {client.address_line_1}
+                      {client.address_line_2 && `, ${client.address_line_2}`}<br />
+                      {client.city}, {client.state} {client.zip_code}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Financial Information */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <DollarSign className="h-5 w-5 text-purple-600" />
+                  Financial Summary
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div>
+                  <label className="text-sm text-gray-600">Estimated Loss Value</label>
+                  <p className="text-2xl font-bold text-purple-600">
+                    ${(claim.estimated_loss_value || 0).toLocaleString()}
+                  </p>
+                </div>
+                <div>
+                  <label className="text-sm text-gray-600">Settlement Amount</label>
+                  <p className="text-xl font-semibold text-green-600">
+                    ${(claim.estimated_loss_value || 0).toLocaleString()}
+                  </p>
+                </div>
+                <div>
+                  <label className="text-sm text-gray-600">Deductible</label>
+                  <p className="font-semibold">
+                    ${(claim.deductible || 0).toLocaleString()}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Additional Details */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <AlertCircle className="h-5 w-5 text-orange-600" />
+                  Additional Details
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {claim.loss_description && (
+                  <div>
+                    <label className="text-sm text-gray-600">Loss Description</label>
+                    <p className="text-sm text-gray-900 bg-gray-50 p-3 rounded-lg">
+                      {claim.loss_description}
+                    </p>
+                  </div>
+                )}
+                <div>
+                  <label className="text-sm text-gray-600">Created</label>
+                  <p className="font-semibold">{new Date(claim.created_at).toLocaleString()}</p>
+                </div>
+                <div>
+                  <label className="text-sm text-gray-600">Last Updated</label>
+                  <p className="font-semibold">{new Date(claim.updated_at).toLocaleString()}</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

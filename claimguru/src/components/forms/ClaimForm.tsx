@@ -502,6 +502,153 @@ export function ClaimForm({ claim, isOpen, onClose, onSave }: ClaimFormProps) {
             </div>
           </div>
 
+          {/* Property Selection */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Property *
+            </label>
+            {properties.length > 0 ? (
+              <div className="space-y-3">
+                <select
+                  name="property_id"
+                  value={formData.property_id}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  required={!showNewProperty}
+                >
+                  <option value="">Select a property</option>
+                  {properties.map(property => (
+                    <option key={property.id} value={property.id}>
+                      {property.property_nickname || 'Property'} - {property.address_line_1}, {property.city}, {property.state}
+                    </option>
+                  ))}
+                </select>
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="add_new_property"
+                    checked={showNewProperty}
+                    onChange={(e) => setShowNewProperty(e.target.checked)}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  />
+                  <label htmlFor="add_new_property" className="ml-2 text-sm text-gray-700">
+                    Add new property instead
+                  </label>
+                </div>
+              </div>
+            ) : (
+              <div className="text-sm text-gray-600 bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                No properties found for this client. You can add a new property below.
+              </div>
+            )}
+          </div>
+
+          {/* New Property Form */}
+          {(showNewProperty || properties.length === 0) && (
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 space-y-4">
+              <h4 className="text-sm font-medium text-gray-900 flex items-center gap-2">
+                <MapPin className="h-4 w-4" />
+                New Property Information
+              </h4>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Property Nickname (Optional)
+                </label>
+                <input
+                  type="text"
+                  value={newPropertyData.property_nickname}
+                  onChange={(e) => setNewPropertyData(prev => ({ ...prev, property_nickname: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="e.g., Main House, Rental Property"
+                />
+              </div>
+
+              <div>
+                <AddressAutocomplete
+                  value={newPropertyData.address_line_1}
+                  onChange={(address, details) => {
+                    setNewPropertyData(prev => ({ ...prev, address_line_1: address }))
+                    
+                    if (details?.address_components) {
+                      const components = details.address_components
+                      const city = components.find(c => c.types.includes('locality'))?.long_name || 
+                                  components.find(c => c.types.includes('administrative_area_level_3'))?.long_name || ''
+                      const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || ''
+                      const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || ''
+                      
+                      setNewPropertyData(prev => ({
+                        ...prev,
+                        address_line_1: details.formatted_address || address,
+                        city: city || prev.city,
+                        state: state || prev.state,
+                        zip_code: zipCode || prev.zip_code
+                      }))
+                    }
+                  }}
+                  label="Property Address *"
+                  placeholder="Start typing address for autocomplete..."
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Address Line 2 (Optional)
+                </label>
+                <input
+                  type="text"
+                  value={newPropertyData.address_line_2}
+                  onChange={(e) => setNewPropertyData(prev => ({ ...prev, address_line_2: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Apt, Suite, Unit, etc."
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    City *
+                  </label>
+                  <input
+                    type="text"
+                    value={newPropertyData.city}
+                    onChange={(e) => setNewPropertyData(prev => ({ ...prev, city: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    required
+                    placeholder="Auto-filled from address"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    State *
+                  </label>
+                  <input
+                    type="text"
+                    value={newPropertyData.state}
+                    onChange={(e) => setNewPropertyData(prev => ({ ...prev, state: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    required
+                    placeholder="Auto-filled from address"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    ZIP Code *
+                  </label>
+                  <input
+                    type="text"
+                    value={newPropertyData.zip_code}
+                    onChange={(e) => setNewPropertyData(prev => ({ ...prev, zip_code: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    required
+                    placeholder="Auto-filled from address"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Cause of Loss *
