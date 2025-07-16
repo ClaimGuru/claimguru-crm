@@ -93,32 +93,9 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
   };
 
   const updateDeductible = (id: string, field: keyof Deductible, value: any) => {
-    setDeductibles(deductibles.map(deductible => {
-      if (deductible.id === id) {
-        const updated = { ...deductible, [field]: value };
-        
-        // Auto-calculate amount when percentage fields change
-        if (field === 'isPercentage' || field === 'percentageOf' || field === 'percentageValue') {
-          if (updated.isPercentage && updated.percentageOf && updated.percentageValue) {
-            const selectedCoverage = coverages.find(c => c.id === updated.percentageOf);
-            if (selectedCoverage && selectedCoverage.limit) {
-              updated.calculatedAmount = (selectedCoverage.limit * updated.percentageValue) / 100;
-              if (!updated.isAmountOverridden) {
-                updated.amount = updated.calculatedAmount;
-              }
-            }
-          }
-        }
-        
-        // Mark amount as overridden if user manually changes it while percentage is active
-        if (field === 'amount' && updated.isPercentage && updated.calculatedAmount) {
-          updated.isAmountOverridden = value !== updated.calculatedAmount;
-        }
-        
-        return updated;
-      }
-      return deductible;
-    }));
+    setDeductibles(deductibles.map(deductible => 
+      deductible.id === id ? { ...deductible, [field]: value } : deductible
+    ));
   };
 
   const removeDeductible = (id: string) => {
