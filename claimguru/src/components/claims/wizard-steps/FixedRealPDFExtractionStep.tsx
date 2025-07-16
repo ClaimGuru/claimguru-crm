@@ -302,25 +302,18 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
           )}
 
           {/* Policy Data Validation Step - Show when data is extracted */}
-          {(() => {
-            const shouldShow = extractedData && !isConfirmed;
-            console.log('🔍 PolicyDataValidation Render Check:', {
-              extractedData: !!extractedData,
-              isConfirmed,
-              shouldShow,
-              extractedDataKeys: extractedData ? Object.keys(extractedData) : 'none',
-              rawTextLength: rawText?.length || 0
-            });
-            return shouldShow;
-          })() && (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+          {extractedData && !isConfirmed && (
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
               <h3 className="text-lg font-semibold text-blue-900 mb-4 flex items-center gap-2">
                 <CheckCircle className="h-5 w-5" />
-                Extracted Policy Data - Please Review & Validate
+                Review & Validate Extracted Policy Data
               </h3>
+              <p className="text-blue-700 text-sm mb-4">
+                AI has successfully extracted policy information from your document. Please review and confirm the accuracy of each field below.
+              </p>
               <PolicyDataValidationStep
                 extractedData={extractedData}
-                rawText={rawText || 'Raw text not available'}
+                rawText={rawText || 'Raw text extracted but not available for display'}
                 onValidated={handleValidationComplete}
                 onReject={handleValidationReject}
               />

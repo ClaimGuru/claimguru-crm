@@ -8,6 +8,7 @@ import { AuthCallback } from './pages/AuthCallback'
 import { Dashboard } from './pages/Dashboard'
 import { Claims } from './pages/Claims'
 import { Clients } from './pages/Clients'
+import ClientManagement from './pages/ClientManagement'
 import { AIInsights } from './pages/AIInsights'
 import { Finance } from './pages/Finance'
 import { Vendors } from './pages/Vendors'
@@ -90,6 +91,7 @@ function AppRoutes() {
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="claims" element={<Claims />} />
         <Route path="clients" element={<Clients />} />
+        <Route path="client-management" element={<ClientManagement />} />
         <Route path="properties" element={<Properties />} />
         <Route path="tasks" element={<Tasks />} />
         <Route path="documents" element={<Documents />} />

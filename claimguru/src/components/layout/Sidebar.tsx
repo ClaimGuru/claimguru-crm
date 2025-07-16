@@ -28,6 +28,7 @@ import {
   Receipt,
   Banknote,
   User,
+  UserCog,
   LogOut
 } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
@@ -44,6 +45,7 @@ const navigation = [
 // Contacts submenu
 const contactsSubmenu = [
   { name: 'Clients', href: '/clients', icon: Users },
+  { name: 'Client Management', href: '/client-management', icon: UserCog },
   { name: 'Insurers', href: '/insurers', icon: Shield },
   { name: 'Vendors', href: '/vendors', icon: UserCheck },
   { name: 'Properties', href: '/properties', icon: Building },
