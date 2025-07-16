@@ -30,6 +30,9 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
     phoneType: data.phoneType || 'cell', // Default to cell phone
     primaryEmail: data.primaryEmail || '',
     alternatePhone: data.alternatePhone || '',
+    phoneNumbers: data.phoneNumbers || [
+      { number: data.primaryPhone || '', type: data.phoneType || 'cell', isPrimary: true }
+    ],
     mailingAddress: {
       addressLine1: data.mailingAddress?.addressLine1 || '',
       addressLine2: data.mailingAddress?.addressLine2 || '',
@@ -59,37 +62,46 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
   };
 
   const handleAddressAutocomplete = (address: string, details?: google.maps.places.PlaceResult) => {
+    console.log('Address autocomplete triggered:', { address, details });
+    
     // Parse the address or use details if available
     let addressData = {
       addressLine1: address,
       addressLine2: clientDetails.mailingAddress.addressLine2 || '',
-      city: '',
-      state: '',
-      zipCode: ''
+      city: clientDetails.mailingAddress.city || '',
+      state: clientDetails.mailingAddress.state || '',
+      zipCode: clientDetails.mailingAddress.zipCode || ''
     };
 
     // If we have place details, extract components
     if (details && details.address_components) {
+      console.log('Extracting address components:', details.address_components);
       const components = details.address_components;
+      
       const streetNumber = components.find(c => c.types.includes('street_number'))?.long_name || '';
       const street = components.find(c => c.types.includes('route'))?.long_name || '';
-      const city = components.find(c => c.types.includes('locality'))?.long_name || '';
+      const city = components.find(c => c.types.includes('locality'))?.long_name || 
+                   components.find(c => c.types.includes('sublocality'))?.long_name || '';
       const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || '';
       const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || '';
       
       addressData = {
-        addressLine1: `${streetNumber} ${street}`.trim(),
+        addressLine1: `${streetNumber} ${street}`.trim() || address,
         addressLine2: clientDetails.mailingAddress.addressLine2 || '',
         city: city,
         state: state,
         zipCode: zipCode
       };
+      
+      console.log('Parsed address data:', addressData);
     }
 
     const updatedDetails = {
       ...clientDetails,
       mailingAddress: addressData
     };
+    
+    console.log('Updating client details with address:', updatedDetails);
     setClientDetails(updatedDetails);
     updateWizardData(updatedDetails);
   };
@@ -106,8 +118,83 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
     updateWizardData(updatedDetails);
   };
 
+  // Phone number management functions
+  const handlePhoneNumberChange = (index: number, field: 'number' | 'type', value: string) => {
+    const updatedPhoneNumbers = [...clientDetails.phoneNumbers];
+    updatedPhoneNumbers[index] = {
+      ...updatedPhoneNumbers[index],
+      [field]: value
+    };
+    
+    // Update primary phone if this is the primary number
+    const updatedDetails = {
+      ...clientDetails,
+      phoneNumbers: updatedPhoneNumbers,
+      primaryPhone: updatedPhoneNumbers.find(p => p.isPrimary)?.number || '',
+      phoneType: updatedPhoneNumbers.find(p => p.isPrimary)?.type || 'cell'
+    };
+    
+    setClientDetails(updatedDetails);
+    updateWizardData(updatedDetails);
+  };
+
+  const addPhoneNumber = () => {
+    const updatedDetails = {
+      ...clientDetails,
+      phoneNumbers: [
+        ...clientDetails.phoneNumbers,
+        { number: '', type: 'cell', isPrimary: false }
+      ]
+    };
+    setClientDetails(updatedDetails);
+    updateWizardData(updatedDetails);
+  };
+
+  const removePhoneNumber = (index: number) => {
+    if (clientDetails.phoneNumbers.length <= 1) return; // Keep at least one phone number
+    
+    const phoneToRemove = clientDetails.phoneNumbers[index];
+    const updatedPhoneNumbers = clientDetails.phoneNumbers.filter((_, i) => i !== index);
+    
+    // If we're removing the primary phone, make the first remaining one primary
+    if (phoneToRemove.isPrimary && updatedPhoneNumbers.length > 0) {
+      updatedPhoneNumbers[0].isPrimary = true;
+    }
+    
+    const updatedDetails = {
+      ...clientDetails,
+      phoneNumbers: updatedPhoneNumbers,
+      primaryPhone: updatedPhoneNumbers.find(p => p.isPrimary)?.number || '',
+      phoneType: updatedPhoneNumbers.find(p => p.isPrimary)?.type || 'cell'
+    };
+    
+    setClientDetails(updatedDetails);
+    updateWizardData(updatedDetails);
+  };
+
+  const setPrimaryPhone = (index: number) => {
+    const updatedPhoneNumbers = clientDetails.phoneNumbers.map((phone, i) => ({
+      ...phone,
+      isPrimary: i === index
+    }));
+    
+    const updatedDetails = {
+      ...clientDetails,
+      phoneNumbers: updatedPhoneNumbers,
+      primaryPhone: updatedPhoneNumbers[index].number,
+      phoneType: updatedPhoneNumbers[index].type
+    };
+    
+    setClientDetails(updatedDetails);
+    updateWizardData(updatedDetails);
+  };
+
   // Sync local state with prop data changes
   useEffect(() => {
+    const phoneNumbers = data.phoneNumbers || [
+      { number: data.primaryPhone || '', type: data.phoneType || 'cell', isPrimary: true }
+    ];
+    
     setClientDetails({
       clientType: data.clientType || 'individual',
       firstName: data.firstName || '',
@@ -117,6 +204,7 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
       phoneType: data.phoneType || 'cell',
       primaryEmail: data.primaryEmail || '',
       alternatePhone: data.alternatePhone || '',
+      phoneNumbers: phoneNumbers,
       mailingAddress: {
         addressLine1: data.mailingAddress?.addressLine1 || '',
         addressLine2: data.mailingAddress?.addressLine2 || '',
