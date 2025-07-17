@@ -40,6 +40,7 @@ import {
   Brain,
   Sparkles,
   AlertCircle,
+  AlertTriangle,
   Building2,
   UserCheck,
   CheckSquare,
@@ -50,6 +51,8 @@ import {
 } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
 import { WizardProgressService } from '../../services/wizardProgressService'
+import { WizardValidationService, StepValidationResult } from '../../services/wizardValidationService'
+import { ValidationSummary } from '../ui/ValidationSummary'
 
 // Import enhanced AI wizard step components - INTELLIGENT AI FLOW
 import { FixedRealPDFExtractionStep } from './wizard-steps/FixedRealPDFExtractionStep'
@@ -203,7 +206,8 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
     customFields: {}
   })
   const [isAIProcessing, setIsAIProcessing] = useState(false)
-  const [stepValidation, setStepValidation] = useState({})
+  const [stepValidation, setStepValidation] = useState<Record<string, StepValidationResult>>({})
+  const [showValidationSummary, setShowValidationSummary] = useState(false)
   const [progressId, setProgressId] = useState<string | null>(null)
   const [isSaving, setIsSaving] = useState(false)
   const [lastSaved, setLastSaved] = useState<Date | null>(null)
@@ -544,60 +548,84 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
     onCancel?.()
   }
 
+  const scrollToField = (fieldPath: string) => {
+    // Convert field path to a potential DOM element ID or selector
+    const elementSelectors = [
+      `[data-field="${fieldPath}"]`,
+      `[name="${fieldPath}"]`,
+      `[id*="${fieldPath.replace('.', '-')}"]`,
+      `input[placeholder*="${fieldPath.split('.').pop()}"]`,
+      `select[data-testid*="${fieldPath}"]`
+    ]
+    
+    for (const selector of elementSelectors) {
+      const element = document.querySelector(selector)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        
+        // Flash the field to draw attention
+        const originalBorder = (element as HTMLElement).style.border
+        ;(element as HTMLElement).style.border = '2px solid #ef4444'
+        setTimeout(() => {
+          ;(element as HTMLElement).style.border = originalBorder
+        }, 2000)
+        
+        // Focus the field if it's an input
+        if (element instanceof HTMLInputElement || element instanceof HTMLSelectElement || element instanceof HTMLTextAreaElement) {
+          element.focus()
+        }
+        return
+      }
+    }
+    
+    // Fallback: scroll to the top of the current step content
+    const stepContent = document.querySelector('[data-step-content]')
+    if (stepContent) {
+      stepContent.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
   const handleAIProcessing = (processing: boolean) => {
     setIsAIProcessing(processing)
   }
 
-  // Validation for required steps
+  // Enhanced validation for all steps
   useEffect(() => {
+    // Validate current step
     const currentStepData = steps[currentStep]
-    if (!currentStepData.required) return
-
-    let isValid = true
-    let errors: string[] = []
-
-    switch (currentStepData.id) {
-      case 'client-details':
-        if (!wizardData.insuredDetails?.firstName && !wizardData.insuredDetails?.organizationName) {
-          isValid = false
-          errors.push('Client name is required')
-        }
-        if (!wizardData.mailingAddress?.address) {
-          isValid = false
-          errors.push('Address is required')
-        }
-        break
-      
-      case 'insurance-info':
-        if (!wizardData.insuranceCarrier?.name || !wizardData.policyDetails?.policyNumber) {
-          isValid = false
-          errors.push('Insurance carrier and policy number are required')
-        }
-        break
-        
-      case 'claim-info':
-        if (!wizardData.lossDetails?.reasonForLoss || !wizardData.lossDetails?.dateOfLoss) {
-          isValid = false
-          errors.push('Loss reason and date are required')
-        }
-        break
-    }
-
+    const validation = WizardValidationService.validateStep(currentStepData.id, wizardData)
+    
     setStepValidation(prev => ({
       ...prev,
-      [currentStepData.id]: { isValid, errors }
+      [currentStepData.id]: validation
     }))
-  }, [wizardData, currentStep])
+    
+    // Auto-hide validation summary if step becomes valid
+    if (validation.isValid && showValidationSummary) {
+      setShowValidationSummary(false)
+    }
+  }, [wizardData, currentStep, showValidationSummary])
 
   const nextStep = async () => {
     const currentStepData = steps[currentStep]
     const validation = stepValidation[currentStepData.id]
     
+    // Check if step is valid
     if (currentStepData.required && validation && !validation.isValid) {
-      alert('Please complete all required fields before proceeding')
+      setShowValidationSummary(true)
+      // Scroll to validation summary
+      setTimeout(() => {
+        const validationElement = document.getElementById('validation-summary')
+        if (validationElement) {
+          validationElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+      }, 100)
       return
     }
 
+    // Hide validation summary and proceed
+    setShowValidationSummary(false)
+    
     if (currentStep < steps.length - 1) {
       // Save progress before advancing
       await saveProgress(currentStep + 1)
@@ -774,9 +802,22 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
         </div>
 
         {/* Step Content */}
-        <div className="px-6 pb-6 overflow-y-auto max-h-[60vh]">
+        <div className="px-6 pb-6 overflow-y-auto max-h-[60vh]" data-step-content>
           {renderStepComponent()}
         </div>
+
+        {/* Validation Summary */}
+        {showValidationSummary && stepValidation[steps[currentStep].id] && (
+          <div className="px-6 pb-4" id="validation-summary">
+            <ValidationSummary
+              stepValidation={stepValidation[steps[currentStep].id]}
+              stepTitle={steps[currentStep].title}
+              onDismiss={() => setShowValidationSummary(false)}
+              onScrollToField={scrollToField}
+              showProgress={true}
+            />
+          </div>
+        )}
 
         {/* Footer Navigation */}
         <div className="border-t border-gray-200 p-6 bg-gray-50">
@@ -814,9 +855,22 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
             </div>
 
             <div className="flex items-center gap-2">
-              {stepValidation[steps[currentStep].id]?.errors && (
-                <div className="text-sm text-red-600 mr-4">
-                  {stepValidation[steps[currentStep].id].errors.join(', ')}
+              {stepValidation[steps[currentStep].id] && !stepValidation[steps[currentStep].id].isValid && (
+                <div className="flex items-center gap-2 text-sm text-red-600 mr-4">
+                  <AlertTriangle className="h-4 w-4" />
+                  <span>
+                    {stepValidation[steps[currentStep].id].missingRequiredFields.length > 0
+                      ? `${stepValidation[steps[currentStep].id].missingRequiredFields.length} required field${stepValidation[steps[currentStep].id].missingRequiredFields.length > 1 ? 's' : ''} missing`
+                      : `${stepValidation[steps[currentStep].id].errors.length} validation error${stepValidation[steps[currentStep].id].errors.length > 1 ? 's' : ''}`
+                    }
+                  </span>
+                </div>
+              )}
+              
+              {stepValidation[steps[currentStep].id]?.isValid && steps[currentStep].required && (
+                <div className="flex items-center gap-2 text-sm text-green-600 mr-4">
+                  <CheckCircle className="h-4 w-4" />
+                  <span>All required fields completed</span>
                 </div>
               )}
               

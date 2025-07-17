@@ -6,6 +6,8 @@ import { AddressAutocomplete } from '../../ui/AddressAutocomplete';
 import { Shield, DollarSign, Plus, X, Calendar, CheckCircle, User, Building, MapPin, AlertCircle } from 'lucide-react';
 import { formatPhoneNumber, getPhoneInputProps } from '../../../utils/phoneUtils';
 import { InsurerPersonnelInformation } from './InsurerPersonnelInformation';
+import { WizardValidationService } from '../../../services/wizardValidationService';
+import { FieldValidationIndicator } from '../../ui/ValidationSummary';
 
 interface Coverage {
   id: string;
@@ -42,6 +44,42 @@ interface ManualInsuranceInfoStepProps {
   data: any;
   onUpdate: (data: any) => void;
 }
+
+// Enhanced input component with validation
+const ValidatedField: React.FC<{
+  children: React.ReactNode;
+  fieldPath: string;
+  data: any;
+  label: string;
+  required?: boolean;
+}> = ({ children, fieldPath, data, label, required = false }) => {
+  const validation = WizardValidationService.getFieldValidationStatus('insurance-info', fieldPath, data);
+  
+  return (
+    <div className={`relative ${!validation.isValid ? 'validation-error' : ''}`}>
+      <div className="flex items-center justify-between mb-1">
+        <label className="block text-sm font-medium text-gray-700">
+          {label} {required && <span className="text-red-500">*</span>}
+        </label>
+        <FieldValidationIndicator 
+          isValid={validation.isValid}
+          isRequired={validation.isRequired}
+          error={validation.error}
+          className="flex-shrink-0"
+        />
+      </div>
+      <div className={`${!validation.isValid ? 'border-red-300 ring-red-300' : ''}`}>
+        {children}
+      </div>
+      {!validation.isValid && validation.error && (
+        <div className="mt-1 text-xs text-red-600 flex items-center gap-1">
+          <AlertCircle className="h-3 w-3" />
+          {validation.error}
+        </div>
+      )}
+    </div>
+  );
+};
 
 export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = ({
   data,
@@ -184,16 +222,22 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Insurance Carrier *</label>
+            <ValidatedField
+              fieldPath="insuranceCarrier.name"
+              data={data}
+              label="Insurance Carrier"
+              required={true}
+            >
               <select
                 value={insuranceCarrier.name || ''}
                 onChange={(e) => setInsuranceCarrier({
                   ...insuranceCarrier,
                   name: e.target.value
                 })}
-                className="w-full p-2 border rounded-lg"
-                required
+                className={`w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                  !insuranceCarrier.name ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                }`}
+                data-field="insuranceCarrier.name"
               >
                 <option value="">Select carrier</option>
                 <option value="State Farm">State Farm</option>
@@ -208,9 +252,14 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
                 <option value="Travelers">Travelers</option>
                 <option value="Other">Other</option>
               </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Policy Number *</label>
+            </ValidatedField>
+            
+            <ValidatedField
+              fieldPath="policyDetails.policyNumber"
+              data={data}
+              label="Policy Number"
+              required={true}
+            >
               <Input
                 value={policyDetails.policyNumber || ''}
                 onChange={(e) => setPolicyDetails({
@@ -218,9 +267,12 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
                   policyNumber: e.target.value
                 })}
                 placeholder="Enter policy number"
-                required
+                className={`${
+                  !policyDetails.policyNumber ? 'border-red-300 bg-red-50' : ''
+                }`}
+                data-field="policyDetails.policyNumber"
               />
-            </div>
+            </ValidatedField>
           </div>
 
           {/* Forced Placed Policy */}

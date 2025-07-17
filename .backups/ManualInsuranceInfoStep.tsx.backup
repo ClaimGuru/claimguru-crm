@@ -3,9 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card';
 import { Button } from '../../ui/Button';
 import { Input } from '../../ui/Input';
 import { AddressAutocomplete } from '../../ui/AddressAutocomplete';
-import { Shield, DollarSign, Plus, X, Calendar, CheckCircle, User, Building, MapPin } from 'lucide-react';
+import { Shield, DollarSign, Plus, X, Calendar, CheckCircle, User, Building, MapPin, AlertCircle } from 'lucide-react';
 import { formatPhoneNumber, getPhoneInputProps } from '../../../utils/phoneUtils';
 import { InsurerPersonnelInformation } from './InsurerPersonnelInformation';
+import { WizardValidationService } from '../../../services/wizardValidationService';
+import { FieldValidationIndicator } from '../../ui/ValidationSummary';
 
 interface Coverage {
   id: string;
@@ -42,6 +44,42 @@ interface ManualInsuranceInfoStepProps {
   data: any;
   onUpdate: (data: any) => void;
 }
+
+// Enhanced input component with validation
+const ValidatedField: React.FC<{
+  children: React.ReactNode;
+  fieldPath: string;
+  data: any;
+  label: string;
+  required?: boolean;
+}> = ({ children, fieldPath, data, label, required = false }) => {
+  const validation = WizardValidationService.getFieldValidationStatus('insurance-info', fieldPath, data);
+  
+  return (
+    <div className={`relative ${!validation.isValid ? 'validation-error' : ''}`}>
+      <div className="flex items-center justify-between mb-1">
+        <label className="block text-sm font-medium text-gray-700">
+          {label} {required && <span className="text-red-500">*</span>}
+        </label>
+        <FieldValidationIndicator 
+          isValid={validation.isValid}
+          isRequired={validation.isRequired}
+          error={validation.error}
+          className="flex-shrink-0"
+        />
+      </div>
+      <div className={`${!validation.isValid ? 'border-red-300 ring-red-300' : ''}`}>
+        {children}
+      </div>
+      {!validation.isValid && validation.error && (
+        <div className="mt-1 text-xs text-red-600 flex items-center gap-1">
+          <AlertCircle className="h-3 w-3" />
+          {validation.error}
+        </div>
+      )}
+    </div>
+  );
+};
 
 export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = ({
   data,
