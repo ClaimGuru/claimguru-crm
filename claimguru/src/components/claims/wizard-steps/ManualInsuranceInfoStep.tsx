@@ -16,6 +16,19 @@ interface Coverage {
   otherDescription?: string;
 }
 
+interface AdditionalCoverage {
+  id: string;
+  type: string;
+  limit: number;
+  isPercentage: boolean;
+  percentageOf?: string;
+  percentageValue?: number;
+  calculatedAmount?: number;
+  isAmountOverridden?: boolean;
+  otherDescription?: string;
+  isIncluded: boolean; // Whether this coverage is active/included
+}
+
 interface Deductible {
   id: string;
   type: string;
@@ -106,6 +119,7 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
   });
   const [policyDetails, setPolicyDetails] = useState(data.policyDetails || {});
   const [coverages, setCoverages] = useState<Coverage[]>(data.coverages || []);
+  const [additionalCoverages, setAdditionalCoverages] = useState<AdditionalCoverage[]>(data.additionalCoverages || []);
   const [deductibles, setDeductibles] = useState<Deductible[]>(data.deductibles || []);
   const [priorPayments, setPriorPayments] = useState<PriorPayment[]>(data.priorPayments || []);
   const [isForcedPlaced, setIsForcedPlaced] = useState(false);
@@ -119,12 +133,31 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
       insuranceCarrier,
       policyDetails,
       coverages,
+      additionalCoverages,
       deductibles,
       priorPayments,
       applicableDeductible,
       insurerPersonnel
     });
-  }, [insuranceCarrier, policyDetails, coverages, deductibles, priorPayments, applicableDeductible, insurerPersonnel]);
+  }, [insuranceCarrier, policyDetails, coverages, additionalCoverages, deductibles, priorPayments, applicableDeductible, insurerPersonnel]);
+
+  // Recalculate additional coverage amounts when base coverages change
+  useEffect(() => {
+    setAdditionalCoverages(additionalCoverages.map(coverage => {
+      if (coverage.isPercentage && coverage.percentageOf && coverage.percentageValue) {
+        const selectedCoverage = coverages.find(c => c.id === coverage.percentageOf);
+        if (selectedCoverage && selectedCoverage.limit) {
+          const calculatedAmount = (selectedCoverage.limit * coverage.percentageValue) / 100;
+          return {
+            ...coverage,
+            calculatedAmount,
+            limit: coverage.isAmountOverridden ? coverage.limit : calculatedAmount
+          };
+        }
+      }
+      return coverage;
+    }));
+  }, [coverages]);
 
   // Coverage Management
   const addCoverage = () => {
@@ -146,6 +179,51 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
     setCoverages(coverages.filter(coverage => coverage.id !== id));
   };
 
+  // Additional Coverage Management
+  const addAdditionalCoverage = () => {
+    const newAdditionalCoverage: AdditionalCoverage = {
+      id: Date.now().toString(),
+      type: '',
+      limit: 0,
+      isPercentage: false,
+      isIncluded: true
+    };
+    setAdditionalCoverages([...additionalCoverages, newAdditionalCoverage]);
+  };
+
+  const updateAdditionalCoverage = (id: string, field: keyof AdditionalCoverage, value: any) => {
+    setAdditionalCoverages(additionalCoverages.map(coverage => {
+      if (coverage.id === id) {
+        const updated = { ...coverage, [field]: value };
+        
+        // Auto-calculate amount when percentage fields change
+        if (field === 'isPercentage' || field === 'percentageOf' || field === 'percentageValue') {
+          if (updated.isPercentage && updated.percentageOf && updated.percentageValue) {
+            const selectedCoverage = coverages.find(c => c.id === updated.percentageOf);
+            if (selectedCoverage && selectedCoverage.limit) {
+              updated.calculatedAmount = (selectedCoverage.limit * updated.percentageValue) / 100;
+              if (!updated.isAmountOverridden) {
+                updated.limit = updated.calculatedAmount;
+              }
+            }
+          }
+        }
+        
+        // Mark amount as overridden if user manually changes it while percentage is active
+        if (field === 'limit' && updated.isPercentage && updated.calculatedAmount) {
+          updated.isAmountOverridden = value !== updated.calculatedAmount;
+        }
+        
+        return updated;
+      }
+      return coverage;
+    }));
+  };
+
+  const removeAdditionalCoverage = (id: string) => {
+    setAdditionalCoverages(additionalCoverages.filter(coverage => coverage.id !== id));
+  };
+
   // Deductible Management
   const addDeductible = () => {
     const newDeductible: Deductible = {
@@ -165,7 +243,9 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
         // Auto-calculate amount when percentage fields change
         if (field === 'isPercentage' || field === 'percentageOf' || field === 'percentageValue') {
           if (updated.isPercentage && updated.percentageOf && updated.percentageValue) {
-            const selectedCoverage = coverages.find(c => c.id === updated.percentageOf);
+            // Check both main coverages and additional coverages
+            const selectedCoverage = coverages.find(c => c.id === updated.percentageOf) ||
+                                   additionalCoverages.find(c => c.id === updated.percentageOf);
             if (selectedCoverage && selectedCoverage.limit) {
               updated.calculatedAmount = (selectedCoverage.limit * updated.percentageValue) / 100;
               if (!updated.isAmountOverridden) {
@@ -723,6 +803,230 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
         </CardContent>
       </Card>
 
+      {/* Additional Coverages */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Shield className="h-5 w-5 text-purple-600" />
+            Additional Coverages
+          </CardTitle>
+          <p className="text-sm text-gray-600 mt-1">
+            Optional coverages for enhanced protection (Ordinance & Law, Fungi/Mold, Emergency Repairs, etc.)
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {additionalCoverages.map((coverage) => (
+            <div key={coverage.id} className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+              {/* Header Section with Type and Actions */}
+              <div className="bg-purple-50 px-6 py-4 border-b border-purple-200">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4 flex-1">
+                    <div className="flex-1">
+                      <label className="block text-sm font-semibold text-purple-800 mb-2">
+                        Additional Coverage Type
+                      </label>
+                      <select
+                        value={coverage.type}
+                        onChange={(e) => updateAdditionalCoverage(coverage.id, 'type', e.target.value)}
+                        className="w-full p-3 border border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-white"
+                      >
+                        <option value="">Select additional coverage type</option>
+                        <option value="Ordinance and Law">Ordinance and Law</option>
+                        <option value="Fungi/Mold">Fungi/Mold Coverage</option>
+                        <option value="Emergency Repairs">Emergency Repairs</option>
+                        <option value="Service Line">Service Line Coverage</option>
+                        <option value="Identity Theft">Identity Theft Protection</option>
+                        <option value="Equipment Breakdown">Equipment Breakdown</option>
+                        <option value="Water Backup">Water Backup and Sump Discharge</option>
+                        <option value="Replacement Cost">Replacement Cost Coverage</option>
+                        <option value="Scheduled Personal Property">Scheduled Personal Property</option>
+                        <option value="Green Coverage">Green/Eco-Friendly Rebuild</option>
+                        <option value="Inflation Guard">Inflation Guard</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    {coverage.type === 'Other' && (
+                      <div className="flex-1">
+                        <label className="block text-sm font-semibold text-purple-800 mb-2">
+                          Description
+                        </label>
+                        <Input
+                          value={coverage.otherDescription || ''}
+                          onChange={(e) => updateAdditionalCoverage(coverage.id, 'otherDescription', e.target.value)}
+                          placeholder="Describe other additional coverage"
+                          className="w-full p-3"
+                        />
+                      </div>
+                    )}
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={coverage.isIncluded}
+                        onChange={(e) => updateAdditionalCoverage(coverage.id, 'isIncluded', e.target.checked)}
+                        className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                      />
+                      <label className="text-sm font-medium text-purple-800">
+                        Include
+                      </label>
+                    </div>
+                  </div>
+                  <Button
+                    onClick={() => removeAdditionalCoverage(coverage.id)}
+                    variant="ghost"
+                    size="sm"
+                    className="text-red-500 hover:text-red-700 hover:bg-red-50 ml-4"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+
+              {/* Main Content - Only show if coverage is included */}
+              {coverage.isIncluded && (
+                <div className="p-6 space-y-6">
+                  {/* Calculation Method Section */}
+                  <div className="bg-blue-50 rounded-lg p-4">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={coverage.isPercentage}
+                          onChange={(e) => updateAdditionalCoverage(coverage.id, 'isPercentage', e.target.checked)}
+                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                        />
+                        <label className="text-sm font-semibold text-blue-900">
+                          Calculate as Percentage of Base Coverage
+                        </label>
+                      </div>
+                    </div>
+                    
+                    {coverage.isPercentage && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-blue-800 mb-2">
+                            Percentage Of (Base Coverage)
+                          </label>
+                          <select
+                            value={coverage.percentageOf || ''}
+                            onChange={(e) => updateAdditionalCoverage(coverage.id, 'percentageOf', e.target.value)}
+                            className="w-full p-3 border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
+                          >
+                            <option value="">Select base coverage</option>
+                            {coverages.map((baseCoverage) => (
+                              <option key={baseCoverage.id} value={baseCoverage.id}>
+                                {baseCoverage.type}{baseCoverage.type === 'Other' && baseCoverage.otherDescription ? ` (${baseCoverage.otherDescription})` : ''} - ${baseCoverage.limit?.toLocaleString() || 0}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium text-blue-800 mb-2">
+                            Percentage (%)
+                          </label>
+                          <Input
+                            type="number"
+                            value={coverage.percentageValue || ''}
+                            onChange={(e) => updateAdditionalCoverage(coverage.id, 'percentageValue', parseFloat(e.target.value) || 0)}
+                            onFocus={(e) => e.target.select()}
+                            placeholder="0.0"
+                            min="0"
+                            max="100"
+                            step="0.1"
+                            className="p-3 text-center font-mono text-lg"
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Coverage Limit Section */}
+                  <div className="bg-green-50 rounded-lg p-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+                      <div>
+                        <label className="block text-sm font-semibold text-green-800 mb-2">
+                          Coverage Limit
+                        </label>
+                        <div className="relative">
+                          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-600 font-semibold">$</span>
+                          <Input
+                            type="number"
+                            value={coverage.limit || ''}
+                            onChange={(e) => updateAdditionalCoverage(coverage.id, 'limit', parseFloat(e.target.value) || 0)}
+                            onFocus={(e) => e.target.select()}
+                            onKeyDown={(e) => {
+                              if (coverage.limit === 0 && /\d/.test(e.key)) {
+                                updateAdditionalCoverage(coverage.id, 'limit', '');
+                              }
+                            }}
+                            placeholder="0"
+                            min="0"
+                            disabled={coverage.isPercentage && coverage.calculatedAmount && !coverage.isAmountOverridden}
+                            className="pl-8 p-3 text-lg font-mono text-center"
+                          />
+                        </div>
+                      </div>
+                      
+                      {coverage.isPercentage && coverage.calculatedAmount && (
+                        <div className="bg-green-100 rounded-lg p-3">
+                          <div className="text-sm font-medium text-green-800 mb-1">
+                            Auto-calculated Limit
+                          </div>
+                          <div className="text-xl font-bold text-green-900">
+                            ${coverage.calculatedAmount.toLocaleString()}
+                          </div>
+                          {coverage.isAmountOverridden && (
+                            <div className="text-xs text-orange-600 mt-1 flex items-center gap-1">
+                              <AlertCircle className="h-3 w-3" />
+                              Manual override active
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Coverage Status */}
+                  <div className="bg-green-100 border border-green-300 rounded-lg p-3">
+                    <div className="flex items-center gap-2 text-green-800">
+                      <CheckCircle className="h-5 w-5" />
+                      <span className="font-semibold">Coverage Included</span>
+                    </div>
+                    <p className="text-sm text-green-700 mt-1">
+                      This additional coverage is active and will provide enhanced protection
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Not Included State */}
+              {!coverage.isIncluded && (
+                <div className="p-6">
+                  <div className="bg-gray-100 border border-gray-300 rounded-lg p-3">
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <X className="h-5 w-5" />
+                      <span className="font-semibold">Coverage Not Included</span>
+                    </div>
+                    <p className="text-sm text-gray-600 mt-1">
+                      Check "Include" above to activate this additional coverage
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+          
+          <Button
+            onClick={addAdditionalCoverage}
+            variant="outline"
+            className="w-full flex items-center gap-2 border-purple-300 text-purple-700 hover:bg-purple-50"
+          >
+            <Plus className="h-4 w-4" />
+            Add Additional Coverage
+          </Button>
+        </CardContent>
+      </Card>
+
       {/* Deductibles */}
       <Card>
         <CardHeader>
@@ -812,11 +1116,22 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
                           className="w-full p-3 border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
                         >
                           <option value="">Select coverage</option>
-                          {coverages.map((coverage) => (
-                            <option key={coverage.id} value={coverage.id}>
-                              {coverage.type}{coverage.type === 'Other' && coverage.otherDescription ? ` (${coverage.otherDescription})` : ''} - ${coverage.limit?.toLocaleString() || 0}
-                            </option>
-                          ))}
+                          <optgroup label="Main Coverages">
+                            {coverages.map((coverage) => (
+                              <option key={coverage.id} value={coverage.id}>
+                                {coverage.type}{coverage.type === 'Other' && coverage.otherDescription ? ` (${coverage.otherDescription})` : ''} - ${coverage.limit?.toLocaleString() || 0}
+                              </option>
+                            ))}
+                          </optgroup>
+                          {additionalCoverages.filter(ac => ac.isIncluded).length > 0 && (
+                            <optgroup label="Additional Coverages">
+                              {additionalCoverages.filter(ac => ac.isIncluded).map((coverage) => (
+                                <option key={coverage.id} value={coverage.id}>
+                                  {coverage.type}{coverage.type === 'Other' && coverage.otherDescription ? ` (${coverage.otherDescription})` : ''} - ${coverage.limit?.toLocaleString() || 0}
+                                </option>
+                              ))}
+                            </optgroup>
+                          )}
                         </select>
                       </div>
                       
@@ -959,11 +1274,22 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
                     className="w-full p-2 border rounded-lg"
                   >
                     <option value="">Select coverage</option>
-                    {coverages.map((coverage) => (
-                      <option key={coverage.id} value={coverage.id}>
-                        {coverage.type}{coverage.type === 'Other' && coverage.otherDescription ? ` (${coverage.otherDescription})` : ''}
-                      </option>
-                    ))}
+                    <optgroup label="Main Coverages">
+                      {coverages.map((coverage) => (
+                        <option key={coverage.id} value={coverage.id}>
+                          {coverage.type}{coverage.type === 'Other' && coverage.otherDescription ? ` (${coverage.otherDescription})` : ''}
+                        </option>
+                      ))}
+                    </optgroup>
+                    {additionalCoverages.filter(ac => ac.isIncluded).length > 0 && (
+                      <optgroup label="Additional Coverages">
+                        {additionalCoverages.filter(ac => ac.isIncluded).map((coverage) => (
+                          <option key={coverage.id} value={coverage.id}>
+                            {coverage.type}{coverage.type === 'Other' && coverage.otherDescription ? ` (${coverage.otherDescription})` : ''}
+                          </option>
+                        ))}
+                      </optgroup>
+                    )}
                   </select>
                 </div>
                 <div className="flex items-end">
