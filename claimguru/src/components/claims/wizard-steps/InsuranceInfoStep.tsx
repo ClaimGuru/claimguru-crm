@@ -169,7 +169,10 @@ export function InsuranceInfoStep({ data, onUpdate }: InsuranceInfoStepProps) {
         ...prev,
         agentInfo: {
           ...prev.agentInfo,
-          agentAddress: { ...prev.agentInfo.agentAddress, [field]: value }
+          agentAddress: { 
+            ...((prev.agentInfo && prev.agentInfo.agentAddress) || {}), 
+            [field]: value 
+          }
         }
       }))
     } else if (section === 'mortgage') {
@@ -431,15 +434,33 @@ export function InsuranceInfoStep({ data, onUpdate }: InsuranceInfoStepProps) {
                 <AddressAutocomplete
                   value={insuranceInfo.agentInfo?.agentAddress?.addressLine1 || ''}
                   onChange={(address, details) => {
+                    console.log('🏢 Agent Address Selected:', { address, details })
                     handleAddressChange('agent', 'addressLine1', address)
                     
                     if (details?.address_components) {
                       const components = details.address_components
+                      console.log('📍 Address Components:', components)
+                      
+                      // Extract street number and route for addressLine1
+                      const streetNumber = components.find(c => c.types.includes('street_number'))?.long_name || ''
+                      const route = components.find(c => c.types.includes('route'))?.long_name || ''
+                      const fullStreet = `${streetNumber} ${route}`.trim()
+                      
+                      // Extract city (locality, sublocality, or administrative_area_level_3)
                       const city = components.find(c => c.types.includes('locality'))?.long_name || 
+                                  components.find(c => c.types.includes('sublocality'))?.long_name ||
                                   components.find(c => c.types.includes('administrative_area_level_3'))?.long_name || ''
+                      
+                      // Extract state (administrative_area_level_1)
                       const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || ''
+                      
+                      // Extract zip code (postal_code)
                       const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || ''
                       
+                      console.log('📊 Parsed Address Components:', { fullStreet, city, state, zipCode })
+                      
+                      // Update fields with parsed components
+                      if (fullStreet) handleAddressChange('agent', 'addressLine1', fullStreet)
                       if (city) handleAddressChange('agent', 'city', city)
                       if (state) handleAddressChange('agent', 'state', state)
                       if (zipCode) handleAddressChange('agent', 'zipCode', zipCode)
