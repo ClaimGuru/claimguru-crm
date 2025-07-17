@@ -18,6 +18,7 @@ import {
   Zap
 } from 'lucide-react'
 import { formatPhoneNumber, getPhoneInputProps } from '../../../utils/phoneUtils'
+import { InsurerPersonnelInformation } from './InsurerPersonnelInformation'
 
 interface InsuranceInfoStepProps {
   data: any
@@ -70,6 +71,8 @@ export function InsuranceInfoStep({ data, onUpdate }: InsuranceInfoStepProps) {
     }
   })
 
+  const [insurerPersonnel, setInsurerPersonnel] = useState(data.insurerPersonnel || [])
+
   const [coverageAnalysis, setCoverageAnalysis] = useState(null)
   const [aiValidating, setAiValidating] = useState(false)
 
@@ -106,9 +109,10 @@ export function InsuranceInfoStep({ data, onUpdate }: InsuranceInfoStepProps) {
     onUpdate({
       insuranceInfo,
       mortgageInfo,
-      coverageAnalysis
+      coverageAnalysis,
+      insurerPersonnel
     })
-  }, [insuranceInfo, mortgageInfo, coverageAnalysis, onUpdate])
+  }, [insuranceInfo, mortgageInfo, coverageAnalysis, insurerPersonnel, onUpdate])
 
   const performCoverageAnalysis = async (extractedData) => {
     setAiValidating(true)
@@ -643,6 +647,13 @@ export function InsuranceInfoStep({ data, onUpdate }: InsuranceInfoStepProps) {
           </CardContent>
         </Card>
       )}
+
+      {/* Insurer Personnel Information */}
+      <InsurerPersonnelInformation
+        data={insurerPersonnel}
+        onUpdate={setInsurerPersonnel}
+        insurerName={insuranceInfo.carrier || 'the insurance company'}
+      />
 
       {/* Mortgage Information */}
       <Card>

@@ -58,6 +58,27 @@ export const handlePhoneNumberInput = (
 };
 
 /**
+ * Formats a phone extension
+ * @param value - Raw extension input
+ * @returns Formatted extension string
+ */
+export const formatPhoneExtension = (value: string): string => {
+  // Remove all non-numeric characters and limit to reasonable length
+  const cleaned = value.replace(/\D/g, '').slice(0, 6);
+  return cleaned;
+};
+
+/**
+ * Validates if a phone extension is valid (1-6 digits)
+ * @param value - Extension string
+ * @returns Boolean indicating if extension is valid
+ */
+export const isValidPhoneExtension = (value: string): boolean => {
+  const cleaned = value.replace(/\D/g, '');
+  return cleaned.length >= 1 && cleaned.length <= 6;
+};
+
+/**
  * Phone number input props for consistent behavior
  */
 export const getPhoneInputProps = () => ({
@@ -65,3 +86,24 @@ export const getPhoneInputProps = () => ({
   placeholder: '(555) 123-4567',
   maxLength: 14, // Length of formatted phone number
 });
+
+/**
+ * Phone extension input props for consistent behavior
+ */
+export const getPhoneExtensionInputProps = () => ({
+  type: 'tel' as const,
+  placeholder: 'Ext.',
+  maxLength: 6,
+});
+
+/**
+ * Combines phone number and extension into a display format
+ * @param phoneNumber - Formatted phone number
+ * @param extension - Phone extension
+ * @returns Combined phone number with extension
+ */
+export const combinePhoneWithExtension = (phoneNumber: string, extension: string): string => {
+  if (!phoneNumber) return '';
+  if (!extension) return phoneNumber;
+  return `${phoneNumber} ext. ${extension}`;
+};

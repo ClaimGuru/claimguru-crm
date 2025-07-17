@@ -5,6 +5,7 @@ import { Input } from '../../ui/Input';
 import { AddressAutocomplete } from '../../ui/AddressAutocomplete';
 import { Shield, DollarSign, Plus, X, Calendar, CheckCircle, User, Building, MapPin } from 'lucide-react';
 import { formatPhoneNumber, getPhoneInputProps } from '../../../utils/phoneUtils';
+import { InsurerPersonnelInformation } from './InsurerPersonnelInformation';
 
 interface Coverage {
   id: string;
@@ -70,6 +71,7 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
   const [priorPayments, setPriorPayments] = useState<PriorPayment[]>(data.priorPayments || []);
   const [isForcedPlaced, setIsForcedPlaced] = useState(false);
   const [applicableDeductible, setApplicableDeductible] = useState<string>(data.applicableDeductible || '');
+  const [insurerPersonnel, setInsurerPersonnel] = useState(data.insurerPersonnel || []);
 
   // Update parent data whenever local state changes
   useEffect(() => {
@@ -80,9 +82,10 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
       coverages,
       deductibles,
       priorPayments,
-      applicableDeductible
+      applicableDeductible,
+      insurerPersonnel
     });
-  }, [insuranceCarrier, policyDetails, coverages, deductibles, priorPayments, applicableDeductible]);
+  }, [insuranceCarrier, policyDetails, coverages, deductibles, priorPayments, applicableDeductible, insurerPersonnel]);
 
   // Coverage Management
   const addCoverage = () => {
@@ -534,6 +537,13 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
           </div>
         </CardContent>
       </Card>
+
+      {/* Insurer Personnel Information */}
+      <InsurerPersonnelInformation
+        data={insurerPersonnel}
+        onUpdate={setInsurerPersonnel}
+        insurerName={insuranceCarrier.name || 'the insurance company'}
+      />
 
       {/* Coverage Information */}
       <Card>
