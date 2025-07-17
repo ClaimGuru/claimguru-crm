@@ -139,12 +139,12 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
     if (target === 'insured') {
       setInsuredDetails(prev => ({
         ...prev,
-        phones: [...prev.phones, { type: 'cell', number: '' }]
+        phones: [...prev.phones, { type: 'cell', number: '', extension: '' }]
       }))
     } else {
       setCoInsured(prev => ({
         ...prev,
-        phones: [...prev.phones, { type: 'cell', number: '' }]
+        phones: [...prev.phones, { type: 'cell', number: '', extension: '' }]
       }))
     }
   }
@@ -427,7 +427,7 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
               </Button>
             </div>
             {insuredDetails.phones.map((phone, index) => (
-              <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
+              <div key={index} className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-2">
                 <select
                   value={phone.type}
                   onChange={(e) => {
@@ -446,11 +446,24 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
                   value={phone.number}
                   onChange={(e) => {
                     const newPhones = [...insuredDetails.phones]
-                    newPhones[index].number = e.target.value
+                    newPhones[index].number = formatPhoneNumber(e.target.value)
                     setInsuredDetails(prev => ({ ...prev, phones: newPhones }))
                   }}
+                  {...getPhoneInputProps()}
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500 md:col-span-2"
                   placeholder="(555) 123-4567"
+                />
+                <input
+                  type="text"
+                  value={phone.extension || ''}
+                  onChange={(e) => {
+                    const newPhones = [...insuredDetails.phones]
+                    newPhones[index].extension = formatPhoneExtension(e.target.value)
+                    setInsuredDetails(prev => ({ ...prev, phones: newPhones }))
+                  }}
+                  {...getPhoneExtensionInputProps()}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="ext."
                 />
               </div>
             ))}
@@ -546,34 +559,93 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
               </div>
             </div>
             
-            {/* Co-Insured Phone and Email (simplified for brevity) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-                <input
-                  type="tel"
-                  value={coInsured.phones?.[0]?.number || ''}
-                  onChange={(e) => setCoInsured(prev => ({ 
-                    ...prev, 
-                    phones: [{ type: 'main', number: e.target.value }] 
-                  }))}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                  placeholder="(555) 123-4567"
-                />
+            {/* Co-Insured Phone Numbers */}
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <label className="block text-sm font-medium text-gray-700">Phone Numbers</label>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => addPhone('coinsured')}
+                  className="flex items-center gap-1"
+                >
+                  <Phone className="h-4 w-4" />
+                  Add Phone
+                </Button>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+              {coInsured.phones.map((phone, index) => (
+                <div key={index} className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-2">
+                  <select
+                    value={phone.type}
+                    onChange={(e) => {
+                      const newPhones = [...coInsured.phones]
+                      newPhones[index].type = e.target.value
+                      setCoInsured(prev => ({ ...prev, phones: newPhones }))
+                    }}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                  >
+                    {phoneTypes.map(type => (
+                      <option key={type} value={type.toLowerCase()}>{type}</option>
+                    ))}
+                  </select>
+                  <input
+                    type="tel"
+                    value={phone.number}
+                    onChange={(e) => {
+                      const newPhones = [...coInsured.phones]
+                      newPhones[index].number = formatPhoneNumber(e.target.value)
+                      setCoInsured(prev => ({ ...prev, phones: newPhones }))
+                    }}
+                    {...getPhoneInputProps()}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500 md:col-span-2"
+                    placeholder="(555) 123-4567"
+                  />
+                  <input
+                    type="text"
+                    value={phone.extension || ''}
+                    onChange={(e) => {
+                      const newPhones = [...coInsured.phones]
+                      newPhones[index].extension = formatPhoneExtension(e.target.value)
+                      setCoInsured(prev => ({ ...prev, phones: newPhones }))
+                    }}
+                    {...getPhoneExtensionInputProps()}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                    placeholder="ext."
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Co-Insured Email Addresses */}
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <label className="block text-sm font-medium text-gray-700">Email Addresses</label>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => addEmail('coinsured')}
+                  className="flex items-center gap-1"
+                >
+                  <Mail className="h-4 w-4" />
+                  Add Email
+                </Button>
+              </div>
+              {coInsured.emails.map((email, index) => (
                 <input
+                  key={index}
                   type="email"
-                  value={coInsured.emails?.[0]?.email || ''}
-                  onChange={(e) => setCoInsured(prev => ({ 
-                    ...prev, 
-                    emails: [{ email: e.target.value }] 
-                  }))}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                  value={email.email}
+                  onChange={(e) => {
+                    const newEmails = [...coInsured.emails]
+                    newEmails[index].email = e.target.value
+                    setCoInsured(prev => ({ ...prev, emails: newEmails }))
+                  }}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500 mb-2"
                   placeholder="email@example.com"
                 />
-              </div>
+              ))}
             </div>
           </CardContent>
         )}
@@ -736,28 +808,47 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
             </label>
             
             {tenantOccupied && (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border-l-4 border-blue-500 pl-4">
-                <input
-                  type="text"
-                  value={tenantInfo.name}
-                  onChange={(e) => setTenantInfo(prev => ({ ...prev, name: e.target.value }))}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                  placeholder="Tenant name"
-                />
-                <input
-                  type="tel"
-                  value={tenantInfo.phone}
-                  onChange={(e) => setTenantInfo(prev => ({ ...prev, phone: e.target.value }))}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                  placeholder="Tenant phone"
-                />
-                <input
-                  type="text"
-                  value={tenantInfo.address}
-                  onChange={(e) => setTenantInfo(prev => ({ ...prev, address: e.target.value }))}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                  placeholder="Tenant mailing address"
-                />
+              <div className="space-y-4 border-l-4 border-blue-500 pl-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    value={tenantInfo.name}
+                    onChange={(e) => setTenantInfo(prev => ({ ...prev, name: e.target.value }))}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                    placeholder="Tenant name"
+                  />
+                  <input
+                    type="text"
+                    value={tenantInfo.address}
+                    onChange={(e) => setTenantInfo(prev => ({ ...prev, address: e.target.value }))}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                    placeholder="Tenant mailing address"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <input
+                    type="tel"
+                    value={tenantInfo.phone}
+                    onChange={(e) => setTenantInfo(prev => ({ 
+                      ...prev, 
+                      phone: formatPhoneNumber(e.target.value) 
+                    }))}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                    {...getPhoneInputProps()}
+                    placeholder="Tenant phone"
+                  />
+                  <input
+                    type="tel"
+                    value={tenantInfo.phoneExtension}
+                    onChange={(e) => setTenantInfo(prev => ({ 
+                      ...prev, 
+                      phoneExtension: formatPhoneExtension(e.target.value) 
+                    }))}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                    {...getPhoneExtensionInputProps()}
+                    placeholder="Extension"
+                  />
+                </div>
               </div>
             )}
           </div>
@@ -776,34 +867,53 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
             </label>
             
             {hasUninsuredParty && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-l-4 border-green-500 pl-4">
-                <input
-                  type="text"
-                  value={uninsuredParty.name}
-                  onChange={(e) => setUninsuredParty(prev => ({ ...prev, name: e.target.value }))}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                  placeholder="Name"
-                />
-                <input
-                  type="tel"
-                  value={uninsuredParty.phone}
-                  onChange={(e) => setUninsuredParty(prev => ({ ...prev, phone: e.target.value }))}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                  placeholder="Phone"
-                />
+              <div className="space-y-4 border-l-4 border-green-500 pl-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    value={uninsuredParty.name}
+                    onChange={(e) => setUninsuredParty(prev => ({ ...prev, name: e.target.value }))}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                    placeholder="Name"
+                  />
+                  <input
+                    type="text"
+                    value={uninsuredParty.relationship}
+                    onChange={(e) => setUninsuredParty(prev => ({ ...prev, relationship: e.target.value }))}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                    placeholder="Relationship (Property Manager, etc.)"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <input
+                    type="tel"
+                    value={uninsuredParty.phone}
+                    onChange={(e) => setUninsuredParty(prev => ({ 
+                      ...prev, 
+                      phone: formatPhoneNumber(e.target.value) 
+                    }))}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                    {...getPhoneInputProps()}
+                    placeholder="Phone"
+                  />
+                  <input
+                    type="tel"
+                    value={uninsuredParty.phoneExtension}
+                    onChange={(e) => setUninsuredParty(prev => ({ 
+                      ...prev, 
+                      phoneExtension: formatPhoneExtension(e.target.value) 
+                    }))}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                    {...getPhoneExtensionInputProps()}
+                    placeholder="Extension"
+                  />
+                </div>
                 <input
                   type="text"
                   value={uninsuredParty.address}
                   onChange={(e) => setUninsuredParty(prev => ({ ...prev, address: e.target.value }))}
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
                   placeholder="Address"
-                />
-                <input
-                  type="text"
-                  value={uninsuredParty.relationship}
-                  onChange={(e) => setUninsuredParty(prev => ({ ...prev, relationship: e.target.value }))}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                  placeholder="Relationship (Property Manager, etc.)"
                 />
               </div>
             )}

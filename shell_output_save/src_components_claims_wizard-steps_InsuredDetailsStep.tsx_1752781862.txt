@@ -1,0 +1,101 @@
+79:  const [hasUninsuredParty, setHasUninsuredParty] = useState(false)
+80:  const [uninsuredParty, setUninsuredParty] = useState(data.uninsuredParty || {
+81-    name: '',
+82-    phone: '',
+83-    phoneExtension: '',
+84-    address: '',
+85-    relationship: ''
+86-  })
+87-
+88-  // Auto-populate from AI extracted data
+89-  useEffect(() => {
+90-    if (data.aiExtractedData?.extractedData) {
+91-      const extractedData = data.aiExtractedData.extractedData
+92-      
+93-      if (extractedData.insuredName && !insuredDetails.firstName) {
+94-        const nameParts = extractedData.insuredName.split(' ')
+95-        setInsuredDetails(prev => ({
+96-          ...prev,
+97-          firstName: nameParts[0] || '',
+98-          lastName: nameParts.slice(1).join(' ') || ''
+99-        }))
+100-      }
+--
+129:      uninsuredParty: hasUninsuredParty ? uninsuredParty : null
+130-    })
+131-  }, [
+132-    clientType, isOrganization, organizationName, pointOfContact, insuredDetails,
+133-    hasCoInsured, coInsured, mailingAddress, lossAddressSame, lossAddress,
+134:    hasGateCode, gateCode, tenantOccupied, tenantInfo, hasUninsuredParty, uninsuredParty,
+135-    onUpdate
+136-  ])
+137-
+138-  const addPhone = (target: 'insured' | 'coinsured') => {
+139-    if (target === 'insured') {
+140-      setInsuredDetails(prev => ({
+141-        ...prev,
+142-        phones: [...prev.phones, { type: 'cell', number: '', extension: '' }]
+143-      }))
+144-    } else {
+145-      setCoInsured(prev => ({
+146-        ...prev,
+147-        phones: [...prev.phones, { type: 'cell', number: '', extension: '' }]
+148-      }))
+149-    }
+150-  }
+151-
+152-  const addEmail = (target: 'insured' | 'coinsured') => {
+153-    if (target === 'insured') {
+154-      setInsuredDetails(prev => ({
+--
+837:          {/* Uninsured Party */}
+838-          <div>
+839-            <label className="flex items-center gap-2 mb-3">
+840-              <input
+841-                type="checkbox"
+842:                checked={hasUninsuredParty}
+843:                onChange={(e) => setHasUninsuredParty(e.target.checked)}
+844-                className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+845-              />
+846-              <Building className="h-4 w-4" />
+847-              <span className="font-medium">Uninsured party involved (property manager, etc.)</span>
+848-            </label>
+849-            
+850:            {hasUninsuredParty && (
+851-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-l-4 border-green-500 pl-4">
+852-                <input
+853-                  type="text"
+854-                  value={uninsuredParty.name}
+855:                  onChange={(e) => setUninsuredParty(prev => ({ ...prev, name: e.target.value }))}
+856-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+857-                  placeholder="Name"
+858-                />
+859-                <input
+860-                  type="tel"
+861-                  value={uninsuredParty.phone}
+862:                  onChange={(e) => setUninsuredParty(prev => ({ ...prev, phone: e.target.value }))}
+863-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+864-                  placeholder="Phone"
+865-                />
+866-                <input
+867-                  type="text"
+868-                  value={uninsuredParty.address}
+869:                  onChange={(e) => setUninsuredParty(prev => ({ ...prev, address: e.target.value }))}
+870-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+871-                  placeholder="Address"
+872-                />
+873-                <input
+874-                  type="text"
+875-                  value={uninsuredParty.relationship}
+876:                  onChange={(e) => setUninsuredParty(prev => ({ ...prev, relationship: e.target.value }))}
+877-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+878-                  placeholder="Relationship (Property Manager, etc.)"
+879-                />
+880-              </div>
+881-            )}
+882-          </div>
+883-        </CardContent>
+884-      </Card>
+885-    </div>
+886-  )
+887-}
