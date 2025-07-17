@@ -34,7 +34,7 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
     phoneType: data.phoneType || 'cell', // Default to cell phone
     primaryEmail: data.primaryEmail || '',
     phoneNumbers: data.phoneNumbers || [
-      { number: data.primaryPhone || '', type: data.phoneType || 'cell', isPrimary: true }
+      { number: data.primaryPhone || '', type: data.phoneType || 'cell', extension: '', isPrimary: true }
     ],
     mailingAddress: {
       addressLine1: data.mailingAddress?.addressLine1 || '',
@@ -155,12 +155,19 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
   };
 
   // Phone number management functions
-  const handlePhoneNumberChange = (index: number, field: 'number' | 'type', value: string) => {
+  const handlePhoneNumberChange = (index: number, field: 'number' | 'type' | 'extension', value: string) => {
     const updatedPhoneNumbers = [...clientDetails.phoneNumbers];
     
     if (field === 'number') {
       // Apply phone number formatting
       const formattedValue = formatPhoneNumber(value);
+      updatedPhoneNumbers[index] = {
+        ...updatedPhoneNumbers[index],
+        [field]: formattedValue
+      };
+    } else if (field === 'extension') {
+      // Apply extension formatting
+      const formattedValue = formatPhoneExtension(value);
       updatedPhoneNumbers[index] = {
         ...updatedPhoneNumbers[index],
         [field]: formattedValue
@@ -189,7 +196,7 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
       ...clientDetails,
       phoneNumbers: [
         ...clientDetails.phoneNumbers,
-        { number: '', type: 'cell', isPrimary: false }
+        { number: '', type: 'cell', extension: '', isPrimary: false }
       ]
     };
     setClientDetails(updatedDetails);
@@ -237,9 +244,13 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
 
   // Sync local state with prop data changes
   useEffect(() => {
-    const phoneNumbers = data.phoneNumbers || [
+    // Ensure phone numbers have extension field (migration support)
+    const phoneNumbers = (data.phoneNumbers || [
       { number: data.primaryPhone || '', type: data.phoneType || 'cell', isPrimary: true }
-    ];
+    ]).map(phone => ({
+      ...phone,
+      extension: phone.extension || '' // Add extension field if missing
+    }));
     
     setClientDetails({
       clientType: data.clientType || 'individual',
@@ -435,8 +446,19 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
                       />
                     </div>
                     
+                    {/* Extension Input */}
+                    <div className="w-20">
+                      <Input
+                        {...getPhoneExtensionInputProps()}
+                        value={phone.extension || ''}
+                        onChange={(e) => handlePhoneNumberChange(index, 'extension', e.target.value)}
+                        className="w-full"
+                        placeholder="Ext."
+                      />
+                    </div>
+                    
                     {/* Phone Type Select */}
-                    <div className="w-32">
+                    <div className="w-24">
                       <select
                         value={phone.type}
                         onChange={(e) => handlePhoneNumberChange(index, 'type', e.target.value)}
