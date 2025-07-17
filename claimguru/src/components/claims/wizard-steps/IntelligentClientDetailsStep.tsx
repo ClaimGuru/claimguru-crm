@@ -20,6 +20,7 @@ import {
   Wand2,
   Info
 } from 'lucide-react';
+import { formatPhoneNumber, formatPhoneExtension, getPhoneInputProps, getPhoneExtensionInputProps } from '../../../utils/phoneUtils';
 
 interface IntelligentClientDetailsStepProps {
   data: any;
@@ -42,6 +43,7 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
     firstName: '',
     lastName: '',
     phone: '',
+    phoneExtension: '',
     email: '',
     mailingAddress: {
       addressLine1: '',
@@ -53,7 +55,8 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
     emergencyContact: {
       name: '',
       relationship: '',
-      phone: ''
+      phone: '',
+      phoneExtension: ''
     },
     ...data.clientDetails
   });
@@ -382,23 +385,35 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
 
           {/* Contact Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <ConfirmedFieldWrapper
-              fieldPath="phone"
-              label="Phone Number"
-              value={clientDetails.phone || ''}
-              placeholder="(555) 123-4567"
-              type="tel"
-              required={true}
-              onChange={(value) => handleInputChange('phone', value)}
-              onConfirm={(value) => {
-                console.log('✅ Phone confirmed:', value);
-                handleInputChange('phone', value);
-              }}
-              onReject={(reason) => {
-                console.log('❌ Phone rejected:', reason);
-                handleInputChange('phone', '');
-              }}
-            />
+            <div className="grid grid-cols-2 gap-2">
+              <ConfirmedFieldWrapper
+                fieldPath="phone"
+                label="Phone Number"
+                value={clientDetails.phone || ''}
+                placeholder="(555) 123-4567"
+                type="tel"
+                required={true}
+                onChange={(value) => handleInputChange('phone', formatPhoneNumber(value))}
+                onConfirm={(value) => {
+                  console.log('✅ Phone confirmed:', value);
+                  handleInputChange('phone', formatPhoneNumber(value));
+                }}
+                onReject={(reason) => {
+                  console.log('❌ Phone rejected:', reason);
+                  handleInputChange('phone', '');
+                }}
+              />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Extension
+                </label>
+                <Input
+                  value={clientDetails.phoneExtension || ''}
+                  onChange={(e) => handleInputChange('phoneExtension', formatPhoneExtension(e.target.value))}
+                  {...getPhoneExtensionInputProps()}
+                />
+              </div>
+            </div>
 
             <ConfirmedFieldWrapper
               fieldPath="email"
@@ -465,16 +480,28 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Phone
-                </label>
-                <Input
-                  type="tel"
-                  value={clientDetails.emergencyContact.phone}
-                  onChange={(e) => handleInputChange('emergencyContact.phone', e.target.value)}
-                  placeholder="(555) 123-4567"
-                />
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Phone
+                  </label>
+                  <Input
+                    type="tel"
+                    value={clientDetails.emergencyContact.phone}
+                    onChange={(e) => handleInputChange('emergencyContact.phone', formatPhoneNumber(e.target.value))}
+                    {...getPhoneInputProps()}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Extension
+                  </label>
+                  <Input
+                    value={clientDetails.emergencyContact.phoneExtension}
+                    onChange={(e) => handleInputChange('emergencyContact.phoneExtension', formatPhoneExtension(e.target.value))}
+                    {...getPhoneExtensionInputProps()}
+                  />
+                </div>
               </div>
             </div>
           </div>

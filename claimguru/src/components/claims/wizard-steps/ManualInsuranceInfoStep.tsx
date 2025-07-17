@@ -4,7 +4,7 @@ import { Button } from '../../ui/Button';
 import { Input } from '../../ui/Input';
 import { AddressAutocomplete } from '../../ui/AddressAutocomplete';
 import { Shield, DollarSign, Plus, X, Calendar, CheckCircle, User, Building, MapPin, AlertCircle } from 'lucide-react';
-import { formatPhoneNumber, getPhoneInputProps } from '../../../utils/phoneUtils';
+import { formatPhoneNumber, formatPhoneExtension, getPhoneInputProps, getPhoneExtensionInputProps } from '../../../utils/phoneUtils';
 import { InsurerPersonnelInformation } from './InsurerPersonnelInformation';
 import { WizardValidationService } from '../../../services/wizardValidationService';
 import { FieldValidationIndicator } from '../../ui/ValidationSummary';
@@ -93,6 +93,7 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
       agentLastName: '',
       agentEmail: '',
       agentPhone: '',
+      agentPhoneExtension: '',
       agencyLicenseNumber: '',
       agentAddress: {
         addressLine1: '',
@@ -374,22 +375,37 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Agent Phone *</label>
-                  <Input
-                    type="tel"
-                    value={insuranceCarrier.agentInfo?.agentPhone || ''}
-                    onChange={(e) => setInsuranceCarrier({
-                      ...insuranceCarrier,
-                      agentInfo: {
-                        ...insuranceCarrier.agentInfo,
-                        agentPhone: formatPhoneNumber(e.target.value)
-                      }
-                    })}
-                    placeholder="(555) 123-4567"
-                    {...getPhoneInputProps()}
-                    required
-                  />
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Agent Phone *</label>
+                    <Input
+                      type="tel"
+                      value={insuranceCarrier.agentInfo?.agentPhone || ''}
+                      onChange={(e) => setInsuranceCarrier({
+                        ...insuranceCarrier,
+                        agentInfo: {
+                          ...insuranceCarrier.agentInfo,
+                          agentPhone: formatPhoneNumber(e.target.value)
+                        }
+                      })}
+                      {...getPhoneInputProps()}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Extension</label>
+                    <Input
+                      value={insuranceCarrier.agentInfo?.agentPhoneExtension || ''}
+                      onChange={(e) => setInsuranceCarrier({
+                        ...insuranceCarrier,
+                        agentInfo: {
+                          ...insuranceCarrier.agentInfo,
+                          agentPhoneExtension: formatPhoneExtension(e.target.value)
+                        }
+                      })}
+                      {...getPhoneExtensionInputProps()}
+                    />
+                  </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Agent Email *</label>

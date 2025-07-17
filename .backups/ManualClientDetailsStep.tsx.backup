@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card';
 import { Input } from '../../ui/Input';
 import { Switch } from '../../ui/Switch';
 import { AddressAutocomplete } from '../../ui/AddressAutocomplete';
-import { formatPhoneNumber, getPhoneInputProps } from '../../../utils/phoneUtils';
+import { formatPhoneNumber, formatPhoneExtension, getPhoneInputProps, getPhoneExtensionInputProps } from '../../../utils/phoneUtils';
 import { 
   User, 
   MapPin, 
@@ -49,7 +49,8 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
     coInsuredFirstName: data.coInsuredFirstName || '',
     coInsuredLastName: data.coInsuredLastName || '',
     coInsuredEmail: data.coInsuredEmail || '',
-    coInsuredPhone: data.coInsuredPhone || ''
+    coInsuredPhone: data.coInsuredPhone || '',
+    coInsuredPhoneExtension: data.coInsuredPhoneExtension || ''
   });
 
   const handleInputChange = (field: string, value: string | boolean) => {
@@ -58,6 +59,9 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
     // Apply phone number formatting for phone fields
     if (field === 'coInsuredPhone' && typeof value === 'string') {
       processedValue = formatPhoneNumber(value);
+    }
+    if (field === 'coInsuredPhoneExtension' && typeof value === 'string') {
+      processedValue = formatPhoneExtension(value);
     }
     
     const updatedDetails = {
@@ -623,18 +627,29 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
                     />
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
-                      <Phone className="h-4 w-4" />
-                      Co-Insured Phone *
-                    </label>
-                    <Input
-                      type="tel"
-                      value={clientDetails.coInsuredPhone}
-                      onChange={(e) => handleInputChange('coInsuredPhone', e.target.value)}
-                      placeholder="(555) 123-4567"
-                      required={clientDetails.hasCoInsured}
-                    />
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                        <Phone className="h-4 w-4" />
+                        Co-Insured Phone *
+                      </label>
+                      <Input
+                        {...getPhoneInputProps()}
+                        value={clientDetails.coInsuredPhone}
+                        onChange={(e) => handleInputChange('coInsuredPhone', e.target.value)}
+                        required={clientDetails.hasCoInsured}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Extension
+                      </label>
+                      <Input
+                        value={clientDetails.coInsuredPhoneExtension}
+                        onChange={(e) => handleInputChange('coInsuredPhoneExtension', e.target.value)}
+                        {...getPhoneExtensionInputProps()}
+                      />
+                    </div>
                   </div>
                 </div>
 
