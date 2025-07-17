@@ -4,7 +4,7 @@ import { Button } from '../../ui/Button'
 import { Input } from '../../ui/Input'
 import { LoadingSpinner } from '../../ui/LoadingSpinner'
 import { AddressAutocomplete } from '../../ui/AddressAutocomplete'
-import { formatPhoneNumber, getPhoneInputProps } from '../../../utils/phoneUtils'
+import { formatPhoneNumber, getPhoneInputProps, formatPhoneExtension, getPhoneExtensionInputProps, combinePhoneWithExtension } from '../../../utils/phoneUtils'
 import { User, Building, MapPin, AlertTriangle, CheckCircle, Brain, Users } from 'lucide-react'
 import { enhancedClaimWizardAI, AIValidation } from '../../../services/enhancedClaimWizardAI'
 
@@ -432,31 +432,44 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
           )}
 
           {/* Contact Information */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Phone Number</label>
-              <Input
-                {...getPhoneInputProps()}
-                value={insuredDetails.phone || ''}
-                onChange={(e) => setInsuredDetails({
-                  ...insuredDetails,
-                  phone: formatPhoneNumber(e.target.value)
-                })}
-                className="w-full"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Email Address</label>
-              <input
-                type="email"
-                value={insuredDetails.email || ''}
-                onChange={(e) => setInsuredDetails({
-                  ...insuredDetails,
-                  email: e.target.value
-                })}
-                className="w-full p-2 border rounded-lg"
-                placeholder="email@example.com"
-              />
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Phone Number</label>
+                <div className="flex gap-2">
+                  <Input
+                    {...getPhoneInputProps()}
+                    value={insuredDetails.phone || ''}
+                    onChange={(e) => setInsuredDetails({
+                      ...insuredDetails,
+                      phone: formatPhoneNumber(e.target.value)
+                    })}
+                    className="flex-1"
+                  />
+                  <Input
+                    {...getPhoneExtensionInputProps()}
+                    value={insuredDetails.phoneExtension || ''}
+                    onChange={(e) => setInsuredDetails({
+                      ...insuredDetails,
+                      phoneExtension: formatPhoneExtension(e.target.value)
+                    })}
+                    className="w-20"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Email Address</label>
+                <input
+                  type="email"
+                  value={insuredDetails.email || ''}
+                  onChange={(e) => setInsuredDetails({
+                    ...insuredDetails,
+                    email: e.target.value
+                  })}
+                  className="w-full p-2 border rounded-lg"
+                  placeholder="email@example.com"
+                />
+              </div>
             </div>
           </div>
 

@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
 import { Button } from '../../ui/Button'
 import { Input } from '../../ui/Input'
 import { AddressAutocomplete } from '../../ui/AddressAutocomplete'
-import { formatPhoneNumber, getPhoneInputProps } from '../../../utils/phoneUtils'
+import { formatPhoneNumber, getPhoneInputProps, formatPhoneExtension, getPhoneExtensionInputProps, combinePhoneWithExtension } from '../../../utils/phoneUtils'
 import { 
   Users, 
   Building, 
@@ -40,7 +40,7 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
     title: '',
     firstName: '',
     lastName: '',
-    phones: [{ type: 'main', number: '' }],
+    phones: [{ type: 'main', number: '', extension: '' }],
     emails: [{ email: '' }]
   })
   
@@ -49,7 +49,7 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
     title: '',
     firstName: '',
     lastName: '',
-    phones: [{ type: 'main', number: '' }],
+    phones: [{ type: 'main', number: '', extension: '' }],
     emails: [{ email: '' }]
   })
   
@@ -72,6 +72,7 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
   const [tenantInfo, setTenantInfo] = useState(data.tenantInfo || {
     name: '',
     phone: '',
+    phoneExtension: '',
     address: ''
   })
   
@@ -79,6 +80,7 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
   const [uninsuredParty, setUninsuredParty] = useState(data.uninsuredParty || {
     name: '',
     phone: '',
+    phoneExtension: '',
     address: '',
     relationship: ''
   })
