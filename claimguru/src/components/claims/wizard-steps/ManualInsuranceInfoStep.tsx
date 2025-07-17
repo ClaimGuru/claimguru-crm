@@ -920,7 +920,10 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
               {/* Third Row: Depreciation Fields */}
               <div className="flex items-center gap-4">
                 <div className="w-40">
-                  <label className="block text-sm font-medium mb-1">Recoverable Depreciation ($)</label>
+                  <label className="block text-sm font-medium mb-1">
+                    Recoverable Depreciation ($)
+                    <span className="text-xs text-blue-600 block font-normal">Held back, recoverable after repairs</span>
+                  </label>
                   <Input
                     type="number"
                     value={payment.recoverableDepreciation || ''}
@@ -954,11 +957,18 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
                   />
                 </div>
                 <div className="flex-1">
-                  {/* Total Calculation Display */}
-                  <div className="text-sm text-gray-600 pt-6">
-                    <span className="font-medium">
-                      Total with Depreciation: ${((payment.amount || 0) + (payment.recoverableDepreciation || 0) + (payment.nonRecoverableDepreciation || 0)).toLocaleString()}
-                    </span>
+                  {/* Payment Calculation Display */}
+                  <div className="text-sm text-gray-600 pt-6 space-y-1">
+                    <div>
+                      <span className="font-medium text-green-700">
+                        Net Payment Issued: ${((payment.amount || 0) - (payment.nonRecoverableDepreciation || 0) - (payment.deductibleApplied || 0)).toLocaleString()}
+                      </span>
+                    </div>
+                    {(payment.recoverableDepreciation || 0) > 0 && (
+                      <div className="text-xs text-blue-600">
+                        + ${(payment.recoverableDepreciation || 0).toLocaleString()} recoverable after repairs
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
