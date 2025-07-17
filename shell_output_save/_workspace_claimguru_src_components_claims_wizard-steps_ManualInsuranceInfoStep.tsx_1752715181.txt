@@ -1,0 +1,60 @@
+27:  appliesTo?: string; // For claim-specific deductible selection
+38:  deductibleApplied?: number;
+70:  const [deductibles, setDeductibles] = useState<Deductible[]>(data.deductibles || []);
+83:      deductibles,
+88:  }, [insuranceCarrier, policyDetails, coverages, deductibles, priorPayments, applicableDeductible, insurerPersonnel]);
+118:    setDeductibles([...deductibles, newDeductible]);
+122:    setDeductibles(deductibles.map(deductible => {
+123:      if (deductible.id === id) {
+124:        const updated = { ...deductible, [field]: value };
+146:      return deductible;
+151:    setDeductibles(deductibles.filter(deductible => deductible.id !== id));
+667:          {deductibles.map((deductible) => (
+668:            <div key={deductible.id} className="p-4 border rounded-lg space-y-3">
+672:                  <label className="block text-sm font-medium mb-1">Deductible Type</label>
+674:                    value={deductible.type}
+675:                    onChange={(e) => updateDeductible(deductible.id, 'type', e.target.value)}
+678:                    <option value="">Select deductible type</option>
+681:                    <option value="Windstorm">Windstorm</option>
+688:                {deductible.type === 'Other' && (
+692:                      value={deductible.otherDescription || ''}
+693:                      onChange={(e) => updateDeductible(deductible.id, 'otherDescription', e.target.value)}
+694:                      placeholder="Describe other deductible type"
+701:                    onClick={() => removeDeductible(deductible.id)}
+716:                    checked={deductible.isPercentage}
+717:                    onChange={(e) => updateDeductible(deductible.id, 'isPercentage', e.target.checked)}
+720:                  <label className="text-sm font-medium">Calculate as Percentage</label>
+723:                {deductible.isPercentage && (
+728:                        value={deductible.percentageOf || ''}
+729:                        onChange={(e) => updateDeductible(deductible.id, 'percentageOf', e.target.value)}
+745:                        value={deductible.percentageValue || ''}
+746:                        onChange={(e) => updateDeductible(deductible.id, 'percentageValue', parseFloat(e.target.value) || 0)}
+764:                    value={deductible.amount || ''}
+765:                    onChange={(e) => updateDeductible(deductible.id, 'amount', parseFloat(e.target.value) || 0)}
+769:                      if (deductible.amount === 0 && /\d/.test(e.key)) {
+770:                        updateDeductible(deductible.id, 'amount', '');
+775:                    disabled={deductible.isPercentage && deductible.calculatedAmount && !deductible.isAmountOverridden}
+779:                {deductible.isPercentage && deductible.calculatedAmount && (
+782:                      Auto-calculated: ${deductible.calculatedAmount.toLocaleString()}
+783:                      {deductible.isAmountOverridden && (
+796:                    value={deductible.appliesTo || ''}
+797:                    onChange={(e) => updateDeductible(deductible.id, 'appliesTo', e.target.value)}
+801:                    <option value="Yes">Yes - This deductible applies</option>
+802:                    <option value="No">No - This deductible does not apply</option>
+805:                {deductible.appliesTo === 'Yes' && (
+808:                    This deductible will be applied to the claim
+905:                    value={payment.deductibleApplied || ''}
+906:                    onChange={(e) => updatePriorPayment(payment.id, 'deductibleApplied', parseFloat(e.target.value) || 0)}
+910:                      if ((payment.deductibleApplied || 0) === 0 && /\d/.test(e.key)) {
+911:                        updatePriorPayment(payment.id, 'deductibleApplied', '');
+964:                        Net Payment Issued: ${((payment.amount || 0) - (payment.nonRecoverableDepreciation || 0) - (payment.deductibleApplied || 0)).toLocaleString()}
+990:      {deductibles.length > 0 && (
+1002:                  Select which deductible applies to this specific claim. This will be used for calculations and reporting.
+1016:                    <option value="">Select the deductible that applies to this claim</option>
+1017:                    {deductibles.map((deductible) => (
+1018:                      <option key={deductible.id} value={deductible.id}>
+1019:                        {deductible.type}
+1020:                        {deductible.type === 'Other' && deductible.otherDescription ? ` (${deductible.otherDescription})` : ''} - 
+1021:                        ${deductible.amount?.toLocaleString() || 0}
+1022:                        {deductible.isPercentage && deductible.percentageValue ? ` (${deductible.percentageValue}%)` : ''}
+1031:                      const selectedDeductible = deductibles.find(d => d.id === applicableDeductible);
