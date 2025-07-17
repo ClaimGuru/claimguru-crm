@@ -369,33 +369,53 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
                 <AddressAutocomplete
                   value={insuranceCarrier.agentInfo?.agentAddress?.addressLine1 || ''}
                   onChange={(address, details) => {
-                    setInsuranceCarrier({
-                      ...insuranceCarrier,
-                      agentInfo: {
-                        ...insuranceCarrier.agentInfo,
-                        agentAddress: {
-                          ...insuranceCarrier.agentInfo?.agentAddress,
-                          addressLine1: address
-                        }
-                      }
-                    });
+                    console.log('🏢 Manual Agent Address Selected:', { address, details })
                     
                     if (details?.address_components) {
                       const components = details.address_components;
-                      const city = components.find(c => c.types.includes('locality'))?.long_name || 
-                                  components.find(c => c.types.includes('administrative_area_level_3'))?.long_name || '';
-                      const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || '';
-                      const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || '';
+                      console.log('📍 Manual Address Components:', components)
                       
+                      // Extract street number and route for addressLine1
+                      const streetNumber = components.find(c => c.types.includes('street_number'))?.long_name || ''
+                      const route = components.find(c => c.types.includes('route'))?.long_name || ''
+                      const fullStreet = `${streetNumber} ${route}`.trim()
+                      
+                      // Extract city (locality, sublocality, or administrative_area_level_3)
+                      const city = components.find(c => c.types.includes('locality'))?.long_name || 
+                                  components.find(c => c.types.includes('sublocality'))?.long_name ||
+                                  components.find(c => c.types.includes('administrative_area_level_3'))?.long_name || ''
+                      
+                      // Extract state (administrative_area_level_1)
+                      const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || ''
+                      
+                      // Extract zip code (postal_code)
+                      const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || ''
+                      
+                      console.log('📊 Manual Parsed Address Components:', { fullStreet, city, state, zipCode })
+                      
+                      // Update all address fields at once
                       setInsuranceCarrier(prev => ({
                         ...prev,
                         agentInfo: {
                           ...prev.agentInfo,
                           agentAddress: {
                             ...prev.agentInfo?.agentAddress,
+                            addressLine1: fullStreet || address,
                             city: city || prev.agentInfo?.agentAddress?.city || '',
                             state: state || prev.agentInfo?.agentAddress?.state || '',
                             zipCode: zipCode || prev.agentInfo?.agentAddress?.zipCode || ''
+                          }
+                        }
+                      }));
+                    } else {
+                      // Fallback for when no details are provided
+                      setInsuranceCarrier(prev => ({
+                        ...prev,
+                        agentInfo: {
+                          ...prev.agentInfo,
+                          agentAddress: {
+                            ...prev.agentInfo?.agentAddress,
+                            addressLine1: address
                           }
                         }
                       }));
@@ -497,10 +517,22 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
               <Input
                 type="date"
                 value={policyDetails.effectiveDate || ''}
-                onChange={(e) => setPolicyDetails({
-                  ...policyDetails,
-                  effectiveDate: e.target.value
-                })}
+                onChange={(e) => {
+                  const effectiveDate = e.target.value
+                  // Automatically calculate expiration date (1 year later)
+                  let expirationDate = ''
+                  if (effectiveDate) {
+                    const date = new Date(effectiveDate)
+                    date.setFullYear(date.getFullYear() + 1)
+                    expirationDate = date.toISOString().split('T')[0] // YYYY-MM-DD format
+                  }
+                  
+                  setPolicyDetails({
+                    ...policyDetails,
+                    effectiveDate: effectiveDate,
+                    expirationDate: expirationDate
+                  })
+                }}
                 required
               />
             </div>

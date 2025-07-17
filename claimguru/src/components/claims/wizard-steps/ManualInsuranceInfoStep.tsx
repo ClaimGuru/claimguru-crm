@@ -517,10 +517,22 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
               <Input
                 type="date"
                 value={policyDetails.effectiveDate || ''}
-                onChange={(e) => setPolicyDetails({
-                  ...policyDetails,
-                  effectiveDate: e.target.value
-                })}
+                onChange={(e) => {
+                  const effectiveDate = e.target.value
+                  // Automatically calculate expiration date (1 year later)
+                  let expirationDate = ''
+                  if (effectiveDate) {
+                    const date = new Date(effectiveDate)
+                    date.setFullYear(date.getFullYear() + 1)
+                    expirationDate = date.toISOString().split('T')[0] // YYYY-MM-DD format
+                  }
+                  
+                  setPolicyDetails({
+                    ...policyDetails,
+                    effectiveDate: effectiveDate,
+                    expirationDate: expirationDate
+                  })
+                }}
                 required
               />
             </div>
@@ -535,6 +547,9 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
                 })}
                 required
               />
+              <p className="text-xs text-gray-500 mt-1">
+                ✨ Auto-calculated as 1 year after effective date
+              </p>
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Policy Type</label>

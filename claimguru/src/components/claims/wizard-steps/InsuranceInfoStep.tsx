@@ -145,9 +145,27 @@ export function InsuranceInfoStep({ data, onUpdate }: InsuranceInfoStepProps) {
     }
   }
 
+  // Utility function to add one year to a date
+  const addOneYear = (dateString) => {
+    if (!dateString) return ''
+    const date = new Date(dateString)
+    date.setFullYear(date.getFullYear() + 1)
+    return date.toISOString().split('T')[0] // Returns YYYY-MM-DD format
+  }
+
   const handleInputChange = (section, field, value) => {
     if (section === 'insurance') {
-      setInsuranceInfo(prev => ({ ...prev, [field]: value }))
+      // If effective date is being changed, automatically set expiration date to 1 year later
+      if (field === 'effectiveDate') {
+        const expirationDate = addOneYear(value)
+        setInsuranceInfo(prev => ({ 
+          ...prev, 
+          [field]: value,
+          expirationDate: expirationDate
+        }))
+      } else {
+        setInsuranceInfo(prev => ({ ...prev, [field]: value }))
+      }
     } else if (section === 'agent') {
       setInsuranceInfo(prev => ({
         ...prev,
@@ -285,6 +303,9 @@ export function InsuranceInfoStep({ data, onUpdate }: InsuranceInfoStepProps) {
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
                 required
               />
+              <p className="text-xs text-gray-500 mt-1">
+                ✨ Auto-calculated as 1 year after effective date
+              </p>
             </div>
           </div>
 

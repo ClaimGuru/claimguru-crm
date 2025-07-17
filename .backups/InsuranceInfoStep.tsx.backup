@@ -145,9 +145,27 @@ export function InsuranceInfoStep({ data, onUpdate }: InsuranceInfoStepProps) {
     }
   }
 
+  // Utility function to add one year to a date
+  const addOneYear = (dateString) => {
+    if (!dateString) return ''
+    const date = new Date(dateString)
+    date.setFullYear(date.getFullYear() + 1)
+    return date.toISOString().split('T')[0] // Returns YYYY-MM-DD format
+  }
+
   const handleInputChange = (section, field, value) => {
     if (section === 'insurance') {
-      setInsuranceInfo(prev => ({ ...prev, [field]: value }))
+      // If effective date is being changed, automatically set expiration date to 1 year later
+      if (field === 'effectiveDate') {
+        const expirationDate = addOneYear(value)
+        setInsuranceInfo(prev => ({ 
+          ...prev, 
+          [field]: value,
+          expirationDate: expirationDate
+        }))
+      } else {
+        setInsuranceInfo(prev => ({ ...prev, [field]: value }))
+      }
     } else if (section === 'agent') {
       setInsuranceInfo(prev => ({
         ...prev,
@@ -434,15 +452,33 @@ export function InsuranceInfoStep({ data, onUpdate }: InsuranceInfoStepProps) {
                 <AddressAutocomplete
                   value={insuranceInfo.agentInfo?.agentAddress?.addressLine1 || ''}
                   onChange={(address, details) => {
+                    console.log('🏢 Agent Address Selected:', { address, details })
                     handleAddressChange('agent', 'addressLine1', address)
                     
                     if (details?.address_components) {
                       const components = details.address_components
+                      console.log('📍 Address Components:', components)
+                      
+                      // Extract street number and route for addressLine1
+                      const streetNumber = components.find(c => c.types.includes('street_number'))?.long_name || ''
+                      const route = components.find(c => c.types.includes('route'))?.long_name || ''
+                      const fullStreet = `${streetNumber} ${route}`.trim()
+                      
+                      // Extract city (locality, sublocality, or administrative_area_level_3)
                       const city = components.find(c => c.types.includes('locality'))?.long_name || 
+                                  components.find(c => c.types.includes('sublocality'))?.long_name ||
                                   components.find(c => c.types.includes('administrative_area_level_3'))?.long_name || ''
+                      
+                      // Extract state (administrative_area_level_1)
                       const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || ''
+                      
+                      // Extract zip code (postal_code)
                       const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || ''
                       
+                      console.log('📊 Parsed Address Components:', { fullStreet, city, state, zipCode })
+                      
+                      // Update fields with parsed components
+                      if (fullStreet) handleAddressChange('agent', 'addressLine1', fullStreet)
                       if (city) handleAddressChange('agent', 'city', city)
                       if (state) handleAddressChange('agent', 'state', state)
                       if (zipCode) handleAddressChange('agent', 'zipCode', zipCode)
