@@ -432,20 +432,10 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
             {/* Additional Phone Numbers Section - Only show if more than one phone */}
             {clientDetails.phoneNumbers.length > 1 && (
             <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
-                  <Phone className="h-4 w-4" />
-                  Additional Phone Numbers
-                </label>
-                <button
-                  type="button"
-                  onClick={addPhoneNumber}
-                  className="flex items-center gap-1 px-3 py-1 text-sm bg-blue-50 text-blue-600 border border-blue-200 rounded-md hover:bg-blue-100 transition-colors"
-                >
-                  <Plus className="h-3 w-3" />
-                  Add Phone
-                </button>
-              </div>
+              <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                <Phone className="h-4 w-4" />
+                Additional Phone Numbers
+              </label>
               
               {/* Additional Phone Number List - Starting from index 1 */}
               <div className="space-y-2">
@@ -515,6 +505,27 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
                   </div>
                   );
                 })}
+              </div>
+              
+              {/* Add Phone Button Row - Aligned with Ext and Type fields */}
+              <div className="flex items-center gap-2 p-3">
+                {/* Spacer for star button alignment */}
+                <div className="flex-shrink-0 w-6"></div>
+                
+                {/* Spacer for phone number field */}
+                <div className="flex-1"></div>
+                
+                {/* Add Phone Button - Positioned next to Ext and Type fields */}
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={addPhoneNumber}
+                    className="flex items-center gap-1 px-3 py-2 text-sm bg-blue-50 text-blue-600 border border-blue-200 rounded-md hover:bg-blue-100 transition-colors"
+                  >
+                    <Plus className="h-3 w-3" />
+                    Add Phone
+                  </button>
+                </div>
               </div>
               
               {/* Helper Text */}
