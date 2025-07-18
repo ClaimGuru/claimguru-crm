@@ -4,9 +4,16 @@ import { Button } from '../../ui/Button'
 import { Input } from '../../ui/Input'
 import { LoadingSpinner } from '../../ui/LoadingSpinner'
 import { AddressAutocomplete } from '../../ui/AddressAutocomplete'
-import { formatPhoneNumber, getPhoneInputProps } from '../../../utils/phoneUtils'
-import { User, Building, MapPin, AlertTriangle, CheckCircle, Brain, Users } from 'lucide-react'
+import { formatPhoneNumber, getPhoneInputProps, formatPhoneExtension, getPhoneExtensionInputProps, combinePhoneWithExtension } from '../../../utils/phoneUtils'
+import { User, Building, MapPin, AlertTriangle, CheckCircle, Brain, Users, Plus, X } from 'lucide-react'
 import { enhancedClaimWizardAI, AIValidation } from '../../../services/enhancedClaimWizardAI'
+
+interface PhoneNumber {
+  id: string
+  type: string
+  number: string
+  extension: string
+}
 
 interface EnhancedClientDetailsStepProps {
   data: any
@@ -30,6 +37,18 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
   const [hasGateCode, setHasGateCode] = useState(false)
   const [isTenantOccupied, setIsTenantOccupied] = useState(false)
   const [hasUninsuredParty, setHasUninsuredParty] = useState(false)
+  
+  // Phone numbers management
+  const [phoneNumbers, setPhoneNumbers] = useState<PhoneNumber[]>(
+    data.phoneNumbers || [
+      {
+        id: 'primary',
+        type: 'Primary',
+        number: data.insuredDetails?.phone || '',
+        extension: data.insuredDetails?.phoneExtension || ''
+      }
+    ]
+  )
 
   // AI Validation States
   const [validationResults, setValidationResults] = useState<{
@@ -83,23 +102,7 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
     }
   }, [data.extractedPolicyData, data.policyDetails])
 
-  // Update parent data whenever local state changes
-  useEffect(() => {
-    onUpdate({
-      ...data,
-      clientType,
-      isOrganization,
-      insuredDetails,
-      mailingAddress,
-      lossAddress: addressSameAsMailing ? mailingAddress : lossAddress,
-      coInsuredDetails: hasCoInsured ? coInsuredDetails : {},
-      tenantDetails: isTenantOccupied ? data.tenantDetails : {},
-      uninsuredPartyDetails: hasUninsuredParty ? data.uninsuredPartyDetails : {}
-    })
-  }, [
-    clientType, isOrganization, insuredDetails, mailingAddress, lossAddress,
-    addressSameAsMailing, coInsuredDetails, hasCoInsured, isTenantOccupied, hasUninsuredParty
-  ])
+
 
   // AI Validation Functions
   const validateClientInfo = async () => {
@@ -142,6 +145,53 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
       validateClientInfo()
     }
   }, [insuredDetails.organizationName, mailingAddress.address, data.extractedPolicyData])
+
+  // Phone number management functions
+  const addPhoneNumber = () => {
+    const newPhone: PhoneNumber = {
+      id: `phone_${Date.now()}`,
+      type: 'Secondary',
+      number: '',
+      extension: ''
+    }
+    setPhoneNumbers([...phoneNumbers, newPhone])
+  }
+
+  const removePhoneNumber = (id: string) => {
+    if (phoneNumbers.length > 1) {
+      setPhoneNumbers(phoneNumbers.filter(phone => phone.id !== id))
+    }
+  }
+
+  const updatePhoneNumber = (id: string, field: keyof PhoneNumber, value: string) => {
+    setPhoneNumbers(phoneNumbers.map(phone => 
+      phone.id === id ? { ...phone, [field]: value } : phone
+    ))
+  }
+
+  // Update parent data to include phone numbers
+  useEffect(() => {
+    onUpdate({
+      ...data,
+      clientType,
+      isOrganization,
+      insuredDetails: {
+        ...insuredDetails,
+        // Keep primary phone in insuredDetails for backward compatibility
+        phone: phoneNumbers.find(p => p.type === 'Primary')?.number || '',
+        phoneExtension: phoneNumbers.find(p => p.type === 'Primary')?.extension || ''
+      },
+      mailingAddress,
+      lossAddress: addressSameAsMailing ? mailingAddress : lossAddress,
+      coInsuredDetails: hasCoInsured ? coInsuredDetails : {},
+      tenantDetails: isTenantOccupied ? data.tenantDetails : {},
+      uninsuredPartyDetails: hasUninsuredParty ? data.uninsuredPartyDetails : {},
+      phoneNumbers
+    })
+  }, [
+    clientType, isOrganization, insuredDetails, mailingAddress, lossAddress,
+    addressSameAsMailing, coInsuredDetails, hasCoInsured, isTenantOccupied, hasUninsuredParty, phoneNumbers
+  ])
 
   const ValidationAlert: React.FC<{ validation: AIValidation }> = ({ validation }) => (
     <div className={`p-3 rounded-lg border ${
@@ -432,32 +482,44 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
           )}
 
           {/* Contact Information */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Phone Number</label>
-              <input
-                type="tel"
-                value={insuredDetails.phone || ''}
-                onChange={(e) => setInsuredDetails({
-                  ...insuredDetails,
-                  phone: e.target.value
-                })}
-                className="w-full p-2 border rounded-lg"
-                placeholder="(555) 123-4567"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Email Address</label>
-              <input
-                type="email"
-                value={insuredDetails.email || ''}
-                onChange={(e) => setInsuredDetails({
-                  ...insuredDetails,
-                  email: e.target.value
-                })}
-                className="w-full p-2 border rounded-lg"
-                placeholder="email@example.com"
-              />
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Phone Number</label>
+                <div className="flex gap-2">
+                  <Input
+                    {...getPhoneInputProps()}
+                    value={insuredDetails.phone || ''}
+                    onChange={(e) => setInsuredDetails({
+                      ...insuredDetails,
+                      phone: formatPhoneNumber(e.target.value)
+                    })}
+                    className="flex-1"
+                  />
+                  <Input
+                    {...getPhoneExtensionInputProps()}
+                    value={insuredDetails.phoneExtension || ''}
+                    onChange={(e) => setInsuredDetails({
+                      ...insuredDetails,
+                      phoneExtension: formatPhoneExtension(e.target.value)
+                    })}
+                    className="w-20"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Email Address</label>
+                <input
+                  type="email"
+                  value={insuredDetails.email || ''}
+                  onChange={(e) => setInsuredDetails({
+                    ...insuredDetails,
+                    email: e.target.value
+                  })}
+                  className="w-full p-2 border rounded-lg"
+                  placeholder="email@example.com"
+                />
+              </div>
             </div>
           </div>
 

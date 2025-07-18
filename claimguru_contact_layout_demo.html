@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClaimGuru - Enhanced Contact Layout Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        .form-checkbox {
+            width: 1rem;
+            height: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.25rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h1 class="text-2xl font-bold text-gray-900 mb-6">Enhanced Client Information Form</h1>
+            
+            <!-- Client Type Selection -->
+            <div class="mb-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-3">Client Type <span class="text-red-500">*</span></h3>
+                <div class="flex gap-4">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="clientType" value="residential" checked class="form-radio">
+                        <span>Individual/Residential</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="clientType" value="commercial" class="form-radio">
+                        <span>Business/Commercial</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Name Fields -->
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div>
+                    <label class="block text-sm font-medium mb-1">First Name <span class="text-red-500">*</span></label>
+                    <input type="text" value="Jo" class="w-full p-2 border rounded-lg" placeholder="First name">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Last Name <span class="text-red-500">*</span></label>
+                    <input type="text" value="Smith" class="w-full p-2 border rounded-lg" placeholder="Last name">
+                </div>
+            </div>
+
+            <!-- Enhanced Contact Information -->
+            <div class="space-y-4 mb-6">
+                <h4 class="text-sm font-medium text-gray-900">Contact Information</h4>
+                
+                <!-- Primary Contact Row -->
+                <div class="flex gap-3 items-end">
+                    <!-- Primary Email - Half Size -->
+                    <div class="flex-1 max-w-xs">
+                        <label class="block text-sm font-medium mb-1">
+                            Primary Email <span class="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="email"
+                            value="osteenjj@gmail.com"
+                            class="w-full p-2 border rounded-lg text-sm"
+                            placeholder="email@example.com"
+                            required
+                        />
+                    </div>
+
+                    <!-- Phone Type Dropdown -->
+                    <div class="w-28">
+                        <label class="block text-sm font-medium mb-1">Type</label>
+                        <select class="w-full p-2 border rounded-lg text-sm">
+                            <option value="Primary" selected>Primary</option>
+                            <option value="Mobile">Mobile</option>
+                            <option value="Home">Home</option>
+                            <option value="Work">Work</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="flex-1 max-w-xs">
+                        <label class="block text-sm font-medium mb-1">
+                            Primary Phone <span class="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="tel"
+                            value="(555) 121-2121"
+                            class="w-full p-2 border rounded-lg text-sm"
+                            placeholder="(555) 121-2121"
+                            required
+                        />
+                    </div>
+
+                    <!-- Extension -->
+                    <div class="w-20">
+                        <label class="block text-sm font-medium mb-1">Ext.</label>
+                        <input
+                            type="text"
+                            value="11111"
+                            class="w-full p-2 border rounded-lg text-sm"
+                            placeholder="1234"
+                        />
+                    </div>
+
+                    <!-- Add Phone Button -->
+                    <div>
+                        <button
+                            type="button"
+                            onclick="addPhoneNumber()"
+                            class="flex items-center gap-1 text-sm h-9 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                        >
+                            <i data-lucide="plus" class="h-3 w-3"></i>
+                            Add Phone
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Additional Phone Numbers -->
+                <div id="additionalPhones" class="space-y-3">
+                    <!-- Additional phone numbers will be added here -->
+                </div>
+            </div>
+
+            <!-- Demo Features Section -->
+            <div class="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <h3 class="text-lg font-semibold text-blue-900 mb-2">✅ Enhancement Features Implemented</h3>
+                <ul class="space-y-1 text-sm text-blue-800">
+                    <li>• <strong>Primary Email Box:</strong> Made half-size (max-w-xs) as requested</li>
+                    <li>• <strong>Inline Layout:</strong> All fields now on same row: Email | Type | Phone | Extension | Add Button</li>
+                    <li>• <strong>Phone Type Dropdown:</strong> Added with Primary, Mobile, Home, Work, Other options</li>
+                    <li>• <strong>Extension Field:</strong> Positioned next to phone number with proper width (w-20)</li>
+                    <li>• <strong>Add Phone Button:</strong> Inline with other fields for easy access</li>
+                    <li>• <strong>Multiple Phone Support:</strong> Can add/remove additional phone numbers</li>
+                    <li>• <strong>Responsive Design:</strong> Maintains proper spacing and alignment</li>
+                </ul>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-between mt-8">
+                <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Previous</button>
+                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        let phoneCounter = 1;
+
+        function addPhoneNumber() {
+            phoneCounter++;
+            const additionalPhonesDiv = document.getElementById('additionalPhones');
+            
+            const phoneDiv = document.createElement('div');
+            phoneDiv.className = 'flex gap-3 items-end bg-gray-50 p-3 rounded-lg';
+            phoneDiv.id = `phone-${phoneCounter}`;
+            
+            phoneDiv.innerHTML = `
+                <!-- Empty space for email alignment -->
+                <div class="flex-1 max-w-xs"></div>
+
+                <!-- Phone Type Dropdown -->
+                <div class="w-28">
+                    <label class="block text-sm font-medium mb-1">Type</label>
+                    <select class="w-full p-2 border rounded-lg text-sm">
+                        <option value="Secondary" selected>Secondary</option>
+                        <option value="Mobile">Mobile</option>
+                        <option value="Home">Home</option>
+                        <option value="Work">Work</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <!-- Phone Number -->
+                <div class="flex-1 max-w-xs">
+                    <label class="block text-sm font-medium mb-1">Phone Number</label>
+                    <input
+                        type="tel"
+                        class="w-full p-2 border rounded-lg text-sm"
+                        placeholder="(555) 121-2121"
+                    />
+                </div>
+
+                <!-- Extension -->
+                <div class="w-20">
+                    <label class="block text-sm font-medium mb-1">Ext.</label>
+                    <input
+                        type="text"
+                        class="w-full p-2 border rounded-lg text-sm"
+                        placeholder="1234"
+                    />
+                </div>
+
+                <!-- Remove Button -->
+                <div>
+                    <button
+                        type="button"
+                        onclick="removePhoneNumber('phone-${phoneCounter}')"
+                        class="flex items-center gap-1 text-sm h-9 px-3 py-2 border border-red-300 rounded-lg text-red-600 hover:text-red-700 hover:border-red-400"
+                    >
+                        <i data-lucide="x" class="h-3 w-3"></i>
+                    </button>
+                </div>
+            `;
+            
+            additionalPhonesDiv.appendChild(phoneDiv);
+            
+            // Re-initialize Lucide icons for the new elements
+            lucide.createIcons();
+        }
+
+        function removePhoneNumber(phoneId) {
+            const phoneDiv = document.getElementById(phoneId);
+            if (phoneDiv) {
+                phoneDiv.remove();
+            }
+        }
+    </script>
+</body>
+</html>
