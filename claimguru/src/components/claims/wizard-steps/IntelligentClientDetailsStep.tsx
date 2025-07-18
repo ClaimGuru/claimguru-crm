@@ -44,6 +44,7 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
     lastName: '',
     phone: '',
     phoneExtension: '',
+    phoneType: 'Primary',
     email: '',
     mailingAddress: {
       addressLine1: '',
@@ -383,54 +384,98 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
             />
           </div>
 
-          {/* Contact Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="grid grid-cols-2 gap-2">
-              <ConfirmedFieldWrapper
-                fieldPath="phone"
-                label="Phone Number"
-                value={clientDetails.phone || ''}
-                placeholder="(555) 123-4567"
-                type="tel"
-                required={true}
-                onChange={(value) => handleInputChange('phone', formatPhoneNumber(value))}
-                onConfirm={(value) => {
-                  console.log('✅ Phone confirmed:', value);
-                  handleInputChange('phone', formatPhoneNumber(value));
-                }}
-                onReject={(reason) => {
-                  console.log('❌ Phone rejected:', reason);
-                  handleInputChange('phone', '');
-                }}
-              />
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Extension
-                </label>
+          {/* Contact Information - Single Row Layout */}
+          <div className="space-y-2">
+            <h4 className="text-sm font-medium text-gray-700">Contact Information</h4>
+            <div className="flex gap-3 items-end">
+              {/* Primary Email - Half Size */}
+              <div className="flex-1 max-w-xs">
+                <ConfirmedFieldWrapper
+                  fieldPath="email"
+                  label="Primary Email"
+                  value={clientDetails.email || ''}
+                  placeholder="email@example.com"
+                  type="email"
+                  required={true}
+                  onChange={(value) => handleInputChange('email', value)}
+                  onConfirm={(value) => {
+                    console.log('✅ Email confirmed:', value);
+                    handleInputChange('email', value);
+                  }}
+                  onReject={(reason) => {
+                    console.log('❌ Email rejected:', reason);
+                    handleInputChange('email', '');
+                  }}
+                />
+              </div>
+
+              {/* Phone Type Dropdown */}
+              <div className="w-28">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Phone Type</label>
+                <select 
+                  className="w-full p-2 border border-gray-300 rounded-lg text-sm h-9 bg-white"
+                  value={clientDetails.phoneType || 'Primary'}
+                  onChange={(e) => handleInputChange('phoneType', e.target.value)}
+                >
+                  <option value="Primary">Primary</option>
+                  <option value="Mobile">Mobile</option>
+                  <option value="Home">Home</option>
+                  <option value="Work">Work</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              {/* Phone Number */}
+              <div className="flex-1 max-w-xs">
+                <ConfirmedFieldWrapper
+                  fieldPath="phone"
+                  label="Phone Number"
+                  value={clientDetails.phone || ''}
+                  placeholder="(555) 123-4567"
+                  type="tel"
+                  required={true}
+                  onChange={(value) => handleInputChange('phone', formatPhoneNumber(value))}
+                  onConfirm={(value) => {
+                    console.log('✅ Phone confirmed:', value);
+                    handleInputChange('phone', formatPhoneNumber(value));
+                  }}
+                  onReject={(reason) => {
+                    console.log('❌ Phone rejected:', reason);
+                    handleInputChange('phone', '');
+                  }}
+                />
+              </div>
+
+              {/* Extension */}
+              <div className="w-20">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Ext.</label>
                 <Input
                   value={clientDetails.phoneExtension || ''}
                   onChange={(e) => handleInputChange('phoneExtension', formatPhoneExtension(e.target.value))}
+                  className="h-9 text-sm"
+                  placeholder="1234"
                   {...getPhoneExtensionInputProps()}
                 />
               </div>
-            </div>
 
-            <ConfirmedFieldWrapper
-              fieldPath="email"
-              label="Email Address"
-              value={clientDetails.email || ''}
-              placeholder="Enter email address"
-              type="email"
-              onChange={(value) => handleInputChange('email', value)}
-              onConfirm={(value) => {
-                console.log('✅ Email confirmed:', value);
-                handleInputChange('email', value);
-              }}
-              onReject={(reason) => {
-                console.log('❌ Email rejected:', reason);
-                handleInputChange('email', '');
-              }}
-            />
+              {/* Add Phone Button */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1 text-transparent">Add</label>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-1 text-sm h-9"
+                  onClick={() => {
+                    // TODO: Add functionality for additional phone numbers
+                    console.log('Add phone button clicked');
+                  }}
+                >
+                  <span className="text-xs">+</span>
+                  Add Phone
+                </Button>
+              </div>
+            </div>
           </div>
 
           {/* Mailing Address */}
