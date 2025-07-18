@@ -64,6 +64,13 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
     ...data.clientDetails
   });
 
+  const [additionalPhones, setAdditionalPhones] = useState<Array<{
+    id: string;
+    type: string;
+    number: string;
+    extension: string;
+  }>>(data.clientDetails?.additionalPhones || []);
+
   const [aiSuggestions, setAiSuggestions] = useState<AISuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(true);
   const [insights, setInsights] = useState<any[]>([]);

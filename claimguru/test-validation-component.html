@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolicyDataValidationStep Test</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Mock test data
+        const mockExtractedData = {
+            policyNumber: "POL-123456789",
+            insuredName: "John Doe",
+            insurerName: "ABC Insurance Company",
+            effectiveDate: "01/01/2024",
+            expirationDate: "01/01/2025",
+            propertyAddress: "123 Main St, Anytown, USA 12345",
+            coverageAmount: "$500,000",
+            deductible: "$1,000"
+        };
+
+        const mockRawText = "Sample extracted text from policy document...";
+
+        // Simple test component to simulate PolicyDataValidationStep
+        const TestValidationComponent = () => {
+            const [isVisible, setIsVisible] = useState(true);
+
+            return (
+                <div className="max-w-4xl mx-auto">
+                    <h1 className="text-2xl font-bold mb-6">PolicyDataValidationStep Component Test</h1>
+                    
+                    {/* Test the basic structure */}
+                    <div className="space-y-6">
+                        {/* Header */}
+                        <div className="bg-white rounded-lg border p-6">
+                            <div className="flex items-center gap-2 mb-4">
+                                <div className="h-5 w-5 bg-purple-600 rounded"></div>
+                                <h2 className="text-lg font-semibold">AI Data Validation & Confirmation</h2>
+                            </div>
+                            
+                            {/* Overall Confidence */}
+                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <h4 className="font-medium text-blue-900">Overall Extraction Confidence</h4>
+                                        <p className="text-sm text-blue-700">Based on pattern matching and text analysis</p>
+                                    </div>
+                                    <div className="text-right">
+                                        <div className="text-2xl font-bold text-blue-900">87%</div>
+                                        <div className="text-xs text-blue-600">Excellent</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Instructions */}
+                            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                                <div className="flex items-start gap-3">
+                                    <div className="h-5 w-5 bg-yellow-600 rounded-full mt-0.5"></div>
+                                    <div>
+                                        <h4 className="font-medium text-yellow-900">Please Review & Confirm</h4>
+                                        <p className="text-sm text-yellow-700 mt-1">
+                                            Review each extracted field below. Click "Edit" to correct any inaccurate data, 
+                                            or use AI suggestions if available. All required fields must be completed to proceed.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Field Validation Results */}
+                        <div className="grid gap-4">
+                            {Object.entries(mockExtractedData).map(([key, value]) => (
+                                <div key={key} className="bg-white border-l-4 border-l-green-500 rounded-lg border p-4">
+                                    <div className="flex items-start justify-between">
+                                        <div className="flex items-start gap-3 flex-1">
+                                            <div className="h-5 w-5 bg-gray-600 rounded mt-1"></div>
+                                            <div className="flex-1">
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <h4 className="font-medium text-gray-900 capitalize">{key.replace(/([A-Z])/g, ' $1')}</h4>
+                                                    <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded">Required</span>
+                                                    <div className="flex items-center gap-1 text-xs px-2 py-1 rounded border bg-green-50 text-green-600 border-green-200">
+                                                        <div className="h-4 w-4 bg-green-600 rounded-full"></div>
+                                                        high confidence
+                                                    </div>
+                                                </div>
+
+                                                <div className="space-y-2">
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="font-mono text-sm px-2 py-1 rounded bg-gray-100 text-gray-900">
+                                                            {value}
+                                                        </span>
+                                                        <button className="flex items-center gap-1 px-3 py-1 text-sm border rounded hover:bg-gray-50">
+                                                            <div className="h-3 w-3 bg-gray-400 rounded"></div>
+                                                            Edit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex justify-between items-center pt-6 border-t bg-white p-6 rounded-lg">
+                            <button className="flex items-center gap-2 px-4 py-2 border rounded hover:bg-gray-50">
+                                <div className="h-4 w-4 bg-red-500 rounded"></div>
+                                Reject & Re-upload
+                            </button>
+
+                            <div className="flex gap-3">
+                                <div className="text-sm text-gray-600">
+                                    <span className="text-green-600 flex items-center gap-1">
+                                        <div className="h-4 w-4 bg-green-500 rounded-full"></div>
+                                        All required fields complete
+                                    </span>
+                                </div>
+
+                                <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                                    <div className="h-4 w-4 bg-white rounded-full"></div>
+                                    Confirm & Proceed
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Debug Info */}
+                    <div className="mt-8 bg-gray-50 border rounded-lg p-4">
+                        <h3 className="font-medium mb-2">Component Debug Info:</h3>
+                        <pre className="text-xs text-gray-600">
+                            {JSON.stringify({ 
+                                dataPresent: !!mockExtractedData,
+                                fieldsCount: Object.keys(mockExtractedData).length,
+                                isVisible: isVisible,
+                                timestamp: new Date().toISOString()
+                            }, null, 2)}
+                        </pre>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<TestValidationComponent />, document.getElementById('root'));
+    </script>
+</body>
+</html>

@@ -314,7 +314,7 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
                       <li>rawText: {rawText ? '✅ TRUE' : '❌ FALSE'}</li>
                       <li>isConfirmed: {isConfirmed ? '✅ TRUE' : '❌ FALSE'}</li>
                       <li>isProcessing: {isProcessing ? '✅ TRUE' : '❌ FALSE'}</li>
-                      <li>showValidation: {showValidation ? '✅ TRUE' : '❌ FALSE'}</li>
+                      <li>error: {error ? '❌ TRUE' : '✅ FALSE'}</li>
                     </ul>
                   </div>
                   <div>

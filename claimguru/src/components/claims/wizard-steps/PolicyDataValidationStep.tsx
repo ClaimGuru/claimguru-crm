@@ -783,12 +783,14 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
 
   if (isValidating) {
     return (
-      <div className="flex items-center justify-center p-12">
-        <div className="text-center space-y-4">
-          <LoadingSpinner size="lg" />
-          <div>
-            <h3 className="text-lg font-medium text-gray-900">Validating Extracted Data</h3>
-            <p className="text-gray-600">AI is analyzing and confirming the extracted policy information...</p>
+      <div className="bg-white border rounded-lg p-12">
+        <div className="flex items-center justify-center">
+          <div className="text-center space-y-4">
+            <LoadingSpinner size="lg" />
+            <div>
+              <h3 className="text-lg font-medium text-gray-900">Validating Extracted Data</h3>
+              <p className="text-gray-600">AI is analyzing and confirming the extracted policy information...</p>
+            </div>
           </div>
         </div>
       </div>
@@ -800,7 +802,18 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
     .every(r => r.value && r.value.trim() !== '');
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-white p-4 rounded-lg border">
+      {/* DEBUG: Component Render Confirmation */}
+      <div className="bg-green-100 border border-green-300 rounded-lg p-3 mb-4">
+        <div className="flex items-center gap-2">
+          <CheckCircle className="h-5 w-5 text-green-600" />
+          <span className="font-medium text-green-800">✅ PolicyDataValidationStep Component is Rendering</span>
+        </div>
+        <p className="text-sm text-green-700 mt-1">
+          Found {validationResults.length} validation fields | Overall confidence: {Math.round(overallConfidence)}%
+        </p>
+      </div>
+
       {/* Header */}
       <Card>
         <CardHeader>

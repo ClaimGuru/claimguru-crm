@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card';
 import { Button } from '../../ui/Button';
 import { Input } from '../../ui/Input';
 import { LoadingSpinner } from '../../ui/LoadingSpinner';
+import { ConfirmedFieldsService } from '../../../services/confirmedFieldsService';
 import { 
   CheckCircle, 
   AlertTriangle, 
@@ -199,22 +200,8 @@ const fieldSections = [
         icon: Shield
       },
       {
-        field: 'namedStormDeductible',
-        label: 'Named Storm Deductible',
-        pattern: /(\$[\d,]+|[\d.]+%)/,
-        isRequired: false,
-        icon: Shield
-      },
-      {
-        field: 'namedStormDeductibleType',
-        label: 'Named Storm Deductible Type',
-        pattern: /(Stated Amount|Percentage of Coverage [A-D])/,
-        isRequired: false,
-        icon: Shield
-      },
-      {
         field: 'hurricaneDeductible',
-        label: 'Hurricane Deductible',
+        label: 'Hurricane Deductible (includes Windstorm & Named Storm)',
         pattern: /(\$[\d,]+|[\d.]+%)/,
         isRequired: false,
         icon: Shield
@@ -678,10 +665,64 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
     );
   };
 
+  const convertDateFormat = (dateString: string): string => {
+    if (!dateString || dateString.trim() === '') return '';
+    
+    try {
+      // Handle various date formats and convert to YYYY-MM-DD
+      let date;
+      
+      // Check if already in YYYY-MM-DD format
+      if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+        return dateString;
+      }
+      
+      // Try parsing common date formats
+      if (/^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}$/.test(dateString)) {
+        // MM/DD/YYYY or MM-DD-YYYY format
+        const parts = dateString.split(/[\/\-]/);
+        const month = parts[0].padStart(2, '0');
+        const day = parts[1].padStart(2, '0');
+        let year = parts[2];
+        
+        // Handle 2-digit years
+        if (year.length === 2) {
+          const currentYear = new Date().getFullYear();
+          const currentCentury = Math.floor(currentYear / 100) * 100;
+          year = (parseInt(year) + currentCentury).toString();
+        }
+        
+        return `${year}-${month}-${day}`;
+      }
+      
+      // Try JavaScript Date parsing for other formats
+      date = new Date(dateString);
+      if (!isNaN(date.getTime())) {
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+      
+      console.warn('Unable to parse date:', dateString);
+      return dateString; // Return original if can't parse
+    } catch (error) {
+      console.warn('Error converting date format:', dateString, error);
+      return dateString; // Return original if error
+    }
+  };
+
   const handleValidateAndProceed = () => {
     const validatedData = {};
     validationResults.forEach(result => {
-      validatedData[result.field] = result.value;
+      let value = result.value;
+      
+      // Convert date fields to proper format
+      if (result.field.toLowerCase().includes('date') && value) {
+        value = convertDateFormat(value);
+      }
+      
+      validatedData[result.field] = value;
     });
 
     // Add validation metadata
@@ -700,6 +741,24 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
         lowConfidenceFields: validationResults.filter(r => r.confidence === 'low').length
       }
     };
+
+    // Initialize confirmed fields service with validated data
+    console.log('🔐 Initializing confirmed fields service with validated data');
+    ConfirmedFieldsService.initializeWithPDFData(finalData, {
+      processingMethod: 'hybrid',
+      confidence: overallConfidence / 100,
+      validatedAt: new Date().toISOString()
+    });
+
+    // Auto-confirm high confidence fields
+    const highConfidenceFields = validationResults
+      .filter(result => result.confidence === 'high' && result.value)
+      .map(result => result.field);
+    
+    if (highConfidenceFields.length > 0) {
+      console.log('✅ Auto-confirming high confidence fields:', highConfidenceFields);
+      ConfirmedFieldsService.bulkConfirmFields(highConfidenceFields);
+    }
 
     onValidated(finalData);
   };
@@ -724,12 +783,14 @@ export const PolicyDataValidationStep: React.FC<PolicyDataValidationStepProps> =
 
   if (isValidating) {
     return (
-      <div className="flex items-center justify-center p-12">
-        <div className="text-center space-y-4">
-          <LoadingSpinner size="lg" />
-          <div>
-            <h3 className="text-lg font-medium text-gray-900">Validating Extracted Data</h3>
-            <p className="text-gray-600">AI is analyzing and confirming the extracted policy information...</p>
+      <div className="bg-white border rounded-lg p-12">
+        <div className="flex items-center justify-center">
+          <div className="text-center space-y-4">
+            <LoadingSpinner size="lg" />
+            <div>
+              <h3 className="text-lg font-medium text-gray-900">Validating Extracted Data</h3>
+              <p className="text-gray-600">AI is analyzing and confirming the extracted policy information...</p>
+            </div>
           </div>
         </div>
       </div>
