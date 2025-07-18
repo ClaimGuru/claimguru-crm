@@ -483,32 +483,15 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
 
           {/* Contact Information */}
           <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">Phone Number</label>
-                <div className="flex gap-2">
-                  <Input
-                    {...getPhoneInputProps()}
-                    value={insuredDetails.phone || ''}
-                    onChange={(e) => setInsuredDetails({
-                      ...insuredDetails,
-                      phone: formatPhoneNumber(e.target.value)
-                    })}
-                    className="flex-1"
-                  />
-                  <Input
-                    {...getPhoneExtensionInputProps()}
-                    value={insuredDetails.phoneExtension || ''}
-                    onChange={(e) => setInsuredDetails({
-                      ...insuredDetails,
-                      phoneExtension: formatPhoneExtension(e.target.value)
-                    })}
-                    className="w-20"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Email Address</label>
+            <h4 className="text-sm font-medium text-gray-900">Contact Information</h4>
+            
+            {/* Primary Contact Row - All fields in one row */}
+            <div className="flex gap-3 items-end">
+              {/* Primary Email - Half Size */}
+              <div className="flex-1 max-w-xs">
+                <label className="block text-sm font-medium mb-1">
+                  Primary Email <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="email"
                   value={insuredDetails.email || ''}
@@ -516,11 +499,131 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
                     ...insuredDetails,
                     email: e.target.value
                   })}
-                  className="w-full p-2 border rounded-lg"
+                  className="w-full p-2 border border-gray-300 rounded-lg text-sm h-9"
                   placeholder="email@example.com"
+                  required
                 />
               </div>
+
+              {/* Phone Type Dropdown - Always visible */}
+              <div className="w-28">
+                <label className="block text-sm font-medium mb-1">Phone Type</label>
+                <select
+                  value={phoneNumbers.find(p => p.id === 'primary')?.type || 'Primary'}
+                  onChange={(e) => updatePhoneNumber('primary', 'type', e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded-lg text-sm h-9 bg-white"
+                >
+                  <option value="Primary">Primary</option>
+                  <option value="Mobile">Mobile</option>
+                  <option value="Home">Home</option>
+                  <option value="Work">Work</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              {/* Phone Number */}
+              <div className="flex-1 max-w-xs">
+                <label className="block text-sm font-medium mb-1">
+                  Phone Number <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  {...getPhoneInputProps()}
+                  value={phoneNumbers.find(p => p.id === 'primary')?.number || ''}
+                  onChange={(e) => updatePhoneNumber('primary', 'number', formatPhoneNumber(e.target.value))}
+                  className="w-full text-sm h-9"
+                  placeholder="(555) 123-4567"
+                  required
+                />
+              </div>
+
+              {/* Extension */}
+              <div className="w-20">
+                <label className="block text-sm font-medium mb-1">Ext.</label>
+                <Input
+                  {...getPhoneExtensionInputProps()}
+                  value={phoneNumbers.find(p => p.id === 'primary')?.extension || ''}
+                  onChange={(e) => updatePhoneNumber('primary', 'extension', formatPhoneExtension(e.target.value))}
+                  className="w-full text-sm h-9"
+                  placeholder="1234"
+                />
+              </div>
+
+              {/* Add Phone Button - Inline with other fields */}
+              <div>
+                <label className="block text-sm font-medium mb-1 text-transparent">Add</label>
+                <Button
+                  type="button"
+                  onClick={addPhoneNumber}
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-1 text-sm h-9"
+                >
+                  <Plus className="h-3 w-3" />
+                  Add Phone
+                </Button>
+              </div>
             </div>
+
+            {/* Additional Phone Numbers */}
+            {phoneNumbers.filter(phone => phone.id !== 'primary').map((phone) => (
+              <div key={phone.id} className="flex gap-3 items-end bg-gray-50 p-3 rounded-lg">
+                {/* Empty space for email alignment */}
+                <div className="flex-1 max-w-xs"></div>
+
+                {/* Phone Type Dropdown */}
+                <div className="w-28">
+                  <label className="block text-sm font-medium mb-1">Type</label>
+                  <select
+                    value={phone.type}
+                    onChange={(e) => updatePhoneNumber(phone.id, 'type', e.target.value)}
+                    className="w-full p-2 border rounded-lg text-sm"
+                  >
+                    <option value="Secondary">Secondary</option>
+                    <option value="Mobile">Mobile</option>
+                    <option value="Home">Home</option>
+                    <option value="Work">Work</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                {/* Phone Number */}
+                <div className="flex-1 max-w-xs">
+                  <label className="block text-sm font-medium mb-1">Phone Number</label>
+                  <Input
+                    {...getPhoneInputProps()}
+                    value={phone.number}
+                    onChange={(e) => updatePhoneNumber(phone.id, 'number', formatPhoneNumber(e.target.value))}
+                    className="w-full text-sm"
+                    placeholder="(555) 121-2121"
+                  />
+                </div>
+
+                {/* Extension */}
+                <div className="w-20">
+                  <label className="block text-sm font-medium mb-1">Ext.</label>
+                  <Input
+                    {...getPhoneExtensionInputProps()}
+                    value={phone.extension}
+                    onChange={(e) => updatePhoneNumber(phone.id, 'extension', formatPhoneExtension(e.target.value))}
+                    className="w-full text-sm"
+                    placeholder="1234"
+                  />
+                </div>
+
+                {/* Remove Button */}
+                <div>
+                  <Button
+                    type="button"
+                    onClick={() => removePhoneNumber(phone.id)}
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center gap-1 text-sm h-9 text-red-600 hover:text-red-700 hover:border-red-300"
+                  >
+                    <X className="h-3 w-3" />
+                  </Button>
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Co-Insured Toggle */}

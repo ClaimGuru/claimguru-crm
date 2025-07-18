@@ -485,7 +485,7 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
           <div className="space-y-4">
             <h4 className="text-sm font-medium text-gray-900">Contact Information</h4>
             
-            {/* Primary Contact Row */}
+            {/* Primary Contact Row - All fields in one row */}
             <div className="flex gap-3 items-end">
               {/* Primary Email - Half Size */}
               <div className="flex-1 max-w-xs">
@@ -499,19 +499,19 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
                     ...insuredDetails,
                     email: e.target.value
                   })}
-                  className="w-full p-2 border rounded-lg text-sm"
+                  className="w-full p-2 border border-gray-300 rounded-lg text-sm h-9"
                   placeholder="email@example.com"
                   required
                 />
               </div>
 
-              {/* Phone Type Dropdown */}
+              {/* Phone Type Dropdown - Always visible */}
               <div className="w-28">
-                <label className="block text-sm font-medium mb-1">Type</label>
+                <label className="block text-sm font-medium mb-1">Phone Type</label>
                 <select
-                  value={phoneNumbers.find(p => p.type === 'Primary')?.type || 'Primary'}
+                  value={phoneNumbers.find(p => p.id === 'primary')?.type || 'Primary'}
                   onChange={(e) => updatePhoneNumber('primary', 'type', e.target.value)}
-                  className="w-full p-2 border rounded-lg text-sm"
+                  className="w-full p-2 border border-gray-300 rounded-lg text-sm h-9 bg-white"
                 >
                   <option value="Primary">Primary</option>
                   <option value="Mobile">Mobile</option>
@@ -524,14 +524,14 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
               {/* Phone Number */}
               <div className="flex-1 max-w-xs">
                 <label className="block text-sm font-medium mb-1">
-                  Primary Phone <span className="text-red-500">*</span>
+                  Phone Number <span className="text-red-500">*</span>
                 </label>
                 <Input
                   {...getPhoneInputProps()}
-                  value={phoneNumbers.find(p => p.type === 'Primary')?.number || ''}
+                  value={phoneNumbers.find(p => p.id === 'primary')?.number || ''}
                   onChange={(e) => updatePhoneNumber('primary', 'number', formatPhoneNumber(e.target.value))}
-                  className="w-full text-sm"
-                  placeholder="(555) 121-2121"
+                  className="w-full text-sm h-9"
+                  placeholder="(555) 123-4567"
                   required
                 />
               </div>
@@ -541,15 +541,16 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
                 <label className="block text-sm font-medium mb-1">Ext.</label>
                 <Input
                   {...getPhoneExtensionInputProps()}
-                  value={phoneNumbers.find(p => p.type === 'Primary')?.extension || ''}
+                  value={phoneNumbers.find(p => p.id === 'primary')?.extension || ''}
                   onChange={(e) => updatePhoneNumber('primary', 'extension', formatPhoneExtension(e.target.value))}
-                  className="w-full text-sm"
+                  className="w-full text-sm h-9"
                   placeholder="1234"
                 />
               </div>
 
-              {/* Add Phone Button */}
+              {/* Add Phone Button - Inline with other fields */}
               <div>
+                <label className="block text-sm font-medium mb-1 text-transparent">Add</label>
                 <Button
                   type="button"
                   onClick={addPhoneNumber}
@@ -564,18 +565,18 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
             </div>
 
             {/* Additional Phone Numbers */}
-            {phoneNumbers.filter(phone => phone.type !== 'Primary').map((phone) => (
+            {phoneNumbers.filter(phone => phone.id !== 'primary').map((phone) => (
               <div key={phone.id} className="flex gap-3 items-end bg-gray-50 p-3 rounded-lg">
                 {/* Empty space for email alignment */}
                 <div className="flex-1 max-w-xs"></div>
 
                 {/* Phone Type Dropdown */}
                 <div className="w-28">
-                  <label className="block text-sm font-medium mb-1">Type</label>
+                  <label className="block text-sm font-medium mb-1">Phone Type</label>
                   <select
                     value={phone.type}
                     onChange={(e) => updatePhoneNumber(phone.id, 'type', e.target.value)}
-                    className="w-full p-2 border rounded-lg text-sm"
+                    className="w-full p-2 border border-gray-300 rounded-lg text-sm h-9 bg-white"
                   >
                     <option value="Secondary">Secondary</option>
                     <option value="Mobile">Mobile</option>
@@ -592,8 +593,8 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
                     {...getPhoneInputProps()}
                     value={phone.number}
                     onChange={(e) => updatePhoneNumber(phone.id, 'number', formatPhoneNumber(e.target.value))}
-                    className="w-full text-sm"
-                    placeholder="(555) 121-2121"
+                    className="w-full text-sm h-9"
+                    placeholder="(555) 123-4567"
                   />
                 </div>
 
@@ -604,13 +605,14 @@ export const EnhancedClientDetailsStep: React.FC<EnhancedClientDetailsStepProps>
                     {...getPhoneExtensionInputProps()}
                     value={phone.extension}
                     onChange={(e) => updatePhoneNumber(phone.id, 'extension', formatPhoneExtension(e.target.value))}
-                    className="w-full text-sm"
+                    className="w-full text-sm h-9"
                     placeholder="1234"
                   />
                 </div>
 
                 {/* Remove Button */}
                 <div>
+                  <label className="block text-sm font-medium mb-1 text-transparent">Remove</label>
                   <Button
                     type="button"
                     onClick={() => removePhoneNumber(phone.id)}

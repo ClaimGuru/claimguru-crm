@@ -106,7 +106,7 @@ class ClaimWizardAI {
 
   constructor() {
     // Get Claude API key from environment or settings
-    this.claudeApiKey = process.env.VITE_CLAUDE_API_KEY || null
+    this.claudeApiKey = import.meta.env.VITE_CLAUDE_API_KEY || null
   }
 
   /**
