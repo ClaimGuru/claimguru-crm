@@ -396,9 +396,10 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
           {/* Contact Information - Single Row Layout */}
           <div className="space-y-2">
             <h4 className="text-sm font-medium text-gray-700">Contact Information</h4>
-            <div className="flex gap-3 items-end">
-              {/* Primary Email - Half Size */}
-              <div className="flex-1 max-w-xs">
+            {/* Single Row Container for ALL contact fields */}
+            <div className="flex gap-3 items-end flex-wrap">
+              {/* Primary Email - Reduced Size */}
+              <div className="flex-1 min-w-[200px] max-w-[250px]">
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Primary Email <span className="text-red-500">*</span>
                 </label>
@@ -406,19 +407,22 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
                   type="email"
                   value={clientDetails.email || ''}
                   onChange={(e) => handleInputChange('email', e.target.value)}
-                  className="h-9"
+                  className="h-9 border-gray-300"
                   placeholder="email@example.com"
                   required
                 />
               </div>
 
-              {/* Phone Type Dropdown */}
-              <div className="w-28">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Phone Type</label>
+              {/* Phone Type Dropdown - ALWAYS VISIBLE */}
+              <div className="min-w-[120px]">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Phone Type <span className="text-red-500">*</span>
+                </label>
                 <select 
-                  className="w-full p-2 border border-gray-300 rounded-lg text-sm h-9 bg-white"
+                  className="w-full p-2 border border-gray-300 rounded-lg text-sm h-9 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   value={clientDetails.phoneType || 'Primary'}
                   onChange={(e) => handleInputChange('phoneType', e.target.value)}
+                  required
                 >
                   <option value="Primary">Primary</option>
                   <option value="Mobile">Mobile</option>
@@ -429,7 +433,7 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
               </div>
 
               {/* Phone Number */}
-              <div className="flex-1 max-w-xs">
+              <div className="flex-1 min-w-[160px] max-w-[200px]">
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Phone Number <span className="text-red-500">*</span>
                 </label>
@@ -437,7 +441,7 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
                   type="tel"
                   value={clientDetails.phone || ''}
                   onChange={(e) => handleInputChange('phone', formatPhoneNumber(e.target.value))}
-                  className="h-9"
+                  className="h-9 border-gray-300"
                   placeholder="(555) 123-4567"
                   required
                   {...getPhoneInputProps()}
@@ -445,25 +449,25 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
               </div>
 
               {/* Extension */}
-              <div className="w-20">
+              <div className="min-w-[70px] max-w-[80px]">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Ext.</label>
                 <Input
                   value={clientDetails.phoneExtension || ''}
                   onChange={(e) => handleInputChange('phoneExtension', formatPhoneExtension(e.target.value))}
-                  className="h-9 text-sm"
+                  className="h-9 text-sm border-gray-300"
                   placeholder="1234"
                   {...getPhoneExtensionInputProps()}
                 />
               </div>
 
               {/* Add Phone Button */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1 text-transparent">Add</label>
+              <div className="min-w-[100px]">
+                <label className="block text-sm font-medium text-gray-700 mb-1 opacity-0">Add</label>
                 <Button
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="flex items-center gap-1 text-sm h-9"
+                  className="flex items-center gap-1 text-sm h-9 border-gray-300 hover:bg-gray-50"
                   onClick={() => {
                     const newPhone = {
                       id: `phone_${Date.now()}`,

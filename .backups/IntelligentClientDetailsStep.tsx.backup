@@ -464,7 +464,15 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
                   variant="outline"
                   size="sm"
                   className="flex items-center gap-1 text-sm h-9"
-                  onClick={addPhoneNumber}
+                  onClick={() => {
+                    const newPhone = {
+                      id: `phone_${Date.now()}`,
+                      type: 'Secondary',
+                      number: '',
+                      extension: ''
+                    };
+                    setAdditionalPhones([...additionalPhones, newPhone]);
+                  }}
                 >
                   <Plus className="h-3 w-3" />
                   Add Phone
