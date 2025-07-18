@@ -18,7 +18,9 @@ import {
   Eye,
   Edit3,
   Wand2,
-  Info
+  Info,
+  Plus,
+  X
 } from 'lucide-react';
 import { formatPhoneNumber, formatPhoneExtension, getPhoneInputProps, getPhoneExtensionInputProps } from '../../../utils/phoneUtils';
 
@@ -44,6 +46,7 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
     lastName: '',
     phone: '',
     phoneExtension: '',
+    phoneType: 'Primary',
     email: '',
     mailingAddress: {
       addressLine1: '',
@@ -389,22 +392,16 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
             <div className="flex gap-3 items-end">
               {/* Primary Email - Half Size */}
               <div className="flex-1 max-w-xs">
-                <ConfirmedFieldWrapper
-                  fieldPath="email"
-                  label="Primary Email"
-                  value={clientDetails.email || ''}
-                  placeholder="email@example.com"
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Primary Email <span className="text-red-500">*</span>
+                </label>
+                <Input
                   type="email"
-                  required={true}
-                  onChange={(value) => handleInputChange('email', value)}
-                  onConfirm={(value) => {
-                    console.log('✅ Email confirmed:', value);
-                    handleInputChange('email', value);
-                  }}
-                  onReject={(reason) => {
-                    console.log('❌ Email rejected:', reason);
-                    handleInputChange('email', '');
-                  }}
+                  value={clientDetails.email || ''}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  className="h-9"
+                  placeholder="email@example.com"
+                  required
                 />
               </div>
 
@@ -426,22 +423,17 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
 
               {/* Phone Number */}
               <div className="flex-1 max-w-xs">
-                <ConfirmedFieldWrapper
-                  fieldPath="phone"
-                  label="Phone Number"
-                  value={clientDetails.phone || ''}
-                  placeholder="(555) 123-4567"
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Phone Number <span className="text-red-500">*</span>
+                </label>
+                <Input
                   type="tel"
-                  required={true}
-                  onChange={(value) => handleInputChange('phone', formatPhoneNumber(value))}
-                  onConfirm={(value) => {
-                    console.log('✅ Phone confirmed:', value);
-                    handleInputChange('phone', formatPhoneNumber(value));
-                  }}
-                  onReject={(reason) => {
-                    console.log('❌ Phone rejected:', reason);
-                    handleInputChange('phone', '');
-                  }}
+                  value={clientDetails.phone || ''}
+                  onChange={(e) => handleInputChange('phone', formatPhoneNumber(e.target.value))}
+                  className="h-9"
+                  placeholder="(555) 123-4567"
+                  required
+                  {...getPhoneInputProps()}
                 />
               </div>
 
@@ -465,12 +457,9 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
                   variant="outline"
                   size="sm"
                   className="flex items-center gap-1 text-sm h-9"
-                  onClick={() => {
-                    // TODO: Add functionality for additional phone numbers
-                    console.log('Add phone button clicked');
-                  }}
+                  onClick={addPhoneNumber}
                 >
-                  <span className="text-xs">+</span>
+                  <Plus className="h-3 w-3" />
                   Add Phone
                 </Button>
               </div>
