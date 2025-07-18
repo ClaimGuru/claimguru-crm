@@ -884,44 +884,6 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
           </Button>
         </CardContent>
       </Card>
-
-      {/* Claim Settings */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Shield className="h-5 w-5" />
-            Claim Settings
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {/* Deduct Recoverable Depreciation */}
-          <div>
-            <label className="flex items-center gap-3">
-              <Switch
-                checked={deductRecoverableDepreciation}
-                onChange={setDeductRecoverableDepreciation}
-              />
-              <div>
-                <span className="text-sm font-medium">Deduct Recoverable Depreciation</span>
-                <p className="text-xs text-gray-600 mt-1">
-                  When enabled, depreciation will be deducted from the initial claim payment. 
-                  Recoverable depreciation may be paid separately upon completion of repairs.
-                </p>
-              </div>
-            </label>
-            {deductRecoverableDepreciation && (
-              <div className="mt-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                <div className="flex items-center gap-2">
-                  <DollarSign className="h-4 w-4 text-blue-600" />
-                  <span className="text-sm font-medium text-blue-800">
-                    Recoverable depreciation will be held and paid upon completion of repairs
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
     </div>
   )
 }

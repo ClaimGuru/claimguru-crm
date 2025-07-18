@@ -444,27 +444,130 @@ export const InsurerPersonnelInformation: React.FC<InsurerPersonnelInformationPr
                           required
                         />
                       </div>
-                      <div className="grid grid-cols-2 gap-2">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Phone Number *
-                          </label>
-                          <Input
-                            value={member.phoneNumber}
-                            onChange={(e) => updatePersonnelMember(member.id, 'phoneNumber', formatPhoneNumber(e.target.value))}
-                            {...getPhoneInputProps()}
-                            required
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Extension
-                          </label>
-                          <Input
-                            value={member.phoneExtension}
-                            onChange={(e) => updatePersonnelMember(member.id, 'phoneExtension', formatPhoneExtension(e.target.value))}
-                            {...getPhoneExtensionInputProps()}
-                          />
+                      {/* Phone Numbers Section */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-3">
+                          Phone Numbers *
+                        </label>
+                        
+                        {/* Primary Phone Display */}
+                        {member.phoneNumbers && member.phoneNumbers.length > 0 && (
+                          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3">
+                            <div className="flex items-center gap-2 mb-2">
+                              <Phone className="h-4 w-4 text-blue-600" />
+                              <span className="text-sm font-medium text-blue-900">Primary Contact</span>
+                            </div>
+                            <div className="grid grid-cols-2 gap-2">
+                              <div className="text-sm text-blue-800">
+                                <span className="font-medium">Phone:</span> {member.phoneNumbers.find(p => p.isPrimary)?.number || 'Not set'}
+                              </div>
+                              <div className="text-sm text-blue-800">
+                                <span className="font-medium">Type:</span> {member.phoneNumbers.find(p => p.isPrimary)?.type || 'Not set'}
+                              </div>
+                            </div>
+                            {member.phoneNumbers.find(p => p.isPrimary)?.extension && (
+                              <div className="text-sm text-blue-800 mt-1">
+                                <span className="font-medium">Extension:</span> {member.phoneNumbers.find(p => p.isPrimary)?.extension}
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Phone Numbers List */}
+                        <div className="space-y-3">
+                          {member.phoneNumbers?.map((phone, phoneIndex) => (
+                            <div key={phoneIndex} className="border border-gray-200 rounded-lg p-3">
+                              <div className="flex items-center gap-2 mb-3">
+                                {/* Primary Phone Star */}
+                                <button
+                                  type="button"
+                                  onClick={() => setPrimaryPhone(member.id, phoneIndex)}
+                                  className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-colors ${
+                                    phone.isPrimary 
+                                      ? 'bg-yellow-400 text-yellow-900 hover:bg-yellow-500' 
+                                      : 'bg-gray-200 text-gray-500 hover:bg-gray-300'
+                                  }`}
+                                  title={phone.isPrimary ? 'Primary phone' : 'Click to make primary'}
+                                >
+                                  <Star className={`h-3 w-3 ${phone.isPrimary ? 'fill-current' : ''}`} />
+                                </button>
+
+                                {/* Phone Number Input */}
+                                <div className="flex-1">
+                                  <Input
+                                    value={phone.number}
+                                    onChange={(e) => handlePhoneNumberChange(member.id, phoneIndex, 'number', e.target.value)}
+                                    {...getPhoneInputProps()}
+                                    placeholder="Phone number"
+                                  />
+                                </div>
+
+                                {/* Extension Input */}
+                                <div className="w-20">
+                                  <Input
+                                    value={phone.extension}
+                                    onChange={(e) => handlePhoneNumberChange(member.id, phoneIndex, 'extension', e.target.value)}
+                                    {...getPhoneExtensionInputProps()}
+                                    placeholder="Ext"
+                                  />
+                                </div>
+
+                                {/* Phone Type Select */}
+                                <div className="w-24">
+                                  <select
+                                    value={phone.type}
+                                    onChange={(e) => handlePhoneNumberChange(member.id, phoneIndex, 'type', e.target.value)}
+                                    className="w-full p-2 text-sm border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                  >
+                                    {phoneTypes.map(type => (
+                                      <option key={type} value={type}>
+                                        {type.charAt(0).toUpperCase() + type.slice(1)}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+
+                                {/* Remove Phone Button */}
+                                {member.phoneNumbers.length > 1 && (
+                                  <button
+                                    type="button"
+                                    onClick={() => removePhoneNumber(member.id, phoneIndex)}
+                                    className="flex-shrink-0 p-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors"
+                                    title="Remove phone number"
+                                  >
+                                    <X className="h-4 w-4" />
+                                  </button>
+                                )}
+                              </div>
+
+                              {/* Labels Row */}
+                              <div className="flex items-center gap-2 text-xs text-gray-500">
+                                <div className="flex-shrink-0 w-6"></div>
+                                <div className="flex-1">Phone Number {phone.isPrimary && '(Primary)'}</div>
+                                <div className="w-20 text-center">Extension</div>
+                                <div className="w-24 text-center">Type</div>
+                                {member.phoneNumbers.length > 1 && <div className="flex-shrink-0 w-10"></div>}
+                              </div>
+                            </div>
+                          ))}
+
+                          {/* Add Phone Button Row */}
+                          <div className="flex items-center gap-2 p-3">
+                            <div className="flex-shrink-0 w-6"></div>
+                            <div className="flex-1"></div>
+                            <div className="w-20"></div>
+                            <div className="w-24"></div>
+                            <div className="flex items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={() => addPhoneNumber(member.id)}
+                                className="flex items-center gap-1 px-3 py-2 text-sm bg-blue-50 text-blue-600 border border-blue-200 rounded-md hover:bg-blue-100 transition-colors"
+                              >
+                                <Plus className="h-3 w-3" />
+                                Add Phone
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
