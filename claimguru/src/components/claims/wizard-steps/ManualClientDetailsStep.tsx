@@ -389,27 +389,53 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
 
           {/* Contact Information */}
           <div className="space-y-4">
-            {/* Primary Email */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
-                <Mail className="h-4 w-4" />
-                Primary Email *
-              </label>
-              <Input
-                type="email"
-                value={clientDetails.primaryEmail}
-                onChange={(e) => handleInputChange('primaryEmail', e.target.value)}
-                placeholder="Enter email address"
-                required
-              />
+            {/* Email and Primary Phone on Same Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                  <Mail className="h-4 w-4" />
+                  Primary Email *
+                </label>
+                <Input
+                  type="email"
+                  value={clientDetails.primaryEmail}
+                  onChange={(e) => handleInputChange('primaryEmail', e.target.value)}
+                  placeholder="Enter email address"
+                  required
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                  <Phone className="h-4 w-4" />
+                  Primary Phone *
+                </label>
+                <div className="flex gap-2">
+                  <Input
+                    {...getPhoneInputProps()}
+                    value={clientDetails.phoneNumbers[0]?.number || ''}
+                    onChange={(e) => handlePhoneNumberChange(0, 'number', e.target.value)}
+                    className="flex-1"
+                    required
+                  />
+                  <Input
+                    {...getPhoneExtensionInputProps()}
+                    value={clientDetails.phoneNumbers[0]?.extension || ''}
+                    onChange={(e) => handlePhoneNumberChange(0, 'extension', e.target.value)}
+                    className="w-16"
+                    placeholder="Ext."
+                  />
+                </div>
+              </div>
             </div>
 
-            {/* Phone Numbers Section */}
+            {/* Additional Phone Numbers Section - Only show if more than one phone */}
+            {clientDetails.phoneNumbers.length > 1 && (
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
                   <Phone className="h-4 w-4" />
-                  Phone Numbers *
+                  Additional Phone Numbers
                 </label>
                 <button
                   type="button"
@@ -421,9 +447,11 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
                 </button>
               </div>
               
-              {/* Phone Number List */}
+              {/* Additional Phone Number List - Starting from index 1 */}
               <div className="space-y-2">
-                {clientDetails.phoneNumbers.map((phone, index) => (
+                {clientDetails.phoneNumbers.slice(1).map((phone, sliceIndex) => {
+                  const index = sliceIndex + 1; // Adjust index to match original array
+                  return (
                   <div key={index} className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
                     {/* Primary Phone Indicator */}
                     <button
@@ -485,14 +513,18 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
                       </button>
                     )}
                   </div>
-                ))}
+                  );
+                })}
               </div>
               
               {/* Helper Text */}
-              <p className="text-xs text-gray-500">
-                Click the star (⭐) to set a phone number as primary. At least one phone number is required.
-              </p>
+              {clientDetails.phoneNumbers.length > 1 && (
+                <p className="text-xs text-gray-500">
+                  Click the star (⭐) to set a phone number as primary. Additional phone numbers can be removed using the X button.
+                </p>
+              )}
             </div>
+            )}
           </div>
 
           {/* Mailing Address - Optional for now */}
@@ -650,27 +682,25 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
-                        <Phone className="h-4 w-4" />
-                        Co-Insured Phone *
-                      </label>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                      <Phone className="h-4 w-4" />
+                      Co-Insured Phone *
+                    </label>
+                    <div className="flex gap-2">
                       <Input
                         {...getPhoneInputProps()}
                         value={clientDetails.coInsuredPhone}
                         onChange={(e) => handleInputChange('coInsuredPhone', e.target.value)}
+                        className="flex-1"
                         required={clientDetails.hasCoInsured}
                       />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Extension
-                      </label>
                       <Input
                         value={clientDetails.coInsuredPhoneExtension}
                         onChange={(e) => handleInputChange('coInsuredPhoneExtension', e.target.value)}
                         {...getPhoneExtensionInputProps()}
+                        className="w-16"
+                        placeholder="Ext."
                       />
                     </div>
                   </div>
