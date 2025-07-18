@@ -33,13 +33,21 @@ interface License {
   licenseType: string;
 }
 
+interface PhoneNumber {
+  number: string;
+  type: string;
+  extension: string;
+  isPrimary: boolean;
+}
+
 interface PersonnelMember {
   id: string;
   firstName: string;
   lastName: string;
   email: string;
-  phoneNumber: string;
-  phoneExtension: string;
+  phoneNumber: string; // Legacy field for backward compatibility
+  phoneExtension: string; // Legacy field for backward compatibility
+  phoneNumbers: PhoneNumber[];
   personnelType: string;
   vendorSubType: string;
   licenses: License[];
@@ -64,6 +72,32 @@ export const InsurerPersonnelInformation: React.FC<InsurerPersonnelInformationPr
   useEffect(() => {
     onUpdate(personnel);
   }, [personnel, onUpdate]);
+
+  // Backward compatibility: Ensure all personnel have phoneNumbers array
+  useEffect(() => {
+    const needsUpdate = personnel.some(member => !member.phoneNumbers || member.phoneNumbers.length === 0);
+    
+    if (needsUpdate) {
+      const updatedPersonnel = personnel.map(member => {
+        if (!member.phoneNumbers || member.phoneNumbers.length === 0) {
+          return {
+            ...member,
+            phoneNumbers: [
+              { 
+                number: member.phoneNumber || '', 
+                type: 'work', 
+                extension: member.phoneExtension || '', 
+                isPrimary: true 
+              }
+            ]
+          };
+        }
+        return member;
+      });
+      
+      setPersonnel(updatedPersonnel);
+    }
+  }, []);
 
   const personnelTypes = [
     'Supervisor',
@@ -123,14 +157,26 @@ export const InsurerPersonnelInformation: React.FC<InsurerPersonnelInformationPr
     'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
   ];
 
+  const phoneTypes = [
+    'cell',
+    'work',
+    'home',
+    'office',
+    'fax',
+    'other'
+  ];
+
   const addPersonnelMember = () => {
     const newMember: PersonnelMember = {
       id: Date.now().toString(),
       firstName: '',
       lastName: '',
       email: '',
-      phoneNumber: '',
-      phoneExtension: '',
+      phoneNumber: '', // Legacy field
+      phoneExtension: '', // Legacy field
+      phoneNumbers: [
+        { number: '', type: 'work', extension: '', isPrimary: true }
+      ],
       personnelType: '',
       vendorSubType: '',
       licenses: [],
@@ -149,6 +195,104 @@ export const InsurerPersonnelInformation: React.FC<InsurerPersonnelInformationPr
     setPersonnel(personnel.map(member => 
       member.id === id ? { ...member, [field]: value } : member
     ));
+  };
+
+  // Phone number management functions
+  const handlePhoneNumberChange = (memberId: string, index: number, field: 'number' | 'type' | 'extension', value: string) => {
+    setPersonnel(personnel.map(member => {
+      if (member.id !== memberId) return member;
+      
+      const updatedPhoneNumbers = [...member.phoneNumbers];
+      
+      if (field === 'number') {
+        // Apply phone number formatting
+        const formattedValue = formatPhoneNumber(value);
+        updatedPhoneNumbers[index] = {
+          ...updatedPhoneNumbers[index],
+          [field]: formattedValue
+        };
+      } else if (field === 'extension') {
+        // Apply extension formatting
+        const formattedValue = formatPhoneExtension(value);
+        updatedPhoneNumbers[index] = {
+          ...updatedPhoneNumbers[index],
+          [field]: formattedValue
+        };
+      } else {
+        updatedPhoneNumbers[index] = {
+          ...updatedPhoneNumbers[index],
+          [field]: value
+        };
+      }
+      
+      // Update legacy fields for backward compatibility
+      const primaryPhone = updatedPhoneNumbers.find(p => p.isPrimary);
+      
+      return {
+        ...member,
+        phoneNumbers: updatedPhoneNumbers,
+        phoneNumber: primaryPhone?.number || '',
+        phoneExtension: primaryPhone?.extension || ''
+      };
+    }));
+  };
+
+  const addPhoneNumber = (memberId: string) => {
+    setPersonnel(personnel.map(member => {
+      if (member.id !== memberId) return member;
+      
+      return {
+        ...member,
+        phoneNumbers: [
+          ...member.phoneNumbers,
+          { number: '', type: 'work', extension: '', isPrimary: false }
+        ]
+      };
+    }));
+  };
+
+  const removePhoneNumber = (memberId: string, index: number) => {
+    setPersonnel(personnel.map(member => {
+      if (member.id !== memberId) return member;
+      
+      if (member.phoneNumbers.length <= 1) return member; // Keep at least one phone number
+      
+      const phoneToRemove = member.phoneNumbers[index];
+      const updatedPhoneNumbers = member.phoneNumbers.filter((_, i) => i !== index);
+      
+      // If we're removing the primary phone, make the first remaining one primary
+      if (phoneToRemove.isPrimary && updatedPhoneNumbers.length > 0) {
+        updatedPhoneNumbers[0].isPrimary = true;
+      }
+      
+      // Update legacy fields for backward compatibility
+      const primaryPhone = updatedPhoneNumbers.find(p => p.isPrimary);
+      
+      return {
+        ...member,
+        phoneNumbers: updatedPhoneNumbers,
+        phoneNumber: primaryPhone?.number || '',
+        phoneExtension: primaryPhone?.extension || ''
+      };
+    }));
+  };
+
+  const setPrimaryPhone = (memberId: string, index: number) => {
+    setPersonnel(personnel.map(member => {
+      if (member.id !== memberId) return member;
+      
+      const updatedPhoneNumbers = member.phoneNumbers.map((phone, i) => ({
+        ...phone,
+        isPrimary: i === index
+      }));
+      
+      return {
+        ...member,
+        phoneNumbers: updatedPhoneNumbers,
+        phoneNumber: updatedPhoneNumbers[index].number,
+        phoneExtension: updatedPhoneNumbers[index].extension
+      };
+    }));
   };
 
   const addLicense = (memberId: string) => {
@@ -359,31 +503,30 @@ export const InsurerPersonnelInformation: React.FC<InsurerPersonnelInformationPr
                           ))}
                         </select>
                       </div>
-                      {member.personnelType === 'Vendor' && (
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Vendor Specialty *
-                          </label>
-                          <select
-                            value={member.vendorSubType || ''}
-                            onChange={(e) => {
-                              const selectedValue = e.target.value;
-                              console.log('Vendor specialty selected:', selectedValue);
-                              updatePersonnelMember(member.id, 'vendorSubType', selectedValue);
-                            }}
-                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500 bg-white appearance-none"
-                            style={{ minHeight: '40px', cursor: 'pointer' }}
-                            required
-                          >
-                            <option value="">Select vendor specialty</option>
-                            {vendorSubTypes.map((subType, index) => (
-                              <option key={`${subType}-${index}`} value={subType}>
-                                {subType}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      )}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Vendor Specialty {member.personnelType === 'Vendor' ? '*' : '(if applicable)'}
+                        </label>
+                        <select
+                          value={member.vendorSubType || ''}
+                          onChange={(e) => {
+                            const selectedValue = e.target.value;
+                            console.log('Vendor specialty selected:', selectedValue);
+                            updatePersonnelMember(member.id, 'vendorSubType', selectedValue);
+                          }}
+                          className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500 bg-white appearance-none"
+                          style={{ minHeight: '40px', cursor: 'pointer' }}
+                          required={member.personnelType === 'Vendor'}
+                          disabled={!member.personnelType || member.personnelType === ''}
+                        >
+                          <option value="">Select vendor specialty</option>
+                          {vendorSubTypes.map((subType, index) => (
+                            <option key={`${subType}-${index}`} value={subType}>
+                              {subType}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                           Job Title

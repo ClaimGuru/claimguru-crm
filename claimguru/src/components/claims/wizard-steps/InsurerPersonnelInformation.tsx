@@ -33,13 +33,21 @@ interface License {
   licenseType: string;
 }
 
+interface PhoneNumber {
+  number: string;
+  type: string;
+  extension: string;
+  isPrimary: boolean;
+}
+
 interface PersonnelMember {
   id: string;
   firstName: string;
   lastName: string;
   email: string;
-  phoneNumber: string;
-  phoneExtension: string;
+  phoneNumber: string; // Legacy field for backward compatibility
+  phoneExtension: string; // Legacy field for backward compatibility
+  phoneNumbers: PhoneNumber[];
   personnelType: string;
   vendorSubType: string;
   licenses: License[];
@@ -64,6 +72,32 @@ export const InsurerPersonnelInformation: React.FC<InsurerPersonnelInformationPr
   useEffect(() => {
     onUpdate(personnel);
   }, [personnel, onUpdate]);
+
+  // Backward compatibility: Ensure all personnel have phoneNumbers array
+  useEffect(() => {
+    const needsUpdate = personnel.some(member => !member.phoneNumbers || member.phoneNumbers.length === 0);
+    
+    if (needsUpdate) {
+      const updatedPersonnel = personnel.map(member => {
+        if (!member.phoneNumbers || member.phoneNumbers.length === 0) {
+          return {
+            ...member,
+            phoneNumbers: [
+              { 
+                number: member.phoneNumber || '', 
+                type: 'work', 
+                extension: member.phoneExtension || '', 
+                isPrimary: true 
+              }
+            ]
+          };
+        }
+        return member;
+      });
+      
+      setPersonnel(updatedPersonnel);
+    }
+  }, []);
 
   const personnelTypes = [
     'Supervisor',
@@ -123,14 +157,26 @@ export const InsurerPersonnelInformation: React.FC<InsurerPersonnelInformationPr
     'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
   ];
 
+  const phoneTypes = [
+    'cell',
+    'work',
+    'home',
+    'office',
+    'fax',
+    'other'
+  ];
+
   const addPersonnelMember = () => {
     const newMember: PersonnelMember = {
       id: Date.now().toString(),
       firstName: '',
       lastName: '',
       email: '',
-      phoneNumber: '',
-      phoneExtension: '',
+      phoneNumber: '', // Legacy field
+      phoneExtension: '', // Legacy field
+      phoneNumbers: [
+        { number: '', type: 'work', extension: '', isPrimary: true }
+      ],
       personnelType: '',
       vendorSubType: '',
       licenses: [],
@@ -149,6 +195,104 @@ export const InsurerPersonnelInformation: React.FC<InsurerPersonnelInformationPr
     setPersonnel(personnel.map(member => 
       member.id === id ? { ...member, [field]: value } : member
     ));
+  };
+
+  // Phone number management functions
+  const handlePhoneNumberChange = (memberId: string, index: number, field: 'number' | 'type' | 'extension', value: string) => {
+    setPersonnel(personnel.map(member => {
+      if (member.id !== memberId) return member;
+      
+      const updatedPhoneNumbers = [...member.phoneNumbers];
+      
+      if (field === 'number') {
+        // Apply phone number formatting
+        const formattedValue = formatPhoneNumber(value);
+        updatedPhoneNumbers[index] = {
+          ...updatedPhoneNumbers[index],
+          [field]: formattedValue
+        };
+      } else if (field === 'extension') {
+        // Apply extension formatting
+        const formattedValue = formatPhoneExtension(value);
+        updatedPhoneNumbers[index] = {
+          ...updatedPhoneNumbers[index],
+          [field]: formattedValue
+        };
+      } else {
+        updatedPhoneNumbers[index] = {
+          ...updatedPhoneNumbers[index],
+          [field]: value
+        };
+      }
+      
+      // Update legacy fields for backward compatibility
+      const primaryPhone = updatedPhoneNumbers.find(p => p.isPrimary);
+      
+      return {
+        ...member,
+        phoneNumbers: updatedPhoneNumbers,
+        phoneNumber: primaryPhone?.number || '',
+        phoneExtension: primaryPhone?.extension || ''
+      };
+    }));
+  };
+
+  const addPhoneNumber = (memberId: string) => {
+    setPersonnel(personnel.map(member => {
+      if (member.id !== memberId) return member;
+      
+      return {
+        ...member,
+        phoneNumbers: [
+          ...member.phoneNumbers,
+          { number: '', type: 'work', extension: '', isPrimary: false }
+        ]
+      };
+    }));
+  };
+
+  const removePhoneNumber = (memberId: string, index: number) => {
+    setPersonnel(personnel.map(member => {
+      if (member.id !== memberId) return member;
+      
+      if (member.phoneNumbers.length <= 1) return member; // Keep at least one phone number
+      
+      const phoneToRemove = member.phoneNumbers[index];
+      const updatedPhoneNumbers = member.phoneNumbers.filter((_, i) => i !== index);
+      
+      // If we're removing the primary phone, make the first remaining one primary
+      if (phoneToRemove.isPrimary && updatedPhoneNumbers.length > 0) {
+        updatedPhoneNumbers[0].isPrimary = true;
+      }
+      
+      // Update legacy fields for backward compatibility
+      const primaryPhone = updatedPhoneNumbers.find(p => p.isPrimary);
+      
+      return {
+        ...member,
+        phoneNumbers: updatedPhoneNumbers,
+        phoneNumber: primaryPhone?.number || '',
+        phoneExtension: primaryPhone?.extension || ''
+      };
+    }));
+  };
+
+  const setPrimaryPhone = (memberId: string, index: number) => {
+    setPersonnel(personnel.map(member => {
+      if (member.id !== memberId) return member;
+      
+      const updatedPhoneNumbers = member.phoneNumbers.map((phone, i) => ({
+        ...phone,
+        isPrimary: i === index
+      }));
+      
+      return {
+        ...member,
+        phoneNumbers: updatedPhoneNumbers,
+        phoneNumber: updatedPhoneNumbers[index].number,
+        phoneExtension: updatedPhoneNumbers[index].extension
+      };
+    }));
   };
 
   const addLicense = (memberId: string) => {
@@ -300,27 +444,130 @@ export const InsurerPersonnelInformation: React.FC<InsurerPersonnelInformationPr
                           required
                         />
                       </div>
-                      <div className="grid grid-cols-2 gap-2">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Phone Number *
-                          </label>
-                          <Input
-                            value={member.phoneNumber}
-                            onChange={(e) => updatePersonnelMember(member.id, 'phoneNumber', formatPhoneNumber(e.target.value))}
-                            {...getPhoneInputProps()}
-                            required
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Extension
-                          </label>
-                          <Input
-                            value={member.phoneExtension}
-                            onChange={(e) => updatePersonnelMember(member.id, 'phoneExtension', formatPhoneExtension(e.target.value))}
-                            {...getPhoneExtensionInputProps()}
-                          />
+                      {/* Phone Numbers Section */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-3">
+                          Phone Numbers *
+                        </label>
+                        
+                        {/* Primary Phone Display */}
+                        {member.phoneNumbers && member.phoneNumbers.length > 0 && (
+                          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3">
+                            <div className="flex items-center gap-2 mb-2">
+                              <Phone className="h-4 w-4 text-blue-600" />
+                              <span className="text-sm font-medium text-blue-900">Primary Contact</span>
+                            </div>
+                            <div className="grid grid-cols-2 gap-2">
+                              <div className="text-sm text-blue-800">
+                                <span className="font-medium">Phone:</span> {member.phoneNumbers.find(p => p.isPrimary)?.number || 'Not set'}
+                              </div>
+                              <div className="text-sm text-blue-800">
+                                <span className="font-medium">Type:</span> {member.phoneNumbers.find(p => p.isPrimary)?.type || 'Not set'}
+                              </div>
+                            </div>
+                            {member.phoneNumbers.find(p => p.isPrimary)?.extension && (
+                              <div className="text-sm text-blue-800 mt-1">
+                                <span className="font-medium">Extension:</span> {member.phoneNumbers.find(p => p.isPrimary)?.extension}
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Phone Numbers List */}
+                        <div className="space-y-3">
+                          {member.phoneNumbers?.map((phone, phoneIndex) => (
+                            <div key={phoneIndex} className="border border-gray-200 rounded-lg p-3">
+                              <div className="flex items-center gap-2 mb-3">
+                                {/* Primary Phone Star */}
+                                <button
+                                  type="button"
+                                  onClick={() => setPrimaryPhone(member.id, phoneIndex)}
+                                  className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-colors ${
+                                    phone.isPrimary 
+                                      ? 'bg-yellow-400 text-yellow-900 hover:bg-yellow-500' 
+                                      : 'bg-gray-200 text-gray-500 hover:bg-gray-300'
+                                  }`}
+                                  title={phone.isPrimary ? 'Primary phone' : 'Click to make primary'}
+                                >
+                                  <Star className={`h-3 w-3 ${phone.isPrimary ? 'fill-current' : ''}`} />
+                                </button>
+
+                                {/* Phone Number Input */}
+                                <div className="flex-1">
+                                  <Input
+                                    value={phone.number}
+                                    onChange={(e) => handlePhoneNumberChange(member.id, phoneIndex, 'number', e.target.value)}
+                                    {...getPhoneInputProps()}
+                                    placeholder="Phone number"
+                                  />
+                                </div>
+
+                                {/* Extension Input */}
+                                <div className="w-20">
+                                  <Input
+                                    value={phone.extension}
+                                    onChange={(e) => handlePhoneNumberChange(member.id, phoneIndex, 'extension', e.target.value)}
+                                    {...getPhoneExtensionInputProps()}
+                                    placeholder="Ext"
+                                  />
+                                </div>
+
+                                {/* Phone Type Select */}
+                                <div className="w-24">
+                                  <select
+                                    value={phone.type}
+                                    onChange={(e) => handlePhoneNumberChange(member.id, phoneIndex, 'type', e.target.value)}
+                                    className="w-full p-2 text-sm border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                  >
+                                    {phoneTypes.map(type => (
+                                      <option key={type} value={type}>
+                                        {type.charAt(0).toUpperCase() + type.slice(1)}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+
+                                {/* Remove Phone Button */}
+                                {member.phoneNumbers.length > 1 && (
+                                  <button
+                                    type="button"
+                                    onClick={() => removePhoneNumber(member.id, phoneIndex)}
+                                    className="flex-shrink-0 p-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors"
+                                    title="Remove phone number"
+                                  >
+                                    <X className="h-4 w-4" />
+                                  </button>
+                                )}
+                              </div>
+
+                              {/* Labels Row */}
+                              <div className="flex items-center gap-2 text-xs text-gray-500">
+                                <div className="flex-shrink-0 w-6"></div>
+                                <div className="flex-1">Phone Number {phone.isPrimary && '(Primary)'}</div>
+                                <div className="w-20 text-center">Extension</div>
+                                <div className="w-24 text-center">Type</div>
+                                {member.phoneNumbers.length > 1 && <div className="flex-shrink-0 w-10"></div>}
+                              </div>
+                            </div>
+                          ))}
+
+                          {/* Add Phone Button Row */}
+                          <div className="flex items-center gap-2 p-3">
+                            <div className="flex-shrink-0 w-6"></div>
+                            <div className="flex-1"></div>
+                            <div className="w-20"></div>
+                            <div className="w-24"></div>
+                            <div className="flex items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={() => addPhoneNumber(member.id)}
+                                className="flex items-center gap-1 px-3 py-2 text-sm bg-blue-50 text-blue-600 border border-blue-200 rounded-md hover:bg-blue-100 transition-colors"
+                              >
+                                <Plus className="h-3 w-3" />
+                                Add Phone
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
