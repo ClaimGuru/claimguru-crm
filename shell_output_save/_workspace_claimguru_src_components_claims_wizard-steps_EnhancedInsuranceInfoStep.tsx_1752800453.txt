@@ -1,0 +1,132 @@
+1:import React, { useState, useEffect } from 'react'
+2-import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
+3-import { Button } from '../../ui/Button'
+4-import { LoadingSpinner } from '../../ui/LoadingSpinner'
+5-import { ConfirmedFieldWrapper } from '../../ui/ConfirmedFieldWrapper'
+6-import { ConfirmedFieldsSummary } from '../../ui/ConfirmedFieldsSummary'
+7-import { Switch } from '../../ui/Switch'
+8-import { Shield, DollarSign, AlertTriangle, CheckCircle, Brain, Plus, X, Calendar } from 'lucide-react'
+9-import { enhancedClaimWizardAI, AIValidation } from '../../../services/enhancedClaimWizardAI'
+10-import { ConfirmedFieldsService } from '../../../services/confirmedFieldsService'
+11-
+12-interface Coverage {
+13-  id: string
+14-  type: string
+15-  limit: number
+16-}
+17-
+18-interface Deductible {
+19-  id: string
+20-  type: string
+21-  amount: number
+--
+86-  })
+87-  const [isValidating, setIsValidating] = useState(false)
+88-  const [autoPopulated, setAutoPopulated] = useState(false)
+89-
+90-  // Debug: Log available data on component load
+91:  useEffect(() => {
+92-    console.log('📊 Insurance Step Data Debug:', {
+93-      hasExtractedPolicyData: !!data.extractedPolicyData,
+94-      hasPolicyDetails: !!data.policyDetails,
+95-      validationComplete: data.validationComplete,
+96-      dataConfirmed: data.dataConfirmed,
+97-      processingComplete: data.processingComplete,
+98-      extractedPolicyDataKeys: data.extractedPolicyData ? Object.keys(data.extractedPolicyData) : 'none',
+99-      policyDetailsKeys: data.policyDetails ? Object.keys(data.policyDetails) : 'none',
+100-      autoPopulated: autoPopulated
+101-    })
+102-    
+103-    if (data.policyDetails?.deductibles) {
+104-      console.log('📄 Available deductibles in policyDetails:', data.policyDetails.deductibles)
+105-    }
+106-    
+107-    if (data.extractedPolicyData?.deductibles) {
+108-      console.log('📄 Available deductibles in extractedPolicyData:', data.extractedPolicyData.deductibles)
+109-    }
+110-  }, [data])
+111-
+112-  // Restore confirmed fields state if available
+113:  useEffect(() => {
+114-    if (data.confirmedFieldsState) {
+115-      console.log('📎 Restoring confirmed fields state in insurance info step');
+116-      ConfirmedFieldsService.importState(data.confirmedFieldsState);
+117-    }
+118-  }, [data.confirmedFieldsState]);
+119-
+120-  // Auto-populate data from PDF extraction
+121:  useEffect(() => {
+122-    // Check if PDF data was validated and confirmed
+123-    if (data.validationComplete && data.policyDetails && !autoPopulated) {
+124-      console.log('🚀 Auto-populating insurance details from validated PDF data:', data.policyDetails)
+125-      
+126-      // Auto-populate insurance carrier
+127-      if (data.policyDetails.insurerName) {
+128-        // Map full insurance company names to dropdown options
+129-        let carrierName = data.policyDetails.insurerName
+130-        if (carrierName.toLowerCase().includes('allstate')) {
+131-          carrierName = 'Allstate'
+132-        } else if (carrierName.toLowerCase().includes('state farm')) {
+133-          carrierName = 'State Farm'
+134-        } else if (carrierName.toLowerCase().includes('geico')) {
+135-          carrierName = 'GEICO'
+136-        } else if (carrierName.toLowerCase().includes('progressive')) {
+137-          carrierName = 'Progressive'
+138-        } else if (carrierName.toLowerCase().includes('usaa')) {
+139-          carrierName = 'USAA'
+140-        } else {
+141-          carrierName = 'Other'
+--
+203-      console.log('✅ Insurance details auto-population completed')
+204-    }
+205-  }, [data.validationComplete, data.policyDetails, autoPopulated])
+206-
+207-  // Update parent data whenever local state changes
+208:  useEffect(() => {
+209-    onUpdate({
+210-      ...data,
+211-      insuranceCarrier,
+212-      policyDetails,
+213-      coverages,
+214-      deductibles,
+215-      priorPayments,
+216-      isForcedPlaced,
+217-      deductRecoverableDepreciation,
+218-      confirmedFieldsState: ConfirmedFieldsService.exportState() // Keep state in sync
+219-    })
+220-  }, [insuranceCarrier, policyDetails, coverages, deductibles, priorPayments, isForcedPlaced, deductRecoverableDepreciation])
+221-
+222-  // AI Validation Functions
+223-  const validateInsuranceInfo = async () => {
+224-    if (!data.extractedPolicyData && !data.policyDetails) return
+225-
+226-    setIsValidating(true)
+227-    onAIProcessing?.(true)
+228-
+--
+298-      onAIProcessing?.(false)
+299-    }
+300-  }
+301-
+302-  // Auto-validate when key data changes or component loads with validated data
+303:  useEffect(() => {
+304-    if ((data.extractedPolicyData || data.policyDetails) && (policyDetails.policyNumber || data.policyDetails?.policyNumber)) {
+305-      console.log('🔍 Triggering AI validation with available data')
+306-      validateInsuranceInfo()
+307-    }
+308-  }, [policyDetails.policyNumber, data.lossDetails?.lossDate, data.extractedPolicyData, data.policyDetails, data.validationComplete])
+309-
+310-  // Coverage Management
+311-  const addCoverage = () => {
+312-    const newCoverage: Coverage = {
+313-      id: Date.now().toString(),
+314-      type: '',
+315-      limit: 0
+316-    }
+317-    setCoverages([...coverages, newCoverage])
+318-  }
+319-
+320-  const updateCoverage = (id: string, field: keyof Coverage, value: any) => {
+321-    setCoverages(coverages.map(coverage => 
+322-      coverage.id === id ? { ...coverage, [field]: value } : coverage
+323-    ))

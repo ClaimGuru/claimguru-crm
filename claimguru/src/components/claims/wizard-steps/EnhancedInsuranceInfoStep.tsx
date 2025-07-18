@@ -62,7 +62,14 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
 }) => {
   const [insuranceCarrier, setInsuranceCarrier] = useState(data.insuranceCarrier || {})
   const [policyDetails, setPolicyDetails] = useState(data.policyDetails || {})
-  const [coverages, setCoverages] = useState<Coverage[]>(data.coverages || [])
+  const [coverages, setCoverages] = useState<Coverage[]>(data.coverages || [
+    // Add default dwelling coverage to meet validation requirements
+    {
+      id: 'default-dwelling',
+      type: 'Dwelling',
+      limit: 0
+    }
+  ])
   const [deductibles, setDeductibles] = useState<Deductible[]>(data.deductibles || [])
   const [priorPayments, setPriorPayments] = useState<PriorPayment[]>(data.priorPayments || [])
   const [isForcedPlaced, setIsForcedPlaced] = useState(data.isForcedPlaced || false)
@@ -412,8 +419,54 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
     </div>
   )
 
+  // Calculate validation status for user guidance
+  const isCarrierSelected = insuranceCarrier.name && insuranceCarrier.name.trim() !== ''
+  const isPolicyNumberValid = policyDetails.policyNumber && policyDetails.policyNumber.trim().length >= 3
+  const isEffectiveDateValid = policyDetails.effectiveDate && policyDetails.effectiveDate.trim() !== ''
+  const isExpirationDateValid = policyDetails.expirationDate && policyDetails.expirationDate.trim() !== ''
+  const hasCoverages = coverages.length > 0 && coverages.some(c => c.type && c.type.trim() !== '')
+  
+  const requiredFieldsComplete = isCarrierSelected && isPolicyNumberValid && isEffectiveDateValid && isExpirationDateValid && hasCoverages
+  const completedCount = [isCarrierSelected, isPolicyNumberValid, isEffectiveDateValid, isExpirationDateValid, hasCoverages].filter(Boolean).length
+  const totalRequired = 5
+
   return (
     <div className="space-y-6">
+      {/* Validation Progress */}
+      <Card className={`border-l-4 ${requiredFieldsComplete ? 'border-l-green-500 bg-green-50' : 'border-l-yellow-500 bg-yellow-50'}`}>
+        <CardContent className="p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className={`font-medium ${requiredFieldsComplete ? 'text-green-900' : 'text-yellow-900'}`}>
+                Step Completion: {completedCount}/{totalRequired} Required Fields
+              </h3>
+              <p className={`text-sm ${requiredFieldsComplete ? 'text-green-700' : 'text-yellow-700'}`}>
+                {requiredFieldsComplete 
+                  ? '✅ All required fields completed. You can proceed to the next step.' 
+                  : '⚠️ Please complete all required fields to continue.'}
+              </p>
+            </div>
+            <div className={`px-3 py-1 rounded text-sm font-medium ${
+              requiredFieldsComplete 
+                ? 'bg-green-100 text-green-800 border border-green-200' 
+                : 'bg-yellow-100 text-yellow-800 border border-yellow-200'
+            }`}>
+              {Math.round((completedCount / totalRequired) * 100)}% Complete
+            </div>
+          </div>
+          {!requiredFieldsComplete && (
+            <div className="mt-3 text-xs text-gray-600">
+              <strong>Missing:</strong>
+              {!isCarrierSelected && ' Insurance Carrier,'}
+              {!isPolicyNumberValid && ' Policy Number (min 3 chars),'}
+              {!isEffectiveDateValid && ' Effective Date,'}
+              {!isExpirationDateValid && ' Expiration Date,'}
+              {!hasCoverages && ' At least one Coverage type'}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
       {/* Confirmed Fields Summary */}
       <ConfirmedFieldsSummary 
         className="mb-4" 
@@ -601,12 +654,14 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
       </Card>
 
       {/* Coverage Information */}
-      <Card>
+      <Card className="border-l-4 border-l-blue-500">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Shield className="h-5 w-5" />
+            <Shield className="h-5 w-5 text-blue-600" />
             Coverage & Limits
+            <span className="text-sm bg-red-100 text-red-700 px-2 py-1 rounded font-normal">Required</span>
           </CardTitle>
+          <p className="text-sm text-gray-600">At least one coverage type must be specified to proceed</p>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* AI Coverage Suggestions */}
@@ -886,37 +941,77 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
       </Card>
 
       {/* Claim Settings */}
-      <Card>
+      <Card className="border-l-4 border-l-blue-500">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Shield className="h-5 w-5" />
-            Claim Settings
+            <Shield className="h-5 w-5 text-blue-600" />
+            Claim Payment Settings
           </CardTitle>
+          <p className="text-sm text-gray-600">Configure how depreciation is handled in relation to prior payments</p>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Deduct Recoverable Depreciation */}
-          <div>
-            <label className="flex items-center gap-3">
+          <div className="p-4 bg-gray-50 rounded-lg border">
+            <label className="flex items-start gap-3 cursor-pointer">
               <Switch
                 checked={deductRecoverableDepreciation}
                 onChange={setDeductRecoverableDepreciation}
+                className="mt-1"
               />
-              <div>
-                <span className="text-sm font-medium">Deduct Recoverable Depreciation</span>
-                <p className="text-xs text-gray-600 mt-1">
-                  When enabled, depreciation will be deducted from the initial claim payment. 
-                  Recoverable depreciation may be paid separately upon completion of repairs.
-                </p>
-              </div>
-            </label>
-            {deductRecoverableDepreciation && (
-              <div className="mt-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                <div className="flex items-center gap-2">
-                  <DollarSign className="h-4 w-4 text-blue-600" />
-                  <span className="text-sm font-medium text-blue-800">
-                    Recoverable depreciation will be held and paid upon completion of repairs
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-base font-semibold text-gray-900">Deduct Recoverable Depreciation from Prior Payments</span>
+                  <span className={`px-2 py-1 rounded text-xs font-medium ${
+                    deductRecoverableDepreciation 
+                      ? 'bg-green-100 text-green-800 border border-green-200' 
+                      : 'bg-gray-100 text-gray-600 border border-gray-200'
+                  }`}>
+                    {deductRecoverableDepreciation ? 'ENABLED' : 'DISABLED'}
                   </span>
                 </div>
+                <p className="text-sm text-gray-700 mb-3">
+                  <strong>What this means:</strong> When enabled, depreciation amounts will be deducted from the initial claim payment. 
+                  The recoverable depreciation portion may be paid separately upon completion and verification of repairs.
+                </p>
+                <div className="bg-yellow-50 border border-yellow-200 rounded p-3">
+                  <div className="flex items-start gap-2">
+                    <AlertTriangle className="h-4 w-4 text-yellow-600 mt-0.5" />
+                    <div className="text-sm text-yellow-800">
+                      <strong>Impact on Prior Payments:</strong> This setting affects how depreciation is calculated 
+                      in relation to any prior insurance payments made on this claim.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </label>
+            
+            {deductRecoverableDepreciation && (
+              <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <div className="flex items-center gap-2 mb-2">
+                  <CheckCircle className="h-4 w-4 text-blue-600" />
+                  <span className="text-sm font-semibold text-blue-800">
+                    Recoverable Depreciation Deduction Enabled
+                  </span>
+                </div>
+                <ul className="text-xs text-blue-700 space-y-1 ml-6">
+                  <li>• Depreciation will be withheld from initial payments</li>
+                  <li>• Recoverable portion paid upon repair completion</li>
+                  <li>• Prior payments will be adjusted accordingly</li>
+                </ul>
+              </div>
+            )}
+            
+            {!deductRecoverableDepreciation && (
+              <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                <div className="flex items-center gap-2 mb-2">
+                  <DollarSign className="h-4 w-4 text-gray-600" />
+                  <span className="text-sm font-medium text-gray-700">
+                    Standard Payment Structure
+                  </span>
+                </div>
+                <p className="text-xs text-gray-600">
+                  Full claim amount (including depreciation) will be included in payments without withholding.
+                </p>
               </div>
             )}
           </div>
