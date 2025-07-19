@@ -390,7 +390,7 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
           {/* Contact Information */}
           <div className="space-y-4">
             {/* Email and Primary Phone on Same Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
                   <Mail className="h-4 w-4" />
@@ -410,7 +410,19 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
                   <Phone className="h-4 w-4" />
                   Primary Phone *
                 </label>
-                <div className="flex gap-2">
+                <div className="flex gap-2 items-center">
+                  <select
+                    value={clientDetails.phoneNumbers[0]?.type || 'cell'}
+                    onChange={(e) => handlePhoneNumberChange(0, 'type', e.target.value)}
+                    className="w-20 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  >
+                    <option value="cell">Cell</option>
+                    <option value="home">Home</option>
+                    <option value="office">Office</option>
+                    <option value="work">Work</option>
+                    <option value="business">Business</option>
+                    <option value="other">Other</option>
+                  </select>
                   <Input
                     {...getPhoneInputProps()}
                     value={clientDetails.phoneNumbers[0]?.number || ''}
@@ -425,6 +437,14 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
                     className="w-16"
                     placeholder="Ext."
                   />
+                  <button
+                    type="button"
+                    onClick={addPhoneNumber}
+                    className="flex items-center gap-1 px-3 py-2 text-sm bg-blue-50 text-blue-600 border border-blue-200 rounded-md hover:bg-blue-100 transition-colors whitespace-nowrap"
+                  >
+                    <Plus className="h-3 w-3" />
+                    Add Phone
+                  </button>
                 </div>
               </div>
             </div>
@@ -506,27 +526,7 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
                   );
                 })}
               </div>
-              
-              {/* Add Phone Button Row - Aligned with Ext and Type fields */}
-              <div className="flex items-center gap-2 p-3">
-                {/* Spacer for star button alignment */}
-                <div className="flex-shrink-0 w-6"></div>
-                
-                {/* Spacer for phone number field */}
-                <div className="flex-1"></div>
-                
-                {/* Add Phone Button - Positioned next to Ext and Type fields */}
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={addPhoneNumber}
-                    className="flex items-center gap-1 px-3 py-2 text-sm bg-blue-50 text-blue-600 border border-blue-200 rounded-md hover:bg-blue-100 transition-colors"
-                  >
-                    <Plus className="h-3 w-3" />
-                    Add Phone
-                  </button>
-                </div>
-              </div>
+
               
               {/* Helper Text */}
               {clientDetails.phoneNumbers.length > 1 && (
@@ -536,43 +536,7 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
               )}
             </div>
             )}
-            
-            {/* Add Phone Button - Always visible when no additional phones */}
-            {clientDetails.phoneNumbers.length === 1 && (
-              <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
-                  <Phone className="h-4 w-4" />
-                  Additional Phone Numbers
-                </label>
-                
-                {/* Add Phone Button Row - Aligned with Ext and Type fields */}
-                <div className="flex items-center gap-2 p-3">
-                  {/* Spacer for star button alignment */}
-                  <div className="flex-shrink-0 w-6"></div>
-                  
-                  {/* Spacer for phone number field */}
-                  <div className="flex-1"></div>
-                  
-                  {/* Extension width spacer */}
-                  <div className="w-20"></div>
-                  
-                  {/* Phone Type width spacer */}
-                  <div className="w-24"></div>
-                  
-                  {/* Add Phone Button - Positioned next to Ext and Type fields */}
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={addPhoneNumber}
-                      className="flex items-center gap-1 px-3 py-2 text-sm bg-blue-50 text-blue-600 border border-blue-200 rounded-md hover:bg-blue-100 transition-colors"
-                    >
-                      <Plus className="h-3 w-3" />
-                      Add Phone
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
+
           </div>
 
           {/* Mailing Address - Optional for now */}
