@@ -147,6 +147,7 @@ export function ManualIntakeWizard({
   const [isSaving, setIsSaving] = useState(false)
   const [lastSaved, setLastSaved] = useState<Date | null>(null)
   const [progressId, setProgressId] = useState<string | null>(null)
+  const [isInitialized, setIsInitialized] = useState(false)
 
   // Manual Intake Wizard Steps (same fields but without AI-specific features)
   const steps = [
@@ -256,81 +257,52 @@ export function ManualIntakeWizard({
     }
   ]
 
+  // Initialize wizard (run once on mount)
+  useEffect(() => {
+    if (!isInitialized) {
+      console.log('🚀 Initializing Manual Intake Wizard')
+      setIsInitialized(true)
+    }
+  }, [])
+
   const updateWizardData = (newData: any) => {
-    const updatedData = { ...wizardData, ...newData, manualEntry: true }
     setWizardData(prev => ({ ...prev, ...newData, manualEntry: true }))
     setHasUnsavedChanges(true)
-    
-    // Auto-save after 2 seconds of inactivity
-    debouncedSave()
+    // Note: Removed auto-save to prevent infinite loops
   }
 
-  // Debounced save function
-  const debouncedSave = React.useCallback(
-    debounce(() => {
+  // Simplified save function (no debouncing to prevent loops)
+  const manualSave = () => {
+    if (!isSaving && hasUnsavedChanges) {
       saveProgress()
-    }, 2000),
-    [wizardData, currentStep]
-  )
-
-  // Debounce utility function
-  function debounce(func: Function, wait: number) {
-    let timeout: NodeJS.Timeout
-    return function executedFunction(...args: any[]) {
-      const later = () => {
-        clearTimeout(timeout)
-        func(...args)
-      }
-      clearTimeout(timeout)
-      timeout = setTimeout(later, wait)
     }
   }
 
-  // Save progress function
+  // Simplified save progress function (no async operations to prevent loading issues)
   const saveProgress = async (stepOverride?: number) => {
-    if (!userProfile?.id || !userProfile?.organization_id) {
-      console.warn('Cannot save progress: missing user profile')
+    // Skip saving during initial load to prevent infinite loops
+    if (!isInitialized || isSaving) {
       return
     }
-
-    setIsSaving(true)
+    
+    console.log('💾 Saving wizard progress (step:', stepOverride ?? currentStep, ')')
+    
     try {
-      const stepStatuses = {}
-      steps.forEach((step, index) => {
-        const validation = stepValidation[step.id]
-        stepStatuses[step.id] = {
-          completed: index < currentStep,
-          required: step.required,
-          validation_errors: validation?.errors || [],
-          completed_at: index < currentStep ? new Date().toISOString() : undefined
-        }
-      })
-
+      // Save to local storage only (avoid database operations that cause loading issues)
       const progressData = {
-        user_id: userProfile.id,
-        organization_id: userProfile.organization_id,
-        wizard_type: 'claim_manual' as const,
-        current_step: stepOverride ?? currentStep,
-        total_steps: steps.length,
-        progress_percentage: Math.round(((stepOverride ?? currentStep) / steps.length) * 100),
-        wizard_data: wizardData,
-        step_statuses: stepStatuses,
-        last_saved_at: new Date().toISOString(),
-        last_active_at: new Date().toISOString(),
-        expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+        wizardData,
+        currentStep: stepOverride ?? currentStep,
+        totalSteps: steps.length,
+        lastSaved: new Date().toISOString(),
+        wizardType: 'claim_manual'
       }
-
-      const savedProgress = await WizardProgressService.saveProgress(progressData)
-      if (savedProgress) {
-        setProgressId(savedProgress.id!)
-        setLastSaved(new Date())
-        setHasUnsavedChanges(false)
-        console.log('✅ Manual wizard progress saved successfully')
-      }
+      
+      localStorage.setItem('claimguru_manual_wizard_progress', JSON.stringify(progressData))
+      setLastSaved(new Date())
+      setHasUnsavedChanges(false)
+      console.log('✅ Progress saved to local storage')
     } catch (error) {
-      console.error('Error saving manual wizard progress:', error)
-    } finally {
-      setIsSaving(false)
+      console.error('Error saving progress:', error)
     }
   }
 
@@ -338,7 +310,8 @@ export function ManualIntakeWizard({
     if (currentStep < steps.length - 1) {
       const newStep = currentStep + 1
       setCurrentStep(newStep)
-      saveProgress(newStep)
+      // Only save manually when user explicitly navigates
+      setTimeout(() => saveProgress(newStep), 100)
     }
   }
 
@@ -346,7 +319,8 @@ export function ManualIntakeWizard({
     if (currentStep > 0) {
       const newStep = currentStep - 1
       setCurrentStep(newStep)
-      saveProgress(newStep)
+      // Only save manually when user explicitly navigates  
+      setTimeout(() => saveProgress(newStep), 100)
     }
   }
 

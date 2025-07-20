@@ -52,9 +52,9 @@ export function Header({ onToggleSidebar }: HeaderProps) {
         <Button
           variant="outline"
           size="sm"
-          onClick={() => navigate('/direct-feature-test')}
+          onClick={() => navigate('/claims/new')}
         >
-          ⚙️ Test Features
+          + New Claim
         </Button>
 
         {/* Notifications */}

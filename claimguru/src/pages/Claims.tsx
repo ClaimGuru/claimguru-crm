@@ -8,7 +8,7 @@ import { LoadingSpinner } from '../components/ui/LoadingSpinner'
 import { ClaimForm } from '../components/forms/ClaimForm'
 // Import both Manual and AI wizards
 import { EnhancedAIIntakeWizard } from '../components/claims/EnhancedAIClaimWizard'
-import { StreamlinedManualWizard } from '../components/claims/StreamlinedManualWizard'
+import { ManualIntakeWizard } from '../components/claims/ManualIntakeWizard'
 import { 
   Plus, 
   Search, 
@@ -389,9 +389,9 @@ export function Claims() {
         </div>
       )}
 
-      {/* Streamlined Manual Intake Wizard */}
+      {/* Manual Intake Wizard */}
       {showManualWizard && (
-        <StreamlinedManualWizard
+        <ManualIntakeWizard
           onComplete={handleManualWizardComplete}
           onCancel={handleManualWizardCancel}
         />

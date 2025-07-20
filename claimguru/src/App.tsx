@@ -41,10 +41,9 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
     )
   }
 
-  // Demo mode: Allow access without authentication for testing PDF validation
-  // if (!user) {
-  //   return <Navigate to="/auth" replace />
-  // }
+  if (!user) {
+    return <Navigate to="/auth" replace />
+  }
 
   return <>{children}</>
 }
