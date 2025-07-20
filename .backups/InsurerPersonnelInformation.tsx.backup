@@ -16,7 +16,8 @@ import {
   Briefcase,
   Shield,
   AlertCircle,
-  CheckCircle
+  CheckCircle,
+  Star
 } from 'lucide-react';
 import { 
   formatPhoneNumber, 

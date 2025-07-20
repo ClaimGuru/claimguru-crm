@@ -889,8 +889,19 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
               ) : (
                 <Button
                   onClick={nextStep}
-                  disabled={isAIProcessing}
-                  className="flex items-center gap-2"
+                  disabled={
+                    isAIProcessing || 
+                    (steps[currentStep].required && 
+                     stepValidation[steps[currentStep].id] && 
+                     !stepValidation[steps[currentStep].id].isValid)
+                  }
+                  className={`flex items-center gap-2 ${
+                    (steps[currentStep].required && 
+                     stepValidation[steps[currentStep].id] && 
+                     !stepValidation[steps[currentStep].id].isValid)
+                      ? 'opacity-50 cursor-not-allowed' 
+                      : ''
+                  }`}
                 >
                   Next
                   <ChevronRight className="h-4 w-4" />

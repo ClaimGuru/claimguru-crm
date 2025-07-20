@@ -478,12 +478,22 @@ export const InsurerPersonnelInformation: React.FC<InsurerPersonnelInformationPr
                         <div className="space-y-3">
                           {member.phoneNumbers?.map((phone, phoneIndex) => (
                             <div key={phoneIndex} className="border border-gray-200 rounded-lg p-3">
-                              <div className="flex items-center gap-2 mb-3">
-                                {/* Primary Phone Star */}
+                              {/* Header with Phone Number Label and Primary Star */}
+                              <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-sm font-medium text-gray-700">
+                                    Phone {phoneIndex + 1}
+                                  </span>
+                                  {phone.isPrimary && (
+                                    <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">
+                                      Primary
+                                    </span>
+                                  )}
+                                </div>
                                 <button
                                   type="button"
                                   onClick={() => setPrimaryPhone(member.id, phoneIndex)}
-                                  className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-colors ${
+                                  className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors ${
                                     phone.isPrimary 
                                       ? 'bg-yellow-400 text-yellow-900 hover:bg-yellow-500' 
                                       : 'bg-gray-200 text-gray-500 hover:bg-gray-300'
@@ -492,29 +502,43 @@ export const InsurerPersonnelInformation: React.FC<InsurerPersonnelInformationPr
                                 >
                                   <Star className={`h-3 w-3 ${phone.isPrimary ? 'fill-current' : ''}`} />
                                 </button>
+                              </div>
 
-                                {/* Phone Number Input */}
-                                <div className="flex-1">
-                                  <Input
-                                    value={phone.number}
-                                    onChange={(e) => handlePhoneNumberChange(member.id, phoneIndex, 'number', e.target.value)}
-                                    {...getPhoneInputProps()}
-                                    placeholder="Phone number"
-                                  />
+                              {/* Phone Fields Grid */}
+                              <div className="space-y-3">
+                                {/* Row 1: Phone Number and Extension */}
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                  <div className="md:col-span-2">
+                                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                                      Phone Number
+                                    </label>
+                                    <Input
+                                      value={phone.number}
+                                      onChange={(e) => handlePhoneNumberChange(member.id, phoneIndex, 'number', e.target.value)}
+                                      {...getPhoneInputProps()}
+                                      placeholder="(999) 555-5555"
+                                      className="w-full"
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                                      Extension
+                                    </label>
+                                    <Input
+                                      value={phone.extension}
+                                      onChange={(e) => handlePhoneNumberChange(member.id, phoneIndex, 'extension', e.target.value)}
+                                      {...getPhoneExtensionInputProps()}
+                                      placeholder="11111"
+                                      className="w-full"
+                                    />
+                                  </div>
                                 </div>
-
-                                {/* Extension Input */}
-                                <div className="w-20">
-                                  <Input
-                                    value={phone.extension}
-                                    onChange={(e) => handlePhoneNumberChange(member.id, phoneIndex, 'extension', e.target.value)}
-                                    {...getPhoneExtensionInputProps()}
-                                    placeholder="Ext"
-                                  />
-                                </div>
-
-                                {/* Phone Type Select */}
-                                <div className="w-24">
+                                
+                                {/* Row 2: Type */}
+                                <div>
+                                  <label className="block text-xs font-medium text-gray-600 mb-1">
+                                    Type
+                                  </label>
                                   <select
                                     value={phone.type}
                                     onChange={(e) => handlePhoneNumberChange(member.id, phoneIndex, 'type', e.target.value)}
@@ -527,47 +551,35 @@ export const InsurerPersonnelInformation: React.FC<InsurerPersonnelInformationPr
                                     ))}
                                   </select>
                                 </div>
+                              </div>
 
-                                {/* Remove Phone Button */}
-                                {member.phoneNumbers.length > 1 && (
+                              {/* Remove Phone Button */}
+                              {member.phoneNumbers.length > 1 && (
+                                <div className="flex justify-end mt-2">
                                   <button
                                     type="button"
                                     onClick={() => removePhoneNumber(member.id, phoneIndex)}
-                                    className="flex-shrink-0 p-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors"
+                                    className="flex items-center gap-1 px-3 py-1 text-xs text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors"
                                     title="Remove phone number"
                                   >
-                                    <X className="h-4 w-4" />
+                                    <X className="h-3 w-3" />
+                                    Remove
                                   </button>
-                                )}
-                              </div>
-
-                              {/* Labels Row */}
-                              <div className="flex items-center gap-2 text-xs text-gray-500">
-                                <div className="flex-shrink-0 w-6"></div>
-                                <div className="flex-1">Phone Number {phone.isPrimary && '(Primary)'}</div>
-                                <div className="w-20 text-center">Extension</div>
-                                <div className="w-24 text-center">Type</div>
-                                {member.phoneNumbers.length > 1 && <div className="flex-shrink-0 w-10"></div>}
-                              </div>
+                                </div>
+                              )}
                             </div>
                           ))}
 
-                          {/* Add Phone Button Row */}
-                          <div className="flex items-center gap-2 p-3">
-                            <div className="flex-shrink-0 w-6"></div>
-                            <div className="flex-1"></div>
-                            <div className="w-20"></div>
-                            <div className="w-24"></div>
-                            <div className="flex items-center gap-2">
-                              <button
-                                type="button"
-                                onClick={() => addPhoneNumber(member.id)}
-                                className="flex items-center gap-1 px-3 py-2 text-sm bg-blue-50 text-blue-600 border border-blue-200 rounded-md hover:bg-blue-100 transition-colors"
-                              >
-                                <Plus className="h-3 w-3" />
-                                Add Phone
-                              </button>
-                            </div>
+                          {/* Add Phone Button */}
+                          <div className="flex justify-center pt-2">
+                            <button
+                              type="button"
+                              onClick={() => addPhoneNumber(member.id)}
+                              className="flex items-center gap-2 px-4 py-2 text-sm bg-blue-50 text-blue-600 border border-blue-200 rounded-md hover:bg-blue-100 transition-colors"
+                            >
+                              <Plus className="h-4 w-4" />
+                              Add Phone
+                            </button>
                           </div>
                         </div>
                       </div>

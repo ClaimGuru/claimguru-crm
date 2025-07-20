@@ -146,13 +146,67 @@ export class WizardValidationService {
         label: 'Policy Expiration Date',
         section: 'Policy Information'
       },
-      'coverages': {
-        required: true,
-        label: 'Coverage Information',
-        section: 'Coverage Details',
+      'insuranceCarrier.agentInfo.agencyName': {
+        required: false, // Made optional to allow progression
+        label: 'Agency Name',
+        section: 'Agent Information'
+      },
+      'insuranceCarrier.agentInfo.agentFirstName': {
+        required: false, // Made optional to allow progression
+        label: 'Agent First Name',
+        section: 'Agent Information'
+      },
+      'insuranceCarrier.agentInfo.agentLastName': {
+        required: false, // Made optional to allow progression
+        label: 'Agent Last Name',
+        section: 'Agent Information'
+      },
+      'insuranceCarrier.agentInfo.agentEmail': {
+        required: false, // Made optional to allow progression
+        label: 'Agent Email',
+        section: 'Agent Information',
         validator: (value) => {
-          if (!Array.isArray(value) || value.length === 0) {
-            return 'At least one coverage must be specified';
+          if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+            return 'Please enter a valid email address';
+          }
+          return null;
+        }
+      },
+      'insuranceCarrier.agentInfo.agentPhone': {
+        required: false, // Made optional to allow progression
+        label: 'Agent Phone',
+        section: 'Agent Information',
+        validator: (value) => {
+          if (value && !/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(value)) {
+            return 'Please enter a valid phone number';
+          }
+          return null;
+        }
+      },
+      'insurerPersonnel': {
+        required: false, // Made optional since it might be empty initially
+        label: 'Personnel Information',
+        section: 'Personnel Details',
+        validator: (value, data) => {
+          // Allow empty personnel list or validate filled personnel
+          if (!Array.isArray(value)) return null;
+          
+          for (const person of value) {
+            if (!person.firstName || !person.lastName) {
+              return 'All personnel must have first and last name';
+            }
+            if (!person.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(person.email)) {
+              return 'All personnel must have valid email addresses';
+            }
+            if (!person.phoneNumbers || person.phoneNumbers.length === 0) {
+              return 'All personnel must have at least one phone number';
+            }
+            if (!person.personnelType) {
+              return 'All personnel must have a personnel type selected';
+            }
+            if (person.personnelType === 'Vendor' && !person.vendorSubType) {
+              return 'Vendor personnel must have a specialty selected';
+            }
           }
           return null;
         }

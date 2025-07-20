@@ -51,6 +51,7 @@ interface PriorPayment {
   recoverableDepreciation?: number;
   nonRecoverableDepreciation?: number;
   deductibleApplied?: number;
+  isRecovered?: boolean; // Whether the recoverable depreciation has been recovered
 }
 
 interface ManualInsuranceInfoStepProps {
@@ -1274,11 +1275,22 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
                     className="w-full p-2 border rounded-lg"
                   >
                     <option value="">Select coverage</option>
-                    {coverages.map((coverage) => (
-                      <option key={coverage.id} value={coverage.id}>
-                        {coverage.type}{coverage.type === 'Other' && coverage.otherDescription ? ` (${coverage.otherDescription})` : ''}
-                      </option>
-                    ))}
+                    <optgroup label="Main Coverages">
+                      {coverages.map((coverage) => (
+                        <option key={coverage.id} value={coverage.id}>
+                          {coverage.type}{coverage.type === 'Other' && coverage.otherDescription ? ` (${coverage.otherDescription})` : ''}
+                        </option>
+                      ))}
+                    </optgroup>
+                    {additionalCoverages.filter(ac => ac.isIncluded).length > 0 && (
+                      <optgroup label="Additional Coverages">
+                        {additionalCoverages.filter(ac => ac.isIncluded).map((coverage) => (
+                          <option key={coverage.id} value={coverage.id}>
+                            {coverage.type}{coverage.type === 'Other' && coverage.otherDescription ? ` (${coverage.otherDescription})` : ''}
+                          </option>
+                        ))}
+                      </optgroup>
+                    )}
                   </select>
                 </div>
                 <div className="flex items-end">

@@ -40,6 +40,7 @@ import {
   Brain,
   Sparkles,
   AlertCircle,
+  AlertTriangle,
   Building2,
   UserCheck,
   CheckSquare,
@@ -200,7 +201,10 @@ export function EnhancedAIIntakeWizard({ clientId, onComplete, onCancel }: Enhan
     contractInformation: {},
     personnelAssignments: [],
     officeTasks: [],
-    organizationId: userProfile?.organization_id || 'demo-org-123',
+    organizationId: userProfile?.organization_id || (() => { 
+      console.error('SECURITY: No organization_id available - user may not be properly authenticated'); 
+      throw new Error('User organization not available. Please ensure you are logged in.'); 
+    })(),
     organizationPolicies: {},
     customFields: {}
   })

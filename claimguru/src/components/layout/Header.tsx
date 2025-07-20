@@ -2,6 +2,7 @@ import React from 'react'
 import { Search, Bell, Settings, LogOut, User, Menu } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
 import { Button } from '../ui/Button'
+import { useNavigate } from 'react-router-dom'
 
 interface HeaderProps {
   onToggleSidebar: () => void
@@ -9,6 +10,7 @@ interface HeaderProps {
 
 export function Header({ onToggleSidebar }: HeaderProps) {
   const { userProfile, signOut } = useAuth()
+  const navigate = useNavigate()
 
   const handleSignOut = async () => {
     try {
@@ -50,9 +52,9 @@ export function Header({ onToggleSidebar }: HeaderProps) {
         <Button
           variant="outline"
           size="sm"
-          onClick={() => {/* TODO: Implement quick add */}}
+          onClick={() => navigate('/direct-feature-test')}
         >
-          + New Claim
+          ⚙️ Test Features
         </Button>
 
         {/* Notifications */}

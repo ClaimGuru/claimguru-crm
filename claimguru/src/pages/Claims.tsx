@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useClaims } from '../hooks/useClaims'
 import { useClients } from '../hooks/useClients'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { LoadingSpinner } from '../components/ui/LoadingSpinner'
 import { ClaimForm } from '../components/forms/ClaimForm'
 // Import both Manual and AI wizards
 import { EnhancedAIIntakeWizard } from '../components/claims/EnhancedAIClaimWizard'
-import { ManualIntakeWizard } from '../components/claims/ManualIntakeWizard'
+import { StreamlinedManualWizard } from '../components/claims/StreamlinedManualWizard'
 import { 
   Plus, 
   Search, 
@@ -44,6 +45,8 @@ const getStatusColor = (status: string) => {
 export function Claims() {
   const { claims, loading, createClaim, updateClaim, deleteClaim } = useClaims()
   const { clients } = useClients()
+  const location = useLocation()
+  const navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [isFormOpen, setIsFormOpen] = useState(false)
@@ -53,6 +56,13 @@ export function Claims() {
   const [editingClaim, setEditingClaim] = useState<Claim | null>(null)
   const [selectedClaim, setSelectedClaim] = useState<Claim | null>(null)
   const [showDetailsModal, setShowDetailsModal] = useState(false)
+
+  // Handle URL routing for new claim creation
+  useEffect(() => {
+    if (location.pathname === '/claims/new') {
+      setShowManualWizard(true)
+    }
+  }, [location.pathname])
 
   const filteredClaims = claims.filter(claim => {
     const matchesSearch = claim.file_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -379,9 +389,9 @@ export function Claims() {
         </div>
       )}
 
-      {/* Manual Intake Wizard */}
+      {/* Streamlined Manual Intake Wizard */}
       {showManualWizard && (
-        <ManualIntakeWizard
+        <StreamlinedManualWizard
           onComplete={handleManualWizardComplete}
           onCancel={handleManualWizardCancel}
         />

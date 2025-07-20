@@ -18,6 +18,8 @@ import { Documents } from './pages/Documents'
 import { Properties } from './pages/Properties'
 import { Tasks } from './pages/Tasks'
 import { Settlements } from './pages/Settlements'
+import { TestClaims } from './pages/TestClaims'
+import { DirectFeatureTest } from './pages/DirectFeatureTest'
 import Insurers from './pages/Insurers'
 import Notifications from './pages/Notifications'
 import Settings from './pages/Settings'
@@ -92,6 +94,9 @@ function AppRoutes() {
         <Route index element={<Navigate to="/dashboard" replace />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="claims" element={<Claims />} />
+        <Route path="claims/new" element={<Claims />} />
+        <Route path="test-claims" element={<TestClaims />} />
+        <Route path="direct-feature-test" element={<DirectFeatureTest />} />
         <Route path="clients" element={<Clients />} />
         <Route path="client-management" element={<ClientManagement />} />
         <Route path="lead-management" element={<LeadManagement />} />

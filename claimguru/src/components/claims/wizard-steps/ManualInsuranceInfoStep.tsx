@@ -51,6 +51,7 @@ interface PriorPayment {
   recoverableDepreciation?: number;
   nonRecoverableDepreciation?: number;
   deductibleApplied?: number;
+  isRecovered?: boolean; // Whether the recoverable depreciation has been recovered
 }
 
 interface ManualInsuranceInfoStepProps {
@@ -1351,7 +1352,7 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
               </div>
 
               {/* Third Row: Depreciation Fields */}
-              <div className="flex items-center gap-4">
+              <div className="flex items-start gap-4">
                 <div className="w-40">
                   <label className="block text-sm font-medium mb-1">
                     Recoverable Depreciation ($)
@@ -1389,19 +1390,121 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
                     min="0"
                   />
                 </div>
-                <div className="flex-1">
-                  {/* Payment Calculation Display */}
-                  <div className="text-sm text-gray-600 pt-6 space-y-1">
-                    <div>
-                      <span className="font-medium text-green-700">
-                        Net Payment Issued: ${((payment.amount || 0) - (payment.nonRecoverableDepreciation || 0) - (payment.deductibleApplied || 0)).toLocaleString()}
-                      </span>
+                {/* Recovered Switch */}
+                {(payment.recoverableDepreciation || 0) > 0 && (
+                  <div className="w-40">
+                    <label className="block text-sm font-medium mb-1 text-blue-800">
+                      Recovered?
+                      <span className="block text-xs text-blue-600 font-normal">Has this amount been recovered?</span>
+                    </label>
+                    <div className="flex items-center gap-2 pt-1">
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id={`recovered-${payment.id}`}
+                          checked={payment.isRecovered || false}
+                          onChange={(e) => updatePriorPayment(payment.id, 'isRecovered', e.target.checked)}
+                          className="w-5 h-5 text-green-600 bg-white border-2 border-gray-300 rounded focus:ring-green-500 focus:ring-2"
+                        />
+                        <label 
+                          htmlFor={`recovered-${payment.id}`}
+                          className={`text-sm font-semibold cursor-pointer select-none ${
+                            payment.isRecovered ? 'text-green-600' : 'text-gray-600'
+                          }`}
+                        >
+                          {payment.isRecovered ? '✓ Yes, Recovered' : '✗ No, Not Yet'}
+                        </label>
+                      </div>
                     </div>
-                    {(payment.recoverableDepreciation || 0) > 0 && (
-                      <div className="text-xs text-blue-600">
-                        + ${(payment.recoverableDepreciation || 0).toLocaleString()} recoverable after repairs
+                    {payment.isRecovered && (
+                      <div className="mt-1 text-xs text-green-600 bg-green-50 px-2 py-1 rounded">
+                        💰 Amount added back to payment
                       </div>
                     )}
+                    {!payment.isRecovered && (
+                      <div className="mt-1 text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded">
+                        ⏳ Amount held back from payment
+                      </div>
+                    )}
+                  </div>
+                )}
+                <div className="flex-1">
+                  {/* Payment Calculation Display */}
+                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 mt-2">
+                    <div className="text-sm text-gray-800 space-y-2">
+                      <div className="font-semibold text-gray-900 border-b pb-1">
+                        Payment Calculation Breakdown:
+                      </div>
+                      
+                      {/* Base calculation */}
+                      <div className="space-y-1">
+                        <div className="flex justify-between">
+                          <span>Base Payment Amount:</span>
+                          <span className="font-mono">${(payment.amount || 0).toLocaleString()}</span>
+                        </div>
+                        
+                        {(payment.nonRecoverableDepreciation || 0) > 0 && (
+                          <div className="flex justify-between text-red-600">
+                            <span>- Non-Recoverable Depreciation:</span>
+                            <span className="font-mono">-${(payment.nonRecoverableDepreciation || 0).toLocaleString()}</span>
+                          </div>
+                        )}
+                        
+                        {(payment.deductibleApplied || 0) > 0 && (
+                          <div className="flex justify-between text-red-600">
+                            <span>- Deductible Applied:</span>
+                            <span className="font-mono">-${(payment.deductibleApplied || 0).toLocaleString()}</span>
+                          </div>
+                        )}
+                        
+                        {(payment.recoverableDepreciation || 0) > 0 && (
+                          <div className={`flex justify-between ${
+                            payment.isRecovered ? 'text-green-600' : 'text-orange-600'
+                          }`}>
+                            <span>
+                              {payment.isRecovered ? '+ Recoverable Depreciation (Recovered):' : '- Recoverable Depreciation (Held):'}
+                            </span>
+                            <span className="font-mono">
+                              {payment.isRecovered ? '+' : '-'}${(payment.recoverableDepreciation || 0).toLocaleString()}
+                            </span>
+                          </div>
+                        )}
+                        
+                        <div className="border-t pt-1 mt-2">
+                          <div className="flex justify-between font-bold text-lg">
+                            <span className="text-green-700">Net Payment Issued:</span>
+                            <span className="font-mono text-green-700">
+                              ${(() => {
+                                const baseAmount = (payment.amount || 0);
+                                const nonRecoverable = (payment.nonRecoverableDepreciation || 0);
+                                const deductible = (payment.deductibleApplied || 0);
+                                const recoverable = (payment.recoverableDepreciation || 0);
+                                const isRecovered = payment.isRecovered;
+                                
+                                // If recoverable depreciation is not yet recovered, deduct it from payment
+                                const recoverableDeduction = (!isRecovered && recoverable > 0) ? recoverable : 0;
+                                
+                                return (baseAmount - nonRecoverable - deductible - recoverableDeduction).toLocaleString();
+                              })()}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Explanation */}
+                      {(payment.recoverableDepreciation || 0) > 0 && (
+                        <div className={`text-xs p-2 rounded mt-2 ${
+                          payment.isRecovered 
+                            ? 'bg-green-100 text-green-800 border border-green-200' 
+                            : 'bg-orange-100 text-orange-800 border border-orange-200'
+                        }`}>
+                          {payment.isRecovered 
+                            ? '💰 Recoverable depreciation has been recovered and added back to the total payment.' 
+                            : '⏳ Recoverable depreciation is held back and will be released after repairs are completed.'
+                          }
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
