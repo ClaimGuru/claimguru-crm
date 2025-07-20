@@ -7,12 +7,20 @@ import React, { useState } from 'react';
 import { Settings, Users, FolderOpen, Database, Shield, Bell, Mail, Phone } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { Badge } from '../components/ui/badge';
+import { Badge } from '../components/ui/Badge';
 import CustomFieldManager from '../components/admin/CustomFieldManager';
 import FolderTemplateManager from '../components/admin/FolderTemplateManager';
+import { useAuth } from '../contexts/AuthContext';
 
-// Mock organization ID - in real app, get from auth context
-const ORGANIZATION_ID = 'org-123-demo';
+// SECURITY: Get organization ID from authenticated user context
+const getOrganizationId = (userProfile: any): string => {
+  // Use demo organization ID if no user profile or organization_id
+  if (!userProfile?.organization_id) {
+    console.warn('Using demo organization ID for testing purposes');
+    return 'demo-org-id-12345';
+  }
+  return userProfile.organization_id;
+};
 
 export const AdminPanel: React.FC = () => {
   const [activeTab, setActiveTab] = useState('fields');

@@ -8,6 +8,8 @@ import { AuthCallback } from './pages/AuthCallback'
 import { Dashboard } from './pages/Dashboard'
 import { Claims } from './pages/Claims'
 import { Clients } from './pages/Clients'
+import ClientManagement from './pages/ClientManagement'
+import LeadManagement from './pages/LeadManagement'
 import { AIInsights } from './pages/AIInsights'
 import { Finance } from './pages/Finance'
 import { Vendors } from './pages/Vendors'
@@ -90,6 +92,11 @@ function AppRoutes() {
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="claims" element={<Claims />} />
         <Route path="clients" element={<Clients />} />
+        <Route path="client-management" element={<ClientManagement />} />
+        <Route path="lead-management" element={<LeadManagement />} />
+        <Route path="sales-pipeline" element={<div className="p-6"><h1 className="text-2xl font-bold">Sales Pipeline</h1><p>Interactive sales pipeline visualization coming soon...</p></div>} />
+        <Route path="lead-sources" element={<div className="p-6"><h1 className="text-2xl font-bold">Lead Sources</h1><p>Lead source management and analytics coming soon...</p></div>} />
+        <Route path="referrals" element={<div className="p-6"><h1 className="text-2xl font-bold">Referral Program</h1><p>Client referral program management coming soon...</p></div>} />
         <Route path="properties" element={<Properties />} />
         <Route path="tasks" element={<Tasks />} />
         <Route path="documents" element={<Documents />} />
