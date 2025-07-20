@@ -169,9 +169,9 @@ export function EmailTemplateManager() {
 
   const filteredTemplates = templates.filter(template => {
     const matchesSearch = !searchTerm || 
-      template.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      template.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      template.content.toLowerCase().includes(searchTerm.toLowerCase())
+      (template.name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+      (template.subject?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+      (template.content?.toLowerCase() || '').includes(searchTerm.toLowerCase())
     
     const matchesCategory = filterCategory === 'all' || template.category === filterCategory
     

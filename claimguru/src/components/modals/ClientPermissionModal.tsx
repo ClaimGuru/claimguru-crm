@@ -220,8 +220,8 @@ export const ClientPermissionModal: React.FC<ClientPermissionModalProps> = ({
 
   const filteredUsers = organizationUsers.filter(user => 
     !user.isSubscriber && // Don't show subscribers in the grant list
-    (user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-     user.email.toLowerCase().includes(searchTerm.toLowerCase())) &&
+    ((user.name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+     (user.email?.toLowerCase() || '').includes(searchTerm.toLowerCase())) &&
     !permissionGrants.some(grant => grant.userId === user.id) // Don't show users who already have permissions
   );
 

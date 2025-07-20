@@ -89,7 +89,7 @@ export const CoverageIssueReviewStep: React.FC<CoverageIssueReviewStepProps> = (
   }
 
   const getCategoryIcon = (category: string) => {
-    switch (category.toLowerCase()) {
+    switch ((category || '').toLowerCase()) {
       case 'policy period':
         return <Calendar className="h-4 w-4" />
       case 'coverage limits':

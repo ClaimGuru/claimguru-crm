@@ -132,8 +132,8 @@ export function ExpertsProvidersStep({ data, onUpdate }: ExpertsProvidersStepPro
 
   const filteredProviders = availableProviders.filter(provider => {
     const matchesType = filterType === 'all' || provider.type === filterType
-    const matchesSearch = provider.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         provider.specialties.some(s => s.toLowerCase().includes(searchTerm.toLowerCase()))
+    const matchesSearch = (provider.name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+                         (provider.specialties || []).some(s => (s?.toLowerCase() || '').includes(searchTerm.toLowerCase()))
     const notSelected = !selectedProviders.find(p => p.id === provider.id)
     
     return matchesType && matchesSearch && notSelected

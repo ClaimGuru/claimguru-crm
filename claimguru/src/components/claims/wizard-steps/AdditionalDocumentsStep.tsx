@@ -85,7 +85,7 @@ export const AdditionalDocumentsStep: React.FC<AdditionalDocumentsStepProps> = (
   }, []);
 
   const detectDocumentCategory = (filename: string): string => {
-    const name = filename.toLowerCase();
+    const name = (filename || '').toLowerCase();
     if (name.includes('photo') || name.includes('image') || /\.(jpg|jpeg|png|gif)$/i.test(name)) return 'photo';
     if (name.includes('estimate') || name.includes('quote')) return 'estimate';
     if (name.includes('letter') || name.includes('email') || name.includes('correspondence')) return 'correspondence';
@@ -178,7 +178,7 @@ export const AdditionalDocumentsStep: React.FC<AdditionalDocumentsStepProps> = (
     const consolidatedText = results.documents
       .map(doc => doc.rawText)
       .join(' ')
-      .toLowerCase();
+      .toLowerCase() || '';
 
     if (consolidatedText.includes('water') || consolidatedText.includes('flood')) {
       suggestions.descriptions.push('Water damage incident with potential flooding concerns');
