@@ -16,6 +16,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
+import { supabase } from '../../lib/supabase';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
@@ -96,36 +97,50 @@ export const ClientPermissionModal: React.FC<ClientPermissionModalProps> = ({
   const loadCurrentPermissions = async () => {
     setLoading(true);
     try {
-      // TODO: Replace with actual API call to load current permissions
-      // For now, using mock data
-      const mockGrants: PermissionGrant[] = [
-        {
-          userId: 'user-001',
-          userName: 'Sarah Johnson',
-          userEmail: 'sarah@company.com',
-          permissions: {
-            canCreate: true,
-            canEdit: true,
-            canView: true
-          },
-          grantedAt: new Date().toISOString(),
-          grantedBy: 'subscriber-001'
-        },
-        {
-          userId: 'user-002',
-          userName: 'Mike Davis',
-          userEmail: 'mike@company.com',
-          permissions: {
-            canCreate: false,
-            canEdit: true,
-            canView: true
-          },
-          grantedAt: new Date().toISOString(),
-          grantedBy: 'subscriber-001'
-        }
-      ];
+      // Load current permissions via authenticated API
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        console.error('User not authenticated');
+        setPermissionGrants([]);
+        return;
+      }
+
+      // Load client-specific or global permissions
+      const permissionType = clientData ? 'client_specific' : 'global';
+      const entityId = clientData?.id || null;
+
+      const { data: grants, error } = await supabase
+        .from('permission_grants')
+        .select(`
+          user_id,
+          permissions,
+          granted_at,
+          granted_by,
+          user_profiles!inner(first_name, last_name, email)
+        `)
+        .eq('permission_type', permissionType)
+        .eq('entity_id', entityId)
+        .order('granted_at', { ascending: false });
+
+      if (error) {
+        console.error('Error loading permissions:', error);
+        setPermissionGrants([]);
+        return;
+      }
+
+      const formattedGrants: PermissionGrant[] = (grants || []).map(grant => {
+        const userProfile = Array.isArray(grant.user_profiles) ? grant.user_profiles[0] : grant.user_profiles;
+        return {
+          userId: grant.user_id,
+          userName: `${userProfile?.first_name || ''} ${userProfile?.last_name || ''}`.trim(),
+          userEmail: userProfile?.email || '',
+          permissions: grant.permissions,
+          grantedAt: grant.granted_at,
+          grantedBy: grant.granted_by
+        };
+      });
       
-      setPermissionGrants(mockGrants);
+      setPermissionGrants(formattedGrants);
     } catch (error) {
       console.error('Error loading permissions:', error);
     } finally {

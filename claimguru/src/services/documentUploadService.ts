@@ -2,7 +2,10 @@
  * Document Upload Service
  * 
  * Handles document upload to Supabase storage and tracking
+ * SECURITY: Uses proper Supabase client with RLS policies
  */
+
+import { supabase } from '../lib/supabase'
 
 export interface UploadedDocument {
   id: string
@@ -18,15 +21,14 @@ export interface UploadedDocument {
 }
 
 class DocumentUploadService {
-  private supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-  private supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
   constructor() {
-    console.log('DocumentUploadService initialized')
+    console.log('DocumentUploadService initialized with proper RLS security')
   }
 
   /**
-   * Upload document to Supabase storage
+   * Upload document to Supabase storage using authenticated client
+   * SECURITY: Uses RLS-enabled Supabase client
    */
   async uploadDocument(
     file: File, 
@@ -34,9 +36,10 @@ class DocumentUploadService {
     claimId?: string
   ): Promise<UploadedDocument> {
     try {
-      // Check if Supabase is configured
-      if (!this.supabaseUrl || !this.supabaseKey || this.supabaseUrl === 'undefined') {
-        throw new Error('Supabase configuration not available. Please configure environment variables or use client-side processing.')
+      // Get current user session for security
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) {
+        throw new Error('Authentication required for document upload')
       }
 
       // Generate unique filename
@@ -45,30 +48,24 @@ class DocumentUploadService {
       const fileName = `${timestamp}_${cleanFileName}`
       const filePath = `${documentType}s/${fileName}`
 
-      console.log(`Uploading ${file.name} to ${filePath}`)
+      console.log(`Uploading ${file.name} to ${filePath} (authenticated)`)
 
-      // Upload to Supabase storage
-      const formData = new FormData()
-      formData.append('file', file)
+      // Upload to Supabase storage using authenticated client
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('policy-documents')
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        })
 
-      const uploadResponse = await fetch(
-        `${this.supabaseUrl}/storage/v1/object/policy-documents/${filePath}`,
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${this.supabaseKey}`,
-          },
-          body: file
-        }
-      )
-
-      if (!uploadResponse.ok) {
-        const errorText = await uploadResponse.text()
-        throw new Error(`Upload failed: ${errorText}`)
+      if (uploadError) {
+        throw new Error(`Upload failed: ${uploadError.message}`)
       }
 
-      // Get public URL
-      const publicUrl = `${this.supabaseUrl}/storage/v1/object/public/policy-documents/${filePath}`
+      // Get public URL using authenticated client
+      const { data: { publicUrl } } = supabase.storage
+        .from('policy-documents')
+        .getPublicUrl(filePath)
 
       // Create document record
       const document: UploadedDocument = {
@@ -96,7 +93,8 @@ class DocumentUploadService {
   }
 
   /**
-   * Store document metadata in database
+   * Store document metadata in database using RLS-enabled client
+   * SECURITY: Uses authenticated Supabase client with RLS policies
    */
   private async storeDocumentMetadata(document: UploadedDocument, claimId?: string): Promise<void> {
     try {
@@ -114,20 +112,14 @@ class DocumentUploadService {
         created_at: new Date().toISOString()
       }
 
-      const response = await fetch(`${this.supabaseUrl}/rest/v1/documents`, {
-        method: 'POST',
-        headers: {
-          'apikey': this.supabaseKey,
-          'Authorization': `Bearer ${this.supabaseKey}`,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=representation'
-        },
-        body: JSON.stringify(documentData)
-      })
+      const { error } = await supabase
+        .from('documents')
+        .insert(documentData)
+        .select()
+        .single()
 
-      if (!response.ok) {
-        const errorText = await response.text()
-        console.warn('Failed to store document metadata:', errorText)
+      if (error) {
+        console.warn('Failed to store document metadata:', error.message)
         // Don't throw error - document is still uploaded to storage
       }
     } catch (error) {
@@ -137,7 +129,8 @@ class DocumentUploadService {
   }
 
   /**
-   * Update document extraction status
+   * Update document extraction status using RLS-enabled client
+   * SECURITY: Uses authenticated Supabase client with RLS policies
    */
   async updateExtractionStatus(
     documentId: string, 
@@ -154,21 +147,13 @@ class DocumentUploadService {
         updateData.extracted_data = extractedData
       }
 
-      const response = await fetch(
-        `${this.supabaseUrl}/rest/v1/documents?id=eq.${documentId}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'apikey': this.supabaseKey,
-            'Authorization': `Bearer ${this.supabaseKey}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(updateData)
-        }
-      )
+      const { error } = await supabase
+        .from('documents')
+        .update(updateData)
+        .eq('id', documentId)
 
-      if (!response.ok) {
-        console.warn('Failed to update extraction status:', await response.text())
+      if (error) {
+        console.warn('Failed to update extraction status:', error.message)
       }
     } catch (error) {
       console.warn('Failed to update extraction status:', error)
@@ -176,27 +161,22 @@ class DocumentUploadService {
   }
 
   /**
-   * Get documents for a claim
+   * Get documents for a claim using RLS-enabled client
+   * SECURITY: Uses authenticated Supabase client with RLS policies
    */
   async getClaimDocuments(claimId: string): Promise<UploadedDocument[]> {
     try {
-      const response = await fetch(
-        `${this.supabaseUrl}/rest/v1/documents?claim_id=eq.${claimId}&select=*`,
-        {
-          headers: {
-            'apikey': this.supabaseKey,
-            'Authorization': `Bearer ${this.supabaseKey}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      )
+      const { data, error } = await supabase
+        .from('documents')
+        .select('*')
+        .eq('claim_id', claimId)
 
-      if (response.ok) {
-        const data = await response.json()
-        return data.map(this.mapDocumentFromDB)
+      if (error) {
+        console.error('Failed to fetch claim documents:', error.message)
+        return []
       }
       
-      return []
+      return data ? data.map(this.mapDocumentFromDB) : []
     } catch (error) {
       console.error('Failed to fetch claim documents:', error)
       return []
@@ -204,27 +184,23 @@ class DocumentUploadService {
   }
 
   /**
-   * Get recent documents
+   * Get recent documents using RLS-enabled client
+   * SECURITY: Uses authenticated Supabase client with RLS policies
    */
   async getRecentDocuments(limit: number = 20): Promise<UploadedDocument[]> {
     try {
-      const response = await fetch(
-        `${this.supabaseUrl}/rest/v1/documents?select=*&order=uploaded_at.desc&limit=${limit}`,
-        {
-          headers: {
-            'apikey': this.supabaseKey,
-            'Authorization': `Bearer ${this.supabaseKey}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      )
+      const { data, error } = await supabase
+        .from('documents')
+        .select('*')
+        .order('uploaded_at', { ascending: false })
+        .limit(limit)
 
-      if (response.ok) {
-        const data = await response.json()
-        return data.map(this.mapDocumentFromDB)
+      if (error) {
+        console.error('Failed to fetch recent documents:', error.message)
+        return []
       }
       
-      return []
+      return data ? data.map(this.mapDocumentFromDB) : []
     } catch (error) {
       console.error('Failed to fetch recent documents:', error)
       return []
@@ -232,56 +208,42 @@ class DocumentUploadService {
   }
 
   /**
-   * Delete document
+   * Delete document using RLS-enabled client
+   * SECURITY: Uses authenticated Supabase client with RLS policies
    */
   async deleteDocument(documentId: string): Promise<boolean> {
     try {
       // Get document info first
-      const response = await fetch(
-        `${this.supabaseUrl}/rest/v1/documents?id=eq.${documentId}&select=file_path`,
-        {
-          headers: {
-            'apikey': this.supabaseKey,
-            'Authorization': `Bearer ${this.supabaseKey}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      )
+      const { data: documents, error: fetchError } = await supabase
+        .from('documents')
+        .select('file_path')
+        .eq('id', documentId)
+        .single()
 
-      if (response.ok) {
-        const documents = await response.json()
-        if (documents.length > 0) {
-          const filePath = documents[0].file_path
-
-          // Delete from storage
-          const deleteResponse = await fetch(
-            `${this.supabaseUrl}/storage/v1/object/policy-documents/${filePath}`,
-            {
-              method: 'DELETE',
-              headers: {
-                'Authorization': `Bearer ${this.supabaseKey}`,
-              }
-            }
-          )
-
-          // Delete from database
-          await fetch(
-            `${this.supabaseUrl}/rest/v1/documents?id=eq.${documentId}`,
-            {
-              method: 'DELETE',
-              headers: {
-                'apikey': this.supabaseKey,
-                'Authorization': `Bearer ${this.supabaseKey}`,
-                'Content-Type': 'application/json'
-              }
-            }
-          )
-
-          return deleteResponse.ok
-        }
+      if (fetchError || !documents) {
+        console.error('Failed to fetch document for deletion:', fetchError?.message)
+        return false
       }
-      
-      return false
+
+      const filePath = documents.file_path
+
+      // Delete from storage using authenticated client
+      const { error: storageError } = await supabase.storage
+        .from('policy-documents')
+        .remove([filePath])
+
+      // Delete from database using RLS-enabled client
+      const { error: dbError } = await supabase
+        .from('documents')
+        .delete()
+        .eq('id', documentId)
+
+      if (storageError || dbError) {
+        console.error('Failed to delete document:', storageError?.message || dbError?.message)
+        return false
+      }
+
+      return true
     } catch (error) {
       console.error('Failed to delete document:', error)
       return false
@@ -307,7 +269,8 @@ class DocumentUploadService {
   }
 
   /**
-   * Process document with AI extraction
+   * Process document with AI extraction using authenticated edge function
+   * SECURITY: Uses authenticated Supabase edge function
    */
   async processDocumentWithAI(document: UploadedDocument, documentType: string): Promise<any> {
     try {
@@ -319,34 +282,25 @@ class DocumentUploadService {
       const blob = await response.blob()
       const file = new File([blob], document.fileName, { type: document.mimeType })
 
-      // Call the processing edge function
+      // Call the processing edge function with authentication
       const formData = new FormData()
       formData.append('file', file)
       formData.append('documentType', documentType)
 
-      const processResponse = await fetch(
-        `${this.supabaseUrl}/functions/v1/process-policy-document`,
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${this.supabaseKey}`,
-          },
-          body: formData
-        }
-      )
+      const { data: result, error } = await supabase.functions.invoke('process-policy-document', {
+        body: formData
+      })
 
-      if (processResponse.ok) {
-        const result = await processResponse.json()
-        
-        // Update status to completed with extracted data
-        await this.updateExtractionStatus(document.id, 'completed', result.data)
-        
-        return result.data
-      } else {
+      if (error) {
         // Update status to failed
         await this.updateExtractionStatus(document.id, 'failed')
-        throw new Error('Document processing failed')
+        throw new Error(`Document processing failed: ${error.message}`)
       }
+
+      // Update status to completed with extracted data
+      await this.updateExtractionStatus(document.id, 'completed', result.data)
+      
+      return result.data
     } catch (error) {
       console.error('AI processing failed:', error)
       await this.updateExtractionStatus(document.id, 'failed')

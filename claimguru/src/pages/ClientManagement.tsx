@@ -16,6 +16,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
+import { supabase } from '../lib/supabase';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
@@ -269,10 +270,19 @@ export default function ClientManagement() {
           priority: 'medium',
           conflictCheck: true,
           createdAt: new Date().toISOString(),
-          createdBy: 'user-001',
+          createdBy: userProfile?.id || (() => {
+            console.error('SECURITY: No user_id available for audit trail');
+            throw new Error('User ID not available. Please ensure you are logged in.');
+          })(),
           updatedAt: new Date().toISOString(),
-          updatedBy: 'user-001',
-          organizationId: userProfile?.organization_id || 'demo-org',
+          updatedBy: userProfile?.id || (() => {
+            console.error('SECURITY: No user_id available for audit trail');
+            throw new Error('User ID not available. Please ensure you are logged in.');
+          })(),
+          organizationId: userProfile?.organization_id || (() => {
+            console.error('SECURITY: No organization_id available for client creation');
+            throw new Error('User organization not available. Please ensure you are logged in.');
+          })(),
           permissions: {
             canEdit: [],
             canView: []
@@ -308,32 +318,28 @@ export default function ClientManagement() {
 
   const loadOrganizationUsers = async () => {
     try {
-      // TODO: Replace with actual API call
-      const mockUsers = [
-        {
-          id: 'user-001',
-          name: 'Sarah Johnson',
-          email: 'sarah@company.com',
-          role: 'Associate',
-          isSubscriber: false
-        },
-        {
-          id: 'user-002',
-          name: 'Mike Davis',
-          email: 'mike@company.com',
-          role: 'Senior Associate',
-          isSubscriber: false
-        },
-        {
-          id: 'subscriber-001',
-          name: 'Admin User',
-          email: 'admin@company.com',
-          role: 'Administrator',
-          isSubscriber: true
-        }
-      ];
-      
-      setOrganizationUsers(mockUsers);
+      // Load organization users via authenticated API
+      const { data: users, error } = await supabase
+        .from('user_profiles')
+        .select('id, first_name, last_name, email, role, is_subscriber')
+        .eq('organization_id', userProfile?.organization_id)
+        .order('last_name');
+
+      if (error) {
+        console.error('Error loading organization users:', error);
+        setOrganizationUsers([]);
+        return;
+      }
+
+      const formattedUsers = (users || []).map(user => ({
+        id: user.id,
+        name: `${user.first_name || ''} ${user.last_name || ''}`.trim(),
+        email: user.email,
+        role: user.role || 'User',
+        isSubscriber: user.is_subscriber || false
+      }));
+
+      setOrganizationUsers(formattedUsers);
     } catch (error) {
       console.error('Error loading organization users:', error);
     }

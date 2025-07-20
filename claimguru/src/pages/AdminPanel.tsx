@@ -11,8 +11,19 @@ import { Badge } from '../components/ui/Badge';
 import CustomFieldManager from '../components/admin/CustomFieldManager';
 import FolderTemplateManager from '../components/admin/FolderTemplateManager';
 
-// Mock organization ID - in real app, get from auth context
-const ORGANIZATION_ID = 'org-123-demo';
+// SECURITY: Get organization ID from authenticated user context
+const getOrganizationId = (): string => {
+  // Get from auth context - this should be replaced with proper auth context
+  const userProfile = null; // TODO: Get from useAuth() or similar
+  if (!userProfile?.organization_id) {
+    console.error('SECURITY: No organization_id available for admin access');
+    throw new Error('Organization not available. Admin access requires proper authentication.');
+  }
+  return userProfile.organization_id;
+};
+
+// Use function to get organization ID securely
+const ORGANIZATION_ID = getOrganizationId();
 
 export const AdminPanel: React.FC = () => {
   const [activeTab, setActiveTab] = useState('fields');

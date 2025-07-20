@@ -166,9 +166,15 @@ export default function LeadManagement() {
           urgency: 'high',
           status: 'contacted',
           createdAt: new Date().toISOString(),
-          createdBy: 'user-001',
+          createdBy: userProfile?.id || (() => {
+            console.error('SECURITY: No user_id available for audit trail');
+            throw new Error('User ID not available. Please ensure you are logged in.');
+          })(),
           updatedAt: new Date().toISOString(),
-          organizationId: userProfile?.organization_id || 'demo-org'
+          organizationId: userProfile?.organization_id || (() => {
+            console.error('SECURITY: No organization_id available for lead creation');
+            throw new Error('User organization not available. Please ensure you are logged in.');
+          })()
         },
         {
           id: 'lead-002',
@@ -188,9 +194,15 @@ export default function LeadManagement() {
           urgency: 'urgent',
           status: 'qualified',
           createdAt: new Date(Date.now() - 86400000).toISOString(),
-          createdBy: 'user-001',
+          createdBy: userProfile?.id || (() => {
+            console.error('SECURITY: No user_id available for audit trail');
+            throw new Error('User ID not available. Please ensure you are logged in.');
+          })(),
           updatedAt: new Date().toISOString(),
-          organizationId: userProfile?.organization_id || 'demo-org'
+          organizationId: userProfile?.organization_id || (() => {
+            console.error('SECURITY: No organization_id available for lead creation');
+            throw new Error('User organization not available. Please ensure you are logged in.');
+          })()
         }
       ];
       
