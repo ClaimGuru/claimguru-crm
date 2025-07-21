@@ -1,2 +1,4 @@
-2025/07/09-09:59:24.947 76 Creating DB /workspace/browser/user_data/Default/shared_proto_db since it was missing.
-2025/07/09-09:59:25.852 76 Reusing MANIFEST /workspace/browser/user_data/Default/shared_proto_db/MANIFEST-000001
+2025/07/18-15:10:22.891 11f0 Reusing MANIFEST /workspace/browser/user_data/Default/shared_proto_db/MANIFEST-000001
+2025/07/18-15:10:22.891 11f0 Recovering log #3
+2025/07/18-15:10:22.891 11f0 (ignoring error) /workspace/browser/user_data/Default/shared_proto_db/000003.log: dropping 1779 bytes; Corruption: checksum mismatch
+2025/07/18-15:10:22.891 11f0 Reusing old log /workspace/browser/user_data/Default/shared_proto_db/000003.log 
