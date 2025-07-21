@@ -178,20 +178,7 @@ export function ManualClaimInformationStep({ data, onUpdate }: ManualClaimInform
               </select>
             </div>
 
-            {/* Year Built */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Year Built
-              </label>
-              <Input
-                type="number"
-                value={lossDetails.yearBuilt}
-                onChange={(e) => handleInputChange('yearBuilt', e.target.value)}
-                placeholder="e.g., 1995"
-                min="1800"
-                max={new Date().getFullYear()}
-              />
-            </div>
+
           </div>
 
           {/* Loss Description */}
@@ -376,7 +363,14 @@ export function ManualClaimInformationStep({ data, onUpdate }: ManualClaimInform
                     type="number"
                     value={lossDetails.monthlyLivingCost}
                     onChange={(e) => handleInputChange('monthlyLivingCost', e.target.value)}
-                    placeholder="Enter monthly cost"
+                    onFocus={(e) => e.target.select()}
+                    onKeyDown={(e) => {
+                      // Clear field on first digit input if current value is 0
+                      if (lossDetails.monthlyLivingCost === '0' && /\d/.test(e.key)) {
+                        handleInputChange('monthlyLivingCost', '');
+                      }
+                    }}
+                    placeholder="0"
                     min="0"
                   />
                 </div>

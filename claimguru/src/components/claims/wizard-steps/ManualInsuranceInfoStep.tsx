@@ -9,6 +9,46 @@ import { InsurerPersonnelInformation } from './InsurerPersonnelInformation';
 import { WizardValidationService } from '../../../services/wizardValidationService';
 import { FieldValidationIndicator } from '../../ui/ValidationSummary';
 
+// Currency formatting utilities
+const formatCurrency = (value: string | number): string => {
+  if (!value && value !== 0) return '';
+  const numValue = typeof value === 'string' ? parseFloat(value.replace(/[^0-9.-]/g, '')) : value;
+  if (isNaN(numValue)) return '';
+  return numValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+};
+
+const parseCurrencyInput = (value: string): number => {
+  const cleanValue = value.replace(/[^0-9.-]/g, '');
+  const numValue = parseFloat(cleanValue);
+  return isNaN(numValue) ? 0 : numValue;
+};
+
+const getCurrencyInputProps = () => ({
+  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Allow: backspace, delete, tab, escape, enter, decimal point
+    if ([46, 8, 9, 27, 13, 110, 190].indexOf(e.keyCode) !== -1 ||
+        // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+        (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+        (e.keyCode === 67 && (e.ctrlKey === true || e.metaKey === true)) ||
+        (e.keyCode === 86 && (e.ctrlKey === true || e.metaKey === true)) ||
+        (e.keyCode === 88 && (e.ctrlKey === true || e.metaKey === true)) ||
+        // Allow: home, end, left, right, down, up
+        (e.keyCode >= 35 && e.keyCode <= 40)) {
+      return;
+    }
+    // Ensure that it is a number and stop the keypress
+    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+      e.preventDefault();
+    }
+  },
+  onPaste: (e: React.ClipboardEvent<HTMLInputElement>) => {
+    const paste = e.clipboardData.getData('text');
+    if (!/^[0-9]*\.?[0-9]*$/.test(paste)) {
+      e.preventDefault();
+    }
+  }
+});
+
 interface Coverage {
   id: string;
   type: string;
@@ -52,6 +92,24 @@ interface PriorPayment {
   nonRecoverableDepreciation?: number;
   deductibleApplied?: number;
   isRecovered?: boolean; // Whether the recoverable depreciation has been recovered
+}
+
+interface ALEEntry {
+  id: string;
+  currentLivingSituation: string; // Hotel, Rental, Family/Friends, etc.
+  monthlyLivingCost: number;
+  startDate: string;
+  endDate?: string;
+  description: string;
+  isActive: boolean;
+}
+
+interface ALEInformation {
+  hasLossOfRent: boolean;
+  hasLossOfUse: boolean;
+  monthsToDate: number;
+  totalClaimedAmount: number;
+  aleEntries: ALEEntry[];
 }
 
 interface ManualInsuranceInfoStepProps {
@@ -126,6 +184,13 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
   const [isForcedPlaced, setIsForcedPlaced] = useState(false);
   const [applicableDeductible, setApplicableDeductible] = useState<string>(data.applicableDeductible || '');
   const [insurerPersonnel, setInsurerPersonnel] = useState(data.insurerPersonnel || []);
+  const [aleInformation, setAleInformation] = useState<ALEInformation>(data.aleInformation || {
+    hasLossOfRent: false,
+    hasLossOfUse: false,
+    monthsToDate: 0,
+    totalClaimedAmount: 0,
+    aleEntries: []
+  });
 
   // Update parent data whenever local state changes
   useEffect(() => {
@@ -138,9 +203,10 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
       deductibles,
       priorPayments,
       applicableDeductible,
-      insurerPersonnel
+      insurerPersonnel,
+      aleInformation
     });
-  }, [insuranceCarrier, policyDetails, coverages, additionalCoverages, deductibles, priorPayments, applicableDeductible, insurerPersonnel]);
+  }, [insuranceCarrier, policyDetails, coverages, additionalCoverages, deductibles, priorPayments, applicableDeductible, insurerPersonnel, aleInformation]);
 
   // Recalculate additional coverage amounts when base coverages change
   useEffect(() => {
@@ -290,6 +356,46 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
 
   const removePriorPayment = (id: string) => {
     setPriorPayments(priorPayments.filter(payment => payment.id !== id));
+  };
+
+  // ALE Management Functions
+  const addALEEntry = () => {
+    const newALEEntry: ALEEntry = {
+      id: Date.now().toString(),
+      currentLivingSituation: '',
+      monthlyLivingCost: 0,
+      startDate: '',
+      endDate: '',
+      description: '',
+      isActive: true
+    };
+    setAleInformation({
+      ...aleInformation,
+      aleEntries: [...aleInformation.aleEntries, newALEEntry]
+    });
+  };
+
+  const updateALEEntry = (id: string, field: keyof ALEEntry, value: any) => {
+    setAleInformation({
+      ...aleInformation,
+      aleEntries: aleInformation.aleEntries.map(entry => 
+        entry.id === id ? { ...entry, [field]: value } : entry
+      )
+    });
+  };
+
+  const removeALEEntry = (id: string) => {
+    setAleInformation({
+      ...aleInformation,
+      aleEntries: aleInformation.aleEntries.filter(entry => entry.id !== id)
+    });
+  };
+
+  const updateALEInformation = (field: keyof ALEInformation, value: any) => {
+    setAleInformation({
+      ...aleInformation,
+      [field]: value
+    });
   };
 
   return (
@@ -832,6 +938,9 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
                         className="w-full p-3 border border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-white"
                       >
                         <option value="">Select additional coverage type</option>
+                        <option value="ALE">Alternative Living Expenses (ALE)</option>
+                        <option value="Loss of Rent">Loss of Rent</option>
+                        <option value="Loss of Use">Loss of Use</option>
                         <option value="Ordinance and Law">Ordinance and Law</option>
                         <option value="Fungi/Mold">Fungi/Mold Coverage</option>
                         <option value="Emergency Repairs">Emergency Repairs</option>
@@ -1519,6 +1628,235 @@ export const ManualInsuranceInfoStep: React.FC<ManualInsuranceInfoStepProps> = (
             <Plus className="h-4 w-4" />
             Add Prior Payment
           </Button>
+        </CardContent>
+      </Card>
+
+      {/* Alternative Living Expenses (ALE) */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Building className="h-5 w-5 text-orange-600" />
+            Alternative Living Expenses (ALE)
+          </CardTitle>
+          <p className="text-sm text-gray-600 mt-1">
+            Track living expenses while the property is being repaired or restored
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* ALE General Questions */}
+          <div className="bg-orange-50 p-4 rounded-lg">
+            <h4 className="font-medium text-orange-900 mb-4">General ALE Information</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Loss of Rent Question */}
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  checked={aleInformation.hasLossOfRent}
+                  onChange={(e) => updateALEInformation('hasLossOfRent', e.target.checked)}
+                  className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                />
+                <label className="text-sm font-medium text-orange-900">
+                  Loss of Rent (Rental Properties)
+                </label>
+              </div>
+
+              {/* Loss of Use Question */}
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  checked={aleInformation.hasLossOfUse}
+                  onChange={(e) => updateALEInformation('hasLossOfUse', e.target.checked)}
+                  className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                />
+                <label className="text-sm font-medium text-orange-900">
+                  Loss of Use
+                </label>
+              </div>
+
+              {/* Months to Date */}
+              <div>
+                <label className="block text-sm font-medium text-orange-900 mb-1">
+                  How many months for rent to date?
+                </label>
+                <Input
+                  type="number"
+                  value={aleInformation.monthsToDate || ''}
+                  onChange={(e) => updateALEInformation('monthsToDate', parseFloat(e.target.value) || 0)}
+                  placeholder="0"
+                  min="0"
+                  step="0.1"
+                  className="text-center"
+                />
+              </div>
+
+              {/* Total Claimed Amount */}
+              <div>
+                <label className="block text-sm font-medium text-orange-900 mb-1">
+                  Total ALE Claimed Amount
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-600 font-semibold">$</span>
+                  <Input
+                    type="number"
+                    value={aleInformation.totalClaimedAmount || ''}
+                    onChange={(e) => updateALEInformation('totalClaimedAmount', parseFloat(e.target.value) || 0)}
+                    placeholder="0.00"
+                    min="0"
+                    step="0.01"
+                    className="pl-8 text-center font-mono"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ALE Entries */}
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <h4 className="font-medium text-gray-900">Living Arrangements</h4>
+              <Button
+                onClick={addALEEntry}
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2 border-orange-300 text-orange-700 hover:bg-orange-50"
+              >
+                <Plus className="h-4 w-4" />
+                Add Living Arrangement
+              </Button>
+            </div>
+
+            {aleInformation.aleEntries.length === 0 ? (
+              <div className="text-center py-8 bg-gray-50 rounded-lg">
+                <Building className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+                <p className="text-gray-600 mb-2">No living arrangements added yet</p>
+                <p className="text-sm text-gray-500">Click "Add Living Arrangement" to track ALE expenses</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {aleInformation.aleEntries.map((entry, index) => (
+                  <div key={entry.id} className="bg-white border border-gray-200 rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-4">
+                      <h5 className="font-medium text-gray-900">
+                        Living Arrangement #{index + 1}
+                      </h5>
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            checked={entry.isActive}
+                            onChange={(e) => updateALEEntry(entry.id, 'isActive', e.target.checked)}
+                            className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                          />
+                          <label className="text-sm font-medium text-gray-700">
+                            Active
+                          </label>
+                        </div>
+                        <Button
+                          onClick={() => removeALEEntry(entry.id)}
+                          variant="ghost"
+                          size="sm"
+                          className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Current Living Situation */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Current Living Situation *
+                        </label>
+                        <select
+                          value={entry.currentLivingSituation}
+                          onChange={(e) => updateALEEntry(entry.id, 'currentLivingSituation', e.target.value)}
+                          className="w-full p-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500"
+                          required
+                        >
+                          <option value="">Select living situation</option>
+                          <option value="Hotel">Hotel</option>
+                          <option value="Rental">Rental Property</option>
+                          <option value="Family/Friends">Staying with Family/Friends</option>
+                          <option value="RV/Temporary">RV or Temporary Housing</option>
+                          <option value="Corporate Housing">Corporate Housing</option>
+                          <option value="Extended Stay">Extended Stay Hotel</option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </div>
+
+                      {/* Monthly Living Cost */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Monthly Living Cost ($) *
+                        </label>
+                        <div className="relative">
+                          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600 font-semibold">$</span>
+                          <Input
+                            type="number"
+                            value={entry.monthlyLivingCost || ''}
+                            onChange={(e) => updateALEEntry(entry.id, 'monthlyLivingCost', parseFloat(e.target.value) || 0)}
+                            placeholder="0.00"
+                            min="0"
+                            step="0.01"
+                            className="pl-8 font-mono"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      {/* Start Date */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Start Date *
+                        </label>
+                        <Input
+                          type="date"
+                          value={entry.startDate}
+                          onChange={(e) => updateALEEntry(entry.id, 'startDate', e.target.value)}
+                          required
+                        />
+                      </div>
+
+                      {/* End Date */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          End Date (if known)
+                        </label>
+                        <Input
+                          type="date"
+                          value={entry.endDate || ''}
+                          onChange={(e) => updateALEEntry(entry.id, 'endDate', e.target.value)}
+                        />
+                      </div>
+
+                      {/* Description */}
+                      <div className="md:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Description / Notes
+                        </label>
+                        <Input
+                          value={entry.description}
+                          onChange={(e) => updateALEEntry(entry.id, 'description', e.target.value)}
+                          placeholder="Additional details about this living arrangement..."
+                        />
+                      </div>
+                    </div>
+
+                    {/* Status Indicator */}
+                    {entry.isActive && (
+                      <div className="mt-3 bg-green-100 border border-green-300 rounded-lg p-2">
+                        <div className="flex items-center gap-2 text-green-800">
+                          <CheckCircle className="h-4 w-4" />
+                          <span className="text-sm font-medium">Active Living Arrangement</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </CardContent>
       </Card>
 

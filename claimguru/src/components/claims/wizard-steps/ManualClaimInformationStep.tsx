@@ -23,7 +23,7 @@ export function ManualClaimInformationStep({ data, onUpdate }: ManualClaimInform
     causeOfLoss: data.lossDetails?.causeOfLoss || '',
     severity: data.lossDetails?.severity || '',
     lossDescription: data.lossDetails?.lossDescription || '',
-    yearBuilt: data.lossDetails?.yearBuilt || '',
+
     isFEMA: data.lossDetails?.isFEMA || false,
     isHabitable: data.lossDetails?.isHabitable || true,
     alternativeLiving: data.lossDetails?.alternativeLiving || '',
@@ -178,20 +178,7 @@ export function ManualClaimInformationStep({ data, onUpdate }: ManualClaimInform
               </select>
             </div>
 
-            {/* Year Built */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Year Built
-              </label>
-              <Input
-                type="number"
-                value={lossDetails.yearBuilt}
-                onChange={(e) => handleInputChange('yearBuilt', e.target.value)}
-                placeholder="e.g., 1995"
-                min="1800"
-                max={new Date().getFullYear()}
-              />
-            </div>
+
           </div>
 
           {/* Loss Description */}

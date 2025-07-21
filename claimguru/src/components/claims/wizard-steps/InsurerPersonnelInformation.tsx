@@ -601,19 +601,21 @@ export const InsurerPersonnelInformation: React.FC<InsurerPersonnelInformationPr
                           value={member.personnelType || ''}
                           onChange={(e) => {
                             const selectedValue = e.target.value;
-                            console.log('Personnel type selected:', selectedValue);
+                            console.log('Personnel type selected:', selectedValue, 'for member:', member.id);
                             updatePersonnelMember(member.id, 'personnelType', selectedValue);
+                            // Clear vendor specialty when changing away from vendor
                             if (selectedValue !== 'Vendor') {
+                              console.log('Clearing vendor specialty for non-vendor type');
                               updatePersonnelMember(member.id, 'vendorSubType', '');
                             }
                           }}
-                          className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500 bg-white appearance-none"
-                          style={{ minHeight: '40px', cursor: 'pointer' }}
+                          className="w-full p-3 text-base border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-white"
+                          style={{ minHeight: '44px' }}
                           required
                         >
                           <option value="">Select personnel type</option>
                           {personnelTypes.map((type, index) => (
-                            <option key={`${type}-${index}`} value={type}>
+                            <option key={`personnel-${type}-${index}`} value={type}>
                               {type}
                             </option>
                           ))}
@@ -621,23 +623,38 @@ export const InsurerPersonnelInformation: React.FC<InsurerPersonnelInformationPr
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Vendor Specialty {member.personnelType === 'Vendor' ? '*' : '(if applicable)'}
+                          Vendor Specialty {member.personnelType === 'Vendor' ? '*' : ''}
+                          {member.personnelType === 'Vendor' && (
+                            <span className="text-xs text-purple-600 ml-2">(Required for vendors)</span>
+                          )}
+                          {!member.personnelType && (
+                            <span className="text-xs text-gray-500 ml-2">(Select personnel type first)</span>
+                          )}
                         </label>
                         <select
                           value={member.vendorSubType || ''}
                           onChange={(e) => {
                             const selectedValue = e.target.value;
-                            console.log('Vendor specialty selected:', selectedValue);
+                            console.log('Vendor specialty selected:', selectedValue, 'for member:', member.id);
                             updatePersonnelMember(member.id, 'vendorSubType', selectedValue);
                           }}
-                          className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500 bg-white appearance-none"
-                          style={{ minHeight: '40px', cursor: 'pointer' }}
+                          className={`w-full p-3 text-base border rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500 ${
+                            member.personnelType === 'Vendor' 
+                              ? 'bg-white border-gray-300' 
+                              : 'bg-gray-100 border-gray-200 text-gray-500'
+                          }`}
+                          style={{ minHeight: '44px' }}
                           required={member.personnelType === 'Vendor'}
-                          disabled={!member.personnelType || member.personnelType === ''}
+                          disabled={member.personnelType !== 'Vendor'}
                         >
-                          <option value="">Select vendor specialty</option>
-                          {vendorSubTypes.map((subType, index) => (
-                            <option key={`${subType}-${index}`} value={subType}>
+                          <option value="">
+                            {member.personnelType === 'Vendor' 
+                              ? 'Select vendor specialty' 
+                              : 'Only available for vendors'
+                            }
+                          </option>
+                          {member.personnelType === 'Vendor' && vendorSubTypes.map((subType, index) => (
+                            <option key={`vendor-${subType}-${index}`} value={subType}>
                               {subType}
                             </option>
                           ))}
