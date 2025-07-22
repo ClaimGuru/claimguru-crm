@@ -75,26 +75,40 @@ export function Clients() {
   }
 
   const handleSaveClient = async (clientData: any) => {
+    console.log('📥 PARENT handleSaveClient called with:', clientData)
+    console.log('📝 Editing client:', editingClient)
+    
     try {
       let savedClient
       if (editingClient) {
+        console.log('📝 Updating existing client...')
         // Update existing client
         savedClient = await updateClient(editingClient.id, clientData)
+        console.log('✅ Client updated successfully:', savedClient)
       } else {
+        console.log('➕ Creating new client...')
         // Create new client
         savedClient = await createClient(clientData)
+        console.log('✅ Client created successfully:', savedClient)
       }
+      
+      console.log('📝 Closing form and resetting state...')
       setIsFormOpen(false)
       setEditingClient(null)
       
       // If this is a new client, show create claim modal
       if (!editingClient && savedClient) {
+        console.log('📜 Opening create claim flow for new client...')
         setClientForClaim(savedClient)
         setShowCreateClaimFlow(true)
       }
+      
+      console.log('✅ handleSaveClient completed successfully')
     } catch (error) {
-      console.error('Error saving client:', error)
+      console.error('❌ Error in handleSaveClient:', error)
+      console.error('📊 Error details:', JSON.stringify(error, null, 2))
       // Error handling is done in the form
+      throw error // Re-throw so the form can handle it
     }
   }
 

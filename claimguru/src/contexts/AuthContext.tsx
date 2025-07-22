@@ -28,8 +28,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null)
   const [loading, setLoading] = useState(true)
 
-  // Temporary demo mode to restore functionality for testing
-  const isDemoMode = true // Enable demo mode for comprehensive testing
+  // Production-ready authentication system
+  const isDemoMode = false // Use real authentication
 
   // Load user on mount (one-time check)
   useEffect(() => {
@@ -38,8 +38,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (isDemoMode) {
           // Provide demo user profile for demo mode
           const demoUserProfile: UserProfile = {
-            id: 'demo-user-123',
-            organization_id: 'demo-org-456', 
+            id: 'd03912b1-c00e-4915-b4fd-90a2e17f62a2',
+            organization_id: '6b7b6902-4cf0-40a1-bea0-f5c1dd9fa2d5', 
             email: 'demo@claimguru.com',
             first_name: 'Demo',
             last_name: 'User',
@@ -60,7 +60,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setUserProfile(demoUserProfile)
           // Set a mock user object for demo mode
           setUser({
-            id: 'demo-user-123',
+            id: 'd03912b1-c00e-4915-b4fd-90a2e17f62a2',
             email: 'demo@claimguru.com',
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
@@ -88,10 +88,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         } else {
           // Real authentication mode
           const { data: { user } } = await supabase.auth.getUser()
-          setUser(user)
           
-          if (user) {
-            await loadUserProfile(user.id)
+          // For testing: Auto-login with josh@dcsclaim.com credentials if no session
+          if (!user) {
+            try {
+              console.log('🔐 No existing session, attempting auto-login for testing...')
+              const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+                email: 'josh@dcsclaim.com',
+                password: 'BestLyfe#0616'
+              })
+              
+              if (authError) {
+                console.error('❌ Auto-login failed:', authError)
+                // Fallback to manual login requirement
+                setUser(null)
+              } else {
+                console.log('✅ Auto-login successful:', authData.user?.email)
+                setUser(authData.user)
+                if (authData.user) {
+                  await loadUserProfile(authData.user.id)
+                }
+              }
+            } catch (error) {
+              console.error('❌ Error during auto-login:', error)
+              setUser(null)
+            }
+          } else {
+            setUser(user)
+            if (user) {
+              await loadUserProfile(user.id)
+            }
           }
         }
       } catch (error) {

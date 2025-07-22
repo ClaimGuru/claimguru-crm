@@ -87,7 +87,16 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!userProfile?.organization_id) return
+    console.log('🚀 CLIENT FORM SUBMISSION STARTED')
+    console.log('📄 Form data:', formData)
+    console.log('👤 User profile:', userProfile)
+    console.log('🔐 Organization ID:', userProfile?.organization_id)
+    
+    if (!userProfile?.organization_id) {
+      console.error('❌ No organization ID found')
+      alert('Authentication error: No organization ID found')
+      return
+    }
 
     setLoading(true)
     try {
@@ -104,14 +113,21 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
         }) : formData.lead_source_details
       }
 
+      console.log('💾 Final client data to save:', clientData)
+      console.log('📤 Calling onSave function...')
+      
       // Let the parent component handle the actual save operation
       await onSave(clientData)
+      
+      console.log('✅ onSave completed successfully')
       onClose()
     } catch (error) {
-      console.error('Error saving client:', error)
-      alert('Error saving client. Please try again.')
+      console.error('❌ Error saving client:', error)
+      console.error('📊 Error details:', JSON.stringify(error, null, 2))
+      alert(`Error saving client: ${error.message || 'Unknown error'}. Please try again.`)
     } finally {
       setLoading(false)
+      console.log('🏁 CLIENT FORM SUBMISSION ENDED')
     }
   }
 
@@ -119,7 +135,7 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto flex flex-col">
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-xl font-semibold text-gray-900">
             {client ? 'Edit Client' : 'Add New Client'}
@@ -129,7 +145,7 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
           </Button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="p-6 space-y-6" noValidate>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -173,7 +189,7 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
                   value={formData.first_name}
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  required
+                  // required - temporarily disabled for debugging
                 />
               </div>
               <div>
@@ -186,7 +202,7 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
                   value={formData.last_name}
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  required
+                  // required - temporarily disabled for debugging
                 />
               </div>
             </div>
@@ -336,6 +352,18 @@ export function ClientForm({ client, isOpen, onClose, onSave }: ClientFormProps)
           <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
             <Button type="button" variant="outline" onClick={onClose}>
               Cancel
+            </Button>
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={() => {
+                console.log('🔧 DEBUG: Direct handleSubmit call')
+                const fakeEvent = { preventDefault: () => {} } as React.FormEvent
+                handleSubmit(fakeEvent)
+              }}
+              disabled={loading}
+            >
+              🔧 Debug Submit
             </Button>
             <Button type="submit" disabled={loading}>
               {loading ? (

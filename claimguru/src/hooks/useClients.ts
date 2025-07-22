@@ -47,26 +47,40 @@ export function useClients() {
     }
 
     try {
-      const newClient = {
-        ...clientData,
+      // Clean the data to only include fields that exist in the database
+      const cleanClientData = {
         organization_id: userProfile.organization_id,
         created_by: userProfile.id,
         client_type: clientData.client_type || 'residential',
-        is_policyholder: clientData.is_policyholder || true,
+        is_policyholder: clientData.is_policyholder ?? true,
+        first_name: clientData.first_name || null,
+        last_name: clientData.last_name || null,
+        business_name: clientData.business_name || null,
+        primary_email: clientData.primary_email || null,
+        primary_phone: clientData.primary_phone || null,
+        address_line_1: clientData.address_line_1 || null,
+        city: clientData.city || null,
+        state: clientData.state || null,
+        zip_code: clientData.zip_code || null,
         country: clientData.country || 'US',
-        mailing_same_as_address: clientData.mailing_same_as_address || true
+        mailing_same_as_address: clientData.mailing_same_as_address ?? true,
+        notes: clientData.notes || null
       }
+
+      console.log('🚀 Creating client with clean data:', cleanClientData)
 
       const { data, error } = await supabase
         .from('clients')
-        .insert([newClient])
+        .insert(cleanClientData)
         .select()
         .single()
 
       if (error) {
+        console.error('❌ Supabase error:', error)
         throw error
       }
 
+      console.log('✅ Client created successfully:', data)
       setClients(prev => [data, ...prev])
       return data
     } catch (error: any) {

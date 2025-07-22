@@ -26,6 +26,7 @@ import { LoadingSpinner } from '../components/ui/LoadingSpinner'
 import { useNavigate } from 'react-router-dom'
 import { useClaims } from '../hooks/useClaims'
 import { useClients } from '../hooks/useClients'
+import { ClientForm } from '../components/forms/ClientForm'
 
 interface DashboardStats {
   totalClaims: number
@@ -46,10 +47,11 @@ export function Dashboard() {
   const { userProfile } = useAuth()
   const navigate = useNavigate()
   const { claims, loading: claimsLoading } = useClaims()
-  const { clients, loading: clientsLoading } = useClients()
+  const { clients, loading: clientsLoading, createClient } = useClients()
   const [stats, setStats] = useState<DashboardStats | null>(null)
   const [loading, setLoading] = useState(true)
   const [showAIDashboard, setShowAIDashboard] = useState(false)
+  const [showDebugClientForm, setShowDebugClientForm] = useState(false)
 
   useEffect(() => {
     if (!claimsLoading && !clientsLoading) {
@@ -139,6 +141,20 @@ export function Dashboard() {
     }
   }
 
+  const handleDebugClientSave = async (clientData: any) => {
+    console.log('🔧 DEBUG: Dashboard client creation test')
+    console.log('💾 Client data:', clientData)
+    try {
+      const result = await createClient(clientData)
+      console.log('✅ DEBUG: Client created successfully:', result)
+      setShowDebugClientForm(false)
+      alert(`DEBUG SUCCESS: Client created with ID: ${result.id}`)
+    } catch (error) {
+      console.error('❌ DEBUG: Client creation failed:', error)
+      alert(`DEBUG FAILED: ${error.message}`)
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -151,12 +167,25 @@ export function Dashboard() {
     <div className="p-6 space-y-6">
       {/* Welcome Section */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">
-          Welcome back, {userProfile?.first_name}!
-        </h1>
-        <p className="text-gray-600 mt-2">
-          Here's what's happening with your claims today.
-        </p>
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Welcome back, {userProfile?.first_name}!
+            </h1>
+            <p className="text-gray-600 mt-2">
+              Here's what's happening with your claims today.
+            </p>
+          </div>
+          <Button 
+            onClick={() => {
+              console.log('🔧 Debug button clicked!')
+              setShowDebugClientForm(true)
+            }}
+            className="bg-red-600 hover:bg-red-700 text-white"
+          >
+            🔧 DEBUG: Test Client Creation
+          </Button>
+        </div>
       </div>
 
       {/* Stats Grid */}
@@ -344,6 +373,14 @@ export function Dashboard() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Debug Client Creation Form */}
+      <ClientForm
+        client={null}
+        isOpen={showDebugClientForm}
+        onClose={() => setShowDebugClientForm(false)}
+        onSave={handleDebugClientSave}
+      />
     </div>
   )
 }
