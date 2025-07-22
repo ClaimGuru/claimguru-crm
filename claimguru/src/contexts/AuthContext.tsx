@@ -28,8 +28,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null)
   const [loading, setLoading] = useState(true)
 
-  // Demo mode configuration
-  const isDemoMode = true // Set to false for production with real auth
+  // Production mode configuration - using real authentication
+  const isDemoMode = false // Set to false for production with real auth
 
   // Load user on mount (one-time check)
   useEffect(() => {
