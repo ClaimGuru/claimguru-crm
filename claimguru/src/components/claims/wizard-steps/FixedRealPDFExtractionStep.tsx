@@ -301,89 +301,67 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
             </div>
           )}
 
-          {/* 🔍 DEBUG: Validation State Information */}
-          {(extractedData || rawText) && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
-              <h4 className="font-medium text-yellow-800 mb-2">🔍 DEBUG: Current State</h4>
-              <div className="text-sm text-yellow-700 space-y-1">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <strong>State Values:</strong>
-                    <ul className="list-disc ml-4 mt-1">
-                      <li>extractedData: {extractedData ? '✅ TRUE' : '❌ FALSE'}</li>
-                      <li>rawText: {rawText ? '✅ TRUE' : '❌ FALSE'}</li>
-                      <li>isConfirmed: {isConfirmed ? '✅ TRUE' : '❌ FALSE'}</li>
-                      <li>isProcessing: {isProcessing ? '✅ TRUE' : '❌ FALSE'}</li>
-                      <li>error: {error ? '❌ TRUE' : '✅ FALSE'}</li>
-                    </ul>
+          {/* 📊 EXTRACTION STATUS & VALIDATION */}
+          {extractedData && (
+            <div className="space-y-6">
+              {/* Status Banner */}
+              <div className="bg-green-50 border-l-4 border-green-500 rounded-lg p-4">
+                <div className="flex items-center gap-3">
+                  <div className="bg-green-100 p-2 rounded-full">
+                    <CheckCircle className="h-6 w-6 text-green-600" />
                   </div>
                   <div>
-                    <strong>Render Conditions:</strong>
-                    <ul className="list-disc ml-4 mt-1">
-                      <li>Should show validation: {(extractedData && !isConfirmed) ? '✅ YES' : '❌ NO'}</li>
-                      <li>Data available: {extractedData ? Object.keys(extractedData).length + ' fields' : 'None'}</li>
-                      <li>Text length: {rawText ? rawText.length + ' chars' : '0 chars'}</li>
-                    </ul>
+                    <h3 className="text-lg font-bold text-green-900">
+                      ✅ PDF Extraction Successful
+                    </h3>
+                    <p className="text-green-700 text-sm">
+                      {Object.keys(extractedData).length} data fields extracted • Please review and validate below
+                    </p>
                   </div>
                 </div>
-                {extractedData && (
-                  <div className="mt-2">
-                    <strong>Extracted Data Preview:</strong>
-                    <pre className="text-xs bg-white p-2 rounded border mt-1 max-h-32 overflow-y-auto">
-                      {JSON.stringify(extractedData, null, 2)}
-                    </pre>
-                  </div>
-                )}
               </div>
-            </div>
-          )}
 
-          {/* Policy Data Validation Step - PRIMARY RENDER */}
-          {extractedData && !isConfirmed && (
-            <div className="bg-green-50 border-l-4 border-green-500 rounded-lg p-6 mb-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="bg-green-100 p-2 rounded-full">
-                  <CheckCircle className="h-6 w-6 text-green-600" />
+              {/* Validation Component - Always Show When Data Available */}
+              {!isConfirmed ? (
+                <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                  <div className="mb-4">
+                    <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                      Review & Validate Extracted Data
+                    </h4>
+                    <p className="text-gray-600 text-sm">
+                      Please review the extracted policy information below. Edit any incorrect fields and confirm when ready.
+                    </p>
+                  </div>
+                  
+                  <PolicyDataValidationStep
+                    extractedData={extractedData}
+                    rawText={rawText || 'Raw text extracted successfully'}
+                    onValidated={handleValidationComplete}
+                    onReject={handleValidationReject}
+                  />
                 </div>
-                <div>
-                  <h3 className="text-xl font-bold text-green-900">
-                    ✅ Extraction Successful - Review Required
-                  </h3>
-                  <p className="text-green-700 text-sm">
-                    AI has extracted {Object.keys(extractedData).length} data fields from your policy document
+              ) : (
+                <div className="bg-green-100 border border-green-300 rounded-lg p-4 text-center">
+                  <div className="flex items-center justify-center gap-2 text-green-800 mb-2">
+                    <CheckCircle className="h-5 w-5" />
+                    <span className="font-medium">Data Validated & Confirmed!</span>
+                  </div>
+                  <p className="text-green-700 text-sm mb-3">
+                    Policy data has been confirmed. You can now proceed to the next step.
                   </p>
+                  <Button
+                    onClick={() => {
+                      setIsConfirmed(false);
+                      console.log('Reopening validation for review');
+                    }}
+                    variant="outline"
+                    size="sm"
+                    className="text-green-700 border-green-300 hover:bg-green-50"
+                  >
+                    Review Data Again
+                  </Button>
                 </div>
-              </div>
-              
-              <div className="bg-white rounded-lg p-4 border border-green-200">
-                <PolicyDataValidationStep
-                  extractedData={extractedData}
-                  rawText={rawText || 'Raw text extracted but not available for display'}
-                  onValidated={handleValidationComplete}
-                  onReject={handleValidationReject}
-                />
-              </div>
-            </div>
-          )}
-
-          {/* 🚨 FALLBACK: Force Show Validation if Conditions Met */}
-          {extractedData && isConfirmed && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
-              <h4 className="font-medium text-red-800 mb-2">🚨 FALLBACK: Data Already Confirmed</h4>
-              <p className="text-sm text-red-700 mb-3">
-                Data was already confirmed. If you need to review it again, click below:
-              </p>
-              <Button
-                onClick={() => {
-                  setIsConfirmed(false);
-                  console.log('Reset confirmation to show validation again');
-                }}
-                variant="outline"
-                size="sm"
-                className="text-red-700 border-red-300 hover:bg-red-100"
-              >
-                Review Data Again
-              </Button>
+              )}
             </div>
           )}
 
