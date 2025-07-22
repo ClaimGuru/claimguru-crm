@@ -4,9 +4,20 @@ import { Input } from './Input'
 import { MapPin, AlertCircle } from 'lucide-react'
 // Removed configService import - using direct API key
 
+interface ParsedAddress {
+  streetNumber: string
+  route: string
+  addressLine1: string
+  city: string
+  state: string
+  zipCode: string
+  country: string
+  formattedAddress: string
+}
+
 interface AddressAutocompleteProps {
   value: string
-  onChange: (address: string, details?: google.maps.places.PlaceResult) => void
+  onChange: (address: string, details?: google.maps.places.PlaceResult, parsedAddress?: ParsedAddress) => void
   placeholder?: string
   className?: string
   disabled?: boolean
@@ -15,6 +26,34 @@ interface AddressAutocompleteProps {
   error?: string
   types?: string[]
   componentRestrictions?: google.maps.places.ComponentRestrictions
+}
+
+// Helper function to parse Google Places address components
+function parseAddressComponents(place: google.maps.places.PlaceResult): ParsedAddress {
+  const components = place.address_components || []
+  
+  const streetNumber = components.find(c => c.types.includes('street_number'))?.long_name || ''
+  const route = components.find(c => c.types.includes('route'))?.long_name || ''
+  const city = components.find(c => c.types.includes('locality'))?.long_name || 
+               components.find(c => c.types.includes('sublocality'))?.long_name ||
+               components.find(c => c.types.includes('administrative_area_level_3'))?.long_name || ''
+  const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || ''
+  const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || ''
+  const country = components.find(c => c.types.includes('country'))?.short_name || 'US'
+  
+  // Construct clean address line 1
+  const addressLine1 = `${streetNumber} ${route}`.trim() || place.formatted_address || ''
+  
+  return {
+    streetNumber,
+    route,
+    addressLine1,
+    city,
+    state,
+    zipCode,
+    country,
+    formattedAddress: place.formatted_address || ''
+  }
 }
 
 export function AddressAutocomplete({
@@ -71,7 +110,12 @@ export function AddressAutocomplete({
             
             if (place.formatted_address) {
               setIsSelectingPlace(true)
-              onChange(place.formatted_address, place)
+              
+              // Parse address components for structured data
+              const parsedAddress = parseAddressComponents(place)
+              console.log('📍 Parsed address components:', parsedAddress)
+              
+              onChange(place.formatted_address, place, parsedAddress)
               
               // Reset flag after a short delay to allow for state updates
               setTimeout(() => {

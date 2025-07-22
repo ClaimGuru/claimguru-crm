@@ -206,14 +206,62 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
     );
   };
 
-  const handleAddressChange = (addressData: any) => {
+  const handleAddressChange = (address: string, details?: google.maps.places.PlaceResult, parsedAddress?: any) => {
+    console.log('🏠 Address autocomplete triggered in IntelligentClientDetailsStep:', { 
+      address, 
+      hasDetails: !!details,
+      hasParsedAddress: !!parsedAddress,
+      parsedAddress
+    });
+    
+    let addressData = {
+      addressLine1: address,
+      addressLine2: '',
+      city: '',
+      state: '',
+      zipCode: ''
+    };
+
+    // If we have parsed address data from the autocomplete component, use it
+    if (parsedAddress) {
+      console.log('✅ Using pre-parsed address components:', parsedAddress);
+      
+      addressData = {
+        addressLine1: parsedAddress.addressLine1 || address,
+        addressLine2: '',
+        city: parsedAddress.city || '',
+        state: parsedAddress.state || '',
+        zipCode: parsedAddress.zipCode || ''
+      };
+    } else if (details?.address_components) {
+      // Fallback to manual parsing if no pre-parsed data
+      console.log('📝 Manual parsing address components from details');
+      const components = details.address_components;
+      const streetNumber = components.find(c => c.types.includes('street_number'))?.long_name || '';
+      const route = components.find(c => c.types.includes('route'))?.long_name || '';
+      const city = components.find(c => c.types.includes('locality'))?.long_name || 
+                   components.find(c => c.types.includes('sublocality'))?.long_name ||
+                   components.find(c => c.types.includes('administrative_area_level_3'))?.long_name || '';
+      const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || '';
+      const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || '';
+      
+      addressData = {
+        addressLine1: `${streetNumber} ${route}`.trim() || details.formatted_address || address,
+        addressLine2: '',
+        city: city,
+        state: state,
+        zipCode: zipCode
+      };
+    } else {
+      console.log('📝 Using manual address input (no parsed address data)');
+    }
+
     const updatedDetails = {
       ...clientDetails,
-      mailingAddress: {
-        ...clientDetails.mailingAddress,
-        ...addressData
-      }
+      mailingAddress: addressData
     };
+    
+    console.log('🔄 Updating client details with new address:', updatedDetails.mailingAddress);
     setClientDetails(updatedDetails);
     updateWizardData(updatedDetails);
   };
@@ -498,10 +546,62 @@ export const IntelligentClientDetailsStep: React.FC<IntelligentClientDetailsStep
               )}
             </label>
             <AddressAutocomplete
-              value={clientDetails.mailingAddress}
+              value={clientDetails.mailingAddress?.addressLine1 || ''}
               onChange={handleAddressChange}
               placeholder="Start typing address..."
             />
+          </div>
+
+          {/* Address Line 2 */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Apartment, Suite, Unit, etc. (Address 2)
+            </label>
+            <Input
+              type="text"
+              value={clientDetails.mailingAddress?.addressLine2 || ''}
+              onChange={(e) => handleInputChange('mailingAddress.addressLine2', e.target.value)}
+              placeholder="Apt, Suite, Unit, Building, Floor, etc."
+            />
+          </div>
+
+          {/* City, State, ZIP Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                City
+              </label>
+              <Input
+                type="text"
+                value={clientDetails.mailingAddress?.city || ''}
+                onChange={(e) => handleInputChange('mailingAddress.city', e.target.value)}
+                placeholder="City"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                State
+              </label>
+              <Input
+                type="text"
+                value={clientDetails.mailingAddress?.state || ''}
+                onChange={(e) => handleInputChange('mailingAddress.state', e.target.value)}
+                placeholder="State"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                ZIP Code
+              </label>
+              <Input
+                type="text"
+                value={clientDetails.mailingAddress?.zipCode || ''}
+                onChange={(e) => handleInputChange('mailingAddress.zipCode', e.target.value)}
+                placeholder="ZIP Code"
+              />
+            </div>
           </div>
 
           {/* Emergency Contact */}

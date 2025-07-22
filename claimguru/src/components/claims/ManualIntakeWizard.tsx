@@ -362,12 +362,7 @@ export function ManualIntakeWizard({
     
     // Use shared validation logic
     const canProceedResult = canStepProceed(step.id, wizardData)
-    console.log(`Step validation for ${step.id}:`, {
-      stepId: step.id,
-      required: step.required,
-      canProceed: canProceedResult,
-      wizardData: wizardData
-    })
+    // Removed problematic console.log that was causing infinite loop
     return canProceedResult
   }
 

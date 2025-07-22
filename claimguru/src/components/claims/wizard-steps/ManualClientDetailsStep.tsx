@@ -81,11 +81,12 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
     updateWizardData(updatedDetails);
   };
 
-  const handleAddressAutocomplete = (address: string, details?: google.maps.places.PlaceResult) => {
+  const handleAddressAutocomplete = (address: string, details?: google.maps.places.PlaceResult, parsedAddress?: any) => {
     console.log('🏠 Address autocomplete triggered:', { 
       address, 
       hasDetails: !!details,
-      detailsType: details ? 'PlaceResult' : 'Manual Input'
+      hasParsedAddress: !!parsedAddress,
+      parsedAddress
     });
     
     // Preserve existing address line 2 when updating
@@ -97,39 +98,19 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
       zipCode: clientDetails.mailingAddress.zipCode || ''
     };
 
-    // If we have place details, extract and populate all components
-    if (details && details.address_components) {
-      console.log('📍 Extracting address components from Google Places:', details.address_components);
-      const components = details.address_components;
-      
-      const streetNumber = components.find(c => c.types.includes('street_number'))?.long_name || '';
-      const street = components.find(c => c.types.includes('route'))?.long_name || '';
-      const city = components.find(c => c.types.includes('locality'))?.long_name || 
-                   components.find(c => c.types.includes('sublocality'))?.long_name || '';
-      const state = components.find(c => c.types.includes('administrative_area_level_1'))?.short_name || '';
-      const zipCode = components.find(c => c.types.includes('postal_code'))?.long_name || '';
-      
-      // Construct the address line 1 from components or fallback to formatted address
-      const constructedAddress = `${streetNumber} ${street}`.trim();
+    // If we have parsed address data from the autocomplete component, use it
+    if (parsedAddress) {
+      console.log('✅ Using pre-parsed address components:', parsedAddress);
       
       addressData = {
-        addressLine1: constructedAddress || address, // Use constructed or fallback to formatted
+        addressLine1: parsedAddress.addressLine1 || address,
         addressLine2: clientDetails.mailingAddress.addressLine2 || '', // Preserve existing
-        city: city || clientDetails.mailingAddress.city || '',
-        state: state || clientDetails.mailingAddress.state || '',
-        zipCode: zipCode || clientDetails.mailingAddress.zipCode || ''
+        city: parsedAddress.city || clientDetails.mailingAddress.city || '',
+        state: parsedAddress.state || clientDetails.mailingAddress.state || '',
+        zipCode: parsedAddress.zipCode || clientDetails.mailingAddress.zipCode || ''
       };
-      
-      console.log('✅ Parsed address components:', {
-        streetNumber,
-        street,
-        city,
-        state,
-        zipCode,
-        finalAddressData: addressData
-      });
     } else {
-      console.log('📝 Using manual address input (no Google Places details)');
+      console.log('📝 Using manual address input (no parsed address data)');
     }
 
     const updatedDetails = {
