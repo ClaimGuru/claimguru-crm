@@ -28,15 +28,71 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null)
   const [loading, setLoading] = useState(true)
 
+  // Demo mode configuration
+  const isDemoMode = true // Set to false for production with real auth
+
   // Load user on mount (one-time check)
   useEffect(() => {
     async function loadUser() {
       try {
-        const { data: { user } } = await supabase.auth.getUser()
-        setUser(user)
-        
-        if (user) {
-          await loadUserProfile(user.id)
+        if (isDemoMode) {
+          // Provide demo user profile for demo mode
+          const demoUserProfile: UserProfile = {
+            id: 'demo-user-123',
+            organization_id: 'demo-org-456', 
+            email: 'demo@claimguru.com',
+            first_name: 'Demo',
+            last_name: 'User',
+            title: 'Claims Adjuster',
+            role: 'adjuster',
+            permissions: ['read', 'write', 'admin'],
+            is_active: true,
+            timezone: 'America/New_York',
+            date_format: 'MM/DD/YYYY',
+            notification_email: true,
+            notification_sms: false,
+            two_factor_enabled: false,
+            country: 'US',
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          }
+          
+          setUserProfile(demoUserProfile)
+          // Set a mock user object for demo mode
+          setUser({
+            id: 'demo-user-123',
+            email: 'demo@claimguru.com',
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+            email_confirmed_at: new Date().toISOString(),
+            app_metadata: {},
+            user_metadata: {},
+            aud: 'authenticated',
+            confirmation_sent_at: undefined,
+            confirmed_at: new Date().toISOString(),
+            email_change_sent_at: undefined,
+            email_change_token: undefined,
+            email_change_confirm_status: 0,
+            identities: [],
+            invited_at: undefined,
+            last_sign_in_at: new Date().toISOString(),
+            phone: undefined,
+            phone_change_sent_at: undefined,
+            phone_change_token: undefined,
+            phone_confirmed_at: undefined,
+            recovery_sent_at: undefined,
+            role: '',
+            new_email: undefined,
+            new_phone: undefined
+          } as User)
+        } else {
+          // Real authentication mode
+          const { data: { user } } = await supabase.auth.getUser()
+          setUser(user)
+          
+          if (user) {
+            await loadUserProfile(user.id)
+          }
         }
       } catch (error) {
         console.error('Error loading user:', error)
@@ -46,24 +102,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     loadUser()
 
-    // Set up auth listener - KEEP SIMPLE, avoid any async operations in callback
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        // NEVER use any async operations directly in callback - use setTimeout
-        setUser(session?.user || null)
-        
-        if (session?.user) {
-          // Use setTimeout to avoid deadlocks
-          setTimeout(() => {
-            loadUserProfile(session.user.id)
-          }, 0)
-        } else {
-          setUserProfile(null)
+    if (!isDemoMode) {
+      // Set up auth listener only for real auth mode
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(
+        async (event, session) => {
+          // NEVER use any async operations directly in callback - use setTimeout
+          setUser(session?.user || null)
+          
+          if (session?.user) {
+            // Use setTimeout to avoid deadlocks
+            setTimeout(() => {
+              loadUserProfile(session.user.id)
+            }, 0)
+          } else {
+            setUserProfile(null)
+          }
         }
-      }
-    )
+      )
 
-    return () => subscription.unsubscribe()
+      return () => subscription.unsubscribe()
+    }
   }, [])
 
   async function loadUserProfile(userId: string) {
