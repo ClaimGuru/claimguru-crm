@@ -48,7 +48,7 @@ export function ManualClaimInformationStep({ data, onUpdate }: ManualClaimInform
       personalPropertyDamage: lossDetails.personalPropertyDamage,
       otherStructuresDamage: lossDetails.otherStructuresDamage
     });
-  }, [lossDetails, onUpdate]);
+  }, [lossDetails]);
 
   const handleInputChange = (field: string, value: any) => {
     setLossDetails(prev => ({ ...prev, [field]: value }));
