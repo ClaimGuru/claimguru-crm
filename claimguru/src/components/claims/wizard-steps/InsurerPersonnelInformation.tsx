@@ -112,6 +112,11 @@ export const InsurerPersonnelInformation: React.FC<InsurerPersonnelInformationPr
     'Vendor'
   ];
 
+  // Add validation to ensure personnel types are available
+  const validatePersonnelType = (type: string) => {
+    return personnelTypes.includes(type) ? type : '';
+  };
+
   const vendorSubTypes = [
     'Ladder Assist',
     'Photographer',
@@ -598,16 +603,29 @@ export const InsurerPersonnelInformation: React.FC<InsurerPersonnelInformationPr
                           Personnel Type *
                         </label>
                         <select
-                          value={member.personnelType || ''}
+                          value={validatePersonnelType(member.personnelType || '')}
                           onChange={(e) => {
                             const selectedValue = e.target.value;
-                            console.log('Personnel type selected:', selectedValue, 'for member:', member.id);
-                            updatePersonnelMember(member.id, 'personnelType', selectedValue);
-                            // Clear vendor specialty when changing away from vendor
-                            if (selectedValue !== 'Vendor') {
-                              console.log('Clearing vendor specialty for non-vendor type');
-                              updatePersonnelMember(member.id, 'vendorSubType', '');
-                            }
+                            const validatedValue = validatePersonnelType(selectedValue);
+                            
+                            console.log('Personnel type selected:', validatedValue, 'for member:', member.id);
+                            
+                            // Use a single state update to prevent multiple rapid fires
+                            setPersonnel(personnel.map(p => {
+                              if (p.id !== member.id) return p;
+                              
+                              const updatedMember = {
+                                ...p,
+                                personnelType: validatedValue,
+                                vendorSubType: validatedValue !== 'Vendor' ? '' : p.vendorSubType
+                              };
+                              
+                              if (validatedValue !== 'Vendor') {
+                                console.log('Clearing vendor specialty for non-vendor type');
+                              }
+                              
+                              return updatedMember;
+                            }));
                           }}
                           className="w-full p-3 text-base border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-white"
                           style={{ minHeight: '44px' }}
@@ -636,7 +654,13 @@ export const InsurerPersonnelInformation: React.FC<InsurerPersonnelInformationPr
                           onChange={(e) => {
                             const selectedValue = e.target.value;
                             console.log('Vendor specialty selected:', selectedValue, 'for member:', member.id);
-                            updatePersonnelMember(member.id, 'vendorSubType', selectedValue);
+                            
+                            // Use direct state update for consistency
+                            setPersonnel(personnel.map(p => 
+                              p.id === member.id 
+                                ? { ...p, vendorSubType: selectedValue }
+                                : p
+                            ));
                           }}
                           className={`w-full p-3 text-base border rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500 ${
                             member.personnelType === 'Vendor' 
