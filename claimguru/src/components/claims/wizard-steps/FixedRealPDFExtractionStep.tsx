@@ -33,6 +33,7 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       console.log('File selected for REAL extraction:', selectedFile.name);
+      // Reset all states when new file is selected
       setFile(selectedFile);
       setError(null);
       setExtractedData(null);
@@ -80,6 +81,9 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
         methodsAttempted: result.metadata.methodsAttempted
       });
       
+      // Ensure validation state is properly set
+      setIsConfirmed(false);
+      
       // Debug logging for extracted data
       console.log('📊 Extraction Results Set:', {
         extractedText: result.extractedText?.length ? `${result.extractedText.length} chars` : 'empty',
@@ -90,6 +94,16 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
       });
       
       console.log('✅ Extraction successful, validation step will be shown with data:', result.policyData);
+      
+      // Force a small delay to ensure state updates are applied
+      setTimeout(() => {
+        console.log('🔍 Post-extraction state check:', {
+          extractedData: !!result.policyData,
+          rawText: !!result.extractedText,
+          isConfirmed: false,
+          shouldShowValidation: !!(result.policyData && result.extractedText && !false)
+        });
+      }, 100);
       
     } catch (error) {
       console.error('❌ Hybrid PDF extraction failed:', error);
@@ -176,6 +190,12 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
     setRawText('');
     setProcessingDetails(null);
     setError(null);
+    
+    // Clear the file input
+    const fileInput = document.getElementById('policy-file-input') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
   };
 
 
@@ -319,6 +339,19 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
                   </div>
                 </div>
               </div>
+
+              {/* Debug State Information */}
+              <details className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <summary className="cursor-pointer font-medium text-blue-900 mb-2">
+                  🔍 Debug: Component State (Click to expand)
+                </summary>
+                <div className="text-sm text-blue-800 space-y-1 mt-2">
+                  <div>extractedData: {extractedData ? `✅ ${Object.keys(extractedData).length} fields` : '❌ None'}</div>
+                  <div>rawText: {rawText ? `✅ ${rawText.length} chars` : '❌ None'}</div>
+                  <div>isConfirmed: {isConfirmed ? '✅ True' : '❌ False'}</div>
+                  <div>Should show validation: {(extractedData && !isConfirmed) ? '✅ YES' : '❌ NO'}</div>
+                </div>
+              </details>
 
               {/* Validation Component - Always Show When Data Available */}
               {!isConfirmed ? (
