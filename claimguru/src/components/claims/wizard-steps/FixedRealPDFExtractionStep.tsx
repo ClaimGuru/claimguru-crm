@@ -27,7 +27,7 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
   const [rawText, setRawText] = useState<string>('');
   const [processingDetails, setProcessingDetails] = useState<any>(null);
 
-  const [validatedData, setValidatedData] = useState<any>(null);
+
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -105,7 +105,7 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
   const handleValidationComplete = (validatedPolicyData: any) => {
     console.log('User validated and confirmed policy data:', validatedPolicyData);
     
-    setValidatedData(validatedPolicyData);
+
     
     // Initialize confirmed fields system with validated data
     console.log('🔐 Initializing confirmed fields system with validated data...');
@@ -172,7 +172,6 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
     // Reset everything to start over
     setFile(null);
     setExtractedData(null);
-    setValidatedData(null);
     setIsConfirmed(false);
     setRawText('');
     setProcessingDetails(null);
@@ -392,18 +391,7 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
             </div>
           )}
 
-          {/* Confirmation Message */}
-          {isConfirmed && (
-            <div className="bg-green-100 border border-green-300 rounded-lg p-4 text-center">
-              <div className="flex items-center justify-center gap-2 text-green-800 mb-2">
-                <CheckCircle className="h-5 w-5" />
-                <span className="font-medium">Data Confirmed Successfully!</span>
-              </div>
-              <p className="text-green-700 text-sm">
-                Policy data has been extracted and confirmed. You can now proceed to the next step.
-              </p>
-            </div>
-          )}
+
 
           {/* Raw Text Preview */}
           {rawText && (
