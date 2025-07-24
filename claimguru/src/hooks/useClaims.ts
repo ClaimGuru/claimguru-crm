@@ -76,7 +76,7 @@ export function useClaims() {
           mailing_address_line_2: claimData.mailingAddress?.addressLine2,
           mailing_city: claimData.mailingAddress?.city,
           mailing_state: claimData.mailingAddress?.state,
-          mailing_zip: claimData.mailingAddress?.zipCode,
+          mailing_zip_code: claimData.mailingAddress?.zipCode,
           mailing_country: 'USA',
           spouse_name: claimData.hasCoInsured ? `${claimData.coInsuredFirstName} ${claimData.coInsuredLastName}`.trim() : undefined,
           notes: claimData.hasCoInsured ? `Co-Insured: ${claimData.coInsuredName}, Relationship: ${claimData.coInsuredRelationship}, Email: ${claimData.coInsuredEmail}, Phone: ${claimData.coInsuredPhone}${claimData.coInsuredPhoneExtension ? ` Ext: ${claimData.coInsuredPhoneExtension}` : ''}` : undefined

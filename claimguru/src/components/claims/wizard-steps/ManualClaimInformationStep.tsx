@@ -40,18 +40,17 @@ export function ManualClaimInformationStep({ data, onUpdate }: ManualClaimInform
     mitigationDescription: data.lossDetails?.mitigationDescription || ''
   });
 
-  // Update parent component when data changes
-  useEffect(() => {
+  const handleInputChange = (field: string, value: any) => {
+    const updatedLossDetails = { ...lossDetails, [field]: value };
+    setLossDetails(updatedLossDetails);
+    
+    // Update parent component immediately when data changes
     onUpdate({
       ...data,
-      lossDetails,
-      personalPropertyDamage: lossDetails.personalPropertyDamage,
-      otherStructuresDamage: lossDetails.otherStructuresDamage
+      lossDetails: updatedLossDetails,
+      personalPropertyDamage: updatedLossDetails.personalPropertyDamage,
+      otherStructuresDamage: updatedLossDetails.otherStructuresDamage
     });
-  }, [lossDetails]);
-
-  const handleInputChange = (field: string, value: any) => {
-    setLossDetails(prev => ({ ...prev, [field]: value }));
   };
 
   const reasonOptions = [
