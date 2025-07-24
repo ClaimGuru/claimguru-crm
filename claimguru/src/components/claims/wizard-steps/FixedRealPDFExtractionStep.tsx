@@ -340,21 +340,8 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
                 </div>
               </div>
 
-              {/* Debug State Information */}
-              <details className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <summary className="cursor-pointer font-medium text-blue-900 mb-2">
-                  🔍 Debug: Component State (Click to expand)
-                </summary>
-                <div className="text-sm text-blue-800 space-y-1 mt-2">
-                  <div>extractedData: {extractedData ? `✅ ${Object.keys(extractedData).length} fields` : '❌ None'}</div>
-                  <div>rawText: {rawText ? `✅ ${rawText.length} chars` : '❌ None'}</div>
-                  <div>isConfirmed: {isConfirmed ? '✅ True' : '❌ False'}</div>
-                  <div>Should show validation: {(extractedData && !isConfirmed) ? '✅ YES' : '❌ NO'}</div>
-                </div>
-              </details>
-
-              {/* Validation Component - Always Show When Data Available */}
-              {!isConfirmed ? (
+              {/* Main Validation Section - Always Show When Data Available & Not Confirmed */}
+              {!isConfirmed && (
                 <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
                   <div className="mb-4">
                     <h4 className="text-lg font-semibold text-gray-900 mb-2">
@@ -372,14 +359,17 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
                     onReject={handleValidationReject}
                   />
                 </div>
-              ) : (
+              )}
+
+              {/* Confirmation Success Message */}
+              {isConfirmed && (
                 <div className="bg-green-100 border border-green-300 rounded-lg p-4 text-center">
                   <div className="flex items-center justify-center gap-2 text-green-800 mb-2">
                     <CheckCircle className="h-5 w-5" />
                     <span className="font-medium">Data Validated & Confirmed!</span>
                   </div>
                   <p className="text-green-700 text-sm mb-3">
-                    Policy data has been confirmed. You can now proceed to the next step.
+                    Policy data has been confirmed and wizard forms have been auto-populated. You can now proceed to the next step.
                   </p>
                   <Button
                     onClick={() => {
@@ -397,7 +387,7 @@ export const FixedRealPDFExtractionStep: React.FC<FixedRealPDFExtractionStepProp
             </div>
           )}
 
-          {/* Debug Info - Only show if extraction completed but no data */}
+          {/* No Structured Data Found */}
           {!extractedData && rawText && !isProcessing && !error && (
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
               <div className="flex items-center gap-2 text-yellow-800">

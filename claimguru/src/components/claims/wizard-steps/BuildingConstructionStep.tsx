@@ -13,6 +13,7 @@ import {
   AlertTriangle,
   Sparkles
 } from 'lucide-react'
+import { Switch } from '../../ui/Switch'
 
 interface BuildingConstructionStepProps {
   data: any
@@ -458,45 +459,37 @@ export const BuildingConstructionStep: React.FC<BuildingConstructionStepProps> =
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <label className="flex items-center gap-2 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                  <input
-                    type="checkbox"
+                <div className="flex items-center gap-3 p-3 border rounded-lg">
+                  <Switch
                     checked={buildingConstruction.hasBasement}
-                    onChange={(e) => handleInputChange('hasBasement', e.target.checked)}
-                    className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    onChange={(checked) => handleInputChange('hasBasement', checked)}
                   />
                   <span className="text-sm font-medium">Basement</span>
-                </label>
+                </div>
 
-                <label className="flex items-center gap-2 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                  <input
-                    type="checkbox"
+                <div className="flex items-center gap-3 p-3 border rounded-lg">
+                  <Switch
                     checked={buildingConstruction.hasGarage}
-                    onChange={(e) => handleInputChange('hasGarage', e.target.checked)}
-                    className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    onChange={(checked) => handleInputChange('hasGarage', checked)}
                   />
                   <span className="text-sm font-medium">Garage</span>
-                </label>
+                </div>
 
-                <label className="flex items-center gap-2 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                  <input
-                    type="checkbox"
+                <div className="flex items-center gap-3 p-3 border rounded-lg">
+                  <Switch
                     checked={buildingConstruction.hasPool}
-                    onChange={(e) => handleInputChange('hasPool', e.target.checked)}
-                    className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    onChange={(checked) => handleInputChange('hasPool', checked)}
                   />
                   <span className="text-sm font-medium">Pool/Spa</span>
-                </label>
+                </div>
 
-                <label className="flex items-center gap-2 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                  <input
-                    type="checkbox"
+                <div className="flex items-center gap-3 p-3 border rounded-lg">
+                  <Switch
                     checked={buildingConstruction.hasDetachedStructures}
-                    onChange={(e) => handleInputChange('hasDetachedStructures', e.target.checked)}
-                    className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    onChange={(checked) => handleInputChange('hasDetachedStructures', checked)}
                   />
                   <span className="text-sm font-medium">Detached Structures</span>
-                </label>
+                </div>
               </div>
             </CardContent>
           </Card>

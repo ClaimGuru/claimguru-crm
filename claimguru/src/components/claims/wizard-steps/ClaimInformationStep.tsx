@@ -19,6 +19,7 @@ import {
   Shield,
   Clock
 } from 'lucide-react'
+import { Switch } from '../../ui/Switch'
 import { claimWizardAI, DamageAnalysisResult, SettlementPrediction } from '../../../services/claimWizardAI'
 import { intelligentWizardService } from '../../../services/intelligentWizardService'
 
@@ -435,38 +436,32 @@ export function ClaimInformationStep({ data, onUpdate }: ClaimInformationStepPro
 
           {/* Special Circumstances */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <label className="flex items-center gap-2 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-              <input
-                type="checkbox"
+            <div className="flex items-center gap-3 p-3 border rounded-lg">
+              <Switch
                 checked={lossDetails.isFEMA}
-                onChange={(e) => handleInputChange('isFEMA', e.target.checked)}
-                className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                onChange={(checked) => handleInputChange('isFEMA', checked)}
               />
               <Shield className="h-4 w-4 text-blue-600" />
               <span className="text-sm font-medium">FEMA Claim</span>
-            </label>
+            </div>
 
-            <label className="flex items-center gap-2 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-              <input
-                type="checkbox"
+            <div className="flex items-center gap-3 p-3 border rounded-lg">
+              <Switch
                 checked={lossDetails.stateOfEmergency}
-                onChange={(e) => handleInputChange('stateOfEmergency', e.target.checked)}
-                className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                onChange={(checked) => handleInputChange('stateOfEmergency', checked)}
               />
               <AlertTriangle className="h-4 w-4 text-red-600" />
               <span className="text-sm font-medium">State of Emergency</span>
-            </label>
+            </div>
 
-            <label className="flex items-center gap-2 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-              <input
-                type="checkbox"
+            <div className="flex items-center gap-3 p-3 border rounded-lg">
+              <Switch
                 checked={!lossDetails.isHabitable}
-                onChange={(e) => handleInputChange('isHabitable', !e.target.checked)}
-                className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                onChange={(checked) => handleInputChange('isHabitable', !checked)}
               />
               <Home className="h-4 w-4 text-orange-600" />
               <span className="text-sm font-medium">Home Not Habitable</span>
-            </label>
+            </div>
           </div>
 
           {/* Alternative Living Expenses (if not habitable) */}

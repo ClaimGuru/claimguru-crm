@@ -137,7 +137,7 @@ export function StandardizedPhoneInput({
             <div className="w-32">
               <Select
                 value={phone.type}
-                onValueChange={(value) => updatePhoneNumber(phone.id, 'type', value)}
+                onChange={(value) => updatePhoneNumber(phone.id, 'type', value)}
               >
                 {phoneTypes.map(type => (
                   <option key={type.value} value={type.value}>
