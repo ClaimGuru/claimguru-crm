@@ -37,6 +37,7 @@ import {
   ChevronLeft, 
   ChevronRight,
   AlertCircle,
+  AlertTriangle,
   Building2,
   UserCheck,
   CheckSquare,
@@ -49,20 +50,16 @@ import { useAuth } from '../../contexts/AuthContext'
 import { WizardProgressService } from '../../services/wizardProgressService'
 // Removed useWizardStepValidation to prevent loading issues
 
-// Import manual wizard step components (traditional forms without AI features)
-import { ManualClientDetailsStep } from './wizard-steps/ManualClientDetailsStep'
-import { ManualInsuranceInfoStep } from './wizard-steps/ManualInsuranceInfoStep'
-import { ManualClaimInformationStep } from './wizard-steps/ManualClaimInformationStep'
-import { PersonalPropertyStep } from './wizard-steps/PersonalPropertyStep'
-import { ExpertsProvidersStep } from './wizard-steps/ExpertsProvidersStep'
-import { MortgageInformationStep } from './wizard-steps/MortgageInformationStep'
-import { ReferralInformationStep } from './wizard-steps/ReferralInformationStep'
-import { ContractInformationStep } from './wizard-steps/ContractInformationStep'
-import { BuildingConstructionStep } from './wizard-steps/BuildingConstructionStep'
-import { PersonnelAssignmentStep } from './wizard-steps/PersonnelAssignmentStep'
+// Import new 9-page wizard step components
+import { ClientInformationStep } from './wizard-steps/ClientInformationStep'
+import { InsurerInformationStep } from './wizard-steps/InsurerInformationStep'
+import { PolicyInformationStep } from './wizard-steps/PolicyInformationStep'
+import { LossInformationStep } from './wizard-steps/LossInformationStep'
+import { MortgageLenderInformationStep } from './wizard-steps/MortgageLenderInformationStep'
+import { ReferralSourceInformationStep } from './wizard-steps/ReferralSourceInformationStep'
+import { BuildingInformationStep } from './wizard-steps/BuildingInformationStep'
 import { OfficeTasksStep } from './wizard-steps/OfficeTasksStep'
-import { CoverageIssueReviewStep } from './wizard-steps/CoverageIssueReviewStep'
-import { CompletionStep } from './wizard-steps/CompletionStep'
+import { IntakeReviewCompletionStep } from './wizard-steps/IntakeReviewCompletionStep'
 
 interface ManualIntakeWizardProps {
   clientId?: string
@@ -149,110 +146,78 @@ export function ManualIntakeWizard({
   const [progressId, setProgressId] = useState<string | null>(null)
   const [isInitialized, setIsInitialized] = useState(false)
 
-  // Manual Intake Wizard Steps (same fields but without AI-specific features)
+  // New 9-Page Manual Intake Wizard Structure
   const steps = [
     {
-      id: 'client-details',
+      id: 'client-information',
       title: 'Client Information',
-      description: 'Enter client details and contact information',
+      description: 'Client type, contact details, and coinsured information',
       icon: Users,
-      component: ManualClientDetailsStep,
+      component: ClientInformationStep,
       required: true
     },
     {
-      id: 'insurance-info',
-      title: 'Insurance Details',
-      description: 'Enter policy information and coverage details',
+      id: 'insurer-information',
+      title: 'Insurer Information',
+      description: 'Insurance company details and personnel',
       icon: Shield,
-      component: ManualInsuranceInfoStep,
+      component: InsurerInformationStep,
       required: true
     },
     {
-      id: 'claim-info',
-      title: 'Claim Information',
-      description: 'Describe the loss details and circumstances',
-      icon: Home,
-      component: ManualClaimInformationStep,
+      id: 'policy-information',
+      title: 'Policy Information',
+      description: 'Policy details, coverage, and dispute resolution options',
+      icon: FileText,
+      component: PolicyInformationStep,
       required: true
     },
     {
-      id: 'property',
-      title: 'Property Details',
-      description: 'Property damage assessment and itemization',
-      icon: Package,
-      component: PersonalPropertyStep,
-      required: false
+      id: 'loss-information',
+      title: 'Loss Information',
+      description: 'Loss details, location, and property status',
+      icon: AlertTriangle,
+      component: LossInformationStep,
+      required: true
     },
     {
-      id: 'building-construction',
-      title: 'Building Construction',
-      description: 'Building details and construction specifications (Optional)',
-      icon: Building2,
-      component: BuildingConstructionStep,
-      required: false
-    },
-    {
-      id: 'experts',
-      title: 'Vendors & Experts',
-      description: 'Assign vendors and expert professionals',
-      icon: Wrench,
-      component: ExpertsProvidersStep,
-      required: false
-    },
-    {
-      id: 'mortgage',
-      title: 'Mortgage Information',
+      id: 'mortgage-lenders',
+      title: 'Mortgage Lender Information',
       description: 'Mortgage companies and lender details',
       icon: Building2,
-      component: MortgageInformationStep,
+      component: MortgageLenderInformationStep,
       required: false
     },
     {
-      id: 'referral',
-      title: 'Referral Information', 
-      description: 'Track referral source and lead information',
+      id: 'referral-source',
+      title: 'Referral Source Information',
+      description: 'Referral type and source details',
       icon: Users,
-      component: ReferralInformationStep,
+      component: ReferralSourceInformationStep,
       required: true
     },
     {
-      id: 'contract',
-      title: 'Contract Information',
-      description: 'Fee structure and contract terms',
-      icon: FileText,
-      component: ContractInformationStep,
-      required: true
-    },
-    {
-      id: 'personnel',
-      title: 'Personnel Assignment',
-      description: 'Assign team members and responsibilities',
-      icon: UserCheck,
-      component: PersonnelAssignmentStep,
+      id: 'building-information',
+      title: 'Building Information',
+      description: 'Building type, construction, and systems',
+      icon: Home,
+      component: BuildingInformationStep,
       required: false
     },
     {
-      id: 'tasks',
-      title: 'Office Tasks',
-      description: 'Create initial tasks and follow-ups',
+      id: 'office-tasks',
+      title: 'Office Tasks & Follow-ups',
+      description: 'Automatic tasks and custom task creation',
       icon: CheckSquare,
       component: OfficeTasksStep,
       required: false
     },
     {
-      id: 'coverage-review',
-      title: 'Coverage Review',
-      description: 'Review potential coverage issues and policy concerns',
-      icon: AlertCircle,
-      component: CoverageIssueReviewStep,
-      required: true
-    },
-    {
-      id: 'completion',
-      title: 'Review & Submit',
-      description: 'Final review and claim submission',
+      id: 'intake-review',
+      title: 'Intake Review & Completion',
+      description: 'Final review and contract generation',
       icon: CheckCircle,
-      component: CompletionStep,
+      component: IntakeReviewCompletionStep,
       required: true
     }
   ]
@@ -379,10 +344,10 @@ export function ManualIntakeWizard({
             </div>
             <div>
               <h2 className="text-2xl font-bold text-gray-900">
-                Manual Claim Intake
+                Manual Claim Intake Wizard
               </h2>
               <p className="text-gray-600">
-                Step {currentStep + 1} of {steps.length}: {currentStepData.title}
+                Page {currentStep + 1} of {steps.length}: {currentStepData.title}
               </p>
             </div>
           </div>
@@ -426,10 +391,18 @@ export function ManualIntakeWizard({
         {/* Step Content */}
         <div className="flex-1 overflow-hidden">
           <div className="h-full overflow-y-auto p-6">
-            <CurrentStepComponent
-              data={wizardData}
-              onUpdate={updateWizardData}
-            />
+            {currentStep === steps.length - 1 ? (
+              <IntakeReviewCompletionStep
+                data={wizardData}
+                onUpdate={updateWizardData}
+                onComplete={handleComplete}
+              />
+            ) : (
+              <CurrentStepComponent
+                data={wizardData}
+                onUpdate={updateWizardData}
+              />
+            )}
           </div>
         </div>
 
