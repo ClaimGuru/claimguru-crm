@@ -1,115 +1,67 @@
-# Manual Claim Intake Wizard Comprehensive Revision - TODO
+# TASK: Complete Manual Claim Intake Wizard Implementation
 
-## TASK: Complete Revision of Manual Claim Intake Wizard
-**USER NEED**: Modernize the claim intake process with enhanced UI/UX, streamlined workflow, and comprehensive backend integration
-**CORE FUNCTIONALITY**: 9-page wizard for manual claim intake with standardized components and relational database architecture
+## Objective: Implement the comprehensive manual claim intake wizard according to detailed specifications, fixing critical issues and building missing functionality.
+
+## Current Status Analysis:
+- **Existing Implementation:** ~30% complete (Pages 1-3 partially working)
+- **Critical Blocking Issues:** 3 major problems preventing basic functionality
+- **Missing Features:** 60+ implementation items identified
+- **User Testing Results:** Cannot complete wizard due to broken dropdowns on Page 4
 
 ## STEPs:
 
-### [✅] STEP 1: UI/UX Component Standardization → System STEP
-- Replace all checkbox inputs with toggle switches throughout the application
-- Implement standardized address format component (Street Address #1 with Google autocomplete, Street Address #2, City, State, Zip)
-- Implement standardized phone number format component (Type selector, masked input, extension, multiple phone option)
-- Create reusable UI components for consistent experience
-- Remove AI functionalities except where explicitly required
+### [ ] STEP 1: Critical Bug Fixes (URGENT) -> System STEP
+**Fix blocking issues preventing basic wizard functionality:**
+- Fix broken "Reason for Loss" and "Severity of Loss" dropdowns on Page 4
+- Implement existing client selection workflow (currently only supports new clients)
+- Add proper form validation error messages
+- Replace all checkbox inputs with toggle switches system-wide
 
-### [ ] STEP 2: Database Schema Enhancement → System STEP
-- Design relational database structure for intelligent backend Rolodex
-- Create/update tables for vendors, insurers, mortgage lenders, carrier personnel
-- Implement proper foreign key relationships for multi-claim associations
-- Ensure mailing_zip column exists in clients table
-- Create indexes for performance optimization
+### [ ] STEP 2: Database Schema Enhancement -> Full-Stack Development STEP  
+**Implement relational "Rolodex" backend system:**
+- Create comprehensive relational database structure for vendors, insurers, clients, etc.
+- Design database tables that support multiple claim associations
+- Implement proper foreign key relationships and data integrity
+- Create database migration scripts
 
-### [✅] STEP 3: 9-Page Wizard Implementation → Web Development STEP (task_type="interactive")
-**Page 1: Client Information**
-- Client type selector (Individual/Residential vs Business/Commercial)
-- Primary contact details with standardized formats
-- Mailing address with "same as loss location" toggle
-- Coinsured information conditional display
+### [ ] STEP 3: Core UI Components Standardization -> Full-Stack Development STEP
+**Build standardized, reusable components:**
+- Enhanced address input component with Google predictive text
+- Standardized phone number component with type selector and extensions
+- Multi-entity selector components for personnel, lenders, etc.
+- Improved dropdown components (fixing current broken ones)
 
-**Page 2: Insurer Information**
-- Insurer selection/creation system
-- Multiple insurer personnel management
-- Personnel type with vendor specialty conditional logic
-- Professional licenses tracking
-- Historical notes system
+### [ ] STEP 4: Page 1-3 Enhancement -> Full-Stack Development STEP
+**Complete implementation of first 3 pages to specification:**
+- Page 1: Add client status selector (New vs Existing), enhanced client type logic
+- Page 2: Multiple personnel management, vendor specialty logic, professional licenses
+- Page 3: Alternative dispute resolution options, auto-calculated dates, enhanced coverage
 
-**Page 3: Policy Information**
-- Forced placed policy toggle
-- Agent & agency information
-- Policy details with auto-calculated expiration
-- Coverage information with updated UI
-- Alternative dispute resolution options
+### [ ] STEP 5: Page 4-6 Complete Implementation -> Full-Stack Development STEP  
+**Build remaining middle pages with full functionality:**
+- Page 4: Complete loss information with weather logic, property status toggles
+- Page 5: Multiple mortgage lender management system
+- Page 6: Referral source information with conditional logic
 
-**Page 4: Loss Information**
-- Loss details (cause, date, time, severity)
-- Location and description fields
-- Weather-related toggle with conditional storm selection
-- Property status selectors (all converted to toggles)
+### [ ] STEP 6: Page 7-9 Complete Implementation -> Full-Stack Development STEP
+**Build final pages and completion workflow:**
+- Page 7: Building information with comprehensive property details
+- Page 8: Office tasks and follow-ups with automatic task generation
+- Page 9: Review, completion, and contract generation
 
-**Page 5: Mortgage Lender Information**
-- Multiple lender management
-- Standardized contact and loan information
-- Address and payment details
+### [ ] STEP 7: Integration Testing & Quality Assurance -> System STEP
+**Comprehensive testing and validation:**
+- End-to-end wizard testing for both new and existing client workflows
+- Database integration testing
+- UI/UX testing and refinement
+- Performance optimization
 
-**Page 6: Referral Source Information**
-- Referral type selection
-- Conditional vendor/contact details
-- Relationship and date tracking
+### [ ] STEP 8: Deployment & Documentation -> System STEP  
+**Final deployment and user guidance:**
+- Deploy completed wizard to production
+- Create user documentation and guides
+- Provide training materials for the comprehensive workflow
 
-**Page 7: Building Information**
-- Property characteristics and systems
-- Construction details and features
-- Age and structural information
+## Deliverable: Fully functional 9-page manual claim intake wizard meeting all specification requirements, with both new and existing client workflows, comprehensive database backend, and polished UI/UX.
 
-**Page 8: Office Tasks & Follow-ups**
-- Automatic task generation
-- Manual task addition capability
-- Task management integration
-
-**Page 9: Intake Review & Completion**
-- Comprehensive data review
-- "Do This Later" functionality
-- Contract and document generation
-
-### [ ] STEP 4: Backend Integration & API Development → Web Development STEP (task_type="interactive")
-- Implement Supabase integration for data persistence
-- Create API endpoints for all wizard steps
-- Implement validation and error handling
-- Set up proper authentication and authorization
-- Create data export/import functionality
-
-### [ ] STEP 5: Testing & Quality Assurance → System STEP
-- Test each wizard page functionality
-- Validate data persistence and retrieval
-- Test toggle switches and conditional logic
-- Verify Google Maps integration for addresses
-- Test multi-entity relationship creation
-
-### [ ] STEP 6: Deployment & Documentation → System STEP
-- Deploy updated application
-- Create user documentation
-- Document API endpoints
-- Provide migration guide for existing data
-
-## Deliverable: Fully functional 9-page manual claim intake wizard with modern UI/UX and comprehensive backend integration
-
-## Technical Requirements:
-- React/TypeScript frontend
-- Supabase backend with PostgreSQL
-- Toggle switches instead of checkboxes
-- Google Places API for address autocomplete
-- Responsive design
-- Form validation and error handling
-- Multi-entity relational database structure
-
-## Success Criteria:
-- [ ] All 9 pages function correctly with proper navigation
-- [ ] Data persists accurately across all entities
-- [ ] UI components follow standardized formats
-- [ ] Toggle switches replace all checkboxes
-- [ ] Backend Rolodex supports multi-claim associations
-- [ ] Google autocomplete works for addresses
-- [ ] Phone number masking and validation works
-- [ ] Conditional logic displays properly
-- [ ] Application deploys successfully
+## Estimated Timeline: This is a significant development project requiring multiple phases of implementation.
