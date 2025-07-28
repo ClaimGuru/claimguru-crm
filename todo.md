@@ -12,7 +12,9 @@
 
 ### [ ] STEP 1: Critical Bug Fixes (URGENT) -> System STEP
 **Fix blocking issues preventing basic wizard functionality:**
-- Fix broken "Reason for Loss" and "Severity of Loss" dropdowns on Page 4
+- Fix broken "Reason for Loss" field on Page 4 - **CHANGE TO MULTI-TEXT FIELD**
+- Fix broken "Cause of Loss" field on Page 4 - **CHANGE TO COMPREHENSIVE SELECTOR** with all property and casualty loss causes for residential and business
+- Fix broken "Severity of Loss" dropdown on Page 4
 - Implement existing client selection workflow (currently only supports new clients)
 - Add proper form validation error messages
 - Replace all checkbox inputs with toggle switches system-wide
@@ -49,6 +51,9 @@
 - Implement stored procedures for complex data operations
 - Add database functions for claim workflow automation
 - Create views for efficient data retrieval and reporting
+- Ensure all database tables and functions are properly configured for complete claim intake workflow
+- Verify that all entity relationships support the full manual intake wizard requirements
+- Implement comprehensive database functions for carriers, adjusters, vendors, clients, and all related entities
 
 **Migration Scripts:**
 - Create migration scripts for all database enhancements
@@ -71,6 +76,11 @@
 ### [ ] STEP 5: Page 4-6 Complete Implementation -> Full-Stack Development STEP  
 **Build remaining middle pages with full functionality:**
 - Page 4: Complete loss information with weather logic, property status toggles
+  - **"Reason for Loss":** Implement as multi-text field for detailed loss explanation
+  - **"Cause of Loss":** Implement comprehensive selector with all standard causes of loss for:
+    - Property losses (residential): Fire, Water damage, Storm, Theft, Vandalism, etc.
+    - Property losses (commercial): Equipment failure, Business interruption, etc.
+    - Casualty losses: Liability claims, Personal injury, Professional liability, etc.
 - Page 5: Multiple mortgage lender management system
 - Page 6: Referral source information with conditional logic
 
