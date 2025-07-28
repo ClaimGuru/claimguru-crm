@@ -17,12 +17,43 @@
 - Add proper form validation error messages
 - Replace all checkbox inputs with toggle switches system-wide
 
-### [ ] STEP 2: Database Schema Enhancement -> Full-Stack Development STEP  
-**Implement relational "Rolodex" backend system:**
-- Create comprehensive relational database structure for vendors, insurers, clients, etc.
-- Design database tables that support multiple claim associations
-- Implement proper foreign key relationships and data integrity
-- Create database migration scripts
+### [ ] STEP 2: Complete Database Infrastructure Audit & Enhancement -> Full-Stack Development STEP  
+**Audit existing database and implement comprehensive relational "Rolodex" backend system:**
+
+**Database Audit Requirements:**
+- Audit existing tables: clients, claims, adjusters, policies, insurance_carriers, vendors, etc.
+- Verify all required fields exist to support manual wizard workflow
+- Check relational integrity and foreign key constraints
+- Validate existing migration compatibility
+
+**Core Entity Tables Required:**
+- **Clients Table:** Enhanced to support both individual/residential and business/commercial clients
+- **Claims Table:** Full claim lifecycle with all wizard-captured data
+- **Insurance Carriers Table:** Complete insurer information with personnel management
+- **Policies Table:** Policy details, coverages, deductibles, dispute resolution options
+- **Adjusters/Personnel Table:** Insurance company personnel with roles, licenses, specialties
+- **Vendors Table:** Enhanced vendor management with specialties and relationships
+- **Mortgage Lenders Table:** Multiple lender support per claim
+- **Referral Sources Table:** Comprehensive referral tracking system
+- **Properties Table:** Building and construction details
+- **Tasks Table:** Office tasks and follow-ups system
+
+**Relational "Rolodex" System:**
+- Design database tables that support multiple claim associations for all entities
+- Implement proper foreign key relationships and data integrity constraints
+- Create junction tables for many-to-many relationships
+- Enable entity reuse across multiple claims (vendors, adjusters, insurers, etc.)
+
+**Data Integrity & Functions:**
+- Create database triggers for data validation
+- Implement stored procedures for complex data operations
+- Add database functions for claim workflow automation
+- Create views for efficient data retrieval and reporting
+
+**Migration Scripts:**
+- Create migration scripts for all database enhancements
+- Ensure backward compatibility with existing data
+- Implement proper rollback mechanisms
 
 ### [ ] STEP 3: Core UI Components Standardization -> Full-Stack Development STEP
 **Build standardized, reusable components:**
