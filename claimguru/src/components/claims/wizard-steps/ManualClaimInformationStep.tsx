@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card';
 import { Input } from '../../ui/Input';
+import { Switch } from '../../ui/switch';
 import { 
   FileText, 
   Calendar, 
@@ -267,75 +268,61 @@ export function ManualClaimInformationStep({ data, onUpdate }: ManualClaimInform
         <CardContent className="space-y-4">
           {/* Checkboxes for various conditions */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={lossDetails.isFEMA}
-                onChange={(e) => handleInputChange('isFEMA', e.target.checked)}
-                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-              />
+            <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-700">FEMA Declared Disaster</span>
-            </label>
-
-            <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={lossDetails.stateOfEmergency}
-                onChange={(e) => handleInputChange('stateOfEmergency', e.target.checked)}
-                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              <Switch
+                checked={lossDetails.isFEMA}
+                onCheckedChange={(checked) => handleInputChange('isFEMA', checked)}
               />
+            </div>
+
+            <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-700">State of Emergency Declared</span>
-            </label>
-
-            <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={lossDetails.policeCalled}
-                onChange={(e) => handleInputChange('policeCalled', e.target.checked)}
-                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              <Switch
+                checked={lossDetails.stateOfEmergency}
+                onCheckedChange={(checked) => handleInputChange('stateOfEmergency', checked)}
               />
+            </div>
+
+            <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-700">Police Called</span>
-            </label>
-
-            <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={lossDetails.emergencyMitigationRequired}
-                onChange={(e) => handleInputChange('emergencyMitigationRequired', e.target.checked)}
-                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              <Switch
+                checked={lossDetails.policeCalled}
+                onCheckedChange={(checked) => handleInputChange('policeCalled', checked)}
               />
+            </div>
+
+            <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-700">Emergency Mitigation Required</span>
-            </label>
-
-            <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={!lossDetails.isHabitable}
-                onChange={(e) => handleInputChange('isHabitable', !e.target.checked)}
-                className="rounded border-gray-300 text-red-600 focus:ring-red-500"
+              <Switch
+                checked={lossDetails.emergencyMitigationRequired}
+                onCheckedChange={(checked) => handleInputChange('emergencyMitigationRequired', checked)}
               />
+            </div>
+
+            <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-700">Property Uninhabitable</span>
-            </label>
-
-            <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={lossDetails.personalPropertyDamage}
-                onChange={(e) => handleInputChange('personalPropertyDamage', e.target.checked)}
-                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              <Switch
+                checked={!lossDetails.isHabitable}
+                onCheckedChange={(checked) => handleInputChange('isHabitable', !checked)}
               />
+            </div>
+
+            <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-700">Personal Property Damage</span>
-            </label>
-
-            <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={lossDetails.otherStructuresDamage}
-                onChange={(e) => handleInputChange('otherStructuresDamage', e.target.checked)}
-                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              <Switch
+                checked={lossDetails.personalPropertyDamage}
+                onCheckedChange={(checked) => handleInputChange('personalPropertyDamage', checked)}
               />
+            </div>
+
+            <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-700">Other Structures Damage</span>
-            </label>
+              <Switch
+                checked={lossDetails.otherStructuresDamage}
+                onCheckedChange={(checked) => handleInputChange('otherStructuresDamage', checked)}
+              />
+            </div>
           </div>
 
           {/* Alternative Living Arrangements */}

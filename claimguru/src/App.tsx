@@ -10,7 +10,7 @@ import { Claims } from './pages/Claims'
 import { Clients } from './pages/Clients'
 import ClientManagement from './pages/ClientManagement'
 import LeadManagement from './pages/LeadManagement'
-import { AIInsights } from './pages/AIInsights'
+// AI Insights removed for manual wizard
 import { Finance } from './pages/Finance'
 import { Vendors } from './pages/Vendors'
 import Communications from './pages/Communications'
@@ -112,7 +112,7 @@ function AppRoutes() {
         <Route path="settlements" element={<Settlements />} />
         <Route path="financial" element={<Finance />} />
         <Route path="finance" element={<Finance />} />
-        <Route path="ai-insights" element={<AIInsights />} />
+        {/* AI Insights route removed for manual wizard */}
         <Route path="calendar" element={<Calendar />} />
         <Route path="integrations" element={<Integrations />} />
         <Route path="analytics" element={<div className="p-6"><h1 className="text-2xl font-bold">Analytics</h1><p>Advanced analytics dashboard coming soon...</p></div>} />

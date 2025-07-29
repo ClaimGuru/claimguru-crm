@@ -12,7 +12,7 @@ import {
   Bell,
   MessageSquare,
   Upload,
-  Brain,
+  // Brain, (removed - AI feature removed)
   Calendar,
   DollarSign,
   UserCheck,
@@ -75,7 +75,7 @@ const financialsSubmenu = [
 const mainNavigation = [
   { name: 'Communications', href: '/communications', icon: MessageSquare },
   { name: 'Documents', href: '/documents', icon: Upload },
-  { name: 'AI Insights', href: '/ai-insights', icon: Brain },
+  // AI Insights removed for manual wizard
   { name: 'Analytics', href: '/analytics', icon: BarChart3 },
 ]
 
@@ -427,31 +427,7 @@ export function Sidebar({ isCollapsed, onClose }: SidebarProps) {
             )}
           </div>
 
-          {/* AI Insights */}
-          <NavLink
-            to="/ai-insights"
-            onClick={isMobile ? onClose : undefined}
-            className={({ isActive }) =>
-              `flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors group relative ${
-                isActive
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-              } ${isCollapsed && !isMobile ? 'justify-center' : ''}`
-            }
-            title={isCollapsed && !isMobile ? 'AI Insights' : undefined}
-          >
-            <Brain className={`h-5 w-5 ${isCollapsed && !isMobile ? '' : 'mr-3'}`} />
-            {(!isCollapsed || isMobile) && (
-              <span className="truncate">AI Insights</span>
-            )}
-            
-            {/* Tooltip for collapsed state */}
-            {isCollapsed && !isMobile && (
-              <div className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
-                AI Insights
-              </div>
-            )}
-          </NavLink>
+          {/* AI Insights removed for manual wizard */}
 
           {/* Analytics */}
           <NavLink

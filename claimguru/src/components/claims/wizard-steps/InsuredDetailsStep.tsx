@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
 import { Button } from '../../ui/Button'
 import { Input } from '../../ui/Input'
+import { Switch } from '../../ui/switch'
 import { AddressAutocomplete } from '../../ui/AddressAutocomplete'
 import { formatPhoneNumber, getPhoneInputProps, formatPhoneExtension, getPhoneExtensionInputProps, combinePhoneWithExtension } from '../../../utils/phoneUtils'
 import { 
@@ -12,9 +13,7 @@ import {
   Phone,
   Mail,
   Key,
-  UserPlus,
-  Brain,
-  Sparkles
+  UserPlus
 } from 'lucide-react'
 
 interface InsuredDetailsStepProps {
@@ -85,33 +84,7 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
     relationship: ''
   })
 
-  // Auto-populate from AI extracted data
-  useEffect(() => {
-    if (data.aiExtractedData?.extractedData) {
-      const extractedData = data.aiExtractedData.extractedData
-      
-      if (extractedData.insuredName && !insuredDetails.firstName) {
-        const nameParts = extractedData.insuredName.split(' ')
-        setInsuredDetails(prev => ({
-          ...prev,
-          firstName: nameParts[0] || '',
-          lastName: nameParts.slice(1).join(' ') || ''
-        }))
-      }
-      
-      if (extractedData.propertyAddress && !mailingAddress.addressLine1) {
-        // Parse address from AI extraction
-        const addressParts = extractedData.propertyAddress.split(',')
-        setMailingAddress(prev => ({
-          ...prev,
-          addressLine1: addressParts[0]?.trim() || '',
-          city: addressParts[1]?.trim() || '',
-          state: addressParts[2]?.trim()?.split(' ')[0] || '',
-          zipCode: addressParts[2]?.trim()?.split(' ')[1] || ''
-        }))
-      }
-    }
-  }, [data.aiExtractedData])
+  // No AI auto-population in the manual wizard
 
   // Update parent component when data changes
   useEffect(() => {
@@ -179,23 +152,7 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
 
   return (
     <div className="space-y-6">
-      {/* AI Auto-Population Notice */}
-      {data.aiExtractedData && (
-        <Card className="bg-purple-50 border-purple-200">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <Brain className="h-6 w-6 text-purple-600" />
-              <div>
-                <div className="font-medium text-purple-900">AI Auto-Population Active</div>
-                <div className="text-sm text-purple-700">
-                  Information has been automatically filled from your policy document. Please review and update as needed.
-                </div>
-              </div>
-              <Sparkles className="h-5 w-5 text-purple-600" />
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      {/* Manual Intake - No AI Auto-Population */}
 
       {/* Client Type Selection */}
       <Card>
@@ -263,15 +220,13 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              checked={isOrganization}
-              onChange={(e) => setIsOrganization(e.target.checked)}
-              className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
-            />
+          <div className="flex items-center justify-between">
             <span className="font-medium">Policyholder is an organization</span>
-          </label>
+            <Switch
+              checked={isOrganization}
+              onCheckedChange={(checked) => setIsOrganization(checked)}
+            />
+          </div>
 
           {isOrganization && (
             <div className="space-y-4 border-l-4 border-blue-500 pl-4">
@@ -510,15 +465,13 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
               <UserPlus className="h-6 w-6 text-green-600" />
               Co-Insured Information
             </div>
-            <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={hasCoInsured}
-                onChange={(e) => setHasCoInsured(e.target.checked)}
-                className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
-              />
+            <div className="flex items-center gap-2">
               <span className="text-sm font-medium">Has Co-Insured</span>
-            </label>
+              <Switch
+                checked={hasCoInsured}
+                onCheckedChange={(checked) => setHasCoInsured(checked)}
+              />
+            </div>
           </CardTitle>
         </CardHeader>
         {hasCoInsured && (
@@ -741,15 +694,13 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
           </div>
 
           {/* Loss Address Same as Mailing */}
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              checked={lossAddressSame}
-              onChange={(e) => setLossAddressSame(e.target.checked)}
-              className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
-            />
+          <div className="flex items-center justify-between">
             <span className="font-medium">Loss address is the same as mailing address</span>
-          </label>
+            <Switch
+              checked={lossAddressSame}
+              onCheckedChange={(checked) => setLossAddressSame(checked)}
+            />
+          </div>
 
           {/* Separate Loss Address */}
           {!lossAddressSame && (
@@ -772,16 +723,16 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
         <CardContent className="space-y-4">
           {/* Gate Code */}
           <div>
-            <label className="flex items-center gap-2 mb-3">
-              <input
-                type="checkbox"
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <Key className="h-4 w-4" />
+                <span className="font-medium">Property has gate or access code</span>
+              </div>
+              <Switch
                 checked={hasGateCode}
-                onChange={(e) => setHasGateCode(e.target.checked)}
-                className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                onCheckedChange={(checked) => setHasGateCode(checked)}
               />
-              <Key className="h-4 w-4" />
-              <span className="font-medium">Property has gate or access code</span>
-            </label>
+            </div>
             
             {hasGateCode && (
               <input
@@ -796,16 +747,16 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
 
           {/* Tenant Occupied */}
           <div>
-            <label className="flex items-center gap-2 mb-3">
-              <input
-                type="checkbox"
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <Users className="h-4 w-4" />
+                <span className="font-medium">Property is tenant occupied</span>
+              </div>
+              <Switch
                 checked={tenantOccupied}
-                onChange={(e) => setTenantOccupied(e.target.checked)}
-                className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                onCheckedChange={(checked) => setTenantOccupied(checked)}
               />
-              <Users className="h-4 w-4" />
-              <span className="font-medium">Property is tenant occupied</span>
-            </label>
+            </div>
             
             {tenantOccupied && (
               <div className="space-y-4 border-l-4 border-blue-500 pl-4">
@@ -855,16 +806,16 @@ export function InsuredDetailsStep({ data, onUpdate, clientId }: InsuredDetailsS
 
           {/* Uninsured Party */}
           <div>
-            <label className="flex items-center gap-2 mb-3">
-              <input
-                type="checkbox"
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <Building className="h-4 w-4" />
+                <span className="font-medium">Uninsured party involved (property manager, etc.)</span>
+              </div>
+              <Switch
                 checked={hasUninsuredParty}
-                onChange={(e) => setHasUninsuredParty(e.target.checked)}
-                className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                onCheckedChange={(checked) => setHasUninsuredParty(checked)}
               />
-              <Building className="h-4 w-4" />
-              <span className="font-medium">Uninsured party involved (property manager, etc.)</span>
-            </label>
+            </div>
             
             {hasUninsuredParty && (
               <div className="space-y-4 border-l-4 border-green-500 pl-4">
