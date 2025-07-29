@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
 import { Button } from '../../ui/Button'
-import { Switch } from '../../ui/Switch'
+import { Switch } from '../../ui/switch'
 import { 
   CheckCircle, 
   FileText, 

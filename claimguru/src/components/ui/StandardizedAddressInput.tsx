@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Input } from './Input'
-import { Switch } from './Switch'
+import { Switch } from './switch'
 import { MapPin } from 'lucide-react'
 
 // Google Maps API integration
@@ -142,7 +142,7 @@ export function StandardizedAddressInput({
           <div className="flex items-center gap-2">
             <Switch
               checked={isSameAs}
-              onChange={onSameAsToggle}
+              onCheckedChange={onSameAsToggle}
             />
             <span className="text-sm text-gray-600">{sameAsToggleLabel}</span>
           </div>

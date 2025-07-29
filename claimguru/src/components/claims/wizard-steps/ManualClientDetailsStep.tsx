@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card';
 import { Input } from '../../ui/Input';
-import { Switch } from '../../ui/Switch';
+import { Switch } from '../../ui/switch';
 import { AddressAutocomplete } from '../../ui/AddressAutocomplete';
 import { formatPhoneNumber, formatPhoneExtension, getPhoneInputProps, getPhoneExtensionInputProps } from '../../../utils/phoneUtils';
 import { 
@@ -598,7 +598,7 @@ export const ManualClientDetailsStep: React.FC<ManualClientDetailsStepProps> = (
               </div>
               <Switch
                 checked={clientDetails.hasCoInsured}
-                onChange={(checked) => handleSwitchChange('hasCoInsured', checked)}
+                onCheckedChange={(checked) => handleSwitchChange('hasCoInsured', checked)}
               />
             </div>
 

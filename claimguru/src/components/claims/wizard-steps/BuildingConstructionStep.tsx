@@ -13,7 +13,7 @@ import {
   AlertTriangle,
   Sparkles
 } from 'lucide-react'
-import { Switch } from '../../ui/Switch'
+import { Switch } from '../../ui/switch'
 
 interface BuildingConstructionStepProps {
   data: any

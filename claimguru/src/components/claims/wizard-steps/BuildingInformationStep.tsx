@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
 import { Input } from '../../ui/Input'
-import { Switch } from '../../ui/Switch'
+import { Switch } from '../../ui/switch'
 import { Building2, Home, Wrench, Zap, Droplets } from 'lucide-react'
 
 interface BuildingInformationStepProps {

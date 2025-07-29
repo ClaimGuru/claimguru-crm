@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
 import { Input } from '../../ui/Input'
 import { Button } from '../../ui/Button'
-import { Switch } from '../../ui/Switch'
+import { Switch } from '../../ui/switch'
 import { CheckSquare, Plus, X, Calendar, User, AlertCircle, Clock } from 'lucide-react'
 
 interface OfficeTasksStepProps {
@@ -264,7 +264,7 @@ export function OfficeTasksStep({ data, onUpdate }: OfficeTasksStepProps) {
                   <div className="flex items-start gap-3 flex-1">
                     <Switch
                       checked={task.status !== 'completed'}
-                      onChange={(checked) => toggleAutomaticTask(task.id, checked)}
+                      onCheckedChange={(checked) => toggleAutomaticTask(task.id, checked)}
                     />
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">

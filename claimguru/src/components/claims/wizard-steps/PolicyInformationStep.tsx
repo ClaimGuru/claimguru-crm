@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
 import { Input } from '../../ui/Input'
-import { Switch } from '../../ui/Switch'
+import { Switch } from '../../ui/switch'
 import { StandardizedPhoneInput } from '../../ui/StandardizedPhoneInput'
 import { FileText, Shield, User, Scale } from 'lucide-react'
 

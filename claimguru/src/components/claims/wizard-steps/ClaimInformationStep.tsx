@@ -4,7 +4,7 @@ import { Input } from '../../ui/Input'
 import { MultiTextArea } from '../../ui/MultiTextArea'
 import { CauseOfLossSelector } from '../../ui/CauseOfLossSelector'
 import { StandardizedAddressInput } from '../../ui/StandardizedAddressInput'
-import { Switch } from '../../ui/Switch'
+import { Switch } from '../../ui/switch'
 import { 
   FileText, 
   AlertTriangle,
