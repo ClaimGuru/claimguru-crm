@@ -1,8 +1,15 @@
-import React from 'react'
-import { AddressAutocomplete } from './AddressAutocomplete'
+import React, { useEffect, useRef, useState } from 'react'
 import { Input } from './Input'
 import { Switch } from './Switch'
 import { MapPin } from 'lucide-react'
+
+// Google Maps API integration
+declare global {
+  interface Window {
+    google: any;
+    initGoogleMaps: () => void;
+  }
+}
 
 interface AddressData {
   streetAddress1: string
@@ -44,23 +51,82 @@ export function StandardizedAddressInput({
     })
   }
 
-  const handleAddressAutocomplete = (
-    fullAddress: string,
-    details?: google.maps.places.PlaceResult,
-    parsedAddress?: any
-  ) => {
-    if (parsedAddress) {
-      onChange({
-        streetAddress1: parsedAddress.addressLine1 || fullAddress,
-        streetAddress2: address.streetAddress2, // Preserve existing
-        city: parsedAddress.city || '',
-        state: parsedAddress.state || '',
-        zipCode: parsedAddress.zipCode || ''
-      })
-    } else {
-      // Manual input - only update street address 1
-      updateField('streetAddress1', fullAddress)
+  const autocompleteRef = useRef<HTMLInputElement>(null)
+  const [autocompleteService, setAutocompleteService] = useState<any>(null)
+  const [placesService, setPlacesService] = useState<any>(null)
+  const [isGoogleMapsLoaded, setIsGoogleMapsLoaded] = useState(false)
+
+  // Load Google Maps API
+  useEffect(() => {
+    const loadGoogleMaps = () => {
+      if (window.google && window.google.maps) {
+        setIsGoogleMapsLoaded(true)
+        return
+      }
+
+      const script = document.createElement('script')
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCO0kKndUNlmQi3B5mxy4dblg_8WYcuKuk&libraries=places`
+      script.async = true
+      script.defer = true
+      script.onload = () => {
+        setIsGoogleMapsLoaded(true)
+      }
+      document.head.appendChild(script)
     }
+
+    loadGoogleMaps()
+  }, [])
+
+  // Initialize Google Places Autocomplete
+  useEffect(() => {
+    if (isGoogleMapsLoaded && autocompleteRef.current && allowAutocomplete) {
+      const autocomplete = new window.google.maps.places.Autocomplete(
+        autocompleteRef.current,
+        {
+          types: ['address'],
+          componentRestrictions: { country: 'us' },
+          fields: ['address_components', 'formatted_address']
+        }
+      )
+
+      autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace()
+        if (place.address_components) {
+          parseGooglePlace(place)
+        }
+      })
+    }
+  }, [isGoogleMapsLoaded, allowAutocomplete])
+
+  const parseGooglePlace = (place: any) => {
+    const components = place.address_components
+    const parsed = {
+      streetAddress1: '',
+      city: '',
+      state: '',
+      zipCode: ''
+    }
+
+    components.forEach((component: any) => {
+      const types = component.types
+      if (types.includes('street_number') || types.includes('route')) {
+        parsed.streetAddress1 += component.long_name + ' '
+      } else if (types.includes('locality')) {
+        parsed.city = component.long_name
+      } else if (types.includes('administrative_area_level_1')) {
+        parsed.state = component.short_name
+      } else if (types.includes('postal_code')) {
+        parsed.zipCode = component.long_name
+      }
+    })
+
+    onChange({
+      streetAddress1: parsed.streetAddress1.trim(),
+      streetAddress2: address.streetAddress2, // Preserve existing
+      city: parsed.city,
+      state: parsed.state,
+      zipCode: parsed.zipCode
+    })
   }
 
   return (
@@ -91,24 +157,15 @@ export function StandardizedAddressInput({
               Street Address #1
               {required && <span className="text-red-500 ml-1">*</span>}
             </label>
-            {allowAutocomplete ? (
-              <AddressAutocomplete
-                value={address.streetAddress1}
-                onChange={handleAddressAutocomplete}
-                placeholder="Start typing address..."
-                className="w-full"
-                required={required}
-              />
-            ) : (
-              <Input
-                type="text"
-                value={address.streetAddress1}
-                onChange={(e) => updateField('streetAddress1', e.target.value)}
-                placeholder="Street address"
-                className="w-full"
-                required={required}
-              />
-            )}
+            <Input
+              ref={allowAutocomplete ? autocompleteRef : undefined}
+              type="text"
+              value={address.streetAddress1}
+              onChange={(e) => updateField('streetAddress1', e.target.value)}
+              placeholder={allowAutocomplete ? "Start typing address..." : "Street address"}
+              className="w-full"
+              required={required}
+            />
           </div>
 
           {/* Street Address #2 */}

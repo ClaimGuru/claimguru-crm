@@ -1,27 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
-import { Button } from '../../ui/Button'
-import { LoadingSpinner } from '../../ui/LoadingSpinner'
+import { Input } from '../../ui/Input'
+import { MultiTextArea } from '../../ui/MultiTextArea'
+import { CauseOfLossSelector } from '../../ui/CauseOfLossSelector'
+import { StandardizedAddressInput } from '../../ui/StandardizedAddressInput'
+import { Switch } from '../../ui/Switch'
 import { 
   FileText, 
-  Brain, 
-  Calendar, 
   AlertTriangle,
-  CheckCircle,
   Home,
-  Camera,
-  DollarSign,
   MapPin,
-  Zap,
-  Eye,
-  RefreshCw,
-  Sparkles,
   Shield,
-  Clock
+  CloudRain,
+  Eye,
+  Building,
+  Calendar
 } from 'lucide-react'
-import { Switch } from '../../ui/Switch'
-import { claimWizardAI, DamageAnalysisResult, SettlementPrediction } from '../../../services/claimWizardAI'
-import { intelligentWizardService } from '../../../services/intelligentWizardService'
 
 interface ClaimInformationStepProps {
   data: any
@@ -32,249 +26,88 @@ export function ClaimInformationStep({ data, onUpdate }: ClaimInformationStepPro
   const [lossDetails, setLossDetails] = useState({
     reasonForLoss: data.lossDetails?.reasonForLoss || '',
     dateOfLoss: data.lossDetails?.dateOfLoss || '',
+    timeOfLoss: data.lossDetails?.timeOfLoss || '',
     causeOfLoss: data.lossDetails?.causeOfLoss || '',
     severity: data.lossDetails?.severity || '',
     lossDescription: data.lossDetails?.lossDescription || '',
-    aiSuggestedDescription: data.lossDetails?.aiSuggestedDescription || '',
-    yearBuilt: data.lossDetails?.yearBuilt || '',
-    isFEMA: data.lossDetails?.isFEMA || false,
-    isHabitable: data.lossDetails?.isHabitable || true,
-    alternativeLiving: data.lossDetails?.alternativeLiving || '',
-    monthlyLivingCost: data.lossDetails?.monthlyLivingCost || '',
-    stateOfEmergency: data.lossDetails?.stateOfEmergency || false,
-    personalPropertyDamage: data.lossDetails?.personalPropertyDamage || false,
-    otherStructuresDamage: data.lossDetails?.otherStructuresDamage || false
+    causeDetails: data.lossDetails?.causeDetails || '',
+    estimatedDamageValue: data.lossDetails?.estimatedDamageValue || '',
+    
+    // Loss Location
+    lossLocationAddress: data.lossDetails?.lossLocationAddress || {
+      streetAddress1: '',
+      streetAddress2: '',
+      city: '',
+      state: '',
+      zipCode: ''
+    },
+    room: data.lossDetails?.room || '',
+    
+    // Weather Related
+    isWeatherRelated: data.lossDetails?.isWeatherRelated || false,
+    weatherType: data.lossDetails?.weatherType || '',
+    stormName: data.lossDetails?.stormName || '',
+    
+    // Property Status Toggles
+    femalDeclaredDisaster: data.lossDetails?.femalDeclaredDisaster || false,
+    policeCalled: data.lossDetails?.policeCalled || false,
+    policeReportNumber: data.lossDetails?.policeReportNumber || '',
+    propertyUninhabitable: data.lossDetails?.propertyUninhabitable || false,
+    damageToOtherStructures: data.lossDetails?.damageToOtherStructures || false,
+    stateOfEmergencyDeclared: data.lossDetails?.stateOfEmergencyDeclared || false,
+    emergencyMitigationRequired: data.lossDetails?.emergencyMitigationRequired || false,
+    damagedPersonalProperty: data.lossDetails?.damagedPersonalProperty || false,
+    additionalLivingExpenses: data.lossDetails?.additionalLivingExpenses || false,
+    repairsMade: data.lossDetails?.repairsMade || false,
+    vendorsRepairsNeeded: data.lossDetails?.vendorsRepairsNeeded || false
   })
 
-  const [aiGenerating, setAiGenerating] = useState(false)
-  const [damagePhotos, setDamagePhotos] = useState<File[]>([])
-  const [damageAnalysis, setDamageAnalysis] = useState<DamageAnalysisResult | null>(null)
-  const [settlementPrediction, setSettlementPrediction] = useState<SettlementPrediction | null>(null)
-  const [analyzing, setAnalyzing] = useState(false)
-  const [dateError, setDateError] = useState('')
-  const [weatherAnalysis, setWeatherAnalysis] = useState<any>(null)
-  const [fraudAnalysis, setFraudAnalysis] = useState<any>(null)
-  const [geoRiskAnalysis, setGeoRiskAnalysis] = useState<any>(null)
-  const [fieldValidations, setFieldValidations] = useState<Record<string, any>>({})
-  const [aiInsights, setAiInsights] = useState<any>(null)
+  const updateField = (field: string, value: any) => {
+    const updatedData = { ...lossDetails, [field]: value }
+    setLossDetails(updatedData)
+    onUpdate({ lossDetails: updatedData })
+  }
 
-  // Validate date of loss against policy period
-  useEffect(() => {
-    if (lossDetails.dateOfLoss && data.aiExtractedData) {
-      const lossDate = new Date(lossDetails.dateOfLoss)
-      const effectiveDate = new Date(data.aiExtractedData.extractedData.effectiveDate)
-      const expirationDate = new Date(data.aiExtractedData.extractedData.expirationDate)
-      
-      if (lossDate < effectiveDate || lossDate > expirationDate) {
-        setDateError('Date of loss is outside of policy coverage dates')
-      } else {
-        setDateError('')
+  const updateNestedField = (section: string, field: string, value: any) => {
+    const updatedData = {
+      ...lossDetails,
+      [section]: {
+        ...lossDetails[section],
+        [field]: value
       }
     }
-  }, [lossDetails.dateOfLoss, data.aiExtractedData])
-
-  // Update parent component when data changes
-  useEffect(() => {
-    onUpdate({
-      lossDetails,
-      personalPropertyDamage: lossDetails.personalPropertyDamage,
-      otherStructuresDamage: lossDetails.otherStructuresDamage,
-      damageAnalysis,
-      settlementPrediction
-    })
-  }, [lossDetails, damageAnalysis, settlementPrediction, onUpdate])
-
-  const handleInputChange = (field: string, value: any) => {
-    setLossDetails(prev => ({ ...prev, [field]: value }))
+    setLossDetails(updatedData)
+    onUpdate({ lossDetails: updatedData })
   }
 
-  // Real-time AI field validation
-  const validateFieldAI = async (fieldName: string, value: any) => {
-    try {
-      const validation = await claimWizardAI.validateField(fieldName, value, {
-        policyData: data.aiExtractedData?.extractedData
-      })
-      
-      setFieldValidations(prev => ({
-        ...prev,
-        [fieldName]: validation
-      }))
-    } catch (error) {
-      console.error('Error validating field:', error)
-    }
-  }
-
-  // Weather correlation analysis
-  const runWeatherAnalysis = async () => {
-    if (!lossDetails.dateOfLoss || !lossDetails.causeOfLoss) return
-    
-    try {
-      const analysis = await claimWizardAI.analyzeWeatherCorrelation(
-        lossDetails.dateOfLoss,
-        data.mailingAddress?.city || 'Unknown',
-        lossDetails.causeOfLoss
-      )
-      setWeatherAnalysis(analysis)
-    } catch (error) {
-      console.error('Error analyzing weather:', error)
-    }
-  }
-
-  // Fraud detection analysis
-  const runFraudAnalysis = async () => {
-    try {
-      const analysis = await claimWizardAI.detectPotentialFraud({
-        lossDetails,
-        insuredDetails: data.insuredDetails,
-        priorClaims: data.priorClaims || []
-      })
-      setFraudAnalysis(analysis)
-    } catch (error) {
-      console.error('Error running fraud analysis:', error)
-    }
-  }
-
-  // Geographic risk assessment
-  const runGeoRiskAnalysis = async () => {
-    if (!data.mailingAddress?.addressLine1) return
-    
-    try {
-      const analysis = await claimWizardAI.assessGeographicRisk(
-        `${data.mailingAddress.addressLine1}, ${data.mailingAddress.city}, ${data.mailingAddress.state}`
-      )
-      setGeoRiskAnalysis(analysis)
-    } catch (error) {
-      console.error('Error assessing geographic risk:', error)
-    }
-  }
-
-  // Run comprehensive AI analysis
-  const runComprehensiveAnalysis = async () => {
-    setAnalyzing(true)
-    try {
-      await Promise.all([
-        runWeatherAnalysis(),
-        runFraudAnalysis(),
-        runGeoRiskAnalysis()
-      ])
-      
-      // Generate AI insights
-      const insights = await claimWizardAI.generatePredictiveInsights({
-        ...lossDetails,
-        policyData: data.aiExtractedData
-      })
-      setAiInsights(insights)
-    } catch (error) {
-      console.error('Error running comprehensive analysis:', error)
-    } finally {
-      setAnalyzing(false)
-    }
-  }
-
-  const generateAILossDescription = async () => {
-    if (!lossDetails.causeOfLoss || !lossDetails.dateOfLoss) {
-      alert('Please fill in the cause of loss and date of loss first')
-      return
-    }
-
-    setAiGenerating(true)
-    try {
-      // Use enhanced AI service if available
-      if (data.extractedPolicyData) {
-        const enhancedResult = await intelligentWizardService.generateEnhancedLossDescription(lossDetails)
-        handleInputChange('lossDescription', enhancedResult.description)
-        handleInputChange('aiSuggestedDescription', {
-          description: enhancedResult.description,
-          confidence: enhancedResult.confidence,
-          sources: enhancedResult.sources,
-          enhancements: enhancedResult.enhancements
-        })
-      } else {
-        // Fallback to basic AI service
-        const description = await claimWizardAI.generateLossDescription(
-          lossDetails,
-          data.aiExtractedData
-        )
-        handleInputChange('lossDescription', description)
-      }
-    } catch (error) {
-      console.error('Error generating loss description:', error)
-      alert('Error generating description. Please try again.')
-    } finally {
-      setAiGenerating(false)
-    }
-  }
-
-  const handlePhotoUpload = async (files: FileList) => {
-    const photoFiles = Array.from(files).filter(file => 
-      file.type.startsWith('image/')
-    )
-    
-    if (photoFiles.length === 0) {
-      alert('Please select image files only')
-      return
-    }
-
-    setDamagePhotos(prev => [...prev, ...photoFiles])
-    
-    // Start AI damage analysis
-    if (photoFiles.length > 0) {
-      setAnalyzing(true)
-      try {
-        const analysis = await claimWizardAI.analyzeDamagePhotos(photoFiles)
-        setDamageAnalysis(analysis)
-        
-        // Generate settlement prediction based on damage analysis
-        const prediction = await claimWizardAI.predictSettlement({
-          ...lossDetails,
-          damageAnalysis: analysis
-        }, data.aiExtractedData)
-        setSettlementPrediction(prediction)
-        
-      } catch (error) {
-        console.error('Error analyzing damage photos:', error)
-      } finally {
-        setAnalyzing(false)
-      }
-    }
-  }
-
-  const reasonOptions = [
-    'New Claim',
-    'Supplement',
-    'Denial Review',
-    'Appraisal',
-    'Loss Consulting',
-    'Expert Witness',
-    'Re-inspection'
+  // Weather type options
+  const weatherTypes = [
+    'Thunderstorm',
+    'Hurricane',
+    'Tornado', 
+    'Derecho',
+    'Hail'
   ]
 
-  const causeOfLossOptions = [
-    'Wind',
-    'Hail',
-    'Water Damage',
-    'Fire',
-    'Lightning',
-    'Theft',
-    'Vandalism',
-    'Other'
+  // Hurricane/Tropical Storm names (example list)
+  const stormNames = [
+    'Hurricane Ian',
+    'Hurricane Nicole',
+    'Hurricane Debby',
+    'Hurricane Helene',
+    'Hurricane Milton',
+    'Other (specify)'
   ]
 
+  // Severity options
   const severityOptions = [
     'Minor',
-    'Moderate', 
+    'Moderate',
     'Major',
     'Total Loss'
   ]
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(amount)
-  }
+  // Update parent component when data changes
 
   return (
     <div className="space-y-6">
@@ -287,128 +120,50 @@ export function ClaimInformationStep({ data, onUpdate }: ClaimInformationStepPro
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* Reason for Loss */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Reason for Loss *
-              </label>
-              <select
-                value={lossDetails.reasonForLoss}
-                onChange={(e) => handleInputChange('reasonForLoss', e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                required
-              >
-                <option value="">Select reason</option>
-                {reasonOptions.map(option => (
-                  <option key={option} value={option}>{option}</option>
-                ))}
-              </select>
-            </div>
+          {/* Reason for Loss - Multi-text field as specified */}
+          <div>
+            <MultiTextArea
+              label="Reason for Loss"
+              value={lossDetails.reasonForLoss}
+              onChange={(value) => updateField('reasonForLoss', value)}
+              placeholder="Provide detailed explanation of the reason for loss..."
+              required
+              rows={4}
+              maxLength={2000}
+            />
+          </div>
 
-            {/* Date of Loss */}
+          {/* Date and Time */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Date of Loss *
-                {fieldValidations.dateOfLoss && (
-                  <span className="ml-2 text-xs">
-                    {fieldValidations.dateOfLoss.isValid ? 
-                      <span className="text-green-600">✓ Valid</span> : 
-                      <span className="text-red-600">⚠ Issues detected</span>
-                    }
-                  </span>
-                )}
+                Date of Loss <span className="text-red-500">*</span>
               </label>
-              <input
+              <Input
                 type="date"
                 value={lossDetails.dateOfLoss}
-                onChange={(e) => handleInputChange('dateOfLoss', e.target.value)}
-                onBlur={(e) => validateFieldAI('dateOfLoss', e.target.value)}
-                className={`w-full p-2 border rounded-md focus:ring-purple-500 focus:border-purple-500 ${
-                  dateError ? 'border-red-500 bg-red-50' : 'border-gray-300'
-                }`}
+                onChange={(e) => updateField('dateOfLoss', e.target.value)}
                 required
               />
-              {/* AI Validation Messages */}
-              {fieldValidations.dateOfLoss && (
-                <div className="mt-2 space-y-1">
-                  {fieldValidations.dateOfLoss.warnings.map((warning: string, index: number) => (
-                    <div key={index} className="text-xs text-amber-600 flex items-center gap-1">
-                      <AlertTriangle className="h-3 w-3" />
-                      {warning}
-                    </div>
-                  ))}
-                  {fieldValidations.dateOfLoss.suggestions.map((suggestion: string, index: number) => (
-                    <div key={index} className="text-xs text-blue-600 flex items-center gap-1">
-                      <Brain className="h-3 w-3" />
-                      {suggestion}
-                    </div>
-                  ))}
-                </div>
-              )}
-              {dateError && (
-                <div className="mt-1 text-sm text-red-600 flex items-center gap-1">
-                  <AlertTriangle className="h-4 w-4" />
-                  {dateError}
-                </div>
-              )}
             </div>
-
-            {/* Cause of Loss */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Cause of Loss *
-                {fieldValidations.causeOfLoss && (
-                  <span className="ml-2 text-xs">
-                    {fieldValidations.causeOfLoss.isValid ? 
-                      <span className="text-green-600">✓ Valid</span> : 
-                      <span className="text-red-600">⚠ Check policy coverage</span>
-                    }
-                  </span>
-                )}
+                Time of Loss
               </label>
-              <select
-                value={lossDetails.causeOfLoss}
-                onChange={(e) => {
-                  handleInputChange('causeOfLoss', e.target.value)
-                  validateFieldAI('causeOfLoss', e.target.value)
-                }}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                required
-              >
-                <option value="">Select cause</option>
-                {causeOfLossOptions.map(option => (
-                  <option key={option} value={option}>{option}</option>
-                ))}
-              </select>
-              {/* AI Validation Messages */}
-              {fieldValidations.causeOfLoss && (
-                <div className="mt-2 space-y-1">
-                  {fieldValidations.causeOfLoss.warnings.map((warning: string, index: number) => (
-                    <div key={index} className="text-xs text-amber-600 flex items-center gap-1">
-                      <AlertTriangle className="h-3 w-3" />
-                      {warning}
-                    </div>
-                  ))}
-                  {fieldValidations.causeOfLoss.suggestions.map((suggestion: string, index: number) => (
-                    <div key={index} className="text-xs text-blue-600 flex items-center gap-1">
-                      <Brain className="h-3 w-3" />
-                      {suggestion}
-                    </div>
-                  ))}
-                </div>
-              )}
+              <Input
+                type="time"
+                value={lossDetails.timeOfLoss}
+                onChange={(e) => updateField('timeOfLoss', e.target.value)}
+              />
             </div>
-
-            {/* Severity */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Claim Severity
+                Severity of Loss
               </label>
               <select
                 value={lossDetails.severity}
-                onChange={(e) => handleInputChange('severity', e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                onChange={(e) => updateField('severity', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Select severity</option>
                 {severityOptions.map(option => (
@@ -416,634 +171,280 @@ export function ClaimInformationStep({ data, onUpdate }: ClaimInformationStepPro
                 ))}
               </select>
             </div>
+          </div>
 
-            {/* Year Built */}
+          {/* Comprehensive Cause of Loss Selector */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Cause of Loss <span className="text-red-500">*</span>
+            </label>
+            <CauseOfLossSelector
+              value={lossDetails.causeOfLoss}
+              onChange={(value) => updateField('causeOfLoss', value)}
+              required
+            />
+          </div>
+
+          {/* Additional Loss Information */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Year Built
+                Cause Details (Optional)
               </label>
-              <input
+              <textarea
+                value={lossDetails.causeDetails}
+                onChange={(e) => updateField('causeDetails', e.target.value)}
+                placeholder="Additional details about the cause of loss..."
+                rows={3}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Estimated Damage Value (Optional)
+              </label>
+              <Input
                 type="number"
-                value={lossDetails.yearBuilt}
-                onChange={(e) => handleInputChange('yearBuilt', e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                min="1800"
-                max={new Date().getFullYear()}
-                placeholder="e.g., 1995"
+                value={lossDetails.estimatedDamageValue}
+                onChange={(e) => updateField('estimatedDamageValue', e.target.value)}
+                placeholder="0"
+                min="0"
+                step="0.01"
               />
             </div>
           </div>
 
-          {/* Special Circumstances */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Loss Description */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Loss Description (Optional)
+            </label>
+            <textarea
+              value={lossDetails.lossDescription}
+              onChange={(e) => updateField('lossDescription', e.target.value)}
+              placeholder="Detailed description of the loss..."
+              rows={4}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Loss Location */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-3">
+            <MapPin className="h-6 w-6 text-green-600" />
+            Loss Location
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <StandardizedAddressInput
+            address={lossDetails.lossLocationAddress}
+            onChange={(address) => updateField('lossLocationAddress', address)}
+            label="Loss Location Address"
+            allowAutocomplete
+          />
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Room (Optional)
+            </label>
+            <Input
+              type="text"
+              value={lossDetails.room}
+              onChange={(e) => updateField('room', e.target.value)}
+              placeholder="e.g., Kitchen, Master Bedroom, Living Room"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Weather Related Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-3">
+            <CloudRain className="h-6 w-6 text-blue-600" />
+            Weather Related Information
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center gap-3">
+            <Switch
+              checked={lossDetails.isWeatherRelated}
+              onChange={(checked) => updateField('isWeatherRelated', checked)}
+            />
+            <span className="text-sm font-medium text-gray-700">Is this Weather Related?</span>
+          </div>
+
+          {lossDetails.isWeatherRelated && (
+            <div className="space-y-4 ml-6 p-4 bg-blue-50 rounded-lg">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Weather Type
+                </label>
+                <select
+                  value={lossDetails.weatherType}
+                  onChange={(e) => updateField('weatherType', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Select weather type</option>
+                  {weatherTypes.map(type => (
+                    <option key={type} value={type}>{type}</option>
+                  ))}
+                </select>
+              </div>
+
+              {(lossDetails.weatherType === 'Hurricane') && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Storm Name
+                  </label>
+                  <select
+                    value={lossDetails.stormName}
+                    onChange={(e) => updateField('stormName', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Select storm name</option>
+                    {stormNames.map(name => (
+                      <option key={name} value={name}>{name}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Property Status Selectors (All Toggle Switches) */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-3">
+            <Building className="h-6 w-6 text-orange-600" />
+            Property Status
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* FEMA Declared Disaster */}
             <div className="flex items-center gap-3 p-3 border rounded-lg">
               <Switch
-                checked={lossDetails.isFEMA}
-                onChange={(checked) => handleInputChange('isFEMA', checked)}
+                checked={lossDetails.femalDeclaredDisaster}
+                onChange={(checked) => updateField('femalDeclaredDisaster', checked)}
               />
               <Shield className="h-4 w-4 text-blue-600" />
-              <span className="text-sm font-medium">FEMA Claim</span>
+              <span className="text-sm font-medium">FEMA Declared Disaster</span>
             </div>
 
+            {/* Police Called */}
             <div className="flex items-center gap-3 p-3 border rounded-lg">
               <Switch
-                checked={lossDetails.stateOfEmergency}
-                onChange={(checked) => handleInputChange('stateOfEmergency', checked)}
+                checked={lossDetails.policeCalled}
+                onChange={(checked) => updateField('policeCalled', checked)}
               />
-              <AlertTriangle className="h-4 w-4 text-red-600" />
-              <span className="text-sm font-medium">State of Emergency</span>
+              <Shield className="h-4 w-4 text-red-600" />
+              <span className="text-sm font-medium">Police Called</span>
             </div>
 
+            {/* Property Uninhabitable */}
             <div className="flex items-center gap-3 p-3 border rounded-lg">
               <Switch
-                checked={!lossDetails.isHabitable}
-                onChange={(checked) => handleInputChange('isHabitable', !checked)}
+                checked={lossDetails.propertyUninhabitable}
+                onChange={(checked) => updateField('propertyUninhabitable', checked)}
               />
               <Home className="h-4 w-4 text-orange-600" />
-              <span className="text-sm font-medium">Home Not Habitable</span>
+              <span className="text-sm font-medium">Property Uninhabitable</span>
+            </div>
+
+            {/* Damage to Other Structures */}
+            <div className="flex items-center gap-3 p-3 border rounded-lg">
+              <Switch
+                checked={lossDetails.damageToOtherStructures}
+                onChange={(checked) => updateField('damageToOtherStructures', checked)}
+              />
+              <Building className="h-4 w-4 text-gray-600" />
+              <span className="text-sm font-medium">Damage to Other Structures</span>
+            </div>
+
+            {/* State of Emergency Declared */}
+            <div className="flex items-center gap-3 p-3 border rounded-lg">
+              <Switch
+                checked={lossDetails.stateOfEmergencyDeclared}
+                onChange={(checked) => updateField('stateOfEmergencyDeclared', checked)}
+              />
+              <AlertTriangle className="h-4 w-4 text-red-600" />
+              <span className="text-sm font-medium">State of Emergency Declared</span>
+            </div>
+
+            {/* Emergency Mitigation/Repairs Required */}
+            <div className="flex items-center gap-3 p-3 border rounded-lg">
+              <Switch
+                checked={lossDetails.emergencyMitigationRequired}
+                onChange={(checked) => updateField('emergencyMitigationRequired', checked)}
+              />
+              <AlertTriangle className="h-4 w-4 text-orange-600" />
+              <span className="text-sm font-medium">Emergency Mitigation/Repairs Required</span>
+            </div>
+
+            {/* Damaged Personal Property */}
+            <div className="flex items-center gap-3 p-3 border rounded-lg">
+              <Switch
+                checked={lossDetails.damagedPersonalProperty}
+                onChange={(checked) => updateField('damagedPersonalProperty', checked)}
+              />
+              <Home className="h-4 w-4 text-purple-600" />
+              <span className="text-sm font-medium">Damaged Personal Property</span>
+            </div>
+
+
+            {/* Additional Living Expenses */}
+            <div className="flex items-center gap-3 p-3 border rounded-lg">
+              <Switch
+                checked={lossDetails.additionalLivingExpenses}
+                onChange={(checked) => updateField("additionalLivingExpenses", checked)}
+              />
+              <Home className="h-4 w-4 text-green-600" />
+              <span className="text-sm font-medium">Additional Living Expenses</span>
+            </div>
+
+            {/* Repairs Made */}
+            <div className="flex items-center gap-3 p-3 border rounded-lg">
+              <Switch
+                checked={lossDetails.repairsMade}
+                onChange={(checked) => updateField("repairsMade", checked)}
+              />
+              <Eye className="h-4 w-4 text-blue-600" />
+              <span className="text-sm font-medium">Repairs Made?</span>
+            </div>
+
+            {/* Vendors/Repairs Needed */}
+            <div className="flex items-center gap-3 p-3 border rounded-lg">
+              <Switch
+                checked={lossDetails.vendorsRepairsNeeded}
+                onChange={(checked) => updateField("vendorsRepairsNeeded", checked)}
+              />
+              <Eye className="h-4 w-4 text-gray-600" />
+              <span className="text-sm font-medium">Vendors/Repairs Needed?</span>
             </div>
           </div>
 
-          {/* Alternative Living Expenses (if not habitable) */}
-          {!lossDetails.isHabitable && (
-            <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-              <h4 className="font-medium text-orange-900 mb-3">Alternative Living Arrangements</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Current Living Situation
-                  </label>
-                  <input
-                    type="text"
-                    value={lossDetails.alternativeLiving}
-                    onChange={(e) => handleInputChange('alternativeLiving', e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                    placeholder="Hotel, family member's home, etc."
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Monthly Cost
-                  </label>
-                  <input
-                    type="number"
-                    value={lossDetails.monthlyLivingCost}
-                    onChange={(e) => handleInputChange('monthlyLivingCost', e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                    placeholder="0"
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* AI-Powered Loss Description with Document Intelligence */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-3">
-            <Brain className="h-6 w-6 text-purple-600" />
-            AI-Enhanced Loss Description
-            {data.additionalDocuments?.documents?.length > 0 && (
-              <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">
-                Enhanced with {data.additionalDocuments.documents.length} documents
-              </span>
-            )}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {/* AI Suggestions from Documents */}
-          {data.aiSuggestions?.descriptions && data.aiSuggestions.descriptions.length > 0 && (
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-              <div className="flex items-center gap-2 mb-3">
-                <Sparkles className="h-5 w-5 text-green-600" />
-                <span className="font-medium text-green-800">AI Suggestions from Uploaded Documents</span>
-              </div>
-              <div className="space-y-2">
-                {data.aiSuggestions.descriptions.map((suggestion, index) => (
-                  <div key={index} className="flex items-center justify-between p-2 bg-white rounded border border-green-200">
-                    <span className="text-sm text-green-700 flex-1 mr-3">{suggestion}</span>
-                    <Button
-                      onClick={() => handleInputChange('lossDescription', suggestion)}
-                      size="sm"
-                      variant="outline"
-                      className="text-green-600 border-green-300 hover:bg-green-100 flex-shrink-0"
-                    >
-                      Use This
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="flex items-center gap-3 mb-4">
-            <Button
-              onClick={generateAILossDescription}
-              disabled={aiGenerating || !lossDetails.causeOfLoss || !lossDetails.dateOfLoss}
-              className="flex items-center gap-2"
-            >
-              {aiGenerating ? (
-                <>
-                  <LoadingSpinner size="sm" />
-                  Generating...
-                </>
-              ) : (
-                <>
-                  <Zap className="h-4 w-4" />
-                  Generate with AI
-                  {data.additionalDocuments?.documents?.length > 0 && ' + Documents'}
-                </>
-              )}
-            </Button>
-            
-            {lossDetails.lossDescription && (
-              <Button 
-                variant="outline" 
-                className="flex items-center gap-2"
-                onClick={generateAILossDescription}
-              >
-                <RefreshCw className="h-4 w-4" />
-                Regenerate
-              </Button>
-            )}
-
-            {data.aiSuggestions?.recommendations?.length > 0 && (
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex items-center gap-2 text-blue-600 border-blue-300 hover:bg-blue-50"
-                onClick={() => {
-                  const insights = "\n\nAI Document Insights:\n" + data.aiSuggestions.recommendations.map(r => `• ${r}`).join('\n')
-                  handleInputChange('lossDescription', lossDetails.lossDescription + insights)
-                }}
-              >
-                <Eye className="h-4 w-4" />
-                Add Document Insights
-              </Button>
-            )}
-          </div>
-
-          <textarea
-            value={lossDetails.lossDescription}
-            onChange={(e) => {
-              handleInputChange('lossDescription', e.target.value)
-              // Clear AI flag when manually edited
-              if (lossDetails.aiSuggestedDescription && e.target.value !== lossDetails.aiSuggestedDescription) {
-                handleInputChange('aiSuggestedDescription', '')
-              }
-            }}
-            className={`w-full p-3 border rounded-md focus:ring-purple-500 focus:border-purple-500 ${
-              lossDetails.aiSuggestedDescription ? 'border-green-300 bg-green-50' : 'border-gray-300'
-            }`}
-            rows={8}
-            placeholder={
-              data.additionalDocuments?.documents?.length > 0 
-                ? 'AI will generate a professional description using your policy information and uploaded documents...'
-                : 'AI will generate a professional loss description based on policy language and claim details...'
-            }
-          />
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              {lossDetails.lossDescription && (
-                <div className="text-sm text-green-600 flex items-center gap-1">
-                  <CheckCircle className="h-4 w-4" />
-                  Professional description generated
-                  {lossDetails.aiSuggestedDescription && ' with AI intelligence'}
-                </div>
-              )}
-              {data.additionalDocuments?.documents?.length > 0 && (
-                <div className="text-xs text-blue-600 flex items-center gap-1">
-                  <Brain className="h-3 w-3" />
-                  Enhanced with insights from {data.additionalDocuments.documents.length} uploaded document{data.additionalDocuments.documents.length > 1 ? 's' : ''}
-                </div>
-              )}
-            </div>
-            {lossDetails.lossDescription?.length > 0 && (
-              <span className="text-xs text-gray-400">
-                {lossDetails.lossDescription.length} characters
-              </span>
-            )}
-          </div>
-
-          {/* Document-based insights */}
-          {data.aiSuggestions?.insights && data.aiSuggestions.insights.length > 0 && (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-              <div className="flex items-center gap-2 mb-2">
-                <Eye className="h-4 w-4 text-blue-600" />
-                <span className="text-sm font-medium text-blue-800">Available Document Insights</span>
-              </div>
-              <div className="text-sm text-blue-700 space-y-1">
-                {data.aiSuggestions.insights.slice(0, 3).map((insight, index) => (
-                  <p key={index}>• {insight}</p>
-                ))}
-                {data.aiSuggestions.insights.length > 3 && (
-                  <p className="text-blue-600 italic">+{data.aiSuggestions.insights.length - 3} more insights available</p>
-                )}
-              </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Damage Photography & AI Analysis */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-3">
-            <Camera className="h-6 w-6 text-green-600" />
-            Damage Documentation & AI Analysis
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-            <Camera className="h-8 w-8 text-gray-400 mx-auto mb-3" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Upload Damage Photos</h3>
-            <p className="text-gray-600 mb-4">
-              Our AI will analyze photos to assess damage types, severity, and estimated costs
-            </p>
-            
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              onChange={(e) => e.target.files && handlePhotoUpload(e.target.files)}
-              className="hidden"
-              id="damage-photos"
-            />
-            <label htmlFor="damage-photos">
-              <Button className="flex items-center gap-2 cursor-pointer">
-                <Camera className="h-4 w-4" />
-                Upload Photos
-              </Button>
-            </label>
-          </div>
-
-          {/* Photo Preview */}
-          {damagePhotos.length > 0 && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {damagePhotos.map((photo, index) => (
-                <div key={index} className="relative">
-                  <img
-                    src={URL.createObjectURL(photo)}
-                    alt={`Damage photo ${index + 1}`}
-                    className="w-full h-24 object-cover rounded-lg border"
-                  />
-                  <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                    <Eye className="h-5 w-5 text-white" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* AI Analysis Progress */}
-          {analyzing && (
-            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-              <div className="flex items-center gap-3">
-                <Brain className="h-6 w-6 text-purple-600 animate-pulse" />
-                <div>
-                  <div className="font-medium text-purple-900">AI Damage Analysis in Progress</div>
-                  <div className="text-sm text-purple-700">
-                    Analyzing damage types, severity, and estimating repair costs...
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* AI Damage Analysis Results */}
-          {damageAnalysis && (
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-              <h4 className="font-medium text-green-900 mb-3 flex items-center gap-2">
-                <Sparkles className="h-5 w-5" />
-                AI Damage Analysis Complete
-              </h4>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-green-700">
-                    {damageAnalysis.severity.charAt(0).toUpperCase() + damageAnalysis.severity.slice(1)}
-                  </div>
-                  <div className="text-sm text-green-600">Damage Severity</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-green-700">
-                    {formatCurrency(damageAnalysis.estimatedCost)}
-                  </div>
-                  <div className="text-sm text-green-600">Estimated Cost</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-green-700">
-                    {Math.round(damageAnalysis.confidence * 100)}%
-                  </div>
-                  <div className="text-sm text-green-600">AI Confidence</div>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <div>
-                  <span className="text-sm font-medium text-green-900">Damage Types Detected: </span>
-                  <span className="text-sm text-green-700">{damageAnalysis.damageTypes.join(', ')}</span>
-                </div>
-                
-                <div>
-                  <span className="text-sm font-medium text-green-900">Recommendations: </span>
-                  <ul className="text-sm text-green-700 list-disc list-inside">
-                    {damageAnalysis.recommendations.map((rec, index) => (
-                      <li key={index}>{rec}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Early Settlement Prediction */}
-          {settlementPrediction && (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h4 className="font-medium text-blue-900 mb-3 flex items-center gap-2">
-                <DollarSign className="h-5 w-5" />
-                AI Settlement Prediction
-              </h4>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-700">
-                    {formatCurrency(settlementPrediction.estimatedAmount)}
-                  </div>
-                  <div className="text-sm text-blue-600">Predicted Settlement</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-700">
-                    {settlementPrediction.timelineWeeks} weeks
-                  </div>
-                  <div className="text-sm text-blue-600">Estimated Timeline</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-700">
-                    {Math.round(settlementPrediction.confidence * 100)}%
-                  </div>
-                  <div className="text-sm text-blue-600">Confidence Level</div>
-                </div>
-              </div>
-
-              <div className="text-xs text-blue-600">
-                * Prediction based on similar claims, policy coverage, and current market conditions
-              </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Damage Type Assessment */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Damage Assessment</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Personal Property Damage */}
-            <div className="border rounded-lg p-4">
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={lossDetails.personalPropertyDamage}
-                  onChange={(e) => handleInputChange('personalPropertyDamage', e.target.checked)}
-                  className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
-                />
-                <div>
-                  <div className="font-medium">Personal Property Damage</div>
-                  <div className="text-sm text-gray-600">Damage to contents, furniture, belongings</div>
-                </div>
+          {/* Police Report Number (if police was called) */}
+          {lossDetails.policeCalled && (
+            <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Police Report Number
               </label>
-              
-              {lossDetails.personalPropertyDamage && (
-                <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded">
-                  <div className="text-sm text-blue-800">
-                    ✓ Personal Property Inventory section will be included in next steps
-                  </div>
-                </div>
-              )}
+              <Input
+                type="text"
+                value={lossDetails.policeReportNumber}
+                onChange={(e) => updateField("policeReportNumber", e.target.value)}
+                placeholder="Enter police report number"
+              />
             </div>
-
-            {/* Other Structures Damage */}
-            <div className="border rounded-lg p-4">
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={lossDetails.otherStructuresDamage}
-                  onChange={(e) => handleInputChange('otherStructuresDamage', e.target.checked)}
-                  className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
-                />
-                <div>
-                  <div className="font-medium">Other Structures Damage</div>
-                  <div className="text-sm text-gray-600">Garage, fence, shed, pool, etc.</div>
-                </div>
-              </label>
-              
-              {lossDetails.otherStructuresDamage && (
-                <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded">
-                  <div className="text-sm text-green-800">
-                    ✓ Other Structures section will be included in next steps
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
+          )}
         </CardContent>
       </Card>
-
-      {/* AI Comprehensive Analysis */}
-      {(lossDetails.dateOfLoss && lossDetails.causeOfLoss) && (
-        <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200">
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Brain className="h-6 w-6 text-purple-600" />
-                AI Comprehensive Analysis
-              </div>
-              <Button
-                onClick={runComprehensiveAnalysis}
-                disabled={analyzing}
-                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
-              >
-                {analyzing ? (
-                  <>
-                    <LoadingSpinner size="sm" />
-                    Analyzing...
-                  </>
-                ) : (
-                  <>
-                    <Zap className="h-4 w-4 mr-2" />
-                    Run AI Analysis
-                  </>
-                )}
-              </Button>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {/* Weather Correlation Analysis */}
-            {weatherAnalysis && (
-              <Card className={`${weatherAnalysis.weatherMatch ? 'bg-green-50 border-green-200' : 'bg-amber-50 border-amber-200'}`}>
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-medium flex items-center gap-2">
-                      <MapPin className="h-5 w-5" />
-                      Weather Correlation Analysis
-                    </h4>
-                    <div className={`px-2 py-1 rounded text-sm font-medium ${
-                      weatherAnalysis.weatherMatch ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800'
-                    }`}>
-                      {weatherAnalysis.weatherMatch ? 'VERIFIED' : 'NEEDS REVIEW'}
-                    </div>
-                  </div>
-                  <p className="text-sm mb-3">{weatherAnalysis.analysis}</p>
-                  <div className="text-xs text-gray-600">
-                    Confidence: {Math.round(weatherAnalysis.confidence * 100)}%
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Fraud Risk Analysis */}
-            {fraudAnalysis && (
-              <Card className={`${
-                fraudAnalysis.riskLevel === 'low' ? 'bg-green-50 border-green-200' :
-                fraudAnalysis.riskLevel === 'medium' ? 'bg-yellow-50 border-yellow-200' :
-                'bg-red-50 border-red-200'
-              }`}>
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-medium flex items-center gap-2">
-                      <Shield className="h-5 w-5" />
-                      Fraud Risk Assessment
-                    </h4>
-                    <div className={`px-2 py-1 rounded text-sm font-medium ${
-                      fraudAnalysis.riskLevel === 'low' ? 'bg-green-100 text-green-800' :
-                      fraudAnalysis.riskLevel === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-red-100 text-red-800'
-                    }`}>
-                      {fraudAnalysis.riskLevel.toUpperCase()} RISK
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <div className="text-2xl font-bold mb-1">{fraudAnalysis.riskScore}/100</div>
-                      <div className="text-xs text-gray-600">Risk Score</div>
-                    </div>
-                    <div>
-                      <div className="text-sm">
-                        {fraudAnalysis.redFlags.length === 0 ? 
-                          'No significant red flags detected' : 
-                          `${fraudAnalysis.redFlags.length} potential issues identified`
-                        }
-                      </div>
-                    </div>
-                  </div>
-                  {fraudAnalysis.redFlags.length > 0 && (
-                    <div className="mt-3 space-y-1">
-                      {fraudAnalysis.redFlags.slice(0, 2).map((flag: string, index: number) => (
-                        <div key={index} className="text-xs text-amber-700 flex items-center gap-1">
-                          <AlertTriangle className="h-3 w-3" />
-                          {flag}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Geographic Risk Assessment */}
-            {geoRiskAnalysis && (
-              <Card className="bg-blue-50 border-blue-200">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-medium flex items-center gap-2">
-                      <MapPin className="h-5 w-5" />
-                      Geographic Risk Assessment
-                    </h4>
-                    <div className={`px-2 py-1 rounded text-sm font-medium ${
-                      geoRiskAnalysis.overallRisk === 'low' ? 'bg-green-100 text-green-800' :
-                      geoRiskAnalysis.overallRisk === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-red-100 text-red-800'
-                    }`}>
-                      {geoRiskAnalysis.overallRisk.toUpperCase()} RISK AREA
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    {geoRiskAnalysis.riskFactors.slice(0, 3).map((factor: string, index: number) => (
-                      <div key={index} className="text-xs text-blue-700 flex items-center gap-1">
-                        <Home className="h-3 w-3" />
-                        {factor}
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* AI Predictive Insights */}
-            {aiInsights && (
-              <Card className="bg-gradient-to-r from-indigo-50 to-purple-50 border-indigo-200">
-                <CardContent className="p-4">
-                  <h4 className="font-medium flex items-center gap-2 mb-3">
-                    <Sparkles className="h-5 w-5" />
-                    AI Predictive Insights
-                  </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="text-center">
-                      <div className="text-xl font-bold text-indigo-700">
-                        {Math.round(aiInsights.settlementProbability * 100)}%
-                      </div>
-                      <div className="text-xs text-indigo-600">Settlement Probability</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-xl font-bold text-indigo-700">
-                        {aiInsights.processingTime} weeks
-                      </div>
-                      <div className="text-xs text-indigo-600">Expected Processing</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-xl font-bold text-indigo-700">
-                        {Math.round(aiInsights.litigationRisk * 100)}%
-                      </div>
-                      <div className="text-xs text-indigo-600">Litigation Risk</div>
-                    </div>
-                  </div>
-                  <div className="mt-3 text-xs text-indigo-600">
-                    {aiInsights.optimizationSuggestions.slice(0, 2).map((suggestion: string, index: number) => (
-                      <div key={index} className="flex items-center gap-1 mt-1">
-                        <CheckCircle className="h-3 w-3" />
-                        {suggestion}
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Analysis Status */}
-            {!analyzing && !weatherAnalysis && (
-              <div className="text-center py-6">
-                <Brain className="h-12 w-12 text-purple-400 mx-auto mb-3" />
-                <p className="text-gray-600 mb-4">
-                  Run comprehensive AI analysis to get weather correlation, fraud assessment, and predictive insights
-                </p>
-                <Button
-                  onClick={runComprehensiveAnalysis}
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
-                >
-                  <Zap className="h-4 w-4 mr-2" />
-                  Start AI Analysis
-                </Button>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      )}
     </div>
   )
 }
