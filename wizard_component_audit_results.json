@@ -1,0 +1,191 @@
+{
+  "component_files": [
+    "BuildingInformationStep.tsx",
+    "CompletionStep.tsx",
+    "ExpertsProvidersStep.tsx",
+    "PolicyDocumentUploadStep.tsx",
+    "CoverageIssueReviewStep.tsx",
+    "AdditionalDocumentsStep.tsx",
+    "RealPDFProcessingStep.tsx",
+    "ManualClientDetailsStep.tsx",
+    "InsuredDetailsStep.tsx",
+    "MortgageLenderInformationStep.tsx",
+    "PersonnelAssignmentStep.tsx",
+    "ClientInformationStep.tsx",
+    "LossInformationStep.tsx",
+    "ReferralInformationStep.tsx",
+    "SimplePDFTestStep.tsx",
+    "PolicyInformationStep.tsx",
+    "ReferralSourceInformationStep.tsx",
+    "BuildingConstructionStep.tsx",
+    "PolicyExtractionValidationStep.tsx",
+    "EnhancedInsuranceInfoStep.tsx",
+    "RealTimePolicyUploadStep.tsx",
+    "CustomFieldsStep.tsx",
+    "InsurerPersonnelInformation.tsx",
+    "IntakeReviewCompletionStep.tsx",
+    "ManualInsuranceInfoStep.tsx",
+    "RealPolicyUploadStep.tsx",
+    "InsuranceInfoStep.tsx",
+    "WorkingPolicyUploadStep.tsx",
+    "ClaimInformationStep.tsx",
+    "MultiDocumentPDFExtractionStep.tsx",
+    "ManualClaimInformationStep.tsx",
+    "ContractInformationStep.tsx",
+    "EnhancedClientDetailsStep.tsx",
+    "EnhancedPolicyValidationStep.tsx",
+    "OfficeTasksStep.tsx",
+    "InsurerInformationStep.tsx",
+    "MortgageInformationStep.tsx",
+    "DynamicPolicyUploadStep.tsx",
+    "PersonalPropertyStep.tsx",
+    "PolicyDataValidationStep.tsx",
+    "FixedRealPDFExtractionStep.tsx",
+    "IntelligentClientDetailsStep.tsx",
+    "ActualPDFExtractionStep.tsx"
+  ],
+  "main_wizard_imports": [
+    "ClientInformationStep",
+    "InsurerInformationStep",
+    "PolicyInformationStep",
+    "ClaimInformationStep",
+    "MortgageInformationStep",
+    "ReferralInformationStep",
+    "BuildingConstructionStep",
+    "OfficeTasksStep",
+    "CompletionStep"
+  ],
+  "categorized_components": {
+    "client_related": [
+      "ManualClientDetailsStep.tsx",
+      "InsuredDetailsStep.tsx",
+      "ClientInformationStep.tsx",
+      "EnhancedClientDetailsStep.tsx",
+      "IntelligentClientDetailsStep.tsx"
+    ],
+    "insurance_related": [
+      "EnhancedInsuranceInfoStep.tsx",
+      "InsurerPersonnelInformation.tsx",
+      "ManualInsuranceInfoStep.tsx",
+      "InsuranceInfoStep.tsx",
+      "InsurerInformationStep.tsx"
+    ],
+    "policy_related": [
+      "PolicyDocumentUploadStep.tsx",
+      "CoverageIssueReviewStep.tsx",
+      "PolicyInformationStep.tsx",
+      "PolicyExtractionValidationStep.tsx",
+      "RealTimePolicyUploadStep.tsx",
+      "RealPolicyUploadStep.tsx",
+      "WorkingPolicyUploadStep.tsx",
+      "EnhancedPolicyValidationStep.tsx",
+      "DynamicPolicyUploadStep.tsx",
+      "PolicyDataValidationStep.tsx"
+    ],
+    "pdf_related": [
+      "AdditionalDocumentsStep.tsx",
+      "RealPDFProcessingStep.tsx",
+      "SimplePDFTestStep.tsx",
+      "MultiDocumentPDFExtractionStep.tsx",
+      "FixedRealPDFExtractionStep.tsx",
+      "ActualPDFExtractionStep.tsx"
+    ],
+    "loss_related": [
+      "LossInformationStep.tsx",
+      "ClaimInformationStep.tsx",
+      "ManualClaimInformationStep.tsx"
+    ],
+    "building_related": [
+      "BuildingInformationStep.tsx",
+      "BuildingConstructionStep.tsx",
+      "PersonalPropertyStep.tsx"
+    ],
+    "other": [
+      "ExpertsProvidersStep.tsx",
+      "PersonnelAssignmentStep.tsx",
+      "CustomFieldsStep.tsx",
+      "ContractInformationStep.tsx"
+    ],
+    "task_related": [
+      "CompletionStep.tsx",
+      "IntakeReviewCompletionStep.tsx",
+      "OfficeTasksStep.tsx"
+    ],
+    "mortgage_related": [
+      "MortgageLenderInformationStep.tsx",
+      "MortgageInformationStep.tsx"
+    ],
+    "referral_related": [
+      "ReferralInformationStep.tsx",
+      "ReferralSourceInformationStep.tsx"
+    ]
+  },
+  "redundancy_groups": [
+    {
+      "name": "Client Information Steps",
+      "pattern": [
+        "client",
+        "insured",
+        "details"
+      ],
+      "components": [
+        "ManualClientDetailsStep.tsx",
+        "InsuredDetailsStep.tsx",
+        "ClientInformationStep.tsx",
+        "EnhancedClientDetailsStep.tsx",
+        "IntelligentClientDetailsStep.tsx"
+      ]
+    },
+    {
+      "name": "Insurance Information Steps",
+      "pattern": [
+        "insurance",
+        "insurer",
+        "carrier"
+      ],
+      "components": [
+        "EnhancedInsuranceInfoStep.tsx",
+        "InsurerPersonnelInformation.tsx",
+        "ManualInsuranceInfoStep.tsx",
+        "InsuranceInfoStep.tsx",
+        "InsurerInformationStep.tsx"
+      ]
+    },
+    {
+      "name": "PDF Processing Steps",
+      "pattern": [
+        "pdf",
+        "extraction",
+        "upload"
+      ],
+      "components": [
+        "AdditionalDocumentsStep.tsx",
+        "RealPDFProcessingStep.tsx",
+        "SimplePDFTestStep.tsx",
+        "MultiDocumentPDFExtractionStep.tsx",
+        "FixedRealPDFExtractionStep.tsx",
+        "ActualPDFExtractionStep.tsx"
+      ]
+    },
+    {
+      "name": "Loss/Claim Information Steps",
+      "pattern": [
+        "loss",
+        "claim",
+        "damage"
+      ],
+      "components": [
+        "LossInformationStep.tsx",
+        "ClaimInformationStep.tsx",
+        "ManualClaimInformationStep.tsx"
+      ]
+    }
+  ],
+  "recommendations": [
+    "CRITICAL: 32 of 43 components appear unused (74.4%)",
+    "Archive 32 unused components to archived_versions/wizard-steps/",
+    "Consolidate redundant component groups into single master components",
+    "Test main wizard functionality after each consolidation step",
+    "Create integration points for Rolodex database system"
+  ]
+}
