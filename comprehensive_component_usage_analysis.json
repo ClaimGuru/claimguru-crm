@@ -1,0 +1,263 @@
+{
+  "component_files": [
+    "BuildingInformationStep.tsx",
+    "CompletionStep.tsx",
+    "ExpertsProvidersStep.tsx",
+    "PolicyDocumentUploadStep.tsx",
+    "CoverageIssueReviewStep.tsx",
+    "AdditionalDocumentsStep.tsx",
+    "RealPDFProcessingStep.tsx",
+    "ManualClientDetailsStep.tsx",
+    "InsuredDetailsStep.tsx",
+    "MortgageLenderInformationStep.tsx",
+    "PersonnelAssignmentStep.tsx",
+    "ClientInformationStep.tsx",
+    "LossInformationStep.tsx",
+    "ReferralInformationStep.tsx",
+    "SimplePDFTestStep.tsx",
+    "PolicyInformationStep.tsx",
+    "ReferralSourceInformationStep.tsx",
+    "BuildingConstructionStep.tsx",
+    "PolicyExtractionValidationStep.tsx",
+    "EnhancedInsuranceInfoStep.tsx",
+    "RealTimePolicyUploadStep.tsx",
+    "CustomFieldsStep.tsx",
+    "InsurerPersonnelInformation.tsx",
+    "IntakeReviewCompletionStep.tsx",
+    "ManualInsuranceInfoStep.tsx",
+    "RealPolicyUploadStep.tsx",
+    "InsuranceInfoStep.tsx",
+    "WorkingPolicyUploadStep.tsx",
+    "ClaimInformationStep.tsx",
+    "MultiDocumentPDFExtractionStep.tsx",
+    "ManualClaimInformationStep.tsx",
+    "ContractInformationStep.tsx",
+    "EnhancedClientDetailsStep.tsx",
+    "EnhancedPolicyValidationStep.tsx",
+    "OfficeTasksStep.tsx",
+    "InsurerInformationStep.tsx",
+    "MortgageInformationStep.tsx",
+    "DynamicPolicyUploadStep.tsx",
+    "PersonalPropertyStep.tsx",
+    "PolicyDataValidationStep.tsx",
+    "FixedRealPDFExtractionStep.tsx",
+    "IntelligentClientDetailsStep.tsx",
+    "ActualPDFExtractionStep.tsx"
+  ],
+  "usage_analysis": {
+    "src/components/claims/EnhancedAIClaimWizard.tsx": [
+      "CustomFieldsStep",
+      "PersonnelAssignmentStep",
+      "ContractInformationStep",
+      "AdditionalDocumentsStep",
+      "CompletionStep",
+      "EnhancedInsuranceInfoStep",
+      "CoverageIssueReviewStep",
+      "MultiDocumentPDFExtractionStep",
+      "BuildingConstructionStep",
+      "FixedRealPDFExtractionStep",
+      "OfficeTasksStep",
+      "ExpertsProvidersStep",
+      "PolicyDocumentUploadStep",
+      "ReferralInformationStep",
+      "PersonalPropertyStep",
+      "ClaimInformationStep",
+      "IntelligentClientDetailsStep",
+      "MortgageInformationStep",
+      "EnhancedClientDetailsStep"
+    ],
+    "src/components/claims/ComprehensiveManualIntakeWizard.tsx": [
+      "ClientInformationStep",
+      "ClaimInformationStep",
+      "ReferralInformationStep",
+      "InsurerInformationStep",
+      "MortgageInformationStep",
+      "CompletionStep",
+      "PolicyInformationStep",
+      "OfficeTasksStep",
+      "BuildingConstructionStep"
+    ],
+    "src/components/claims/StreamlinedManualWizard.tsx": [
+      "ManualInsuranceInfoStep",
+      "ManualClientDetailsStep"
+    ],
+    "src/components/claims/ManualIntakeWizard.tsx": [
+      "ClientInformationStep",
+      "LossInformationStep",
+      "InsurerInformationStep",
+      "PolicyInformationStep",
+      "MortgageLenderInformationStep",
+      "ReferralSourceInformationStep",
+      "OfficeTasksStep",
+      "IntakeReviewCompletionStep",
+      "BuildingInformationStep"
+    ]
+  },
+  "wizard_files": [
+    "src/components/claims/EnhancedAIClaimWizard.tsx",
+    "src/components/claims/ComprehensiveManualIntakeWizard.tsx",
+    "src/components/claims/StreamlinedManualWizard.tsx",
+    "src/components/claims/ManualIntakeWizard.tsx",
+    "src/components/claims/SimpleTestWizard.tsx"
+  ],
+  "other_usage": {
+    "ManualClientDetailsStep.tsx": [
+      "src/components/claims/StreamlinedManualWizard.tsx"
+    ],
+    "ManualInsuranceInfoStep.tsx": [
+      "src/components/claims/StreamlinedManualWizard.tsx"
+    ],
+    "InsuranceInfoStep.tsx": [
+      "src/components/claims/StreamlinedManualWizard.tsx",
+      "src/components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "CompletionStep.tsx": [
+      "src/components/claims/EnhancedAIClaimWizard.tsx",
+      "src/components/claims/ManualIntakeWizard.tsx",
+      "src/components/claims/ComprehensiveManualIntakeWizard.tsx"
+    ],
+    "ExpertsProvidersStep.tsx": [
+      "src/components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "PolicyDocumentUploadStep.tsx": [
+      "src/components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "CoverageIssueReviewStep.tsx": [
+      "src/components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "AdditionalDocumentsStep.tsx": [
+      "src/components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "PersonnelAssignmentStep.tsx": [
+      "src/components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "ReferralInformationStep.tsx": [
+      "src/components/claims/EnhancedAIClaimWizard.tsx",
+      "src/components/claims/ComprehensiveManualIntakeWizard.tsx"
+    ],
+    "BuildingConstructionStep.tsx": [
+      "src/components/claims/EnhancedAIClaimWizard.tsx",
+      "src/components/claims/ComprehensiveManualIntakeWizard.tsx"
+    ],
+    "EnhancedInsuranceInfoStep.tsx": [
+      "src/components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "CustomFieldsStep.tsx": [
+      "src/components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "ClaimInformationStep.tsx": [
+      "src/components/claims/EnhancedAIClaimWizard.tsx",
+      "src/components/claims/ComprehensiveManualIntakeWizard.tsx"
+    ],
+    "MultiDocumentPDFExtractionStep.tsx": [
+      "src/components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "ContractInformationStep.tsx": [
+      "src/components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "EnhancedClientDetailsStep.tsx": [
+      "src/components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "OfficeTasksStep.tsx": [
+      "src/components/claims/EnhancedAIClaimWizard.tsx",
+      "src/components/claims/ManualIntakeWizard.tsx",
+      "src/components/claims/ComprehensiveManualIntakeWizard.tsx"
+    ],
+    "MortgageInformationStep.tsx": [
+      "src/components/claims/EnhancedAIClaimWizard.tsx",
+      "src/components/claims/ComprehensiveManualIntakeWizard.tsx"
+    ],
+    "PersonalPropertyStep.tsx": [
+      "src/components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "FixedRealPDFExtractionStep.tsx": [
+      "src/components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "IntelligentClientDetailsStep.tsx": [
+      "src/components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "BuildingInformationStep.tsx": [
+      "src/components/claims/ManualIntakeWizard.tsx"
+    ],
+    "MortgageLenderInformationStep.tsx": [
+      "src/components/claims/ManualIntakeWizard.tsx"
+    ],
+    "ClientInformationStep.tsx": [
+      "src/components/claims/ManualIntakeWizard.tsx",
+      "src/components/claims/ComprehensiveManualIntakeWizard.tsx"
+    ],
+    "LossInformationStep.tsx": [
+      "src/components/claims/ManualIntakeWizard.tsx"
+    ],
+    "PolicyInformationStep.tsx": [
+      "src/components/claims/ManualIntakeWizard.tsx",
+      "src/components/claims/ComprehensiveManualIntakeWizard.tsx"
+    ],
+    "ReferralSourceInformationStep.tsx": [
+      "src/components/claims/ManualIntakeWizard.tsx"
+    ],
+    "IntakeReviewCompletionStep.tsx": [
+      "src/components/claims/ManualIntakeWizard.tsx"
+    ],
+    "InsurerInformationStep.tsx": [
+      "src/components/claims/ManualIntakeWizard.tsx",
+      "src/components/claims/ComprehensiveManualIntakeWizard.tsx"
+    ]
+  },
+  "import_patterns": {},
+  "recommendations": {
+    "definitely_unused": [
+      "InsuredDetailsStep.tsx",
+      "PolicyExtractionValidationStep.tsx",
+      "InsurerPersonnelInformation.tsx",
+      "DynamicPolicyUploadStep.tsx",
+      "PolicyDataValidationStep.tsx"
+    ],
+    "potentially_unused": [
+      "SimplePDFTestStep.tsx"
+    ],
+    "actively_used": [
+      "BuildingInformationStep.tsx",
+      "CompletionStep.tsx",
+      "ExpertsProvidersStep.tsx",
+      "PolicyDocumentUploadStep.tsx",
+      "CoverageIssueReviewStep.tsx",
+      "AdditionalDocumentsStep.tsx",
+      "ManualClientDetailsStep.tsx",
+      "MortgageLenderInformationStep.tsx",
+      "PersonnelAssignmentStep.tsx",
+      "ClientInformationStep.tsx",
+      "LossInformationStep.tsx",
+      "ReferralInformationStep.tsx",
+      "PolicyInformationStep.tsx",
+      "ReferralSourceInformationStep.tsx",
+      "BuildingConstructionStep.tsx",
+      "EnhancedInsuranceInfoStep.tsx",
+      "CustomFieldsStep.tsx",
+      "IntakeReviewCompletionStep.tsx",
+      "ManualInsuranceInfoStep.tsx",
+      "InsuranceInfoStep.tsx",
+      "ClaimInformationStep.tsx",
+      "MultiDocumentPDFExtractionStep.tsx",
+      "ContractInformationStep.tsx",
+      "EnhancedClientDetailsStep.tsx",
+      "OfficeTasksStep.tsx",
+      "InsurerInformationStep.tsx",
+      "MortgageInformationStep.tsx",
+      "PersonalPropertyStep.tsx",
+      "FixedRealPDFExtractionStep.tsx",
+      "IntelligentClientDetailsStep.tsx"
+    ],
+    "future_implementation": [
+      "EnhancedPolicyValidationStep.tsx"
+    ],
+    "different_workflows": [
+      "RealPDFProcessingStep.tsx",
+      "RealTimePolicyUploadStep.tsx",
+      "RealPolicyUploadStep.tsx",
+      "WorkingPolicyUploadStep.tsx",
+      "ManualClaimInformationStep.tsx",
+      "ActualPDFExtractionStep.tsx"
+    ]
+  }
+}

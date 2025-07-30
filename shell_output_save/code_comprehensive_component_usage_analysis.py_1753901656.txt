@@ -1,0 +1,190 @@
+🔍 Comprehensive ClaimGuru Component Usage Analysis...
+======================================================================
+📁 Found 43 wizard step components
+
+📋 Found 5 wizard-related files:
+   • src/components/claims/ComprehensiveManualIntakeWizard.tsx
+   • src/components/claims/EnhancedAIClaimWizard.tsx
+   • src/components/claims/ManualIntakeWizard.tsx
+   • src/components/claims/SimpleTestWizard.tsx
+   • src/components/claims/StreamlinedManualWizard.tsx
+
+🔎 Analyzing component imports in wizard files:
+   📄 EnhancedAIClaimWizard.tsx: 19 components
+     • AdditionalDocumentsStep
+     • BuildingConstructionStep
+     • ClaimInformationStep
+     • CompletionStep
+     • ContractInformationStep
+     • CoverageIssueReviewStep
+     • CustomFieldsStep
+     • EnhancedClientDetailsStep
+     • EnhancedInsuranceInfoStep
+     • ExpertsProvidersStep
+     • FixedRealPDFExtractionStep
+     • IntelligentClientDetailsStep
+     • MortgageInformationStep
+     • MultiDocumentPDFExtractionStep
+     • OfficeTasksStep
+     • PersonalPropertyStep
+     • PersonnelAssignmentStep
+     • PolicyDocumentUploadStep
+     • ReferralInformationStep
+   📄 ComprehensiveManualIntakeWizard.tsx: 9 components
+     • BuildingConstructionStep
+     • ClaimInformationStep
+     • ClientInformationStep
+     • CompletionStep
+     • InsurerInformationStep
+     • MortgageInformationStep
+     • OfficeTasksStep
+     • PolicyInformationStep
+     • ReferralInformationStep
+   📄 StreamlinedManualWizard.tsx: 2 components
+     • ManualClientDetailsStep
+     • ManualInsuranceInfoStep
+   📄 ManualIntakeWizard.tsx: 9 components
+     • BuildingInformationStep
+     • ClientInformationStep
+     • InsurerInformationStep
+     • IntakeReviewCompletionStep
+     • LossInformationStep
+     • MortgageLenderInformationStep
+     • OfficeTasksStep
+     • PolicyInformationStep
+     • ReferralSourceInformationStep
+   📄 SimpleTestWizard.tsx: No wizard-step imports found
+
+🌐 Searching for references across entire src directory:
+
+🏷️  Analyzing component patterns:
+   AI_Enhanced: 8 components
+     • ManualClientDetailsStep.tsx ✅ USED
+       → src/components/claims/StreamlinedManualWizard.tsx
+       → src/components/claims/StreamlinedManualWizard.tsx
+     • InsuredDetailsStep.tsx ❓ UNUSED
+     • EnhancedInsuranceInfoStep.tsx ✅ USED
+       → src/components/claims/EnhancedAIClaimWizard.tsx
+       → src/components/claims/EnhancedAIClaimWizard.tsx
+     • ClaimInformationStep.tsx ✅ USED
+       → src/components/claims/EnhancedAIClaimWizard.tsx
+       → src/components/claims/ComprehensiveManualIntakeWizard.tsx
+     • ManualClaimInformationStep.tsx ❓ UNUSED
+     • EnhancedClientDetailsStep.tsx ✅ USED
+       → src/components/claims/EnhancedAIClaimWizard.tsx
+       → src/components/claims/EnhancedAIClaimWizard.tsx
+     • EnhancedPolicyValidationStep.tsx ❓ UNUSED
+     • IntelligentClientDetailsStep.tsx ✅ USED
+       → src/components/claims/EnhancedAIClaimWizard.tsx
+       → src/components/claims/EnhancedAIClaimWizard.tsx
+   Manual_Only: 3 components
+     • ManualClientDetailsStep.tsx ✅ USED
+       → src/components/claims/StreamlinedManualWizard.tsx
+       → src/components/claims/StreamlinedManualWizard.tsx
+     • ManualInsuranceInfoStep.tsx ✅ USED
+       → src/components/claims/StreamlinedManualWizard.tsx
+       → src/components/claims/StreamlinedManualWizard.tsx
+     • ManualClaimInformationStep.tsx ❓ UNUSED
+   PDF_Processing: 12 components
+     • PolicyDocumentUploadStep.tsx ✅ USED
+       → src/components/claims/EnhancedAIClaimWizard.tsx
+       → src/components/claims/EnhancedAIClaimWizard.tsx
+     • AdditionalDocumentsStep.tsx ✅ USED
+       → src/components/claims/EnhancedAIClaimWizard.tsx
+       → src/components/claims/EnhancedAIClaimWizard.tsx
+     • RealPDFProcessingStep.tsx ❓ UNUSED
+     • SimplePDFTestStep.tsx ❓ UNUSED
+     • PolicyExtractionValidationStep.tsx ❓ UNUSED
+     • RealTimePolicyUploadStep.tsx ❓ UNUSED
+     • RealPolicyUploadStep.tsx ❓ UNUSED
+     • WorkingPolicyUploadStep.tsx ❓ UNUSED
+     • MultiDocumentPDFExtractionStep.tsx ✅ USED
+       → src/components/claims/EnhancedAIClaimWizard.tsx
+       → src/components/claims/EnhancedAIClaimWizard.tsx
+     • DynamicPolicyUploadStep.tsx ❓ UNUSED
+     • FixedRealPDFExtractionStep.tsx ✅ USED
+       → src/components/claims/EnhancedAIClaimWizard.tsx
+       → src/components/claims/EnhancedAIClaimWizard.tsx
+     • ActualPDFExtractionStep.tsx ❓ UNUSED
+   Validation: 5 components
+     • CoverageIssueReviewStep.tsx ✅ USED
+       → src/components/claims/EnhancedAIClaimWizard.tsx
+       → src/components/claims/EnhancedAIClaimWizard.tsx
+     • PolicyExtractionValidationStep.tsx ❓ UNUSED
+     • IntakeReviewCompletionStep.tsx ✅ USED
+       → src/components/claims/ManualIntakeWizard.tsx
+       → src/components/claims/ManualIntakeWizard.tsx
+     • EnhancedPolicyValidationStep.tsx ❓ UNUSED
+     • PolicyDataValidationStep.tsx ❓ UNUSED
+   Testing: 1 components
+     • SimplePDFTestStep.tsx ❓ UNUSED
+   Real_Implementation: 6 components
+     • RealPDFProcessingStep.tsx ❓ UNUSED
+     • RealTimePolicyUploadStep.tsx ❓ UNUSED
+     • RealPolicyUploadStep.tsx ❓ UNUSED
+     • WorkingPolicyUploadStep.tsx ❓ UNUSED
+     • FixedRealPDFExtractionStep.tsx ✅ USED
+       → src/components/claims/EnhancedAIClaimWizard.tsx
+       → src/components/claims/EnhancedAIClaimWizard.tsx
+     • ActualPDFExtractionStep.tsx ❓ UNUSED
+
+💡 Comprehensive Analysis Results:
+   ✅ Actively Used: 30 components
+   🚀 Future Implementation: 1 components
+   🔄 Different Workflows: 6 components
+   ❓ Potentially Unused: 1 components
+   ❌ Definitely Unused: 5 components
+
+🎯 UPDATED Recommendations:
+   KEEP - Actively Used (30):
+     • AdditionalDocumentsStep.tsx
+     • BuildingConstructionStep.tsx
+     • BuildingInformationStep.tsx
+     • ClaimInformationStep.tsx
+     • ClientInformationStep.tsx
+     • CompletionStep.tsx
+     • ContractInformationStep.tsx
+     • CoverageIssueReviewStep.tsx
+     • CustomFieldsStep.tsx
+     • EnhancedClientDetailsStep.tsx
+     • EnhancedInsuranceInfoStep.tsx
+     • ExpertsProvidersStep.tsx
+     • FixedRealPDFExtractionStep.tsx
+     • InsuranceInfoStep.tsx
+     • InsurerInformationStep.tsx
+     • IntakeReviewCompletionStep.tsx
+     • IntelligentClientDetailsStep.tsx
+     • LossInformationStep.tsx
+     • ManualClientDetailsStep.tsx
+     • ManualInsuranceInfoStep.tsx
+     • MortgageInformationStep.tsx
+     • MortgageLenderInformationStep.tsx
+     • MultiDocumentPDFExtractionStep.tsx
+     • OfficeTasksStep.tsx
+     • PersonalPropertyStep.tsx
+     • PersonnelAssignmentStep.tsx
+     • PolicyDocumentUploadStep.tsx
+     • PolicyInformationStep.tsx
+     • ReferralInformationStep.tsx
+     • ReferralSourceInformationStep.tsx
+   REVIEW - Likely Future AI Implementation (1):
+     • EnhancedPolicyValidationStep.tsx
+   REVIEW - Different Workflow Variants (6):
+     • ActualPDFExtractionStep.tsx
+     • ManualClaimInformationStep.tsx
+     • RealPDFProcessingStep.tsx
+     • RealPolicyUploadStep.tsx
+     • RealTimePolicyUploadStep.tsx
+     • WorkingPolicyUploadStep.tsx
+   ARCHIVE - Testing/Development Only (1):
+     • SimplePDFTestStep.tsx
+   DELETE - No References Found (5):
+     • DynamicPolicyUploadStep.tsx
+     • InsuredDetailsStep.tsx
+     • InsurerPersonnelInformation.tsx
+     • PolicyDataValidationStep.tsx
+     • PolicyExtractionValidationStep.tsx
+
+======================================================================
+✅ Comprehensive analysis complete!
+📄 Detailed results saved to: /workspace/comprehensive_component_usage_analysis.json
