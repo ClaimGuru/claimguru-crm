@@ -1,0 +1,2460 @@
+{
+  "summary": {
+    "total_components": 124,
+    "total_services": 24,
+    "unused_components": 26,
+    "potentially_unused_components": 61,
+    "duplicate_functions": 88,
+    "wizard_files": 6
+  },
+  "unused_components": {
+    "definitely_unused": {
+      "ErrorBoundary": [],
+      "Popover": [],
+      "radio-group": [],
+      "checkbox": [],
+      "slider": [],
+      "VendorSelector": [],
+      "ClaimFolderManager": [],
+      "StreamlinedManualWizard": [],
+      "SimpleCompletionStep": [],
+      "ComprehensiveManualIntakeWizard": [],
+      "RealPDFProcessingStep": [],
+      "InsuredDetailsStep": [],
+      "SimplePDFTestStep": [],
+      "PolicyExtractionValidationStep": [],
+      "RealTimePolicyUploadStep": [],
+      "RealPolicyUploadStep": [],
+      "WorkingPolicyUploadStep": [],
+      "ManualClaimInformationStep": [],
+      "EnhancedPolicyValidationStep": [],
+      "DynamicPolicyUploadStep": [],
+      "ActualPDFExtractionStep": [],
+      "ClaimsClientOverview": [],
+      "VendorAssignmentForm": [],
+      "DynamicCustomField": [],
+      "TaskForm": [],
+      "DocumentAnalytics": []
+    },
+    "potentially_unused": {
+      "ClientCreateEditModal": [
+        "pages/ClientManagement.tsx"
+      ],
+      "ClientPermissionModal": [
+        "pages/ClientManagement.tsx"
+      ],
+      "FinanceAnalytics": [
+        "pages/Finance.tsx"
+      ],
+      "MonthView": [
+        "pages/Calendar.tsx"
+      ],
+      "EventModal": [
+        "pages/Calendar.tsx"
+      ],
+      "AISettlementPredictor": [
+        "pages/AIInsights.tsx"
+      ],
+      "AIInsights": [
+        "pages/AIInsights.tsx"
+      ],
+      "CommunicationAnalytics": [
+        "pages/CommunicationHub.tsx"
+      ],
+      "AutomationManager": [
+        "pages/CommunicationHub.tsx"
+      ],
+      "EmailTemplateManager": [
+        "pages/CommunicationHub.tsx"
+      ],
+      "FolderTemplateManager": [
+        "pages/AdminPanel.tsx"
+      ],
+      "CustomFieldManager": [
+        "pages/AdminPanel.tsx"
+      ],
+      "DropdownMenu": [
+        "components/claims/ClaimFolderManager.tsx"
+      ],
+      "tabs": [
+        "pages/AdminPanel.tsx"
+      ],
+      "Dialog": [
+        "components/claims/ClaimFolderManager.tsx"
+      ],
+      "CauseOfLossSelector": [
+        "components/claims/wizard-steps/ClaimInformationStep.tsx"
+      ],
+      "FileImportExport": [
+        "pages/Insurers.tsx"
+      ],
+      "ToastContainer": [
+        "App.tsx"
+      ],
+      "MultiTextArea": [
+        "components/claims/wizard-steps/ClaimInformationStep.tsx"
+      ],
+      "ClientCreateClaimButton": [
+        "pages/Clients.tsx"
+      ],
+      "CreateClaimModal": [
+        "pages/Clients.tsx"
+      ],
+      "ClientDetailsModal": [
+        "pages/Clients.tsx"
+      ],
+      "ClientDetailView": [
+        "components/dashboard/ClaimsClientOverview.tsx"
+      ],
+      "SimpleTestWizard": [
+        "pages/TestClaims.tsx"
+      ],
+      "ClaimDetailView": [
+        "components/dashboard/ClaimsClientOverview.tsx"
+      ],
+      "BuildingInformationStep": [
+        "components/claims/ManualIntakeWizard.tsx"
+      ],
+      "ExpertsProvidersStep": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ],
+      "PolicyDocumentUploadStep": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ],
+      "CoverageIssueReviewStep": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ],
+      "AdditionalDocumentsStep": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ],
+      "ManualClientDetailsStep": [
+        "components/claims/StreamlinedManualWizard.tsx"
+      ],
+      "MortgageLenderInformationStep": [
+        "components/claims/ManualIntakeWizard.tsx"
+      ],
+      "PersonnelAssignmentStep": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ],
+      "LossInformationStep": [
+        "components/claims/ManualIntakeWizard.tsx"
+      ],
+      "ReferralSourceInformationStep": [
+        "components/claims/ManualIntakeWizard.tsx"
+      ],
+      "EnhancedInsuranceInfoStep": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ],
+      "CustomFieldsStep": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ],
+      "IntakeReviewCompletionStep": [
+        "components/claims/ManualIntakeWizard.tsx"
+      ],
+      "ManualInsuranceInfoStep": [
+        "components/claims/StreamlinedManualWizard.tsx"
+      ],
+      "MultiDocumentPDFExtractionStep": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ],
+      "ContractInformationStep": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ],
+      "EnhancedClientDetailsStep": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ],
+      "PersonalPropertyStep": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ],
+      "FixedRealPDFExtractionStep": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ],
+      "IntelligentClientDetailsStep": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ],
+      "SignupForm": [
+        "pages/AuthPage.tsx"
+      ],
+      "LoginForm": [
+        "pages/AuthPage.tsx"
+      ],
+      "VendorDetails": [
+        "pages/Vendors.tsx"
+      ],
+      "VendorAssignments": [
+        "pages/Vendors.tsx"
+      ],
+      "VendorPerformance": [
+        "pages/Vendors.tsx"
+      ],
+      "CommunicationForm": [
+        "pages/CommunicationHub.tsx"
+      ],
+      "ExpenseForm": [
+        "pages/Finance.tsx"
+      ],
+      "FeeScheduleForm": [
+        "pages/Finance.tsx"
+      ],
+      "LeadSourceSelector": [
+        "components/forms/ClientForm.tsx"
+      ],
+      "VendorForm": [
+        "pages/Vendors.tsx"
+      ],
+      "PaymentForm": [
+        "pages/Finance.tsx"
+      ],
+      "DocumentShareModal": [
+        "components/documents/AdvancedDocumentManager.tsx"
+      ],
+      "AIDocumentAnalysis": [
+        "components/documents/AdvancedDocumentManager.tsx"
+      ],
+      "AdvancedDocumentManager": [
+        "pages/Documents.tsx"
+      ],
+      "DocumentVersionHistory": [
+        "components/documents/AdvancedDocumentManager.tsx"
+      ],
+      "IntegrationSetupModal": [
+        "pages/Integrations.tsx"
+      ]
+    }
+  },
+  "wizard_analysis": {
+    "ComprehensiveManualIntakeWizard.tsx": {
+      "lines_of_code": 654,
+      "import_count": 14,
+      "imported_components": [
+        "Button",
+        "OfficeTasksStep",
+        "ClientInformationStep",
+        "ClaimInformationStep",
+        "LoadingSpinner",
+        "Card",
+        "wizardProgressService",
+        "CompletionStep",
+        "InsurerInformationStep",
+        "MortgageInformationStep",
+        "ReferralInformationStep",
+        "BuildingConstructionStep",
+        "PolicyInformationStep",
+        "AuthContext"
+      ],
+      "file_size_kb": 20.435546875,
+      "ai_related": true,
+      "pdf_related": false,
+      "extraction_related": false
+    },
+    "EnhancedAIClaimWizard.tsx": {
+      "lines_of_code": 917,
+      "import_count": 26,
+      "imported_components": [
+        "OfficeTasksStep",
+        "IntelligentClientDetailsStep",
+        "intelligentWizardService",
+        "EnhancedClientDetailsStep",
+        "MortgageInformationStep",
+        "BuildingConstructionStep",
+        "AdditionalDocumentsStep",
+        "PolicyDocumentUploadStep",
+        "wizardProgressService",
+        "FixedRealPDFExtractionStep",
+        "ValidationSummary",
+        "wizardValidationService",
+        "MultiDocumentPDFExtractionStep",
+        "Button",
+        "PersonalPropertyStep",
+        "CompletionStep",
+        "AuthContext",
+        "ClaimInformationStep",
+        "Card",
+        "ExpertsProvidersStep",
+        "ContractInformationStep",
+        "CustomFieldsStep",
+        "CoverageIssueReviewStep",
+        "ReferralInformationStep",
+        "EnhancedInsuranceInfoStep",
+        "PersonnelAssignmentStep"
+      ],
+      "file_size_kb": 32.0166015625,
+      "ai_related": true,
+      "pdf_related": true,
+      "extraction_related": true
+    },
+    "ManualIntakeWizard.tsx": {
+      "lines_of_code": 454,
+      "import_count": 13,
+      "imported_components": [
+        "Button",
+        "OfficeTasksStep",
+        "ClientInformationStep",
+        "LossInformationStep",
+        "Card",
+        "MortgageLenderInformationStep",
+        "ReferralSourceInformationStep",
+        "wizardProgressService",
+        "InsurerInformationStep",
+        "BuildingInformationStep",
+        "IntakeReviewCompletionStep",
+        "PolicyInformationStep",
+        "AuthContext"
+      ],
+      "file_size_kb": 14.0859375,
+      "ai_related": true,
+      "pdf_related": true,
+      "extraction_related": false
+    },
+    "StreamlinedManualWizard.tsx": {
+      "lines_of_code": 273,
+      "import_count": 4,
+      "imported_components": [
+        "Button",
+        "ManualClientDetailsStep",
+        "Card",
+        "ManualInsuranceInfoStep"
+      ],
+      "file_size_kb": 8.0498046875,
+      "ai_related": true,
+      "pdf_related": false,
+      "extraction_related": false
+    },
+    "SimpleTestWizard.tsx": {
+      "lines_of_code": 174,
+      "import_count": 3,
+      "imported_components": [
+        "Button",
+        "Input",
+        "Card"
+      ],
+      "file_size_kb": 5.3212890625,
+      "ai_related": true,
+      "pdf_related": false,
+      "extraction_related": false
+    },
+    "SimpleCompletionStep.tsx": {
+      "lines_of_code": 87,
+      "import_count": 1,
+      "imported_components": [
+        "Card"
+      ],
+      "file_size_kb": 2.7880859375,
+      "ai_related": true,
+      "pdf_related": false,
+      "extraction_related": false
+    }
+  },
+  "wizard_step_analysis": {
+    "BuildingInformationStep": {
+      "used_in_wizards": [
+        "ManualIntakeWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/ManualIntakeWizard.tsx"
+      ]
+    },
+    "CompletionStep": {
+      "used_in_wizards": [
+        "ComprehensiveManualIntakeWizard.tsx",
+        "EnhancedAIClaimWizard.tsx",
+        "ManualIntakeWizard.tsx"
+      ],
+      "total_usage": 5,
+      "usage_files": [
+        "components/claims/EnhancedAIClaimWizard.tsx",
+        "components/claims/ManualIntakeWizard.tsx",
+        "components/claims/SimpleCompletionStep.tsx",
+        "components/claims/ComprehensiveManualIntakeWizard.tsx",
+        "components/claims/wizard-steps/IntakeReviewCompletionStep.tsx"
+      ]
+    },
+    "ExpertsProvidersStep": {
+      "used_in_wizards": [
+        "EnhancedAIClaimWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ]
+    },
+    "PolicyDocumentUploadStep": {
+      "used_in_wizards": [
+        "EnhancedAIClaimWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ]
+    },
+    "CoverageIssueReviewStep": {
+      "used_in_wizards": [
+        "EnhancedAIClaimWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ]
+    },
+    "AdditionalDocumentsStep": {
+      "used_in_wizards": [
+        "EnhancedAIClaimWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ]
+    },
+    "RealPDFProcessingStep": {
+      "used_in_wizards": [],
+      "total_usage": 0,
+      "usage_files": []
+    },
+    "ManualClientDetailsStep": {
+      "used_in_wizards": [
+        "StreamlinedManualWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/StreamlinedManualWizard.tsx"
+      ]
+    },
+    "InsuredDetailsStep": {
+      "used_in_wizards": [],
+      "total_usage": 0,
+      "usage_files": []
+    },
+    "MortgageLenderInformationStep": {
+      "used_in_wizards": [
+        "ManualIntakeWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/ManualIntakeWizard.tsx"
+      ]
+    },
+    "PersonnelAssignmentStep": {
+      "used_in_wizards": [
+        "EnhancedAIClaimWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ]
+    },
+    "ClientInformationStep": {
+      "used_in_wizards": [
+        "ComprehensiveManualIntakeWizard.tsx",
+        "ManualIntakeWizard.tsx"
+      ],
+      "total_usage": 2,
+      "usage_files": [
+        "components/claims/ManualIntakeWizard.tsx",
+        "components/claims/ComprehensiveManualIntakeWizard.tsx"
+      ]
+    },
+    "LossInformationStep": {
+      "used_in_wizards": [
+        "ManualIntakeWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/ManualIntakeWizard.tsx"
+      ]
+    },
+    "ReferralInformationStep": {
+      "used_in_wizards": [
+        "ComprehensiveManualIntakeWizard.tsx",
+        "EnhancedAIClaimWizard.tsx"
+      ],
+      "total_usage": 2,
+      "usage_files": [
+        "components/claims/EnhancedAIClaimWizard.tsx",
+        "components/claims/ComprehensiveManualIntakeWizard.tsx"
+      ]
+    },
+    "SimplePDFTestStep": {
+      "used_in_wizards": [],
+      "total_usage": 0,
+      "usage_files": []
+    },
+    "PolicyInformationStep": {
+      "used_in_wizards": [
+        "ComprehensiveManualIntakeWizard.tsx",
+        "ManualIntakeWizard.tsx"
+      ],
+      "total_usage": 2,
+      "usage_files": [
+        "components/claims/ManualIntakeWizard.tsx",
+        "components/claims/ComprehensiveManualIntakeWizard.tsx"
+      ]
+    },
+    "ReferralSourceInformationStep": {
+      "used_in_wizards": [
+        "ManualIntakeWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/ManualIntakeWizard.tsx"
+      ]
+    },
+    "BuildingConstructionStep": {
+      "used_in_wizards": [
+        "ComprehensiveManualIntakeWizard.tsx",
+        "EnhancedAIClaimWizard.tsx"
+      ],
+      "total_usage": 2,
+      "usage_files": [
+        "components/claims/EnhancedAIClaimWizard.tsx",
+        "components/claims/ComprehensiveManualIntakeWizard.tsx"
+      ]
+    },
+    "PolicyExtractionValidationStep": {
+      "used_in_wizards": [],
+      "total_usage": 0,
+      "usage_files": []
+    },
+    "EnhancedInsuranceInfoStep": {
+      "used_in_wizards": [
+        "EnhancedAIClaimWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ]
+    },
+    "RealTimePolicyUploadStep": {
+      "used_in_wizards": [],
+      "total_usage": 0,
+      "usage_files": []
+    },
+    "CustomFieldsStep": {
+      "used_in_wizards": [
+        "EnhancedAIClaimWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ]
+    },
+    "InsurerPersonnelInformation": {
+      "used_in_wizards": [],
+      "total_usage": 2,
+      "usage_files": [
+        "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx",
+        "components/claims/wizard-steps/InsuranceInfoStep.tsx"
+      ]
+    },
+    "IntakeReviewCompletionStep": {
+      "used_in_wizards": [
+        "ManualIntakeWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/ManualIntakeWizard.tsx"
+      ]
+    },
+    "ManualInsuranceInfoStep": {
+      "used_in_wizards": [
+        "StreamlinedManualWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/StreamlinedManualWizard.tsx"
+      ]
+    },
+    "RealPolicyUploadStep": {
+      "used_in_wizards": [],
+      "total_usage": 0,
+      "usage_files": []
+    },
+    "InsuranceInfoStep": {
+      "used_in_wizards": [
+        "EnhancedAIClaimWizard.tsx",
+        "StreamlinedManualWizard.tsx"
+      ],
+      "total_usage": 4,
+      "usage_files": [
+        "components/claims/StreamlinedManualWizard.tsx",
+        "components/claims/EnhancedAIClaimWizard.tsx",
+        "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+        "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx"
+      ]
+    },
+    "WorkingPolicyUploadStep": {
+      "used_in_wizards": [],
+      "total_usage": 0,
+      "usage_files": []
+    },
+    "ClaimInformationStep": {
+      "used_in_wizards": [
+        "ComprehensiveManualIntakeWizard.tsx",
+        "EnhancedAIClaimWizard.tsx"
+      ],
+      "total_usage": 3,
+      "usage_files": [
+        "components/claims/EnhancedAIClaimWizard.tsx",
+        "components/claims/ComprehensiveManualIntakeWizard.tsx",
+        "components/claims/wizard-steps/ManualClaimInformationStep.tsx"
+      ]
+    },
+    "MultiDocumentPDFExtractionStep": {
+      "used_in_wizards": [
+        "EnhancedAIClaimWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ]
+    },
+    "ManualClaimInformationStep": {
+      "used_in_wizards": [],
+      "total_usage": 0,
+      "usage_files": []
+    },
+    "ContractInformationStep": {
+      "used_in_wizards": [
+        "EnhancedAIClaimWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ]
+    },
+    "EnhancedClientDetailsStep": {
+      "used_in_wizards": [
+        "EnhancedAIClaimWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ]
+    },
+    "EnhancedPolicyValidationStep": {
+      "used_in_wizards": [],
+      "total_usage": 0,
+      "usage_files": []
+    },
+    "OfficeTasksStep": {
+      "used_in_wizards": [
+        "ComprehensiveManualIntakeWizard.tsx",
+        "EnhancedAIClaimWizard.tsx",
+        "ManualIntakeWizard.tsx"
+      ],
+      "total_usage": 3,
+      "usage_files": [
+        "components/claims/EnhancedAIClaimWizard.tsx",
+        "components/claims/ManualIntakeWizard.tsx",
+        "components/claims/ComprehensiveManualIntakeWizard.tsx"
+      ]
+    },
+    "InsurerInformationStep": {
+      "used_in_wizards": [
+        "ComprehensiveManualIntakeWizard.tsx",
+        "ManualIntakeWizard.tsx"
+      ],
+      "total_usage": 2,
+      "usage_files": [
+        "components/claims/ManualIntakeWizard.tsx",
+        "components/claims/ComprehensiveManualIntakeWizard.tsx"
+      ]
+    },
+    "MortgageInformationStep": {
+      "used_in_wizards": [
+        "ComprehensiveManualIntakeWizard.tsx",
+        "EnhancedAIClaimWizard.tsx"
+      ],
+      "total_usage": 2,
+      "usage_files": [
+        "components/claims/EnhancedAIClaimWizard.tsx",
+        "components/claims/ComprehensiveManualIntakeWizard.tsx"
+      ]
+    },
+    "DynamicPolicyUploadStep": {
+      "used_in_wizards": [],
+      "total_usage": 0,
+      "usage_files": []
+    },
+    "PersonalPropertyStep": {
+      "used_in_wizards": [
+        "EnhancedAIClaimWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ]
+    },
+    "PolicyDataValidationStep": {
+      "used_in_wizards": [],
+      "total_usage": 3,
+      "usage_files": [
+        "components/claims/wizard-steps/PolicyDocumentUploadStep.tsx",
+        "components/claims/wizard-steps/MultiDocumentPDFExtractionStep.tsx",
+        "components/claims/wizard-steps/FixedRealPDFExtractionStep.tsx"
+      ]
+    },
+    "FixedRealPDFExtractionStep": {
+      "used_in_wizards": [
+        "EnhancedAIClaimWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ]
+    },
+    "IntelligentClientDetailsStep": {
+      "used_in_wizards": [
+        "EnhancedAIClaimWizard.tsx"
+      ],
+      "total_usage": 1,
+      "usage_files": [
+        "components/claims/EnhancedAIClaimWizard.tsx"
+      ]
+    },
+    "ActualPDFExtractionStep": {
+      "used_in_wizards": [],
+      "total_usage": 0,
+      "usage_files": []
+    }
+  },
+  "service_usage": {
+    "hybridPdfExtractionService": [
+      "components/claims/wizard-steps/PolicyDocumentUploadStep.tsx",
+      "components/claims/wizard-steps/WorkingPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/FixedRealPDFExtractionStep.tsx",
+      "services/multiDocumentExtractionService.ts",
+      "services/intelligentExtractionService.ts",
+      "services/enhancedHybridPdfExtractionService.ts"
+    ],
+    "adaptiveLearningService": [
+      "services/intelligentExtractionService.ts"
+    ],
+    "wizardValidationService": [
+      "components/ui/ValidationSummary.tsx",
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx"
+    ],
+    "policyDataMappingService": [
+      "components/claims/wizard-steps/FixedRealPDFExtractionStep.tsx"
+    ],
+    "claimWizardAI": [
+      "components/claims/wizard-steps/CompletionStep.tsx",
+      "components/claims/wizard-steps/ExpertsProvidersStep.tsx",
+      "components/claims/wizard-steps/PersonalPropertyStep.tsx"
+    ],
+    "identifierExtractionService": [
+      "services/multiDocumentExtractionService.ts",
+      "services/intelligentExtractionService.ts"
+    ],
+    "googlePlacesService": [],
+    "documentClassificationService": [
+      "services/multiDocumentExtractionService.ts"
+    ],
+    "enhancedClaimWizardAI": [
+      "components/claims/wizard-steps/CoverageIssueReviewStep.tsx",
+      "components/claims/wizard-steps/PersonnelAssignmentStep.tsx",
+      "components/claims/wizard-steps/ReferralInformationStep.tsx",
+      "components/claims/wizard-steps/PolicyExtractionValidationStep.tsx",
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/ContractInformationStep.tsx",
+      "components/claims/wizard-steps/EnhancedClientDetailsStep.tsx",
+      "components/claims/wizard-steps/MortgageInformationStep.tsx"
+    ],
+    "multiDocumentExtractionService": [
+      "components/claims/wizard-steps/AdditionalDocumentsStep.tsx",
+      "components/claims/wizard-steps/MultiDocumentPDFExtractionStep.tsx"
+    ],
+    "intelligentExtractionService": [
+      "services/multiDocumentExtractionService.ts"
+    ],
+    "documentUploadService": [],
+    "pdfExtractionService": [],
+    "intelligentWizardService": [
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/wizard-steps/PolicyDocumentUploadStep.tsx",
+      "components/claims/wizard-steps/IntelligentClientDetailsStep.tsx"
+    ],
+    "enhancedPdfExtractionService": [],
+    "configService": [
+      "components/ui/AddressAutocomplete.tsx",
+      "services/googlePlacesService.ts"
+    ],
+    "claimService": [],
+    "sharedFieldSchemas": [
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/ManualIntakeWizard.tsx",
+      "hooks/useSharedFieldSchemas.ts"
+    ],
+    "wizardProgressService": [
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/ManualIntakeWizard.tsx",
+      "components/claims/ComprehensiveManualIntakeWizard.tsx"
+    ],
+    "emailAutomationService": [
+      "pages/Communications.tsx"
+    ],
+    "enhancedHybridPdfExtractionService": [
+      "services/multiDocumentExtractionService.ts",
+      "services/intelligentExtractionService.ts"
+    ],
+    "carrierLearningService": [
+      "services/intelligentExtractionService.ts"
+    ],
+    "customFieldService": [
+      "hooks/useCustomFields.ts",
+      "services/claimService.ts"
+    ],
+    "confirmedFieldsService": [
+      "components/ui/ConfirmedFieldWrapper.tsx",
+      "components/ui/ConfirmedFieldsSummary.tsx",
+      "components/claims/wizard-steps/CompletionStep.tsx",
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/PolicyDataValidationStep.tsx",
+      "components/claims/wizard-steps/FixedRealPDFExtractionStep.tsx",
+      "components/claims/wizard-steps/IntelligentClientDetailsStep.tsx"
+    ]
+  },
+  "duplicate_functions": {
+    "handleInputChange": [
+      "components/modals/ClientCreateEditModal.tsx",
+      "components/calendar/EventModal.tsx",
+      "components/ui/AddressAutocomplete.tsx",
+      "components/clients/ClientDetailView.tsx",
+      "components/claims/ClaimDetailView.tsx",
+      "components/claims/wizard-steps/ManualClientDetailsStep.tsx",
+      "components/claims/wizard-steps/BuildingConstructionStep.tsx",
+      "components/claims/wizard-steps/InsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/ManualClaimInformationStep.tsx",
+      "components/claims/wizard-steps/IntelligentClientDetailsStep.tsx",
+      "components/forms/ClaimForm.tsx",
+      "components/forms/ClientForm.tsx",
+      "components/forms/TaskForm.tsx",
+      "components/integrations/IntegrationSetupModal.tsx"
+    ],
+    "handleSave": [
+      "components/modals/ClientCreateEditModal.tsx",
+      "components/ui/ConfirmedFieldWrapper.tsx",
+      "components/clients/ClientDetailView.tsx",
+      "components/claims/ClaimDetailView.tsx",
+      "components/claims/wizard-steps/EnhancedPolicyValidationStep.tsx",
+      "components/claims/wizard-steps/PolicyDataValidationStep.tsx",
+      "pages/Finance.tsx"
+    ],
+    "onClose": [
+      "components/modals/ClientCreateEditModal.tsx",
+      "components/modals/ClientPermissionModal.tsx",
+      "components/calendar/EventModal.tsx",
+      "components/ui/DocumentUpload.tsx",
+      "components/clients/CreateClaimModal.tsx",
+      "components/clients/ClientDetailsModal.tsx",
+      "components/forms/CommunicationForm.tsx",
+      "components/forms/ExpenseForm.tsx",
+      "components/forms/FeeScheduleForm.tsx",
+      "components/forms/ClaimForm.tsx",
+      "components/forms/ClientForm.tsx",
+      "components/forms/PaymentForm.tsx",
+      "components/forms/TaskForm.tsx",
+      "components/documents/DocumentShareModal.tsx",
+      "components/documents/AIDocumentAnalysis.tsx",
+      "components/documents/DocumentVersionHistory.tsx",
+      "components/integrations/IntegrationSetupModal.tsx",
+      "pages/Claims.tsx"
+    ],
+    "onSave": [
+      "components/modals/ClientCreateEditModal.tsx",
+      "components/modals/ClientPermissionModal.tsx",
+      "components/calendar/EventModal.tsx",
+      "components/forms/CommunicationForm.tsx",
+      "components/forms/ExpenseForm.tsx",
+      "components/forms/FeeScheduleForm.tsx",
+      "components/forms/VendorAssignmentForm.tsx",
+      "components/forms/ClaimForm.tsx",
+      "components/forms/VendorForm.tsx",
+      "components/forms/ClientForm.tsx",
+      "components/forms/PaymentForm.tsx",
+      "components/forms/TaskForm.tsx",
+      "components/integrations/IntegrationSetupModal.tsx"
+    ],
+    "handleSavePermissions": [
+      "components/modals/ClientPermissionModal.tsx",
+      "pages/ClientManagement.tsx"
+    ],
+    "handleSignOut": [
+      "components/layout/Sidebar.tsx",
+      "components/layout/Header.tsx"
+    ],
+    "getPriorityIcon": [
+      "components/calendar/MonthView.tsx",
+      "pages/Tasks.tsx"
+    ],
+    "handleSubmit": [
+      "components/calendar/EventModal.tsx",
+      "components/claims/wizard-steps/CompletionStep.tsx",
+      "components/claims/wizard-steps/EnhancedPolicyValidationStep.tsx",
+      "components/forms/CommunicationForm.tsx",
+      "components/forms/ExpenseForm.tsx",
+      "components/forms/FeeScheduleForm.tsx",
+      "components/forms/VendorAssignmentForm.tsx",
+      "components/forms/ClaimForm.tsx",
+      "components/forms/VendorForm.tsx",
+      "components/forms/ClientForm.tsx",
+      "components/forms/PaymentForm.tsx",
+      "components/forms/TaskForm.tsx",
+      "components/integrations/IntegrationSetupModal.tsx",
+      "pages/Insurers.tsx"
+    ],
+    "getConfidenceColor": [
+      "components/ai/AISettlementPredictor.tsx",
+      "components/claims/wizard-steps/PolicyExtractionValidationStep.tsx",
+      "components/claims/wizard-steps/EnhancedPolicyValidationStep.tsx",
+      "components/claims/wizard-steps/PolicyDataValidationStep.tsx",
+      "components/claims/wizard-steps/IntelligentClientDetailsStep.tsx",
+      "pages/AIInsights.tsx"
+    ],
+    "formatCurrency": [
+      "components/ai/AISettlementPredictor.tsx",
+      "components/clients/ClientDetailView.tsx",
+      "components/claims/ClaimDetailView.tsx",
+      "components/claims/wizard-steps/CompletionStep.tsx",
+      "components/claims/wizard-steps/ExpertsProvidersStep.tsx",
+      "components/claims/wizard-steps/InsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/WorkingPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/PersonalPropertyStep.tsx",
+      "components/dashboard/ClaimsClientOverview.tsx",
+      "pages/Settlements.tsx",
+      "pages/Properties.tsx"
+    ],
+    "getInsightIcon": [
+      "components/ai/AIInsights.tsx",
+      "pages/AIInsights.tsx"
+    ],
+    "getPriorityColor": [
+      "components/ai/AIInsights.tsx",
+      "components/vendors/VendorAssignments.tsx",
+      "pages/Communications.tsx",
+      "pages/Tasks.tsx"
+    ],
+    "getSeverityColor": [
+      "components/ai/AdvancedAIDashboard.tsx",
+      "components/claims/wizard-steps/CoverageIssueReviewStep.tsx"
+    ],
+    "getStatusColor": [
+      "components/communication/CommunicationAnalytics.tsx",
+      "components/claims/wizard-steps/PolicyExtractionValidationStep.tsx",
+      "components/dashboard/ClaimsClientOverview.tsx",
+      "components/vendors/VendorDetails.tsx",
+      "components/vendors/VendorAssignments.tsx",
+      "pages/Financial.tsx",
+      "pages/Settlements.tsx",
+      "pages/Claims.tsx",
+      "pages/Properties.tsx",
+      "pages/LeadManagement.tsx",
+      "pages/Tasks.tsx",
+      "pages/DirectFeatureTest.tsx",
+      "pages/Payables.tsx",
+      "pages/Invoicing.tsx"
+    ],
+    "updateField": [
+      "components/ui/StandardizedAddressInput.tsx",
+      "components/claims/wizard-steps/BuildingInformationStep.tsx",
+      "components/claims/wizard-steps/MortgageLenderInformationStep.tsx",
+      "components/claims/wizard-steps/ClientInformationStep.tsx",
+      "components/claims/wizard-steps/LossInformationStep.tsx",
+      "components/claims/wizard-steps/PolicyInformationStep.tsx",
+      "components/claims/wizard-steps/ReferralSourceInformationStep.tsx",
+      "components/claims/wizard-steps/IntakeReviewCompletionStep.tsx",
+      "components/claims/wizard-steps/ClaimInformationStep.tsx",
+      "components/claims/wizard-steps/OfficeTasksStep.tsx",
+      "components/claims/wizard-steps/InsurerInformationStep.tsx"
+    ],
+    "onChange": [
+      "components/ui/StandardizedAddressInput.tsx",
+      "components/ui/CauseOfLossSelector.tsx",
+      "components/ui/StandardizedPhoneInput.tsx",
+      "components/ui/AddressAutocomplete.tsx",
+      "components/ui/ConfirmedFieldWrapper.tsx",
+      "components/ui/MultiTextArea.tsx",
+      "components/forms/DynamicCustomField.tsx",
+      "hooks/use-mobile.tsx"
+    ],
+    "getProgressColor": [
+      "components/ui/ValidationSummary.tsx",
+      "components/ui/ConfirmedFieldsSummary.tsx"
+    ],
+    "getSeverityIcon": [
+      "components/ui/ValidationSummary.tsx",
+      "components/claims/wizard-steps/CoverageIssueReviewStep.tsx"
+    ],
+    "handleChange": [
+      "components/ui/DocumentUpload.tsx",
+      "components/claims/wizard-steps/EnhancedPolicyValidationStep.tsx"
+    ],
+    "getFileIcon": [
+      "components/ui/DocumentUpload.tsx",
+      "components/documents/AdvancedDocumentManager.tsx"
+    ],
+    "formatFileSize": [
+      "components/ui/DocumentUpload.tsx",
+      "components/claims/ClaimFolderManager.tsx",
+      "components/documents/AdvancedDocumentManager.tsx",
+      "components/documents/DocumentVersionHistory.tsx"
+    ],
+    "updatePhoneNumber": [
+      "components/ui/StandardizedPhoneInput.tsx",
+      "components/claims/wizard-steps/EnhancedClientDetailsStep.tsx",
+      "pages/DirectFeatureTest.tsx"
+    ],
+    "addPhoneNumber": [
+      "components/ui/StandardizedPhoneInput.tsx",
+      "components/claims/wizard-steps/ManualClientDetailsStep.tsx",
+      "components/claims/wizard-steps/InsurerPersonnelInformation.tsx",
+      "components/claims/wizard-steps/EnhancedClientDetailsStep.tsx",
+      "pages/DirectFeatureTest.tsx"
+    ],
+    "removePhoneNumber": [
+      "components/ui/StandardizedPhoneInput.tsx",
+      "components/claims/wizard-steps/ManualClientDetailsStep.tsx",
+      "components/claims/wizard-steps/InsurerPersonnelInformation.tsx",
+      "components/claims/wizard-steps/EnhancedClientDetailsStep.tsx"
+    ],
+    "handleConfirm": [
+      "components/ui/ConfirmedFieldWrapper.tsx",
+      "components/claims/wizard-steps/AdditionalDocumentsStep.tsx",
+      "components/claims/wizard-steps/MultiDocumentPDFExtractionStep.tsx"
+    ],
+    "handleReject": [
+      "components/ui/ConfirmedFieldWrapper.tsx",
+      "components/claims/wizard-steps/MultiDocumentPDFExtractionStep.tsx"
+    ],
+    "handleEdit": [
+      "components/ui/ConfirmedFieldWrapper.tsx",
+      "components/claims/wizard-steps/EnhancedPolicyValidationStep.tsx",
+      "components/claims/wizard-steps/PolicyDataValidationStep.tsx",
+      "pages/Insurers.tsx"
+    ],
+    "handleCancel": [
+      "components/ui/ConfirmedFieldWrapper.tsx",
+      "components/clients/ClientDetailView.tsx",
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/ManualIntakeWizard.tsx",
+      "components/claims/ClaimDetailView.tsx",
+      "components/claims/ComprehensiveManualIntakeWizard.tsx",
+      "components/claims/wizard-steps/EnhancedPolicyValidationStep.tsx",
+      "components/claims/wizard-steps/PolicyDataValidationStep.tsx"
+    ],
+    "getSourceIcon": [
+      "components/ui/ConfirmedFieldWrapper.tsx",
+      "components/forms/LeadSourceSelector.tsx"
+    ],
+    "getStatusIcon": [
+      "components/ui/ConfirmedFieldWrapper.tsx",
+      "pages/Financial.tsx",
+      "pages/Settlements.tsx",
+      "pages/Claims.tsx",
+      "pages/Properties.tsx",
+      "pages/Tasks.tsx",
+      "pages/DirectFeatureTest.tsx"
+    ],
+    "onCreateClaim": [
+      "components/clients/ClientCreateClaimButton.tsx",
+      "components/clients/ClientDetailsModal.tsx"
+    ],
+    "handleCreateClaim": [
+      "components/clients/CreateClaimModal.tsx",
+      "pages/Clients.tsx"
+    ],
+    "handleViewClient": [
+      "components/clients/CreateClaimModal.tsx",
+      "components/dashboard/ClaimsClientOverview.tsx"
+    ],
+    "onEdit": [
+      "components/clients/ClientDetailsModal.tsx",
+      "components/vendors/VendorDetails.tsx",
+      "pages/Claims.tsx"
+    ],
+    "handleAddressChange": [
+      "components/clients/ClientDetailView.tsx",
+      "components/claims/wizard-steps/InsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/IntelligentClientDetailsStep.tsx"
+    ],
+    "formatDate": [
+      "components/clients/ClientDetailView.tsx",
+      "components/claims/ClaimDetailView.tsx",
+      "components/claims/wizard-steps/CompletionStep.tsx",
+      "components/dashboard/ClaimsClientOverview.tsx",
+      "components/documents/DocumentVersionHistory.tsx"
+    ],
+    "formatPhone": [
+      "components/clients/ClientDetailView.tsx",
+      "components/vendors/VendorDetails.tsx"
+    ],
+    "getStatusBadge": [
+      "components/clients/ClientDetailView.tsx",
+      "components/claims/ClaimDetailView.tsx"
+    ],
+    "handleFileUpload": [
+      "components/claims/ClaimFolderManager.tsx",
+      "components/forms/ExpenseForm.tsx"
+    ],
+    "nextStep": [
+      "components/claims/StreamlinedManualWizard.tsx",
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/ManualIntakeWizard.tsx"
+    ],
+    "prevStep": [
+      "components/claims/StreamlinedManualWizard.tsx",
+      "components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "updateWizardData": [
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/ManualIntakeWizard.tsx",
+      "components/claims/wizard-steps/ManualClientDetailsStep.tsx",
+      "components/claims/wizard-steps/IntelligentClientDetailsStep.tsx"
+    ],
+    "saveProgress": [
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/ManualIntakeWizard.tsx",
+      "components/claims/ComprehensiveManualIntakeWizard.tsx"
+    ],
+    "handleComplete": [
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/ManualIntakeWizard.tsx",
+      "components/claims/ComprehensiveManualIntakeWizard.tsx",
+      "components/claims/wizard-steps/IntakeReviewCompletionStep.tsx"
+    ],
+    "validateStep": [
+      "components/claims/ManualIntakeWizard.tsx",
+      "hooks/useSharedFieldSchemas.ts"
+    ],
+    "getStepStatus": [
+      "components/claims/ManualIntakeWizard.tsx",
+      "hooks/useSharedFieldSchemas.ts"
+    ],
+    "onUpdate": [
+      "components/claims/SimpleCompletionStep.tsx",
+      "components/claims/wizard-steps/BuildingInformationStep.tsx",
+      "components/claims/wizard-steps/CompletionStep.tsx",
+      "components/claims/wizard-steps/ExpertsProvidersStep.tsx",
+      "components/claims/wizard-steps/PolicyDocumentUploadStep.tsx",
+      "components/claims/wizard-steps/CoverageIssueReviewStep.tsx",
+      "components/claims/wizard-steps/AdditionalDocumentsStep.tsx",
+      "components/claims/wizard-steps/RealPDFProcessingStep.tsx",
+      "components/claims/wizard-steps/ManualClientDetailsStep.tsx",
+      "components/claims/wizard-steps/InsuredDetailsStep.tsx",
+      "components/claims/wizard-steps/MortgageLenderInformationStep.tsx",
+      "components/claims/wizard-steps/PersonnelAssignmentStep.tsx",
+      "components/claims/wizard-steps/ClientInformationStep.tsx",
+      "components/claims/wizard-steps/LossInformationStep.tsx",
+      "components/claims/wizard-steps/ReferralInformationStep.tsx",
+      "components/claims/wizard-steps/SimplePDFTestStep.tsx",
+      "components/claims/wizard-steps/PolicyInformationStep.tsx",
+      "components/claims/wizard-steps/ReferralSourceInformationStep.tsx",
+      "components/claims/wizard-steps/BuildingConstructionStep.tsx",
+      "components/claims/wizard-steps/PolicyExtractionValidationStep.tsx",
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/RealTimePolicyUploadStep.tsx",
+      "components/claims/wizard-steps/CustomFieldsStep.tsx",
+      "components/claims/wizard-steps/InsurerPersonnelInformation.tsx",
+      "components/claims/wizard-steps/IntakeReviewCompletionStep.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/RealPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/InsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/WorkingPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/ClaimInformationStep.tsx",
+      "components/claims/wizard-steps/MultiDocumentPDFExtractionStep.tsx",
+      "components/claims/wizard-steps/ManualClaimInformationStep.tsx",
+      "components/claims/wizard-steps/ContractInformationStep.tsx",
+      "components/claims/wizard-steps/EnhancedClientDetailsStep.tsx",
+      "components/claims/wizard-steps/EnhancedPolicyValidationStep.tsx",
+      "components/claims/wizard-steps/OfficeTasksStep.tsx",
+      "components/claims/wizard-steps/InsurerInformationStep.tsx",
+      "components/claims/wizard-steps/MortgageInformationStep.tsx",
+      "components/claims/wizard-steps/DynamicPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/PersonalPropertyStep.tsx",
+      "components/claims/wizard-steps/FixedRealPDFExtractionStep.tsx",
+      "components/claims/wizard-steps/IntelligentClientDetailsStep.tsx",
+      "components/claims/wizard-steps/ActualPDFExtractionStep.tsx"
+    ],
+    "handleNext": [
+      "components/claims/SimpleTestWizard.tsx",
+      "components/claims/ComprehensiveManualIntakeWizard.tsx"
+    ],
+    "updateNestedField": [
+      "components/claims/wizard-steps/BuildingInformationStep.tsx",
+      "components/claims/wizard-steps/LossInformationStep.tsx",
+      "components/claims/wizard-steps/PolicyInformationStep.tsx",
+      "components/claims/wizard-steps/ClaimInformationStep.tsx"
+    ],
+    "handleFileChange": [
+      "components/claims/wizard-steps/PolicyDocumentUploadStep.tsx",
+      "components/claims/wizard-steps/RealPDFProcessingStep.tsx",
+      "components/claims/wizard-steps/RealTimePolicyUploadStep.tsx",
+      "components/claims/wizard-steps/RealPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/DynamicPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/FixedRealPDFExtractionStep.tsx",
+      "components/claims/wizard-steps/ActualPDFExtractionStep.tsx"
+    ],
+    "extractPolicyData": [
+      "components/claims/wizard-steps/PolicyDocumentUploadStep.tsx",
+      "components/claims/wizard-steps/RealPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/DynamicPolicyUploadStep.tsx"
+    ],
+    "handleValidationComplete": [
+      "components/claims/wizard-steps/PolicyDocumentUploadStep.tsx",
+      "components/claims/wizard-steps/FixedRealPDFExtractionStep.tsx"
+    ],
+    "handleValidationReject": [
+      "components/claims/wizard-steps/PolicyDocumentUploadStep.tsx",
+      "components/claims/wizard-steps/FixedRealPDFExtractionStep.tsx"
+    ],
+    "DocumentTypeIcon": [
+      "components/claims/wizard-steps/AdditionalDocumentsStep.tsx",
+      "components/claims/wizard-steps/MultiDocumentPDFExtractionStep.tsx"
+    ],
+    "ConfidenceBadge": [
+      "components/claims/wizard-steps/AdditionalDocumentsStep.tsx",
+      "components/claims/wizard-steps/MultiDocumentPDFExtractionStep.tsx"
+    ],
+    "getColor": [
+      "components/claims/wizard-steps/AdditionalDocumentsStep.tsx",
+      "components/claims/wizard-steps/MultiDocumentPDFExtractionStep.tsx"
+    ],
+    "processAllDocuments": [
+      "components/claims/wizard-steps/AdditionalDocumentsStep.tsx",
+      "components/claims/wizard-steps/MultiDocumentPDFExtractionStep.tsx"
+    ],
+    "handlePhoneNumberChange": [
+      "components/claims/wizard-steps/ManualClientDetailsStep.tsx",
+      "components/claims/wizard-steps/InsurerPersonnelInformation.tsx"
+    ],
+    "setPrimaryPhone": [
+      "components/claims/wizard-steps/ManualClientDetailsStep.tsx",
+      "components/claims/wizard-steps/InsurerPersonnelInformation.tsx",
+      "pages/DirectFeatureTest.tsx"
+    ],
+    "setFieldValue": [
+      "components/claims/wizard-steps/ManualClientDetailsStep.tsx",
+      "components/claims/wizard-steps/IntelligentClientDetailsStep.tsx"
+    ],
+    "handleFileSelect": [
+      "components/claims/wizard-steps/SimplePDFTestStep.tsx",
+      "components/claims/wizard-steps/WorkingPolicyUploadStep.tsx"
+    ],
+    "addCoverage": [
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx"
+    ],
+    "updateCoverage": [
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx"
+    ],
+    "removeCoverage": [
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx"
+    ],
+    "addDeductible": [
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx"
+    ],
+    "updateDeductible": [
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx"
+    ],
+    "removeDeductible": [
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx"
+    ],
+    "addPriorPayment": [
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx"
+    ],
+    "updatePriorPayment": [
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx"
+    ],
+    "removePriorPayment": [
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx"
+    ],
+    "extractRealPolicyData": [
+      "components/claims/wizard-steps/RealTimePolicyUploadStep.tsx",
+      "components/claims/wizard-steps/FixedRealPDFExtractionStep.tsx"
+    ],
+    "confirmAndSaveData": [
+      "components/claims/wizard-steps/RealTimePolicyUploadStep.tsx",
+      "components/claims/wizard-steps/ActualPDFExtractionStep.tsx"
+    ],
+    "rejectAndRetry": [
+      "components/claims/wizard-steps/RealTimePolicyUploadStep.tsx",
+      "components/claims/wizard-steps/ActualPDFExtractionStep.tsx"
+    ],
+    "formatConfidence": [
+      "components/claims/wizard-steps/WorkingPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/EnhancedPolicyValidationStep.tsx"
+    ],
+    "getConfidenceIcon": [
+      "components/claims/wizard-steps/EnhancedPolicyValidationStep.tsx",
+      "components/claims/wizard-steps/PolicyDataValidationStep.tsx",
+      "components/claims/wizard-steps/IntelligentClientDetailsStep.tsx"
+    ],
+    "handleAIWizardComplete": [
+      "components/dashboard/ClaimsClientOverview.tsx",
+      "pages/Claims.tsx"
+    ],
+    "handleManualWizardComplete": [
+      "components/dashboard/ClaimsClientOverview.tsx",
+      "pages/Claims.tsx"
+    ],
+    "onToggleMode": [
+      "components/auth/SignupForm.tsx",
+      "components/auth/LoginForm.tsx"
+    ],
+    "onCancel": [
+      "components/forms/VendorAssignmentForm.tsx",
+      "components/forms/VendorForm.tsx"
+    ],
+    "handleEditClient": [
+      "pages/ClientManagement.tsx",
+      "pages/Clients.tsx"
+    ],
+    "handleDeleteClient": [
+      "pages/ClientManagement.tsx",
+      "pages/Clients.tsx"
+    ],
+    "handleSaveClient": [
+      "pages/ClientManagement.tsx",
+      "pages/Clients.tsx"
+    ],
+    "exportData": [
+      "pages/Finance.tsx",
+      "pages/CommunicationHub.tsx",
+      "pages/Settings.tsx"
+    ],
+    "fetchNotifications": [
+      "pages/Notifications.tsx",
+      "hooks/useNotifications.ts"
+    ],
+    "markAsRead": [
+      "pages/Notifications.tsx",
+      "hooks/useNotifications.ts"
+    ],
+    "markAllAsRead": [
+      "pages/Notifications.tsx",
+      "hooks/useNotifications.ts"
+    ],
+    "validator": [
+      "services/wizardValidationService.ts",
+      "services/wizardValidationService.ts",
+      "services/wizardValidationService.ts",
+      "services/wizardValidationService.ts",
+      "services/wizardValidationService.ts",
+      "services/wizardValidationService.ts",
+      "services/wizardValidationService.ts",
+      "services/wizardValidationService.ts",
+      "services/wizardValidationService.ts",
+      "services/wizardValidationService.ts",
+      "services/wizardValidationService.ts",
+      "services/wizardValidationService.ts"
+    ],
+    "showWhen": [
+      "services/sharedFieldSchemas.ts",
+      "services/sharedFieldSchemas.ts",
+      "services/sharedFieldSchemas.ts",
+      "services/sharedFieldSchemas.ts",
+      "services/sharedFieldSchemas.ts",
+      "services/sharedFieldSchemas.ts",
+      "services/sharedFieldSchemas.ts",
+      "services/sharedFieldSchemas.ts",
+      "services/sharedFieldSchemas.ts",
+      "services/sharedFieldSchemas.ts"
+    ]
+  },
+  "detailed_component_usage": {
+    "ErrorBoundary": [],
+    "ClientCreateEditModal": [
+      "pages/ClientManagement.tsx"
+    ],
+    "ClientPermissionModal": [
+      "pages/ClientManagement.tsx"
+    ],
+    "FinanceAnalytics": [
+      "pages/Finance.tsx"
+    ],
+    "Sidebar": [
+      "components/layout/Header.tsx",
+      "components/layout/Layout.tsx"
+    ],
+    "Header": [
+      "components/modals/ClientCreateEditModal.tsx",
+      "components/modals/ClientPermissionModal.tsx",
+      "components/finance/FinanceAnalytics.tsx",
+      "components/layout/Layout.tsx",
+      "components/calendar/EventModal.tsx",
+      "components/ai/AISettlementPredictor.tsx",
+      "components/ai/AdvancedAIDashboard.tsx",
+      "components/communication/CommunicationAnalytics.tsx",
+      "components/communication/AutomationManager.tsx",
+      "components/communication/EmailTemplateManager.tsx",
+      "components/ui/ValidationSummary.tsx",
+      "components/ui/Card.tsx",
+      "components/ui/Dialog.tsx",
+      "components/ui/FileImportExport.tsx",
+      "components/ui/ConfirmedFieldsSummary.tsx",
+      "components/clients/ClientDetailsModal.tsx",
+      "components/clients/ClientDetailView.tsx",
+      "components/claims/ClaimFolderManager.tsx",
+      "components/claims/StreamlinedManualWizard.tsx",
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/ManualIntakeWizard.tsx",
+      "components/claims/SimpleCompletionStep.tsx",
+      "components/claims/SimpleTestWizard.tsx",
+      "components/claims/ClaimDetailView.tsx",
+      "components/claims/ComprehensiveManualIntakeWizard.tsx",
+      "components/claims/wizard-steps/BuildingInformationStep.tsx",
+      "components/claims/wizard-steps/CompletionStep.tsx",
+      "components/claims/wizard-steps/ExpertsProvidersStep.tsx",
+      "components/claims/wizard-steps/PolicyDocumentUploadStep.tsx",
+      "components/claims/wizard-steps/CoverageIssueReviewStep.tsx",
+      "components/claims/wizard-steps/AdditionalDocumentsStep.tsx",
+      "components/claims/wizard-steps/RealPDFProcessingStep.tsx",
+      "components/claims/wizard-steps/ManualClientDetailsStep.tsx",
+      "components/claims/wizard-steps/InsuredDetailsStep.tsx",
+      "components/claims/wizard-steps/MortgageLenderInformationStep.tsx",
+      "components/claims/wizard-steps/PersonnelAssignmentStep.tsx",
+      "components/claims/wizard-steps/ClientInformationStep.tsx",
+      "components/claims/wizard-steps/LossInformationStep.tsx",
+      "components/claims/wizard-steps/ReferralInformationStep.tsx",
+      "components/claims/wizard-steps/SimplePDFTestStep.tsx",
+      "components/claims/wizard-steps/PolicyInformationStep.tsx",
+      "components/claims/wizard-steps/ReferralSourceInformationStep.tsx",
+      "components/claims/wizard-steps/BuildingConstructionStep.tsx",
+      "components/claims/wizard-steps/PolicyExtractionValidationStep.tsx",
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/RealTimePolicyUploadStep.tsx",
+      "components/claims/wizard-steps/InsurerPersonnelInformation.tsx",
+      "components/claims/wizard-steps/IntakeReviewCompletionStep.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/RealPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/InsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/WorkingPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/ClaimInformationStep.tsx",
+      "components/claims/wizard-steps/MultiDocumentPDFExtractionStep.tsx",
+      "components/claims/wizard-steps/ManualClaimInformationStep.tsx",
+      "components/claims/wizard-steps/ContractInformationStep.tsx",
+      "components/claims/wizard-steps/EnhancedClientDetailsStep.tsx",
+      "components/claims/wizard-steps/EnhancedPolicyValidationStep.tsx",
+      "components/claims/wizard-steps/OfficeTasksStep.tsx",
+      "components/claims/wizard-steps/InsurerInformationStep.tsx",
+      "components/claims/wizard-steps/MortgageInformationStep.tsx",
+      "components/claims/wizard-steps/DynamicPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/PersonalPropertyStep.tsx",
+      "components/claims/wizard-steps/PolicyDataValidationStep.tsx",
+      "components/claims/wizard-steps/FixedRealPDFExtractionStep.tsx",
+      "components/claims/wizard-steps/IntelligentClientDetailsStep.tsx",
+      "components/claims/wizard-steps/ActualPDFExtractionStep.tsx",
+      "components/dashboard/ClaimsClientOverview.tsx",
+      "components/auth/SignupForm.tsx",
+      "components/auth/LoginForm.tsx",
+      "components/vendors/VendorDetails.tsx",
+      "components/vendors/VendorAssignments.tsx",
+      "components/vendors/VendorPerformance.tsx",
+      "components/documents/AdvancedDocumentManager.tsx",
+      "components/documents/DocumentAnalytics.tsx",
+      "components/integrations/IntegrationSetupModal.tsx",
+      "pages/Insurers.tsx",
+      "pages/TestClaims.tsx",
+      "pages/AIInsights.tsx",
+      "pages/Financial.tsx",
+      "pages/ClientManagement.tsx",
+      "pages/Finance.tsx",
+      "pages/Vendors.tsx",
+      "pages/Calendar.tsx",
+      "pages/Clients.tsx",
+      "pages/Integrations.tsx",
+      "pages/Settlements.tsx",
+      "pages/Dashboard.tsx",
+      "pages/AuthCallback.tsx",
+      "pages/Notifications.tsx",
+      "pages/CommunicationHub.tsx",
+      "pages/Claims.tsx",
+      "pages/Communications.tsx",
+      "pages/Properties.tsx",
+      "pages/LeadManagement.tsx",
+      "pages/Tasks.tsx",
+      "pages/DirectFeatureTest.tsx",
+      "pages/Settings.tsx",
+      "utils/excelUtils.ts"
+    ],
+    "Layout": [
+      "App.tsx",
+      "components/claims/StreamlinedManualWizard.tsx",
+      "pages/DirectFeatureTest.tsx",
+      "services/carrierLearningService.ts"
+    ],
+    "MonthView": [
+      "pages/Calendar.tsx"
+    ],
+    "EventModal": [
+      "pages/Calendar.tsx"
+    ],
+    "AISettlementPredictor": [
+      "pages/AIInsights.tsx"
+    ],
+    "AIInsights": [
+      "pages/AIInsights.tsx"
+    ],
+    "AdvancedAIDashboard": [
+      "pages/AIInsights.tsx",
+      "pages/Dashboard.tsx"
+    ],
+    "CommunicationAnalytics": [
+      "pages/CommunicationHub.tsx"
+    ],
+    "AutomationManager": [
+      "pages/CommunicationHub.tsx"
+    ],
+    "EmailTemplateManager": [
+      "pages/CommunicationHub.tsx"
+    ],
+    "FolderTemplateManager": [
+      "pages/AdminPanel.tsx"
+    ],
+    "CustomFieldManager": [
+      "pages/AdminPanel.tsx"
+    ],
+    "Popover": [],
+    "radio-group": [],
+    "DropdownMenu": [
+      "components/claims/ClaimFolderManager.tsx"
+    ],
+    "Button": [
+      "components/modals/ClientCreateEditModal.tsx",
+      "components/modals/ClientPermissionModal.tsx",
+      "components/layout/Sidebar.tsx",
+      "components/layout/Header.tsx",
+      "components/calendar/EventModal.tsx",
+      "components/ai/AISettlementPredictor.tsx",
+      "components/ai/AIInsights.tsx",
+      "components/ai/AdvancedAIDashboard.tsx",
+      "components/communication/AutomationManager.tsx",
+      "components/communication/EmailTemplateManager.tsx",
+      "components/ui/Popover.tsx",
+      "components/ui/DropdownMenu.tsx",
+      "components/ui/ValidationSummary.tsx",
+      "components/ui/calendar.tsx",
+      "components/ui/DocumentUpload.tsx",
+      "components/ui/Dialog.tsx",
+      "components/ui/CauseOfLossSelector.tsx",
+      "components/ui/FileImportExport.tsx",
+      "components/ui/ToastContainer.tsx",
+      "components/ui/StandardizedPhoneInput.tsx",
+      "components/ui/ConfirmedFieldWrapper.tsx",
+      "components/ui/ConfirmedFieldsSummary.tsx",
+      "components/ui/VendorSelector.tsx",
+      "components/clients/ClientCreateClaimButton.tsx",
+      "components/clients/CreateClaimModal.tsx",
+      "components/clients/ClientDetailsModal.tsx",
+      "components/clients/ClientDetailView.tsx",
+      "components/claims/ClaimFolderManager.tsx",
+      "components/claims/StreamlinedManualWizard.tsx",
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/ManualIntakeWizard.tsx",
+      "components/claims/SimpleTestWizard.tsx",
+      "components/claims/ClaimDetailView.tsx",
+      "components/claims/ComprehensiveManualIntakeWizard.tsx",
+      "components/claims/wizard-steps/CompletionStep.tsx",
+      "components/claims/wizard-steps/ExpertsProvidersStep.tsx",
+      "components/claims/wizard-steps/PolicyDocumentUploadStep.tsx",
+      "components/claims/wizard-steps/CoverageIssueReviewStep.tsx",
+      "components/claims/wizard-steps/AdditionalDocumentsStep.tsx",
+      "components/claims/wizard-steps/RealPDFProcessingStep.tsx",
+      "components/claims/wizard-steps/ManualClientDetailsStep.tsx",
+      "components/claims/wizard-steps/InsuredDetailsStep.tsx",
+      "components/claims/wizard-steps/MortgageLenderInformationStep.tsx",
+      "components/claims/wizard-steps/PersonnelAssignmentStep.tsx",
+      "components/claims/wizard-steps/ClientInformationStep.tsx",
+      "components/claims/wizard-steps/ReferralInformationStep.tsx",
+      "components/claims/wizard-steps/SimplePDFTestStep.tsx",
+      "components/claims/wizard-steps/ReferralSourceInformationStep.tsx",
+      "components/claims/wizard-steps/BuildingConstructionStep.tsx",
+      "components/claims/wizard-steps/PolicyExtractionValidationStep.tsx",
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/RealTimePolicyUploadStep.tsx",
+      "components/claims/wizard-steps/InsurerPersonnelInformation.tsx",
+      "components/claims/wizard-steps/IntakeReviewCompletionStep.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/RealPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/InsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/WorkingPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/MultiDocumentPDFExtractionStep.tsx",
+      "components/claims/wizard-steps/ContractInformationStep.tsx",
+      "components/claims/wizard-steps/EnhancedClientDetailsStep.tsx",
+      "components/claims/wizard-steps/EnhancedPolicyValidationStep.tsx",
+      "components/claims/wizard-steps/OfficeTasksStep.tsx",
+      "components/claims/wizard-steps/InsurerInformationStep.tsx",
+      "components/claims/wizard-steps/MortgageInformationStep.tsx",
+      "components/claims/wizard-steps/DynamicPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/PersonalPropertyStep.tsx",
+      "components/claims/wizard-steps/PolicyDataValidationStep.tsx",
+      "components/claims/wizard-steps/FixedRealPDFExtractionStep.tsx",
+      "components/claims/wizard-steps/IntelligentClientDetailsStep.tsx",
+      "components/claims/wizard-steps/ActualPDFExtractionStep.tsx",
+      "components/dashboard/ClaimsClientOverview.tsx",
+      "components/auth/SignupForm.tsx",
+      "components/auth/LoginForm.tsx",
+      "components/vendors/VendorDetails.tsx",
+      "components/vendors/VendorAssignments.tsx",
+      "components/forms/CommunicationForm.tsx",
+      "components/forms/ExpenseForm.tsx",
+      "components/forms/FeeScheduleForm.tsx",
+      "components/forms/VendorAssignmentForm.tsx",
+      "components/forms/ClaimForm.tsx",
+      "components/forms/LeadSourceSelector.tsx",
+      "components/forms/VendorForm.tsx",
+      "components/forms/ClientForm.tsx",
+      "components/forms/PaymentForm.tsx",
+      "components/forms/TaskForm.tsx",
+      "components/documents/DocumentShareModal.tsx",
+      "components/documents/AIDocumentAnalysis.tsx",
+      "components/documents/AdvancedDocumentManager.tsx",
+      "components/documents/DocumentVersionHistory.tsx",
+      "components/integrations/IntegrationSetupModal.tsx",
+      "pages/Insurers.tsx",
+      "pages/TestClaims.tsx",
+      "pages/AIInsights.tsx",
+      "pages/Financial.tsx",
+      "pages/ClientManagement.tsx",
+      "pages/Finance.tsx",
+      "pages/Vendors.tsx",
+      "pages/Calendar.tsx",
+      "pages/Clients.tsx",
+      "pages/Integrations.tsx",
+      "pages/Settlements.tsx",
+      "pages/Dashboard.tsx",
+      "pages/AuthCallback.tsx",
+      "pages/Notifications.tsx",
+      "pages/CommunicationHub.tsx",
+      "pages/Claims.tsx",
+      "pages/Communications.tsx",
+      "pages/Properties.tsx",
+      "pages/LeadManagement.tsx",
+      "pages/Tasks.tsx",
+      "pages/DirectFeatureTest.tsx",
+      "pages/Payables.tsx",
+      "pages/Settings.tsx",
+      "pages/Invoicing.tsx"
+    ],
+    "LoadingSpinner": [
+      "App.tsx",
+      "components/modals/ClientCreateEditModal.tsx",
+      "components/modals/ClientPermissionModal.tsx",
+      "components/ai/AISettlementPredictor.tsx",
+      "components/ai/AdvancedAIDashboard.tsx",
+      "components/claims/ComprehensiveManualIntakeWizard.tsx",
+      "components/claims/wizard-steps/CompletionStep.tsx",
+      "components/claims/wizard-steps/ExpertsProvidersStep.tsx",
+      "components/claims/wizard-steps/PolicyDocumentUploadStep.tsx",
+      "components/claims/wizard-steps/CoverageIssueReviewStep.tsx",
+      "components/claims/wizard-steps/AdditionalDocumentsStep.tsx",
+      "components/claims/wizard-steps/RealPDFProcessingStep.tsx",
+      "components/claims/wizard-steps/PersonnelAssignmentStep.tsx",
+      "components/claims/wizard-steps/ReferralInformationStep.tsx",
+      "components/claims/wizard-steps/SimplePDFTestStep.tsx",
+      "components/claims/wizard-steps/PolicyExtractionValidationStep.tsx",
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/RealTimePolicyUploadStep.tsx",
+      "components/claims/wizard-steps/RealPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/WorkingPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/MultiDocumentPDFExtractionStep.tsx",
+      "components/claims/wizard-steps/ContractInformationStep.tsx",
+      "components/claims/wizard-steps/EnhancedClientDetailsStep.tsx",
+      "components/claims/wizard-steps/MortgageInformationStep.tsx",
+      "components/claims/wizard-steps/DynamicPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/PersonalPropertyStep.tsx",
+      "components/claims/wizard-steps/PolicyDataValidationStep.tsx",
+      "components/claims/wizard-steps/FixedRealPDFExtractionStep.tsx",
+      "components/claims/wizard-steps/ActualPDFExtractionStep.tsx",
+      "components/forms/LeadSourceSelector.tsx",
+      "components/documents/AIDocumentAnalysis.tsx",
+      "components/documents/AdvancedDocumentManager.tsx",
+      "pages/AIInsights.tsx",
+      "pages/Financial.tsx",
+      "pages/ClientManagement.tsx",
+      "pages/Finance.tsx",
+      "pages/Vendors.tsx",
+      "pages/Calendar.tsx",
+      "pages/Clients.tsx",
+      "pages/Integrations.tsx",
+      "pages/Settlements.tsx",
+      "pages/Dashboard.tsx",
+      "pages/AuthCallback.tsx",
+      "pages/Notifications.tsx",
+      "pages/CommunicationHub.tsx",
+      "pages/Claims.tsx",
+      "pages/Communications.tsx",
+      "pages/Properties.tsx",
+      "pages/LeadManagement.tsx",
+      "pages/Tasks.tsx",
+      "pages/Settings.tsx"
+    ],
+    "StandardizedAddressInput": [
+      "components/claims/wizard-steps/MortgageLenderInformationStep.tsx",
+      "components/claims/wizard-steps/ClientInformationStep.tsx",
+      "components/claims/wizard-steps/LossInformationStep.tsx",
+      "components/claims/wizard-steps/ClaimInformationStep.tsx",
+      "components/claims/wizard-steps/InsurerInformationStep.tsx"
+    ],
+    "checkbox": [],
+    "switch": [
+      "components/ai/AIInsights.tsx",
+      "components/ai/AdvancedAIDashboard.tsx",
+      "components/communication/CommunicationAnalytics.tsx",
+      "components/communication/AutomationManager.tsx",
+      "components/ui/StandardizedAddressInput.tsx",
+      "components/ui/ToastContainer.tsx",
+      "components/ui/ConfirmedFieldWrapper.tsx",
+      "components/ui/VendorSelector.tsx",
+      "components/claims/SimpleTestWizard.tsx",
+      "components/claims/ComprehensiveManualIntakeWizard.tsx",
+      "components/claims/wizard-steps/BuildingInformationStep.tsx",
+      "components/claims/wizard-steps/CoverageIssueReviewStep.tsx",
+      "components/claims/wizard-steps/AdditionalDocumentsStep.tsx",
+      "components/claims/wizard-steps/ManualClientDetailsStep.tsx",
+      "components/claims/wizard-steps/InsuredDetailsStep.tsx",
+      "components/claims/wizard-steps/PersonnelAssignmentStep.tsx",
+      "components/claims/wizard-steps/ClientInformationStep.tsx",
+      "components/claims/wizard-steps/LossInformationStep.tsx",
+      "components/claims/wizard-steps/PolicyInformationStep.tsx",
+      "components/claims/wizard-steps/ReferralSourceInformationStep.tsx",
+      "components/claims/wizard-steps/BuildingConstructionStep.tsx",
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/IntakeReviewCompletionStep.tsx",
+      "components/claims/wizard-steps/ClaimInformationStep.tsx",
+      "components/claims/wizard-steps/MultiDocumentPDFExtractionStep.tsx",
+      "components/claims/wizard-steps/ManualClaimInformationStep.tsx",
+      "components/claims/wizard-steps/ContractInformationStep.tsx",
+      "components/claims/wizard-steps/OfficeTasksStep.tsx",
+      "components/claims/wizard-steps/PolicyDataValidationStep.tsx",
+      "components/claims/wizard-steps/IntelligentClientDetailsStep.tsx",
+      "components/dashboard/ClaimsClientOverview.tsx",
+      "components/vendors/VendorDetails.tsx",
+      "components/vendors/VendorAssignments.tsx",
+      "components/forms/CommunicationForm.tsx",
+      "components/forms/LeadSourceSelector.tsx",
+      "components/documents/AdvancedDocumentManager.tsx",
+      "pages/AIInsights.tsx",
+      "pages/Financial.tsx",
+      "pages/Finance.tsx",
+      "pages/Vendors.tsx",
+      "pages/Calendar.tsx",
+      "pages/Integrations.tsx",
+      "pages/Settlements.tsx",
+      "pages/Notifications.tsx",
+      "pages/CommunicationHub.tsx",
+      "pages/Claims.tsx",
+      "pages/Communications.tsx",
+      "pages/Properties.tsx",
+      "pages/LeadManagement.tsx",
+      "pages/Tasks.tsx",
+      "pages/DirectFeatureTest.tsx",
+      "pages/Payables.tsx",
+      "pages/Settings.tsx",
+      "pages/Invoicing.tsx",
+      "hooks/useSharedFieldSchemas.ts",
+      "services/claimWizardAI.ts",
+      "services/enhancedClaimWizardAI.ts",
+      "services/multiDocumentExtractionService.ts",
+      "services/intelligentWizardService.ts",
+      "services/sharedFieldSchemas.ts",
+      "services/emailAutomationService.ts",
+      "services/customFieldService.ts",
+      "services/confirmedFieldsService.ts"
+    ],
+    "ValidationSummary": [
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx"
+    ],
+    "tabs": [
+      "pages/AdminPanel.tsx"
+    ],
+    "Label": [
+      "components/modals/ClientCreateEditModal.tsx",
+      "components/modals/ClientPermissionModal.tsx",
+      "components/calendar/EventModal.tsx",
+      "components/communication/AutomationManager.tsx",
+      "components/communication/EmailTemplateManager.tsx",
+      "components/ui/StandardizedAddressInput.tsx",
+      "components/ui/Input.tsx",
+      "components/ui/FileImportExport.tsx",
+      "components/ui/StandardizedPhoneInput.tsx",
+      "components/ui/AddressAutocomplete.tsx",
+      "components/ui/ConfirmedFieldWrapper.tsx",
+      "components/ui/MultiTextArea.tsx",
+      "components/ui/VendorSelector.tsx",
+      "components/clients/ClientDetailView.tsx",
+      "components/claims/ClaimFolderManager.tsx",
+      "components/claims/SimpleTestWizard.tsx",
+      "components/claims/ClaimDetailView.tsx",
+      "components/claims/wizard-steps/BuildingInformationStep.tsx",
+      "components/claims/wizard-steps/ManualClientDetailsStep.tsx",
+      "components/claims/wizard-steps/InsuredDetailsStep.tsx",
+      "components/claims/wizard-steps/MortgageLenderInformationStep.tsx",
+      "components/claims/wizard-steps/ClientInformationStep.tsx",
+      "components/claims/wizard-steps/LossInformationStep.tsx",
+      "components/claims/wizard-steps/ReferralInformationStep.tsx",
+      "components/claims/wizard-steps/PolicyInformationStep.tsx",
+      "components/claims/wizard-steps/ReferralSourceInformationStep.tsx",
+      "components/claims/wizard-steps/BuildingConstructionStep.tsx",
+      "components/claims/wizard-steps/PolicyExtractionValidationStep.tsx",
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/InsurerPersonnelInformation.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/InsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/WorkingPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/ClaimInformationStep.tsx",
+      "components/claims/wizard-steps/ManualClaimInformationStep.tsx",
+      "components/claims/wizard-steps/ContractInformationStep.tsx",
+      "components/claims/wizard-steps/EnhancedClientDetailsStep.tsx",
+      "components/claims/wizard-steps/OfficeTasksStep.tsx",
+      "components/claims/wizard-steps/InsurerInformationStep.tsx",
+      "components/claims/wizard-steps/MortgageInformationStep.tsx",
+      "components/claims/wizard-steps/PersonalPropertyStep.tsx",
+      "components/claims/wizard-steps/IntelligentClientDetailsStep.tsx",
+      "components/forms/CommunicationForm.tsx",
+      "components/forms/ExpenseForm.tsx",
+      "components/forms/FeeScheduleForm.tsx",
+      "components/forms/VendorAssignmentForm.tsx",
+      "components/forms/ClaimForm.tsx",
+      "components/forms/LeadSourceSelector.tsx",
+      "components/forms/VendorForm.tsx",
+      "components/forms/ClientForm.tsx",
+      "components/forms/PaymentForm.tsx",
+      "components/forms/TaskForm.tsx",
+      "components/documents/DocumentShareModal.tsx",
+      "components/integrations/IntegrationSetupModal.tsx",
+      "pages/Insurers.tsx",
+      "pages/AIInsights.tsx",
+      "pages/Integrations.tsx",
+      "pages/Claims.tsx",
+      "pages/DirectFeatureTest.tsx",
+      "pages/Settings.tsx"
+    ],
+    "Card": [
+      "components/modals/ClientCreateEditModal.tsx",
+      "components/modals/ClientPermissionModal.tsx",
+      "components/finance/FinanceAnalytics.tsx",
+      "components/calendar/EventModal.tsx",
+      "components/ai/AISettlementPredictor.tsx",
+      "components/ai/AdvancedAIDashboard.tsx",
+      "components/communication/CommunicationAnalytics.tsx",
+      "components/communication/AutomationManager.tsx",
+      "components/communication/EmailTemplateManager.tsx",
+      "components/ui/ValidationSummary.tsx",
+      "components/ui/ConfirmedFieldsSummary.tsx",
+      "components/clients/ClientDetailsModal.tsx",
+      "components/clients/ClientDetailView.tsx",
+      "components/claims/ClaimFolderManager.tsx",
+      "components/claims/StreamlinedManualWizard.tsx",
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/ManualIntakeWizard.tsx",
+      "components/claims/SimpleCompletionStep.tsx",
+      "components/claims/SimpleTestWizard.tsx",
+      "components/claims/ClaimDetailView.tsx",
+      "components/claims/ComprehensiveManualIntakeWizard.tsx",
+      "components/claims/wizard-steps/BuildingInformationStep.tsx",
+      "components/claims/wizard-steps/CompletionStep.tsx",
+      "components/claims/wizard-steps/ExpertsProvidersStep.tsx",
+      "components/claims/wizard-steps/PolicyDocumentUploadStep.tsx",
+      "components/claims/wizard-steps/CoverageIssueReviewStep.tsx",
+      "components/claims/wizard-steps/AdditionalDocumentsStep.tsx",
+      "components/claims/wizard-steps/RealPDFProcessingStep.tsx",
+      "components/claims/wizard-steps/ManualClientDetailsStep.tsx",
+      "components/claims/wizard-steps/InsuredDetailsStep.tsx",
+      "components/claims/wizard-steps/MortgageLenderInformationStep.tsx",
+      "components/claims/wizard-steps/PersonnelAssignmentStep.tsx",
+      "components/claims/wizard-steps/ClientInformationStep.tsx",
+      "components/claims/wizard-steps/LossInformationStep.tsx",
+      "components/claims/wizard-steps/ReferralInformationStep.tsx",
+      "components/claims/wizard-steps/SimplePDFTestStep.tsx",
+      "components/claims/wizard-steps/PolicyInformationStep.tsx",
+      "components/claims/wizard-steps/ReferralSourceInformationStep.tsx",
+      "components/claims/wizard-steps/BuildingConstructionStep.tsx",
+      "components/claims/wizard-steps/PolicyExtractionValidationStep.tsx",
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/RealTimePolicyUploadStep.tsx",
+      "components/claims/wizard-steps/InsurerPersonnelInformation.tsx",
+      "components/claims/wizard-steps/IntakeReviewCompletionStep.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/RealPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/InsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/WorkingPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/ClaimInformationStep.tsx",
+      "components/claims/wizard-steps/MultiDocumentPDFExtractionStep.tsx",
+      "components/claims/wizard-steps/ManualClaimInformationStep.tsx",
+      "components/claims/wizard-steps/ContractInformationStep.tsx",
+      "components/claims/wizard-steps/EnhancedClientDetailsStep.tsx",
+      "components/claims/wizard-steps/EnhancedPolicyValidationStep.tsx",
+      "components/claims/wizard-steps/OfficeTasksStep.tsx",
+      "components/claims/wizard-steps/InsurerInformationStep.tsx",
+      "components/claims/wizard-steps/MortgageInformationStep.tsx",
+      "components/claims/wizard-steps/DynamicPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/PersonalPropertyStep.tsx",
+      "components/claims/wizard-steps/PolicyDataValidationStep.tsx",
+      "components/claims/wizard-steps/FixedRealPDFExtractionStep.tsx",
+      "components/claims/wizard-steps/IntelligentClientDetailsStep.tsx",
+      "components/claims/wizard-steps/ActualPDFExtractionStep.tsx",
+      "components/dashboard/ClaimsClientOverview.tsx",
+      "components/auth/SignupForm.tsx",
+      "components/auth/LoginForm.tsx",
+      "components/vendors/VendorDetails.tsx",
+      "components/vendors/VendorAssignments.tsx",
+      "components/vendors/VendorPerformance.tsx",
+      "components/forms/PaymentForm.tsx",
+      "components/documents/AdvancedDocumentManager.tsx",
+      "components/documents/DocumentAnalytics.tsx",
+      "components/integrations/IntegrationSetupModal.tsx",
+      "pages/AdminPanel.tsx",
+      "pages/TestClaims.tsx",
+      "pages/AIInsights.tsx",
+      "pages/Financial.tsx",
+      "pages/ClientManagement.tsx",
+      "pages/Finance.tsx",
+      "pages/Vendors.tsx",
+      "pages/Calendar.tsx",
+      "pages/Clients.tsx",
+      "pages/Integrations.tsx",
+      "pages/Settlements.tsx",
+      "pages/Dashboard.tsx",
+      "pages/AuthCallback.tsx",
+      "pages/Notifications.tsx",
+      "pages/CommunicationHub.tsx",
+      "pages/Claims.tsx",
+      "pages/Communications.tsx",
+      "pages/Properties.tsx",
+      "pages/LeadManagement.tsx",
+      "pages/Tasks.tsx",
+      "pages/DirectFeatureTest.tsx",
+      "pages/Payables.tsx",
+      "pages/Settings.tsx",
+      "pages/Invoicing.tsx"
+    ],
+    "calendar": [
+      "App.tsx",
+      "components/calendar/EventModal.tsx",
+      "components/ai/AISettlementPredictor.tsx",
+      "components/communication/CommunicationAnalytics.tsx",
+      "components/clients/ClientDetailsModal.tsx",
+      "components/clients/ClientDetailView.tsx",
+      "components/claims/ClaimDetailView.tsx",
+      "components/claims/wizard-steps/CoverageIssueReviewStep.tsx",
+      "components/claims/wizard-steps/ReferralSourceInformationStep.tsx",
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/ContractInformationStep.tsx",
+      "components/claims/wizard-steps/OfficeTasksStep.tsx",
+      "components/vendors/VendorAssignments.tsx",
+      "components/forms/CommunicationForm.tsx",
+      "components/forms/VendorAssignmentForm.tsx",
+      "components/forms/ClaimForm.tsx",
+      "components/documents/DocumentShareModal.tsx",
+      "components/documents/DocumentVersionHistory.tsx",
+      "pages/Finance.tsx",
+      "pages/Calendar.tsx",
+      "pages/Clients.tsx",
+      "pages/Settlements.tsx",
+      "pages/Dashboard.tsx",
+      "pages/Notifications.tsx",
+      "pages/CommunicationHub.tsx",
+      "pages/Claims.tsx",
+      "pages/Properties.tsx",
+      "pages/Tasks.tsx",
+      "pages/Payables.tsx",
+      "pages/Settings.tsx",
+      "pages/Invoicing.tsx"
+    ],
+    "DocumentUpload": [
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/wizard-steps/PolicyDocumentUploadStep.tsx",
+      "components/documents/AdvancedDocumentManager.tsx",
+      "services/documentUploadService.ts"
+    ],
+    "Input": [
+      "components/modals/ClientCreateEditModal.tsx",
+      "components/modals/ClientPermissionModal.tsx",
+      "components/layout/Header.tsx",
+      "components/calendar/EventModal.tsx",
+      "components/communication/AutomationManager.tsx",
+      "components/communication/EmailTemplateManager.tsx",
+      "components/ui/StandardizedAddressInput.tsx",
+      "components/ui/ValidationSummary.tsx",
+      "components/ui/DocumentUpload.tsx",
+      "components/ui/CauseOfLossSelector.tsx",
+      "components/ui/FileImportExport.tsx",
+      "components/ui/StandardizedPhoneInput.tsx",
+      "components/ui/AddressAutocomplete.tsx",
+      "components/ui/ConfirmedFieldWrapper.tsx",
+      "components/ui/VendorSelector.tsx",
+      "components/clients/ClientDetailView.tsx",
+      "components/claims/ClaimFolderManager.tsx",
+      "components/claims/SimpleTestWizard.tsx",
+      "components/claims/ClaimDetailView.tsx",
+      "components/claims/wizard-steps/BuildingInformationStep.tsx",
+      "components/claims/wizard-steps/ExpertsProvidersStep.tsx",
+      "components/claims/wizard-steps/PolicyDocumentUploadStep.tsx",
+      "components/claims/wizard-steps/AdditionalDocumentsStep.tsx",
+      "components/claims/wizard-steps/RealPDFProcessingStep.tsx",
+      "components/claims/wizard-steps/ManualClientDetailsStep.tsx",
+      "components/claims/wizard-steps/InsuredDetailsStep.tsx",
+      "components/claims/wizard-steps/MortgageLenderInformationStep.tsx",
+      "components/claims/wizard-steps/PersonnelAssignmentStep.tsx",
+      "components/claims/wizard-steps/ClientInformationStep.tsx",
+      "components/claims/wizard-steps/LossInformationStep.tsx",
+      "components/claims/wizard-steps/ReferralInformationStep.tsx",
+      "components/claims/wizard-steps/SimplePDFTestStep.tsx",
+      "components/claims/wizard-steps/PolicyInformationStep.tsx",
+      "components/claims/wizard-steps/ReferralSourceInformationStep.tsx",
+      "components/claims/wizard-steps/BuildingConstructionStep.tsx",
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/RealTimePolicyUploadStep.tsx",
+      "components/claims/wizard-steps/InsurerPersonnelInformation.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/RealPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/InsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/WorkingPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/ClaimInformationStep.tsx",
+      "components/claims/wizard-steps/MultiDocumentPDFExtractionStep.tsx",
+      "components/claims/wizard-steps/ManualClaimInformationStep.tsx",
+      "components/claims/wizard-steps/ContractInformationStep.tsx",
+      "components/claims/wizard-steps/EnhancedClientDetailsStep.tsx",
+      "components/claims/wizard-steps/EnhancedPolicyValidationStep.tsx",
+      "components/claims/wizard-steps/OfficeTasksStep.tsx",
+      "components/claims/wizard-steps/InsurerInformationStep.tsx",
+      "components/claims/wizard-steps/MortgageInformationStep.tsx",
+      "components/claims/wizard-steps/DynamicPolicyUploadStep.tsx",
+      "components/claims/wizard-steps/PersonalPropertyStep.tsx",
+      "components/claims/wizard-steps/PolicyDataValidationStep.tsx",
+      "components/claims/wizard-steps/FixedRealPDFExtractionStep.tsx",
+      "components/claims/wizard-steps/IntelligentClientDetailsStep.tsx",
+      "components/claims/wizard-steps/ActualPDFExtractionStep.tsx",
+      "components/auth/SignupForm.tsx",
+      "components/auth/LoginForm.tsx",
+      "components/vendors/VendorAssignments.tsx",
+      "components/forms/CommunicationForm.tsx",
+      "components/forms/ExpenseForm.tsx",
+      "components/forms/FeeScheduleForm.tsx",
+      "components/forms/VendorAssignmentForm.tsx",
+      "components/forms/ClaimForm.tsx",
+      "components/forms/LeadSourceSelector.tsx",
+      "components/forms/VendorForm.tsx",
+      "components/forms/ClientForm.tsx",
+      "components/forms/PaymentForm.tsx",
+      "components/forms/TaskForm.tsx",
+      "components/documents/DocumentShareModal.tsx",
+      "components/documents/AdvancedDocumentManager.tsx",
+      "components/documents/DocumentVersionHistory.tsx",
+      "components/integrations/IntegrationSetupModal.tsx",
+      "pages/Insurers.tsx",
+      "pages/AIInsights.tsx",
+      "pages/Financial.tsx",
+      "pages/ClientManagement.tsx",
+      "pages/Vendors.tsx",
+      "pages/Clients.tsx",
+      "pages/Integrations.tsx",
+      "pages/Settlements.tsx",
+      "pages/Notifications.tsx",
+      "pages/CommunicationHub.tsx",
+      "pages/Claims.tsx",
+      "pages/Properties.tsx",
+      "pages/LeadManagement.tsx",
+      "pages/Tasks.tsx",
+      "pages/DirectFeatureTest.tsx",
+      "pages/Payables.tsx",
+      "pages/Settings.tsx",
+      "pages/Invoicing.tsx",
+      "lib/utils.ts",
+      "utils/phoneUtils.ts",
+      "services/googlePlacesService.ts"
+    ],
+    "Dialog": [
+      "components/claims/ClaimFolderManager.tsx"
+    ],
+    "CauseOfLossSelector": [
+      "components/claims/wizard-steps/ClaimInformationStep.tsx"
+    ],
+    "FileImportExport": [
+      "pages/Insurers.tsx"
+    ],
+    "ToastContainer": [
+      "App.tsx"
+    ],
+    "StandardizedPhoneInput": [
+      "components/claims/wizard-steps/MortgageLenderInformationStep.tsx",
+      "components/claims/wizard-steps/ClientInformationStep.tsx",
+      "components/claims/wizard-steps/PolicyInformationStep.tsx",
+      "components/claims/wizard-steps/ReferralSourceInformationStep.tsx",
+      "components/claims/wizard-steps/InsurerInformationStep.tsx"
+    ],
+    "AddressAutocomplete": [
+      "components/calendar/EventModal.tsx",
+      "components/claims/wizard-steps/ManualClientDetailsStep.tsx",
+      "components/claims/wizard-steps/InsuredDetailsStep.tsx",
+      "components/claims/wizard-steps/InsurerPersonnelInformation.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/InsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/EnhancedClientDetailsStep.tsx",
+      "components/claims/wizard-steps/IntelligentClientDetailsStep.tsx",
+      "components/forms/ClaimForm.tsx",
+      "components/forms/VendorForm.tsx",
+      "components/forms/ClientForm.tsx"
+    ],
+    "ConfirmedFieldWrapper": [
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/IntelligentClientDetailsStep.tsx"
+    ],
+    "Badge": [
+      "components/clients/ClientDetailView.tsx",
+      "components/claims/ClaimFolderManager.tsx",
+      "components/claims/ClaimDetailView.tsx",
+      "pages/AdminPanel.tsx"
+    ],
+    "Textarea": [
+      "components/modals/ClientCreateEditModal.tsx",
+      "components/calendar/EventModal.tsx",
+      "components/communication/AutomationManager.tsx",
+      "components/communication/EmailTemplateManager.tsx",
+      "components/ui/ConfirmedFieldWrapper.tsx",
+      "components/ui/MultiTextArea.tsx",
+      "components/claims/ClaimDetailView.tsx",
+      "components/claims/wizard-steps/BuildingInformationStep.tsx",
+      "components/claims/wizard-steps/LossInformationStep.tsx",
+      "components/claims/wizard-steps/ReferralInformationStep.tsx",
+      "components/claims/wizard-steps/ReferralSourceInformationStep.tsx",
+      "components/claims/wizard-steps/InsurerPersonnelInformation.tsx",
+      "components/claims/wizard-steps/ClaimInformationStep.tsx",
+      "components/claims/wizard-steps/ManualClaimInformationStep.tsx",
+      "components/claims/wizard-steps/OfficeTasksStep.tsx",
+      "components/claims/wizard-steps/InsurerInformationStep.tsx",
+      "components/forms/CommunicationForm.tsx",
+      "components/forms/ExpenseForm.tsx",
+      "components/forms/FeeScheduleForm.tsx",
+      "components/forms/VendorAssignmentForm.tsx",
+      "components/forms/ClaimForm.tsx",
+      "components/forms/VendorForm.tsx",
+      "components/forms/ClientForm.tsx",
+      "components/forms/PaymentForm.tsx",
+      "components/forms/TaskForm.tsx",
+      "components/documents/DocumentShareModal.tsx",
+      "components/integrations/IntegrationSetupModal.tsx",
+      "pages/Insurers.tsx",
+      "pages/Settings.tsx"
+    ],
+    "slider": [],
+    "MultiTextArea": [
+      "components/claims/wizard-steps/ClaimInformationStep.tsx"
+    ],
+    "Select": [
+      "components/modals/ClientCreateEditModal.tsx",
+      "components/modals/ClientPermissionModal.tsx",
+      "components/calendar/EventModal.tsx",
+      "components/communication/AutomationManager.tsx",
+      "components/communication/EmailTemplateManager.tsx",
+      "components/ui/CauseOfLossSelector.tsx",
+      "components/ui/StandardizedPhoneInput.tsx",
+      "components/ui/VendorSelector.tsx",
+      "components/clients/ClientDetailView.tsx",
+      "components/claims/wizard-steps/BuildingInformationStep.tsx",
+      "components/claims/wizard-steps/ExpertsProvidersStep.tsx",
+      "components/claims/wizard-steps/ManualClientDetailsStep.tsx",
+      "components/claims/wizard-steps/InsuredDetailsStep.tsx",
+      "components/claims/wizard-steps/MortgageLenderInformationStep.tsx",
+      "components/claims/wizard-steps/ClientInformationStep.tsx",
+      "components/claims/wizard-steps/LossInformationStep.tsx",
+      "components/claims/wizard-steps/ReferralInformationStep.tsx",
+      "components/claims/wizard-steps/PolicyInformationStep.tsx",
+      "components/claims/wizard-steps/ReferralSourceInformationStep.tsx",
+      "components/claims/wizard-steps/BuildingConstructionStep.tsx",
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/InsurerPersonnelInformation.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/InsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/ClaimInformationStep.tsx",
+      "components/claims/wizard-steps/ManualClaimInformationStep.tsx",
+      "components/claims/wizard-steps/EnhancedClientDetailsStep.tsx",
+      "components/claims/wizard-steps/OfficeTasksStep.tsx",
+      "components/claims/wizard-steps/InsurerInformationStep.tsx",
+      "components/claims/wizard-steps/MortgageInformationStep.tsx",
+      "components/claims/wizard-steps/PersonalPropertyStep.tsx",
+      "components/claims/wizard-steps/IntelligentClientDetailsStep.tsx",
+      "components/vendors/VendorAssignments.tsx",
+      "components/forms/CommunicationForm.tsx",
+      "components/forms/ExpenseForm.tsx",
+      "components/forms/FeeScheduleForm.tsx",
+      "components/forms/VendorAssignmentForm.tsx",
+      "components/forms/ClaimForm.tsx",
+      "components/forms/LeadSourceSelector.tsx",
+      "components/forms/VendorForm.tsx",
+      "components/forms/ClientForm.tsx",
+      "components/forms/PaymentForm.tsx",
+      "components/forms/TaskForm.tsx",
+      "components/documents/DocumentShareModal.tsx",
+      "pages/Insurers.tsx",
+      "pages/Financial.tsx",
+      "pages/ClientManagement.tsx",
+      "pages/Finance.tsx",
+      "pages/Vendors.tsx",
+      "pages/Calendar.tsx",
+      "pages/Clients.tsx",
+      "pages/Integrations.tsx",
+      "pages/Settlements.tsx",
+      "pages/Dashboard.tsx",
+      "pages/AuthCallback.tsx",
+      "pages/Notifications.tsx",
+      "pages/CommunicationHub.tsx",
+      "pages/Claims.tsx",
+      "pages/Properties.tsx",
+      "pages/LeadManagement.tsx",
+      "pages/Tasks.tsx",
+      "pages/DirectFeatureTest.tsx",
+      "pages/Payables.tsx",
+      "pages/Settings.tsx",
+      "pages/Invoicing.tsx",
+      "hooks/useNotifications.ts",
+      "hooks/useClients.ts",
+      "hooks/useAI.ts",
+      "hooks/useClaims.ts",
+      "utils/sampleData.ts",
+      "contexts/AuthContext.tsx",
+      "services/documentUploadService.ts",
+      "services/claimService.ts",
+      "services/sharedFieldSchemas.ts",
+      "services/wizardProgressService.ts",
+      "services/customFieldService.ts"
+    ],
+    "ConfirmedFieldsSummary": [
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/IntelligentClientDetailsStep.tsx"
+    ],
+    "VendorSelector": [],
+    "ClientCreateClaimButton": [
+      "pages/Clients.tsx"
+    ],
+    "CreateClaimModal": [
+      "pages/Clients.tsx"
+    ],
+    "ClientDetailsModal": [
+      "pages/Clients.tsx"
+    ],
+    "ClientDetailView": [
+      "components/dashboard/ClaimsClientOverview.tsx"
+    ],
+    "ClaimFolderManager": [],
+    "StreamlinedManualWizard": [],
+    "EnhancedAIClaimWizard": [
+      "components/dashboard/ClaimsClientOverview.tsx",
+      "pages/Claims.tsx"
+    ],
+    "ManualIntakeWizard": [
+      "components/claims/ComprehensiveManualIntakeWizard.tsx",
+      "components/dashboard/ClaimsClientOverview.tsx",
+      "pages/Claims.tsx"
+    ],
+    "SimpleCompletionStep": [],
+    "SimpleTestWizard": [
+      "pages/TestClaims.tsx"
+    ],
+    "ClaimDetailView": [
+      "components/dashboard/ClaimsClientOverview.tsx"
+    ],
+    "ComprehensiveManualIntakeWizard": [],
+    "BuildingInformationStep": [
+      "components/claims/ManualIntakeWizard.tsx"
+    ],
+    "CompletionStep": [
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/ManualIntakeWizard.tsx",
+      "components/claims/SimpleCompletionStep.tsx",
+      "components/claims/ComprehensiveManualIntakeWizard.tsx",
+      "components/claims/wizard-steps/IntakeReviewCompletionStep.tsx"
+    ],
+    "ExpertsProvidersStep": [
+      "components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "PolicyDocumentUploadStep": [
+      "components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "CoverageIssueReviewStep": [
+      "components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "AdditionalDocumentsStep": [
+      "components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "RealPDFProcessingStep": [],
+    "ManualClientDetailsStep": [
+      "components/claims/StreamlinedManualWizard.tsx"
+    ],
+    "InsuredDetailsStep": [],
+    "MortgageLenderInformationStep": [
+      "components/claims/ManualIntakeWizard.tsx"
+    ],
+    "PersonnelAssignmentStep": [
+      "components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "ClientInformationStep": [
+      "components/claims/ManualIntakeWizard.tsx",
+      "components/claims/ComprehensiveManualIntakeWizard.tsx"
+    ],
+    "LossInformationStep": [
+      "components/claims/ManualIntakeWizard.tsx"
+    ],
+    "ReferralInformationStep": [
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/ComprehensiveManualIntakeWizard.tsx"
+    ],
+    "SimplePDFTestStep": [],
+    "PolicyInformationStep": [
+      "components/claims/ManualIntakeWizard.tsx",
+      "components/claims/ComprehensiveManualIntakeWizard.tsx"
+    ],
+    "ReferralSourceInformationStep": [
+      "components/claims/ManualIntakeWizard.tsx"
+    ],
+    "BuildingConstructionStep": [
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/ComprehensiveManualIntakeWizard.tsx"
+    ],
+    "PolicyExtractionValidationStep": [],
+    "EnhancedInsuranceInfoStep": [
+      "components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "RealTimePolicyUploadStep": [],
+    "CustomFieldsStep": [
+      "components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "InsurerPersonnelInformation": [
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/InsuranceInfoStep.tsx"
+    ],
+    "IntakeReviewCompletionStep": [
+      "components/claims/ManualIntakeWizard.tsx"
+    ],
+    "ManualInsuranceInfoStep": [
+      "components/claims/StreamlinedManualWizard.tsx"
+    ],
+    "RealPolicyUploadStep": [],
+    "InsuranceInfoStep": [
+      "components/claims/StreamlinedManualWizard.tsx",
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/wizard-steps/EnhancedInsuranceInfoStep.tsx",
+      "components/claims/wizard-steps/ManualInsuranceInfoStep.tsx"
+    ],
+    "WorkingPolicyUploadStep": [],
+    "ClaimInformationStep": [
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/ComprehensiveManualIntakeWizard.tsx",
+      "components/claims/wizard-steps/ManualClaimInformationStep.tsx"
+    ],
+    "MultiDocumentPDFExtractionStep": [
+      "components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "ManualClaimInformationStep": [],
+    "ContractInformationStep": [
+      "components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "EnhancedClientDetailsStep": [
+      "components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "EnhancedPolicyValidationStep": [],
+    "OfficeTasksStep": [
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/ManualIntakeWizard.tsx",
+      "components/claims/ComprehensiveManualIntakeWizard.tsx"
+    ],
+    "InsurerInformationStep": [
+      "components/claims/ManualIntakeWizard.tsx",
+      "components/claims/ComprehensiveManualIntakeWizard.tsx"
+    ],
+    "MortgageInformationStep": [
+      "components/claims/EnhancedAIClaimWizard.tsx",
+      "components/claims/ComprehensiveManualIntakeWizard.tsx"
+    ],
+    "DynamicPolicyUploadStep": [],
+    "PersonalPropertyStep": [
+      "components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "PolicyDataValidationStep": [
+      "components/claims/wizard-steps/PolicyDocumentUploadStep.tsx",
+      "components/claims/wizard-steps/MultiDocumentPDFExtractionStep.tsx",
+      "components/claims/wizard-steps/FixedRealPDFExtractionStep.tsx"
+    ],
+    "FixedRealPDFExtractionStep": [
+      "components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "IntelligentClientDetailsStep": [
+      "components/claims/EnhancedAIClaimWizard.tsx"
+    ],
+    "ActualPDFExtractionStep": [],
+    "ClaimsClientOverview": [],
+    "SignupForm": [
+      "pages/AuthPage.tsx"
+    ],
+    "LoginForm": [
+      "pages/AuthPage.tsx"
+    ],
+    "VendorDetails": [
+      "pages/Vendors.tsx"
+    ],
+    "VendorAssignments": [
+      "pages/Vendors.tsx"
+    ],
+    "VendorPerformance": [
+      "pages/Vendors.tsx"
+    ],
+    "CommunicationForm": [
+      "pages/CommunicationHub.tsx"
+    ],
+    "ExpenseForm": [
+      "pages/Finance.tsx"
+    ],
+    "FeeScheduleForm": [
+      "pages/Finance.tsx"
+    ],
+    "VendorAssignmentForm": [],
+    "ClaimForm": [
+      "components/dashboard/ClaimsClientOverview.tsx",
+      "pages/Claims.tsx"
+    ],
+    "LeadSourceSelector": [
+      "components/forms/ClientForm.tsx"
+    ],
+    "VendorForm": [
+      "pages/Vendors.tsx"
+    ],
+    "ClientForm": [
+      "components/dashboard/ClaimsClientOverview.tsx",
+      "pages/Clients.tsx",
+      "pages/Dashboard.tsx"
+    ],
+    "PaymentForm": [
+      "pages/Finance.tsx"
+    ],
+    "DynamicCustomField": [],
+    "TaskForm": [],
+    "DocumentShareModal": [
+      "components/documents/AdvancedDocumentManager.tsx"
+    ],
+    "AIDocumentAnalysis": [
+      "components/documents/AdvancedDocumentManager.tsx"
+    ],
+    "AdvancedDocumentManager": [
+      "pages/Documents.tsx"
+    ],
+    "DocumentVersionHistory": [
+      "components/documents/AdvancedDocumentManager.tsx"
+    ],
+    "DocumentAnalytics": [],
+    "IntegrationSetupModal": [
+      "pages/Integrations.tsx"
+    ]
+  }
+}
