@@ -5,7 +5,7 @@
         "id": "2.1",
         "content": "Function 2.1: Enhanced Client Management",
         "details": "Implementation Steps:\n1. Client Types Implementation: Individual/Residential (First Name, Last Name) + Business/Commercial (Business Name, Point of Contact)\n2. Contact Information System: Multiple phone numbers per client, multiple email addresses with primary designation, emergency contact information\n3. Address Management: Primary address (using StandardizedAddressInput), mailing address with 'Same as primary?' toggle, loss location address integration\n4. Co-insured Support: Co-insured toggle with full contact details, relationship dropdown and tracking, address same as primary toggle\n\nCompletion Criteria:\n- New client creation fully operational\n- Existing client selection and editing working\n- All client types supported (Individual/Business)\n- Co-insured tracking complete",
-        "status": "pending",
+        "status": "in_progress",
         "priority": "high"
       },
       "2.2": {
