@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Input } from './Input'
 import { Switch } from './switch'
-import { MapPin } from 'lucide-react'
+import { MapPin, Loader2 } from 'lucide-react'
 
 // Google Maps API integration
 declare global {
@@ -32,6 +32,9 @@ interface StandardizedAddressInputProps {
   onSameAsToggle?: (isSame: boolean) => void
 }
 
+// Google Maps API Key from environment
+const GOOGLE_MAPS_API_KEY = 'AIzaSyCO0kKndUNlmQi3B5mxy4dblg_8WYcuKuk'
+
 export function StandardizedAddressInput({
   address,
   onChange,
@@ -52,81 +55,132 @@ export function StandardizedAddressInput({
   }
 
   const autocompleteRef = useRef<HTMLInputElement>(null)
-  const [autocompleteService, setAutocompleteService] = useState<any>(null)
-  const [placesService, setPlacesService] = useState<any>(null)
   const [isGoogleMapsLoaded, setIsGoogleMapsLoaded] = useState(false)
+  const [isLoadingMaps, setIsLoadingMaps] = useState(false)
+  const [autocompleteInstance, setAutocompleteInstance] = useState<any>(null)
 
   // Load Google Maps API
   useEffect(() => {
-    const loadGoogleMaps = () => {
-      if (window.google && window.google.maps) {
+    const loadGoogleMaps = async () => {
+      // Check if already loaded
+      if (window.google && window.google.maps && window.google.maps.places) {
         setIsGoogleMapsLoaded(true)
         return
       }
 
-      const script = document.createElement('script')
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCO0kKndUNlmQi3B5mxy4dblg_8WYcuKuk&libraries=places`
-      script.async = true
-      script.defer = true
-      script.onload = () => {
-        setIsGoogleMapsLoaded(true)
+      // Check if script is already loading
+      if (document.querySelector('script[src*="maps.googleapis.com"]')) {
+        // Wait for it to load
+        const checkLoaded = setInterval(() => {
+          if (window.google && window.google.maps && window.google.maps.places) {
+            setIsGoogleMapsLoaded(true)
+            clearInterval(checkLoaded)
+          }
+        }, 100)
+        return
       }
-      document.head.appendChild(script)
+
+      setIsLoadingMaps(true)
+      try {
+        const script = document.createElement('script')
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places&callback=initGoogleMaps`
+        script.async = true
+        script.defer = true
+        
+        // Set up callback
+        window.initGoogleMaps = () => {
+          setIsGoogleMapsLoaded(true)
+          setIsLoadingMaps(false)
+        }
+        
+        script.onerror = () => {
+          console.error('Failed to load Google Maps API')
+          setIsLoadingMaps(false)
+        }
+        
+        document.head.appendChild(script)
+      } catch (error) {
+        console.error('Error loading Google Maps:', error)
+        setIsLoadingMaps(false)
+      }
     }
 
-    loadGoogleMaps()
-  }, [])
+    if (allowAutocomplete) {
+      loadGoogleMaps()
+    }
+  }, [allowAutocomplete])
 
   // Initialize Google Places Autocomplete
   useEffect(() => {
-    if (isGoogleMapsLoaded && autocompleteRef.current && allowAutocomplete) {
-      const autocomplete = new window.google.maps.places.Autocomplete(
-        autocompleteRef.current,
-        {
-          types: ['address'],
-          componentRestrictions: { country: 'us' },
-          fields: ['address_components', 'formatted_address']
-        }
-      )
+    if (isGoogleMapsLoaded && autocompleteRef.current && allowAutocomplete && !autocompleteInstance) {
+      try {
+        const autocomplete = new window.google.maps.places.Autocomplete(
+          autocompleteRef.current,
+          {
+            types: ['address'],
+            componentRestrictions: { country: 'us' },
+            fields: ['address_components', 'formatted_address', 'geometry']
+          }
+        )
 
-      autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace()
-        if (place.address_components) {
-          parseGooglePlace(place)
-        }
-      })
+        autocomplete.addListener('place_changed', () => {
+          const place = autocomplete.getPlace()
+          if (place.address_components) {
+            parseGooglePlace(place)
+          }
+        })
+        
+        setAutocompleteInstance(autocomplete)
+      } catch (error) {
+        console.error('Error initializing Google Places Autocomplete:', error)
+      }
     }
-  }, [isGoogleMapsLoaded, allowAutocomplete])
+  }, [isGoogleMapsLoaded, allowAutocomplete, autocompleteInstance])
 
   const parseGooglePlace = (place: any) => {
     const components = place.address_components
     const parsed = {
       streetAddress1: '',
+      streetAddress2: address.streetAddress2, // Preserve existing
       city: '',
       state: '',
       zipCode: ''
     }
 
+    let streetNumber = ''
+    let route = ''
+
     components.forEach((component: any) => {
       const types = component.types
-      if (types.includes('street_number') || types.includes('route')) {
-        parsed.streetAddress1 += component.long_name + ' '
+      
+      if (types.includes('street_number')) {
+        streetNumber = component.long_name
+      } else if (types.includes('route')) {
+        route = component.long_name
       } else if (types.includes('locality')) {
         parsed.city = component.long_name
       } else if (types.includes('administrative_area_level_1')) {
         parsed.state = component.short_name
       } else if (types.includes('postal_code')) {
         parsed.zipCode = component.long_name
+      } else if (types.includes('sublocality_level_1') && !parsed.city) {
+        // Fallback for city
+        parsed.city = component.long_name
       }
     })
 
-    onChange({
-      streetAddress1: parsed.streetAddress1.trim(),
-      streetAddress2: address.streetAddress2, // Preserve existing
-      city: parsed.city,
-      state: parsed.state,
-      zipCode: parsed.zipCode
-    })
+    // Combine street number and route
+    if (streetNumber && route) {
+      parsed.streetAddress1 = `${streetNumber} ${route}`
+    } else if (route) {
+      parsed.streetAddress1 = route
+    } else if (place.formatted_address) {
+      // Fallback to first part of formatted address
+      const addressParts = place.formatted_address.split(',')
+      parsed.streetAddress1 = addressParts[0] || ''
+    }
+
+    onChange(parsed)
   }
 
   return (
@@ -157,15 +211,27 @@ export function StandardizedAddressInput({
               Street Address #1
               {required && <span className="text-red-500 ml-1">*</span>}
             </label>
-            <Input
-              ref={allowAutocomplete ? autocompleteRef : undefined}
-              type="text"
-              value={address.streetAddress1}
-              onChange={(e) => updateField('streetAddress1', e.target.value)}
-              placeholder={allowAutocomplete ? "Start typing address..." : "Street address"}
-              className="w-full"
-              required={required}
-            />
+            <div className="relative">
+              <Input
+                ref={allowAutocomplete ? autocompleteRef : undefined}
+                type="text"
+                value={address.streetAddress1}
+                onChange={(e) => updateField('streetAddress1', e.target.value)}
+                placeholder={allowAutocomplete ? "Start typing address for autocomplete..." : "Street address"}
+                className="w-full"
+                required={required}
+              />
+              {isLoadingMaps && allowAutocomplete && (
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                  <Loader2 className="h-4 w-4 animate-spin text-gray-400" />
+                </div>
+              )}
+            </div>
+            {allowAutocomplete && !isGoogleMapsLoaded && !isLoadingMaps && (
+              <p className="text-xs text-gray-500 mt-1">
+                Google Places autocomplete is not available
+              </p>
+            )}
           </div>
 
           {/* Street Address #2 */}
@@ -231,6 +297,12 @@ export function StandardizedAddressInput({
               />
             </div>
           </div>
+        </div>
+      )}
+
+      {isSameAs && (
+        <div className="text-sm text-gray-500 italic p-4 bg-gray-50 rounded-lg">
+          Address will be copied from the primary address
         </div>
       )}
     </div>

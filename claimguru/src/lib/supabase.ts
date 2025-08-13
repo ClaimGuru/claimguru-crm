@@ -106,6 +106,50 @@ export interface Client {
   created_by?: string
   created_at: string
   updated_at: string
+  
+  // Enhanced client management fields
+  has_co_insured?: boolean
+  co_insured_first_name?: string
+  co_insured_last_name?: string
+  co_insured_email?: string
+  co_insured_phone?: string
+  co_insured_relationship?: string
+  co_insured_address_same_as_primary?: boolean
+  co_insured_address_line_1?: string
+  co_insured_address_line_2?: string
+  co_insured_city?: string
+  co_insured_state?: string
+  co_insured_zip_code?: string
+  
+  // Emergency contact information
+  emergency_contact_name?: string
+  emergency_contact_phone?: string
+  emergency_contact_email?: string
+  emergency_contact_relationship?: string
+  
+  // Enhanced contact preferences
+  preferred_contact_method?: string
+  communication_preferences?: any
+  
+  // Point of contact for business clients
+  point_of_contact_first_name?: string
+  point_of_contact_last_name?: string
+  point_of_contact_title?: string
+  point_of_contact_email?: string
+  point_of_contact_phone?: string
+  
+  // Loss location address
+  loss_location_same_as_primary?: boolean
+  loss_location_address_line_1?: string
+  loss_location_address_line_2?: string
+  loss_location_city?: string
+  loss_location_state?: string
+  loss_location_zip_code?: string
+  
+  // Enhanced status tracking
+  client_status?: string
+  is_active?: boolean
+  last_contact_date?: string
 }
 
 export interface Claim {

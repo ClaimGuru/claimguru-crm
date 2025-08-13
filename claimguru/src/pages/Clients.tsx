@@ -4,7 +4,7 @@ import { useClaims } from '../hooks/useClaims'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { LoadingSpinner } from '../components/ui/LoadingSpinner'
-import { ClientForm } from '../components/forms/ClientForm'
+import { EnhancedClientForm } from '../components/forms/EnhancedClientForm'
 import { ClientDetailsModal } from '../components/clients/ClientDetailsModal'
 import { CreateClaimModal } from '../components/clients/CreateClaimModal'
 import { ClientCreateClaimButton } from '../components/clients/ClientCreateClaimButton'
@@ -21,7 +21,9 @@ import {
   FileText,
   Calendar,
   Building,
-  Trash2
+  Trash2,
+  UserPlus,
+  Star
 } from 'lucide-react'
 import type { Client } from '../lib/supabase'
 
@@ -38,14 +40,19 @@ export function Clients() {
   const [clientForClaim, setClientForClaim] = useState<Client | null>(null)
 
   const filteredClients = clients.filter(client => {
+    const clientDisplayName = client.client_type === 'commercial' || client.client_type === 'business'
+      ? client.business_name || 'Unnamed Business'
+      : `${client.first_name || ''} ${client.last_name || ''}`.trim() || 'Unnamed Client'
+    
     const matchesSearch = 
-      client.first_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      client.last_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      clientDisplayName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       client.primary_email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       client.primary_phone?.includes(searchTerm) ||
-      client.business_name?.toLowerCase().includes(searchTerm.toLowerCase())
+      client.point_of_contact_first_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      client.point_of_contact_last_name?.toLowerCase().includes(searchTerm.toLowerCase())
     
-    const matchesType = typeFilter === 'all' || client.client_type === typeFilter
+    const normalizedClientType = client.client_type === 'commercial' ? 'business' : client.client_type
+    const matchesType = typeFilter === 'all' || normalizedClientType === typeFilter
     
     return matchesSearch && matchesType
   })
@@ -168,9 +175,9 @@ export function Clients() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Residential Clients</p>
+                <p className="text-sm font-medium text-gray-600">Individual Clients</p>
                 <p className="text-3xl font-bold text-gray-900">
-                  {clients.filter(c => c.client_type === 'residential').length}
+                  {clients.filter(c => c.client_type === 'residential' || c.client_type === 'individual').length}
                 </p>
               </div>
               <Users className="h-8 w-8 text-green-600" />
@@ -182,9 +189,9 @@ export function Clients() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Commercial Clients</p>
+                <p className="text-sm font-medium text-gray-600">Business Clients</p>
                 <p className="text-3xl font-bold text-gray-900">
-                  {clients.filter(c => c.client_type === 'commercial').length}
+                  {clients.filter(c => c.client_type === 'commercial' || c.client_type === 'business').length}
                 </p>
               </div>
               <Building className="h-8 w-8 text-purple-600" />
@@ -227,8 +234,8 @@ export function Clients() {
             className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="all">All Types</option>
-            <option value="residential">Residential</option>
-            <option value="commercial">Commercial</option>
+            <option value="individual">Individual</option>
+            <option value="business">Business</option>
           </select>
         </div>
       </div>
@@ -270,37 +277,60 @@ export function Clients() {
               <Card key={client.id} className="hover:shadow-md transition-shadow">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                        {client.client_type === 'commercial' ? (
-                          <Building className="h-6 w-6 text-blue-600" />
-                        ) : (
-                          <Users className="h-6 w-6 text-blue-600" />
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center relative">
+                      {(client.client_type === 'commercial' || client.client_type === 'business') ? (
+                        <Building className="h-6 w-6 text-blue-600" />
+                      ) : (
+                        <Users className="h-6 w-6 text-blue-600" />
+                      )}
+                      {client.has_co_insured && (
+                        <UserPlus className="h-3 w-3 text-green-600 absolute -top-1 -right-1 bg-white rounded-full" />
+                      )}
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">
+                        {(client.client_type === 'commercial' || client.client_type === 'business')
+                          ? client.business_name || 'Unnamed Business'
+                          : `${client.first_name || ''} ${client.last_name || ''}`.trim() || 'Unnamed Client'
+                        }
+                      </h3>
+                      {(client.client_type === 'commercial' || client.client_type === 'business') && (
+                        client.point_of_contact_first_name && client.point_of_contact_last_name && (
+                          <p className="text-gray-600">
+                            Contact: {client.point_of_contact_first_name} {client.point_of_contact_last_name}
+                            {client.point_of_contact_title && ` (${client.point_of_contact_title})`}
+                          </p>
+                        )
+                      )}
+                      {client.has_co_insured && (
+                        <p className="text-sm text-green-600 flex items-center gap-1">
+                          <UserPlus className="h-3 w-3" />
+                          Co-insured: {client.co_insured_first_name} {client.co_insured_last_name}
+                        </p>
+                      )}
+                      <div className="flex items-center space-x-4 mt-1">
+                        {client.primary_email && (
+                          <div className="flex items-center text-sm text-gray-500">
+                            <Mail className="h-4 w-4 mr-1" />
+                            {client.primary_email}
+                          </div>
                         )}
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          {client.first_name} {client.last_name}
-                        </h3>
-                        {client.business_name && (
-                          <p className="text-gray-600">{client.business_name}</p>
+                        {client.primary_phone && (
+                          <div className="flex items-center text-sm text-gray-500">
+                            <Phone className="h-4 w-4 mr-1" />
+                            {client.primary_phone}
+                          </div>
                         )}
-                        <div className="flex items-center space-x-4 mt-1">
-                          {client.primary_email && (
-                            <div className="flex items-center text-sm text-gray-500">
-                              <Mail className="h-4 w-4 mr-1" />
-                              {client.primary_email}
-                            </div>
-                          )}
-                          {client.primary_phone && (
-                            <div className="flex items-center text-sm text-gray-500">
-                              <Phone className="h-4 w-4 mr-1" />
-                              {client.primary_phone}
-                            </div>
-                          )}
-                        </div>
+                        {client.emergency_contact_name && (
+                          <div className="flex items-center text-sm text-orange-500">
+                            <Star className="h-4 w-4 mr-1" />
+                            Emergency: {client.emergency_contact_name}
+                          </div>
+                        )}
                       </div>
                     </div>
+                  </div>
                     
                     <div className="flex items-center space-x-4">
                       <div className="text-right">
@@ -365,11 +395,11 @@ export function Clients() {
                   <div className="mt-4 pt-4 border-t border-gray-200">
                     <div className="flex items-center justify-between text-sm">
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        client.client_type === 'commercial' 
+                        (client.client_type === 'commercial' || client.client_type === 'business')
                           ? 'text-purple-600 bg-purple-100'
                           : 'text-blue-600 bg-blue-100'
                       }`}>
-                        {client.client_type?.charAt(0).toUpperCase() + client.client_type?.slice(1)}
+                        {(client.client_type === 'commercial' || client.client_type === 'business') ? 'Business' : 'Individual'}
                       </span>
                       <div className="flex items-center text-gray-500">
                         <Calendar className="h-4 w-4 mr-1" />
@@ -384,8 +414,8 @@ export function Clients() {
         </div>
       )}
 
-      {/* Client Form Modal */}
-      <ClientForm
+      {/* Enhanced Client Form Modal */}
+      <EnhancedClientForm
         client={editingClient}
         isOpen={isFormOpen}
         onClose={() => {
