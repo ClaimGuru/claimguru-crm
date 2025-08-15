@@ -1,0 +1,191 @@
+
+> react_repo@0.0.0 build
+> yes | pnpm install && rm -rf node_modules/.vite-temp && tsc -b && vite build
+
+Lockfile is up to date, resolution step is skipped
+Already up to date
+Done in 863ms using pnpm v10.12.4
+src/components/claims/wizard-steps/UnifiedClientDetailsStep.tsx:559:17 - error TS2322: Type '(client: Client | null) => void' is not assignable to type '(client: ClientData) => void'.
+  Types of parameters 'client' and 'client' are incompatible.
+    Type 'ClientData' is not assignable to type 'Client'.
+      Property 'country' is optional in type 'ClientData' but required in type 'Client'.
+
+559                 onSelect={handleClientSelect}
+                    ~~~~~~~~
+
+  src/components/claims/ClientSelector.tsx:37:3
+    37   onSelect: (client: ClientData) => void
+         ~~~~~~~~
+    The expected type comes from property 'onSelect' which is declared here on type 'IntrinsicAttributes & ClientSelectorProps'
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:108:3 - error TS2339: Property 'onUpdate' does not exist on type 'UnifiedDocumentUploadProps'.
+
+108   onUpdate,
+      ~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:186:25 - error TS2339: Property 'extractedText' does not exist on type '{ success: boolean; extractedData: { mockData: string; }; confidence: number; }'.
+
+186       setRawText(result.extractedText)
+                            ~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:187:59 - error TS2339: Property 'policyData' does not exist on type '{ success: boolean; extractedData: { mockData: string; }; confidence: number; }'.
+
+187       setExtractedData(documentType === 'policy' ? result.policyData : result)
+                                                              ~~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:189:34 - error TS2339: Property 'processingMethod' does not exist on type '{ success: boolean; extractedData: { mockData: string; }; confidence: number; }'.
+
+189         processingMethod: result.processingMethod,
+                                     ~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:191:22 - error TS2339: Property 'cost' does not exist on type '{ success: boolean; extractedData: { mockData: string; }; confidence: number; }'.
+
+191         cost: result.cost,
+                         ~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:192:32 - error TS2339: Property 'processingTime' does not exist on type '{ success: boolean; extractedData: { mockData: string; }; confidence: number; }'.
+
+192         processingTime: result.processingTime,
+                                   ~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:193:34 - error TS2339: Property 'metadata' does not exist on type '{ success: boolean; extractedData: { mockData: string; }; confidence: number; }'.
+
+193         methodsAttempted: result.metadata.methodsAttempted
+                                     ~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:395:33 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+395                     {fileStatus.status === 'processing' && (
+                                    ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:399:33 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+399                     {fileStatus.status === 'completed' && fileStatus.confidence && (
+                                    ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:403:33 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+403                     {fileStatus.status === 'completed' && (
+                                    ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:407:33 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+407                     {fileStatus.status === 'error' && (
+                                    ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:454:32 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+454             {files.some(f => f.status === 'completed') && (
+                                   ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedInsuranceInfoStep.tsx:535:62 - error TS2554: Expected 2 arguments, but got 1.
+
+535         priorPaymentValidation = await enhancedClaimWizardAI.checkDuplicatePayments(
+                                                                 ~~~~~~~~~~~~~~~~~~~~~~
+
+  src/services/enhancedClaimWizardAI.ts:1126:49
+    1126   async checkDuplicatePayments(newPayment: any, priorPayments: any[]): Promise<AIValidation> {
+                                                         ~~~~~~~~~~~~~~~~~~~~
+    An argument for 'priorPayments' was not provided.
+
+src/components/claims/wizard-steps/UnifiedInsuranceInfoStep.tsx:788:18 - error TS2322: Type '{ children: Element; fieldPath: string; value: any; onConfirm: (value: string) => void; }' is not assignable to type 'IntrinsicAttributes & ConfirmedFieldWrapperProps'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & ConfirmedFieldWrapperProps'.
+
+788                 <ConfirmedFieldWrapper
+                     ~~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedInsuranceInfoStep.tsx:827:18 - error TS2322: Type '{ children: Element; fieldPath: string; value: any; onConfirm: (value: string) => void; }' is not assignable to type 'IntrinsicAttributes & ConfirmedFieldWrapperProps'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & ConfirmedFieldWrapperProps'.
+
+827                 <ConfirmedFieldWrapper
+                     ~~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:91:3 - error TS2339: Property 'onUpdate' does not exist on type 'UnifiedPDFExtractionStepProps'.
+
+91   onUpdate,
+     ~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:192:25 - error TS2339: Property 'extractedText' does not exist on type '{ success: boolean; extractedData: { mockData: string; }; confidence: number; }'.
+
+192       setRawText(result.extractedText)
+                            ~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:193:31 - error TS2339: Property 'policyData' does not exist on type '{ success: boolean; extractedData: { mockData: string; }; confidence: number; }'.
+
+193       setExtractedData(result.policyData)
+                                  ~~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:195:34 - error TS2339: Property 'processingMethod' does not exist on type '{ success: boolean; extractedData: { mockData: string; }; confidence: number; }'.
+
+195         processingMethod: result.processingMethod,
+                                     ~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:197:22 - error TS2339: Property 'cost' does not exist on type '{ success: boolean; extractedData: { mockData: string; }; confidence: number; }'.
+
+197         cost: result.cost,
+                         ~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:198:32 - error TS2339: Property 'processingTime' does not exist on type '{ success: boolean; extractedData: { mockData: string; }; confidence: number; }'.
+
+198         processingTime: result.processingTime,
+                                   ~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:199:34 - error TS2339: Property 'metadata' does not exist on type '{ success: boolean; extractedData: { mockData: string; }; confidence: number; }'.
+
+199         methodsAttempted: result.metadata.methodsAttempted
+                                     ~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:504:11 - error TS2322: Type '{ extractedData: any; rawText: string; onConfirm: (validatedPolicyData: any) => void; onReject: () => void; processingDetails: any; }' is not assignable to type 'IntrinsicAttributes & PolicyDataValidationStepProps'.
+  Property 'onConfirm' does not exist on type 'IntrinsicAttributes & PolicyDataValidationStepProps'.
+
+504           onConfirm={handleSingleValidationComplete}
+              ~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:572:96 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+572                             {(fileStatus.file.size / 1024 / 1024).toFixed(2)} MB • {fileStatus.status}
+                                                                                                   ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:577:37 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+577                         {fileStatus.status === 'processing' && <LoadingSpinner size="sm" />}
+                                        ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:578:37 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+578                         {fileStatus.status === 'completed' && <CheckCircle className="h-5 w-5 text-green-600" />}
+                                        ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:579:37 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+579                         {fileStatus.status === 'error' && <AlertCircle className="h-5 w-5 text-red-600" />}
+                                        ~~~~~~
+
+src/components/clients/UnifiedClientDetail.tsx:74:3 - error TS2339: Property 'onClose' does not exist on type 'UnifiedClientDetailProps'.
+
+74   onClose,
+     ~~~~~~~
+
+src/components/forms/UnifiedBusinessEntityForm.tsx:118:3 - error TS2339: Property 'onCancel' does not exist on type 'UnifiedBusinessEntityFormProps'.
+
+118   onCancel,
+      ~~~~~~~~
+
+src/components/forms/UnifiedBusinessEntityForm.tsx:119:3 - error TS2339: Property 'entityType' does not exist on type 'UnifiedBusinessEntityFormProps'.
+
+119   entityType,
+      ~~~~~~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:81:3 - error TS2339: Property 'onSave' does not exist on type 'UnifiedClientFormProps'.
+
+81   onSave,
+     ~~~~~~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:76:5 - error TS2353: Object literal may only specify known properties, and 'isOrganization' does not exist in type 'WizardData | (() => WizardData)'.
+
+76     isOrganization: false,
+       ~~~~~~~~~~~~~~
+
+
+Found 33 errors.
+

@@ -1,0 +1,2670 @@
+{
+  "summary": {
+    "total_typescript_files": 170,
+    "unused_components_count": 16,
+    "commented_blocks_count": 0,
+    "debug_statements_count": 506,
+    "orphaned_tests_count": 0,
+    "unused_assets_count": 1
+  },
+  "unused_components": [
+    "/workspace/claimguru/src/components/wizards/UnifiedWizardFramework.tsx",
+    "/workspace/claimguru/src/components/ai/AIInsights.tsx",
+    "/workspace/claimguru/src/components/communication/AutomationManager.tsx",
+    "/workspace/claimguru/src/components/ui/DropdownMenu.tsx",
+    "/workspace/claimguru/src/components/ui/Dialog.tsx",
+    "/workspace/claimguru/src/components/claims/ClaimDetailView.tsx",
+    "/workspace/claimguru/src/components/vendors/VendorAssignments.tsx",
+    "/workspace/claimguru/src/components/forms/ClaimForm.tsx",
+    "/workspace/claimguru/src/components/forms/LeadSourceSelector.tsx",
+    "/workspace/claimguru/src/components/forms/PaymentForm.tsx",
+    "/workspace/claimguru/src/components/documents/AdvancedDocumentManager.tsx",
+    "/workspace/claimguru/src/components/claims/wizard-steps/CompletionStep.tsx",
+    "/workspace/claimguru/src/components/claims/wizard-steps/CustomFieldsStep.tsx",
+    "/workspace/claimguru/src/components/claims/wizard-steps/IntakeReviewCompletionStep.tsx",
+    "/workspace/claimguru/src/components/claims/index.ts",
+    "/workspace/claimguru/src/components/forms/index.ts"
+  ],
+  "dead_code": {
+    "commented_blocks": [],
+    "unused_functions": [],
+    "debug_code": [
+      {
+        "file": "/workspace/claimguru/src/lib/supabase.ts",
+        "line": 15,
+        "content": "console.error('\ud83d\udea8 PRODUCTION SECURITY ERROR:', validation.errors)"
+      },
+      {
+        "file": "/workspace/claimguru/src/lib/supabase.ts",
+        "line": 16,
+        "content": "validation.errors.forEach(error => console.error('\u274c', error))"
+      },
+      {
+        "file": "/workspace/claimguru/src/lib/environment.ts",
+        "line": 68,
+        "content": "console.warn('\u26a0\ufe0f VITE_SUPABASE_URL not set in environment variables')"
+      },
+      {
+        "file": "/workspace/claimguru/src/lib/environment.ts",
+        "line": 79,
+        "content": "console.warn('\u26a0\ufe0f VITE_SUPABASE_ANON_KEY not set in environment variables')"
+      },
+      {
+        "file": "/workspace/claimguru/src/lib/environment.ts",
+        "line": 140,
+        "content": "console.log('\ud83d\udfe2 Supabase:', this.config.supabase.isConfigured ? 'Configured' : '\u26a0\ufe0f Missing Config')"
+      },
+      {
+        "file": "/workspace/claimguru/src/lib/environment.ts",
+        "line": 143,
+        "content": "console.log('\ud83d\uddfa\ufe0f Google Maps:', this.config.googleMaps.isEnabled ? 'Enabled' : 'Disabled (Optional)')"
+      },
+      {
+        "file": "/workspace/claimguru/src/lib/environment.ts",
+        "line": 146,
+        "content": "console.log('\ud83e\udd16 OpenAI:', this.config.openai.isEnabled ? 'Enabled' : 'Disabled (Optional)')"
+      },
+      {
+        "file": "/workspace/claimguru/src/lib/environment.ts",
+        "line": 150,
+        "content": "console.warn('\ud83d\udea8 WARNING: Supabase credentials are using fallback values. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in .env.local')"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useNotifications.ts",
+        "line": 22,
+        "content": "console.error('Error fetching notifications:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useNotifications.ts",
+        "line": 46,
+        "content": "console.error('Error marking notification as read:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useNotifications.ts",
+        "line": 68,
+        "content": "console.error('Error marking all notifications as read:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useNotifications.ts",
+        "line": 89,
+        "content": "console.error('Error deleting notification:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useNotifications.ts",
+        "line": 115,
+        "content": "console.error('Error creating notification:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useCustomFields.ts",
+        "line": 38,
+        "content": "console.error('Error loading custom fields:', err);"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useCustomFields.ts",
+        "line": 49,
+        "content": "console.error('Error saving custom field value:', err);"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useCustomFields.ts",
+        "line": 58,
+        "content": "console.error('Error saving custom field values:', err);"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useCustomFields.ts",
+        "line": 102,
+        "content": "console.error('Error loading claim custom field values:', err);"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClients.ts",
+        "line": 37,
+        "content": "console.error('Error loading clients:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClients.ts",
+        "line": 70,
+        "content": "console.log('\ud83d\ude80 Creating client with clean data:', cleanClientData)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClients.ts",
+        "line": 79,
+        "content": "console.error('\u274c Supabase error:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClients.ts",
+        "line": 83,
+        "content": "console.log('\u2705 Client created successfully:', data)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClients.ts",
+        "line": 87,
+        "content": "console.error('Error creating client:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClients.ts",
+        "line": 115,
+        "content": "console.error('Error updating client:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClients.ts",
+        "line": 138,
+        "content": "console.error('Error deleting client:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useAI.ts",
+        "line": 91,
+        "content": "console.error('Document analysis error:', err)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useAI.ts",
+        "line": 124,
+        "content": "console.error('Settlement prediction error:', err)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useAI.ts",
+        "line": 149,
+        "content": "console.error('Error fetching AI insights:', err)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useUniversalEntities.ts",
+        "line": 136,
+        "content": "console.error('Error fetching carrier personnel:', err)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useUniversalEntities.ts",
+        "line": 160,
+        "content": "console.error('Error creating carrier personnel:', err)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useUniversalEntities.ts",
+        "line": 181,
+        "content": "console.error('Error updating carrier personnel:', err)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useUniversalEntities.ts",
+        "line": 199,
+        "content": "console.error('Error deleting carrier personnel:', err)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useUniversalEntities.ts",
+        "line": 236,
+        "content": "console.error('Error fetching mortgage lenders:', err)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useUniversalEntities.ts",
+        "line": 260,
+        "content": "console.error('Error creating mortgage lender:', err)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useUniversalEntities.ts",
+        "line": 281,
+        "content": "console.error('Error updating mortgage lender:', err)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useUniversalEntities.ts",
+        "line": 299,
+        "content": "console.error('Error deleting mortgage lender:', err)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useUniversalEntities.ts",
+        "line": 336,
+        "content": "console.error('Error fetching insurance carriers:', err)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useUniversalEntities.ts",
+        "line": 360,
+        "content": "console.error('Error creating insurance carrier:', err)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useUniversalEntities.ts",
+        "line": 381,
+        "content": "console.error('Error updating insurance carrier:', err)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useUniversalEntities.ts",
+        "line": 399,
+        "content": "console.error('Error deleting insurance carrier:', err)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClaims.ts",
+        "line": 37,
+        "content": "console.error('Error loading claims:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClaims.ts",
+        "line": 50,
+        "content": "console.log('\ud83d\ude80 Creating comprehensive claim with data:', claimData)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClaims.ts",
+        "line": 92,
+        "content": "console.error('Error creating client:', clientError)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClaims.ts",
+        "line": 97,
+        "content": "console.log('\u2705 Created client:', newClient.id)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClaims.ts",
+        "line": 130,
+        "content": "console.log('\u2705 Found existing insurer:', existingInsurer.id)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClaims.ts",
+        "line": 146,
+        "content": "console.warn('Warning: Failed to create insurer:', insurerError)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClaims.ts",
+        "line": 149,
+        "content": "console.log('\u2705 Created insurer:', newInsurer.id)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClaims.ts",
+        "line": 175,
+        "content": "console.warn('Warning: Failed to create property:', propertyError)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClaims.ts",
+        "line": 178,
+        "content": "console.log('\u2705 Created property:', newProperty.id)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClaims.ts",
+        "line": 205,
+        "content": "console.warn('Warning: Failed to create vendors:', vendorError)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClaims.ts",
+        "line": 207,
+        "content": "console.log('\u2705 Created vendors:', vendorInserts.length)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClaims.ts",
+        "line": 264,
+        "content": "console.error('Error creating claim:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClaims.ts",
+        "line": 268,
+        "content": "console.log('\u2705 Created claim successfully:', data.id)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClaims.ts",
+        "line": 272,
+        "content": "console.error('\u274c Error in comprehensive createClaim:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClaims.ts",
+        "line": 300,
+        "content": "console.error('Error updating claim:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/hooks/useClaims.ts",
+        "line": 323,
+        "content": "console.error('Error deleting claim:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/utils/sampleData.ts",
+        "line": 6,
+        "content": "console.log('Inserting sample data...')"
+      },
+      {
+        "file": "/workspace/claimguru/src/utils/sampleData.ts",
+        "line": 61,
+        "content": "console.error('Error inserting clients:', clientsError)"
+      },
+      {
+        "file": "/workspace/claimguru/src/utils/sampleData.ts",
+        "line": 123,
+        "content": "console.error('Error inserting properties:', propertiesError)"
+      },
+      {
+        "file": "/workspace/claimguru/src/utils/sampleData.ts",
+        "line": 145,
+        "content": "console.error('Error inserting carrier:', carrierError)"
+      },
+      {
+        "file": "/workspace/claimguru/src/utils/sampleData.ts",
+        "line": 239,
+        "content": "console.error('Error inserting claims:', claimsError)"
+      },
+      {
+        "file": "/workspace/claimguru/src/utils/sampleData.ts",
+        "line": 288,
+        "content": "console.error('Error inserting activities:', activitiesError)"
+      },
+      {
+        "file": "/workspace/claimguru/src/utils/sampleData.ts",
+        "line": 344,
+        "content": "console.error('Error inserting tasks:', tasksError)"
+      },
+      {
+        "file": "/workspace/claimguru/src/utils/sampleData.ts",
+        "line": 348,
+        "content": "console.log('Sample data inserted successfully!')"
+      },
+      {
+        "file": "/workspace/claimguru/src/utils/sampleData.ts",
+        "line": 352,
+        "content": "console.error('Error inserting sample data:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/utils/wizardUtils.ts",
+        "line": 80,
+        "content": "console.error('Failed to save wizard progress:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/utils/index.ts",
+        "line": 500,
+        "content": "console.log(`${label}: ${time.toFixed(2)}ms`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/utils/index.ts",
+        "line": 524,
+        "content": "console.log(`${timestamp} ${prefix}`, message);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/adaptiveLearningService.ts",
+        "line": 133,
+        "content": "console.log('\ud83d\udcda Loading carrier templates from storage...');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/adaptiveLearningService.ts",
+        "line": 138,
+        "content": "console.error('Failed to load carrier templates:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/adaptiveLearningService.ts",
+        "line": 213,
+        "content": "console.log(`\ud83c\udfaf Initialized ${commonCarriers.length} carrier templates`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/adaptiveLearningService.ts",
+        "line": 294,
+        "content": "console.log(`\ud83c\udfaf Generated carrier-specific extraction rules for ${carrierId} (${documentType})`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/adaptiveLearningService.ts",
+        "line": 358,
+        "content": "console.log(`\ud83d\udcd6 Learning from successful extraction: ${carrierId} (${documentType})`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/adaptiveLearningService.ts",
+        "line": 399,
+        "content": "console.log(`\ud83d\udd27 Learning from user corrections: ${carrierId} (${documentType})`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/adaptiveLearningService.ts",
+        "line": 443,
+        "content": "console.log(`\ud83c\udd95 Creating new carrier template: ${carrierId}`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/adaptiveLearningService.ts",
+        "line": 633,
+        "content": "console.log(`\ud83d\udcbe Saved carrier template: ${template.carrierId}`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/adaptiveLearningService.ts",
+        "line": 635,
+        "content": "console.error('Failed to save carrier template:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/adaptiveLearningService.ts",
+        "line": 660,
+        "content": "console.log(`\ud83c\udf93 Learning ${enabled ? 'enabled' : 'disabled'}`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/policyDataMappingService.ts",
+        "line": 133,
+        "content": "console.log('\ud83d\uddfa\ufe0f Mapping extracted PDF data to wizard form fields...');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/policyDataMappingService.ts",
+        "line": 191,
+        "content": "console.log('\u2705 Data mapping completed:', mappedData);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/policyDataMappingService.ts",
+        "line": 455,
+        "content": "console.warn('Failed to parse date:', dateStr);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 199,
+        "content": "console.error('Error analyzing policy document:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 223,
+        "content": "console.error('Error generating loss description:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 270,
+        "content": "console.error('Error analyzing damage photos:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 308,
+        "content": "console.error('Error predicting settlement:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 374,
+        "content": "console.error('Error recommending vendors:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 445,
+        "content": "console.error('Error generating tasks:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 474,
+        "content": "console.error('Error estimating property value:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 518,
+        "content": "console.error('Error valuating personal property item:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 558,
+        "content": "console.error('Error validating claim completeness:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 593,
+        "content": "console.error('Error checking compliance:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 683,
+        "content": "console.error('Error generating personal property inventory:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 716,
+        "content": "console.error('Error analyzing bulk photos:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 825,
+        "content": "console.error('Error recommending providers:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 859,
+        "content": "console.error('Error generating claim summary:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 873,
+        "content": "console.log('PPIF document generated with claim data:', data)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 875,
+        "content": "console.error('Error generating PPIF:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 944,
+        "content": "console.error('Error detecting fraud:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 995,
+        "content": "console.error('Error analyzing weather correlation:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 1045,
+        "content": "console.error('Error assessing geographic risk:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 1120,
+        "content": "console.error('Error validating field:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 1188,
+        "content": "console.error('Error auto-completing form:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 1236,
+        "content": "console.error('Error generating predictive insights:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 1313,
+        "content": "console.error('Error generating follow-up questions:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 1383,
+        "content": "console.error('Error generating comprehensive claim summary:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimWizardAI.ts",
+        "line": 1464,
+        "content": "console.error('Error performing cross-reference validation:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/identifierExtractionService.ts",
+        "line": 84,
+        "content": "console.log('\ud83d\udd0d Starting comprehensive identifier extraction...');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/identifierExtractionService.ts",
+        "line": 131,
+        "content": "console.log('\u2705 Identifier extraction complete:', {"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/googlePlacesService.ts",
+        "line": 40,
+        "content": "console.log('Validating address with Google Places API:', address);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/googlePlacesService.ts",
+        "line": 146,
+        "content": "console.error('Google Places API error:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/googlePlacesService.ts",
+        "line": 206,
+        "content": "console.error('Address suggestions error:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/enhancedClaimWizardAI.ts",
+        "line": 160,
+        "content": "console.log('Processing document:', file.name, 'Type:', documentType, 'Size:', file.size)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/enhancedClaimWizardAI.ts",
+        "line": 182,
+        "content": "console.log('Document processing successful:', result.data)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/enhancedClaimWizardAI.ts",
+        "line": 186,
+        "content": "console.error('Real document processing failed:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/enhancedClaimWizardAI.ts",
+        "line": 235,
+        "content": "console.log('Parsing insurance fields from text:', text.substring(0, 200) + '...')"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 138,
+        "content": "console.log(`\ud83d\udd0d Starting ${config.mode} PDF extraction for:`, file.name)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 139,
+        "content": "console.log('\ud83d\udcca File size:', (file.size / 1024).toFixed(1), 'KB')"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 153,
+        "content": "console.error(`\u274c ${config.mode} extraction failed:`, error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 162,
+        "content": "console.log('\ud83d\udcc4 Running basic extraction mode')"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 196,
+        "content": "console.log('\ud83d\ude80 Running enhanced extraction mode')"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 211,
+        "content": "console.log('\u2705 Google Vision OCR successful')"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 213,
+        "content": "console.warn('\u26a0\ufe0f Google Vision failed:', error.message)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 228,
+        "content": "console.log('\u2705 OpenAI enhancement successful')"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 230,
+        "content": "console.warn('\u26a0\ufe0f OpenAI enhancement failed:', error.message)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 264,
+        "content": "console.log('\ud83d\udd04 Running hybrid extraction mode')"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 281,
+        "content": "console.log(`\ud83d\udcc4 PDF.js result: Quality ${bestQuality}, ${bestText.length} chars`)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 283,
+        "content": "console.warn('\u26a0\ufe0f PDF.js failed:', error.message)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 300,
+        "content": "console.log(`\ud83d\udd24 Tesseract result: Quality ${tesseractQuality}, ${tesseractResult.text.length} chars`)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 307,
+        "content": "console.log('\u2705 Tesseract provides better extraction')"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 310,
+        "content": "console.warn('\u26a0\ufe0f Tesseract failed or timed out:', error.message)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 326,
+        "content": "console.log(`\ud83d\udc41\ufe0f Google Vision result: Quality ${visionQuality}, ${visionResult.text.length} chars`)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 334,
+        "content": "console.log('\u2705 Google Vision provides best extraction')"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 337,
+        "content": "console.warn('\u26a0\ufe0f Google Vision failed or timed out:', error.message)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 353,
+        "content": "console.log('\u2705 AI enhancement completed')"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 355,
+        "content": "console.warn('\u26a0\ufe0f AI enhancement failed:', error.message)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/UnifiedPDFExtractionService.ts",
+        "line": 362,
+        "content": "console.log(`\ud83c\udfc6 Best result: ${bestMethod} with Quality ${bestQuality}, Confidence ${(bestConfidence * 100).toFixed(1)}%`)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 67,
+        "content": "console.log(`\ud83d\ude80 Starting multi-document processing for ${files.length} files`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 71,
+        "content": "console.log(`\ud83d\udcc4 Processing: ${file.name}`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 78,
+        "content": "console.error(`\u274c Failed to process ${file.name}:`, error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 134,
+        "content": "console.log(`\u2705 Multi-document processing completed in ${totalProcessingTime}ms`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 135,
+        "content": "console.log(`\ud83d\udcb0 Total cost: $${totalCost.toFixed(3)}`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 158,
+        "content": "console.log('\ud83e\udde0 Using Intelligent Extraction with Adaptive Learning');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 172,
+        "content": "console.log(`\ud83c\udfaf Intelligent extraction completed with ${Math.round(intelligentResult.extractionIntelligence.finalConfidence * 100)}% confidence`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 175,
+        "content": "console.warn('\u26a0\ufe0f Intelligent extraction failed, falling back to enhanced extraction:', error.message);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 182,
+        "content": "console.log('\u26a1 Using optimized hybrid extraction as fallback');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 198,
+        "content": "console.log(`\ud83d\udccb Document classified as: ${classification.documentType} (${classification.confidence.toFixed(1)}% confidence)`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 222,
+        "content": "console.log(`\ud83d\udd0d Identifier analysis complete:`, {"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 335,
+        "content": "console.log('\ud83d\udccb Enhancing policy data - preserving comprehensive extraction');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 336,
+        "content": "console.log('\ud83d\udcca Base data fields:', Object.keys(baseData).filter(k => baseData[k]).length);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 356,
+        "content": "console.log(`\ud83d\udd27 Enhanced missing field: ${field} = ${match[1].trim()}`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 365,
+        "content": "console.log('\u2705 Policy data enhancement complete - fields preserved:', Object.keys(policyData).filter(k => policyData[k] && policyData[k] !== 'null').length);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 369,
+        "content": "console.log('\u2728 Applied data formatting for better readability');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 703,
+        "content": "console.log('\u26a0\ufe0f Cannot learn from non-intelligent extraction result');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 721,
+        "content": "console.log('\ud83d\udcda Successfully learned from user feedback');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 723,
+        "content": "console.error('\u274c Failed to learn from user feedback:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 739,
+        "content": "console.log(`\ud83e\udde0 Intelligent extraction ${enabled ? 'enabled' : 'disabled'}`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/multiDocumentExtractionService.ts",
+        "line": 747,
+        "content": "console.log(`\ud83d\udcda Learning system is always enabled with carrier-specific patterns`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/intelligentExtractionService.ts",
+        "line": 80,
+        "content": "console.log(`\ud83e\udde0 Starting intelligent extraction for: ${file.name}`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/intelligentExtractionService.ts",
+        "line": 84,
+        "content": "console.log('\ud83e\udde0 Using optimized hybrid extraction for base data...');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/intelligentExtractionService.ts",
+        "line": 167,
+        "content": "console.log(`\ud83c\udfaf Intelligent extraction completed:`, {"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/intelligentExtractionService.ts",
+        "line": 177,
+        "content": "console.error('\u274c Intelligent extraction failed:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/documentUploadService.ts",
+        "line": 26,
+        "content": "console.log('DocumentUploadService initialized with proper RLS security')"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/documentUploadService.ts",
+        "line": 51,
+        "content": "console.log(`Uploading ${file.name} to ${filePath} (authenticated)`)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/documentUploadService.ts",
+        "line": 86,
+        "content": "console.log('Document uploaded successfully:', document)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/documentUploadService.ts",
+        "line": 90,
+        "content": "console.error('Document upload failed:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/documentUploadService.ts",
+        "line": 122,
+        "content": "console.warn('Failed to store document metadata:', error.message)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/documentUploadService.ts",
+        "line": 126,
+        "content": "console.warn('Failed to store document metadata:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/documentUploadService.ts",
+        "line": 156,
+        "content": "console.warn('Failed to update extraction status:', error.message)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/documentUploadService.ts",
+        "line": 159,
+        "content": "console.warn('Failed to update extraction status:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/documentUploadService.ts",
+        "line": 175,
+        "content": "console.error('Failed to fetch claim documents:', error.message)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/documentUploadService.ts",
+        "line": 181,
+        "content": "console.error('Failed to fetch claim documents:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/documentUploadService.ts",
+        "line": 199,
+        "content": "console.error('Failed to fetch recent documents:', error.message)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/documentUploadService.ts",
+        "line": 205,
+        "content": "console.error('Failed to fetch recent documents:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/documentUploadService.ts",
+        "line": 224,
+        "content": "console.error('Failed to fetch document for deletion:', fetchError?.message)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/documentUploadService.ts",
+        "line": 242,
+        "content": "console.error('Failed to delete document:', storageError?.message || dbError?.message)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/documentUploadService.ts",
+        "line": 248,
+        "content": "console.error('Failed to delete document:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/documentUploadService.ts",
+        "line": 305,
+        "content": "console.error('AI processing failed:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/intelligentWizardService.ts",
+        "line": 58,
+        "content": "console.log('\ud83e\udde0 Policy data stored for intelligent suggestions:', data);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/intelligentWizardService.ts",
+        "line": 66,
+        "content": "console.log('\ud83d\udcc4 Documents added for AI analysis:', documents.length);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/intelligentWizardService.ts",
+        "line": 208,
+        "content": "console.log('\u274c No extracted policy data available for client suggestions');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/intelligentWizardService.ts",
+        "line": 226,
+        "content": "console.log('\ud83e\udd1d Coinsured detected:', this.extractedPolicyData.coinsuredName);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/intelligentWizardService.ts",
+        "line": 246,
+        "content": "console.log('\u2705 Generated client details suggestions with coinsured analysis');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/configService.ts",
+        "line": 24,
+        "content": "console.log('\u2705 Google Maps API configured successfully');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/configService.ts",
+        "line": 26,
+        "content": "console.warn('\u26a0\ufe0f Google Maps API not configured - address validation disabled');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedDatabaseService.ts",
+        "line": 105,
+        "content": "console.error(`Error creating ${table}:`, error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedDatabaseService.ts",
+        "line": 111,
+        "content": "console.error(`Database create operation failed for ${table}:`, error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedDatabaseService.ts",
+        "line": 171,
+        "content": "console.error(`Error reading from ${table}:`, error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedDatabaseService.ts",
+        "line": 177,
+        "content": "console.error(`Database read operation failed for ${table}:`, error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedDatabaseService.ts",
+        "line": 222,
+        "content": "console.error(`Error updating ${table}:`, error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedDatabaseService.ts",
+        "line": 228,
+        "content": "console.error(`Database update operation failed for ${table}:`, error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedDatabaseService.ts",
+        "line": 269,
+        "content": "console.error(`Error deleting from ${table}:`, error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedDatabaseService.ts",
+        "line": 274,
+        "content": "console.error(`Database delete operation failed for ${table}:`, error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedDatabaseService.ts",
+        "line": 320,
+        "content": "console.error(`Error upserting in ${table}:`, error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedDatabaseService.ts",
+        "line": 326,
+        "content": "console.error(`Database upsert operation failed for ${table}:`, error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedDatabaseService.ts",
+        "line": 383,
+        "content": "console.error('Batch operation failed:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedDatabaseService.ts",
+        "line": 441,
+        "content": "console.error(`Error calling function ${functionName}:`, error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedDatabaseService.ts",
+        "line": 447,
+        "content": "console.error(`RPC function call failed for ${functionName}:`, error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedDatabaseService.ts",
+        "line": 476,
+        "content": "console.warn('Failed to create claim folders:', folderError);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedDatabaseService.ts",
+        "line": 635,
+        "content": "console.error(`Error counting ${table}:`, error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedDatabaseService.ts",
+        "line": 641,
+        "content": "console.error(`Database count operation failed for ${table}:`, error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedDatabaseService.ts",
+        "line": 693,
+        "content": "console.error(`Error searching ${table}:`, error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedDatabaseService.ts",
+        "line": 699,
+        "content": "console.error(`Database search operation failed for ${table}:`, error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimService.ts",
+        "line": 32,
+        "content": "console.error('Error creating claim:', claimError);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimService.ts",
+        "line": 46,
+        "content": "console.warn('Failed to create claim folders, but claim was created:', folderError);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimService.ts",
+        "line": 53,
+        "content": "console.error('Error in createClaim:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimService.ts",
+        "line": 69,
+        "content": "console.error('Error fetching claim:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimService.ts",
+        "line": 88,
+        "content": "console.error('Error updating claim:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimService.ts",
+        "line": 106,
+        "content": "console.error('Error fetching claims:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/claimService.ts",
+        "line": 130,
+        "content": "console.error('Error creating default folders for claim:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedAIService.ts",
+        "line": 186,
+        "content": "console.log('\ud83e\udde0 Starting unified policy analysis:', file.name, 'Type:', documentType)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedAIService.ts",
+        "line": 202,
+        "content": "console.error('Policy analysis failed:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedAIService.ts",
+        "line": 226,
+        "content": "console.log('\u2705 Real document processing successful')"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedAIService.ts",
+        "line": 230,
+        "content": "console.warn('Real processing failed, using fallback:', error.message)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/ConsolidatedAIService.ts",
+        "line": 353,
+        "content": "console.log('\ud83d\udcf7 Analyzing', photos.length, 'damage photos')"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 59,
+        "content": "console.log('\ud83d\udcbe Saving wizard progress...', {"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 84,
+        "content": "console.warn('\ud83d\udd04 Database RLS issue detected (406), switching to local storage fallback');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 90,
+        "content": "console.error('Error checking existing progress:', searchError);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 116,
+        "content": "console.warn('\ud83d\udd04 Database RLS issue on update (406), switching to local storage fallback');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 120,
+        "content": "console.error('Error updating wizard progress:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 135,
+        "content": "console.warn('\ud83d\udd04 Database RLS issue on insert (406), switching to local storage fallback');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 139,
+        "content": "console.error('Error saving wizard progress:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 149,
+        "content": "console.warn('Task creation failed, but progress saved:', taskError);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 152,
+        "content": "console.log('\u2705 Wizard progress saved successfully to database');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 156,
+        "content": "console.warn('Database save failed, using local storage fallback:', dbError);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 161,
+        "content": "console.error('\u274c Failed to save wizard progress:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 198,
+        "content": "console.log('\u2705 Wizard progress saved to local storage (fallback mode)');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 201,
+        "content": "console.error('\u274c Failed to save to local storage:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 233,
+        "content": "console.log('\u2705 Loaded wizard progress from local storage');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 238,
+        "content": "console.error('\u274c Failed to load from local storage:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 268,
+        "content": "console.warn('\ud83d\udd04 Database RLS issue on load (406), switching to local storage fallback');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 277,
+        "content": "console.error('Error loading wizard progress:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 288,
+        "content": "console.warn('Failed to update last active time:', updateError);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 291,
+        "content": "console.log('\u2705 Loaded wizard progress from database');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 295,
+        "content": "console.warn('Database load failed, trying local storage:', dbError);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 300,
+        "content": "console.error('\u274c Failed to load wizard progress:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 312,
+        "content": "console.log('\u23ed\ufe0f Skipping reminder task creation (fallback mode)');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 363,
+        "content": "console.error('Error creating reminder task:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 374,
+        "content": "console.log('\u2705 Reminder task created/updated for wizard completion');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 376,
+        "content": "console.error('\u274c Failed to create reminder task:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 393,
+        "content": "console.error('Error cancelling task:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 424,
+        "content": "console.log('\u2705 Wizard marked as completed');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 426,
+        "content": "console.error('\u274c Failed to mark wizard as completed:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 452,
+        "content": "console.log('\u2705 Wizard progress deleted');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 454,
+        "content": "console.error('\u274c Failed to delete wizard progress:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 472,
+        "content": "console.error('Error loading incomplete wizards:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 478,
+        "content": "console.error('\u274c Failed to load incomplete wizards:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 517,
+        "content": "console.log('\u2705 Cleaned up expired wizard progress');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 519,
+        "content": "console.error('\u274c Failed to cleanup expired progress:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 537,
+        "content": "console.log('\u2705 Cleaned up expired local storage progress');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 539,
+        "content": "console.error('\u274c Failed to cleanup local storage:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 587,
+        "content": "console.warn('Failed to sync progress:', progress.id, syncError);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 596,
+        "content": "console.log('\u2705 Successfully synced local storage to database');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 601,
+        "content": "console.error('\u274c Failed to sync local storage to database:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/wizardProgressService.ts",
+        "line": 629,
+        "content": "console.log('\ud83d\udd04 Database connection restored, synced local data');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/emailAutomationService.ts",
+        "line": 142,
+        "content": "console.info('Supabase environment variables not configured, using default email config')"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/emailAutomationService.ts",
+        "line": 162,
+        "content": "console.warn('Email configuration endpoint returned non-JSON response, using default config')"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/emailAutomationService.ts",
+        "line": 165,
+        "content": "console.warn('Email configuration endpoint not available, using default config')"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/emailAutomationService.ts",
+        "line": 168,
+        "content": "console.warn('Email configuration loading skipped:', error.message)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/emailAutomationService.ts",
+        "line": 202,
+        "content": "console.error('Failed to setup email integration:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/emailAutomationService.ts",
+        "line": 344,
+        "content": "console.error('Failed to store email log:', await response.text())"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/emailAutomationService.ts",
+        "line": 347,
+        "content": "console.error('Error storing email log:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/emailAutomationService.ts",
+        "line": 398,
+        "content": "console.error('Failed to create automated task:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/emailAutomationService.ts",
+        "line": 843,
+        "content": "console.error('Failed to fetch email logs:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/emailAutomationService.ts",
+        "line": 881,
+        "content": "console.error('Failed to fetch email analytics:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/carrierLearningService.ts",
+        "line": 118,
+        "content": "console.log(`\ud83c\udfe2 Identified carrier: ${carrierId} via pattern matching`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/carrierLearningService.ts",
+        "line": 126,
+        "content": "console.log(`\ud83c\udfe2 Identified carrier: ${carrierId} via logo marker`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/carrierLearningService.ts",
+        "line": 136,
+        "content": "console.log(`\ud83c\udfe2 Identified carrier: ${carrierId} via learned patterns (${confidence.toFixed(2)} confidence)`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/carrierLearningService.ts",
+        "line": 141,
+        "content": "console.log('\ud83c\udfe2 Could not identify carrier from document');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/carrierLearningService.ts",
+        "line": 155,
+        "content": "console.log(`\ud83d\udcda Learning from ${carrierId} ${documentType} extraction...`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/carrierLearningService.ts",
+        "line": 174,
+        "content": "console.log(`\ud83d\udcc8 Updated ${carrierId} pattern: ${pattern.confidence.toFixed(2)} confidence, ${pattern.documentsProcessed} docs processed`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/carrierLearningService.ts",
+        "line": 181,
+        "content": "console.log(`\ud83d\udd27 Learning from user correction for ${feedback.carrierId}`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/carrierLearningService.ts",
+        "line": 253,
+        "content": "console.log(`\ud83d\udca1 Generated extraction hints for ${carrierId}: ${Object.keys(hints.fieldHints).length} field hints`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/carrierLearningService.ts",
+        "line": 270,
+        "content": "console.log(`\ud83c\udfaf Enhancing extraction for ${carrierId} using learned patterns...`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/carrierLearningService.ts",
+        "line": 285,
+        "content": "console.log(`\u2728 Enhanced ${fieldName}: ${extractedValue}`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/carrierLearningService.ts",
+        "line": 299,
+        "content": "console.log(`\ud83d\udcca Applied ${enhancementsCount} enhancements from learned patterns`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/carrierLearningService.ts",
+        "line": 510,
+        "content": "console.warn(`Invalid pattern for ${fieldName}:`, patternSource);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/customFieldService.ts",
+        "line": 77,
+        "content": "console.error('Error fetching custom fields:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/customFieldService.ts",
+        "line": 95,
+        "content": "console.error('Error creating custom field:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/customFieldService.ts",
+        "line": 114,
+        "content": "console.error('Error updating custom field:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/customFieldService.ts",
+        "line": 131,
+        "content": "console.error('Error deleting custom field:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/customFieldService.ts",
+        "line": 159,
+        "content": "console.error('Error fetching field placements:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/customFieldService.ts",
+        "line": 189,
+        "content": "console.error('Error updating field placement:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/customFieldService.ts",
+        "line": 203,
+        "content": "console.error('Error creating field placement:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/customFieldService.ts",
+        "line": 224,
+        "content": "console.error('Error fetching claim custom field values:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/customFieldService.ts",
+        "line": 257,
+        "content": "console.error('Error saving custom field value:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/customFieldService.ts",
+        "line": 302,
+        "content": "console.error('Error batch saving custom field values:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/customFieldService.ts",
+        "line": 321,
+        "content": "console.error('Error fetching folder templates:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/customFieldService.ts",
+        "line": 339,
+        "content": "console.error('Error creating default folder template:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/customFieldService.ts",
+        "line": 366,
+        "content": "console.error('Error applying folder template to claim:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/index.ts",
+        "line": 161,
+        "content": "console.log('\ud83d\ude80 Initializing ClaimGuru Consolidated Services...');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/index.ts",
+        "line": 166,
+        "content": "console.log('\u2705 Database service initialized');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/index.ts",
+        "line": 170,
+        "content": "console.log('\u2705 AI service initialized');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/index.ts",
+        "line": 174,
+        "content": "console.log('\u2705 Validation service initialized');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/index.ts",
+        "line": 176,
+        "content": "console.log('\u2728 All services initialized successfully!');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/index.ts",
+        "line": 178,
+        "content": "console.error('\u274c Service initialization failed:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/confirmedFieldsService.ts",
+        "line": 50,
+        "content": "console.log('\ud83d\udd10 Initializing confirmed fields with PDF data:', extractedData);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/confirmedFieldsService.ts",
+        "line": 68,
+        "content": "console.log('\u2705 Confirmed fields initialized:', this.state.totals);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/confirmedFieldsService.ts",
+        "line": 100,
+        "content": "console.warn(`Field ${fieldPath} not found for confirmation`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/confirmedFieldsService.ts",
+        "line": 112,
+        "content": "console.log(`\u2705 Field confirmed: ${fieldPath} = ${finalValue || field.value}`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/confirmedFieldsService.ts",
+        "line": 132,
+        "content": "console.log(`\u274c Field rejected: ${fieldPath}, reason: ${reason}`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/confirmedFieldsService.ts",
+        "line": 150,
+        "content": "console.log(`\u270f\ufe0f Field modified: ${fieldPath} = ${newValue}`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/confirmedFieldsService.ts",
+        "line": 283,
+        "content": "console.log(`\u2705 Bulk confirmed ${fieldPaths.length} fields`);"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/confirmedFieldsService.ts",
+        "line": 298,
+        "content": "console.log('\ud83d\udce5 Confirmed fields state imported');"
+      },
+      {
+        "file": "/workspace/claimguru/src/services/confirmedFieldsService.ts",
+        "line": 311,
+        "content": "console.log('\ud83d\udd04 Confirmed fields state reset');"
+      },
+      {
+        "file": "/workspace/claimguru/src/App.tsx",
+        "line": 54,
+        "content": "console.log('\ud83d\udd13 Demo mode enabled - bypassing authentication for testing')"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Insurers.tsx",
+        "line": 104,
+        "content": "console.error('Error fetching insurers:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Insurers.tsx",
+        "line": 165,
+        "content": "console.error('Error saving insurer:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Insurers.tsx",
+        "line": 255,
+        "content": "console.error('Batch insert error:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Insurers.tsx",
+        "line": 261,
+        "content": "console.error('Batch processing error:', batchError)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Insurers.tsx",
+        "line": 277,
+        "content": "console.error('Import error:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Insurers.tsx",
+        "line": 296,
+        "content": "console.error('Error deleting insurer:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/AdminPanel.tsx",
+        "line": 19,
+        "content": "console.warn('Using demo organization ID for testing purposes');"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/TestClaims.tsx",
+        "line": 11,
+        "content": "console.log('Test wizard completed with data:', data)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/AIInsights.tsx",
+        "line": 106,
+        "content": "console.error('Error loading AI insights:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/AIInsights.tsx",
+        "line": 127,
+        "content": "console.error('Error analyzing document:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Financial.tsx",
+        "line": 71,
+        "content": "console.error('Error loading financial data:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/ClientManagement.tsx",
+        "line": 274,
+        "content": "console.error('SECURITY: No user_id available for audit trail');"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/ClientManagement.tsx",
+        "line": 279,
+        "content": "console.error('SECURITY: No user_id available for audit trail');"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/ClientManagement.tsx",
+        "line": 283,
+        "content": "console.error('SECURITY: No organization_id available for client creation');"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/ClientManagement.tsx",
+        "line": 295,
+        "content": "console.error('Error loading clients:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/ClientManagement.tsx",
+        "line": 315,
+        "content": "console.error('Error checking permissions:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/ClientManagement.tsx",
+        "line": 329,
+        "content": "console.error('Error loading organization users:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/ClientManagement.tsx",
+        "line": 344,
+        "content": "console.error('Error loading organization users:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/ClientManagement.tsx",
+        "line": 369,
+        "content": "console.error('Error deleting client:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/ClientManagement.tsx",
+        "line": 393,
+        "content": "console.error('Error saving client:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/ClientManagement.tsx",
+        "line": 400,
+        "content": "console.log('Saving permissions:', permissionData);"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/ClientManagement.tsx",
+        "line": 404,
+        "content": "console.error('Error saving permissions:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Finance.tsx",
+        "line": 216,
+        "content": "console.error('Error loading finance data:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Finance.tsx",
+        "line": 246,
+        "content": "console.error(`Error saving ${type}:`, error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Finance.tsx",
+        "line": 261,
+        "content": "console.error(`Error deleting ${type}:`, error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Vendors.tsx",
+        "line": 180,
+        "content": "console.error('Error loading vendor data:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Vendors.tsx",
+        "line": 208,
+        "content": "console.error('Error saving vendor:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Vendors.tsx",
+        "line": 223,
+        "content": "console.error('Error deleting vendor:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Vendors.tsx",
+        "line": 236,
+        "content": "console.error('Error updating vendor favorite status:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Calendar.tsx",
+        "line": 94,
+        "content": "console.error('Error loading events:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Calendar.tsx",
+        "line": 208,
+        "content": "console.error('Error creating event:', err)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Clients.tsx",
+        "line": 85,
+        "content": "console.log('\ud83d\udce5 PARENT handleSaveClient called with:', clientData)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Clients.tsx",
+        "line": 86,
+        "content": "console.log('\ud83d\udcdd Editing client:', editingClient)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Clients.tsx",
+        "line": 91,
+        "content": "console.log('\ud83d\udcdd Updating existing client...')"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Clients.tsx",
+        "line": 94,
+        "content": "console.log('\u2705 Client updated successfully:', savedClient)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Clients.tsx",
+        "line": 96,
+        "content": "console.log('\u2795 Creating new client...')"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Clients.tsx",
+        "line": 99,
+        "content": "console.log('\u2705 Client created successfully:', savedClient)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Clients.tsx",
+        "line": 102,
+        "content": "console.log('\ud83d\udcdd Closing form and resetting state...')"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Clients.tsx",
+        "line": 108,
+        "content": "console.log('\ud83d\udcdc Opening create claim flow for new client...')"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Clients.tsx",
+        "line": 113,
+        "content": "console.log('\u2705 handleSaveClient completed successfully')"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Clients.tsx",
+        "line": 115,
+        "content": "console.error('\u274c Error in handleSaveClient:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Clients.tsx",
+        "line": 116,
+        "content": "console.error('\ud83d\udcca Error details:', JSON.stringify(error, null, 2))"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Integrations.tsx",
+        "line": 113,
+        "content": "console.error('Error loading integrations:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Integrations.tsx",
+        "line": 160,
+        "content": "console.error('Error toggling integration:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Integrations.tsx",
+        "line": 187,
+        "content": "console.error('Error saving credentials:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Settlements.tsx",
+        "line": 41,
+        "content": "console.error('Error loading settlements:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Dashboard.tsx",
+        "line": 138,
+        "content": "console.error('Error loading dashboard data:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Dashboard.tsx",
+        "line": 145,
+        "content": "console.log('\ud83d\udd27 DEBUG: Dashboard client creation test')"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Dashboard.tsx",
+        "line": 146,
+        "content": "console.log('\ud83d\udcbe Client data:', clientData)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Dashboard.tsx",
+        "line": 149,
+        "content": "console.log('\u2705 DEBUG: Client created successfully:', result)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Dashboard.tsx",
+        "line": 153,
+        "content": "console.error('\u274c DEBUG: Client creation failed:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Dashboard.tsx",
+        "line": 181,
+        "content": "console.log('\ud83d\udd27 Debug button clicked!')"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/AuthCallback.tsx",
+        "line": 38,
+        "content": "console.error('Error exchanging code for session:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/AuthCallback.tsx",
+        "line": 45,
+        "content": "console.log('Successfully authenticated user:', data.user.email)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/AuthCallback.tsx",
+        "line": 55,
+        "content": "console.error('Error loading user profile:', profileError)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/AuthCallback.tsx",
+        "line": 60,
+        "content": "console.log('No user profile found, attempting to create...')"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/AuthCallback.tsx",
+        "line": 75,
+        "content": "console.error('Error setting up user profile:', setupError)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/AuthCallback.tsx",
+        "line": 77,
+        "content": "console.log('User profile created successfully')"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/AuthCallback.tsx",
+        "line": 80,
+        "content": "console.error('Error during user setup:', setupError)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/AuthCallback.tsx",
+        "line": 100,
+        "content": "console.error('Error during auth callback:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Notifications.tsx",
+        "line": 45,
+        "content": "console.error('Error fetching notifications:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Notifications.tsx",
+        "line": 69,
+        "content": "console.error('Error marking notifications as read:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Notifications.tsx",
+        "line": 91,
+        "content": "console.error('Error marking notifications as unread:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Notifications.tsx",
+        "line": 111,
+        "content": "console.error('Error deleting notifications:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/CommunicationHub.tsx",
+        "line": 218,
+        "content": "console.error('Error loading communication data:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/CommunicationHub.tsx",
+        "line": 241,
+        "content": "console.error('Error saving communication:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/CommunicationHub.tsx",
+        "line": 256,
+        "content": "console.error('Error deleting communication:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Claims.tsx",
+        "line": 108,
+        "content": "console.error('Error creating manual claim:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Claims.tsx",
+        "line": 129,
+        "content": "console.error('Error creating AI claim:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Communications.tsx",
+        "line": 59,
+        "content": "console.error('Failed to load email data:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Properties.tsx",
+        "line": 41,
+        "content": "console.error('Error loading properties:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/LeadManagement.tsx",
+        "line": 170,
+        "content": "console.error('SECURITY: No user_id available for audit trail');"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/LeadManagement.tsx",
+        "line": 175,
+        "content": "console.error('SECURITY: No organization_id available for lead creation');"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/LeadManagement.tsx",
+        "line": 198,
+        "content": "console.error('SECURITY: No user_id available for audit trail');"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/LeadManagement.tsx",
+        "line": 203,
+        "content": "console.error('SECURITY: No organization_id available for lead creation');"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/LeadManagement.tsx",
+        "line": 211,
+        "content": "console.error('Error loading leads:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/LeadManagement.tsx",
+        "line": 228,
+        "content": "console.error('Error loading lead sources:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/LeadManagement.tsx",
+        "line": 245,
+        "content": "console.error('Error loading funnel stages:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/LeadManagement.tsx",
+        "line": 263,
+        "content": "console.log('Converting lead to client:', leadId);"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/LeadManagement.tsx",
+        "line": 265,
+        "content": "console.error('Error converting lead:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Tasks.tsx",
+        "line": 42,
+        "content": "console.error('Error loading tasks:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Contacts.tsx",
+        "line": 111,
+        "content": "console.error('Error deleting entity:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Contacts.tsx",
+        "line": 148,
+        "content": "console.error('Error saving entity:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Settings.tsx",
+        "line": 263,
+        "content": "console.error('Error loading settings:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Settings.tsx",
+        "line": 329,
+        "content": "console.error('Error downloading invoice:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Settings.tsx",
+        "line": 399,
+        "content": "console.error('Error testing integration:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Settings.tsx",
+        "line": 485,
+        "content": "console.error('Error saving settings:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/Settings.tsx",
+        "line": 565,
+        "content": "console.error('Error exporting data:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/contexts/AuthContext.tsx",
+        "line": 35,
+        "content": "console.log('\ud83d\udd10 Initializing authentication...')"
+      },
+      {
+        "file": "/workspace/claimguru/src/contexts/AuthContext.tsx",
+        "line": 41,
+        "content": "console.error('\u274c Error getting session:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/contexts/AuthContext.tsx",
+        "line": 45,
+        "content": "console.log('\u2705 Found existing session for:', session.user.email)"
+      },
+      {
+        "file": "/workspace/claimguru/src/contexts/AuthContext.tsx",
+        "line": 49,
+        "content": "console.log('\u2139\ufe0f No existing session found')"
+      },
+      {
+        "file": "/workspace/claimguru/src/contexts/AuthContext.tsx",
+        "line": 54,
+        "content": "console.error('\u274c Error initializing auth:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/contexts/AuthContext.tsx",
+        "line": 67,
+        "content": "console.log('\ud83d\udd04 Auth state changed:', event, session?.user?.email || 'no user')"
+      },
+      {
+        "file": "/workspace/claimguru/src/contexts/AuthContext.tsx",
+        "line": 99,
+        "content": "console.error('Error loading user profile:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/contexts/AuthContext.tsx",
+        "line": 105,
+        "content": "console.error('Error loading user profile:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/contexts/AuthContext.tsx",
+        "line": 156,
+        "content": "console.error('Error setting up user:', setupError)"
+      },
+      {
+        "file": "/workspace/claimguru/src/contexts/AuthContext.tsx",
+        "line": 161,
+        "content": "console.error('Error during user setup:', setupError)"
+      },
+      {
+        "file": "/workspace/claimguru/src/contexts/AuthContext.tsx",
+        "line": 171,
+        "content": "console.log('\ud83d\udeaa Signing out user...')"
+      },
+      {
+        "file": "/workspace/claimguru/src/contexts/AuthContext.tsx",
+        "line": 181,
+        "content": "console.error('\u274c Error during sign out:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/contexts/AuthContext.tsx",
+        "line": 185,
+        "content": "console.log('\u2705 Successfully signed out')"
+      },
+      {
+        "file": "/workspace/claimguru/src/contexts/AuthContext.tsx",
+        "line": 197,
+        "content": "console.warn('Warning: Could not clear localStorage:', storageError)"
+      },
+      {
+        "file": "/workspace/claimguru/src/contexts/AuthContext.tsx",
+        "line": 200,
+        "content": "console.error('\u274c Sign out failed:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/modals/ClientPermissionModal.tsx",
+        "line": 103,
+        "content": "console.error('User not authenticated');"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/modals/ClientPermissionModal.tsx",
+        "line": 126,
+        "content": "console.error('Error loading permissions:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/modals/ClientPermissionModal.tsx",
+        "line": 145,
+        "content": "console.error('Error loading permissions:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/modals/ClientPermissionModal.tsx",
+        "line": 230,
+        "content": "console.error('Error saving permissions:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/layout/Sidebar.tsx",
+        "line": 120,
+        "content": "console.error('Error signing out:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/layout/Header.tsx",
+        "line": 19,
+        "content": "console.error('Error signing out:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/wizards/UnifiedWizardFramework.tsx",
+        "line": 134,
+        "content": "console.error('Failed to save wizard progress:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/calendar/EventModal.tsx",
+        "line": 65,
+        "content": "console.error('Error saving event:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/communication/AutomationManager.tsx",
+        "line": 104,
+        "content": "console.error('Error loading rules:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/communication/AutomationManager.tsx",
+        "line": 134,
+        "content": "console.error('Error saving rule:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/communication/AutomationManager.tsx",
+        "line": 149,
+        "content": "console.error('Error deleting rule:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/communication/AutomationManager.tsx",
+        "line": 162,
+        "content": "console.error('Error toggling rule:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/communication/EmailTemplateManager.tsx",
+        "line": 91,
+        "content": "console.error('Error loading templates:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/communication/EmailTemplateManager.tsx",
+        "line": 126,
+        "content": "console.error('Error saving template:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/communication/EmailTemplateManager.tsx",
+        "line": 141,
+        "content": "console.error('Error deleting template:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/ui/StandardizedAddressInput.tsx",
+        "line": 97,
+        "content": "console.error('Failed to load Google Maps API')"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/ui/StandardizedAddressInput.tsx",
+        "line": 103,
+        "content": "console.error('Error loading Google Maps:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/ui/StandardizedAddressInput.tsx",
+        "line": 135,
+        "content": "console.error('Error initializing Google Places Autocomplete:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/ui/FileImportExport.tsx",
+        "line": 66,
+        "content": "console.error('Import error:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/ui/FileImportExport.tsx",
+        "line": 97,
+        "content": "console.error('Export error:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/ui/AddressAutocomplete.tsx",
+        "line": 109,
+        "content": "console.log('\ud83c\udfe0 Place selected:', place)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/ui/AddressAutocomplete.tsx",
+        "line": 116,
+        "content": "console.log('\ud83d\udccd Parsed address components:', parsedAddress)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/ui/AddressAutocomplete.tsx",
+        "line": 130,
+        "content": "console.error('Error loading Google Maps API:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/ui/AddressAutocomplete.tsx",
+        "line": 151,
+        "content": "console.log('\ud83d\udcdd Manual input change:', newValue)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/clients/UnifiedClientDetail.tsx",
+        "line": 109,
+        "content": "console.error('Error updating client:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/ClaimDetailView.tsx",
+        "line": 90,
+        "content": "console.error('Error updating claim:', error);"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/auth/SignupForm.tsx",
+        "line": 61,
+        "content": "console.warn('Using test email - ensure this is a valid address to prevent bounces')"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/vendors/VendorAssignments.tsx",
+        "line": 76,
+        "content": "console.error('Error loading assignments:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/vendors/VendorPerformance.tsx",
+        "line": 71,
+        "content": "console.error('Error loading performance data:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/forms/CommunicationForm.tsx",
+        "line": 95,
+        "content": "console.error('Error saving communication:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/forms/UnifiedClientForm.tsx",
+        "line": 240,
+        "content": "console.error('Error saving client:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/forms/ExpenseForm.tsx",
+        "line": 91,
+        "content": "console.error('Error loading data:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/forms/ExpenseForm.tsx",
+        "line": 109,
+        "content": "console.error('Error saving expense:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/forms/ExpenseForm.tsx",
+        "line": 129,
+        "content": "console.log('Receipt processing simulated (no upload):', file.name)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/forms/ExpenseForm.tsx",
+        "line": 136,
+        "content": "console.error('Error uploading receipt:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/forms/FeeScheduleForm.tsx",
+        "line": 73,
+        "content": "console.error('Error loading claims:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/forms/FeeScheduleForm.tsx",
+        "line": 97,
+        "content": "console.error('Error saving fee schedule:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/forms/ClaimForm.tsx",
+        "line": 101,
+        "content": "console.error('Error parsing preloaded client data:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/forms/ClaimForm.tsx",
+        "line": 187,
+        "content": "console.error('Error loading clients:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/forms/ClaimForm.tsx",
+        "line": 209,
+        "content": "console.error('Error loading properties:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/forms/ClaimForm.tsx",
+        "line": 230,
+        "content": "console.error('Error creating property:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/forms/ClaimForm.tsx",
+        "line": 328,
+        "content": "console.error('Error saving claim:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/forms/LeadSourceSelector.tsx",
+        "line": 107,
+        "content": "console.error('Error loading source data:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/forms/PaymentForm.tsx",
+        "line": 84,
+        "content": "console.error('Error loading data:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/forms/PaymentForm.tsx",
+        "line": 108,
+        "content": "console.error('Error saving payment:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/forms/UnifiedBusinessEntityForm.tsx",
+        "line": 287,
+        "content": "console.error(`Error saving ${entityType}:`, error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/documents/DocumentShareModal.tsx",
+        "line": 36,
+        "content": "console.log('Sending email to:', emailRecipients)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/documents/AdvancedDocumentManager.tsx",
+        "line": 180,
+        "content": "console.error('Error loading documents:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/documents/AdvancedDocumentManager.tsx",
+        "line": 197,
+        "content": "console.error('Error loading folders:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/documents/AdvancedDocumentManager.tsx",
+        "line": 247,
+        "content": "console.log(`Performing ${action} on documents:`, selectedDocuments)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/documents/AdvancedDocumentManager.tsx",
+        "line": 632,
+        "content": "console.log('Uploading files:', files)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/documents/DocumentVersionHistory.tsx",
+        "line": 115,
+        "content": "console.log(`Restoring version ${version} (ID: ${versionId})`)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/documents/DocumentVersionHistory.tsx",
+        "line": 120,
+        "content": "console.log(`Downloading version ${version.version}:`, version.download_url)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/documents/DocumentVersionHistory.tsx",
+        "line": 125,
+        "content": "console.log('Opening version comparison')"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/integrations/IntegrationSetupModal.tsx",
+        "line": 110,
+        "content": "console.error('Error saving integration:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/CompletionStep.tsx",
+        "line": 91,
+        "content": "console.error('Error generating AI summary:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/CompletionStep.tsx",
+        "line": 103,
+        "content": "console.error('Error generating PPIF:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/CompletionStep.tsx",
+        "line": 115,
+        "content": "console.error('Error submitting claim:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/ExpertsProvidersStep.tsx",
+        "line": 117,
+        "content": "console.error('Error loading provider recommendations:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/CoverageIssueReviewStep.tsx",
+        "line": 52,
+        "content": "console.error('Coverage analysis failed:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/PersonnelAssignmentStep.tsx",
+        "line": 170,
+        "content": "console.error('Failed to generate personnel recommendations:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/ReferralInformationStep.tsx",
+        "line": 106,
+        "content": "console.error('Failed to analyze referral patterns:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/InsurerPersonnelInformation.tsx",
+        "line": 611,
+        "content": "console.log('Personnel type selected:', validatedValue, 'for member:', member.id);"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/InsurerPersonnelInformation.tsx",
+        "line": 624,
+        "content": "console.log('Clearing vendor specialty for non-vendor type');"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/InsurerPersonnelInformation.tsx",
+        "line": 656,
+        "content": "console.log('Vendor specialty selected:', selectedValue, 'for member:', member.id);"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx",
+        "line": 136,
+        "content": "console.log(`\ud83d\udcc1 Selected ${selectedFiles.length} documents for ${documentType} processing`)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx",
+        "line": 172,
+        "content": "console.log(`\ud83c\udfdb\ufe0f Starting ${documentType} extraction for:`, file.name)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx",
+        "line": 176,
+        "content": "console.log('\u2705 Document extraction completed:', {"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx",
+        "line": 205,
+        "content": "console.error('\u274c Document extraction failed:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx",
+        "line": 231,
+        "content": "console.log(`\ud83d\udcc4 Starting batch extraction for ${files.length} documents`)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx",
+        "line": 239,
+        "content": "console.log('\u2705 Batch extraction completed:', {"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx",
+        "line": 283,
+        "content": "console.error('\u274c Batch extraction failed:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedInsuranceInfoStep.tsx",
+        "line": 298,
+        "content": "console.log('\ud83d\udcce Restoring confirmed fields state in insurance info step')"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedInsuranceInfoStep.tsx",
+        "line": 340,
+        "content": "console.log('\ud83d\ude80 Auto-populating insurance details from validated PDF data:', data.policyDetails)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedInsuranceInfoStep.tsx",
+        "line": 498,
+        "content": "console.error('Error performing coverage analysis:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedInsuranceInfoStep.tsx",
+        "line": 549,
+        "content": "console.error('Insurance validation failed:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/ContractInformationStep.tsx",
+        "line": 90,
+        "content": "console.error('Contract validation failed:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/MortgageInformationStep.tsx",
+        "line": 71,
+        "content": "console.error('Mortgage validation failed:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx",
+        "line": 125,
+        "content": "console.log('File selected for extraction:', selectedFile.name)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx",
+        "line": 148,
+        "content": "console.log(`\ud83d\udcc1 Selected ${selectedFiles.length} files for processing`)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx",
+        "line": 179,
+        "content": "console.log('\ud83d\ude80 Starting HYBRID PDF extraction for:', targetFile.name)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx",
+        "line": 183,
+        "content": "console.log('\u2705 Hybrid extraction completed:', {"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx",
+        "line": 203,
+        "content": "console.error('\u274c Hybrid PDF extraction failed:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx",
+        "line": 229,
+        "content": "console.log(`\ud83d\ude80 Starting multi-document processing for ${targetFiles.length} files`)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx",
+        "line": 238,
+        "content": "console.log('\u2705 Multi-document processing completed:', {"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx",
+        "line": 257,
+        "content": "console.log('\ud83d\udccb Policy document detected, showing inline validation')"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx",
+        "line": 263,
+        "content": "console.error('\u274c Multi-document processing failed:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx",
+        "line": 286,
+        "content": "console.log('User validated and confirmed policy data:', validatedPolicyData)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx",
+        "line": 289,
+        "content": "console.log('\ud83d\udd10 Initializing confirmed fields system with validated data...')"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx",
+        "line": 310,
+        "content": "console.log('\ud83d\uddfa\ufe0f Auto-populating wizard fields with extracted data...')"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx",
+        "line": 313,
+        "content": "console.log('\ud83c\udf86 Merged wizard data for auto-population:', mappedWizardData)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx",
+        "line": 317,
+        "content": "console.log('\ud83d\udd10 Confirmed field values:', confirmedValues)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx",
+        "line": 391,
+        "content": "console.log('User rejected extracted data, starting over')"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/PersonalPropertyStep.tsx",
+        "line": 156,
+        "content": "console.error('Error generating AI inventory:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/PersonalPropertyStep.tsx",
+        "line": 194,
+        "content": "console.error('Error analyzing photos:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/PersonalPropertyStep.tsx",
+        "line": 224,
+        "content": "console.error('Error valuating item:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/PersonalPropertyStep.tsx",
+        "line": 250,
+        "content": "console.error('Error categorizing items:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedClientDetailsStep.tsx",
+        "line": 198,
+        "content": "console.error('Error creating client:', error)"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/claims/wizard-steps/UnifiedClientDetailsStep.tsx",
+        "line": 406,
+        "content": "console.error('Client validation failed:', error)"
+      }
+    ],
+    "todo_comments": [
+      {
+        "file": "/workspace/claimguru/src/pages/ClientManagement.tsx",
+        "line": 246,
+        "content": "// TODO: Replace with actual API call"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/ClientManagement.tsx",
+        "line": 303,
+        "content": "// TODO: Replace with actual permission check"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/ClientManagement.tsx",
+        "line": 366,
+        "content": "// TODO: Implement actual delete"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/ClientManagement.tsx",
+        "line": 399,
+        "content": "// TODO: Implement actual permission saving"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/LeadManagement.tsx",
+        "line": 150,
+        "content": "// TODO: Replace with actual API call"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/LeadManagement.tsx",
+        "line": 219,
+        "content": "// TODO: Replace with actual API call"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/LeadManagement.tsx",
+        "line": 234,
+        "content": "// TODO: Replace with actual API call"
+      },
+      {
+        "file": "/workspace/claimguru/src/pages/LeadManagement.tsx",
+        "line": 262,
+        "content": "// TODO: Implement lead to client conversion"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/modals/ClientPermissionModal.tsx",
+        "line": 175,
+        "content": "grantedBy: 'current-user-id' // TODO: Get from auth"
+      },
+      {
+        "file": "/workspace/claimguru/src/components/modals/ClientPermissionModal.tsx",
+        "line": 224,
+        "content": "updatedBy: 'current-user-id' // TODO: Get from auth"
+      }
+    ]
+  },
+  "orphaned_tests": [],
+  "unused_assets": [
+    "/workspace/claimguru/public/favicon.ico"
+  ],
+  "dependency_analysis": {
+    "potentially_unused_dependencies": [
+      "@hookform/resolvers",
+      "@radix-ui/react-accordion",
+      "@radix-ui/react-alert-dialog",
+      "@radix-ui/react-aspect-ratio",
+      "@radix-ui/react-avatar",
+      "@radix-ui/react-checkbox",
+      "@radix-ui/react-collapsible",
+      "@radix-ui/react-context-menu",
+      "@radix-ui/react-dialog",
+      "@radix-ui/react-dropdown-menu",
+      "@radix-ui/react-hover-card",
+      "@radix-ui/react-menubar",
+      "@radix-ui/react-navigation-menu",
+      "@radix-ui/react-popover",
+      "@radix-ui/react-progress",
+      "@radix-ui/react-radio-group",
+      "@radix-ui/react-scroll-area",
+      "@radix-ui/react-select",
+      "@radix-ui/react-separator",
+      "@radix-ui/react-slider",
+      "@radix-ui/react-slot",
+      "@radix-ui/react-toast",
+      "@radix-ui/react-toggle",
+      "@radix-ui/react-toggle-group",
+      "@radix-ui/react-tooltip",
+      "@tanstack/react-query",
+      "@tanstack/react-table",
+      "@types/google.maps",
+      "cmdk",
+      "embla-carousel-react",
+      "input-otp",
+      "next-themes",
+      "react-dropzone",
+      "react-hook-form",
+      "react-resizable-panels",
+      "recharts",
+      "sonner",
+      "tailwindcss-animate",
+      "tesseract.js",
+      "zod"
+    ],
+    "total_dependencies": 56,
+    "total_dev_dependencies": 16
+  },
+  "import_statistics": {
+    "total_import_paths": 166,
+    "files_with_imports": 111
+  }
+}

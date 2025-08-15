@@ -1,175 +1,0 @@
-(#########⠂⠂⠂⠂⠂⠂⠂⠂⠂) ⠇ idealTree: timing idealTree Completed in 386ms(#########⠂⠂⠂⠂⠂⠂⠂⠂⠂) ⠏ idealTree: timing idealTree Completed in 386ms(#########⠂⠂⠂⠂⠂⠂⠂⠂⠂) ⠏ idealTree: timing idealTree Completed in 386ms(#########⠂⠂⠂⠂⠂⠂⠂⠂⠂) ⠏ idealTree: timing idealTree Completed in 386ms(#########⠂⠂⠂⠂⠂⠂⠂⠂⠂) ⠏ idealTree: timing idealTree Completed in 386ms(#########⠂⠂⠂⠂⠂⠂⠂⠂⠂) ⠼ idealTree: timing idealTree Completed in 386ms(############⠂⠂⠂⠂⠂⠂) ⠋ reify:@esbuild/aix-ppc64: timing reifyNode:node_modules/(############⠂⠂⠂⠂⠂⠂) ⠋ reify:@esbuild/aix-ppc64: timing reifyNode:node_modules/(############⠂⠂⠂⠂⠂⠂) ⠋ reify:@esbuild/aix-ppc64: timing reifyNode:node_modules/(############⠂⠂⠂⠂⠂⠂) ⠴ reify:eslint-plugin-react-refresh: timing reifyNode:node(###############⠂⠂⠂) ⠴ reify:@radix-ui/react-dialog: timing reifyNode:node_modu(################⠂⠂) ⠋ reify:cmdk: timing reifyNode:node_modules/@radix-ui/reac(################⠂⠂) ⠋ reify:@googlemaps/js-api-loader: timing reifyNode:node_m(#################⠂) ⠋ reify:react-resizable-panels: timing reifyNode:node_modu(#################⠂) ⠙ reify:tesseract.js: timing reifyNode:node_modules/react-(#################⠂) ⠴ reify:react-hook-form: timing reifyNode:node_modules/rea(#################⠂) ⠦ reify:react-day-picker: timing reifyNode:node_modules/re(#################⠂) ⠧ reify:@tanstack/react-query: timing reifyNode:node_modul(##################) ⠙ reify:@hookform/resolvers: timing reifyNode:node_modules(##################) ⠹ reify:zod: timing reifyNode:node_modules/@hookform/resol(##################) ⠸ reify:typescript: timing reifyNode:node_modules/zod Comp(##################) ⠸ reify:typescript: timing reifyNode:node_modules/zod Comp(##################) ⠼ reify:pdfjs-dist: timing reifyNode:node_modules/typescri(##################) ⠼ reify:pdfjs-dist: timing reifyNode:node_modules/typescri(##################) ⠼ reify:pdfjs-dist: timing reifyNode:node_modules/typescri(##################) ⠼ reify:pdfjs-dist: timing reifyNode:node_modules/typescri(##################) ⠼ reify:pdfjs-dist: timing reifyNode:node_modules/typescri(##################) ⠴ reify:lucide-react: timing reifyNode:node_modules/pdfjs-(##################) ⠴ reify:lucide-react: timing reifyNode:node_modules/pdfjs-(##################) ⠴ reify:lucide-react: timing reifyNode:node_modules/pdfjs-(##################) ⠴ reify:lucide-react: timing reifyNode:node_modules/pdfjs-(##################) ⠦ reify:date-fns: timing reifyNode:node_modules/lucide-rea(##################) ⠦ reify:date-fns: timing reifyNode:node_modules/lucide-rea(##################) ⠸ reify:date-fns: timing reifyNode:node_modules/lucide-rea
-added 24 packages, changed 72 packages, and audited 514 packages in 4s
-
-90 packages are looking for funding
-  run `npm fund` for details
-
-1 high severity vulnerability
-
-To address all issues (including breaking changes), run:
-  npm audit fix --force
-
-Run `npm audit` for details.
-
-> react_repo@0.0.0 build
-> yes | pnpm install && rm -rf node_modules/.vite-temp && tsc -b && vite build
-
-Lockfile is up to date, resolution step is skipped
-Already up to date
-
-dependencies:
-+ @googlemaps/js-api-loader 1.16.10
-+ @hookform/resolvers 3.10.0
-+ @radix-ui/react-accordion 1.2.4
-+ @radix-ui/react-alert-dialog 1.1.7
-+ @radix-ui/react-aspect-ratio 1.1.3
-+ @radix-ui/react-avatar 1.1.4
-+ @radix-ui/react-checkbox 1.1.5
-+ @radix-ui/react-collapsible 1.1.4
-+ @radix-ui/react-context-menu 2.2.7
-+ @radix-ui/react-dialog 1.1.7
-+ @radix-ui/react-dropdown-menu 2.1.7
-+ @radix-ui/react-hover-card 1.1.7
-+ @radix-ui/react-label 2.1.3
-+ @radix-ui/react-menubar 1.1.7
-+ @radix-ui/react-navigation-menu 1.2.6
-+ @radix-ui/react-popover 1.1.7
-+ @radix-ui/react-progress 1.1.3
-+ @radix-ui/react-radio-group 1.2.4
-+ @radix-ui/react-scroll-area 1.2.4
-+ @radix-ui/react-select 2.1.7
-+ @radix-ui/react-separator 1.1.3
-+ @radix-ui/react-slider 1.2.4
-+ @radix-ui/react-slot 1.2.0
-+ @radix-ui/react-switch 1.1.4
-+ @radix-ui/react-tabs 1.1.4
-+ @radix-ui/react-toast 1.2.7
-+ @radix-ui/react-toggle 1.1.3
-+ @radix-ui/react-toggle-group 1.1.3
-+ @radix-ui/react-tooltip 1.2.0
-+ @supabase/supabase-js 2.50.4
-+ @tanstack/react-query 5.82.0
-+ @tanstack/react-table 8.21.3
-+ @types/google.maps 3.58.1
-+ class-variance-authority 0.7.1
-+ clsx 2.1.1
-+ cmdk 1.0.0
-+ date-fns 3.6.0
-+ embla-carousel-react 8.6.0
-+ input-otp 1.4.2
-+ lucide-react 0.364.0
-+ next-themes 0.4.6
-+ pdfjs-dist 3.11.174
-+ react 18.3.1
-+ react-day-picker 8.10.1
-+ react-dom 18.3.1
-+ react-dropzone 14.3.8
-+ react-hook-form 7.55.0
-+ react-resizable-panels 2.1.7
-+ react-router-dom 6.30.0
-+ recharts 2.15.2
-+ sonner 1.7.4
-+ tailwind-merge 2.6.0
-+ tailwindcss-animate 1.0.7
-+ tesseract.js 5.1.1
-+ vaul 1.1.2
-+ zod 3.24.2
-
-devDependencies:
-+ @eslint/js 9.24.0
-+ @types/node 22.14.1
-+ @types/react 18.3.20
-+ @types/react-dom 18.3.6
-+ @types/react-router-dom 5.3.3
-+ @vitejs/plugin-react 4.3.4
-+ autoprefixer 10.4.20
-+ eslint 9.24.0
-+ eslint-plugin-react-hooks 5.2.0
-+ eslint-plugin-react-refresh 0.4.19
-+ globals 15.15.0
-+ postcss 8.4.49
-+ tailwindcss 3.4.16
-+ typescript 5.6.3
-+ typescript-eslint 8.29.1
-+ vite 6.2.6
-
-╭ Warning ─────────────────────────────────────────────────────────────────────╮
-│                                                                              │
-│   Ignored build scripts: canvas, esbuild, tesseract.js.                      │
-│   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
-│   to run scripts.                                                            │
-│                                                                              │
-╰──────────────────────────────────────────────────────────────────────────────╯
-
-Done in 1.9s using pnpm v10.12.4
-src/components/admin/CustomFieldManager.tsx:13:24 - error TS1261: Already included file name '/workspace/claimguru/src/components/ui/switch.tsx' differs from file name '/workspace/claimguru/src/components/ui/Switch.tsx' only in casing.
-  The file is in the program because:
-    Imported via '../ui/switch' from file '/workspace/claimguru/src/components/admin/CustomFieldManager.tsx'
-    Imported via '../ui/switch' from file '/workspace/claimguru/src/components/admin/FolderTemplateManager.tsx'
-    Matched by include pattern 'src' in '/workspace/claimguru/tsconfig.app.json'
-    Matched by include pattern 'src' in '/workspace/claimguru/tsconfig.app.json'
-
-13 import { Switch } from '../ui/switch';
-                          ~~~~~~~~~~~~~~
-
-  src/components/admin/FolderTemplateManager.tsx:14:24
-    14 import { Switch } from '../ui/switch';
-                              ~~~~~~~~~~~~~~
-    File is included via import here.
-  tsconfig.app.json:40:5
-    40     "src"
-           ~~~~~
-    File is matched by include pattern specified here.
-  tsconfig.app.json:40:5
-    40     "src"
-           ~~~~~
-    File is matched by include pattern specified here.
-
-src/components/admin/CustomFieldManager.tsx:205:52 - error TS2345: Argument of type '{ organization_id: string; field_name: string; field_label: string; field_type: "number" | "email" | "phone" | "color" | "checkbox" | "date" | "radio" | "time" | "url" | "slider" | "decimal" | ... 8 more ... | "rating"; ... 7 more ...; created_by: string; }' is not assignable to parameter of type 'Omit<CustomField, "id" | "created_at" | "updated_at">'.
-  Property 'is_active' is missing in type '{ organization_id: string; field_name: string; field_label: string; field_type: "number" | "email" | "phone" | "color" | "checkbox" | "date" | "radio" | "time" | "url" | "slider" | "decimal" | ... 8 more ... | "rating"; ... 7 more ...; created_by: string; }' but required in type 'Omit<CustomField, "id" | "created_at" | "updated_at">'.
-
-205         await customFieldService.createCustomField(fieldData);
-                                                       ~~~~~~~~~
-
-  src/services/customFieldService.ts:23:3
-    23   is_active: boolean;
-         ~~~~~~~~~
-    'is_active' is declared here.
-
-src/components/admin/CustomFieldManager.tsx:368:19 - error TS2322: Type '{ children: Element[]; value: "number" | "email" | "phone" | "color" | "checkbox" | "date" | "radio" | "time" | "url" | "slider" | "decimal" | "address" | "dropdown" | "text_short" | ... 5 more ... | "rating"; onValueChange: (value: any) => void; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.
-  Property 'onValueChange' does not exist on type 'IntrinsicAttributes & SelectProps'.
-
-368                   onValueChange={(value) => setFormData(prev => ({ ...prev, field_type: value as CustomField['field_type'] }))}
-                      ~~~~~~~~~~~~~
-
-src/components/admin/CustomFieldManager.tsx:410:19 - error TS2322: Type '{ id: string; value: string; onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void; placeholder: string; }' is not assignable to type 'IntrinsicAttributes & TextareaProps'.
-  Property 'id' does not exist on type 'IntrinsicAttributes & TextareaProps'.
-
-410                   id="help_text"
-                      ~~
-
-src/components/admin/FolderTemplateManager.tsx:382:17 - error TS2322: Type '{ id: string; value: string; onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void; placeholder: string; }' is not assignable to type 'IntrinsicAttributes & TextareaProps'.
-  Property 'id' does not exist on type 'IntrinsicAttributes & TextareaProps'.
-
-382                 id="template_description"
-                    ~~
-
-src/components/claims/EnhancedAIClaimWizard.tsx:333:13 - error TS2322: Type '{ data: WizardData; onUpdate: (newData: any) => void; onAIProcessing: (processing: boolean) => void; clientId: string; } | { onSubmit: (finalData?: any) => Promise<void>; data: WizardData; onUpdate: (newData: any) => void; onAIProcessing: (processing: boolean) => void; clientId: string; }' is not assignable to type 'IntrinsicAttributes & CleanPolicyUploadStepProps & MortgageInformationStepProps & CustomFieldsStepProps & ClaimInformationStepProps'.
-  Type '{ data: WizardData; onUpdate: (newData: any) => void; onAIProcessing: (processing: boolean) => void; clientId: string; }' is missing the following properties from type 'CustomFieldsStepProps': organizationId, onComplete
-
-333     return <StepComponent {...stepProps} />
-                ~~~~~~~~~~~~~
-
-src/components/claims/wizard-steps/FinalPolicyUploadStep.tsx:307:66 - error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
-
-307                         <p className="font-medium text-gray-900">{value}</p>
-                                                                     ~~~~~~~
-
-  node_modules/.pnpm/@types+react@18.3.20/node_modules/@types/react/index.d.ts:2392:9
-    2392         children?: ReactNode | undefined;
-                 ~~~~~~~~
-    The expected type comes from property 'children' which is declared here on type 'DetailedHTMLProps<HTMLAttributes<HTMLParagraphElement>, HTMLParagraphElement>'
-
-
-Found 7 errors.
-

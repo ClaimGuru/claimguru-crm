@@ -1,20 +1,16 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { ToastProvider } from './contexts/ToastContext'
 import ToastContainer from './components/ui/ToastContainer'
 import { AuthPage } from './pages/AuthPage'
 import { AuthCallback } from './pages/AuthCallback'
-import { Dashboard } from './pages/Dashboard'
-import { Claims } from './pages/Claims'
-import { Clients } from './pages/Clients'
 import ClientManagement from './pages/ClientManagement'
 import LeadManagement from './pages/LeadManagement'
 // AI Insights removed for manual wizard
 import { Finance } from './pages/Finance'
 import { Vendors } from './pages/Vendors'
 import Communications from './pages/Communications'
-import { Documents } from './pages/Documents'
 import { Properties } from './pages/Properties'
 import { Tasks } from './pages/Tasks'
 import { Settlements } from './pages/Settlements'
@@ -29,7 +25,12 @@ import Integrations from './pages/Integrations'
 import { Layout } from './components/layout/Layout'
 import { LoadingSpinner } from './components/ui/LoadingSpinner'
 
-// Protected Route Component (Demo Mode - Bypasses Auth)
+// Lazy-loaded components for code splitting (handling named exports)
+const Dashboard = React.lazy(() => import('./pages/Dashboard').then(module => ({ default: module.Dashboard })));
+const Claims = React.lazy(() => import('./pages/Claims').then(module => ({ default: module.Claims })));
+const Clients = React.lazy(() => import('./pages/Clients').then(module => ({ default: module.Clients })));
+const Documents = React.lazy(() => import('./pages/Documents').then(module => ({ default: module.Documents })));
+
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
 
@@ -92,12 +93,28 @@ function AppRoutes() {
         }
       >
         <Route index element={<Navigate to="/dashboard" replace />} />
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="claims" element={<Claims />} />
-        <Route path="claims/new" element={<Claims />} />
+        <Route path="dashboard" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <Dashboard />
+          </Suspense>
+        } />
+        <Route path="claims" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <Claims />
+          </Suspense>
+        } />
+        <Route path="claims/new" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <Claims />
+          </Suspense>
+        } />
         <Route path="test-claims" element={<TestClaims />} />
         <Route path="direct-feature-test" element={<DirectFeatureTest />} />
-        <Route path="clients" element={<Clients />} />
+        <Route path="clients" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <Clients />
+          </Suspense>
+        } />
         <Route path="client-management" element={<ClientManagement />} />
         <Route path="lead-management" element={<LeadManagement />} />
         <Route path="sales-pipeline" element={<div className="p-6"><h1 className="text-2xl font-bold">Sales Pipeline</h1><p>Interactive sales pipeline visualization coming soon...</p></div>} />
@@ -105,7 +122,11 @@ function AppRoutes() {
         <Route path="referrals" element={<div className="p-6"><h1 className="text-2xl font-bold">Referral Program</h1><p>Client referral program management coming soon...</p></div>} />
         <Route path="properties" element={<Properties />} />
         <Route path="tasks" element={<Tasks />} />
-        <Route path="documents" element={<Documents />} />
+        <Route path="documents" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <Documents />
+          </Suspense>
+        } />
         <Route path="communications" element={<Communications />} />
         <Route path="vendors" element={<Vendors />} />
         <Route path="insurers" element={<Insurers />} />

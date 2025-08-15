@@ -1,6 +1,7 @@
-import path from "path"
-import react from "@vitejs/plugin-react"
-import { defineConfig } from "vite"
+
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
@@ -9,24 +10,51 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  define: {
-    // Make Google Maps API key available to the frontend
-    'import.meta.env.VITE_GOOGLE_MAPS_API_KEY': JSON.stringify(process.env.GOOGLE_MAPS_API_KEY || process.env.GOOGLEMAPS_API_KEY || ''),
-    'import.meta.env.VITE_GOOGLE_PLACES_API_KEY': JSON.stringify(process.env.GOOGLE_PLACES_API_KEY || process.env.GOOGLE_MAPS_API_KEY || ''),
-  },
   build: {
+    // Optimize bundle splitting
     rollupOptions: {
-      onwarn(warning, warn) {
-        // Suppress TypeScript warnings during build
-        if (warning.code === 'UNRESOLVED_IMPORT') return;
-        if (warning.code === 'EMPTY_BUNDLE') return;
-        warn(warning);
+      output: {
+        manualChunks: {
+          // Vendor chunks
+          react: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-tabs', '@radix-ui/react-select'],
+          utils: ['date-fns', 'clsx', 'tailwind-merge'],
+          
+          // Feature chunks
+          wizard: ['src/components/claims/wizard-steps'],
+          forms: ['src/components/forms'],
+          services: ['src/services']
+        }
       }
-    }
+    },
+    
+    // Optimize chunk size
+    chunkSizeWarningLimit: 1000,
+    
+    // Enable source maps for production debugging
+    sourcemap: false,
+    
+    // Minification
+    minify: 'esbuild',
+    
+    // Target modern browsers for smaller bundles
+    target: 'es2020'
   },
-  esbuild: {
-    // Ignore TypeScript errors during build
-    logOverride: { 'this-is-undefined-in-esm': 'silent' }
+  
+  // Development optimizations
+  server: {
+    fs: {
+      allow: ['..'],
+    },
+  },
+  
+  // Optimize dependencies
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'react-router-dom'
+    ]
   }
 })
-

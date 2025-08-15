@@ -3,6 +3,7 @@ import React from 'react'
 interface SelectProps {
   value?: string
   onChange?: (value: string) => void
+  onValueChange?: (value: string) => void
   children: React.ReactNode
   className?: string
 }
@@ -21,11 +22,16 @@ interface SelectTriggerProps {
   className?: string
 }
 
-export const Select: React.FC<SelectProps> = ({ value, onChange, children, className = '' }) => {
+export const Select: React.FC<SelectProps> = ({ value, onChange, onValueChange, children, className = '' }) => {
+  const handleChange = (newValue: string) => {
+    onChange?.(newValue)
+    onValueChange?.(newValue)
+  }
+  
   return (
     <select 
       value={value}
-      onChange={(e) => onChange?.(e.target.value)}
+      onChange={(e) => handleChange(e.target.value)}
       className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
     >
       {children}

@@ -1,0 +1,192 @@
+
+> react_repo@0.0.0 build
+> yes | pnpm install && rm -rf node_modules/.vite-temp && tsc -b && vite build
+
+Lockfile is up to date, resolution step is skipped
+Already up to date
+Done in 813ms using pnpm v10.12.4
+src/components/claims/wizard-steps/UnifiedClientDetailsStep.tsx:559:17 - error TS2322: Type '(client: Client | null) => void' is not assignable to type '(client: Client) => void'.
+  Types of parameters 'client' and 'client' are incompatible.
+    Type 'Client' is missing the following properties from type 'Client': organization_id, client_type, is_policyholder, country, and 3 more.
+
+559                 onSelect={handleClientSelect}
+                    ~~~~~~~~
+
+  src/components/claims/ClientSelector.tsx:25:3
+    25   onSelect: (client: Client) => void
+         ~~~~~~~~
+    The expected type comes from property 'onSelect' which is declared here on type 'IntrinsicAttributes & ClientSelectorProps'
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:108:3 - error TS2339: Property 'onUpdate' does not exist on type 'UnifiedDocumentUploadProps'.
+
+108   onUpdate,
+      ~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:172:28 - error TS2304: Cannot find name 'unifiedPdfExtractionService'.
+
+172       const result = await unifiedPdfExtractionService.extractFromPDF(file, { mode: 'enhanced' })
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:389:33 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+389                     {fileStatus.status === 'processing' && (
+                                    ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:393:33 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+393                     {fileStatus.status === 'completed' && fileStatus.confidence && (
+                                    ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:397:33 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+397                     {fileStatus.status === 'completed' && (
+                                    ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:401:33 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+401                     {fileStatus.status === 'error' && (
+                                    ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:448:32 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+448             {files.some(f => f.status === 'completed') && (
+                                   ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedInsuranceInfoStep.tsx:535:62 - error TS2554: Expected 2 arguments, but got 1.
+
+535         priorPaymentValidation = await enhancedClaimWizardAI.checkDuplicatePayments(
+                                                                 ~~~~~~~~~~~~~~~~~~~~~~
+
+  src/services/enhancedClaimWizardAI.ts:1126:49
+    1126   async checkDuplicatePayments(newPayment: any, priorPayments: any[]): Promise<AIValidation> {
+                                                         ~~~~~~~~~~~~~~~~~~~~
+    An argument for 'priorPayments' was not provided.
+
+src/components/claims/wizard-steps/UnifiedInsuranceInfoStep.tsx:788:18 - error TS2322: Type '{ children: Element; fieldPath: string; value: any; onConfirm: (value: string) => void; }' is not assignable to type 'IntrinsicAttributes & ConfirmedFieldWrapperProps'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & ConfirmedFieldWrapperProps'.
+
+788                 <ConfirmedFieldWrapper
+                     ~~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedInsuranceInfoStep.tsx:827:18 - error TS2322: Type '{ children: Element; fieldPath: string; value: any; onConfirm: (value: string) => void; }' is not assignable to type 'IntrinsicAttributes & ConfirmedFieldWrapperProps'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & ConfirmedFieldWrapperProps'.
+
+827                 <ConfirmedFieldWrapper
+                     ~~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:91:3 - error TS2339: Property 'onUpdate' does not exist on type 'UnifiedPDFExtractionStepProps'.
+
+91   onUpdate,
+     ~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:177:28 - error TS2552: Cannot find name 'unifiedPdfExtractionService'. Did you mean 'UnifiedPDFExtractionStep'?
+
+177       const result = await unifiedPdfExtractionService.extractFromPDF(file, { mode: 'hybrid' })
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:498:11 - error TS2322: Type '{ extractedData: any; rawText: string; onConfirm: (validatedPolicyData: any) => void; onReject: () => void; processingDetails: any; }' is not assignable to type 'IntrinsicAttributes & PolicyDataValidationStepProps'.
+  Property 'onConfirm' does not exist on type 'IntrinsicAttributes & PolicyDataValidationStepProps'.
+
+498           onConfirm={handleSingleValidationComplete}
+              ~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:566:96 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+566                             {(fileStatus.file.size / 1024 / 1024).toFixed(2)} MB • {fileStatus.status}
+                                                                                                   ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:571:37 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+571                         {fileStatus.status === 'processing' && <LoadingSpinner size="sm" />}
+                                        ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:572:37 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+572                         {fileStatus.status === 'completed' && <CheckCircle className="h-5 w-5 text-green-600" />}
+                                        ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:573:37 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+573                         {fileStatus.status === 'error' && <AlertCircle className="h-5 w-5 text-red-600" />}
+                                        ~~~~~~
+
+src/components/clients/UnifiedClientDetail.tsx:74:3 - error TS2339: Property 'onClose' does not exist on type 'UnifiedClientDetailProps'.
+
+74   onClose,
+     ~~~~~~~
+
+src/components/forms/UnifiedBusinessEntityForm.tsx:118:3 - error TS2339: Property 'onCancel' does not exist on type 'UnifiedBusinessEntityFormProps'.
+
+118   onCancel,
+      ~~~~~~~~
+
+src/components/forms/UnifiedBusinessEntityForm.tsx:119:3 - error TS2339: Property 'entityType' does not exist on type 'UnifiedBusinessEntityFormProps'.
+
+119   entityType,
+      ~~~~~~~~~~
+
+src/components/forms/UnifiedBusinessEntityForm.tsx:367:17 - error TS2322: Type '{ children: any[]; value: any; onValueChange: (value: any) => void; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.
+  Property 'onValueChange' does not exist on type 'IntrinsicAttributes & SelectProps'.
+
+367                 onValueChange={(value) => handleInputChange(entityType === 'vendor' ? 'category' : 'personnel_type', value)}
+                    ~~~~~~~~~~~~~
+
+src/components/forms/UnifiedBusinessEntityForm.tsx:385:19 - error TS2322: Type '{ children: (Element | Element[])[]; value: any; onValueChange: (value: any) => void; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.
+  Property 'onValueChange' does not exist on type 'IntrinsicAttributes & SelectProps'.
+
+385                   onValueChange={(value) => handleInputChange('lender_type', value)}
+                      ~~~~~~~~~~~~~
+
+src/components/forms/UnifiedBusinessEntityForm.tsx:526:17 - error TS2322: Type '{ children: Element[]; value: any; onValueChange: (value: any) => void; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.
+  Property 'onValueChange' does not exist on type 'IntrinsicAttributes & SelectProps'.
+
+526                 onValueChange={(value) => handleInputChange('preferred_contact_method', value)}
+                    ~~~~~~~~~~~~~
+
+src/components/forms/UnifiedBusinessEntityForm.tsx:671:15 - error TS2322: Type '{ children: any[]; value: any; onValueChange: (value: any) => void; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.
+  Property 'onValueChange' does not exist on type 'IntrinsicAttributes & SelectProps'.
+
+671               onValueChange={(value) => {
+                  ~~~~~~~~~~~~~
+
+src/components/forms/UnifiedBusinessEntityForm.tsx:691:15 - error TS2322: Type '{ children: Element[]; value: any; onValueChange: (value: any) => void; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.
+  Property 'onValueChange' does not exist on type 'IntrinsicAttributes & SelectProps'.
+
+691               onValueChange={(value) => {
+                  ~~~~~~~~~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:81:3 - error TS2339: Property 'onSave' does not exist on type 'UnifiedClientFormProps'.
+
+81   onSave,
+     ~~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:383:54 - error TS2322: Type '{ children: Element[]; value: string; onValueChange: Dispatch<SetStateAction<string>>; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.
+  Property 'onValueChange' does not exist on type 'IntrinsicAttributes & SelectProps'.
+
+383               <Select value={preferredContactMethod} onValueChange={setPreferredContactMethod}>
+                                                         ~~~~~~~~~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:503:55 - error TS2322: Type '{ children: Element[]; value: string; onValueChange: Dispatch<SetStateAction<string>>; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.
+  Property 'onValueChange' does not exist on type 'IntrinsicAttributes & SelectProps'.
+
+503                 <Select value={coInsuredRelationship} onValueChange={setCoInsuredRelationship}>
+                                                          ~~~~~~~~~~~~~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:76:5 - error TS2353: Object literal may only specify known properties, and 'isOrganization' does not exist in type 'WizardData | (() => WizardData)'.
+
+76     isOrganization: false,
+       ~~~~~~~~~~~~~~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:257:5 - error TS2353: Object literal may only specify known properties, and 'autoSaveInterval' does not exist in type 'WizardConfig'.
+
+257     autoSaveInterval: 2000,
+        ~~~~~~~~~~~~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:139:5 - error TS2353: Object literal may only specify known properties, and 'autoSaveInterval' does not exist in type 'WizardConfig'.
+
+139     autoSaveInterval: 5000,
+        ~~~~~~~~~~~~~~~~
+
+
+Found 32 errors.
+

@@ -1,0 +1,685 @@
+
+> react_repo@0.0.0 build
+> yes | pnpm install && rm -rf node_modules/.vite-temp && tsc -b && vite build
+
+Lockfile is up to date, resolution step is skipped
+Already up to date
+Done in 834ms using pnpm v10.12.4
+src/components/clients/UnifiedClientDetail.tsx:120:3 - error TS1472: 'catch' or 'finally' expected.
+
+120   const handleCancel = () => {
+      ~~~~~
+
+src/components/clients/UnifiedClientDetail.tsx:160:3 - error TS1005: ',' expected.
+
+160   const formatPhone = (phone: string) => {
+      ~~~~~
+
+src/components/clients/UnifiedClientDetail.tsx:682:2 - error TS1005: '}' expected.
+
+682 }
+     
+
+  src/components/clients/UnifiedClientDetail.tsx:101:34
+    101   const handleSave = async () => {
+                                         ~
+    The parser expected to find a '}' to match the '{' token here.
+
+src/components/forms/UnifiedBusinessEntityForm.tsx:227:3 - error TS1005: ')' expected.
+
+227   const addArrayItem = (arrayName: string) => {
+      ~~~~~
+
+src/components/forms/UnifiedBusinessEntityForm.tsx:296:3 - error TS1005: ',' expected.
+
+296   const renderBasicInfo = () => (
+      ~~~~~
+
+src/components/forms/UnifiedBusinessEntityForm.tsx:856:2 - error TS1472: 'catch' or 'finally' expected.
+
+856 }
+     
+
+src/components/forms/UnifiedClientForm.tsx:106:3 - error TS1005: ',' expected.
+
+106   const [mailingAddressSame, setMailingAddressSame] = useState(true)
+      ~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:106:9 - error TS1005: ':' expected.
+
+106   const [mailingAddressSame, setMailingAddressSame] = useState(true)
+            ~
+
+src/components/forms/UnifiedClientForm.tsx:107:3 - error TS1005: ',' expected.
+
+107   const [mailingAddress, setMailingAddress] = useState<AddressData>({
+      ~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:107:9 - error TS1005: ':' expected.
+
+107   const [mailingAddress, setMailingAddress] = useState<AddressData>({
+            ~
+
+src/components/forms/UnifiedClientForm.tsx:110:3 - error TS1005: ',' expected.
+
+110   const [secondaryEmail, setSecondaryEmail] = useState('')
+      ~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:110:9 - error TS1005: ':' expected.
+
+110   const [secondaryEmail, setSecondaryEmail] = useState('')
+            ~
+
+src/components/forms/UnifiedClientForm.tsx:111:3 - error TS1005: ',' expected.
+
+111   const [preferredContactMethod, setPreferredContactMethod] = useState('email')
+      ~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:111:9 - error TS1005: ':' expected.
+
+111   const [preferredContactMethod, setPreferredContactMethod] = useState('email')
+            ~
+
+src/components/forms/UnifiedClientForm.tsx:112:3 - error TS1005: ',' expected.
+
+112   const [hasCoInsured, setHasCoInsured] = useState(false)
+      ~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:112:9 - error TS1005: ':' expected.
+
+112   const [hasCoInsured, setHasCoInsured] = useState(false)
+            ~
+
+src/components/forms/UnifiedClientForm.tsx:113:3 - error TS1005: ',' expected.
+
+113   const [coInsuredFirstName, setCoInsuredFirstName] = useState('')
+      ~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:113:9 - error TS1005: ':' expected.
+
+113   const [coInsuredFirstName, setCoInsuredFirstName] = useState('')
+            ~
+
+src/components/forms/UnifiedClientForm.tsx:114:3 - error TS1005: ',' expected.
+
+114   const [coInsuredLastName, setCoInsuredLastName] = useState('')
+      ~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:114:9 - error TS1005: ':' expected.
+
+114   const [coInsuredLastName, setCoInsuredLastName] = useState('')
+            ~
+
+src/components/forms/UnifiedClientForm.tsx:115:3 - error TS1005: ',' expected.
+
+115   const [coInsuredEmail, setCoInsuredEmail] = useState('')
+      ~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:115:9 - error TS1005: ':' expected.
+
+115   const [coInsuredEmail, setCoInsuredEmail] = useState('')
+            ~
+
+src/components/forms/UnifiedClientForm.tsx:116:3 - error TS1005: ',' expected.
+
+116   const [coInsuredPhone, setCoInsuredPhone] = useState('')
+      ~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:116:9 - error TS1005: ':' expected.
+
+116   const [coInsuredPhone, setCoInsuredPhone] = useState('')
+            ~
+
+src/components/forms/UnifiedClientForm.tsx:117:3 - error TS1005: ',' expected.
+
+117   const [coInsuredRelationship, setCoInsuredRelationship] = useState('')
+      ~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:117:9 - error TS1005: ':' expected.
+
+117   const [coInsuredRelationship, setCoInsuredRelationship] = useState('')
+            ~
+
+src/components/forms/UnifiedClientForm.tsx:118:3 - error TS1005: ',' expected.
+
+118   const [emergencyContactName, setEmergencyContactName] = useState('')
+      ~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:118:9 - error TS1005: ':' expected.
+
+118   const [emergencyContactName, setEmergencyContactName] = useState('')
+            ~
+
+src/components/forms/UnifiedClientForm.tsx:119:3 - error TS1005: ',' expected.
+
+119   const [emergencyContactPhone, setEmergencyContactPhone] = useState('')
+      ~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:119:9 - error TS1005: ':' expected.
+
+119   const [emergencyContactPhone, setEmergencyContactPhone] = useState('')
+            ~
+
+src/components/forms/UnifiedClientForm.tsx:120:3 - error TS1005: ',' expected.
+
+120   const [emergencyContactEmail, setEmergencyContactEmail] = useState('')
+      ~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:120:9 - error TS1005: ':' expected.
+
+120   const [emergencyContactEmail, setEmergencyContactEmail] = useState('')
+            ~
+
+src/components/forms/UnifiedClientForm.tsx:123:3 - error TS1005: ',' expected.
+
+123   const [pointOfContactFirstName, setPointOfContactFirstName] = useState('')
+      ~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:123:9 - error TS1005: ':' expected.
+
+123   const [pointOfContactFirstName, setPointOfContactFirstName] = useState('')
+            ~
+
+src/components/forms/UnifiedClientForm.tsx:124:3 - error TS1005: ',' expected.
+
+124   const [pointOfContactLastName, setPointOfContactLastName] = useState('')
+      ~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:124:9 - error TS1005: ':' expected.
+
+124   const [pointOfContactLastName, setPointOfContactLastName] = useState('')
+            ~
+
+src/components/forms/UnifiedClientForm.tsx:125:3 - error TS1005: ',' expected.
+
+125   const [pointOfContactTitle, setPointOfContactTitle] = useState('')
+      ~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:125:9 - error TS1005: ':' expected.
+
+125   const [pointOfContactTitle, setPointOfContactTitle] = useState('')
+            ~
+
+src/components/forms/UnifiedClientForm.tsx:127:3 - error TS1005: ',' expected.
+
+127   useEffect(() => {
+      ~~~~~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:127:13 - error TS1138: Parameter declaration expected.
+
+127   useEffect(() => {
+                ~
+
+src/components/forms/UnifiedClientForm.tsx:127:16 - error TS1005: ',' expected.
+
+127   useEffect(() => {
+                   ~~
+
+src/components/forms/UnifiedClientForm.tsx:149:7 - error TS1005: ',' expected.
+
+149       if (complexity === 'comprehensive') {
+          ~~
+
+src/components/forms/UnifiedClientForm.tsx:159:4 - error TS1128: Declaration or statement expected.
+
+159   }, [client, isOpen, complexity])
+       ~
+
+src/components/forms/UnifiedClientForm.tsx:159:34 - error TS1005: ';' expected.
+
+159   }, [client, isOpen, complexity])
+                                     ~
+
+src/components/forms/UnifiedClientForm.tsx:249:3 - error TS1472: 'catch' or 'finally' expected.
+
+249   const renderBasicInfo = () => (
+      ~~~~~
+
+src/components/forms/UnifiedClientForm.tsx:704:2 - error TS1005: '}' expected.
+
+704 }
+     
+
+  src/components/forms/UnifiedClientForm.tsx:127:19
+    127   useEffect(() => {
+                          ~
+    The parser expected to find a '}' to match the '{' token here.
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:98:3 - error TS1005: ',' expected.
+
+98   const wizardSteps: WizardStep[] = [
+     ~~~~~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:98:9 - error TS1005: ':' expected.
+
+98   const wizardSteps: WizardStep[] = [
+           ~~~~~~~~~~~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:98:20 - error TS1005: ',' expected.
+
+98   const wizardSteps: WizardStep[] = [
+                      ~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:98:32 - error TS1005: ',' expected.
+
+98   const wizardSteps: WizardStep[] = [
+                                  ~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:98:33 - error TS1109: Expression expected.
+
+98   const wizardSteps: WizardStep[] = [
+                                   ~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:98:35 - error TS1005: ':' expected.
+
+98   const wizardSteps: WizardStep[] = [
+                                     ~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:249:3 - error TS1005: ',' expected.
+
+249   const wizardConfig: WizardConfig = {
+      ~~~~~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:249:9 - error TS1005: ':' expected.
+
+249   const wizardConfig: WizardConfig = {
+            ~~~~~~~~~~~~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:249:21 - error TS1005: ',' expected.
+
+249   const wizardConfig: WizardConfig = {
+                        ~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:261:3 - error TS1005: ',' expected.
+
+261   const handleUpdate = (newData: any) => {
+      ~~~~~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:261:9 - error TS1005: ':' expected.
+
+261   const handleUpdate = (newData: any) => {
+            ~~~~~~~~~~~~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:277:3 - error TS1005: ',' expected.
+
+277   const handleSave = async (data: any, step: number) => {
+      ~~~~~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:277:9 - error TS1005: ':' expected.
+
+277   const handleSave = async (data: any, step: number) => {
+            ~~~~~~~~~~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:311:3 - error TS1005: ',' expected.
+
+311   const validateStep = (stepId: string, data: any) => {
+      ~~~~~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:352:1 - error TS1005: ',' expected.
+
+352 export default RefactoredEnhancedAIClaimWizard
+    ~~~~~~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:352:8 - error TS1005: ':' expected.
+
+352 export default RefactoredEnhancedAIClaimWizard
+           ~~~~~~~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:352:16 - error TS1005: ':' expected.
+
+352 export default RefactoredEnhancedAIClaimWizard
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:352:47 - error TS1005: '}' expected.
+
+352 export default RefactoredEnhancedAIClaimWizard
+                                                  
+
+  src/components/wizards/RefactoredEnhancedAIClaimWizard.tsx:74:60
+    74   const [wizardData, setWizardData] = useState<WizardData>({
+                                                                  ~
+    The parser expected to find a '}' to match the '{' token here.
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:55:3 - error TS1005: ',' expected.
+
+55   const wizardSteps: WizardStep[] = [
+     ~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:55:9 - error TS1005: ':' expected.
+
+55   const wizardSteps: WizardStep[] = [
+           ~~~~~~~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:55:20 - error TS1005: ',' expected.
+
+55   const wizardSteps: WizardStep[] = [
+                      ~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:55:32 - error TS1005: ',' expected.
+
+55   const wizardSteps: WizardStep[] = [
+                                  ~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:55:33 - error TS1109: Expression expected.
+
+55   const wizardSteps: WizardStep[] = [
+                                   ~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:55:35 - error TS1005: ':' expected.
+
+55   const wizardSteps: WizardStep[] = [
+                                     ~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:131:3 - error TS1005: ',' expected.
+
+131   const wizardConfig: WizardConfig = {
+      ~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:131:9 - error TS1005: ':' expected.
+
+131   const wizardConfig: WizardConfig = {
+            ~~~~~~~~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:131:21 - error TS1005: ',' expected.
+
+131   const wizardConfig: WizardConfig = {
+                        ~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:143:3 - error TS1005: ',' expected.
+
+143   const handleUpdate = (newData: any) => {
+      ~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:143:9 - error TS1005: ':' expected.
+
+143   const handleUpdate = (newData: any) => {
+            ~~~~~~~~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:148:3 - error TS1005: ',' expected.
+
+148   const handleSave = async (data: any, step: number) => {
+      ~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:148:9 - error TS1005: ':' expected.
+
+148   const handleSave = async (data: any, step: number) => {
+            ~~~~~~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:161:3 - error TS1005: ',' expected.
+
+161   const validateStep = (stepId: string, data: any) => {
+      ~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:161:9 - error TS1005: ':' expected.
+
+161   const validateStep = (stepId: string, data: any) => {
+            ~~~~~~~~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:167:3 - error TS1005: ',' expected.
+
+167   const canProceedToStep = (stepId: string, data: any) => {
+      ~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:167:9 - error TS1005: ':' expected.
+
+167   const canProceedToStep = (stepId: string, data: any) => {
+            ~~~~~~~~~~~~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:172:3 - error TS1005: ',' expected.
+
+172   const handleComplete = (data: any) => {
+      ~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:172:9 - error TS1005: ':' expected.
+
+172   const handleComplete = (data: any) => {
+            ~~~~~~~~~~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:183:3 - error TS1005: ',' expected.
+
+183   return (
+      ~~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:184:5 - error TS1003: Identifier expected.
+
+184     <UnifiedWizardFramework
+        ~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:185:7 - error TS1005: ',' expected.
+
+185       config={wizardConfig}
+          ~~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:186:7 - error TS1005: ',' expected.
+
+186       initialData={wizardData}
+          ~~~~~~~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:187:7 - error TS1005: ',' expected.
+
+187       onUpdate={handleUpdate}
+          ~~~~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:188:7 - error TS1005: ',' expected.
+
+188       onComplete={handleComplete}
+          ~~~~~~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:189:7 - error TS1005: ',' expected.
+
+189       onCancel={onCancel}
+          ~~~~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:190:7 - error TS1005: ',' expected.
+
+190       onSave={handleSave}
+          ~~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:191:7 - error TS1005: ',' expected.
+
+191       validateStep={validateStep}
+          ~~~~~~~~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:192:7 - error TS1005: ',' expected.
+
+192       canProceedToStep={canProceedToStep}
+          ~~~~~~~~~~~~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:193:6 - error TS1109: Expression expected.
+
+193     />
+         ~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:194:3 - error TS1109: Expression expected.
+
+194   )
+      ~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:197:1 - error TS1005: ',' expected.
+
+197 export default RefactoredManualIntakeWizard
+    ~~~~~~
+
+src/components/wizards/RefactoredManualIntakeWizard.tsx:197:44 - error TS1005: '}' expected.
+
+197 export default RefactoredManualIntakeWizard
+                                               
+
+  src/components/wizards/RefactoredManualIntakeWizard.tsx:44:39
+    44 }: RefactoredManualIntakeWizardProps) {
+                                             ~
+    The parser expected to find a '}' to match the '{' token here.
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:103:9 - error TS1005: ':' expected.
+
+103   const wizardSteps: WizardStep[] = [
+            ~~~~~~~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:103:20 - error TS1005: ',' expected.
+
+103   const wizardSteps: WizardStep[] = [
+                       ~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:103:32 - error TS1005: ',' expected.
+
+103   const wizardSteps: WizardStep[] = [
+                                   ~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:103:33 - error TS1109: Expression expected.
+
+103   const wizardSteps: WizardStep[] = [
+                                    ~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:103:35 - error TS1005: ':' expected.
+
+103   const wizardSteps: WizardStep[] = [
+                                      ~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:123:3 - error TS1005: ',' expected.
+
+123   const wizardConfig: WizardConfig = {
+      ~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:123:9 - error TS1005: ':' expected.
+
+123   const wizardConfig: WizardConfig = {
+            ~~~~~~~~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:123:21 - error TS1005: ',' expected.
+
+123   const wizardConfig: WizardConfig = {
+                        ~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:134:3 - error TS1005: ',' expected.
+
+134   const handleUpdate = (newData: any) => {
+      ~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:134:9 - error TS1005: ':' expected.
+
+134   const handleUpdate = (newData: any) => {
+            ~~~~~~~~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:139:3 - error TS1005: ',' expected.
+
+139   const validateStep = (stepId: string, data: WizardData) => {
+      ~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:139:9 - error TS1005: ':' expected.
+
+139   const validateStep = (stepId: string, data: WizardData) => {
+            ~~~~~~~~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:159:3 - error TS1005: ',' expected.
+
+159   const canProceedToStep = (stepId: string, data: WizardData) => {
+      ~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:159:9 - error TS1005: ':' expected.
+
+159   const canProceedToStep = (stepId: string, data: WizardData) => {
+            ~~~~~~~~~~~~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:165:3 - error TS1005: ',' expected.
+
+165   const handleComplete = (data: WizardData) => {
+      ~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:165:9 - error TS1005: ':' expected.
+
+165   const handleComplete = (data: WizardData) => {
+            ~~~~~~~~~~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:169:3 - error TS1005: ',' expected.
+
+169   return (
+      ~~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:170:5 - error TS1003: Identifier expected.
+
+170     <UnifiedWizardFramework
+        ~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:171:7 - error TS1005: ',' expected.
+
+171       config={wizardConfig}
+          ~~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:172:7 - error TS1005: ',' expected.
+
+172       initialData={wizardData}
+          ~~~~~~~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:173:7 - error TS1005: ',' expected.
+
+173       onUpdate={handleUpdate}
+          ~~~~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:174:7 - error TS1005: ',' expected.
+
+174       onComplete={handleComplete}
+          ~~~~~~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:175:7 - error TS1005: ',' expected.
+
+175       onCancel={onCancel}
+          ~~~~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:176:7 - error TS1005: ',' expected.
+
+176       validateStep={validateStep}
+          ~~~~~~~~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:177:7 - error TS1005: ',' expected.
+
+177       canProceedToStep={canProceedToStep}
+          ~~~~~~~~~~~~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:178:7 - error TS1005: ',' expected.
+
+178       showProgressBar={true}
+          ~~~~~~~~~~~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:178:28 - error TS1005: ':' expected.
+
+178       showProgressBar={true}
+                               ~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:179:7 - error TS1005: ',' expected.
+
+179       showStepIndicator={true}
+          ~~~~~~~~~~~~~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:179:30 - error TS1005: ':' expected.
+
+179       showStepIndicator={true}
+                                 ~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:180:6 - error TS1109: Expression expected.
+
+180     />
+         ~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:181:3 - error TS1109: Expression expected.
+
+181   )
+      ~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:184:1 - error TS1005: ',' expected.
+
+184 export default RefactoredSimpleTestWizard
+    ~~~~~~
+
+src/components/wizards/RefactoredSimpleTestWizard.tsx:184:42 - error TS1005: '}' expected.
+
+184 export default RefactoredSimpleTestWizard
+                                             
+
+  src/components/wizards/RefactoredSimpleTestWizard.tsx:93:37
+    93 }: RefactoredSimpleTestWizardProps) {
+                                           ~
+    The parser expected to find a '}' to match the '{' token here.
+
+
+Found 130 errors.
+
