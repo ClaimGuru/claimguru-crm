@@ -22,6 +22,13 @@ import Settings from './pages/Settings'
 import { AdminPanel } from './pages/AdminPanel'
 import Calendar from './pages/Calendar'
 import Integrations from './pages/Integrations'
+import CRMEntityManagement from './pages/CRMEntityManagement'
+import { CreateVendor } from './pages/CreateVendor'
+import { EditVendor } from './pages/EditVendor'
+import CreateAttorney from './pages/CreateAttorney'
+import EditAttorney from './pages/EditAttorney'
+import CreateReferralSource from './pages/CreateReferralSource'
+import EditReferralSource from './pages/EditReferralSource'
 import { Layout } from './components/layout/Layout'
 import { LoadingSpinner } from './components/ui/LoadingSpinner'
 
@@ -129,6 +136,13 @@ function AppRoutes() {
         } />
         <Route path="communications" element={<Communications />} />
         <Route path="vendors" element={<Vendors />} />
+        <Route path="vendors/new" element={<CreateVendor />} />
+        <Route path="vendors/:id/edit" element={<EditVendor />} />
+        <Route path="attorneys/new" element={<CreateAttorney />} />
+        <Route path="attorneys/:id/edit" element={<EditAttorney />} />
+        <Route path="referral-sources/new" element={<CreateReferralSource />} />
+        <Route path="referral-sources/:id/edit" element={<EditReferralSource />} />
+        <Route path="crm" element={<CRMEntityManagement />} />
         <Route path="insurers" element={<Insurers />} />
         <Route path="settlements" element={<Settlements />} />
         <Route path="financial" element={<Finance />} />

@@ -11,7 +11,7 @@ import { Input } from '../ui/Input'
 import { Button } from '../ui/Button'
 import { Card, CardContent } from '../ui/Card'
 
-interface ClientData {
+export interface ClientData {
   id: string
   first_name: string
   last_name: string

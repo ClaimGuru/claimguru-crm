@@ -48,7 +48,7 @@ interface UnifiedClientFormProps {
   client?: Client | null
   isOpen: boolean
   onClose: () => void
-      // onSave: (clientData: any) => void
+  onSave: (clientData: any) => void
   
   // Configuration props
   mode?: 'modal' | 'inline'  // Display as modal or inline form

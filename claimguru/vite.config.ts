@@ -14,18 +14,7 @@ export default defineConfig({
     // Optimize bundle splitting
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Vendor chunks
-          react: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          ui: ['@radix-ui/react-dialog', '@radix-ui/react-tabs', '@radix-ui/react-select'],
-          utils: ['date-fns', 'clsx', 'tailwind-merge'],
-          
-          // Feature chunks
-          wizard: ['src/components/claims/wizard-steps'],
-          forms: ['src/components/forms'],
-          services: ['src/services']
-        }
+        // Let Vite handle chunking automatically
       }
     },
     

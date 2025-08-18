@@ -58,10 +58,10 @@ interface ArrayField {
 interface UnifiedBusinessEntityFormProps {
   entity?: any | null
   onSave: (data: any) => Promise<void> | void
-      // onCancel: () => void
+  onCancel: () => void
   
   // Configuration props
-      // entityType: 'vendor' | 'lender' | 'carrier' | 'personnel'
+  entityType: 'vendor' | 'lender' | 'carrier' | 'personnel'
   title?: string
   mode?: 'modal' | 'inline'
   showAdvancedFields?: boolean

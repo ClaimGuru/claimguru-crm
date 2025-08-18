@@ -38,7 +38,7 @@ interface RefactoredEnhancedAIIntakeWizardProps {
 
 interface WizardData {
   clientType: string
-      // isOrganization: boolean
+  isOrganization: boolean
   extractedPolicyData?: any
   additionalDocuments?: any
   aiSuggestions?: any
@@ -58,7 +58,7 @@ interface WizardData {
   referralInformation: any
   contractInformation: any
   personnelAssignments: any[]
-      // officeTasks: any[]
+  officeTasks?: any[]
   organizationId?: string
   organizationPolicies?: any
   customFields?: Record<string, any>

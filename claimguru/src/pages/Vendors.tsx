@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { LoadingSpinner } from '../components/ui/LoadingSpinner'
@@ -48,6 +49,7 @@ interface VendorStats {
 }
 
 export function Vendors() {
+  const navigate = useNavigate()
   const { userProfile } = useAuth()
   const [loading, setLoading] = useState(true)
   const [vendors, setVendors] = useState<Vendor[]>([])
@@ -320,7 +322,7 @@ export function Vendors() {
           <h1 className="text-3xl font-bold text-gray-900">Vendor Management</h1>
           <p className="text-gray-600 mt-1">Manage your network of trusted vendors and service providers</p>
         </div>
-        <Button onClick={() => setShowForm(true)}>
+        <Button onClick={() => navigate('/vendors/new')}>
           <Plus className="h-4 w-4 mr-2" />
           Add Vendor
         </Button>

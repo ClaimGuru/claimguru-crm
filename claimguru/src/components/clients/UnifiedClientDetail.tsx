@@ -54,7 +54,7 @@ import type { Client } from '../../lib/supabase'
 interface UnifiedClientDetailProps {
   client: Client | null
   isOpen: boolean
-      // onClose: () => void
+  onClose: () => void
   onEdit?: (client: Client) => void
   onCreateClaim?: (client: Client) => void
   onUpdate?: (updatedClient: any) => void

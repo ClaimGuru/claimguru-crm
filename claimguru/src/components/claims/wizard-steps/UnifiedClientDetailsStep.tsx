@@ -6,6 +6,7 @@ import { Switch } from '../../ui/switch'
 import { StandardizedAddressInput } from '../../ui/StandardizedAddressInput'
 import { StandardizedPhoneInput } from '../../ui/StandardizedPhoneInput'
 import { ClientSelector } from '../ClientSelector'
+import type { ClientData } from '../ClientSelector'
 import { AddressAutocomplete } from '../../ui/AddressAutocomplete'
 import { LoadingSpinner } from '../../ui/LoadingSpinner'
 import { useClients } from '../../../hooks/useClients'
@@ -137,53 +138,43 @@ export function UnifiedClientDetailsStep({
   const [autoPopulated, setAutoPopulated] = useState(false)
 
   // Handle client selection from ClientSelector
-  const handleClientSelect = (client: Client | null) => {
-    if (client) {
-      const updatedData = {
-        ...stepData,
-        clientStatus: 'existing',
-        selectedExistingClient: client,
-        selectedExistingClientId: client.id,
-        clientType: client.client_type === 'residential' ? 'individual' : 'business',
-        firstName: client.first_name || '',
-        lastName: client.last_name || '',
-        businessName: client.business_name || '',
-        organizationName: client.business_name || '',
-        primaryEmail: client.primary_email || '',
-        primaryPhone: client.primary_phone || '',
-        phoneNumbers: [{
-          id: 'primary',
-          type: 'Primary',
-          number: client.primary_phone || '',
-          extension: '',
-          isPrimary: true
-        }],
-        streetAddress: {
-          streetAddress1: client.address_line_1 || '',
-          streetAddress2: client.address_line_2 || '',
-          city: client.city || '',
-          state: client.state || '',
-          zipCode: client.zip_code || ''
-        },
-        mailingAddress: {
-          addressLine1: client.address_line_1 || '',
-          addressLine2: client.address_line_2 || '',
-          city: client.city || '',
-          state: client.state || '',
-          zipCode: client.zip_code || ''
-        }
+  const handleClientSelect = (client: ClientData) => {
+    const updatedData = {
+      ...stepData,
+      clientStatus: 'existing',
+      selectedExistingClient: client,
+      selectedExistingClientId: client.id,
+      clientType: client.client_type === 'residential' ? 'individual' : 'business',
+      firstName: client.first_name || '',
+      lastName: client.last_name || '',
+      businessName: client.business_name || '',
+      organizationName: client.business_name || '',
+      primaryEmail: client.primary_email || '',
+      primaryPhone: client.primary_phone || '',
+      phoneNumbers: [{
+        id: 'primary',
+        type: 'Primary',
+        number: client.primary_phone || '',
+        extension: '',
+        isPrimary: true
+      }],
+      streetAddress: {
+        streetAddress1: client.address_line_1 || '',
+        streetAddress2: client.address_line_2 || '',
+        city: client.city || '',
+        state: client.state || '',
+        zipCode: client.zip_code || ''
+      },
+      mailingAddress: {
+        addressLine1: client.address_line_1 || '',
+        addressLine2: client.address_line_2 || '',
+        city: client.city || '',
+        state: client.state || '',
+        zipCode: client.zip_code || ''
       }
-      setStepData(updatedData)
-      onUpdate(updatedData)
-    } else {
-      const updatedData = {
-        ...stepData,
-        selectedExistingClient: null,
-        selectedExistingClientId: ''
-      }
-      setStepData(updatedData)
-      onUpdate(updatedData)
     }
+    setStepData(updatedData)
+    onUpdate(updatedData)
   }
 
   // Handle new client creation
@@ -191,7 +182,26 @@ export function UnifiedClientDetailsStep({
     try {
       const newClient = await createClient(clientData)
       setShowNewClientForm(false)
-      handleClientSelect(newClient)
+      // Convert Client to ClientData format
+      const clientDataForSelect: ClientData = {
+        id: newClient.id,
+        first_name: newClient.first_name || '',
+        last_name: newClient.last_name || '',
+        business_name: newClient.business_name,
+        primary_email: newClient.primary_email || '',
+        primary_phone: newClient.primary_phone || '',
+        client_type: newClient.client_type || 'residential',
+        address_line_1: newClient.address_line_1,
+        address_line_2: newClient.address_line_2,
+        city: newClient.city,
+        state: newClient.state,
+        zip_code: newClient.zip_code,
+        organization_id: newClient.organization_id || '',
+        is_policyholder: newClient.is_policyholder || true,
+        country: newClient.country || 'US',
+        mailing_same_as_address: newClient.mailing_same_as_address || true
+      }
+      handleClientSelect(clientDataForSelect)
     } catch (error) {
       // console.error('Error creating client:', error)
     }
