@@ -46,8 +46,9 @@ export function useClaims() {
       throw new Error('User not properly authenticated')
     }
 
+    console.log('Creating comprehensive claim with data', claimData)
+    
     try {
-      console.log('🚀 Creating comprehensive claim with data:', claimData)
       
       // Generate file number if not provided
       const fileNumber = claimData.file_number || `CG-${new Date().getFullYear()}-${String(claims.length + 1).padStart(3, '0')}`
@@ -208,6 +209,15 @@ export function useClaims() {
         }
       }
 
+      // Check for required fields
+      if (!clientId) {
+        throw new Error('Client ID is required. Please provide client information.')
+      }
+
+      if (!propertyId) {
+        throw new Error('Property ID is required. Please provide property information.')
+      }
+
       // 5. Now create the main claim record
       const newClaim = {
         organization_id: userProfile.organization_id,
@@ -221,8 +231,8 @@ export function useClaims() {
         
         // Policy information
         policy_number: claimData.policyDetails?.policyNumber || claimData.policyNumber,
-        policy_effective_date: claimData.policyDetails?.effectiveDate || claimData.effectiveDate,
-        policy_expiration_date: claimData.policyDetails?.expirationDate || claimData.expirationDate,
+        policy_effective_date: claimData.policyDetails?.effectiveDate || claimData.insuranceInfo?.effectiveDate || claimData.effectiveDate,
+        policy_expiration_date: claimData.policyDetails?.expirationDate || claimData.insuranceInfo?.expirationDate || claimData.expirationDate,
         deductible: parseFloat(claimData.policyDetails?.deductible || claimData.deductible || '0'),
         
         // Loss information
@@ -262,15 +272,29 @@ export function useClaims() {
 
       if (error) {
         console.error('Error creating claim:', error)
-        throw error
+        // Detailed error message based on error type
+        if (error.code === '23502') {
+          throw new Error(`Database constraint error: ${error.details || 'A required field is missing'}`)
+        } else if (error.code === '23505') {
+          throw new Error(`Duplicate value error: ${error.details || 'A unique field already exists'}`)
+        } else if (error.code === '22P02') {
+          throw new Error(`Invalid data format: ${error.details || 'Check date formats and numeric values'}`)
+        } else {
+          throw new Error(`Database error: ${error.message}`)
+        }
       }
 
       console.log('✅ Created claim successfully:', data.id)
       setClaims(prev => [data, ...prev])
       return data
     } catch (error: any) {
-      console.error('❌ Error in comprehensive createClaim:', error)
-      throw error
+      console.error('Error in comprehensive createClaim:', error)
+      // If it's already our custom error, just pass it through
+      if (error.message && (!error.code || typeof error.code === 'string')) {
+        throw error
+      }
+      // Otherwise wrap it in a more descriptive error
+      throw new Error(`Failed to create claim: ${error.message || 'Unknown error occurred'}`)
     }
   }
 

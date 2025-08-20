@@ -51,10 +51,14 @@ export function Claims() {
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [isFormOpen, setIsFormOpen] = useState(false)
   // Separate state for manual and AI wizards
+  const [claimSubmissionStatus, setClaimSubmissionStatus] = useState<{ isSubmitting: boolean; error: string | null; success: boolean }>({ 
+    isSubmitting: false, 
+    error: null, 
+    success: false 
+  })
   const [showManualWizard, setShowManualWizard] = useState(false)
   const [showAIWizard, setShowAIWizard] = useState(false)
   const [editingClaim, setEditingClaim] = useState<Claim | null>(null)
-  const [selectedClaim, setSelectedClaim] = useState<Claim | null>(null)
   const [showDetailsModal, setShowDetailsModal] = useState(false)
 
   // Handle URL routing for new claim creation
@@ -94,19 +98,30 @@ export function Claims() {
   }
 
   const handleManualWizardComplete = async (claimData: any) => {
+    setClaimSubmissionStatus({ isSubmitting: true, error: null, success: false })
     try {
       // Create the claim with manually entered data
-      await createClaim({
+      const result = await createClaim({
         ...claimData,
         dataSource: 'manual_input',
         aiEnhanced: false
       })
+      setClaimSubmissionStatus({ isSubmitting: false, error: null, success: true })
       setShowManualWizard(false)
+      
+      // Show success message
+      alert('Claim created successfully!')
+      
       // Refresh claims list
       window.location.reload()
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating manual claim:', error)
-      alert('Error creating claim. Please try again.')
+      setClaimSubmissionStatus({ 
+        isSubmitting: false, 
+        error: error.message || 'Failed to create claim. Please try again.', 
+        success: false 
+      })
+      alert(`Error creating claim: ${error.message || 'Please try again.'}`)
     }
   }
 
@@ -115,19 +130,30 @@ export function Claims() {
   }
 
   const handleAIWizardComplete = async (claimData: any) => {
+    setClaimSubmissionStatus({ isSubmitting: true, error: null, success: false })
     try {
       // Create the claim with AI-generated data
-      await createClaim({
+      const result = await createClaim({
         ...claimData,
         dataSource: 'ai_extraction',
         aiEnhanced: true
       })
+      setClaimSubmissionStatus({ isSubmitting: false, error: null, success: true })
       setShowAIWizard(false)
+      
+      // Show success message
+      alert('Claim created successfully!')
+      
       // Refresh claims list
       window.location.reload()
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating AI claim:', error)
-      alert('Error creating claim. Please try again.')
+      setClaimSubmissionStatus({ 
+        isSubmitting: false, 
+        error: error.message || 'Failed to create claim. Please try again.', 
+        success: false 
+      })
+      alert(`Error creating claim: ${error.message || 'Please try again.'}`)
     }
   }
 
