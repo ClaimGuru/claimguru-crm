@@ -1,0 +1,211 @@
+
+> react_repo@0.0.0 build
+> yes | pnpm install && rm -rf node_modules/.vite-temp && tsc -b && vite build
+
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +453
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Progress: resolved 453, reused 0, downloaded 0, added 0
+1Progress: resolved 453, reused 0, downloaded 54, added 18
+Downloading pdfjs-dist@3.11.174: 0.00 B/9.27 MB
+Downloading pdfjs-dist@3.11.174: 4.23 kB/9.27 MB
+Progress: resolved 453, reused 0, downloaded 105, added 52
+
+   ╭──────────────────────────────────────────╮
+   │                                          │
+   │   Update available! 10.12.4 → 10.15.0.   │
+   │   Changelog: https://pnpm.io/v/10.15.0   │
+   │     To update, run: pnpm add -g pnpm     │
+   │                                          │
+   ╰──────────────────────────────────────────╯
+
+Progress: resolved 453, reused 0, downloaded 105, added 52
+Downloading pdfjs-dist@3.11.174: 4.23 kB/9.27 MB
+Progress: resolved 453, reused 0, downloaded 157, added 156
+Downloading pdfjs-dist@3.11.174: 9.27 MB/9.27 MB, done
+Progress: resolved 453, reused 0, downloaded 157, added 156
+215, added 18978, added 25Downloading tesseract.js-core@5.1.1: 0.00 B/11.32 MB
+Downloading tesseract.js-core@5.1.1: 3.62 kB/11.32 MB
+330, added 30585, added 339Downloading tesseract.js-core@5.1.1: 11.32 MB/11.32 MB, done
+Progress: resolved 453, reused 0, downloaded 385, added 339
+450, added 450Progress: resolved 453, reused 0, downloaded 453, added 453, done
+
+dependencies:
++ @googlemaps/js-api-loader 1.16.10
++ @hookform/resolvers 3.10.0
++ @radix-ui/react-dialog 1.1.7
++ @radix-ui/react-dropdown-menu 2.1.7
++ @radix-ui/react-label 2.1.3
++ @radix-ui/react-select 2.1.7
++ @radix-ui/react-slot 1.2.0
++ @radix-ui/react-switch 1.1.4
++ @radix-ui/react-tabs 1.1.4
++ @radix-ui/react-toast 1.2.7
++ @supabase/supabase-js 2.50.4
++ @tanstack/react-query 5.82.0
++ @tanstack/react-table 8.21.3
++ @types/google.maps 3.58.1
++ class-variance-authority 0.7.1
++ clsx 2.1.1
++ cmdk 1.0.0
++ date-fns 3.6.0
++ lucide-react 0.364.0
++ pdfjs-dist 3.11.174
++ react 18.3.1
++ react-day-picker 8.10.1
++ react-dom 18.3.1
++ react-dropzone 14.3.8
++ react-hook-form 7.55.0
++ react-router-dom 6.30.0
++ recharts 2.15.2
++ tailwind-merge 2.6.0
++ tailwindcss-animate 1.0.7
++ tesseract.js 5.1.1
++ vaul 1.1.2
++ zod 3.24.2
+
+devDependencies:
++ @eslint/js 9.24.0
++ @types/node 22.14.1
++ @types/react 18.3.20
++ @types/react-dom 18.3.6
++ @types/react-router-dom 5.3.3
++ @vitejs/plugin-react 4.3.4
++ autoprefixer 10.4.20
++ eslint 9.24.0
++ eslint-plugin-react-hooks 5.2.0
++ eslint-plugin-react-refresh 0.4.19
++ globals 15.15.0
++ postcss 8.4.49
++ tailwindcss 3.4.16
++ typescript 5.6.3
++ typescript-eslint 8.29.1
++ vite 6.2.6
+
+╭ Warning ─────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│   Ignored build scripts: canvas, esbuild, tesseract.js.                      │
+│   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+│   to run scripts.                                                            │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Done in 3.5s using pnpm v10.12.4
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:108:3 - error TS2339: Property 'onUpdate' does not exist on type 'UnifiedDocumentUploadProps'.
+
+108   onUpdate,
+      ~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:403:33 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+403                     {fileStatus.status === 'processing' && (
+                                    ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:407:33 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+407                     {fileStatus.status === 'completed' && fileStatus.confidence && (
+                                    ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:411:33 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+411                     {fileStatus.status === 'completed' && (
+                                    ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:415:33 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+415                     {fileStatus.status === 'error' && (
+                                    ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:462:32 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+462             {files.some(f => f.status === 'completed') && (
+                                   ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedInsuranceInfoStep.tsx:535:62 - error TS2554: Expected 2 arguments, but got 1.
+
+535         priorPaymentValidation = await enhancedClaimWizardAI.checkDuplicatePayments(
+                                                                 ~~~~~~~~~~~~~~~~~~~~~~
+
+  src/services/enhancedClaimWizardAI.ts:1126:49
+    1126   async checkDuplicatePayments(newPayment: any, priorPayments: any[]): Promise<AIValidation> {
+                                                         ~~~~~~~~~~~~~~~~~~~~
+    An argument for 'priorPayments' was not provided.
+
+src/components/claims/wizard-steps/UnifiedInsuranceInfoStep.tsx:788:18 - error TS2322: Type '{ children: Element; fieldPath: string; value: any; onConfirm: (value: string) => void; }' is not assignable to type 'IntrinsicAttributes & ConfirmedFieldWrapperProps'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & ConfirmedFieldWrapperProps'.
+
+788                 <ConfirmedFieldWrapper
+                     ~~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedInsuranceInfoStep.tsx:827:18 - error TS2322: Type '{ children: Element; fieldPath: string; value: any; onConfirm: (value: string) => void; }' is not assignable to type 'IntrinsicAttributes & ConfirmedFieldWrapperProps'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & ConfirmedFieldWrapperProps'.
+
+827                 <ConfirmedFieldWrapper
+                     ~~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:91:3 - error TS2339: Property 'onUpdate' does not exist on type 'UnifiedPDFExtractionStepProps'.
+
+91   onUpdate,
+     ~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:512:11 - error TS2322: Type '{ extractedData: any; rawText: string; onConfirm: (validatedPolicyData: any) => void; onReject: () => void; processingDetails: any; }' is not assignable to type 'IntrinsicAttributes & PolicyDataValidationStepProps'.
+  Property 'onConfirm' does not exist on type 'IntrinsicAttributes & PolicyDataValidationStepProps'.
+
+512           onConfirm={handleSingleValidationComplete}
+              ~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:580:96 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+580                             {(fileStatus.file.size / 1024 / 1024).toFixed(2)} MB • {fileStatus.status}
+                                                                                                   ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:585:37 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+585                         {fileStatus.status === 'processing' && <LoadingSpinner size="sm" />}
+                                        ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:586:37 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+586                         {fileStatus.status === 'completed' && <CheckCircle className="h-5 w-5 text-green-600" />}
+                                        ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:587:37 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+587                         {fileStatus.status === 'error' && <AlertCircle className="h-5 w-5 text-red-600" />}
+                                        ~~~~~~
+
+src/services/ai/documentAnalysisService.ts:102:9 - error TS2322: Type 'number' is not assignable to type 'string[]'.
+
+102         extractedFields: Object.keys(data?.policyData || {}).length,
+            ~~~~~~~~~~~~~~~
+
+  src/services/ai/documentAnalysisService.ts:18:3
+    18   extractedFields?: string[];
+         ~~~~~~~~~~~~~~~
+    The expected type comes from property 'extractedFields' which is declared here on type 'DocumentAnalysisResult'
+
+src/services/ai/recommendationService.ts:335:11 - error TS2322: Type '"urgent"' is not assignable to type '"low" | "medium" | "high"'.
+
+335           priority: 'urgent',
+              ~~~~~~~~
+
+  src/services/ai/recommendationService.ts:31:3
+    31   priority: 'low' | 'medium' | 'high';
+         ~~~~~~~~
+    The expected type comes from property 'priority' which is declared here on type 'VendorRecommendation'
+
+src/services/configService.ts:106:11 - error TS2393: Duplicate function implementation.
+
+106   private getOpenAIApiKey(): string {
+              ~~~~~~~~~~~~~~~
+
+src/services/configService.ts:151:10 - error TS2393: Duplicate function implementation.
+
+151   public getOpenAIApiKey(): string {
+             ~~~~~~~~~~~~~~~
+
+
+Found 19 errors.
+

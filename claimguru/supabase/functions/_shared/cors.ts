@@ -1,5 +1,5 @@
 /**
- * Shared CORS headers for Supabase Edge Functions
+ * CORS headers for Supabase Edge Functions
  */
 
 export const corsHeaders = {

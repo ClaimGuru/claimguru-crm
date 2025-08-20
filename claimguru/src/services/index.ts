@@ -6,6 +6,13 @@ export { HybridPDFExtractionService } from './hybridPdfExtractionService';
 export { default as adaptiveLearningService } from './adaptiveLearningService';
 export { WizardValidationService } from './wizardValidationService';
 export { PolicyDataMappingService } from './policyDataMappingService';
+
+// AI Services - New OpenAI Implementation
+export { documentAnalysisService } from './ai/documentAnalysisService';
+export { claimProcessingService } from './ai/claimProcessingService';
+export { recommendationService } from './ai/recommendationService';
+
+// Legacy AI services - now using the new implementations
 export { default as claimWizardAI } from './claimWizardAI';
 export { IdentifierExtractionService } from './identifierExtractionService';
 
