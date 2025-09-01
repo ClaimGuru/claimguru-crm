@@ -1,0 +1,201 @@
+
+> react_repo@0.0.0 build
+> yes | pnpm install && rm -rf node_modules/.vite-temp && tsc -b && vite build
+
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+╭ Warning ─────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│   Ignored build scripts: canvas, esbuild, tesseract.js.                      │
+│   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+│   to run scripts.                                                            │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Done in 842ms using pnpm v10.12.4
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:108:3 - error TS2339: Property 'onUpdate' does not exist on type 'UnifiedDocumentUploadProps'.
+
+108   onUpdate,
+      ~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:403:33 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+403                     {fileStatus.status === 'processing' && (
+                                    ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:407:33 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+407                     {fileStatus.status === 'completed' && fileStatus.confidence && (
+                                    ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:411:33 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+411                     {fileStatus.status === 'completed' && (
+                                    ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:415:33 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+415                     {fileStatus.status === 'error' && (
+                                    ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedDocumentUpload.tsx:462:32 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+462             {files.some(f => f.status === 'completed') && (
+                                   ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedInsuranceInfoStep.tsx:535:62 - error TS2554: Expected 2 arguments, but got 1.
+
+535         priorPaymentValidation = await enhancedClaimWizardAI.checkDuplicatePayments(
+                                                                 ~~~~~~~~~~~~~~~~~~~~~~
+
+  src/services/enhancedClaimWizardAI.ts:1126:49
+    1126   async checkDuplicatePayments(newPayment: any, priorPayments: any[]): Promise<AIValidation> {
+                                                         ~~~~~~~~~~~~~~~~~~~~
+    An argument for 'priorPayments' was not provided.
+
+src/components/claims/wizard-steps/UnifiedInsuranceInfoStep.tsx:788:18 - error TS2322: Type '{ children: Element; fieldPath: string; value: any; onConfirm: (value: string) => void; }' is not assignable to type 'IntrinsicAttributes & ConfirmedFieldWrapperProps'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & ConfirmedFieldWrapperProps'.
+
+788                 <ConfirmedFieldWrapper
+                     ~~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedInsuranceInfoStep.tsx:827:18 - error TS2322: Type '{ children: Element; fieldPath: string; value: any; onConfirm: (value: string) => void; }' is not assignable to type 'IntrinsicAttributes & ConfirmedFieldWrapperProps'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & ConfirmedFieldWrapperProps'.
+
+827                 <ConfirmedFieldWrapper
+                     ~~~~~~~~~~~~~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:91:3 - error TS2339: Property 'onUpdate' does not exist on type 'UnifiedPDFExtractionStepProps'.
+
+91   onUpdate,
+     ~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:512:11 - error TS2322: Type '{ extractedData: any; rawText: string; onConfirm: (validatedPolicyData: any) => void; onReject: () => void; processingDetails: any; }' is not assignable to type 'IntrinsicAttributes & PolicyDataValidationStepProps'.
+  Property 'onConfirm' does not exist on type 'IntrinsicAttributes & PolicyDataValidationStepProps'.
+
+512           onConfirm={handleSingleValidationComplete}
+              ~~~~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:580:96 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+580                             {(fileStatus.file.size / 1024 / 1024).toFixed(2)} MB • {fileStatus.status}
+                                                                                                   ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:585:37 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+585                         {fileStatus.status === 'processing' && <LoadingSpinner size="sm" />}
+                                        ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:586:37 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+586                         {fileStatus.status === 'completed' && <CheckCircle className="h-5 w-5 text-green-600" />}
+                                        ~~~~~~
+
+src/components/claims/wizard-steps/UnifiedPDFExtractionStep.tsx:587:37 - error TS2339: Property 'status' does not exist on type 'FileStatus'.
+
+587                         {fileStatus.status === 'error' && <AlertCircle className="h-5 w-5 text-red-600" />}
+                                        ~~~~~~
+
+src/components/layout/Header.tsx:161:28 - error TS2304: Cannot find name 'handleSignOut'.
+
+161                   onClick={handleSignOut}
+                               ~~~~~~~~~~~~~
+
+src/components/ui/Animations.tsx:68:14 - error TS2322: Type '{ children: string; jsx: true; }' is not assignable to type 'DetailedHTMLProps<StyleHTMLAttributes<HTMLStyleElement>, HTMLStyleElement>'.
+  Property 'jsx' does not exist on type 'DetailedHTMLProps<StyleHTMLAttributes<HTMLStyleElement>, HTMLStyleElement>'.
+
+68       <style jsx>{`
+                ~~~
+
+src/components/ui/Animations.tsx:107:14 - error TS2322: Type '{ children: string; jsx: true; }' is not assignable to type 'DetailedHTMLProps<StyleHTMLAttributes<HTMLStyleElement>, HTMLStyleElement>'.
+  Property 'jsx' does not exist on type 'DetailedHTMLProps<StyleHTMLAttributes<HTMLStyleElement>, HTMLStyleElement>'.
+
+107       <style jsx>{`
+                 ~~~
+
+src/components/ui/EmptyState.tsx:66:13 - error TS2322: Type '"outline" | "default"' is not assignable to type '"primary" | "secondary" | "outline" | "ghost" | "danger"'.
+  Type '"default"' is not assignable to type '"primary" | "secondary" | "outline" | "ghost" | "danger"'.
+
+66             variant={action.variant || 'default'}
+               ~~~~~~~
+
+  src/components/ui/Button.tsx:6:3
+    6   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'
+        ~~~~~~~
+    The expected type comes from property 'variant' which is declared here on type 'IntrinsicAttributes & ButtonProps'
+
+src/hooks/useKeyboardShortcuts.tsx:131:24 - error TS2322: Type '{ children: (string | Element)[]; className: string; }' is not assignable to type 'IntrinsicAttributes & DialogTitleProps'.
+  Property 'className' does not exist on type 'IntrinsicAttributes & DialogTitleProps'.
+
+131           <DialogTitle className="flex items-center gap-2">
+                           ~~~~~~~~~
+
+src/pages/Claims.tsx:370:29 - error TS2304: Cannot find name 'setSelectedClaim'.
+
+370                             setSelectedClaim(claim)
+                                ~~~~~~~~~~~~~~~~
+
+src/pages/Claims.tsx:446:28 - error TS2552: Cannot find name 'selectedClaim'. Did you mean 'deleteClaim'?
+
+446       {showDetailsModal && selectedClaim && (
+                               ~~~~~~~~~~~~~
+
+  src/pages/Claims.tsx:46:54
+    46   const { claims, loading, createClaim, updateClaim, deleteClaim } = useClaims()
+                                                            ~~~~~~~~~~~
+    'deleteClaim' is declared here.
+
+src/pages/Claims.tsx:448:18 - error TS2552: Cannot find name 'selectedClaim'. Did you mean 'deleteClaim'?
+
+448           claim={selectedClaim}
+                     ~~~~~~~~~~~~~
+
+  src/pages/Claims.tsx:46:54
+    46   const { claims, loading, createClaim, updateClaim, deleteClaim } = useClaims()
+                                                            ~~~~~~~~~~~
+    'deleteClaim' is declared here.
+
+src/pages/Claims.tsx:449:46 - error TS2552: Cannot find name 'selectedClaim'. Did you mean 'deleteClaim'?
+
+449           client={clients.find(c => c.id === selectedClaim.client_id)}
+                                                 ~~~~~~~~~~~~~
+
+  src/pages/Claims.tsx:46:54
+    46   const { claims, loading, createClaim, updateClaim, deleteClaim } = useClaims()
+                                                            ~~~~~~~~~~~
+    'deleteClaim' is declared here.
+
+src/pages/Claims.tsx:452:13 - error TS2304: Cannot find name 'setSelectedClaim'.
+
+452             setSelectedClaim(null)
+                ~~~~~~~~~~~~~~~~
+
+src/pages/Claims.tsx:456:29 - error TS2552: Cannot find name 'selectedClaim'. Did you mean 'deleteClaim'?
+
+456             handleEditClaim(selectedClaim)
+                                ~~~~~~~~~~~~~
+
+  src/pages/Claims.tsx:46:54
+    46   const { claims, loading, createClaim, updateClaim, deleteClaim } = useClaims()
+                                                            ~~~~~~~~~~~
+    'deleteClaim' is declared here.
+
+src/pages/Dashboard.tsx:235:8 - error TS2745: This JSX tag's 'children' prop expects type 'ReactNode[]' which requires multiple children, but only a single child was provided.
+
+235       <StaggeredAnimation staggerDelay={150}>
+           ~~~~~~~~~~~~~~~~~~
+
+src/services/adaptiveLearningService.ts:560:12 - error TS2339: Property 'length' does not exist on type 'never'.
+
+560       word.length > 2 &&
+               ~~~~~~
+
+src/services/adaptiveLearningService.ts:561:66 - error TS2339: Property 'toLowerCase' does not exist on type 'never'.
+
+561       !['the', 'and', 'for', 'you', 'are', 'with'].includes(word.toLowerCase())
+                                                                     ~~~~~~~~~~~
+
+
+Found 29 errors.
+

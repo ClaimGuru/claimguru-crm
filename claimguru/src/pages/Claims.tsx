@@ -59,6 +59,7 @@ export function Claims() {
   const [showManualWizard, setShowManualWizard] = useState(false)
   const [showAIWizard, setShowAIWizard] = useState(false)
   const [editingClaim, setEditingClaim] = useState<Claim | null>(null)
+  const [selectedClaim, setSelectedClaim] = useState<Claim | null>(null)
   const [showDetailsModal, setShowDetailsModal] = useState(false)
 
   // Handle URL routing for new claim creation

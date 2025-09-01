@@ -43,12 +43,12 @@ import {
   Calculator
 } from 'lucide-react'
 import { LoadingSpinner } from '../../ui/LoadingSpinner'
-// import { unifiedPdfExtractionService, UnifiedPDFExtractionResult } from '../../../services//* UnifiedPDFExtractionService - removed */'
-import MultiDocumentExtractionService, { DocumentExtractionResult, MultiDocumentResult } from '../../../services/multiDocumentExtractionService'
+import { aiDocumentExtractionService, type DocumentExtractionResult } from '../../../services/aiDocumentExtractionService'
+import MultiDocumentExtractionService, { MultiDocumentResult } from '../../../services/multiDocumentExtractionService'
 
 interface FileStatus {
   file: File
-      // status: 'pending' | 'processing' | 'completed' | 'error'
+  status: 'pending' | 'processing' | 'completed' | 'error'
   result?: DocumentExtractionResult
   error?: string
   category?: string
@@ -57,7 +57,7 @@ interface FileStatus {
 
 interface UnifiedDocumentUploadProps {
   data: any
-      // onUpdate: (data: any) => void
+  onUpdate: (data: any) => void
   onAIProcessing?: (isProcessing: boolean) => void
   
   // Configuration props
@@ -168,37 +168,34 @@ export function UnifiedDocumentUpload({
         onAIProcessing(true)
       }
 
+      console.log(`🚀 Starting real AI extraction for: ${file.name}`);
       
-      // const result = await unifiedPdfExtractionService.extractFromPDF(file, { mode: 'enhanced' })
-      // Mock result for now
-      const result = {
-        success: true,
-        extractedData: { mockData: 'PDF extraction service not available' },
-        extractedText: 'Mock extracted text content',
-        policyData: { mockPolicyData: 'Sample policy data' },
-        confidence: 0.85,
-        processingMethod: 'mock',
-        cost: 0.05,
-        processingTime: 1500,
-        metadata: {
-          methodsAttempted: ['ocr', 'textExtraction']
-        }
+      // Use the real AI document extraction service
+      const result = await aiDocumentExtractionService.extractFromDocument(file, {
+        mode: 'enhanced',
+        extractionType: documentType === 'policy' ? 'policy' : 'general',
+        includeOCR: true,
+        aiModel: 'gpt-4o-mini'
+      })
+      
+      if (!result.success) {
+        throw new Error(result.error || 'Document extraction failed')
       }
       
-      // console.log('✅ Document extraction completed:', {
-      //   method: result.processingMethod,
-      //   confidence: result.confidence,
-      //   cost: result.cost
-      // })
+      console.log('✅ Real AI extraction completed:', {
+        method: result.processingMethod,
+        confidence: result.confidence,
+        processingTime: result.processingTime
+      })
       
-      setRawText(result.extractedText)
-      setExtractedData(documentType === 'policy' ? result.policyData : result)
+      setRawText(result.extractedText || '')
+      setExtractedData(documentType === 'policy' ? result.policyData : result.extractedData)
       setProcessingDetails({
         processingMethod: result.processingMethod,
         confidence: result.confidence,
         cost: result.cost,
         processingTime: result.processingTime,
-        methodsAttempted: result.metadata.methodsAttempted
+        methodsAttempted: result.metadata?.methodsAttempted || []
       })
       
       // Update file status
@@ -212,8 +209,14 @@ export function UnifiedDocumentUpload({
       if (showValidation) {
         setShowValidationStep(true)
       }
-    } catch (error) {
-      // console.error('❌ Document extraction failed:', error)
+      
+      // Call onUpdate with extracted data
+      if (onUpdate) {
+        onUpdate(result.extractedData || result.policyData)
+      }
+      
+    } catch (error: any) {
+      console.error('❌ Real AI extraction failed:', error)
       setError(`Extraction failed: ${error.message}`)
       
       // Update file status
@@ -239,61 +242,79 @@ export function UnifiedDocumentUpload({
         onAIProcessing(true)
       }
 
-      // console.log(`📄 Starting batch extraction for ${files.length} documents`)
+      console.log(`📄 Starting real batch AI extraction for ${files.length} documents`);
       
       // Update all files to processing status
       setFiles(prev => prev.map(f => ({ ...f, status: 'processing' })))
       
       const fileList = files.map(f => f.file)
-      const result = await multiDocService.processMultipleDocuments(fileList)
+      const results = await aiDocumentExtractionService.extractFromMultipleDocuments(fileList, {
+        mode: 'enhanced',
+        extractionType: documentType === 'policy' ? 'policy' : 'general',
+        includeOCR: true
+      })
       
-      // console.log('✅ Batch extraction completed:', {
-      //   totalDocuments: result.documents.length,
-      //   successfulExtractions: result.documents.filter(d => d.extractedData).length
-      // }),
-        totalCost: result.totalCost
-      setProcessingResults({
-        documents: result.documents,
-        totalDocuments: result.documents.length,
-        successfulExtractions: result.documents.filter(d => d.extractedData).length,
-        totalCost: result.totalCost,
-        processingTime: result.totalProcessingTime,
-        claimContext: result.claimContext,
-        workflowAnalysis: result.workflowAnalysis,
-        consolidatedData: result.consolidatedData,
-        recommendations: result.recommendations
+      console.log('✅ Real batch AI extraction completed:', {
+        totalDocuments: results.length,
+        successfulExtractions: results.filter(r => r.success).length,
+        failedExtractions: results.filter(r => !r.success).length
       })
       
       // Update file statuses with results
-      setFiles(prev => prev.map((f, index) => {
-        const docResult = result.documents[index]
-        return {
-          ...f,
-          status: docResult?.extractedData ? 'completed' : 'error',
-          result: docResult as any,
-          confidence: docResult?.documentInfo?.confidence,
-          category: docResult?.documentInfo?.category || f.category,
-          error: docResult?.extractedData ? undefined : 'Processing failed'
+      setFiles(prev => prev.map((fileStatus, index) => {
+        const result = results[index]
+        if (result && result.success) {
+          return {
+            ...fileStatus,
+            status: 'completed',
+            confidence: result.confidence,
+            result: result
+          }
+        } else {
+          return {
+            ...fileStatus,
+            status: 'error',
+            error: result?.error || 'Extraction failed'
+          }
         }
       }))
       
-      onUpdate({
-        ...data,
-        additionalDocuments: result.documents,
-        extractionMetadata: {
-          totalDocuments: result.documents.length,
-          successfulExtractions: result.documents.filter(d => d.extractedData).length,
-          totalCost: result.totalCost,
-          processingTime: result.totalProcessingTime
+      // Compile all extracted data
+      const allExtractedData = {
+        documents: results.map((result, index) => ({
+          fileName: fileList[index].name,
+          success: result.success,
+          extractedData: result.extractedData,
+          error: result.error
+        })),
+        summary: {
+          totalProcessed: results.length,
+          successful: results.filter(r => r.success).length,
+          failed: results.filter(r => !r.success).length
         }
-      })
+      }
       
-    } catch (error) {
-      // console.error('❌ Batch extraction failed:', error)
+      setProcessingResults(allExtractedData)
+      
+      // Call onUpdate with compiled data
+      if (onUpdate) {
+        onUpdate({
+          ...data,
+          additionalDocuments: allExtractedData.documents,
+          extractionMetadata: allExtractedData.summary
+        })
+      }
+      
+    } catch (error: any) {
+      console.error('❌ Real batch AI extraction failed:', error)
       setError(`Batch extraction failed: ${error.message}`)
       
       // Update all files to error status
-      setFiles(prev => prev.map(f => ({ ...f, status: 'error', error: error.message })))
+      setFiles(prev => prev.map(f => ({
+        ...f,
+        status: 'error',
+        error: error.message
+      })))
     } finally {
       setIsProcessing(false)
       if (onAIProcessing) {

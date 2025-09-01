@@ -1,0 +1,487 @@
+import React, { useEffect, useState } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
+import { Button } from '../components/ui/Button'
+import { AdvancedAIDashboard } from '../components/ai/AdvancedAIDashboard'
+import { ComprehensiveAnalyticsDashboard } from '../components/analytics/ComprehensiveAnalyticsDashboard'
+import { 
+  FileText, 
+  Users, 
+  DollarSign, 
+  TrendingUp, 
+  Clock, 
+  AlertTriangle,
+  CheckCircle,
+  Brain,
+  Calendar,
+  BarChart3,
+  PieChart,
+  Building,
+  Plus,
+  Eye,
+  Zap,
+  Target,
+  Activity
+} from 'lucide-react'
+import { useAuth } from '../contexts/AuthContext'
+import { supabase } from '../lib/supabase'
+import { LoadingSpinner } from '../components/ui/LoadingSpinner'
+import { useNavigate } from 'react-router-dom'
+import { useClaims } from '../hooks/useClaims'
+import { useClients } from '../hooks/useClients'
+import { ClientForm } from '../components/forms/ClientForm'
+
+interface DashboardStats {
+  totalClaims: number
+  openClaims: number
+  totalClients: number
+  pendingTasks: number
+  totalValue: number
+  settledValue: number
+  pendingValue: number
+  activeVendors: number
+  recentActivity: any[]
+  upcomingDeadlines: any[]
+  claimsByStatus: { [key: string]: number }
+  monthlyRevenue: { month: string; revenue: number }[]
+}
+
+export function Dashboard() {
+  const { userProfile } = useAuth()
+  const navigate = useNavigate()
+  const { claims, loading: claimsLoading } = useClaims()
+  const { clients, loading: clientsLoading, createClient } = useClients()
+  const [stats, setStats] = useState<DashboardStats | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [showAIDashboard, setShowAIDashboard] = useState(false)
+  const [showDebugClientForm, setShowDebugClientForm] = useState(false)
+  const [showAnalyticsDashboard, setShowAnalyticsDashboard] = useState(false)
+
+  useEffect(() => {
+    if (!claimsLoading && !clientsLoading) {
+      loadDashboardData()
+    }
+  }, [claimsLoading, clientsLoading, claims, clients])
+
+  async function loadDashboardData() {
+    if (!userProfile?.organization_id) return
+
+    try {
+      const [claimsData, clientsData, tasksData, activitiesData, vendorsData] = await Promise.all([
+        supabase
+          .from('claims')
+          .select('id, claim_status, estimated_loss_value, total_settlement_amount, created_at')
+          .eq('organization_id', userProfile.organization_id),
+        supabase
+          .from('clients')
+          .select('id, created_at')
+          .eq('organization_id', userProfile.organization_id),
+        supabase
+          .from('tasks')
+          .select('id, status, priority, due_date, title')
+          .eq('organization_id', userProfile.organization_id),
+        supabase
+          .from('activities')
+          .select('*')
+          .eq('organization_id', userProfile.organization_id)
+          .order('created_at', { ascending: false })
+          .limit(10),
+        supabase
+          .from('vendors')
+          .select('id, is_active')
+          .eq('organization_id', userProfile.organization_id)
+          .eq('is_active', true)
+      ])
+
+      const claims = claimsData.data || []
+      const clients = clientsData.data || []
+      const tasks = tasksData.data || []
+      const activities = activitiesData.data || []
+      const vendors = vendorsData.data || []
+
+      const openClaims = claims.filter(claim => 
+        ['new', 'in_progress', 'under_review', 'investigating'].includes(claim.claim_status)
+      )
+
+      const settledClaims = claims.filter(claim => claim.claim_status === 'settled')
+      const totalValue = claims.reduce((sum, claim) => sum + (claim.estimated_loss_value || 0), 0)
+      const settledValue = settledClaims.reduce((sum, claim) => sum + (claim.total_settlement_amount || 0), 0)
+      const pendingValue = openClaims.reduce((sum, claim) => sum + (claim.estimated_loss_value || 0), 0)
+
+      const claimsByStatus = claims.reduce((acc, claim) => {
+        acc[claim.claim_status] = (acc[claim.claim_status] || 0) + 1
+        return acc
+      }, {} as { [key: string]: number })
+
+      const monthlyRevenue = settledClaims.reduce((acc, claim) => {
+        const month = new Date(claim.created_at).toLocaleString('default', { month: 'short', year: 'numeric' })
+        const existing = acc.find(item => item.month === month)
+        if (existing) {
+          existing.revenue += claim.total_settlement_amount || 0
+        } else {
+          acc.push({ month, revenue: claim.total_settlement_amount || 0 })
+        }
+        return acc
+      }, [] as { month: string; revenue: number }[])
+
+      setStats({
+        totalClaims: claims.length,
+        openClaims: openClaims.length,
+        totalClients: clients.length,
+        pendingTasks: tasks.filter(t => t.status === 'pending').length,
+        totalValue,
+        settledValue,
+        pendingValue,
+        activeVendors: vendors.length,
+        recentActivity: activities,
+        upcomingDeadlines: tasks.filter(task => task.due_date).slice(0, 5),
+        claimsByStatus,
+        monthlyRevenue: monthlyRevenue.slice(-6)
+      })
+    } catch (error) {
+      console.error('Error loading dashboard data:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleDebugClientSave = async (clientData: any) => {
+    console.log('🔧 DEBUG: Dashboard client creation test')
+    console.log('💾 Client data:', clientData)
+    try {
+      const result = await createClient(clientData)
+      console.log('✅ DEBUG: Client created successfully:', result)
+      setShowDebugClientForm(false)
+      alert(`DEBUG SUCCESS: Client created with ID: ${result.id}`)
+    } catch (error) {
+      console.error('❌ DEBUG: Client creation failed:', error)
+      alert(`DEBUG FAILED: ${error.message}`)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <LoadingSpinner size="lg" />
+      </div>
+    )
+  }
+
+  return (
+    <div className="p-6 space-y-6">
+      {/* Welcome Section */}
+      <div className="mb-8">
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Welcome back, {userProfile?.first_name}!
+            </h1>
+            <p className="text-gray-600 mt-2">
+              Here's what's happening with your claims today.
+            </p>
+          </div>
+          <div className="flex space-x-2">
+            <Button 
+              onClick={() => setShowAnalyticsDashboard(!showAnalyticsDashboard)}
+              className={`${showAnalyticsDashboard ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-600 hover:bg-gray-700'} text-white`}
+            >
+              <BarChart3 className="h-4 w-4 mr-2" />
+              {showAnalyticsDashboard ? 'Hide Analytics' : 'View Analytics'}
+            </Button>
+            <Button 
+              onClick={() => {
+                console.log('🔧 Debug button clicked!')
+                setShowDebugClientForm(true)
+              }}
+              className="bg-red-600 hover:bg-red-700 text-white"
+            >
+              🔧 DEBUG: Test Client Creation
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card className="hover:shadow-lg transition-shadow">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Total Claims</p>
+                <p className="text-3xl font-bold text-gray-900">{stats?.totalClaims || 0}</p>
+                <p className="text-xs text-gray-500 mt-1">{stats?.openClaims || 0} open</p>
+              </div>
+              <div className="p-2 bg-blue-100 rounded-full">
+                <FileText className="h-8 w-8 text-blue-600" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Settled Value</p>
+                <p className="text-3xl font-bold text-green-600">
+                  ${stats?.settledValue?.toLocaleString() || '0'}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">Revenue generated</p>
+              </div>
+              <div className="p-2 bg-green-100 rounded-full">
+                <TrendingUp className="h-8 w-8 text-green-600" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Pending Value</p>
+                <p className="text-3xl font-bold text-orange-600">
+                  ${stats?.pendingValue?.toLocaleString() || '0'}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">{stats?.openClaims || 0} open claims</p>
+              </div>
+              <div className="p-2 bg-orange-100 rounded-full">
+                <Clock className="h-8 w-8 text-orange-600" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Active Network</p>
+                <p className="text-3xl font-bold text-purple-600">
+                  {(stats?.totalClients || 0) + (stats?.activeVendors || 0)}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  {stats?.totalClients || 0} clients, {stats?.activeVendors || 0} vendors
+                </p>
+              </div>
+              <div className="p-2 bg-purple-100 rounded-full">
+                <Building className="h-8 w-8 text-purple-600" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <Button 
+          onClick={() => navigate('/claims')}
+          className="p-6 h-auto flex flex-col items-center space-y-2 bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200"
+          variant="outline"
+        >
+          <FileText className="h-8 w-8" />
+          <div className="text-center">
+            <p className="font-medium">New Claim</p>
+            <p className="text-xs opacity-75">Create insurance claim</p>
+          </div>
+        </Button>
+
+        <Button 
+          onClick={() => navigate('/clients')}
+          className="p-6 h-auto flex flex-col items-center space-y-2 bg-green-50 text-green-700 hover:bg-green-100 border border-green-200"
+          variant="outline"
+        >
+          <Users className="h-8 w-8" />
+          <div className="text-center">
+            <p className="font-medium">Add Client</p>
+            <p className="text-xs opacity-75">Manage relationships</p>
+          </div>
+        </Button>
+
+        <Button 
+          onClick={() => navigate('/finance')}
+          className="p-6 h-auto flex flex-col items-center space-y-2 bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200"
+          variant="outline"
+        >
+          <DollarSign className="h-8 w-8" />
+          <div className="text-center">
+            <p className="font-medium">Finance</p>
+            <p className="text-xs opacity-75">Billing & payments</p>
+          </div>
+        </Button>
+
+        <Button 
+          onClick={() => navigate('/tasks')}
+          className="p-6 h-auto flex flex-col items-center space-y-2 bg-orange-50 text-orange-700 hover:bg-orange-100 border border-orange-200"
+          variant="outline"
+        >
+          <Calendar className="h-8 w-8" />
+          <div className="text-center">
+            <p className="font-medium">Tasks</p>
+            <p className="text-xs opacity-75">Manage workflow</p>
+          </div>
+        </Button>
+
+        <Button 
+          onClick={() => setShowAnalyticsDashboard(!showAnalyticsDashboard)}
+          className="p-6 h-auto flex flex-col items-center space-y-2 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200"
+          variant="outline"
+        >
+          <BarChart3 className="h-8 w-8" />
+          <div className="text-center">
+            <p className="font-medium">Analytics</p>
+            <p className="text-xs opacity-75">Insights & reports</p>
+          </div>
+        </Button>
+      </div>
+
+      {/* Analytics Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Claims by Status */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <PieChart className="h-5 w-5" />
+              <span>Claims by Status</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {stats?.claimsByStatus && Object.entries(stats.claimsByStatus).map(([status, count]) => {
+                const percentage = stats.totalClaims > 0 ? (count as number) / stats.totalClaims * 100 : 0;
+                return (
+                  <div key={status} className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className={`w-3 h-3 rounded-full ${
+                          status === 'new' ? 'bg-blue-500' :
+                          status === 'in_progress' ? 'bg-orange-500' :
+                          status === 'settled' ? 'bg-green-500' :
+                          status === 'closed' ? 'bg-gray-500' : 'bg-purple-500'
+                        }`}></div>
+                        <span className="text-sm capitalize text-gray-700">
+                          {status.replace('_', ' ')}
+                        </span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-sm font-medium text-gray-900">{count}</span>
+                        <span className="text-xs text-gray-500 ml-1">({percentage.toFixed(1)}%)</span>
+                      </div>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div 
+                        className={`h-2 rounded-full ${
+                          status === 'new' ? 'bg-blue-500' :
+                          status === 'in_progress' ? 'bg-orange-500' :
+                          status === 'settled' ? 'bg-green-500' :
+                          status === 'closed' ? 'bg-gray-500' : 'bg-purple-500'
+                        }`}
+                        style={{ width: `${percentage}%` }}
+                      />
+                    </div>
+                  </div>
+                );
+              }) || (
+                <p className="text-gray-500 text-center py-4">No claim data</p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Recent Activity */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Activity className="h-5 w-5" />
+              <span>Recent Activity</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {stats?.recentActivity?.slice(0, 5).map((activity, index) => (
+                <div key={index} className="flex items-start space-x-3">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-gray-900">
+                      {activity.title || activity.activity_type}
+                    </p>
+                    <p className="text-xs text-gray-600">
+                      {new Date(activity.created_at).toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
+              )) || (
+                <p className="text-gray-500 text-center py-4">No recent activity</p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Performance Metrics */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Target className="h-5 w-5" />
+              <span>Performance Metrics</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                <div>
+                  <p className="text-sm font-medium text-blue-900">Completion Rate</p>
+                  <p className="text-xs text-blue-700">Claims processed successfully</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-lg font-bold text-blue-600">
+                    {stats?.totalClaims > 0 ? 
+                      Math.round(((stats.totalClaims - stats.openClaims) / stats.totalClaims) * 100) : 0
+                    }%
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                <div>
+                  <p className="text-sm font-medium text-green-900">Revenue Growth</p>
+                  <p className="text-xs text-green-700">This month vs last month</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-lg font-bold text-green-600">+12.5%</p>
+                </div>
+              </div>
+              
+              <div className="flex justify-between items-center p-3 bg-orange-50 rounded-lg">
+                <div>
+                  <p className="text-sm font-medium text-orange-900">Avg Process Time</p>
+                  <p className="text-xs text-orange-700">Claims processing duration</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-lg font-bold text-orange-600">15.2 days</p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Debug Client Creation Form */}
+      <ClientForm
+        client={null}
+        isOpen={showDebugClientForm}
+        onClose={() => setShowDebugClientForm(false)}
+        onSave={handleDebugClientSave}
+      />
+
+      {/* Comprehensive Analytics Dashboard */}
+      {showAnalyticsDashboard && (
+        <div className="mt-8">
+          <Card>
+            <CardContent className="p-6">
+              <ComprehensiveAnalyticsDashboard />
+            </CardContent>
+          </Card>
+        </div>
+      )}
+    </div>
+  )
+}

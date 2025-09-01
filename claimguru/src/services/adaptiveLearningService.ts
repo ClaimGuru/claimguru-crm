@@ -555,8 +555,8 @@ export class AdaptiveLearningService {
     const context = text.substring(start, end);
 
     // Extract key words that might indicate this field
-    const words = context.match(/\b\w+\b/g) || [];
-    const relevantWords = words.filter(word => 
+    const words: string[] = context.match(/\b\w+\b/g) || [];
+    const relevantWords = words.filter((word: string) => 
       word.length > 2 && 
       !['the', 'and', 'for', 'you', 'are', 'with'].includes(word.toLowerCase())
     );

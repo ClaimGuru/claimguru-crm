@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { ToastProvider } from './contexts/ToastContext'
 import ToastContainer from './components/ui/ToastContainer'
+import { NotificationProvider, NotificationToastContainer } from './contexts/NotificationContext'
+import { PageTransition } from './components/ui/Animations'
 import { AuthPage } from './pages/AuthPage'
 import { AuthCallback } from './pages/AuthCallback'
 import ClientManagement from './pages/ClientManagement'
@@ -31,6 +33,8 @@ import CreateReferralSource from './pages/CreateReferralSource'
 import EditReferralSource from './pages/EditReferralSource'
 import { Layout } from './components/layout/Layout'
 import { LoadingSpinner } from './components/ui/LoadingSpinner'
+import { SkeletonDashboard } from './components/ui/SkeletonLoader'
+import useKeyboardShortcuts, { useShortcutsHelp, ShortcutsHelp } from './hooks/useKeyboardShortcuts'
 
 // Lazy-loaded components for code splitting (handling named exports)
 const Dashboard = React.lazy(() => import('./pages/Dashboard').then(module => ({ default: module.Dashboard })));
@@ -40,11 +44,15 @@ const Documents = React.lazy(() => import('./pages/Documents').then(module => ({
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
+  
+  // Initialize keyboard shortcuts
+  useKeyboardShortcuts()
+  const { isShortcutsHelpOpen, closeShortcutsHelp } = useShortcutsHelp()
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <SkeletonDashboard />
       </div>
     )
   }
@@ -54,7 +62,12 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   //   return <Navigate to="/auth" replace />
   // }
 
-  return <>{children}</>
+  return (
+    <>
+      <PageTransition>{children}</PageTransition>
+      <ShortcutsHelp isOpen={isShortcutsHelpOpen} onClose={closeShortcutsHelp} />
+    </>
+  )
 }
 
 // Auth Route Component
@@ -101,12 +114,12 @@ function AppRoutes() {
       >
         <Route index element={<Navigate to="/dashboard" replace />} />
         <Route path="dashboard" element={
-          <Suspense fallback={<LoadingSpinner />}>
+          <Suspense fallback={<SkeletonDashboard />}>
             <Dashboard />
           </Suspense>
         } />
         <Route path="claims" element={
-          <Suspense fallback={<LoadingSpinner />}>
+          <Suspense fallback={<SkeletonDashboard />}>
             <Claims />
           </Suspense>
         } />
@@ -166,14 +179,17 @@ function AppRoutes() {
 function App() {
   return (
     <AuthProvider>
-      <ToastProvider>
-        <Router>
-          <div className="App">
-            <AppRoutes />
-            <ToastContainer />
-          </div>
-        </Router>
-      </ToastProvider>
+      <NotificationProvider>
+        <ToastProvider>
+          <Router>
+            <div className="App">
+              <AppRoutes />
+              <ToastContainer />
+              <NotificationToastContainer />
+            </div>
+          </Router>
+        </ToastProvider>
+      </NotificationProvider>
     </AuthProvider>
   )
 }
