@@ -1,5 +1,8 @@
-2025/07/23-14:01:53.953 e26 Reusing MANIFEST /workspace/browser/user_data/Default/Local Storage/leveldb/MANIFEST-000001
-2025/07/23-14:01:53.956 e26 Recovering log #3
-2025/07/23-14:01:53.956 e26 (ignoring error) /workspace/browser/user_data/Default/Local Storage/leveldb/000003.log: dropping 852 bytes; Corruption: bad record length
-2025/07/23-14:01:53.956 e26 (ignoring error) /workspace/browser/user_data/Default/Local Storage/leveldb/000003.log: dropping 1487 bytes; Corruption: missing start of fragmented record(2)
-2025/07/23-14:01:53.956 e26 Reusing old log /workspace/browser/user_data/Default/Local Storage/leveldb/000003.log 
+2025/08/20-15:27:12.909 863 Reusing MANIFEST /workspace/browser/user_data/Default/Local Storage/leveldb/MANIFEST-000001
+2025/08/20-15:27:12.913 863 Recovering log #3
+2025/08/20-15:27:12.913 863 (ignoring error) /workspace/browser/user_data/Default/Local Storage/leveldb/000003.log: dropping 30035 bytes; Corruption: checksum mismatch
+2025/08/20-15:27:12.913 863 (ignoring error) /workspace/browser/user_data/Default/Local Storage/leveldb/000003.log: dropping 1487 bytes; Corruption: missing start of fragmented record(2)
+2025/08/20-15:27:12.913 863 Reusing old log /workspace/browser/user_data/Default/Local Storage/leveldb/000003.log 
+2025/08/20-16:53:44.057 864 Level-0 table #5: started
+2025/08/20-16:53:44.060 864 Level-0 table #5: 23999 bytes OK
+2025/08/20-16:53:44.061 864 Delete type=0 #3
