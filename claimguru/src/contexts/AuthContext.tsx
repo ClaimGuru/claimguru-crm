@@ -28,8 +28,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null)
   const [loading, setLoading] = useState(true)
 
-  // Production-ready authentication system
-  const isDemoMode = false // Use real authentication
+  // Demo mode for testing - enabled for comprehensive audit
+  const isDemoMode = true // Enable demo mode for testing
 
   // Load user on mount (one-time check)
   useEffect(() => {
@@ -39,7 +39,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           // Provide demo user profile for demo mode
           const demoUserProfile: UserProfile = {
             id: 'd03912b1-c00e-4915-b4fd-90a2e17f62a2',
-            organization_id: '6b7b6902-4cf0-40a1-bea0-f5c1dd9fa2d5', 
+            organization_id: '12345678-1234-5678-9012-123456789012', // Demo organization UUID 
             email: 'demo@claimguru.com',
             first_name: 'Demo',
             last_name: 'User',

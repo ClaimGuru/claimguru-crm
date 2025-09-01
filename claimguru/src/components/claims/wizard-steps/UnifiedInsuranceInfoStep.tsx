@@ -533,6 +533,7 @@ export function UnifiedInsuranceInfoStep({
       let priorPaymentValidation = null
       if (priorPayments.length > 0) {
         priorPaymentValidation = await enhancedClaimWizardAI.checkDuplicatePayments(
+          priorPayments[0] || {},
           priorPayments
         )
       }
@@ -785,23 +786,16 @@ export function UnifiedInsuranceInfoStep({
               required
             >
               {enableConfirmedFields ? (
-                <ConfirmedFieldWrapper 
+                <ConfirmedFieldWrapper
                   fieldPath="insuranceCarrier.name"
+                  label="Insurance Carrier"
                   value={insuranceCarrier.name}
+                  onChange={(value) => handleInputChange('insurance', 'carrier', value)}
                   onConfirm={(value) => handleInputChange('insurance', 'carrier', value)}
-                >
-                  <select
-                    value={insuranceCarrier.name}
-                    onChange={(e) => handleInputChange('insurance', 'carrier', e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
-                    required
-                  >
-                    <option value="">Select carrier</option>
-                    {insuranceCarriers.map(carrier => (
-                      <option key={carrier} value={carrier}>{carrier}</option>
-                    ))}
-                  </select>
-                </ConfirmedFieldWrapper>
+                  required
+                  type="text"
+                  placeholder="Select or enter carrier name"
+                />
               ) : (
                 <select
                   value={insuranceCarrier.name}
@@ -824,19 +818,16 @@ export function UnifiedInsuranceInfoStep({
               required
             >
               {enableConfirmedFields ? (
-                <ConfirmedFieldWrapper 
+                <ConfirmedFieldWrapper
                   fieldPath="policyDetails.policyNumber"
+                  label="Policy Number"
                   value={policyDetails.policyNumber || ''}
+                  onChange={(value) => handleInputChange('insurance', 'policyNumber', value)}
                   onConfirm={(value) => handleInputChange('insurance', 'policyNumber', value)}
-                >
-                  <Input
-                    type="text"
-                    value={policyDetails.policyNumber || ''}
-                    onChange={(e) => handleInputChange('insurance', 'policyNumber', e.target.value)}
-                    placeholder="Policy number"
-                    required
-                  />
-                </ConfirmedFieldWrapper>
+                  required
+                  type="text"
+                  placeholder="Policy number"
+                />
               ) : (
                 <Input
                   type="text"

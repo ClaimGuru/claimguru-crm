@@ -15,7 +15,7 @@ import MultiDocumentExtractionService, { DocumentExtractionResult, MultiDocument
 
 interface UnifiedPDFExtractionStepProps {
   data: any
-      // onUpdate: (data: any) => void
+  onUpdate: (data: any) => void
   onAIProcessing?: (isProcessing: boolean) => void
   mode?: 'single' | 'multi' | 'hybrid'
   enableValidation?: boolean
@@ -38,7 +38,7 @@ interface PolicyValidationProgress {
 
 interface FileStatus {
   file: File
-      // status: 'pending' | 'processing' | 'completed' | 'error'
+  status: 'pending' | 'processing' | 'completed' | 'error'
   result?: DocumentExtractionResult
   error?: string
 }
@@ -509,9 +509,9 @@ export function UnifiedPDFExtractionStep({
         <PolicyDataValidationStep
           extractedData={extractedData}
           rawText={rawText}
-          onConfirm={handleSingleValidationComplete}
+          onValidated={handleSingleValidationComplete}
           onReject={handleValidationReject}
-          processingDetails={processingDetails}
+
         />
       )}
     </>
