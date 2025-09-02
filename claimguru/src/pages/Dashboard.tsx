@@ -62,7 +62,7 @@ export function Dashboard() {
   const [stats, setStats] = useState<DashboardStats | null>(null)
   const [loading, setLoading] = useState(true)
   const [showAIDashboard, setShowAIDashboard] = useState(false)
-  const [showDebugClientForm, setShowDebugClientForm] = useState(false)
+  const [showClientForm, setShowClientForm] = useState(false)
   const [showAnalyticsDashboard, setShowAnalyticsDashboard] = useState(false)
 
   useEffect(() => {
@@ -159,13 +159,10 @@ export function Dashboard() {
     }
   }
 
-  const handleDebugClientSave = async (clientData: any) => {
-    console.log('🔧 DEBUG: Dashboard client creation test')
-    console.log('💾 Client data:', clientData)
+  const handleClientSave = async (clientData: any) => {
     try {
       const result = await createClient(clientData)
-      console.log('✅ DEBUG: Client created successfully:', result)
-      setShowDebugClientForm(false)
+      setShowClientForm(false)
       addNotification({
         type: 'success',
         title: 'Client created successfully',
@@ -173,7 +170,6 @@ export function Dashboard() {
         duration: 5000
       })
     } catch (error: any) {
-      console.error('❌ DEBUG: Client creation failed:', error)
       addNotification({
         type: 'error',
         title: 'Client creation failed',
@@ -215,15 +211,15 @@ export function Dashboard() {
                   {showAnalyticsDashboard ? 'Hide Analytics' : 'View Analytics'}
                 </Button>
               </Tooltip>
-              <Tooltip content="Test client creation functionality">
+              <Tooltip content="Add a new client to your system">
                 <Button 
                   onClick={() => {
-                    console.log('🔧 Debug button clicked!')
-                    setShowDebugClientForm(true)
+                    setShowClientForm(true)
                   }}
-                  className="bg-red-600 hover:bg-red-700 text-white transition-colors"
+                  className="bg-green-600 hover:bg-green-700 text-white transition-colors"
                 >
-                  🔧 DEBUG: Test Client Creation
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add New Client
                 </Button>
               </Tooltip>
             </div>
@@ -452,7 +448,7 @@ export function Dashboard() {
       </div>
 
       {/* Debug Modal */}
-      {showDebugClientForm && (
+      {showClientForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <FadeIn>
             <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
@@ -461,15 +457,15 @@ export function Dashboard() {
                   <h2 className="text-xl font-bold text-gray-900">🔧 DEBUG: Test Client Creation</h2>
                   <Button
                     variant="ghost"
-                    onClick={() => setShowDebugClientForm(false)}
+                    onClick={() => setShowClientForm(false)}
                   >
                     ✕
                   </Button>
                 </div>
                 <ClientForm
-                  isOpen={showDebugClientForm}
-                  onClose={() => setShowDebugClientForm(false)}
-                  onSave={handleDebugClientSave}
+                  isOpen={showClientForm}
+                  onClose={() => setShowClientForm(false)}
+                  onSave={handleClientSave}
                 />
               </div>
             </div>
