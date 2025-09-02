@@ -1,40 +1,40 @@
 {
   "todos": {
     "Coordinator": {
-      "phase1": {
-        "id": "phase1",
-        "content": "Phase 1: Critical Fixes & Security Hardening",
-        "details": "1. Fix Manual Claim Intake Wizard Dropdowns ✅\n2. Remove Authentication Demo Mode Bypass ✅\n3. Fix Critical API Security Vulnerabilities ✅\n4. Implement Existing Client Selection Workflow ✅\n5. Fix RLS Database Errors ✅\n6. Emergency Testing & Validation ✅",
-        "status": "completed",
-        "priority": "high"
-      },
-      "phase2": {
-        "id": "phase2",
-        "content": "Phase 2: Code Consolidation & Cleanup",
-        "details": "1. Consolidate 98 Duplicate React Components ✅\n2. Consolidate 189 Duplicate Functions ✅\n3. Clean Up Archived & Dead Code ✅\n4. Optimize Bundle & Performance ✅",
-        "status": "completed",
-        "priority": "high"
-      },
-      "phase3": {
-        "id": "phase3",
-        "content": "Phase 3: Feature Completion & Integration",
-        "details": "1. Complete Function 2.3: Subscriber-Specific Entity Categories ✅\n2. Implement Missing Dashboard Components ✅\n3. Complete AI Services Integration (OpenAI) ✅\n4. Comprehensive Audit & Critical Bug Fixes ✅\n5. Advanced User Experience Features ✅ COMPLETED!",
-        "status": "completed",
-        "priority": "high"
-      },
-      "phase4": {
-        "id": "phase4",
-        "content": "Phase 4: Final Testing & Optimization",
-        "details": "1. Cross-browser compatibility testing\n2. Performance optimization\n3. Security audit\n4. Load testing\n5. User acceptance testing",
+      "1": {
+        "id": "1",
+        "content": "Test claim intake wizard accessibility and navigation",
+        "details": "1. Access the claim intake wizard from the application. 2. Test wizard step navigation (forward/backward). 3. Verify all wizard steps are reachable and display correctly. 4. Document any navigation issues found.",
         "status": "pending",
-        "priority": "medium"
+        "priority": "high"
       },
-      "phase5": {
-        "id": "phase5",
-        "content": "Phase 5: Production Deployment & Documentation",
-        "details": "1. Production environment setup\n2. SSL certificate configuration\n3. Domain configuration\n4. User documentation\n5. Admin documentation\n6. Backup & disaster recovery",
+      "2": {
+        "id": "2",
+        "content": "Audit all form fields for display and functionality",
+        "details": "1. Go through each step of the wizard systematically. 2. Test every input field, dropdown, checkbox, radio button, and date picker. 3. Verify fields display correctly and accept input. 4. Check field validation and error handling. 5. Document all non-functional fields.",
         "status": "pending",
-        "priority": "medium"
+        "priority": "high"
+      },
+      "3": {
+        "id": "3",
+        "content": "Test data persistence and saving functionality",
+        "details": "1. Fill out wizard forms with test data. 2. Navigate between steps to verify data persistence. 3. Complete the wizard and submit the claim. 4. Verify data is properly saved to the database. 5. Check that all field data appears in the saved claim record.",
+        "status": "pending",
+        "priority": "high"
+      },
+      "4": {
+        "id": "4",
+        "content": "Fix identified field and functionality issues",
+        "details": "1. Analyze root causes of identified issues. 2. Fix form field display problems. 3. Repair data binding and validation issues. 4. Correct database saving functionality. 5. Ensure proper error handling for failed operations.",
+        "status": "pending",
+        "priority": "high"
+      },
+      "5": {
+        "id": "5",
+        "content": "Deploy and verify fixes",
+        "details": "1. Build and deploy the corrected application. 2. Re-test the complete wizard workflow. 3. Verify all previously broken fields now work correctly. 4. Confirm data saves properly to database. 5. Document final status of all fields.",
+        "status": "pending",
+        "priority": "high"
       }
     }
   }
