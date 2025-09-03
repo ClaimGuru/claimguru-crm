@@ -3,37 +3,37 @@
     "Coordinator": {
       "1": {
         "id": "1",
-        "content": "Test claim intake wizard accessibility and navigation",
-        "details": "1. Access the claim intake wizard from the application. 2. Test wizard step navigation (forward/backward). 3. Verify all wizard steps are reachable and display correctly. 4. Document any navigation issues found.",
-        "status": "pending",
+        "content": "Identify files and code causing white-on-white toggle issue",
+        "details": "Examine the intake wizard components to locate toggle switches with CSS styling problems that make them invisible",
+        "status": "completed",
         "priority": "high"
       },
       "2": {
         "id": "2",
-        "content": "Audit all form fields for display and functionality",
-        "details": "1. Go through each step of the wizard systematically. 2. Test every input field, dropdown, checkbox, radio button, and date picker. 3. Verify fields display correctly and accept input. 4. Check field validation and error handling. 5. Document all non-functional fields.",
-        "status": "pending",
+        "content": "Identify files and code causing address autocomplete issue",
+        "details": "Locate the address input components and Google Maps autocomplete implementation to understand why it's not working",
+        "status": "completed",
         "priority": "high"
       },
       "3": {
         "id": "3",
-        "content": "Test data persistence and saving functionality",
-        "details": "1. Fill out wizard forms with test data. 2. Navigate between steps to verify data persistence. 3. Complete the wizard and submit the claim. 4. Verify data is properly saved to the database. 5. Check that all field data appears in the saved claim record.",
-        "status": "pending",
+        "content": "Fix white-on-white toggle styling",
+        "details": "Apply CSS fixes to make toggle switches visible with proper contrast",
+        "status": "completed",
         "priority": "high"
       },
       "4": {
         "id": "4",
-        "content": "Fix identified field and functionality issues",
-        "details": "1. Analyze root causes of identified issues. 2. Fix form field display problems. 3. Repair data binding and validation issues. 4. Correct database saving functionality. 5. Ensure proper error handling for failed operations.",
-        "status": "pending",
+        "content": "Fix address autocomplete functionality",
+        "details": "Repair Google Maps autocomplete integration for address fields",
+        "status": "completed",
         "priority": "high"
       },
       "5": {
         "id": "5",
-        "content": "Deploy and verify fixes",
-        "details": "1. Build and deploy the corrected application. 2. Re-test the complete wizard workflow. 3. Verify all previously broken fields now work correctly. 4. Confirm data saves properly to database. 5. Document final status of all fields.",
-        "status": "pending",
+        "content": "Test and deploy fixes",
+        "details": "Verify both issues are resolved and deploy the updated application",
+        "status": "in_progress",
         "priority": "high"
       }
     }

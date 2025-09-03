@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Loader } from '@googlemaps/js-api-loader'
 import { Input } from './Input'
 import { MapPin, AlertCircle } from 'lucide-react'
-// Removed configService import - using direct API key
+import { configService } from '../../services/configService'
 
 interface ParsedAddress {
   streetNumber: string
@@ -75,9 +75,9 @@ export function AddressAutocomplete({
   const inputRef = useRef<HTMLInputElement>(null)
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null)
   
-  // Use the actual Google Maps API key
-  const API_KEY = 'AIzaSyCO0kKndUNlmQi3B5mxy4dblg_8WYcuKuk'
-  const isGoogleMapsEnabled = true
+  // Get the Google Maps API key from configuration service
+  const API_KEY = configService.getApiKey()
+  const isGoogleMapsEnabled = API_KEY && API_KEY !== '' && API_KEY !== 'undefined'
 
   useEffect(() => {
     const initializeAutocomplete = async () => {
@@ -88,21 +88,28 @@ export function AddressAutocomplete({
           return
         }
 
+        console.log('🔧 Initializing Google Maps autocomplete with API key:', API_KEY ? 'PRESENT' : 'MISSING')
+        
         const loader = new Loader({
           apiKey: API_KEY,
           version: 'weekly',
           libraries: ['places']
         })
 
+        console.log('📡 Loading Google Maps API...')
         await loader.load()
+        console.log('✅ Google Maps API loaded successfully')
+        
         setIsLoaded(true)
         setIsLoading(false)
 
         if (inputRef.current) {
+          console.log('🎯 Creating autocomplete instance for input field')
           const autocomplete = new google.maps.places.Autocomplete(inputRef.current, {
             types,
             componentRestrictions
           })
+          console.log('🎯 Autocomplete instance created:', autocomplete)
 
           autocomplete.addListener('place_changed', () => {
             const place = autocomplete.getPlace()
