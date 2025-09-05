@@ -3,24 +3,31 @@
     "Coordinator": {
       "1": {
         "id": "1",
-        "content": "Comprehensive Application Audit - Core CRM Functions",
-        "details": "1. Analyze client management system (mock data bug). 2. Review claim creation workflow. 3. Audit all CRM-specific features. 4. Test data flows and API connections.",
-        "status": "completed",
+        "content": "Fix Critical Mock Data Bug in Client Management",
+        "details": "1. Replace hardcoded mock data in ClientManagement.tsx (lines 243-299). 2. Fix ClientInformationStep.tsx mock client list (lines 77-103). 3. Connect to existing useClients hook for real data. 4. Test client data persistence.",
+        "status": "in_progress",
         "priority": "high"
       },
       "2": {
         "id": "2",
-        "content": "Create Prioritized To-Do List (Highest to Lowest)",
-        "details": "1. Categorize all found issues by criticality. 2. Prioritize core PA CRM functions first. 3. Rank advanced features lower. 4. Present actionable roadmap.",
-        "status": "completed",
+        "content": "Fix Tasks Page Loading Failure",
+        "details": "1. Investigate blank screen issue in Tasks page. 2. Debug component loading errors. 3. Fix backend relationship issues. 4. Restore Tasks page functionality.",
+        "status": "pending",
         "priority": "high"
       },
       "3": {
         "id": "3",
-        "content": "Fix Critical Data Issues",
-        "details": "1. Resolve mock data in existing client list. 2. Ensure proper data fetching from backend. 3. Validate all database connections.",
+        "content": "Fix Address Autocomplete API Configuration",
+        "details": "1. Configure Google Maps API key environment variable. 2. Test autocomplete functionality. 3. Ensure proper API key propagation.",
         "status": "pending",
         "priority": "high"
+      },
+      "4": {
+        "id": "4",
+        "content": "Fix Backend Database Relationship Issues",
+        "details": "1. Resolve database relationship errors. 2. Fix API endpoints returning HTML instead of JSON. 3. Test data loading across all pages.",
+        "status": "pending",
+        "priority": "medium"
       }
     }
   }
