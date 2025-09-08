@@ -16,7 +16,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
-import { supabase } from '../lib/supabase';
+import { supabase, Client } from '../lib/supabase';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
@@ -44,169 +44,9 @@ import {
   Unlock
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useClients } from '../hooks/useClients';
 import { ClientCreateEditModal } from '../components/modals/ClientCreateEditModal';
 import { ClientPermissionModal } from '../components/modals/ClientPermissionModal';
-
-interface ClientRecord {
-  id: string;
-  clientNumber: string;
-  
-  // Basic Information
-  clientType: 'individual' | 'business' | 'organization';
-  firstName?: string;
-  lastName?: string;
-  middleName?: string;
-  businessName?: string;
-  organizationName?: string;
-  preferredName?: string;
-  title?: string;
-  suffix?: string;
-  
-  // Contact Information
-  primaryPhone: string;
-  secondaryPhone?: string;
-  mobilePhone?: string;
-  workPhone?: string;
-  faxNumber?: string;
-  primaryEmail: string;
-  secondaryEmail?: string;
-  workEmail?: string;
-  preferredContactMethod: 'phone' | 'email' | 'text' | 'mail';
-  bestTimeToContact?: string;
-  
-  // Address Information
-  mailingAddress: {
-    street: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    county?: string;
-    country: string;
-  };
-  physicalAddress?: {
-    street: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    county?: string;
-    country: string;
-    sameAsMailingAddress: boolean;
-  };
-  
-  // Personal Information
-  dateOfBirth?: string;
-  socialSecurityNumber?: string; // Encrypted
-  driversLicenseNumber?: string;
-  driversLicenseState?: string;
-  maritalStatus?: 'single' | 'married' | 'divorced' | 'widowed' | 'separated';
-  occupation?: string;
-  employer?: string;
-  
-  // Business Information (if applicable)
-  businessType?: string;
-  taxId?: string; // EIN for businesses
-  businessLicense?: string;
-  businessLicenseState?: string;
-  dbaName?: string; // Doing Business As
-  businessWebsite?: string;
-  numberOfEmployees?: number;
-  annualRevenue?: number;
-  
-  // Emergency Contact
-  emergencyContact?: {
-    name: string;
-    relationship: string;
-    phone: string;
-    email?: string;
-  };
-  
-  // Legal Information
-  powerOfAttorney?: {
-    name: string;
-    phone: string;
-    email?: string;
-    address: string;
-  };
-  guardian?: {
-    name: string;
-    phone: string;
-    email?: string;
-    relationship: string;
-  };
-  
-  // Communication Preferences
-  languagePreference: string;
-  communicationRestrictions?: string;
-  specialInstructions?: string;
-  accessibilityNeeds?: string;
-  
-  // Insurance Information
-  insuranceCarriers: {
-    name: string;
-    policyNumber?: string;
-    agentName?: string;
-    agentPhone?: string;
-    agentEmail?: string;
-    coverageTypes: string[];
-  }[];
-  
-  // Financial Information
-  bankingInformation?: {
-    bankName: string;
-    accountType: 'checking' | 'savings';
-    routingNumber: string;
-    accountNumber: string; // Encrypted
-    accountHolderName: string;
-  };
-  
-  // Referral Information
-  referralSource?: {
-    type: 'client' | 'professional' | 'advertisement' | 'website' | 'other';
-    source: string;
-    referrerName?: string;
-    referrerContact?: string;
-    referralDate?: string;
-    referralNotes?: string;
-  };
-  
-  // Legal History
-  priorClaims: {
-    claimNumber: string;
-    claimType: string;
-    dateOfLoss: string;
-    status: string;
-    settlement?: number;
-  }[];
-  litigation?: {
-    caseNumber: string;
-    courtName: string;
-    caseType: string;
-    status: string;
-    attorney?: string;
-  }[];
-  
-  // Internal Information
-  clientStatus: 'active' | 'inactive' | 'suspended' | 'closed';
-  riskLevel: 'low' | 'medium' | 'high';
-  priority: 'low' | 'medium' | 'high' | 'urgent';
-  internalNotes?: string;
-  conflictCheck: boolean;
-  conflictCheckDate?: string;
-  conflictCheckBy?: string;
-  
-  // System Information
-  createdAt: string;
-  createdBy: string;
-  updatedAt: string;
-  updatedBy: string;
-  organizationId: string;
-  
-  // Permissions
-  permissions: {
-    canEdit: string[]; // User IDs who can edit
-    canView: string[]; // User IDs who can view
-  };
-}
 
 interface ClientPermissions {
   canCreate: boolean;
@@ -218,13 +58,12 @@ interface ClientPermissions {
 
 export default function ClientManagement() {
   const { userProfile } = useAuth();
-  const [clients, setClients] = useState<ClientRecord[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { clients, loading, error, createClient, updateClient, deleteClient } = useClients();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showPermissionModal, setShowPermissionModal] = useState(false);
-  const [selectedClient, setSelectedClient] = useState<ClientRecord | null>(null);
+  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [permissions, setPermissions] = useState<ClientPermissions>({
     canCreate: false,
     canEdit: false,
@@ -235,68 +74,11 @@ export default function ClientManagement() {
   const [organizationUsers, setOrganizationUsers] = useState<any[]>([]);
 
   useEffect(() => {
-    loadClients();
     checkUserPermissions();
     loadOrganizationUsers();
   }, []);
 
-  const loadClients = async () => {
-    setLoading(true);
-    try {
-      // TODO: Replace with actual API call
-      // For now, using mock data to demonstrate the comprehensive client structure
-      const mockClients: ClientRecord[] = [
-        {
-          id: 'client-001',
-          clientNumber: 'CL-2025-001',
-          clientType: 'individual',
-          firstName: 'John',
-          lastName: 'Smith',
-          primaryPhone: '(555) 123-4567',
-          primaryEmail: 'john.smith@email.com',
-          preferredContactMethod: 'email',
-          mailingAddress: {
-            street: '123 Main St',
-            city: 'Anytown',
-            state: 'TX',
-            zipCode: '12345',
-            country: 'USA'
-          },
-          languagePreference: 'English',
-          insuranceCarriers: [],
-          priorClaims: [],
-          clientStatus: 'active',
-          riskLevel: 'low',
-          priority: 'medium',
-          conflictCheck: true,
-          createdAt: new Date().toISOString(),
-          createdBy: userProfile?.id || (() => {
-            console.error('SECURITY: No user_id available for audit trail');
-            throw new Error('User ID not available. Please ensure you are logged in.');
-          })(),
-          updatedAt: new Date().toISOString(),
-          updatedBy: userProfile?.id || (() => {
-            console.error('SECURITY: No user_id available for audit trail');
-            throw new Error('User ID not available. Please ensure you are logged in.');
-          })(),
-          organizationId: userProfile?.organization_id || (() => {
-            console.error('SECURITY: No organization_id available for client creation');
-            throw new Error('User organization not available. Please ensure you are logged in.');
-          })(),
-          permissions: {
-            canEdit: [],
-            canView: []
-          }
-        }
-      ];
-      
-      setClients(mockClients);
-    } catch (error) {
-      console.error('Error loading clients:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Client data is now loaded via useClients hook - no need for manual loading
 
   const checkUserPermissions = async () => {
     try {
@@ -350,7 +132,7 @@ export default function ClientManagement() {
     setShowCreateModal(true);
   };
 
-  const handleEditClient = (client: ClientRecord) => {
+  const handleEditClient = (client: Client) => {
     setSelectedClient(client);
     setShowCreateModal(true);
   };
@@ -363,15 +145,14 @@ export default function ClientManagement() {
     
     if (confirm('Are you sure you want to delete this client? This action cannot be undone.')) {
       try {
-        // TODO: Implement actual delete
-        setClients(clients.filter(c => c.id !== clientId));
+        await deleteClient(clientId);
       } catch (error) {
         console.error('Error deleting client:', error);
       }
     }
   };
 
-  const handleManagePermissions = (client?: ClientRecord) => {
+  const handleManagePermissions = (client?: Client) => {
     setSelectedClient(client || null);
     setShowPermissionModal(true);
   };
@@ -380,12 +161,10 @@ export default function ClientManagement() {
     try {
       if (selectedClient) {
         // Update existing client
-        setClients(prev => prev.map(client => 
-          client.id === selectedClient.id ? clientData : client
-        ));
+        await updateClient(selectedClient.id, clientData);
       } else {
         // Add new client
-        setClients(prev => [...prev, clientData]);
+        await createClient(clientData);
       }
       setShowCreateModal(false);
       setSelectedClient(null);
@@ -407,13 +186,14 @@ export default function ClientManagement() {
 
   const filteredClients = clients.filter(client => {
     const matchesSearch = 
-      client.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      client.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      client.businessName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      client.primaryEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      client.clientNumber.toLowerCase().includes(searchTerm.toLowerCase());
+      client.first_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      client.last_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      client.business_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      client.primary_email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      client.id?.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesFilter = filterStatus === 'all' || client.clientStatus === filterStatus;
+    // For now, show all clients since we don't have status field in the actual schema
+    const matchesFilter = filterStatus === 'all';
     
     return matchesSearch && matchesFilter;
   });
@@ -522,65 +302,53 @@ export default function ClientManagement() {
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                     <div className="flex items-center gap-2">
-                      {client.clientType === 'individual' ? (
+                      {client.client_type === 'residential' ? (
                         <Users className="h-5 w-5 text-blue-600" />
                       ) : (
                         <Building className="h-5 w-5 text-purple-600" />
                       )}
                       <h3 className="text-lg font-semibold text-gray-900">
-                        {client.clientType === 'individual' 
-                          ? `${client.firstName} ${client.lastName}`
-                          : client.businessName || client.organizationName
+                        {client.client_type === 'residential' 
+                          ? `${client.first_name || ''} ${client.last_name || ''}`.trim()
+                          : client.business_name || 'Business Client'
                         }
                       </h3>
                     </div>
                     
-                    <span className={`px-2 py-1 text-xs rounded-full ${
-                      client.clientStatus === 'active' 
-                        ? 'bg-green-100 text-green-800'
-                        : client.clientStatus === 'inactive'
-                        ? 'bg-yellow-100 text-yellow-800'
-                        : 'bg-red-100 text-red-800'
-                    }`}>
-                      {client.clientStatus}
-                    </span>
-                    
-                    <span className={`px-2 py-1 text-xs rounded-full ${
-                      client.priority === 'urgent'
-                        ? 'bg-red-100 text-red-800'
-                        : client.priority === 'high'
-                        ? 'bg-orange-100 text-orange-800'
-                        : client.priority === 'medium'
-                        ? 'bg-blue-100 text-blue-800'
-                        : 'bg-gray-100 text-gray-800'
-                    }`}>
-                      {client.priority} priority
+                    <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
+                      Active
                     </span>
                   </div>
                   
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600">
                     <div className="flex items-center gap-2">
                       <FileText className="h-4 w-4" />
-                      <span>{client.clientNumber}</span>
+                      <span>ID: {client.id.slice(0, 8)}...</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Phone className="h-4 w-4" />
-                      <span>{client.primaryPhone}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Mail className="h-4 w-4" />
-                      <span>{client.primaryEmail}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4" />
-                      <span>{client.mailingAddress.city}, {client.mailingAddress.state}</span>
-                    </div>
+                    {client.primary_phone && (
+                      <div className="flex items-center gap-2">
+                        <Phone className="h-4 w-4" />
+                        <span>{client.primary_phone}</span>
+                      </div>
+                    )}
+                    {client.primary_email && (
+                      <div className="flex items-center gap-2">
+                        <Mail className="h-4 w-4" />
+                        <span>{client.primary_email}</span>
+                      </div>
+                    )}
+                    {client.city && client.state && (
+                      <div className="flex items-center gap-2">
+                        <MapPin className="h-4 w-4" />
+                        <span>{client.city}, {client.state}</span>
+                      </div>
+                    )}
                   </div>
                   
-                  {client.specialInstructions && (
+                  {client.notes && (
                     <div className="mt-2 p-2 bg-yellow-50 border border-yellow-200 rounded text-sm text-yellow-800">
                       <AlertCircle className="h-3 w-3 inline mr-1" />
-                      {client.specialInstructions}
+                      {client.notes}
                     </div>
                   )}
                 </div>

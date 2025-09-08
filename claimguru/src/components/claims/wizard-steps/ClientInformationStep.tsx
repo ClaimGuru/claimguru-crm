@@ -5,6 +5,7 @@ import { Button } from '../../ui/Button'
 import { Switch } from '../../ui/switch'
 import { StandardizedAddressInput } from '../../ui/StandardizedAddressInput'
 import { StandardizedPhoneInput } from '../../ui/StandardizedPhoneInput'
+import { useClients } from '../../../hooks/useClients'
 import { User, Users, Building2, Mail, Search, Plus } from 'lucide-react'
 
 interface ClientInformationStepProps {
@@ -13,6 +14,7 @@ interface ClientInformationStepProps {
 }
 
 export function ClientInformationStep({ data, onUpdate }: ClientInformationStepProps) {
+  const { clients, loading } = useClients();
   const [stepData, setStepData] = useState({
     // Client Status Selection
     clientStatus: data.clientStatus || 'new', // 'new' or 'existing'
@@ -74,33 +76,17 @@ export function ClientInformationStep({ data, onUpdate }: ClientInformationStepP
     relationshipToPrimary: data.relationshipToPrimary || ''
   })
 
-  // Sample existing clients - in real app, this would come from database
-  const [availableClients] = useState([
-    { 
-      id: '1', 
-      name: 'John Smith', 
-      type: 'individual', 
-      email: 'john.smith@email.com', 
-      phone: '(555) 123-4567',
-      address: '123 Main St, Anytown, FL 12345'
-    },
-    { 
-      id: '2', 
-      name: 'ABC Construction LLC', 
-      type: 'business', 
-      email: 'contact@abcconstruction.com', 
-      phone: '(555) 987-6543',
-      address: '456 Business Blvd, Commerce City, FL 67890'
-    },
-    { 
-      id: '3', 
-      name: 'Jane Doe', 
-      type: 'individual', 
-      email: 'jane.doe@email.com', 
-      phone: '(555) 555-1234',
-      address: '789 Oak Ave, Hometown, FL 54321'
-    }
-  ])
+  // Format clients for display
+  const availableClients = clients.map(client => ({
+    id: client.id,
+    name: client.client_type === 'commercial' 
+      ? client.business_name || 'Business Client'
+      : `${client.first_name || ''} ${client.last_name || ''}`.trim(),
+    type: client.client_type === 'commercial' ? 'business' : 'individual',
+    email: client.primary_email || '',
+    phone: client.primary_phone || '',
+    address: `${client.address_line_1 || ''} ${client.city || ''}, ${client.state || ''} ${client.zip_code || ''}`.trim()
+  }));
 
   const updateField = (field: string, value: any) => {
     const updatedData = { ...stepData, [field]: value }
@@ -185,33 +171,48 @@ export function ClientInformationStep({ data, onUpdate }: ClientInformationStepP
 
           {stepData.clientStatus === 'existing' && (
             <div className="space-y-3">
-              <p className="text-sm text-gray-600">Select an existing client from the list below:</p>
-              {availableClients.map(client => (
-                <div
-                  key={client.id}
-                  className={`p-4 border rounded-lg cursor-pointer transition-colors ${
-                    stepData.selectedExistingClientId === client.id
-                      ? 'border-blue-500 bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
-                  onClick={() => selectExistingClient(client)}
-                >
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h4 className="font-medium text-gray-900">{client.name}</h4>
-                      <p className="text-sm text-gray-600 capitalize">{client.type}</p>
-                      <p className="text-sm text-gray-600">{client.email}</p>
-                      <p className="text-sm text-gray-600">{client.phone}</p>
-                      <p className="text-sm text-gray-500">{client.address}</p>
-                    </div>
-                    {stepData.selectedExistingClientId === client.id && (
-                      <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
-                        <div className="w-2 h-2 bg-white rounded-full"></div>
-                      </div>
-                    )}
-                  </div>
+              <p className="text-sm text-gray-600">
+                {loading 
+                  ? 'Loading clients...' 
+                  : 'Select an existing client from the list below:'
+                }
+              </p>
+              {loading ? (
+                <div className="text-center py-4">
+                  <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
                 </div>
-              ))}
+              ) : availableClients.length === 0 ? (
+                <div className="text-center py-4 text-gray-500">
+                  No clients found. Create a new client instead.
+                </div>
+              ) : (
+                availableClients.map(client => (
+                  <div
+                    key={client.id}
+                    className={`p-4 border rounded-lg cursor-pointer transition-colors ${
+                      stepData.selectedExistingClientId === client.id
+                        ? 'border-blue-500 bg-blue-50'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                    onClick={() => selectExistingClient(client)}
+                  >
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h4 className="font-medium text-gray-900">{client.name}</h4>
+                        <p className="text-sm text-gray-600 capitalize">{client.type}</p>
+                        <p className="text-sm text-gray-600">{client.email}</p>
+                        <p className="text-sm text-gray-600">{client.phone}</p>
+                        <p className="text-sm text-gray-500">{client.address}</p>
+                      </div>
+                      {stepData.selectedExistingClientId === client.id && (
+                        <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
+                          <div className="w-2 h-2 bg-white rounded-full"></div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           )}
         </CardContent>
