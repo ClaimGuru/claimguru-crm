@@ -36,11 +36,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     async function loadUser() {
       try {
         if (isDemoMode) {
-          // Provide demo user profile for demo mode
+          // Provide demo user profile for demo mode - using real user data
           const demoUserProfile: UserProfile = {
             id: 'd03912b1-c00e-4915-b4fd-90a2e17f62a2',
-            organization_id: '12345678-1234-5678-9012-123456789012', // Demo organization UUID 
-            email: 'demo@claimguru.com',
+            organization_id: '6b7b6902-4cf0-40a1-bea0-f5c1dd9fa2d5', // Real organization UUID from database
+            email: 'josh@dcsclaim.com',
             first_name: 'Demo',
             last_name: 'User',
             title: 'Claims Adjuster',
@@ -58,10 +58,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           }
           
           setUserProfile(demoUserProfile)
-          // Set a mock user object for demo mode
+          // Set a mock user object for demo mode - using real user data
           setUser({
             id: 'd03912b1-c00e-4915-b4fd-90a2e17f62a2',
-            email: 'demo@claimguru.com',
+            email: 'josh@dcsclaim.com',
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
             email_confirmed_at: new Date().toISOString(),
