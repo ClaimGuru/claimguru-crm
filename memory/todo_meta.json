@@ -3,29 +3,22 @@
     "Coordinator": {
       "1": {
         "id": "1",
-        "content": "Fix Critical Mock Data Bug in Client Management",
-        "details": "1. Replace hardcoded mock data in ClientManagement.tsx (lines 243-299). 2. Fix ClientInformationStep.tsx mock client list (lines 77-103). 3. Connect to existing useClients hook for real data. 4. Test client data persistence.",
-        "status": "completed",
+        "content": "Complete Client Creation Feature Testing",
+        "details": "Perform final frontend test to confirm the client creation functionality is working end-to-end after the backend RLS fixes.",
+        "status": "in_progress",
         "priority": "high"
       },
       "2": {
         "id": "2",
-        "content": "Fix Backend Database Configuration Issues",
-        "details": "1. ✅ FIXED: Applied RLS policies for client creation (HTTP 401 resolved). 2. ✅ FIXED: Fixed activities/user_profiles relationship (HTTP 400 resolved). 3. Build and deploy application with fixes. 4. Test client creation functionality.",
-        "status": "in_progress",
+        "content": "Enhance Claim Intake Form with Missing Insurance Fields",
+        "details": "Add missing critical insurance policy fields to the claim intake wizard: 1) Policy Details section (Effective/Expiration dates, Policy Type, Form Type), 2) Coverage Information section (Coverage A-D amounts, Additional Coverages), 3) Deductibles section (All Other Perils, Wind/Hail, Hurricane, Earthquake, Flood), 4) Enhanced Policy Status options, 5) Alternative Dispute Resolution options (Mediation, Arbitration, Appraisal, Litigation)",
+        "status": "pending",
         "priority": "high"
       },
       "3": {
         "id": "3",
-        "content": "Fix Address Autocomplete API Configuration",
-        "details": "1. Configure Google Maps API key environment variable. 2. Test autocomplete functionality. 3. Ensure proper API key propagation.",
-        "status": "pending",
-        "priority": "high"
-      },
-      "4": {
-        "id": "4",
-        "content": "Fix Backend Database Relationship Issues",
-        "details": "1. Resolve database relationship errors. 2. Fix API endpoints returning HTML instead of JSON. 3. Test data loading across all pages.",
+        "content": "Fix Address Autocomplete Issue",
+        "details": "Address the Address Autocomplete functionality that was identified in the previous audit as having issues.",
         "status": "pending",
         "priority": "medium"
       }
