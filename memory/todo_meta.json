@@ -5,7 +5,7 @@
         "id": "1",
         "content": "Comprehensive Claim Intake Form Field Testing & Fixes",
         "details": "1) Conduct thorough testing of ALL existing fields in the claim intake form to identify non-working/malfunctioning fields, 2) Fix any broken field functionality (dropdowns not working, data not saving, validation errors, etc.), 3) Add missing critical insurance policy fields (Policy Details, Coverage Information, Deductibles, Policy Status, Alternative Dispute Resolution)",
-        "status": "pending",
+        "status": "in_progress",
         "priority": "high"
       },
       "2": {

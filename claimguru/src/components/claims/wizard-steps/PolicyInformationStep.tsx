@@ -13,6 +13,7 @@ interface PolicyInformationStepProps {
 export function PolicyInformationStep({ data, onUpdate }: PolicyInformationStepProps) {
   const [stepData, setStepData] = useState({
     // Policy Status
+    policyStatus: data.policyStatus || '',
     isForcedPlacedPolicy: data.isForcedPlacedPolicy || false,
     
     // Insurance Agent & Agency
@@ -124,6 +125,19 @@ export function PolicyInformationStep({ data, onUpdate }: PolicyInformationStepP
     'Other'
   ]
 
+  const policyStatuses = [
+    'Active',
+    'Inactive', 
+    'Pending',
+    'Suspended',
+    'Cancelled',
+    'Expired',
+    'In Renewal',
+    'Force Placed',
+    'Lapsed',
+    'Other'
+  ]
+
   return (
     <div className="space-y-6">
       {/* Policy Status */}
@@ -131,14 +145,38 @@ export function PolicyInformationStep({ data, onUpdate }: PolicyInformationStepP
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Shield className="h-5 w-5" />
-            Policy Status
+            Policy Status & Details
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Policy Status <span className="text-red-500">*</span>
+            </label>
+            <select
+              value={stepData.policyStatus}
+              onChange={(e) => updateField('policyStatus', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            >
+              <option value="">Select policy status</option>
+              {policyStatuses.map(status => (
+                <option key={status} value={status}>{status}</option>
+              ))}
+            </select>
+          </div>
+          
+          {/* Keep the original toggle for backward compatibility */}
           <div className="flex items-center gap-3">
             <Switch
               checked={stepData.isForcedPlacedPolicy}
-              onChange={(checked) => updateField('isForcedPlacedPolicy', checked)}
+              onChange={(checked) => {
+                updateField('isForcedPlacedPolicy', checked)
+                // Auto-set policy status if force placed is selected
+                if (checked) {
+                  updateField('policyStatus', 'Force Placed')
+                }
+              }}
             />
             <span className="text-sm font-medium text-gray-700">Forced Placed Policy</span>
           </div>
