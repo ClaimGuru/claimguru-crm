@@ -1,0 +1,35 @@
+📄 Extracted from page: Brelly AI
+URL: https://ai.brelly.com/auth
+
+Extracted content:
+```json
+{
+  "title": "Brelly AI Terms of Service",
+  "url": "https://ai.brelly.com/auth",
+  "summary": "The Brelly AI Terms of Service outline the agreement between the user and Brelly, Inc., a Delaware corporation, regarding the use of its AI software platform. The platform is designed to assist with insurance claims management but does not offer legal advice, act as an adjuster, or guarantee specific outcomes. It operates on a licensed, subscription-based model, granting users non-exclusive, non-transferable access for internal business use. Users are responsible for their compliance with all applicable laws and regulations and are prohibited from engaging in fraudulent or deceptive practices. The terms detail license restrictions, data handling, disclaimers of warranties, limitations of liability, and state that Louisiana law governs the agreement. Access may also be provided through 'Invited Users' under a paid account holder's subscription.",
+  "key_points": [
+    "**Company Identity:** Brelly, Inc., a Delaware corporation.",
+    "**Product:** Brelly AI software platform (referred to as \"Software\" or \"Platform\"), a tool to assist with insurance claims management.",
+    "**Nature of Service:** Software is licensed, not sold. It is not a law firm, attorney, insurance adjuster, or insurance agent, and does not provide legal advice or guarantee outcomes.",
+    "**User Eligibility:** Users must be 18 years of age or older/of legal age to enter into a binding agreement.",
+    "**Pricing Model:** Access requires payment of subscription fees, agreed upon in a separate Subscription Agreement. Failure to pay may lead to suspension or termination.",
+    "**Invited Users:** Access can be granted by a paid account holder (\"Inviting Party\"). Such users are bound by these Terms, and their access is contingent on the Inviting Party's active subscription.",
+    "**License Grant:** Non-exclusive, non-transferable license for internal business use through the Internet.",
+    "**License Restrictions:** Prohibits copying (except as permitted), modifying, reverse engineering, creating competing products, sublicensing to third parties without agreement, and circumventing security features.",
+    "**User Responsibilities:** Users are solely responsible for compliance with all applicable insurance regulations, consumer protection laws, and legal requirements. Prohibited activities include fraudulent practices, misrepresentation, data manipulation, or bad faith practices.",
+    "**Data Handling:** Information collection is subject to Brelly's Privacy Policy. Users warrant compliance with data privacy laws for uploaded client data and indemnify Brelly against liabilities arising from data misuse.",
+    "**Geographic Restrictions:** Based in Louisiana, USA, and intended for access and use only by persons located in the United States. Users outside the US are responsible for local compliance.",
+    "**Termination:** Terms commence upon acceptance/use and continue per Subscription Agreement or until terminated. Brelly can terminate for breach (with cure period) or without notice if support ceases, or for any reason with 60 days' notice (with pro-rata refund for prepaid fees).",
+    "**Disclaimers:** Software is provided \"AS IS\" without warranty of any kind. No guarantee that it will meet requirements, be error-free, or operate without interruption.",
+    "**Limitation of Liability:** Brelly's aggregate cumulative liability is limited to $500.00 or the amount paid by the user, whichever is less.",
+    "**Governing Law:** Laws of the State of Louisiana, USA, without regard to conflict of laws principles. Legal actions must be brought in US District Court for the Eastern District of Louisiana or Louisiana state courts in Jefferson Parish.",
+    "**Effective Date:** Last Revised: April 10, 2025."
+  ],
+  "relevant_links": [
+    "https://brelly.com",
+    "https://brelly.com/privacy-policy",
+    "https://brelly.com/terms-of-use"
+  ],
+  "file_name": "brelly_ai_terms_of_service.json"
+}
+```

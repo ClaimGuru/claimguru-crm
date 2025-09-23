@@ -1,0 +1,49 @@
+📄 Extracted from page: Welcome to the Brelly Claim Manager (beta)! – Brelly
+URL: https://brelly.com/claim-manager/
+
+Extracted content:
+```json
+{
+  "title": "Welcome to the Brelly Claim Manager (beta)! – Brelly",
+  "url": "https://brelly.com/claim-manager/",
+  "summary": "Brelly AI Claim Manager is a beta service designed for policyholders to simplify and manage property damage insurance claims. It aims to reduce the stress and confusion associated with claims by providing tools for organization, communication, and informed decision-making, ensuring policyholders feel confident and supported throughout the process.",
+  "key_points": [
+    "**Goal:** Helps policyholders handle property damage insurance claims with clarity, not chaos, by simplifying every step.",
+    "**Target Audience:** Primarily homeowners and business owners managing property damage claims who want to navigate the process confidently.",
+    "**Problem Solved:** Addresses the hidden stress of claims, including overwhelming paperwork, unclear communication with insurers, uncertainty about claim status, and fear of costly mistakes.",
+    "**Core Offering:** Brelly AI acts as a \"personal claim co-pilot\" built specifically for policyholders, providing structure, clarity, and confidence.",
+    "**Key Features for Consumers:**",
+    "- **Smart Start:** Automatically sorts uploaded claim information (letters, policies, estimates, emails).",
+    "- **Claim Tracker:** Visualizes key event and communication details on a timeline.",
+    "- **Guided Decision-Making:** Assists with questions and answers for contractors, adjusters, or insurers, highlighting risks.",
+    "- **Claim Clarity in Normal Words:** Translates confusing insurance jargon into plain English.",
+    "- **AI-Powered Communication Assistance:** Helps draft professional messages, letters, and emails tailored to the claim.",
+    "- **One-Click Reports & Documentation:** Summarizes entire claims and key points into organized reports.",
+    "- **Claim Compliance & Risk Management:** Aligns claims with policy terms, state statutes, and laws, identifying potential issues early.",
+    "- **Simple, Easy, Fast:** Intuitive interface requiring no special training or technical skills.",
+    "- **Guidance & Support:** Provides proactive help and answers at each step.",
+    "- **Brelly's Got Your Back:** Logs all communications, documents, and steps automatically for proof.",
+    "**Benefits for Policyholders:** Reduces processing time, prevents missing key details, detects inconsistencies, flags missing documentation, provides structured summaries, offers real-time insights into claim patterns, and empowers policyholders to negotiate more effectively.",
+    "**Ethos:** Brelly AI supports policyholders' judgment and empowers decisions, aligning with policy rules without offering legal advice. It logs all interactions to ensure policyholders are always prepared.",
+    "**Pricing Information:** The page does not explicitly mention pricing details. It refers to the service as 'beta' and encourages users to 'Claim Your Confidence' (via an app-form link), suggesting it might be free during the beta phase or require sign-up for more information."
+  ],
+  "relevant_links": [
+    "https://brelly.com/claim-resources/",
+    "https://brelly.com/adjusters-and-pros/",
+    "https://brelly.com/app-form/",
+    "https://brelly.com/public-adjuster-claims-software/",
+    "https://brelly.com/claim-resources/tag/claim-guides/",
+    "https://brelly.com/about/",
+    "https://brelly.com/contact/",
+    "https://brelly.com/claim-resources/tag/state-guides/",
+    "https://brelly.com/claim-resources/tag/downloadable-form/",
+    "https://www.brelly.com/blog/",
+    "https://brelly.com/claim-resources/proof-of-loss-explainer/",
+    "https://brelly.com/claim-resources/property-insurance-claim-guide/",
+    "https://brelly.com/claim-resources/property-insurance-adjusters/",
+    "https://brelly.com/terms-of-use/",
+    "https://brelly.com/terms-of-use/privacy-policy/"
+  ],
+  "file_name": "brelly_claim_manager_policyholders.json"
+}
+```

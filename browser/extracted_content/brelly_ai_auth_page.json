@@ -1,0 +1,24 @@
+📄 Extracted from page: Brelly AI
+URL: https://ai.brelly.com/auth
+
+Extracted content:
+```json
+{
+    "title": "Brelly AI",
+    "url": "https://ai.brelly.com/auth",
+    "summary": "This page is the authentication portal for 'Brelly AI'. It provides options for users to sign in using their email and password, sign up for a new account, or recover a forgotten password. A prominent tagline, 'Insurance claims help has arrived!', suggests the core function of the Brelly AI product. The page also explicitly states that JavaScript is required for the application to run.",
+    "key_points": [
+        "This is an authentication (login/signup) page for 'Brelly AI'.",
+        "Users can sign in with an email and password.",
+        "Options are available to reset a forgotten password or sign up for a new account.",
+        "A key message 'Insurance claims help has arrived!' indicates the product's purpose is related to assisting with insurance claims.",
+        "The page requires JavaScript to function.",
+        "No explicit company information, detailed product features, or pricing details are available on this specific page."
+    ],
+    "relevant_links": [
+        "Forgot password?",
+        "Sign Up"
+    ],
+    "file_name": "brelly_ai_auth_page.json"
+}
+```

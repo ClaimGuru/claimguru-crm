@@ -1,0 +1,29 @@
+📄 Extracted from page: About Brelly – Brelly
+URL: https://brelly.com/about/
+
+Extracted content:
+```json
+{
+  "title": "About Brelly – Brelly",
+  "url": "https://brelly.com/about/",
+  "summary": "Brelly is a technology company dedicated to simplifying insurance claims for policyholders (homeowners and businesses) and the professionals who support them. Founded out of frustration with the difficult claims process, Brelly's mission is to make insurance claims easy by creating new technologies, providing free resources, and offering practical tools like their all-in-one Claim Manager. Unlike insurance companies, Brelly works directly for claimants to ensure fair, full, and fast recovery of insured losses, leveraging a team with extensive experience in claims handling, law, and technology.",
+  "key_points": [
+    "**Mission**: To make insurance claims easy for everyone involved.",
+    "**Origin**: Founded out of frustration with the unnecessarily difficult and stalled property insurance claims process, aiming to provide an easier, technology-driven solution.",
+    "**Vision**: To make life better for homeowners, businesses, and all parties in insurance claims by solving old problems with new technologies and empowering people to recover faster.",
+    "**Approach**: Creates new technologies and software solutions, provides free resources and tools (e.g., Claim Manager platform, claim guides), and leverages a team with deep expertise in claims handling, restoration, law, and technology to innovate in the insurance industry.",
+    "**Target Audience**: Primarily policyholders (homeowners and businesses) and the professionals who support them, such as public adjusters and other claims professionals.",
+    "**Core Commitment**: Brelly works for the policyholders and supporting professionals, not for insurance companies, with the sole focus of helping them recover their insured losses fully, quickly, and conveniently.",
+    "**Offerings**: Provides educational resources to understand claims processes, coverages, and laws, along with tools for practical tasks like inventory building, documenting damages, and tracking expenses, all integrated into an all-in-one Claim Manager platform.",
+    "**Team**: Composed of individuals with years of experience in claims handling, restoration contracting, law, and technology, enabling them to understand and innovate solutions for claimants."
+  ],
+  "relevant_links": [
+    "https://brelly.com/claim-resources/",
+    "https://brelly.com/claim-manager/",
+    "https://brelly.com/adjusters-and-pros/",
+    "https://brelly.com/public-adjuster-claims-software/",
+    "https://brelly.com/contact/"
+  ],
+  "file_name": "brelly_about_page_content.json"
+}
+```

@@ -1,0 +1,106 @@
+{
+  "_source_id": 13,
+  "sources": {
+    "AdjustCRM Competitor Analysis": {
+      "https://www.adjustcrm.com/": {
+        "id": 1,
+        "publisher": "AdjustCRM",
+        "url": "https://www.adjustcrm.com/",
+        "title": "AdjustCRM - Claims Management Software for Public Adjusters",
+        "info": "Comprehensive website content including pricing tiers (Solo Adjuster $97/month, Team $197/month), feature lists, AI automation capabilities, target market positioning for public adjusters, and user limits for each plan tier"
+      }
+    },
+    "ClaimTitan Competitor Analysis": {
+      "https://claimtitan.com/": {
+        "id": 2,
+        "publisher": "ClaimTitan",
+        "url": "https://claimtitan.com/",
+        "title": "ClaimTitan - Claims Management Software Homepage",
+        "info": "Main company overview, core value proposition, target market positioning, and feature highlights for insurance claim specialists"
+      },
+      "https://claimtitan.com/pricing": {
+        "id": 3,
+        "publisher": "ClaimTitan",
+        "url": "https://claimtitan.com/pricing",
+        "title": "ClaimTitan Pricing Plans",
+        "info": "Complete pricing structure: $99/month launch price (originally $148), supports 10,000 claims, 1TB storage, additional users at $99 each, 30-day money-back guarantee"
+      },
+      "https://claimtitan.com/features": {
+        "id": 4,
+        "publisher": "ClaimTitan",
+        "url": "https://claimtitan.com/features",
+        "title": "ClaimTitan Features Overview",
+        "info": "Detailed feature descriptions including workflow organization, document management, reporting, automation capabilities, and client portals"
+      },
+      "https://claimtitan.com/demo": {
+        "id": 5,
+        "publisher": "ClaimTitan",
+        "url": "https://claimtitan.com/demo",
+        "title": "ClaimTitan Demo Request",
+        "info": "Demo availability, live guided tours, contact information (608-765-5556), and onboarding process details"
+      }
+    },
+    "PacMan Software Competitor Analysis": {
+      "https://www.pacmansoftware.com/": {
+        "id": 6,
+        "publisher": "PacMan Software",
+        "url": "https://www.pacmansoftware.com/",
+        "title": "PacMan Software - Public Adjusting Claims Management Solution",
+        "info": "Comprehensive pricing information, feature lists, and target market positioning for insurance professionals. Extracted pricing tiers (Single User $69/month, Pro $199/month, Enterprise $299/month), features, and insurance industry focus."
+      }
+    },
+    "ClaimWizard Competitor Analysis": {
+      "https://claimwizard.com/": {
+        "id": 7,
+        "publisher": "ClaimWizard",
+        "url": "https://claimwizard.com/",
+        "title": "ClaimWizard - Main Homepage",
+        "info": "Primary information about ClaimWizard's positioning as #1 workflow solution for public adjusting firms, core features including customization, scalability, efficiency tools, and specialized solutions for insurance claim management."
+      },
+      "https://claimwizard.com/pricing/": {
+        "id": 8,
+        "publisher": "ClaimWizard",
+        "url": "https://claimwizard.com/pricing/",
+        "title": "ClaimWizard Pricing Page",
+        "info": "Complete pricing structure: Business Package ($250/month for 3 licenses), Enterprise Package (custom pricing for 50+ licenses), Single User Package ($99/month for solo adjusters). Details on user limits, additional license costs, and package features."
+      },
+      "https://claimwizard.com/about/": {
+        "id": 9,
+        "publisher": "ClaimWizard",
+        "url": "https://claimwizard.com/about/",
+        "title": "ClaimWizard About Page",
+        "info": "Company background with 30+ years experience, 1200+ clients, 1M+ claims processed. Executive team profiles, business model as SaaS platform, target market of public adjusters, positioning as technology-first solution without competing with clients."
+      }
+    },
+    "Brelly AI Competitor Analysis": {
+      "https://brelly.com/": {
+        "id": 10,
+        "publisher": "Brelly Inc.",
+        "url": "https://brelly.com/",
+        "title": "Brelly AI Claims Copilot - Main Website",
+        "info": "Primary company website with core product information, AI Claims Copilot features, target markets including public adjusters, agents, contractors, and policyholders. Mission is to ensure fair, full, and fast payouts through AI automation."
+      },
+      "https://brelly.com/about/": {
+        "id": 11,
+        "publisher": "Brelly Inc.",
+        "url": "https://brelly.com/about/",
+        "title": "About Brelly - Company Background",
+        "info": "Company mission, founding story, team information, and business model. Founded to solve complex property insurance claims problems using technology. Leadership team includes Tobias Patch (CEO), Reed Stephens (CTO), and other key personnel."
+      },
+      "https://brelly.com/expert-connect/": {
+        "id": 12,
+        "publisher": "Brelly Inc.",
+        "url": "https://brelly.com/expert-connect/",
+        "title": "Expert Connect Service",
+        "info": "Upcoming service marked as 'Coming soon' - no specific details available yet about features or pricing."
+      },
+      "https://brelly.com/public-adjuster-claims-software/": {
+        "id": 13,
+        "publisher": "Brelly Inc.",
+        "url": "https://brelly.com/public-adjuster-claims-software/",
+        "title": "Public Adjuster Claims Software",
+        "info": "Dedicated page for public adjusters with claims software that promises to get claims paid fully, fairly, and fast. Page had security restrictions preventing full content extraction."
+      }
+    }
+  }
+}

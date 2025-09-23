@@ -1,0 +1,29 @@
+📄 Extracted from page: Schedule A Demo – Brelly
+URL: https://brelly.com/app-form/
+
+Extracted content:
+```json
+{
+  "title": "Schedule A Demo – Brelly",
+  "url": "https://brelly.com/app-form/",
+  "summary": "This page serves as a dedicated demo scheduling interface for Brelly's AI claims software. Users can book a 'Brelly AI Live Session,' described as an 'Initial/Consultation' lasting 60 minutes. The primary goal of the demo is to demonstrate how Brelly's software assists public adjusters, professionals, and policyholders in making insurance claims fair, full, and fast. The page features an embedded calendar widget for selecting a date and time, complete with a comprehensive timezone selector. Detailed information regarding the specific content of the demo, pricing discussions, or direct service access details is not explicitly provided on this page.",
+  "key_points": [
+    "Purpose: Schedule a demo for Brelly's AI claims software.",
+    "Demo Name: Brelly AI Live Session.",
+    "Demo Type: Initial/Consultation.",
+    "Duration: 60 minutes.",
+    "Goal of Demo: To show how Brelly helps insurance claims get done fully, fairly, & fast.",
+    "Target Audience: Public adjusters, professionals, and policyholders.",
+    "Scheduling: Utilizes an embedded calendar widget for date, time, and timezone selection.",
+    "No explicit pricing information is available on this demo scheduling page.",
+    "No specific service access details are provided on this page."
+  ],
+  "relevant_links": [
+    "https://brelly.com/public-adjuster-claims-software/",
+    "https://brelly.com/claim-manager/",
+    "https://brelly.com/contact/",
+    "https://link.fulcrumprocrm.com/widget/booking/W8z71kkLhu33x8enwzr9:"
+  ],
+  "file_name": "brelly_demo_scheduling_page.json"
+}
+```
