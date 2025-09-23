@@ -1,0 +1,61 @@
+📄 Extracted from page: ClaimGuru - Advanced Insurance CRM
+URL: https://p74l0f39p5gg.space.minimax.io/claims/new
+
+Extracted content:
+```json
+{
+  "title": "ClaimGuru - Advanced Insurance CRM",
+  "url": "https://p74l0f39p5gg.space.minimax.io/claims/new",
+  "summary": "This page represents the 'New Claim Intake' section within the ClaimGuru CRM, specifically the first step of a 'Manual Claim Intake Wizard' focused on 'Client Information'. It allows users to input details for a new claim, including client status (New/Existing), client type (Individual/Business), and comprehensive individual contact and address information. The page also provides a high-level overview of claims management, AI-enhanced intake features, and statistics on total, open, settled claims, and their total value. Navigation for the wizard includes 'Previous' and 'Next' buttons, with a '0% Complete' progress indicator.",
+  "key_points": [
+    "Page Title: ClaimGuru - Advanced Insurance CRM",
+    "Main sections: Dashboard, Claims, Tasks, Calendar, Sales & Marketing, Contacts, Communications, Documents, Financials, Analytics, Notifications.",
+    "User context: Demo User, adjuster.",
+    "Current section: Claims Management - New Claim Intake.",
+    "Feature highlights: AI-Enhanced Intake Wizard, Manage and track insurance claims with AI-powered insights.",
+    "Claim statistics displayed: Total Claims (0), Open Claims (0), Settled Claims (0), Total Value ($0).",
+    "Claim status filters: All Status, New, In Progress, Under Review, Negotiating, Settled, Closed.",
+    "Message for no claims: 'No claims yet', 'Create your first claim to get started with ClaimGuru'.",
+    "Current Wizard Step: Manual Claim Intake Wizard - Page 1 of 9: Client Information.",
+    "Progress Indicator: 0% Complete.",
+    "**Form Field Group: Client Status**",
+    "   - Radio button option: New Client",
+    "   - Radio button option: Existing Client",
+    "**Form Field Group: Client Type**",
+    "   - Radio button option: Individual/Residential",
+    "   - Radio button option: Business/Commercial",
+    "**Form Field Group: Individual Information**",
+    "   - Text input: First Name (required)",
+    "   - Text input: Last Name (required)",
+    "   - Email input: Primary Email Address (required)",
+    "   - Phone input: Primary Phone Number (required)",
+    "   - Button/Action: Add Phone",
+    "   - Phone Type options: Mobile, Home, Work, Office, Fax, Other",
+    "   - Text input: Street Address #1 (required)",
+    "   - Text input: Street Address #2",
+    "   - Text input: City (required)",
+    "   - Dropdown/Text input: State (required)",
+    "   - Text input: Zip Code (required)",
+    "   - Checkbox: Is Mailing Address Same as Loss Location?",
+    "   - Text input (Mailing Address): Street Address #1 (required)",
+    "   - Text input (Mailing Address): Street Address #2",
+    "   - Text input (Mailing Address): City (required)",
+    "   - Dropdown/Text input (Mailing Address): State (required)",
+    "   - Text input (Mailing Address): Zip Code (required)",
+    "**Form Field Group: Coinsured Information**",
+    "   - Button/Action: Add Coinsured",
+    "Wizard navigation buttons: Previous, Next."
+  ],
+  "relevant_links": [
+    "/dashboard",
+    "/claims",
+    "/tasks",
+    "/calendar",
+    "/communications",
+    "/documents",
+    "/analytics",
+    "/notifications"
+  ],
+  "file_name": "claim_intake_wizard_client_info_page.json"
+}
+```

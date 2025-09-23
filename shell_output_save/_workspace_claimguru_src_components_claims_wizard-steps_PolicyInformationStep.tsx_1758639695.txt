@@ -1,0 +1,100 @@
+              />
+            </div>
+          </div>
+          
+          {stepData.deductibles.other && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Other Deductible Description
+              </label>
+              <Input
+                type="text"
+                value={stepData.deductibles.otherDescription}
+                onChange={(e) => updateNestedField('deductibles', 'otherDescription', e.target.value)}
+                placeholder="Describe other deductible"
+              />
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Alternative Dispute Resolution */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Scale className="h-5 w-5" />
+            Alternative Dispute Resolution Options
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex items-center gap-3">
+                <Switch
+                  checked={stepData.disputeResolution.mediation}
+                  onChange={(checked) => updateNestedField('disputeResolution', 'mediation', checked)}
+                />
+                <span className="text-sm font-medium text-gray-700">Mediation</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Switch
+                  checked={stepData.disputeResolution.arbitration}
+                  onChange={(checked) => updateNestedField('disputeResolution', 'arbitration', checked)}
+                />
+                <span className="text-sm font-medium text-gray-700">Arbitration</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Switch
+                  checked={stepData.disputeResolution.appraisal}
+                  onChange={(checked) => updateNestedField('disputeResolution', 'appraisal', checked)}
+                />
+                <span className="text-sm font-medium text-gray-700">Appraisal</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Switch
+                  checked={stepData.disputeResolution.litigation}
+                  onChange={(checked) => updateNestedField('disputeResolution', 'litigation', checked)}
+                />
+                <span className="text-sm font-medium text-gray-700">Litigation</span>
+              </div>
+            </div>
+            
+            {stepData.disputeResolution.appraisal && (
+              <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Appraisal Type
+                </label>
+                <div className="flex gap-6">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="appraisalType"
+                      value="bilateral"
+                      checked={stepData.disputeResolution.appraisalType === 'bilateral'}
+                      onChange={(e) => updateNestedField('disputeResolution', 'appraisalType', e.target.value)}
+                      className="w-4 h-4 text-blue-600"
+                    />
+                    <span className="text-sm font-medium">Agreed (Bilateral)</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="appraisalType"
+                      value="unilateral"
+                      checked={stepData.disputeResolution.appraisalType === 'unilateral'}
+                      onChange={(e) => updateNestedField('disputeResolution', 'appraisalType', e.target.value)}
+                      className="w-4 h-4 text-blue-600"
+                    />
+                    <span className="text-sm font-medium">Demanded (Unilateral)</span>
+                  </label>
+                </div>
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+export default PolicyInformationStep

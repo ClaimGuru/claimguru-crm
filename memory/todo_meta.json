@@ -5,7 +5,7 @@
         "id": "1",
         "content": "Fix Comprehensive Claim Intake Wizard Issues",
         "details": "Address multiple critical issues in the claim intake form:\n\n**Layout Fixes:**\n- Move agent email to same line as agent phone number\n\n**Auto-calculation Features:**\n- Fix expiration date to auto-populate 1 year ahead of effective date\n\n**Conditional Field Implementation:**\n- Add 'Other' input field for Form Type when 'Other' is selected\n- Add 'Other' input field for Policy Type when 'Other' is selected\n\n**Additional Coverages Enhancement:**\n- Add limit fields for each coverage (Ordinance/Law, Water Backup, Inflation Guard, etc.)\n- Add percentage/dollar amount switches for coverage limits\n- Implement percentage calculations based on coverage amounts\n\n**Deductibles Enhancement:**\n- Add percentage/dollar amount switches for each deductible type\n- Implement percentage calculations from selected coverage amounts\n- Add coverage selection for percentage-based deductibles\n\n**Alternative Dispute Resolution Fields:**\n- Appraisal: Add fields for opposing appraiser, assigned appraiser, umpire\n- Arbitration/Mediation: Add optional fields for arbitrator/mediator\n- Litigation: Add field for assigned litigator/attorney\n\n**Functionality Fixes:**\n- Fix all non-working switches on the form",
-        "status": "pending",
+        "status": "in_progress",
         "priority": "high"
       }
     }
