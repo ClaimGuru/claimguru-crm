@@ -3,22 +3,36 @@
     "Coordinator": {
       "1": {
         "id": "1",
-        "content": "Get Stripe API keys from user",
-        "details": "Collect the Stripe publishable key, secret key, and product IDs from the user's Stripe dashboard to enable subscription integration.",
-        "status": "completed",
+        "content": "Clean database and prepare for production launch",
+        "details": "Delete all test users, clients, claims, and related data from Supabase database while preserving table structure and Stripe configuration",
+        "status": "pending",
         "priority": "high"
       },
       "2": {
         "id": "2",
-        "content": "Build Public Insurance Adjuster CRM with Stripe Integration",
-        "details": "Develop a full-stack CRM application including: 1) User authentication & role management (Assignable Users, Admin Users, Office Staff, Sales) 2) Stripe subscription management 3) Claims management system 4) Client portal 5) Document storage with 1TB per assignable user limits 6) Email automations 7) Reporting and analytics 8) Team collaboration tools",
-        "status": "completed",
+        "content": "Create sales/landing page",
+        "details": "Design and implement professional landing page showcasing ClaimGuru features, pricing, and benefits for public insurance adjusters",
+        "status": "pending",
         "priority": "high"
       },
       "3": {
         "id": "3",
-        "content": "Deploy and test the complete CRM system",
-        "details": "Deploy the application, test all subscription tiers, verify role-based access controls, and ensure Stripe integration works correctly for billing and user limits.",
+        "content": "Implement user onboarding flow",
+        "details": "Create guided onboarding process for new users including account setup, organization creation, and initial configuration",
+        "status": "pending",
+        "priority": "high"
+      },
+      "4": {
+        "id": "4",
+        "content": "Add subscription signup flow",
+        "details": "Integrate subscription selection during onboarding process and connect to Stripe billing",
+        "status": "pending",
+        "priority": "high"
+      },
+      "5": {
+        "id": "5",
+        "content": "Deploy production-ready application",
+        "details": "Build and deploy the complete application with sales pages, onboarding, and clean database",
         "status": "pending",
         "priority": "medium"
       }
