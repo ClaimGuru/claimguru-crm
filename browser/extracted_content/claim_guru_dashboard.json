@@ -1,0 +1,43 @@
+📄 Extracted from page: ClaimGuru - Advanced Insurance CRM
+URL: https://q1nxtcolpt1b.space.minimax.io/dashboard
+
+Extracted content:
+```json
+{
+    "title": "ClaimGuru - Advanced Insurance CRM",
+    "url": "https://q1nxtcolpt1b.space.minimax.io/dashboard",
+    "summary": "The ClaimGuru dashboard for 'Demo User' presents a completely empty state, indicating no current activity or data. All key metrics such as Total Claims, Settled Value, and Pending Value are zero. There are no recent claims or activities recorded. The page prompts the user to get started by creating new claims or adding clients. While there are no explicit system error messages, the dashboard highlights the absence of data as its primary 'issue'.",
+    "key_points": [
+        "Welcome message: 'Welcome back, Demo! Here's what's happening with your claims today.'",
+        "User identified as 'Demo User' with role 'adjuster'.",
+        "Navigation options include Dashboard, Claims, Tasks, Calendar, Sales & Marketing, Contacts, Communications, Documents, Financials, Analytics, Notifications.",
+        "Quick Actions section for 'Demo User, adjuster'.",
+        "**Issue/Problem:** Total Claims: 0 (0 open claims).",
+        "**Issue/Problem:** Settled Value: $0 (Revenue generated).",
+        "**Issue/Problem:** Pending Value: $0 (0 open claims).",
+        "Active Network: 4 clients, 0 vendors.",
+        "Quick Actions available: New Claim, Add Client, Calendar.",
+        "**Issue/Problem Message:** 'No claims yet. Get started by creating your first claim.'",
+        "**Issue/Problem Message:** 'No activities found' under Recent Activity section (All, Unread, Claims, Documents, Payments, Messages filters available).",
+        "General call to actions: View Analytics, Add New Client, Create New Claim."
+    ],
+    "relevant_links": [
+        "/dashboard",
+        "/claims",
+        "/tasks",
+        "/calendar",
+        "/communications",
+        "/documents",
+        "/analytics",
+        "/notifications",
+        "View Analytics",
+        "Add New Client",
+        "New Claim",
+        "Add Client",
+        "Calendar",
+        "View All",
+        "Create New Claim"
+    ],
+    "file_name": "claim_guru_dashboard.json"
+}
+```
