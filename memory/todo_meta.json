@@ -3,9 +3,72 @@
     "Coordinator": {
       "1": {
         "id": "1",
-        "content": "Additional Claim Intake Wizard Enhancements",
-        "details": "**Client Search Functionality:**\n- Add search field when 'Existing Client' is selected\n- Implement dropdown search options (name, address, etc.)\n- Connect to client database for search results\n- Auto-populate client information when selected\n\n**Layout Improvements:**\n- Restructure deductibles section to use 2-column layout for better space utilization",
-        "status": "in_progress",
+        "content": "Database Structure & Security Audit",
+        "details": "Analyze all 92 database tables, identify security vulnerabilities, missing RLS policies, orphaned relationships, and performance issues. Review foreign key constraints and data integrity.",
+        "status": "pending",
+        "priority": "high"
+      },
+      "2": {
+        "id": "2",
+        "content": "Frontend Component Analysis",
+        "details": "Audit all React components in claim intake wizards, forms, UI elements. Identify broken functionality, missing features, validation issues, and inconsistent UX patterns.",
+        "status": "pending",
+        "priority": "high"
+      },
+      "3": {
+        "id": "3",
+        "content": "Authentication & Authorization Review",
+        "details": "Review Supabase RLS policies, user permissions, role-based access control, and identify security gaps. Ensure proper data isolation between organizations.",
+        "status": "pending",
+        "priority": "high"
+      },
+      "4": {
+        "id": "4",
+        "content": "API & Edge Function Assessment",
+        "details": "Audit all Supabase edge functions, API endpoints, error handling, rate limiting, and integration points. Check for deprecated or broken functionality.",
+        "status": "pending",
+        "priority": "medium"
+      },
+      "5": {
+        "id": "5",
+        "content": "UI/UX Consistency Review",
+        "details": "Evaluate design system consistency, accessibility compliance, responsive design issues, and user experience problems across all interfaces.",
+        "status": "pending",
+        "priority": "medium"
+      },
+      "6": {
+        "id": "6",
+        "content": "Performance & Optimization Analysis",
+        "details": "Identify performance bottlenecks, database query optimization opportunities, frontend bundle size issues, and caching strategies.",
+        "status": "pending",
+        "priority": "medium"
+      },
+      "7": {
+        "id": "7",
+        "content": "Data Validation & Integrity Check",
+        "details": "Review form validation rules, data type constraints, required field enforcement, and business logic validation across all forms and workflows.",
+        "status": "pending",
+        "priority": "medium"
+      },
+      "8": {
+        "id": "8",
+        "content": "Integration & Third-party Services Audit",
+        "details": "Review Google Maps API integration, PDF processing services, AI/ML integrations, email services, and external API dependencies.",
+        "status": "pending",
+        "priority": "low"
+      },
+      "9": {
+        "id": "9",
+        "content": "Documentation & Code Quality Review",
+        "details": "Assess code documentation, TypeScript type safety, component organization, naming conventions, and maintainability issues.",
+        "status": "pending",
+        "priority": "low"
+      },
+      "10": {
+        "id": "10",
+        "content": "Comprehensive Action Plan Creation",
+        "details": "Compile all findings into prioritized action plan with timeline estimates, resource requirements, and implementation strategies for each identified issue.",
+        "status": "pending",
         "priority": "high"
       }
     }
