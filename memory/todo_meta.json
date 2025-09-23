@@ -3,24 +3,10 @@
     "Coordinator": {
       "1": {
         "id": "1",
-        "content": "Comprehensive Claim Intake Form Field Testing & Fixes",
-        "details": "1) Conduct thorough testing of ALL existing fields in the claim intake form to identify non-working/malfunctioning fields, 2) Fix any broken field functionality (dropdowns not working, data not saving, validation errors, etc.), 3) Add missing critical insurance policy fields (Policy Details, Coverage Information, Deductibles, Policy Status, Alternative Dispute Resolution)",
-        "status": "in_progress",
+        "content": "Fix Comprehensive Claim Intake Wizard Issues",
+        "details": "Address multiple critical issues in the claim intake form:\n\n**Layout Fixes:**\n- Move agent email to same line as agent phone number\n\n**Auto-calculation Features:**\n- Fix expiration date to auto-populate 1 year ahead of effective date\n\n**Conditional Field Implementation:**\n- Add 'Other' input field for Form Type when 'Other' is selected\n- Add 'Other' input field for Policy Type when 'Other' is selected\n\n**Additional Coverages Enhancement:**\n- Add limit fields for each coverage (Ordinance/Law, Water Backup, Inflation Guard, etc.)\n- Add percentage/dollar amount switches for coverage limits\n- Implement percentage calculations based on coverage amounts\n\n**Deductibles Enhancement:**\n- Add percentage/dollar amount switches for each deductible type\n- Implement percentage calculations from selected coverage amounts\n- Add coverage selection for percentage-based deductibles\n\n**Alternative Dispute Resolution Fields:**\n- Appraisal: Add fields for opposing appraiser, assigned appraiser, umpire\n- Arbitration/Mediation: Add optional fields for arbitrator/mediator\n- Litigation: Add field for assigned litigator/attorney\n\n**Functionality Fixes:**\n- Fix all non-working switches on the form",
+        "status": "pending",
         "priority": "high"
-      },
-      "2": {
-        "id": "2",
-        "content": "Complete Client Creation Feature Testing",
-        "details": "Perform final frontend test to confirm the client creation functionality is working end-to-end after the backend RLS fixes.",
-        "status": "pending",
-        "priority": "medium"
-      },
-      "3": {
-        "id": "3",
-        "content": "Fix Address Autocomplete Issue",
-        "details": "Address the Address Autocomplete functionality that was identified in the previous audit as having issues.",
-        "status": "pending",
-        "priority": "low"
       }
     }
   }
