@@ -2,6 +2,13 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import type { Client } from '../lib/supabase'
+import debounce from 'lodash.debounce'
+
+export interface ClientSearchOption {
+  value: string
+  label: string
+  client: Client
+}
 
 export function useClients() {
   const { userProfile } = useAuth()
@@ -40,6 +47,78 @@ export function useClients() {
       setLoading(false)
     }
   }
+
+  // Enhanced search function for real-time client search
+  const searchClients = async (searchTerm: string, searchCriteria: string[] = ['name', 'email', 'phone', 'address']): Promise<ClientSearchOption[]> => {
+    if (!searchTerm || searchTerm.length < 2 || !userProfile?.organization_id) {
+      return []
+    }
+
+    try {
+      let query = supabase
+        .from('clients')
+        .select('*')
+        .eq('organization_id', userProfile.organization_id)
+        .limit(15)
+
+      // Build search conditions based on criteria
+      const conditions: string[] = []
+      
+      if (searchCriteria.includes('name')) {
+        conditions.push(`first_name.ilike.%${searchTerm}%`)
+        conditions.push(`last_name.ilike.%${searchTerm}%`)
+        conditions.push(`business_name.ilike.%${searchTerm}%`)
+      }
+      
+      if (searchCriteria.includes('email')) {
+        conditions.push(`primary_email.ilike.%${searchTerm}%`)
+      }
+      
+      if (searchCriteria.includes('phone')) {
+        conditions.push(`primary_phone.ilike.%${searchTerm}%`)
+      }
+      
+      if (searchCriteria.includes('address')) {
+        conditions.push(`address_line_1.ilike.%${searchTerm}%`)
+        conditions.push(`city.ilike.%${searchTerm}%`)
+        conditions.push(`state.ilike.%${searchTerm}%`)
+        conditions.push(`zip_code.ilike.%${searchTerm}%`)
+      }
+      
+      if (conditions.length > 0) {
+        query = query.or(conditions.join(','))
+      }
+      
+      const { data, error } = await query.order('last_name', { ascending: true })
+      
+      if (error) throw error
+      
+      return (data || []).map(client => {
+        const displayName = client.client_type === 'commercial' && client.business_name 
+          ? client.business_name
+          : `${client.first_name || ''} ${client.last_name || ''}`.trim()
+        
+        const displayInfo = [
+          displayName,
+          client.primary_email,
+          client.primary_phone,
+          `${client.address_line_1 || ''} ${client.city || ''}, ${client.state || ''} ${client.zip_code || ''}`.trim()
+        ].filter(Boolean).join(' - ')
+        
+        return {
+          value: client.id,
+          label: displayInfo,
+          client
+        }
+      })
+    } catch (error: any) {
+      console.error('Error searching clients:', error)
+      return []
+    }
+  }
+
+  // Debounced search function
+  const debouncedSearchClients = debounce(searchClients, 300)
 
   async function createClient(clientData: Partial<Client>) {
     if (!userProfile?.organization_id || !userProfile?.id) {
@@ -147,6 +226,8 @@ export function useClients() {
     createClient,
     updateClient,
     deleteClient,
-    refetch: loadClients
+    refetch: loadClients,
+    searchClients,
+    debouncedSearchClients
   }
 }

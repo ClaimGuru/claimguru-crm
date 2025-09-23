@@ -316,8 +316,8 @@ export const ClientSelector: React.FC<ClientSelectorProps> = ({
             )}
 
             {/* Client Results */}
-            {filteredClients.length > 0 ? (
-              filteredClients.map(client => (
+            {searchResults.length > 0 ? (
+              searchResults.map(client => (
                 <button
                   key={client.id}
                   onClick={() => handleSelect(client)}

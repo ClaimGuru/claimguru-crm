@@ -5,8 +5,10 @@ import { Button } from '../../ui/Button'
 import { Switch } from '../../ui/switch'
 import { StandardizedAddressInput } from '../../ui/StandardizedAddressInput'
 import { StandardizedPhoneInput } from '../../ui/StandardizedPhoneInput'
+import { ClientSearchDropdown } from '../../ui/ClientSearchDropdown'
 import { useClients } from '../../../hooks/useClients'
 import { User, Users, Building2, Mail, Search, Plus } from 'lucide-react'
+import type { Client } from '../../../lib/supabase'
 
 interface ClientInformationStepProps {
   data: any
@@ -14,7 +16,6 @@ interface ClientInformationStepProps {
 }
 
 export function ClientInformationStep({ data, onUpdate }: ClientInformationStepProps) {
-  const { clients, loading } = useClients();
   const [stepData, setStepData] = useState({
     // Client Status Selection
     clientStatus: data.clientStatus || 'new', // 'new' or 'existing'
@@ -76,17 +77,7 @@ export function ClientInformationStep({ data, onUpdate }: ClientInformationStepP
     relationshipToPrimary: data.relationshipToPrimary || ''
   })
 
-  // Format clients for display
-  const availableClients = clients.map(client => ({
-    id: client.id,
-    name: client.client_type === 'commercial' 
-      ? client.business_name || 'Business Client'
-      : `${client.first_name || ''} ${client.last_name || ''}`.trim(),
-    type: client.client_type === 'commercial' ? 'business' : 'individual',
-    email: client.primary_email || '',
-    phone: client.primary_phone || '',
-    address: `${client.address_line_1 || ''} ${client.city || ''}, ${client.state || ''} ${client.zip_code || ''}`.trim()
-  }));
+
 
   const updateField = (field: string, value: any) => {
     const updatedData = { ...stepData, [field]: value }
@@ -94,22 +85,75 @@ export function ClientInformationStep({ data, onUpdate }: ClientInformationStepP
     onUpdate(updatedData)
   }
 
-  const selectExistingClient = (client: any) => {
+  const selectExistingClient = (client: Client) => {
     const updatedData = {
       ...stepData,
       selectedExistingClientId: client.id,
-      clientType: client.type,
-      firstName: client.type === 'individual' ? client.name.split(' ')[0] : '',
-      lastName: client.type === 'individual' ? client.name.split(' ').slice(1).join(' ') : '',
-      businessName: client.type === 'business' ? client.name : '',
-      primaryEmail: client.email,
+      clientType: client.client_type === 'commercial' ? 'business' : 'individual',
+      firstName: client.first_name || '',
+      lastName: client.last_name || '',
+      businessName: client.business_name || '',
+      pointOfContactFirstName: client.first_name || '',
+      pointOfContactLastName: client.last_name || '',
+      primaryEmail: client.primary_email || '',
       phoneNumbers: [{
         id: 'primary',
         type: 'mobile',
-        number: client.phone,
+        number: client.primary_phone || '',
         extension: '',
         isPrimary: true
-      }]
+      }],
+      streetAddress: {
+        streetAddress1: client.address_line_1 || '',
+        streetAddress2: '',
+        city: client.city || '',
+        state: client.state || '',
+        zipCode: client.zip_code || ''
+      },
+      mailingAddress: {
+        streetAddress1: client.address_line_1 || '',
+        streetAddress2: '',
+        city: client.city || '',
+        state: client.state || '',
+        zipCode: client.zip_code || ''
+      }
+    }
+    setStepData(updatedData)
+    onUpdate(updatedData)
+  }
+
+  const clearExistingClient = () => {
+    const updatedData = {
+      ...stepData,
+      selectedExistingClientId: '',
+      clientType: 'individual',
+      firstName: '',
+      lastName: '',
+      businessName: '',
+      pointOfContactFirstName: '',
+      pointOfContactLastName: '',
+      primaryEmail: '',
+      phoneNumbers: [{
+        id: 'primary',
+        type: 'mobile',
+        number: '',
+        extension: '',
+        isPrimary: true
+      }],
+      streetAddress: {
+        streetAddress1: '',
+        streetAddress2: '',
+        city: '',
+        state: '',
+        zipCode: ''
+      },
+      mailingAddress: {
+        streetAddress1: '',
+        streetAddress2: '',
+        city: '',
+        state: '',
+        zipCode: ''
+      }
     }
     setStepData(updatedData)
     onUpdate(updatedData)
@@ -170,48 +214,29 @@ export function ClientInformationStep({ data, onUpdate }: ClientInformationStepP
           </div>
 
           {stepData.clientStatus === 'existing' && (
-            <div className="space-y-3">
-              <p className="text-sm text-gray-600">
-                {loading 
-                  ? 'Loading clients...' 
-                  : 'Select an existing client from the list below:'
-                }
-              </p>
-              {loading ? (
-                <div className="text-center py-4">
-                  <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
+            <div className="space-y-4">
+              <div className="border-t pt-4">
+                <h4 className="text-sm font-medium text-gray-900 mb-3">
+                  Search for Existing Client
+                </h4>
+                <ClientSearchDropdown
+                  onClientSelect={selectExistingClient}
+                  onClear={clearExistingClient}
+                  placeholder="Search by name, email, phone, address..."
+                  className="w-full"
+                />
+              </div>
+              
+              {!stepData.selectedExistingClientId && (
+                <div className="text-center py-6 text-gray-500">
+                  <Search className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                  <p className="text-sm">
+                    Start typing to search for existing clients
+                  </p>
+                  <p className="text-xs mt-1">
+                    You can search by name, email, phone number, or address
+                  </p>
                 </div>
-              ) : availableClients.length === 0 ? (
-                <div className="text-center py-4 text-gray-500">
-                  No clients found. Create a new client instead.
-                </div>
-              ) : (
-                availableClients.map(client => (
-                  <div
-                    key={client.id}
-                    className={`p-4 border rounded-lg cursor-pointer transition-colors ${
-                      stepData.selectedExistingClientId === client.id
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                    onClick={() => selectExistingClient(client)}
-                  >
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h4 className="font-medium text-gray-900">{client.name}</h4>
-                        <p className="text-sm text-gray-600 capitalize">{client.type}</p>
-                        <p className="text-sm text-gray-600">{client.email}</p>
-                        <p className="text-sm text-gray-600">{client.phone}</p>
-                        <p className="text-sm text-gray-500">{client.address}</p>
-                      </div>
-                      {stepData.selectedExistingClientId === client.id && (
-                        <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
-                          <div className="w-2 h-2 bg-white rounded-full"></div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))
               )}
             </div>
           )}
@@ -256,8 +281,8 @@ export function ClientInformationStep({ data, onUpdate }: ClientInformationStepP
         </Card>
       )}
 
-      {/* Client Details - Only show for new clients */}
-      {stepData.clientStatus === 'new' && (
+      {/* Client Details - Show for new clients and existing clients with selected client */}
+      {(stepData.clientStatus === 'new' || (stepData.clientStatus === 'existing' && stepData.selectedExistingClientId)) && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -357,8 +382,8 @@ export function ClientInformationStep({ data, onUpdate }: ClientInformationStepP
         </Card>
       )}
 
-      {/* Phone Numbers - Only show for new clients */}
-      {stepData.clientStatus === "new" && (
+      {/* Phone Numbers - Show for new clients and existing clients with selected client */}
+      {(stepData.clientStatus === "new" || (stepData.clientStatus === 'existing' && stepData.selectedExistingClientId)) && (
         <Card>
           <CardContent className="pt-6">
             <StandardizedPhoneInput
@@ -372,8 +397,8 @@ export function ClientInformationStep({ data, onUpdate }: ClientInformationStepP
         </Card>
       )}
 
-      {/* Street Address - Only show for new clients */}
-      {stepData.clientStatus === "new" && (
+      {/* Street Address - Show for new clients and existing clients with selected client */}
+      {(stepData.clientStatus === "new" || (stepData.clientStatus === 'existing' && stepData.selectedExistingClientId)) && (
         <Card>
           <CardContent className="pt-6">
             <StandardizedAddressInput
@@ -387,8 +412,8 @@ export function ClientInformationStep({ data, onUpdate }: ClientInformationStepP
         </Card>
       )}
 
-      {/* Mailing Address - Only show for new clients */}
-      {stepData.clientStatus === "new" && (
+      {/* Mailing Address - Show for new clients and existing clients with selected client */}
+      {(stepData.clientStatus === "new" || (stepData.clientStatus === 'existing' && stepData.selectedExistingClientId)) && (
         <Card>
           <CardContent className="pt-6">
             <StandardizedAddressInput
@@ -406,8 +431,8 @@ export function ClientInformationStep({ data, onUpdate }: ClientInformationStepP
         </Card>
       )}
 
-      {/* Coinsured Section - Only show for new clients */}
-      {stepData.clientStatus === "new" && (
+      {/* Coinsured Section - Show for new clients and existing clients with selected client */}
+      {(stepData.clientStatus === "new" || (stepData.clientStatus === 'existing' && stepData.selectedExistingClientId)) && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">

@@ -5,7 +5,7 @@
         "id": "1",
         "content": "Additional Claim Intake Wizard Enhancements",
         "details": "**Client Search Functionality:**\n- Add search field when 'Existing Client' is selected\n- Implement dropdown search options (name, address, etc.)\n- Connect to client database for search results\n- Auto-populate client information when selected\n\n**Layout Improvements:**\n- Restructure deductibles section to use 2-column layout for better space utilization",
-        "status": "pending",
+        "status": "in_progress",
         "priority": "high"
       }
     }

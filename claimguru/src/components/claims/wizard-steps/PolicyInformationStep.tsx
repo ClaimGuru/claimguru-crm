@@ -745,97 +745,102 @@ export function PolicyInformationStep({ data, onUpdate }: PolicyInformationStepP
         <CardHeader>
           <CardTitle>Deductibles</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6">
-          {Object.entries(stepData.deductibles).map(([key, deductibleData]) => {
-            if (key === 'otherDescription') return null
-            
-            const deductible = deductibleData as any
-            const labels = {
-              allOtherPerils: 'All Other Perils',
-              windHail: 'Wind/Hail',
-              hurricane: 'Hurricane',
-              earthquake: 'Earthquake',
-              flood: 'Flood',
-              other: 'Other'
-            }
-            
-            return (
-              <div key={key} className="border rounded-lg p-4 space-y-3">
-                {/* Deductible Label */}
-                <div>
-                  <span className="text-sm font-medium text-gray-700">{labels[key]}</span>
-                </div>
-                
-                {/* Percentage/Dollar Toggle */}
-                <div className="flex items-center gap-6">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name={`${key}_type`}
-                      checked={!deductible.isPercentage}
-                      onChange={() => updateDeductibleField(key, 'isPercentage', false)}
-                      className="w-4 h-4 text-blue-600"
-                    />
-                    <span className="text-sm">Dollar Amount</span>
-                  </label>
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name={`${key}_type`}
-                      checked={deductible.isPercentage || false}
-                      onChange={() => updateDeductibleField(key, 'isPercentage', true)}
-                      className="w-4 h-4 text-blue-600"
-                    />
-                    <span className="text-sm">Percentage</span>
-                  </label>
-                </div>
-                
-                {/* Amount/Percentage Input */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">
-                      {deductible.isPercentage ? 'Percentage' : 'Deductible Amount'}
-                    </label>
-                    <Input
-                      type="text"
-                      value={deductible.amount || ''}
-                      onChange={(e) => updateDeductibleField(key, 'amount', e.target.value)}
-                      placeholder={deductible.isPercentage ? '2%' : '$2,500'}
-                    />
+        <CardContent>
+          {/* 2-Column Layout for Deductibles */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {Object.entries(stepData.deductibles).map(([key, deductibleData]) => {
+              if (key === 'otherDescription') return null
+              
+              const deductible = deductibleData as any
+              const labels = {
+                allOtherPerils: 'All Other Perils',
+                windHail: 'Wind/Hail',
+                hurricane: 'Hurricane',
+                earthquake: 'Earthquake',
+                flood: 'Flood',
+                other: 'Other'
+              }
+              
+              return (
+                <div key={key} className="border rounded-lg p-4 space-y-3 bg-white">
+                  {/* Deductible Label */}
+                  <div className="border-b pb-2">
+                    <span className="text-sm font-medium text-gray-700">{labels[key]}</span>
                   </div>
-                  {deductible.isPercentage && (
+                  
+                  {/* Percentage/Dollar Toggle */}
+                  <div className="flex items-center gap-4">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name={`${key}_type`}
+                        checked={!deductible.isPercentage}
+                        onChange={() => updateDeductibleField(key, 'isPercentage', false)}
+                        className="w-4 h-4 text-blue-600"
+                      />
+                      <span className="text-xs">Dollar</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name={`${key}_type`}
+                        checked={deductible.isPercentage || false}
+                        onChange={() => updateDeductibleField(key, 'isPercentage', true)}
+                        className="w-4 h-4 text-blue-600"
+                      />
+                      <span className="text-xs">Percentage</span>
+                    </label>
+                  </div>
+                  
+                  {/* Amount/Percentage Input */}
+                  <div className="space-y-3">
                     <div>
                       <label className="block text-xs font-medium text-gray-600 mb-1">
-                        Calculate from
+                        {deductible.isPercentage ? 'Percentage' : 'Deductible Amount'}
                       </label>
-                      <select
-                        value={deductible.coverage || 'coverageA'}
-                        onChange={(e) => updateDeductibleField(key, 'coverage', e.target.value)}
-                        className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      >
-                        <option value="coverageA">Coverage A (Dwelling)</option>
-                        <option value="coverageB">Coverage B (Other Structures)</option>
-                        <option value="coverageC">Coverage C (Personal Property)</option>
-                        <option value="coverageD">Coverage D (Loss of Use)</option>
-                      </select>
+                      <Input
+                        type="text"
+                        value={deductible.amount || ''}
+                        onChange={(e) => updateDeductibleField(key, 'amount', e.target.value)}
+                        placeholder={deductible.isPercentage ? '2%' : '$2,500'}
+                        className="text-sm"
+                      />
+                    </div>
+                    {deductible.isPercentage && (
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1">
+                          Calculate from
+                        </label>
+                        <select
+                          value={deductible.coverage || 'coverageA'}
+                          onChange={(e) => updateDeductibleField(key, 'coverage', e.target.value)}
+                          className="w-full px-3 py-2 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                          <option value="coverageA">Coverage A</option>
+                          <option value="coverageB">Coverage B</option>
+                          <option value="coverageC">Coverage C</option>
+                          <option value="coverageD">Coverage D</option>
+                        </select>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Calculated Amount Display */}
+                  {deductible.isPercentage && deductible.calculatedAmount && (
+                    <div className="bg-green-50 border border-green-200 rounded p-2">
+                      <span className="text-xs font-medium text-green-800">
+                        Calculated: {deductible.calculatedAmount}
+                      </span>
                     </div>
                   )}
                 </div>
-                
-                {/* Calculated Amount Display */}
-                {deductible.isPercentage && deductible.calculatedAmount && (
-                  <div className="bg-green-50 border border-green-200 rounded p-2">
-                    <span className="text-xs font-medium text-green-800">
-                      Calculated Deductible: {deductible.calculatedAmount}
-                    </span>
-                  </div>
-                )}
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
           
+          {/* Other Deductible Description - Full Width */}
           {stepData.deductibles.other?.amount && (
-            <div className="mt-4">
+            <div className="mt-6">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Other Deductible Description
               </label>
