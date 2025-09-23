@@ -1,6 +1,28 @@
 
-        const planConfigs = {"individual": {"amount": 9900, "name": "Individual Plan", "currency": "usd", "interval": "month", "monthlyLimit": 1}, "firm": {"amount": 24900, "name": "Firm Plan", "currency": "usd", "interval": "month", "monthlyLimit": 3}, "additional_user": {"amount": 5900, "name": "Additional Assignable User", "currency": "usd", "interval": "month", "monthlyLimit": 1}}
-        const tableName = "pay_plans"
+        const planConfigs = {
+  "individual": {
+    "amount": 9900,
+    "name": "Individual Plan",
+    "currency": "usd",
+    "interval": "month",
+    "monthlyLimit": 1
+  },
+  "firm": {
+    "amount": 24900,
+    "name": "Firm Plan", 
+    "currency": "usd",
+    "interval": "month",
+    "monthlyLimit": 7
+  },
+  "additional_user": {
+    "amount": 5900,
+    "name": "Additional Assignable User",
+    "currency": "usd", 
+    "interval": "month",
+    "monthlyLimit": 1
+  }
+}
+        const tableName = "stripe_plans"
 
 async function createDynamicPrice(planType: string, stripeSecretKey: string) {
   const config = planConfigs[planType];

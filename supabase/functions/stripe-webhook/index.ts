@@ -60,8 +60,8 @@ function getPriceId(invoice: any): string | undefined {
 // Handle cancel subscription changes
 async function handleSubscription(invoice: any, supabaseUrl: string, serviceRoleKey: string) {
     const isCanceling = invoice.cancel_at_period_end === true || invoice.status === 'canceled';
-    const subscriptions_table = 'pay_subscriptions'
-    const plans_table = 'pay_plans'
+    const subscriptions_table = 'stripe_subscriptions'
+    const plans_table = 'stripe_plans'
     
     // Use the helper function to get subscription ID safely
     const subscriptionId = getSubscriptionId(invoice);
@@ -94,8 +94,8 @@ async function handlePayment(invoice: any, supabaseUrl: string, serviceRoleKey: 
     if (!['subscription_cycle', 'subscription_create'].includes(invoice.billing_reason)) return;
 
     const customerId = invoice.customer;
-    const subscriptions_table = 'pay_subscriptions'
-    const plans_table = 'pay_plans'
+    const subscriptions_table = 'stripe_subscriptions'
+    const plans_table = 'stripe_plans'
     
     // Use helper functions to get data safely
     const subscriptionId = getSubscriptionId(invoice);
@@ -107,7 +107,7 @@ async function handlePayment(invoice: any, supabaseUrl: string, serviceRoleKey: 
     }
 
     // Query plans table to get plan_type by price_id
-    const planResponse = await fetch(`${supabaseUrl}/rest/v1/pay_plans?price_id=eq.${priceId}&select=plan_type,monthly_limit`, {
+    const planResponse = await fetch(`${supabaseUrl}/rest/v1/stripe_plans?price_id=eq.${priceId}&select=plan_type,monthly_limit`, {
         headers: {
             'Authorization': `Bearer ${serviceRoleKey}`,
             'apikey': serviceRoleKey
