@@ -3,73 +3,45 @@
     "Coordinator": {
       "1": {
         "id": "1",
-        "content": "Phase 1: Database Structure Audit",
-        "details": "Audit all 92 database tables, check for redundancies, unused tables, orphaned data, and optimize RLS policies",
+        "content": "Complete Frontend Database Cross-Reference Audit Report",
+        "details": "Create comprehensive audit report documenting the cross-reference analysis between database tables and frontend implementations. Report should include evidence for each table's usage status and recommendations for cleanup vs. development.",
         "status": "completed",
         "priority": "high"
       },
       "2": {
         "id": "2",
-        "content": "Phase 2: Frontend Components Audit",
-        "details": "Examine all React components, identify dead code, unused imports, redundant components, and optimization opportunities",
-        "status": "completed",
+        "content": "Complete Client Intake System with All Dependencies",
+        "details": "Build out the complete client intake workflow including: 1) Vendor management system integration 2) Insurance company database and integrations 3) Client profile management 4) Adjuster relationship management 5) Attorney network integration 6) Complete intake wizard with all data validation and processing",
+        "status": "pending",
         "priority": "high"
       },
       "3": {
         "id": "3",
-        "content": "Phase 3: API & Functions Audit",
-        "details": "Review all edge functions, API endpoints, identify unused functions, redundant code, and security vulnerabilities",
-        "status": "completed",
+        "content": "Develop Lead Generation and Sales Funnel System",
+        "details": "Create comprehensive lead capture and management system: 1) Embeddable form builder for websites/social media 2) Lead scoring and qualification system 3) Automated follow-up sequences 4) CRM integration for lead-to-client conversion 5) Analytics and conversion tracking 6) Multi-channel lead capture (social media, referrals, web)",
+        "status": "pending",
         "priority": "high"
       },
       "4": {
         "id": "4",
-        "content": "Phase 4: Security & Authentication Audit",
-        "details": "Audit RLS policies, authentication flows, identify security gaps and redundant security measures",
-        "status": "completed",
-        "priority": "high"
+        "content": "Implement Advanced Communication Features",
+        "details": "Build advanced communication infrastructure: 1) Phone call recording and transcription system 2) Text message integration with client files 3) Email automation and client file association 4) Communication history and audit trails 5) Multi-channel communication dashboard 6) Automated reminder and follow-up systems",
+        "status": "pending",
+        "priority": "medium"
       },
       "5": {
         "id": "5",
-        "content": "Phase 5: Performance & Code Quality Audit",
-        "details": "Identify performance bottlenecks, dead code, unused dependencies, and code quality issues",
-        "status": "completed",
+        "content": "Develop AI Assistant for All System Phases",
+        "details": "Create comprehensive AI assistant system: 1) Claims guidance and processing assistance 2) Document analysis and extraction 3) Settlement prediction and recommendations 4) Legal guidance and compliance checking 5) Client communication assistance 6) Workflow optimization suggestions 7) Predictive analytics for case outcomes",
+        "status": "pending",
         "priority": "medium"
       },
       "6": {
         "id": "6",
-        "content": "Phase 6: Data Integrity & Cleanup",
-        "details": "Check for orphaned data, inconsistent records, and data cleanup opportunities",
-        "status": "completed",
+        "content": "Create Implementation Roadmap and Documentation",
+        "details": "Develop comprehensive implementation plan with: 1) Technical architecture documentation 2) Development timeline and milestones 3) Resource requirements and dependencies 4) Integration specifications 5) Testing and deployment strategies 6) Training materials and user guides",
+        "status": "pending",
         "priority": "medium"
-      },
-      "7": {
-        "id": "7",
-        "content": "Phase 7: Dependencies & Package Audit",
-        "details": "Review all packages and dependencies for unused, outdated, or redundant libraries",
-        "status": "completed",
-        "priority": "medium"
-      },
-      "8": {
-        "id": "8",
-        "content": "Phase 8: Documentation & Config Audit",
-        "details": "Audit configuration files, documentation, and identify redundant or outdated config",
-        "status": "completed",
-        "priority": "low"
-      },
-      "9": {
-        "id": "9",
-        "content": "Phase 9: Final Consolidation",
-        "details": "Compile all findings into comprehensive audit report with prioritized action items",
-        "status": "completed",
-        "priority": "high"
-      },
-      "10": {
-        "id": "10",
-        "content": "Phase 10: Action Plan Creation",
-        "details": "Create detailed action plan with timelines, priorities, and implementation steps for all identified issues",
-        "status": "completed",
-        "priority": "high"
       }
     }
   }
