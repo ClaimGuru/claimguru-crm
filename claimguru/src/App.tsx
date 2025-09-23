@@ -6,6 +6,7 @@ import ToastContainer from './components/ui/ToastContainer'
 import { NotificationProvider, NotificationToastContainer } from './contexts/NotificationContext'
 import { PageTransition } from './components/ui/Animations'
 import { AuthPage } from './pages/AuthPage'
+import Billing from './pages/Billing'
 import { AuthCallback } from './pages/AuthCallback'
 import ClientManagement from './pages/ClientManagement'
 import LeadManagement from './pages/LeadManagement'
@@ -165,6 +166,7 @@ function AppRoutes() {
         <Route path="integrations" element={<Integrations />} />
         <Route path="analytics" element={<div className="p-6"><h1 className="text-2xl font-bold">Analytics</h1><p>Advanced analytics dashboard coming soon...</p></div>} />
         <Route path="settings" element={<Settings />} />
+        <Route path="billing" element={<Billing />} />
         <Route path="notifications" element={<Notifications />} />
         <Route path="admin" element={<AdminPanel />} />
         <Route path="help" element={<div className="p-6"><h1 className="text-2xl font-bold">Help & Support</h1><p>Help center coming soon...</p></div>} />
