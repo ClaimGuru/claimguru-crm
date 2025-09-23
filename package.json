@@ -1,0 +1,7 @@
+{
+	"dependencies": {
+		"react-select": "^5.10.2",
+		"lodash.debounce": "^4.0.8",
+		"@types/lodash.debounce": "^4.0.9"
+	}
+}

@@ -1,15 +1,19 @@
 /**
- * CLIENT SELECTOR COMPONENT
+ * ENHANCED CLIENT SELECTOR COMPONENT
  * 
- * A selector component for finding and selecting existing clients
- * or creating new ones.
+ * A comprehensive search component for finding and selecting existing clients
+ * with real-time database search across multiple fields.
  */
 
-import React, { useState, useEffect } from 'react'
-import { Search, UserPlus, User } from 'lucide-react'
+import React, { useState, useEffect, useCallback } from 'react'
+import { Search, UserPlus, User, Loader2, X, MapPin, Phone, Mail } from 'lucide-react'
 import { Input } from '../ui/Input'
 import { Button } from '../ui/Button'
 import { Card, CardContent } from '../ui/Card'
+import { LoadingSpinner } from '../ui/LoadingSpinner'
+import { supabase } from '../../lib/supabase'
+import { useAuth } from '../../contexts/AuthContext'
+import type { Client } from '../../lib/supabase'
 
 export interface ClientData {
   id: string
@@ -39,85 +43,197 @@ export interface ClientSelectorProps {
   className?: string
   showCreateNew?: boolean
   onCreateNew?: () => void
+  maxResults?: number
+  minSearchLength?: number
 }
 
-// Mock client data - in a real app this would come from an API
-const mockClients: ClientData[] = [
-  {
-    id: '1',
-    first_name: 'John',
-    last_name: 'Smith',
-    primary_email: 'john.smith@email.com',
-    primary_phone: '(555) 123-4567',
-    client_type: 'residential',
-    organization_id: 'org-1',
-    is_policyholder: true,
-    country: 'US',
-    mailing_same_as_address: true
-  },
-  {
-    id: '2', 
-    first_name: 'Jane',
-    last_name: 'Johnson',
-    primary_email: 'jane.johnson@email.com',
-    primary_phone: '(555) 234-5678',
-    client_type: 'residential',
-    organization_id: 'org-1',
-    is_policyholder: true,
-    country: 'US',
-    mailing_same_as_address: true
-  },
-  {
-    id: '3',
-    first_name: 'Acme',
-    last_name: 'Corporation',
-    business_name: 'Acme Corporation',
-    primary_email: 'contact@acme.com',
-    primary_phone: '(555) 345-6789',
-    client_type: 'commercial',
-    organization_id: 'org-1',
-    is_policyholder: true,
-    country: 'US',
-    mailing_same_as_address: true
-  }
-]
+// Debounce hook for search optimization
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value)
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value)
+    }, delay)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [value, delay])
+
+  return debouncedValue
+}
 
 export const ClientSelector: React.FC<ClientSelectorProps> = ({
   value,
   onSelect,
-  placeholder = "Search clients...",
+  placeholder = "Search by name, address, phone, email...",
   className = '',
   showCreateNew = false,
-  onCreateNew
+  onCreateNew,
+  maxResults = 15,
+  minSearchLength = 2
 }) => {
+  const { userProfile } = useAuth()
   const [searchTerm, setSearchTerm] = useState('')
   const [isOpen, setIsOpen] = useState(false)
-  const [filteredClients, setFilteredClients] = useState<ClientData[]>([])
-  const selectedClient = mockClients.find(c => c.id === value)
+  const [searchResults, setSearchResults] = useState<ClientData[]>([])
+  const [isSearching, setIsSearching] = useState(false)
+  const [selectedClient, setSelectedClient] = useState<ClientData | null>(null)
+  
+  // Debounce search term to avoid excessive API calls
+  const debouncedSearchTerm = useDebounce(searchTerm, 300)
 
-  // Filter clients based on search term
-  useEffect(() => {
-    if (!searchTerm.trim()) {
-      setFilteredClients(mockClients.slice(0, 5)) // Show first 5 clients
+  // Search clients from database with debouncing
+  const searchClients = useCallback(async (query: string) => {
+    if (!userProfile?.organization_id || !query || query.length < minSearchLength) {
+      setSearchResults([])
+      setIsSearching(false)
       return
     }
 
-    const filtered = mockClients.filter(client => 
-      client.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      client.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      client.primary_email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      client.primary_phone.includes(searchTerm)
-    )
-    
-    setFilteredClients(filtered)
-  }, [searchTerm])
+    setIsSearching(true)
+
+    try {
+      // Create a comprehensive search query using Supabase full-text search and ilike
+      const { data, error } = await supabase
+        .from('clients')
+        .select(`
+          id,
+          first_name,
+          last_name,
+          business_name,
+          primary_email,
+          primary_phone,
+          secondary_phone,
+          mobile_phone,
+          client_type,
+          address_line_1,
+          address_line_2,
+          city,
+          state,
+          zip_code,
+          organization_id,
+          is_policyholder,
+          country,
+          mailing_same_as_address,
+          created_at,
+          updated_at
+        `)
+        .eq('organization_id', userProfile.organization_id)
+        .or(`
+          first_name.ilike.%${query}%,
+          last_name.ilike.%${query}%,
+          business_name.ilike.%${query}%,
+          primary_email.ilike.%${query}%,
+          primary_phone.ilike.%${query}%,
+          secondary_phone.ilike.%${query}%,
+          mobile_phone.ilike.%${query}%,
+          address_line_1.ilike.%${query}%,
+          city.ilike.%${query}%,
+          state.ilike.%${query}%,
+          zip_code.ilike.%${query}%
+        `)
+        .limit(maxResults)
+        .order('created_at', { ascending: false })
+
+      if (error) {
+        console.error('Client search error:', error)
+        setSearchResults([])
+      } else {
+        // Convert Client to ClientData format
+        const clientData: ClientData[] = (data || []).map(client => ({
+          id: client.id,
+          first_name: client.first_name || '',
+          last_name: client.last_name || '',
+          business_name: client.business_name || undefined,
+          primary_email: client.primary_email || '',
+          primary_phone: client.primary_phone || '',
+          client_type: client.client_type || 'residential',
+          address_line_1: client.address_line_1 || undefined,
+          address_line_2: client.address_line_2 || undefined,
+          city: client.city || undefined,
+          state: client.state || undefined,
+          zip_code: client.zip_code || undefined,
+          organization_id: client.organization_id,
+          is_policyholder: client.is_policyholder || false,
+          country: client.country || 'US',
+          mailing_same_as_address: client.mailing_same_as_address || true,
+          created_at: client.created_at,
+          updated_at: client.updated_at
+        }))
+        setSearchResults(clientData)
+      }
+    } catch (error) {
+      console.error('Error searching clients:', error)
+      setSearchResults([])
+    } finally {
+      setIsSearching(false)
+    }
+  }, [userProfile?.organization_id, maxResults, minSearchLength])
+
+  // Trigger search when debounced search term changes
+  useEffect(() => {
+    searchClients(debouncedSearchTerm)
+  }, [debouncedSearchTerm, searchClients])
+
+  // Load selected client by ID
+  useEffect(() => {
+    if (value && userProfile?.organization_id) {
+      const loadSelectedClient = async () => {
+        try {
+          const { data, error } = await supabase
+            .from('clients')
+            .select('*')
+            .eq('id', value)
+            .eq('organization_id', userProfile.organization_id)
+            .single()
+
+          if (!error && data) {
+            const clientData: ClientData = {
+              id: data.id,
+              first_name: data.first_name || '',
+              last_name: data.last_name || '',
+              business_name: data.business_name || undefined,
+              primary_email: data.primary_email || '',
+              primary_phone: data.primary_phone || '',
+              client_type: data.client_type || 'residential',
+              address_line_1: data.address_line_1 || undefined,
+              address_line_2: data.address_line_2 || undefined,
+              city: data.city || undefined,
+              state: data.state || undefined,
+              zip_code: data.zip_code || undefined,
+              organization_id: data.organization_id,
+              is_policyholder: data.is_policyholder || false,
+              country: data.country || 'US',
+              mailing_same_as_address: data.mailing_same_as_address || true,
+              created_at: data.created_at,
+              updated_at: data.updated_at
+            }
+            setSelectedClient(clientData)
+          }
+        } catch (error) {
+          console.error('Error loading selected client:', error)
+        }
+      }
+      loadSelectedClient()
+    } else {
+      setSelectedClient(null)
+    }
+  }, [value, userProfile?.organization_id])
 
   const handleSearch = (term: string) => {
     setSearchTerm(term)
-    setIsOpen(true)
+    if (term.length >= minSearchLength) {
+      setIsOpen(true)
+    } else if (term.length === 0) {
+      setIsOpen(false)
+      setSearchResults([])
+    }
   }
 
   const handleSelect = (client: ClientData) => {
+    setSelectedClient(client)
     onSelect(client)
     setIsOpen(false)
     setSearchTerm('')
@@ -125,7 +241,45 @@ export const ClientSelector: React.FC<ClientSelectorProps> = ({
 
   const handleCreateNew = () => {
     setIsOpen(false)
+    setSearchTerm('')
     onCreateNew?.()
+  }
+
+  const handleClearSelection = () => {
+    setSelectedClient(null)
+    setSearchTerm('')
+    setSearchResults([])
+    // Call onSelect with empty data to clear parent state
+    onSelect({
+      id: '',
+      first_name: '',
+      last_name: '',
+      primary_email: '',
+      primary_phone: '',
+      client_type: 'residential',
+      organization_id: '',
+      is_policyholder: true,
+      country: 'US',
+      mailing_same_as_address: true
+    })
+  }
+
+  // Format display name for client
+  const getClientDisplayName = (client: ClientData) => {
+    if (client.business_name) {
+      return client.business_name
+    }
+    return `${client.first_name} ${client.last_name}`.trim()
+  }
+
+  // Format client address for display
+  const getClientAddress = (client: ClientData) => {
+    const parts = []
+    if (client.address_line_1) parts.push(client.address_line_1)
+    if (client.city) parts.push(client.city)
+    if (client.state) parts.push(client.state)
+    if (client.zip_code) parts.push(client.zip_code)
+    return parts.join(', ')
   }
 
   return (
