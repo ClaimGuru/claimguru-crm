@@ -1,4 +1,5 @@
-# Copy-Paste Text for Stripe Product Creation
+# FINAL Copy-Paste Text for Stripe Product Creation
+## (Updated with Competitive Storage Limits)
 
 ## Product 1: Individual Plan
 
@@ -9,7 +10,7 @@ Individual Plan
 
 **Description (copy this):**
 ```
-Professional plan for individual adjusters with 2 users included (1 Assigned Public Adjuster + 1 Admin Staff). Includes unlimited claims, basic client portal, email automations, and 5GB storage.
+Professional plan for individual adjusters with 2 users included (1 Assigned Public Adjuster + 1 Admin Staff). Includes unlimited claims, basic client portal, email automations, and 1TB storage.
 ```
 
 **Price:** $99.00 USD Monthly
@@ -41,7 +42,7 @@ Firm Plan
 
 **Description (copy this):**
 ```
-Business plan for firms with 7 users included (3 Assigned Public Adjusters + 3 Admin Staff + 1 Sales User). Includes advanced client portals, team collaboration, API access, priority support, and 50GB storage.
+Business plan for firms with 7 users included (3 Assigned Public Adjusters + 3 Admin Staff + 1 Sales User). Includes advanced client portals, team collaboration, API access, priority support, and 5TB storage.
 ```
 
 **Price:** $249.00 USD Monthly
