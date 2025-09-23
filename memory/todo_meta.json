@@ -3,92 +3,22 @@
     "Coordinator": {
       "1": {
         "id": "1",
-        "content": "Foundation & Infrastructure Setup",
-        "details": "🏗️ INFRASTRUCTURE PHASE\n1. Complete security audit and RLS policy implementation\n2. Implement comprehensive role-based access control (Admin, Manager, User, Client)\n3. Set up CI/CD deployment pipeline with staging and production environments\n4. Configure database backup and recovery systems\n5. Implement audit logging for all user actions\n6. Set up monitoring, error tracking, and performance analytics\n7. Configure SSL certificates and domain management\n8. Implement rate limiting and security headers",
+        "content": "Get Stripe API keys from user",
+        "details": "Collect the Stripe publishable key, secret key, and product IDs from the user's Stripe dashboard to enable subscription integration.",
         "status": "pending",
         "priority": "high"
       },
       "2": {
         "id": "2",
-        "content": "Critical Business Features Implementation",
-        "details": "💼 BUSINESS CRITICAL PHASE\n1. Build complete invoice generation system with PDF export\n2. Implement payment processing integration (Stripe/Square)\n3. Create comprehensive reporting and analytics dashboard\n4. Build bulk operations for all entity management (clients, vendors, etc.)\n5. Implement advanced search and filtering across all pages\n6. Create automated workflow engine for claims processing\n7. Build notification system (email, SMS, in-app)\n8. Implement document version control and approval workflows",
-        "status": "in_progress",
+        "content": "Build Public Insurance Adjuster CRM with Stripe Integration",
+        "details": "Develop a full-stack CRM application including: 1) User authentication & role management (Assignable Users, Admin Users, Office Staff, Sales) 2) Stripe subscription management 3) Claims management system 4) Client portal 5) Document storage with 1TB per assignable user limits 6) Email automations 7) Reporting and analytics 8) Team collaboration tools",
+        "status": "pending",
         "priority": "high"
       },
       "3": {
         "id": "3",
-        "content": "Core CRM & Claims Management Completion",
-        "details": "📋 CORE FEATURES PHASE\n1. Complete all partially implemented forms with validation\n2. Finish AI-powered claim intake wizard integration\n3. Implement lead scoring and conversion tracking\n4. Build comprehensive contact management with communication history\n5. Create settlement negotiation tracking system\n6. Implement task assignment and deadline management\n7. Build calendar integration for appointments and deadlines\n8. Create client portal for claim status and document access",
-        "status": "pending",
-        "priority": "high"
-      },
-      "4": {
-        "id": "4",
-        "content": "Lead Generation & Sales Funnel System",
-        "details": "🎯 LEAD GENERATION PHASE\n1. Build embeddable lead capture forms for websites/social media\n2. Create lead scoring algorithm based on case value potential\n3. Implement automated email/SMS follow-up sequences\n4. Build referral partner portal and tracking system\n5. Create marketing campaign management tools\n6. Implement lead source attribution and ROI tracking\n7. Build conversion funnel analytics and optimization\n8. Create A/B testing framework for landing pages",
-        "status": "pending",
-        "priority": "high"
-      },
-      "5": {
-        "id": "5",
-        "content": "Advanced Communication Infrastructure",
-        "details": "📞 COMMUNICATION PHASE\n1. Integrate VoIP system with call recording (Twilio/RingCentral)\n2. Implement SMS integration with client file association\n3. Build email automation with template management\n4. Create communication audit trail and compliance tracking\n5. Implement video conferencing integration (Zoom/Teams)\n6. Build multi-channel communication dashboard\n7. Create automated appointment scheduling system\n8. Implement communication analytics and performance metrics",
-        "status": "pending",
-        "priority": "medium"
-      },
-      "6": {
-        "id": "6",
-        "content": "AI & Machine Learning Features",
-        "details": "🤖 AI ENHANCEMENT PHASE\n1. Implement document OCR and intelligent data extraction\n2. Build settlement value prediction algorithms\n3. Create AI-powered case outcome analysis\n4. Implement intelligent task prioritization\n5. Build automated document classification and filing\n6. Create AI chatbot for client support\n7. Implement fraud detection algorithms\n8. Build predictive analytics for business insights",
-        "status": "pending",
-        "priority": "medium"
-      },
-      "7": {
-        "id": "7",
-        "content": "Financial Management & Accounting Integration",
-        "details": "💰 FINANCIAL PHASE\n1. Complete expense tracking and categorization system\n2. Implement trust account management with compliance tracking\n3. Build comprehensive fee schedule management\n4. Create financial reporting and profit/loss analysis\n5. Implement QuickBooks/Xero integration\n6. Build time tracking and billing system\n7. Create automatic payment processing and reconciliation\n8. Implement tax reporting and compliance features",
-        "status": "pending",
-        "priority": "medium"
-      },
-      "8": {
-        "id": "8",
-        "content": "Advanced Analytics & Reporting System",
-        "details": "📊 ANALYTICS PHASE\n1. Build comprehensive business intelligence dashboard\n2. Create custom report builder with drag-and-drop interface\n3. Implement real-time performance monitoring\n4. Build competitive analysis and market insights\n5. Create client satisfaction tracking and surveys\n6. Implement predictive business forecasting\n7. Build compliance and regulatory reporting\n8. Create executive summary and KPI dashboards",
-        "status": "pending",
-        "priority": "medium"
-      },
-      "9": {
-        "id": "9",
-        "content": "Mobile Application Development",
-        "details": "📱 MOBILE PHASE\n1. Build responsive mobile-first design for all pages\n2. Create native mobile app for field adjusters\n3. Implement offline capability for mobile operations\n4. Build mobile document capture and upload\n5. Create mobile-optimized claim intake forms\n6. Implement push notifications for mobile devices\n7. Build GPS tracking for field operations\n8. Create mobile analytics and performance optimization",
-        "status": "pending",
-        "priority": "low"
-      },
-      "10": {
-        "id": "10",
-        "content": "Third-Party Integrations & API Development",
-        "details": "🔗 INTEGRATION PHASE\n1. Build comprehensive insurance carrier API integrations\n2. Implement medical provider network connections\n3. Create legal database and research tool integrations\n4. Build credit checking and background verification systems\n5. Implement mapping and geolocation services\n6. Create social media integration for lead generation\n7. Build weather and catastrophe data integration\n8. Implement blockchain for document verification",
-        "status": "pending",
-        "priority": "low"
-      },
-      "11": {
-        "id": "11",
-        "content": "User Experience & Performance Optimization",
-        "details": "⚡ UX/PERFORMANCE PHASE\n1. Implement advanced search with auto-complete across all entities\n2. Build keyboard shortcuts and power-user features\n3. Create customizable dashboard layouts\n4. Implement dark mode and accessibility features (WCAG compliance)\n5. Build progressive web app (PWA) capabilities\n6. Optimize database queries and implement caching\n7. Create user onboarding and training system\n8. Implement performance monitoring and optimization",
-        "status": "pending",
-        "priority": "low"
-      },
-      "12": {
-        "id": "12",
-        "content": "Security & Compliance Framework",
-        "details": "🔒 SECURITY PHASE\n1. Implement HIPAA compliance for medical records\n2. Build SOC 2 Type II compliance framework\n3. Create data encryption at rest and in transit\n4. Implement advanced threat detection and response\n5. Build compliance audit trails and reporting\n6. Create data retention and deletion policies\n7. Implement multi-factor authentication (MFA)\n8. Build security training and awareness program",
-        "status": "pending",
-        "priority": "low"
-      },
-      "13": {
-        "id": "13",
-        "content": "Production Deployment & Operations",
-        "details": "🚀 DEPLOYMENT PHASE\n1. Configure production infrastructure with load balancing\n2. Implement database clustering and replication\n3. Set up comprehensive monitoring and alerting\n4. Create disaster recovery and business continuity plans\n5. Implement automated testing and quality assurance\n6. Build user training documentation and video tutorials\n7. Create support ticket system and knowledge base\n8. Implement usage analytics and business intelligence",
+        "content": "Deploy and test the complete CRM system",
+        "details": "Deploy the application, test all subscription tiers, verify role-based access controls, and ensure Stripe integration works correctly for billing and user limits.",
         "status": "pending",
         "priority": "medium"
       }
