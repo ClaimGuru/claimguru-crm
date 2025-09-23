@@ -3,19 +3,6 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = 'https://ttnjqxemkbugwsofacxs.supabase.co'
 const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0bmpxeGVta2J1Z3dzb2ZhY3hzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIwODY1ODksImV4cCI6MjA2NzY2MjU4OX0.T4ZQBC1gF0rUtzrNqbf90k0dD8B1vD_JUBiEUbbAfuo'
 
-// Stripe Configuration
-export const STRIPE_PUBLISHABLE_KEY = 'pk_test_51QQS2yHDdygDf1Z4wRCJIqNwM6G40i5cSkM5qnpvYd0Ke6gM75TjY2WzHOOCaJH8t8LgvXoMvQ9V95Mf0T7qEaFN00kcnKbFze'
-export const STRIPE_SECRET_KEY = 'sk_test_51QQS2yHDdygDf1Z4vkzrOBjJSTTxLPqiOSjE7HQQCNjJfGrVYLbktpHGOhfbfhqQJ7yWHnEeRd6LlGl6bqDZXu1T00e4RBxQSK'
-
-// Stripe Product IDs
-export const STRIPE_INDIVIDUAL_PLAN_ID = 'price_1SAdiFHDdygDf1Z4vPiOg8Fz'
-export const STRIPE_FIRM_PLAN_ID = 'price_1SAdieHDdygDf1Z4IZzQpxKp'
-export const STRIPE_ADDITIONAL_USER_ID = 'price_1SAdicHDdygDf1Z4fJPKT4v8'
-
-// Stripe table names (with prefix)
-export const STRIPE_PLANS_TABLE = 'stripe_plans'
-export const STRIPE_SUBSCRIPTIONS_TABLE = 'stripe_subscriptions'
-
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // Type definitions for database tables
@@ -663,28 +650,6 @@ export interface Settlement {
   notes?: string
   approved_by?: string
   created_by?: string
-  created_at: string
-  updated_at: string
-}
-
-// Stripe Subscription Types
-export interface StripePlan {
-  id: number
-  price_id: string
-  plan_type: string
-  price: number
-  monthly_limit: number
-  created_at: string
-  updated_at: string
-}
-
-export interface StripeSubscription {
-  id: number
-  user_id: string
-  stripe_subscription_id: string
-  stripe_customer_id: string
-  price_id: string
-  status: string
   created_at: string
   updated_at: string
 }

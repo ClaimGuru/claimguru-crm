@@ -30,6 +30,7 @@
     "date-fns": "^3.6.0",
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.364.0",
+    "lodash.debounce": "^4.0.8",
     "pdfjs-dist": "^3.11.174",
     "react": "^18.3.1",
     "react-day-picker": "8.10.1",
@@ -48,6 +49,7 @@
   "devDependencies": {
     "@eslint/js": "^9.15.0",
     "@types/node": "^22.10.7",
+    "@types/lodash.debounce": "^4.0.9",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/react-router-dom": "^5",
