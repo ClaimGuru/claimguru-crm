@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card'
 import { Input } from '../../ui/Input'
 import { Switch } from '../../ui/switch'
@@ -76,6 +76,74 @@ export function PolicyInformationStep({ data, onUpdate }: PolicyInformationStepP
     }
   })
 
+  // Sync local state with props when data changes
+  useEffect(() => {
+    setStepData({
+      // Policy Status
+      policyStatus: data.policyStatus || '',
+      isForcedPlacedPolicy: data.isForcedPlacedPolicy || false,
+      
+      // Insurance Agent & Agency
+      agencyName: data.agencyName || '',
+      agencyLicenseNumber: data.agencyLicenseNumber || '',
+      agentFirstName: data.agentFirstName || '',
+      agentLastName: data.agentLastName || '',
+      agentEmail: data.agentEmail || '',
+      agentPhoneNumbers: data.agentPhoneNumbers || [{
+        id: 'agent_primary',
+        type: 'office',
+        number: '',
+        extension: '',
+        isPrimary: true
+      }],
+      
+      // Policy Details
+      effectiveDate: data.effectiveDate || '',
+      expirationDate: data.expirationDate || '',
+      policyType: data.policyType || '',
+      formType: data.formType || '',
+      
+      // Coverage Information
+      coverageA: data.coverageA || '',
+      coverageB: data.coverageB || '',
+      coverageC: data.coverageC || '',
+      coverageD: data.coverageD || '',
+      
+      // Additional Coverages
+      additionalCoverages: data.additionalCoverages || {
+        ordinanceOrLaw: false,
+        moldCoverage: false,
+        waterBackup: false,
+        identityTheft: false,
+        inflationGuard: false,
+        replacementCost: false,
+        extendedReplacementCost: false,
+        other: false,
+        otherDescription: ''
+      },
+      
+      // Deductibles
+      deductibles: data.deductibles || {
+        allOtherPerils: '',
+        windHail: '',
+        hurricane: '',
+        earthquake: '',
+        flood: '',
+        other: '',
+        otherDescription: ''
+      },
+      
+      // Alternative Dispute Resolution
+      disputeResolution: data.disputeResolution || {
+        mediation: false,
+        arbitration: false,
+        appraisal: false,
+        litigation: false,
+        appraisalType: '' // 'bilateral' or 'unilateral'
+      }
+    })
+  }, [data])
+
   const updateField = (field: string, value: any) => {
     const updatedData = { ...stepData, [field]: value }
     setStepData(updatedData)
@@ -96,13 +164,22 @@ export function PolicyInformationStep({ data, onUpdate }: PolicyInformationStepP
 
   // Auto-calculate expiration date (1 year from effective date)
   const handleEffectiveDateChange = (date: string) => {
-    updateField('effectiveDate', date)
+    let expirationDate = ''
     
     if (date) {
-      const effectiveDate = new Date(date)
-      const expirationDate = new Date(effectiveDate.getFullYear() + 1, effectiveDate.getMonth(), effectiveDate.getDate())
-      updateField('expirationDate', expirationDate.toISOString().split('T')[0])
+      const effectiveDateObj = new Date(date)
+      const expirationDateObj = new Date(effectiveDateObj.getFullYear() + 1, effectiveDateObj.getMonth(), effectiveDateObj.getDate())
+      expirationDate = expirationDateObj.toISOString().split('T')[0]
     }
+    
+    // Update both dates in a single call to prevent race conditions
+    const updatedData = { 
+      ...stepData, 
+      effectiveDate: date,
+      expirationDate: expirationDate
+    }
+    setStepData(updatedData)
+    onUpdate(updatedData)
   }
 
   const policyTypes = [
