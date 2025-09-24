@@ -26,7 +26,7 @@
         "id": "4",
         "content": "🎯 HIGH PRIORITY: Update Pricing Components with Final Tiers",
         "details": "Update all pricing displays, sales pages, subscription components, and Stripe integration to reflect the finalized 3-tier structure: Individual ($99/month), Additional Assignable User ($59/month), Firm ($249/month), plus Enterprise contact section. Ensure consistency across all pricing references in the system.",
-        "status": "pending",
+        "status": "in_progress",
         "priority": "high"
       },
       "5": {
