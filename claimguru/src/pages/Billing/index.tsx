@@ -46,9 +46,11 @@ const PLAN_FEATURES = {
       '1 Assignable User (Public Adjuster)',
       '1 Admin User included',
       '1TB storage',
-      'Unlimited claims',
+      'Unlimited claims processing',
+      'AI-powered document analysis',
       'Basic client portal',
-      'Email automations'
+      'Email automations',
+      'Standard support'
     ],
     popular: false
   },
@@ -56,25 +58,29 @@ const PLAN_FEATURES = {
     name: 'Firm Plan',
     description: 'Ideal for growing adjustment firms',
     features: [
-      '3 Assignable Users',
+      '3 Assignable Users (Public Adjusters)',
       '3 Admin Users included',
       '2 Office Staff included',
       '1 Sales User included',
       '5TB base storage',
       'Team collaboration tools',
+      'Advanced client portals',
       'API access',
-      'Priority support'
+      'Priority support',
+      'Advanced analytics'
     ],
     popular: true
   },
   additional_user: {
-    name: 'Additional User',
+    name: 'Additional Assignable User',
     description: 'Expand your team capacity',
     features: [
-      '1 Additional Assignable User',
+      '1 Additional Assignable User (Public Adjuster)',
       '1 Free Admin User included',
       '+1TB storage per user',
-      'Full platform access'
+      'Full platform access',
+      'Revenue-generating user',
+      'Can be assigned claims'
     ],
     popular: false
   }
@@ -363,16 +369,42 @@ export default function Billing() {
       </div>
 
       {/* Enterprise Plan Call-to-Action */}
-      <Card>
-        <CardContent className="p-6">
+      <Card className="lg:col-span-3">
+        <CardContent className="p-8">
           <div className="text-center">
-            <h3 className="text-xl font-semibold mb-2">Need an Enterprise Solution?</h3>
-            <p className="text-gray-600 mb-4">
-              For large organizations with custom requirements, contact us for personalized pricing and features.
+            <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CreditCard className="h-8 w-8 text-white" />
+            </div>
+            <h3 className="text-2xl font-bold mb-3">Enterprise Solution</h3>
+            <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+              For large organizations with custom requirements, advanced integrations, and dedicated support. 
+              Contact our sales team for personalized pricing and enterprise features.
             </p>
-            <Button variant="outline">
-              <CreditCard className="h-4 w-4 mr-2" />
-              Contact Sales
+            <div className="grid md:grid-cols-3 gap-6 mb-6">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <Users className="h-6 w-6 text-purple-600" />
+                </div>
+                <h4 className="font-semibold mb-2">Unlimited Users</h4>
+                <p className="text-sm text-gray-600">Scale your team without limits</p>
+              </div>
+              <div className="text-center">
+                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <Zap className="h-6 w-6 text-purple-600" />
+                </div>
+                <h4 className="font-semibold mb-2">Custom Integrations</h4>
+                <p className="text-sm text-gray-600">Built-to-order API connections</p>
+              </div>
+              <div className="text-center">
+                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <CheckCircle className="h-6 w-6 text-purple-600" />
+                </div>
+                <h4 className="font-semibold mb-2">Dedicated Support</h4>
+                <p className="text-sm text-gray-600">24/7 priority assistance</p>
+              </div>
+            </div>
+            <Button size="lg" className="bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white">
+              Contact Sales Team
             </Button>
           </div>
         </CardContent>

@@ -222,14 +222,14 @@ export function LandingPage() {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Individual Plan */}
             <Card className="p-8 border-2 border-gray-200 hover:border-blue-300 transition-colors">
               <div className="text-center mb-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Individual</h3>
                 <p className="text-gray-600 mb-4">Perfect for solo adjusters</p>
                 <div className="text-5xl font-bold text-gray-900 mb-2">
-                  $15
+                  $99
                   <span className="text-xl text-gray-600 font-normal">/month</span>
                 </div>
                 <p className="text-sm text-gray-500">Billed monthly</p>
@@ -238,7 +238,15 @@ export function LandingPage() {
               <ul className="space-y-3 mb-8">
                 <li className="flex items-center space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span>Up to 25 active claims</span>
+                  <span>1 Assignable User (Public Adjuster)</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>1 Admin User included</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>1TB storage</span>
                 </li>
                 <li className="flex items-center space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-500" />
@@ -250,11 +258,7 @@ export function LandingPage() {
                 </li>
                 <li className="flex items-center space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span>Basic reporting</span>
-                </li>
-                <li className="flex items-center space-x-3">
-                  <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span>Email support</span>
+                  <span>Standard support</span>
                 </li>
               </ul>
               
@@ -277,7 +281,7 @@ export function LandingPage() {
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Firm</h3>
                 <p className="text-gray-600 mb-4">For growing firms and teams</p>
                 <div className="text-5xl font-bold text-gray-900 mb-2">
-                  $50
+                  $249
                   <span className="text-xl text-gray-600 font-normal">/month</span>
                 </div>
                 <p className="text-sm text-gray-500">Billed monthly</p>
@@ -286,19 +290,19 @@ export function LandingPage() {
               <ul className="space-y-3 mb-8">
                 <li className="flex items-center space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span>Unlimited claims</span>
+                  <span>3 Assignable Users (Public Adjusters)</span>
                 </li>
                 <li className="flex items-center space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span>Multiple user accounts</span>
+                  <span>3 Admin Users + 2 Office Staff + 1 Sales User</span>
                 </li>
                 <li className="flex items-center space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span>Advanced AI features</span>
+                  <span>5TB base storage</span>
                 </li>
                 <li className="flex items-center space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span>Custom reporting</span>
+                  <span>Team collaboration tools</span>
                 </li>
                 <li className="flex items-center space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-500" />
@@ -316,12 +320,65 @@ export function LandingPage() {
                 </Button>
               </Link>
             </Card>
+            
+            {/* Additional User Plan */}
+            <Card className="p-8 border-2 border-gray-200 hover:border-blue-300 transition-colors">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Additional User</h3>
+                <p className="text-gray-600 mb-4">Expand your team capacity</p>
+                <div className="text-5xl font-bold text-gray-900 mb-2">
+                  $59
+                  <span className="text-xl text-gray-600 font-normal">/month</span>
+                </div>
+                <p className="text-sm text-gray-500">Per additional assignable user</p>
+              </div>
+              
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-center space-x-3">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>1 Additional Assignable User</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>1 Free Admin User included</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>+1TB storage per user</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>Full platform access</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>Revenue-generating user</span>
+                </li>
+              </ul>
+              
+              <Link to="/auth" className="block">
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                  Add User
+                </Button>
+              </Link>
+            </Card>
           </div>
           
-          <div className="text-center mt-8">
-            <p className="text-gray-600">
+          <div className="text-center mt-12">
+            <p className="text-gray-600 mb-8">
               All plans include 30-day free trial. No setup fees. Cancel anytime.
             </p>
+            
+            <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-2xl p-8 max-w-4xl mx-auto">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Enterprise Solution</h3>
+              <p className="text-gray-600 mb-6">
+                Need unlimited users, custom integrations, or dedicated support? 
+                Contact our sales team for personalized enterprise pricing.
+              </p>
+              <Button size="lg" className="bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white">
+                Contact Sales Team
+              </Button>
+            </div>
           </div>
         </div>
       </section>

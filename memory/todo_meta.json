@@ -3,22 +3,22 @@
     "Coordinator": {
       "1": {
         "id": "1",
-        "content": "🚨 CRITICAL SECURITY: Fix Hardcoded Database Credentials",
-        "details": "Replace hardcoded Supabase credentials throughout the codebase with environment variables or secure configuration management. This is a CRITICAL security vulnerability that must be addressed before production deployment.",
-        "status": "pending",
+        "content": "Update database schema for new pricing structure",
+        "details": "Add/update tables for: Individual Plan ($99/month), Additional Assignable User ($59/month), Firm Plan ($249/month), and Enterprise lead capture",
+        "status": "in_progress",
         "priority": "high"
       },
       "2": {
         "id": "2",
-        "content": "🔧 HIGH PRIORITY: Replace Mock Data with Real Database Connections",
-        "details": "Core components (ClientManagement.tsx, LeadManagement.tsx, Claims components) are using mock data instead of actual Supabase queries. Replace all TODO comments and mock implementations with actual API calls to enable real data persistence and retrieval.",
-        "status": "pending",
+        "content": "Create Stripe products and pricing setup",
+        "details": "Set up Stripe products, prices, and webhook handling for the new 3-tier structure. All credentials now available.",
+        "status": "in_progress",
         "priority": "high"
       },
       "3": {
         "id": "3",
-        "content": "📋 HIGH PRIORITY: Fix Broken Tasks Page",
-        "details": "The Tasks page is completely inaccessible due to implementation issues. This is core functionality for project management and task assignment. Needs immediate repair to enable task management workflows.",
+        "content": "Update sales page and subscription UI",
+        "details": "Update frontend components to reflect new pricing: Individual ($99), Additional User ($59), Firm ($249), Enterprise contact form",
         "status": "pending",
         "priority": "high"
       },
