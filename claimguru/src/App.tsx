@@ -5,7 +5,9 @@ import { ToastProvider } from './contexts/ToastContext'
 import ToastContainer from './components/ui/ToastContainer'
 import { NotificationProvider, NotificationToastContainer } from './contexts/NotificationContext'
 import { PageTransition } from './components/ui/Animations'
+import { LandingPage } from './pages/LandingPage'
 import { AuthPage } from './pages/AuthPage'
+import { OnboardingPage } from './pages/OnboardingPage'
 import Billing from './pages/Billing'
 import { AuthCallback } from './pages/AuthCallback'
 import ClientManagement from './pages/ClientManagement'
@@ -44,7 +46,7 @@ const Clients = React.lazy(() => import('./pages/Clients').then(module => ({ def
 const Documents = React.lazy(() => import('./pages/Documents').then(module => ({ default: module.Documents })));
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth()
+  const { user, loading, needsOnboarding } = useAuth()
   
   // Initialize keyboard shortcuts
   useKeyboardShortcuts()
@@ -58,10 +60,14 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
     )
   }
 
-  // Demo mode: Allow access without authentication for testing
-  // if (!user) {
-  //   return <Navigate to="/auth" replace />
-  // }
+  if (!user) {
+    return <Navigate to="/auth" replace />
+  }
+
+  // Check if user needs onboarding (but not if they're already on the onboarding page)
+  if (needsOnboarding && window.location.pathname !== '/onboarding') {
+    return <Navigate to="/onboarding" replace />
+  }
 
   return (
     <>
@@ -73,7 +79,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 // Auth Route Component
 function AuthRoute({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth()
+  const { user, loading, needsOnboarding } = useAuth()
 
   if (loading) {
     return (
@@ -84,7 +90,8 @@ function AuthRoute({ children }: { children: React.ReactNode }) {
   }
 
   if (user) {
-    return <Navigate to="/dashboard" replace />
+    // Redirect based on onboarding status
+    return <Navigate to={needsOnboarding ? "/onboarding" : "/dashboard"} replace />
   }
 
   return <>{children}</>
@@ -93,6 +100,9 @@ function AuthRoute({ children }: { children: React.ReactNode }) {
 function AppRoutes() {
   return (
     <Routes>
+      {/* Public Landing Page */}
+      <Route path="/" element={<LandingPage />} />
+      
       {/* Auth Routes */}
       <Route
         path="/auth"
@@ -103,22 +113,27 @@ function AppRoutes() {
         }
       />
       <Route path="/auth/callback" element={<AuthCallback />} />
-
-      {/* Protected Routes */}
+      
+      {/* Onboarding Route */}
       <Route
-        path="/"
+        path="/onboarding"
+        element={
+          <ProtectedRoute>
+            <OnboardingPage />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Protected Dashboard Routes */}
+      <Route
+        path="/dashboard"
         element={
           <ProtectedRoute>
             <Layout />
           </ProtectedRoute>
         }
       >
-        <Route index element={<Navigate to="/dashboard" replace />} />
-        <Route path="dashboard" element={
-          <Suspense fallback={<SkeletonDashboard />}>
-            <Dashboard />
-          </Suspense>
-        } />
+        <Route index element={<Dashboard />} />
         <Route path="claims" element={
           <Suspense fallback={<SkeletonDashboard />}>
             <Claims />
@@ -172,8 +187,8 @@ function AppRoutes() {
         <Route path="help" element={<div className="p-6"><h1 className="text-2xl font-bold">Help & Support</h1><p>Help center coming soon...</p></div>} />
       </Route>
 
-      {/* Catch all route */}
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      {/* Catch all route - redirect to landing for unauthenticated, dashboard for authenticated */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
 }

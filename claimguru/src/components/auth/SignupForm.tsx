@@ -13,13 +13,9 @@ interface SignupFormProps {
 export function SignupForm({ onToggleMode }: SignupFormProps) {
   const { signUp } = useAuth()
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
     email: '',
     password: '',
-    confirmPassword: '',
-    companyName: '',
-    phone: ''
+    confirmPassword: ''
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -33,8 +29,7 @@ export function SignupForm({ onToggleMode }: SignupFormProps) {
     e.preventDefault()
     
     // Validation
-    if (!formData.firstName || !formData.lastName || !formData.email || 
-        !formData.password || !formData.companyName) {
+    if (!formData.email || !formData.password) {
       setError('Please fill in all required fields')
       return
     }
@@ -67,24 +62,15 @@ export function SignupForm({ onToggleMode }: SignupFormProps) {
 
     try {
       // Use the AuthContext signUp function
-      await signUp(formData.email, formData.password, {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        companyName: formData.companyName,
-        phone: formData.phone
-      })
+      await signUp(formData.email, formData.password)
       
-      setSuccess('Account created successfully! You can now sign in with your credentials.')
+      setSuccess('Account created successfully! Please check your email to confirm your account.')
       
       // Clear form
       setFormData({
-        firstName: '',
-        lastName: '',
         email: '',
         password: '',
-        confirmPassword: '',
-        companyName: '',
-        phone: ''
+        confirmPassword: ''
       })
       
     } catch (error: any) {
@@ -99,7 +85,7 @@ export function SignupForm({ onToggleMode }: SignupFormProps) {
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold text-center">Create Account</CardTitle>
         <CardDescription className="text-center">
-          Start your free trial with ClaimGuru
+          Start your free 30-day trial with ClaimGuru
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -118,46 +104,13 @@ export function SignupForm({ onToggleMode }: SignupFormProps) {
             </div>
           )}
           
-          <div className="grid grid-cols-2 gap-4">
-            <Input
-              label="First Name"
-              value={formData.firstName}
-              onChange={(e) => handleInputChange('firstName', e.target.value)}
-              placeholder="John"
-              required
-            />
-            <Input
-              label="Last Name"
-              value={formData.lastName}
-              onChange={(e) => handleInputChange('lastName', e.target.value)}
-              placeholder="Doe"
-              required
-            />
-          </div>
-          
           <Input
-            label="Company Name"
-            value={formData.companyName}
-            onChange={(e) => handleInputChange('companyName', e.target.value)}
-            placeholder="Acme Public Adjusters"
-            required
-          />
-          
-          <Input
-            label="Email"
+            label="Email Address"
             type="email"
             value={formData.email}
             onChange={(e) => handleInputChange('email', e.target.value)}
-            placeholder="john@company.com"
+            placeholder="your@email.com"
             required
-          />
-          
-          <Input
-            label="Phone (Optional)"
-            type="tel"
-            value={formData.phone}
-            onChange={(e) => handleInputChange('phone', e.target.value)}
-            placeholder="(555) 123-4567"
           />
           
           <Input
@@ -180,11 +133,16 @@ export function SignupForm({ onToggleMode }: SignupFormProps) {
           
           <Button
             type="submit"
-            className="w-full"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white"
             loading={loading}
           >
-            Create Account
+            Start Free Trial
           </Button>
+          
+          <p className="text-xs text-gray-500 text-center mt-2">
+            By creating an account, you agree to our Terms of Service and Privacy Policy.
+            No credit card required for your 30-day free trial.
+          </p>
         </form>
         
         <div className="mt-4 text-center">
