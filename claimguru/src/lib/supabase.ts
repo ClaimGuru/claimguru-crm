@@ -1,9 +1,43 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = 'https://ttnjqxemkbugwsofacxs.supabase.co'
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0bmpxeGVta2J1Z3dzb2ZhY3hzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIwODY1ODksImV4cCI6MjA2NzY2MjU4OX0.T4ZQBC1gF0rUtzrNqbf90k0dD8B1vD_JUBiEUbbAfuo'
+// Secure environment variable configuration
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Validate required environment variables
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error(
+    'Missing required environment variables. Please check your .env file contains VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY'
+  )
+}
+
+// Security validation for environment variables
+if (supabaseUrl.includes('localhost') && import.meta.env.VITE_APP_ENVIRONMENT === 'production') {
+  throw new Error('Production environment cannot use localhost URLs')
+}
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    // Enhanced security options
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true,
+    flowType: 'pkce', // Use PKCE for enhanced security
+    // Session timeout configuration
+    storageKey: 'claimguru-auth',
+  },
+  // Database connection security
+  db: {
+    schema: 'public'
+  },
+  // Global headers for all requests
+  global: {
+    headers: {
+      'X-Client-Info': 'claimguru-web-app',
+      'X-Requested-With': 'XMLHttpRequest'
+    }
+  }
+})
 
 // Type definitions for database tables
 export interface Organization {
