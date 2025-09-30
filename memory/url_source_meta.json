@@ -1,5 +1,5 @@
 {
-  "_source_id": 87,
+  "_source_id": 111,
   "sources": {
     "AdjustCRM Competitor Analysis": {
       "https://www.adjustcrm.com/": {
@@ -632,6 +632,178 @@
         "url": "https://www.zopper.com/blog/top-6-use-cases-for-insurance-apis-in-2025",
         "title": "Top 6 Use Cases for Insurance APIs in 2025",
         "info": "Analysis of top 6 insurance API use cases for 2025 including embedded insurance market growth (28% CAGR) and API functionality for claims, underwriting, and policy management"
+      }
+    },
+    "ClaimGuru Complete User Management System Analysis": {
+      "file://claimguru/supabase/migrations/1752257398_create_pdf_processing_tables.sql": {
+        "id": 88,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/supabase/migrations/1752257398_create_pdf_processing_tables.sql",
+        "title": "PDF Processing Tables Migration with RLS Policies",
+        "info": "Database migration creating processing usage tracking, organization processing limits, PDF extraction cache, and AI token usage tables with comprehensive Row Level Security policies for multi-tenant data isolation"
+      },
+      "file://claimguru/supabase/migrations/1753314540_fix_rls_security_vulnerabilities.sql": {
+        "id": 89,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/supabase/migrations/1753314540_fix_rls_security_vulnerabilities.sql",
+        "title": "RLS Security Vulnerabilities Fix Migration",
+        "info": "Security-focused migration that enables Row Level Security on 7 public tables (lead_assignments, lead_sources, sales_funnel_stages, lead_appointments, document_template_categories, document_template_variables, document_signatures) with organization-based isolation policies"
+      },
+      "file://claimguru/supabase/migrations/1754000000_create_relational_rolodex_system.sql": {
+        "id": 90,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/supabase/migrations/1754000000_create_relational_rolodex_system.sql",
+        "title": "Relational Rolodex System Migration",
+        "info": "Comprehensive migration creating carrier personnel, mortgage lenders, claim associations, entity relationships, and communication history tables with enhanced RLS policies and organization-based security controls"
+      },
+      "file://claimguru/supabase/migrations/1754000001_add_rolodex_views_and_functions.sql": {
+        "id": 91,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/supabase/migrations/1754000001_add_rolodex_views_and_functions.sql",
+        "title": "Rolodex Views and Helper Functions Migration",
+        "info": "Migration adding unified contact views, claim entity relationships, helper functions for contact management, communication logging, and performance metrics with proper permission controls"
+      },
+      "file://claimguru/src/contexts/AuthContext.tsx": {
+        "id": 92,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/src/contexts/AuthContext.tsx",
+        "title": "Authentication Context Implementation",
+        "info": "React context providing authentication state management, user profile loading, sign-in/sign-up functions, onboarding status tracking, and session management with automatic user profile validation"
+      },
+      "file://claimguru/src/pages/AdminPanel.tsx": {
+        "id": 93,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/src/pages/AdminPanel.tsx",
+        "title": "Administrative Panel Interface",
+        "info": "Admin dashboard with tabbed interface for custom fields, folder templates, permissions management, communications settings, user management, and system settings with role-based access controls"
+      },
+      "file://claimguru/src/components/admin/UserManagement.tsx": {
+        "id": 94,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/src/components/admin/UserManagement.tsx",
+        "title": "User Management Component",
+        "info": "Comprehensive user management interface supporting 4 user types (assignable_user, admin_user, office_staff, sales_user) with subscription limits, user invitation system, and team member administration"
+      },
+      "file://claimguru/src/pages/OnboardingPage.tsx": {
+        "id": 95,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/src/pages/OnboardingPage.tsx",
+        "title": "User Onboarding Process",
+        "info": "Multi-step onboarding flow collecting personal information, practice details, preferences, plan selection, and organization setup with automatic profile and organization creation"
+      },
+      "file://claimguru/src/components/auth/LoginForm.tsx": {
+        "id": 96,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/src/components/auth/LoginForm.tsx",
+        "title": "Login Form Component",
+        "info": "Secure login form with email/password authentication, error handling, form validation, and integration with AuthContext for session management"
+      },
+      "file://claimguru/src/components/auth/SignupForm.tsx": {
+        "id": 97,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/src/components/auth/SignupForm.tsx",
+        "title": "User Registration Form Component",
+        "info": "Registration form with email validation, password confirmation, security checks, and integration with Supabase authentication including trial account creation"
+      },
+      "file://claimguru/src/lib/security.ts": {
+        "id": 98,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/src/lib/security.ts",
+        "title": "Security Utilities and Middleware",
+        "info": "Comprehensive security utilities including password validation, input sanitization, rate limiting, session management, audit logging, CSP generation, and form validation with configurable security policies"
+      },
+      "file://claimguru/src/pages/AuthPage.tsx": {
+        "id": 99,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/src/pages/AuthPage.tsx",
+        "title": "Authentication Landing Page",
+        "info": "Authentication landing page with feature showcase, login/signup form toggle, and marketing content for public insurance adjusters with responsive design"
+      },
+      "file://claimguru/src/lib/authMiddleware.ts": {
+        "id": 100,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/src/lib/authMiddleware.ts",
+        "title": "Authentication Middleware and Route Protection",
+        "info": "Advanced authentication middleware providing route protection, authenticated API requests, rate limiting, security event logging, and enhanced sign-up/sign-in functions with security validations"
+      },
+      "file://claimguru/src/lib/supabase.ts": {
+        "id": 101,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/src/lib/supabase.ts",
+        "title": "Supabase Client Configuration and Type Definitions",
+        "info": "Supabase client setup with enhanced security options, comprehensive TypeScript interfaces for all database tables, and detailed type definitions for organizations, users, claims, documents, and related entities"
+      },
+      "file://claimguru/supabase/deploy_security_fix.sql": {
+        "id": 102,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/supabase/deploy_security_fix.sql",
+        "title": "Security Fix Deployment Script",
+        "info": "Deployment script for applying Row Level Security fixes to 7 public tables with 28 organization-based policies ensuring complete data isolation between organizations"
+      }
+    },
+    "ClaimGuru Stripe Integration Analysis": {
+      "file://claimguru/package.json": {
+        "id": 103,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/package.json",
+        "title": "Package.json Dependencies Configuration",
+        "info": "Contains Stripe React and JavaScript SDK dependencies: @stripe/react-stripe-js v2.9.0 and @stripe/stripe-js v4.9.0"
+      },
+      "file://claimguru/src/pages/Billing/index.tsx": {
+        "id": 104,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/src/pages/Billing/index.tsx",
+        "title": "Main Billing Page Component",
+        "info": "Comprehensive billing interface with subscription management, plan selection, pricing display, and payment processing integration. Includes Individual, Firm, and Additional User plan configurations with detailed feature listings"
+      },
+      "file://claimguru/src/components/billing/SubscriptionManagement.tsx": {
+        "id": 105,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/src/components/billing/SubscriptionManagement.tsx",
+        "title": "Subscription Management Component",
+        "info": "Detailed subscription status display, billing portal integration, user limits tracking, storage usage monitoring, and plan upgrade functionality"
+      },
+      "file://claimguru/src/components/billing/EnterpriseContactForm.tsx": {
+        "id": 106,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/src/components/billing/EnterpriseContactForm.tsx",
+        "title": "Enterprise Contact Form Component",
+        "info": "Lead capture form for enterprise customers with company information, requirements collection, and sales team integration"
+      },
+      "file://claimguru/supabase/functions/create-subscription/index.ts": {
+        "id": 107,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/supabase/functions/create-subscription/index.ts",
+        "title": "Create Subscription Edge Function",
+        "info": "Supabase Edge Function for creating Stripe checkout sessions, customer management, and subscription initialization with comprehensive error handling"
+      },
+      "file://claimguru/supabase/functions/manage-subscription/index.ts": {
+        "id": 108,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/supabase/functions/manage-subscription/index.ts",
+        "title": "Manage Subscription Edge Function",
+        "info": "Subscription lifecycle management including customer portal access, subscription cancellation, plan updates, and billing management"
+      },
+      "file://claimguru/supabase/functions/stripe-webhook/index.ts": {
+        "id": 109,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/supabase/functions/stripe-webhook/index.ts",
+        "title": "Stripe Webhook Handler Edge Function",
+        "info": "Comprehensive webhook event processing for checkout completion, subscription creation/updates/deletion, payment success/failure with signature verification and database synchronization"
+      },
+      "file://claimguru/.env.example": {
+        "id": 110,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://claimguru/.env.example",
+        "title": "Environment Variables Template",
+        "info": "Configuration template including VITE_STRIPE_PUBLISHABLE_KEY for client-side Stripe integration setup"
+      },
+      "file://workspace/stripe_integration_plan.md": {
+        "id": 111,
+        "publisher": "ClaimGuru Development Team",
+        "url": "file://workspace/stripe_integration_plan.md",
+        "title": "Stripe Integration Implementation Plan",
+        "info": "Detailed implementation plan showing completed Stripe backend integration with three pricing tiers (Individual $99/month, Firm $249/month, Additional User $59/month) and database schema"
       }
     }
   }
