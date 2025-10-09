@@ -5,7 +5,7 @@
         "id": "1",
         "content": "Revise ClaimGuru authentication and client intake with Stripe integration",
         "details": "1. Fix OAuth and authentication system errors. 2. Implement Stripe payment integration for client onboarding. 3. Revise sign-up flow to include payment processing. 4. Update client intake workflow with subscription management. 5. Test all authentication and payment flows. 6. Deploy updated system with working auth and Stripe.",
-        "status": "pending",
+        "status": "in_progress",
         "priority": "high"
       }
     }
