@@ -1,3 +1,18 @@
-2025/09/23-14:58:56.524 439 Reusing MANIFEST /workspace/browser/user_data/Default/Local Storage/leveldb/MANIFEST-000001
-2025/09/23-14:58:56.528 439 Recovering log #12
-2025/09/23-14:58:56.528 439 Reusing old log /workspace/browser/user_data/Default/Local Storage/leveldb/000012.log 
+2025/09/23-20:22:22.428 15f1 Reusing MANIFEST /workspace/browser/user_data/Default/Local Storage/leveldb/MANIFEST-000001
+2025/09/23-20:22:22.431 15f1 Recovering log #12
+2025/09/23-20:22:22.431 15f1 Reusing old log /workspace/browser/user_data/Default/Local Storage/leveldb/000012.log 
+2025/09/23-20:55:17.760 15f2 Level-0 table #16: started
+2025/09/23-20:55:17.762 15f2 Level-0 table #16: 19678 bytes OK
+2025/09/23-20:55:17.764 15f2 Delete type=0 #12
+2025/09/23-21:35:17.759 15f2 Level-0 table #18: started
+2025/09/23-21:35:17.761 15f2 Level-0 table #18: 17184 bytes OK
+2025/09/23-21:35:17.763 15f2 Delete type=0 #15
+2025/09/23-21:35:17.764 15f2 Compacting 4@0 + 1@1 files
+2025/09/23-21:35:17.766 15f2 Generated table #19@0: 105 keys, 19169 bytes
+2025/09/23-21:35:17.766 15f2 Compacted 4@0 + 1@1 files => 19169 bytes
+2025/09/23-21:35:17.768 15f2 compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/09/23-21:35:17.768 15f2 Delete type=2 #16
+2025/09/23-21:35:17.768 15f2 Delete type=2 #13
+2025/09/23-21:35:17.768 15f2 Delete type=2 #11
+2025/09/23-21:35:17.768 15f2 Delete type=2 #8
+2025/09/23-21:35:17.768 15f2 Delete type=2 #18

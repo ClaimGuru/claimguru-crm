@@ -1,0 +1,13 @@
+{
+  "todos": {
+    "Coordinator": {
+      "1": {
+        "id": "1",
+        "content": "Fix OAuth and authentication system errors",
+        "details": "1. Investigate current Supabase auth configuration. 2. Test authentication flows and identify error points. 3. Fix OAuth configuration and redirect URLs. 4. Repair sign-in/sign-up functionality. 5. Test all authentication methods. 6. Deploy fixed version.",
+        "status": "in_progress",
+        "priority": "high"
+      }
+    }
+  }
+}

@@ -1,3 +1,5 @@
-2025/09/23-20:22:33.407 15f1 Reusing MANIFEST /workspace/browser/user_data/Default/Session Storage/MANIFEST-000001
-2025/09/23-20:22:33.408 15f1 Recovering log #3
-2025/09/23-20:22:33.408 15f1 Reusing old log /workspace/browser/user_data/Default/Session Storage/000003.log 
+2025/10/09-17:01:13.579 bae Reusing MANIFEST /workspace/browser/user_data/Default/Session Storage/MANIFEST-000001
+2025/10/09-17:01:13.581 bae Recovering log #3
+2025/10/09-17:01:13.583 bae (ignoring error) /workspace/browser/user_data/Default/Session Storage/000003.log: dropping 32552 bytes; Corruption: checksum mismatch
+2025/10/09-17:01:13.583 bae (ignoring error) /workspace/browser/user_data/Default/Session Storage/000003.log: dropping 528 bytes; Corruption: missing start of fragmented record(2)
+2025/10/09-17:01:13.584 bae Reusing old log /workspace/browser/user_data/Default/Session Storage/000003.log 

@@ -1,4 +1,4 @@
-2025/09/23-20:22:22.510 15ba Reusing MANIFEST /workspace/browser/user_data/Default/shared_proto_db/MANIFEST-000001
-2025/09/23-20:22:22.510 15ba Recovering log #3
-2025/09/23-20:22:22.510 15ba (ignoring error) /workspace/browser/user_data/Default/shared_proto_db/000003.log: dropping 685 bytes; Corruption: missing start of fragmented record(2)
-2025/09/23-20:22:22.510 15ba Reusing old log /workspace/browser/user_data/Default/shared_proto_db/000003.log 
+2025/10/09-17:01:04.384 b45 Reusing MANIFEST /workspace/browser/user_data/Default/shared_proto_db/MANIFEST-000001
+2025/10/09-17:01:04.388 b45 Recovering log #3
+2025/10/09-17:01:04.390 b45 (ignoring error) /workspace/browser/user_data/Default/shared_proto_db/000003.log: dropping 685 bytes; Corruption: missing start of fragmented record(2)
+2025/10/09-17:01:04.392 b45 Reusing old log /workspace/browser/user_data/Default/shared_proto_db/000003.log 
