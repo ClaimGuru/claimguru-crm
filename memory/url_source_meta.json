@@ -1,5 +1,5 @@
 {
-  "_source_id": 111,
+  "_source_id": 132,
   "sources": {
     "AdjustCRM Competitor Analysis": {
       "https://www.adjustcrm.com/": {
@@ -804,6 +804,159 @@
         "url": "file://workspace/stripe_integration_plan.md",
         "title": "Stripe Integration Implementation Plan",
         "info": "Detailed implementation plan showing completed Stripe backend integration with three pricing tiers (Individual $99/month, Firm $249/month, Additional User $59/month) and database schema"
+      }
+    },
+    "ClaimGuru Backend Infrastructure Audit": {
+      "https://github.com/supabase/supabase-js": {
+        "id": 112,
+        "publisher": "Supabase Inc.",
+        "url": "https://github.com/supabase/supabase-js",
+        "title": "Supabase JavaScript Client Library",
+        "info": "Official Supabase client library documentation and implementation patterns used in ClaimGuru"
+      },
+      "https://docs.stripe.com/webhooks": {
+        "id": 113,
+        "publisher": "Stripe Inc.",
+        "url": "https://docs.stripe.com/webhooks",
+        "title": "Stripe Webhook Documentation",
+        "info": "Webhook implementation patterns and security best practices for payment processing"
+      },
+      "https://platform.openai.com/docs/api-reference": {
+        "id": 114,
+        "publisher": "OpenAI Inc.",
+        "url": "https://platform.openai.com/docs/api-reference",
+        "title": "OpenAI API Reference",
+        "info": "AI integration patterns and API usage for document field extraction services"
+      },
+      "https://cloud.google.com/vision/docs/ocr": {
+        "id": 115,
+        "publisher": "Google Cloud",
+        "url": "https://cloud.google.com/vision/docs/ocr",
+        "title": "Google Vision API OCR Documentation",
+        "info": "OCR text extraction implementation and best practices for document processing"
+      },
+      "https://supabase.com/docs/guides/auth/row-level-security": {
+        "id": 116,
+        "publisher": "Supabase Inc.",
+        "url": "https://supabase.com/docs/guides/auth/row-level-security",
+        "title": "Row Level Security (RLS) Documentation",
+        "info": "Security implementation patterns and best practices for multi-tenant applications"
+      }
+    },
+    "ClaimGuru Frontend Audit": {
+      "file:///workspace/claimguru/src/App.tsx": {
+        "id": 117,
+        "publisher": "ClaimGuru Application",
+        "url": "file:///workspace/claimguru/src/App.tsx",
+        "title": "Main Application Entry Point",
+        "info": "React application structure, routing configuration, context providers, and protected route implementation"
+      },
+      "file:///workspace/claimguru/src/pages/Dashboard.tsx": {
+        "id": 118,
+        "publisher": "ClaimGuru Application",
+        "url": "file:///workspace/claimguru/src/pages/Dashboard.tsx",
+        "title": "Dashboard Page Component",
+        "info": "Comprehensive dashboard with statistics, activity feeds, analytics integration, and responsive design implementation"
+      },
+      "file:///workspace/claimguru/src/pages/Claims.tsx": {
+        "id": 119,
+        "publisher": "ClaimGuru Application",
+        "url": "file:///workspace/claimguru/src/pages/Claims.tsx",
+        "title": "Claims Management Page",
+        "info": "Complete claims management system with dual intake wizards (manual and AI), filtering, search, and detailed claim views"
+      },
+      "file:///workspace/claimguru/src/pages/Clients.tsx": {
+        "id": 120,
+        "publisher": "ClaimGuru Application",
+        "url": "file:///workspace/claimguru/src/pages/Clients.tsx",
+        "title": "Client Management Page",
+        "info": "Client management system supporting individual and business clients, with lead tracking and claim integration"
+      },
+      "file:///workspace/claimguru/src/contexts/AuthContext.tsx": {
+        "id": 121,
+        "publisher": "ClaimGuru Application",
+        "url": "file:///workspace/claimguru/src/contexts/AuthContext.tsx",
+        "title": "Authentication Context Provider",
+        "info": "Supabase-based authentication system with user profile management, onboarding flow, and secure session handling"
+      },
+      "file:///workspace/claimguru/src/hooks/useClaims.ts": {
+        "id": 122,
+        "publisher": "ClaimGuru Application",
+        "url": "file:///workspace/claimguru/src/hooks/useClaims.ts",
+        "title": "Claims Management Hook",
+        "info": "Comprehensive claims data management with CRUD operations, complex claim creation, and error handling"
+      },
+      "file:///workspace/claimguru/package.json": {
+        "id": 123,
+        "publisher": "ClaimGuru Application",
+        "url": "file:///workspace/claimguru/package.json",
+        "title": "Project Dependencies and Configuration",
+        "info": "React 18.3.1, TypeScript, Vite build system, Supabase integration, and modern UI libraries (Radix UI, Tailwind CSS)"
+      },
+      "file:///workspace/claimguru/src/lib/supabase.ts": {
+        "id": 124,
+        "publisher": "ClaimGuru Application",
+        "url": "file:///workspace/claimguru/src/lib/supabase.ts",
+        "title": "Supabase Client and Type Definitions",
+        "info": "Database client configuration, comprehensive TypeScript interfaces, and security implementations for multi-tenant SaaS"
+      }
+    },
+    "ClaimGuru Security and Deployment Audit": {
+      "file:///workspace/claimguru/package.json": {
+        "id": 125,
+        "publisher": "ClaimGuru Project",
+        "url": "file:///workspace/claimguru/package.json",
+        "title": "Package.json Configuration",
+        "info": "Project dependencies, build scripts, and configuration metadata for security analysis"
+      },
+      "file:///workspace/claimguru/src/lib/supabase.ts": {
+        "id": 126,
+        "publisher": "ClaimGuru Project",
+        "url": "file:///workspace/claimguru/src/lib/supabase.ts",
+        "title": "Main Supabase Configuration",
+        "info": "Primary Supabase client configuration with environment variable security implementation"
+      },
+      "file:///workspace/src/lib/supabase.ts": {
+        "id": 127,
+        "publisher": "ClaimGuru Project",
+        "url": "file:///workspace/src/lib/supabase.ts",
+        "title": "Backup Supabase Configuration - SECURITY VULNERABILITY",
+        "info": "CRITICAL: Contains hardcoded Supabase URL and API key credentials exposing security risk"
+      },
+      "file:///workspace/claimguru/supabase/migrations/1753314540_fix_rls_security_vulnerabilities.sql": {
+        "id": 128,
+        "publisher": "ClaimGuru Project",
+        "url": "file:///workspace/claimguru/supabase/migrations/1753314540_fix_rls_security_vulnerabilities.sql",
+        "title": "RLS Security Fix Migration",
+        "info": "Database migration fixing Row Level Security vulnerabilities on 7 tables with comprehensive policies"
+      },
+      "file:///workspace/claimguru/supabase/functions/stripe-webhook/index.ts": {
+        "id": 129,
+        "publisher": "ClaimGuru Project",
+        "url": "file:///workspace/claimguru/supabase/functions/stripe-webhook/index.ts",
+        "title": "Stripe Webhook Security Implementation",
+        "info": "Webhook signature verification and secure payment processing implementation"
+      },
+      "file:///workspace/claimguru/src/contexts/AuthContext.tsx": {
+        "id": 130,
+        "publisher": "ClaimGuru Project",
+        "url": "file:///workspace/claimguru/src/contexts/AuthContext.tsx",
+        "title": "Authentication Context Implementation",
+        "info": "React authentication context with user session management and security controls"
+      },
+      "file:///workspace/claimguru/supabase/functions/_shared/cors.ts": {
+        "id": 131,
+        "publisher": "ClaimGuru Project",
+        "url": "file:///workspace/claimguru/supabase/functions/_shared/cors.ts",
+        "title": "CORS Configuration",
+        "info": "Cross-Origin Resource Sharing configuration for Supabase Edge Functions"
+      },
+      "file:///workspace/claimguru/SECURITY_DEPLOYMENT_GUIDE.md": {
+        "id": 132,
+        "publisher": "ClaimGuru Project",
+        "url": "file:///workspace/claimguru/SECURITY_DEPLOYMENT_GUIDE.md",
+        "title": "Existing Security Deployment Guide",
+        "info": "Documentation of previous security fixes and deployment procedures for RLS vulnerabilities"
       }
     }
   }
