@@ -32,8 +32,8 @@ interface StandardizedAddressInputProps {
   onSameAsToggle?: (isSame: boolean) => void
 }
 
-// Google Maps API Key from environment
-const GOOGLE_MAPS_API_KEY = 'AIzaSyCO0kKndUNlmQi3B5mxy4dblg_8WYcuKuk'
+// Google Maps API Key from environment variable
+const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ''
 
 export function StandardizedAddressInput({
   address,
