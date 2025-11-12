@@ -28,7 +28,7 @@ export { EnhancedClaimWizardAI } from './enhancedClaimWizardAI';
 export { default as multiDocumentExtractionService } from './multiDocumentExtractionService';
 export { IntelligentExtractionService } from './intelligentExtractionService';
 export { documentUploadService } from './documentUploadService';
-export { PDFExtractionService } from './pdfExtractionService';
+export { pdfExtractionService } from './pdfExtractionService';
 
 // Wizard Services
 export { default as intelligentWizardService } from './intelligentWizardService';

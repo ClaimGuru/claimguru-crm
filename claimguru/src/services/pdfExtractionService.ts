@@ -3,8 +3,10 @@
  * Extracts text and structured data from PDF documents using pdf-parse and Gemini
  */
 
-import pdfParse from 'pdf-parse'
 import { geminiService } from './geminiService'
+
+// @ts-ignore - pdf-parse has ESM issues
+const pdfParse = require('pdf-parse')
 
 export interface PDFExtractionResult {
   success: boolean
