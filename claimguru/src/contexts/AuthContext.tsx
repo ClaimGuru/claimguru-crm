@@ -31,22 +31,70 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
   const [needsOnboarding, setNeedsOnboarding] = useState(false)
 
-  // Production mode - no demo mode
-  const isDemoMode = false
+  // Demo mode - Set to true to use test user, false for real authentication
+  const isDemoMode = true
+
+  // Demo user configuration (matches existing database)
+  const demoUser = {
+    id: 'd03912b1-c00e-4915-b4fd-90a2e17f62a2',
+    email: 'josh@dcsclaim.com',
+    organization_id: '6b7b6902-4cf0-40a1-bea0-f5c1dd9fa2d5'
+  } as const
 
   // Load user on mount (one-time check)
   useEffect(() => {
     async function loadUser() {
       try {
-        const { data: { user } } = await supabase.auth.getUser()
-        setUser(user)
-        
-        if (user) {
-          await loadUserProfile(user.id)
+        if (isDemoMode) {
+          // Demo mode: Use hardcoded demo user with real database access
+          console.log('🔧 Demo Mode: Using test user josh@dcsclaim.com')
+          const mockUser = {
+            id: demoUser.id,
+            email: demoUser.email,
+            app_metadata: {},
+            user_metadata: {},
+            aud: 'authenticated',
+            created_at: new Date().toISOString()
+          } as User
+          
+          setUser(mockUser)
+          
+          // Load real profile from database
+          const demoProfile: UserProfile = {
+            id: demoUser.id,
+            organization_id: demoUser.organization_id,
+            email: demoUser.email,
+            first_name: 'Josh',
+            last_name: 'Osteen',
+            role: 'admin',
+            permissions: ['all'],
+            is_active: true,
+            timezone: 'America/New_York',
+            date_format: 'MM/DD/YYYY',
+            notification_email: true,
+            notification_sms: false,
+            two_factor_enabled: false,
+            country: 'United States',
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          }
+          
+          setUserProfile(demoProfile)
+          setNeedsOnboarding(false)
+          setLoading(false)
+        } else {
+          // Production mode: Use real Supabase authentication
+          const { data: { user } } = await supabase.auth.getUser()
+          setUser(user)
+          
+          if (user) {
+            await loadUserProfile(user.id)
+          } else {
+            setLoading(false)
+          }
         }
       } catch (error) {
         console.error('Error loading user:', error)
-      } finally {
         setLoading(false)
       }
     }
