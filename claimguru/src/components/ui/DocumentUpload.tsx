@@ -7,10 +7,12 @@ interface DocumentUploadProps {
   onUpload: (files: File[]) => void
 }
 
-export function DocumentUpload({ onClose, onUpload }: DocumentUploadProps) {
+export function DocumentUpload({ onClose, onUpload, claimId, clientId }: DocumentUploadProps) {
+  const { userProfile } = useAuth()
   const [dragActive, setDragActive] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState<{[key: string]: number}>({})
+  const [uploadError, setUploadError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleDrag = (e: React.DragEvent) => {
