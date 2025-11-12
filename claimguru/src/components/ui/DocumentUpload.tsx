@@ -1,10 +1,14 @@
 import React, { useState, useRef } from 'react'
 import { Button } from './Button'
 import { X, Upload, FileText, Image, Video, File, Check, AlertTriangle } from 'lucide-react'
+import { supabase } from '../../lib/supabase'
+import { useAuth } from '../../contexts/AuthContext'
 
 interface DocumentUploadProps {
   onClose: () => void
   onUpload: (files: File[]) => void
+  claimId?: string // Optional: associate with a claim
+  clientId?: string // Optional: associate with a client
 }
 
 export function DocumentUpload({ onClose, onUpload, claimId, clientId }: DocumentUploadProps) {
@@ -43,29 +47,89 @@ export function DocumentUpload({ onClose, onUpload, claimId, clientId }: Documen
   }
 
   const handleFiles = async (files: File[]) => {
-    setUploading(true)
-    
-    // Simulate upload progress
-    files.forEach((file, index) => {
-      let progress = 0
-      const interval = setInterval(() => {
-        progress += Math.random() * 30
-        if (progress >= 100) {
-          progress = 100
-          clearInterval(interval)
-        }
-        setUploadProgress(prev => ({
-          ...prev,
-          [file.name]: Math.min(progress, 100)
-        }))
-      }, 200)
-    })
+    if (!userProfile?.organization_id) {
+      setUploadError('User not authenticated')
+      return
+    }
 
-    // Simulate upload completion
-    setTimeout(() => {
+    setUploading(true)
+    setUploadError(null)
+    
+    try {
+      const uploadedFiles: File[] = []
+      
+      // Upload each file to Supabase Storage
+      for (const file of files) {
+        try {
+          // Generate unique filename
+          const timestamp = Date.now()
+          const randomString = Math.random().toString(36).substring(2, 15)
+          const sanitizedFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_')
+          const fileName = `${timestamp}_${randomString}_${sanitizedFileName}`
+          
+          // Determine storage path based on context
+          let storagePath = `${userProfile.organization_id}/documents/${fileName}`
+          if (claimId) {
+            storagePath = `${userProfile.organization_id}/claims/${claimId}/${fileName}`
+          } else if (clientId) {
+            storagePath = `${userProfile.organization_id}/clients/${clientId}/${fileName}`
+          }
+          
+          console.log(`📤 Uploading ${file.name} to ${storagePath}...`)
+          
+          // Upload to Supabase Storage
+          const { data, error } = await supabase.storage
+            .from('documents') // Bucket name
+            .upload(storagePath, file, {
+              cacheControl: '3600',
+              upsert: false
+            })
+          
+          if (error) {
+            console.error(`❌ Error uploading ${file.name}:`, error)
+            throw error
+          }
+          
+          console.log(`✅ ${file.name} uploaded successfully:`, data)
+          
+          // Update progress
+          setUploadProgress(prev => ({
+            ...prev,
+            [file.name]: 100
+          }))
+          
+          uploadedFiles.push(file)
+          
+          // Optional: Create document record in database
+          await supabase.from('documents').insert({
+            organization_id: userProfile.organization_id,
+            claim_id: claimId || null,
+            client_id: clientId || null,
+            file_name: file.name,
+            file_path: storagePath,
+            file_type: file.type,
+            file_size: file.size,
+            uploaded_by: userProfile.id,
+            created_at: new Date().toISOString()
+          })
+          
+        } catch (error: any) {
+          console.error(`Error uploading ${file.name}:`, error)
+          setUploadError(`Failed to upload ${file.name}: ${error.message}`)
+        }
+      }
+      
+      // Call the callback with successfully uploaded files
+      if (uploadedFiles.length > 0) {
+        onUpload(uploadedFiles)
+      }
+      
+    } catch (error: any) {
+      console.error('Error during upload:', error)
+      setUploadError(error.message)
+    } finally {
       setUploading(false)
-      onUpload(files)
-    }, 2000)
+    }
   }
 
   const getFileIcon = (file: File) => {
