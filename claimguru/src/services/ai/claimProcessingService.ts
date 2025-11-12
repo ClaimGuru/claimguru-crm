@@ -1,10 +1,9 @@
 /**
- * Claim Processing Service
- * Provides AI-powered claim processing using OpenAI via Supabase Edge Function
+ * Claim Processing Service  
+ * Provides AI-powered claim processing using Google Gemini AI
  */
 
-import { configService } from '../configService';
-import { supabase } from '../../lib/supabase';
+import { geminiService } from '../geminiService';
 
 export interface ClaimAnalysisRequest {
   claimDescription: string;
@@ -43,41 +42,36 @@ class ClaimProcessingService {
   }
 
   /**
-   * Analyze a claim using OpenAI to determine coverage, settlement estimates, and next steps
+   * Analyze a claim using Gemini AI to determine coverage, settlement estimates, and next steps
    */
   public async analyzeClaimCoverage(request: ClaimAnalysisRequest): Promise<ClaimAnalysisResult> {
     try {
-      if (!configService.isOpenAIEnabled()) {
-        console.warn('OpenAI integration is not enabled. Using mock response.');
-        return this.getMockClaimAnalysis(request);
+      console.log('🤖 Analyzing claim with Gemini AI...')
+
+      // Prepare claim data for Gemini
+      const claimData = {
+        description: request.claimDescription,
+        damageType: request.damageType,
+        lossDate: request.lossDate,
+        estimatedAmount: request.estimatedAmount,
+        policyDetails: request.policyDetails
       }
 
-      // In a real implementation, we'd have a dedicated edge function for claim analysis
-      // For now, we'll repurpose the existing OpenAI edge function with a custom prompt
-      const customPrompt = `You are an expert insurance claim analyst. Analyze this claim information and provide assessment:
-      
-      Claim Description: ${request.claimDescription}
-      Damage Type: ${request.damageType || 'Not specified'}
-      Loss Date: ${request.lossDate || 'Not specified'}
-      Estimated Amount: ${request.estimatedAmount || 'Not specified'}
-      
-      Policy Details: ${JSON.stringify(request.policyDetails || {})}
-      `;
+      // Use Gemini to analyze the claim
+      const analysis = await geminiService.analyzeClaim(claimData)
 
-      // Call the OpenAI edge function through Supabase
-      const { data, error } = await supabase.functions.invoke('openai-extract-fields', {
-        body: { text: customPrompt, mode: 'claim_analysis' }
-      });
+      console.log('✅ Claim analysis complete')
 
-      if (error) {
-        console.error('OpenAI claim analysis error:', error);
-        throw new Error(`Failed to analyze claim: ${error.message}`);
-      }
-
-      // Process the OpenAI response
       return {
         success: true,
-        analysis: data?.analysis || this.getDefaultAnalysis()
+        analysis: {
+          coverageAssessment: analysis.coverageAssessment,
+          estimatedSettlement: analysis.estimatedSettlement,
+          timeToResolution: analysis.timeToResolution,
+          riskFactors: analysis.riskFactors,
+          nextSteps: analysis.nextSteps,
+          documentationNeeded: analysis.documentationNeeded
+        }
       };
     } catch (error: any) {
       console.error('Claim analysis failed:', error);
