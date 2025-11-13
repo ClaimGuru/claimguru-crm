@@ -57,8 +57,7 @@ class ConfigService {
       import.meta.env.VITE_GOOGLE_PLACES_API_KEY,
       import.meta.env.GOOGLE_MAPS_API_KEY,
       import.meta.env.GOOGLEMAPS_API_KEY,
-      import.meta.env.GOOGLE_PLACES_API_KEY,
-      process.env.GOOGLEMAPS_API // Server-side access
+      import.meta.env.GOOGLE_PLACES_API_KEY
     ];
 
     for (const key of possibleKeys) {
