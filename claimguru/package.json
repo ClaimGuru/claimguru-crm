@@ -21,6 +21,7 @@
     "@radix-ui/react-switch": "^1.1.2",
     "@radix-ui/react-tabs": "^1.1.2",
     "@radix-ui/react-toast": "^1.2.4",
+    "@sendgrid/mail": "^8.1.6",
     "@sentry/react": "^10.25.0",
     "@sentry/vite-plugin": "^4.6.0",
     "@stripe/react-stripe-js": "^2.9.0",
@@ -52,6 +53,7 @@
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "tesseract.js": "^5.1.1",
+    "twilio": "^5.10.5",
     "vaul": "^1.1.2",
     "zod": "^3.25.76"
   },

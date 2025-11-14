@@ -290,7 +290,7 @@ export class WizardValidationService {
     const warnings: ValidationError[] = [];
     const missingRequiredFields: ValidationError[] = [];
     
-    let totalFields = Object.keys(rules).length;
+    const totalFields = Object.keys(rules).length;
     let validFields = 0;
 
     Object.entries(rules).forEach(([fieldPath, config]) => {

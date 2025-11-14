@@ -31,7 +31,7 @@ Deno.serve(async (req) => {
     // Verify webhook signature (simplified version)
     const signatureElements = signature.split(',');
     let timestamp = '';
-    let signatures = [];
+    const signatures = [];
     
     for (const element of signatureElements) {
       const [key, value] = element.split('=');

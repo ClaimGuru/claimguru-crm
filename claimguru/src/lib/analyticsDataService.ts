@@ -55,7 +55,7 @@ export async function generateAnalyticsData(organizationId: string, dateRange: s
 
 function getDateFilter(dateRange: string): string {
   const now = new Date();
-  let filterDate = new Date();
+  const filterDate = new Date();
   
   switch (dateRange) {
     case '1month':

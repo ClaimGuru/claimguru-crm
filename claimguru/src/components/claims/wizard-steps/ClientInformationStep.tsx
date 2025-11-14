@@ -160,7 +160,7 @@ export function ClientInformationStep({ data, onUpdate }: ClientInformationStepP
   }
 
   const handleMailingSameAsToggle = (isSame: boolean) => {
-    let updatedData = { ...stepData, isMailingSameAsLoss: isSame }
+    const updatedData = { ...stepData, isMailingSameAsLoss: isSame }
     
     if (isSame) {
       updatedData.mailingAddress = { ...stepData.streetAddress }

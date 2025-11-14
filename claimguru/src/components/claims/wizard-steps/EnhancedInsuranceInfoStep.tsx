@@ -276,7 +276,7 @@ export const EnhancedInsuranceInfoStep: React.FC<EnhancedInsuranceInfoStepProps>
         carrier: {
           isValid: true,
           message: 'Carrier information verified',
-          severity: 'info' as 'info'
+          severity: 'info' as const
         },
         priorPayments: priorPaymentValidation
       }
