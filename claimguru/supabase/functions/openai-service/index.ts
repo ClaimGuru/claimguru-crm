@@ -38,9 +38,9 @@ Deno.serve(async (req) => {
 
     // Create prompt based on the requested mode
     let prompt;
-    let model = 'gpt-3.5-turbo';
-    let temperature = 0.1;
-    let maxTokens = 1000;
+    const model = 'gpt-3.5-turbo';
+    const temperature = 0.1;
+    const maxTokens = 1000;
 
     switch (mode) {
       case 'document_analysis':

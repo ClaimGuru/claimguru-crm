@@ -156,7 +156,7 @@ export function CompletionStep({ data, onUpdate, onSubmit }: CompletionStepProps
 
   const getCompletionPercentage = () => {
     let completed = 0
-    let total = 8 // Total number of major sections
+    const total = 8 // Total number of major sections
     
     if (data.aiExtractedData) completed++
     if (data.insuredDetails?.firstName) completed++

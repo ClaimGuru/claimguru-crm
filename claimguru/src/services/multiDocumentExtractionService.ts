@@ -916,7 +916,7 @@ export class MultiDocumentExtractionService {
       'sep': '09', 'oct': '10', 'nov': '11', 'dec': '12'
     };
     
-    let formatted = date.toLowerCase();
+    const formatted = date.toLowerCase();
     
     // Look for month names followed by numbers
     for (const [monthName, monthNum] of Object.entries(monthNames)) {

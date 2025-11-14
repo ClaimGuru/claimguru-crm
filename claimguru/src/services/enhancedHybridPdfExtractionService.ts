@@ -56,10 +56,10 @@ export class EnhancedHybridPdfExtractionService extends HybridPDFExtractionServi
     console.log('🚀 Starting Enhanced Hybrid Extraction with Confidence Building');
     const startTime = Date.now();
     
-    let results: any[] = [];
+    const results: any[] = [];
     let iteration = 0;
-    let bestResult: any = null;
-    let processingHistory: any[] = [];
+    const bestResult: any = null;
+    const processingHistory: any[] = [];
 
     // Phase 1: Multi-method extraction
     const extractionMethods = [

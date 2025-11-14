@@ -209,7 +209,7 @@ export function UnifiedClientDetailsStep({
 
   // Universal field update function
   const updateField = (field: string, value: any) => {
-    let updatedData = { ...stepData }
+    const updatedData = { ...stepData }
     
     // Handle nested field updates
     if (field.includes('.')) {
