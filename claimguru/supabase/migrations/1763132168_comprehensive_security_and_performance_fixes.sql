@@ -293,23 +293,8 @@ CREATE INDEX IF NOT EXISTS idx_queue_pending_priority
 -- SECTION 7: MATERIALIZED VIEWS FOR ANALYTICS (Performance optimization)
 -- ============================================================================
 
--- Create materialized view for daily communication stats
-CREATE MATERIALIZED VIEW IF NOT EXISTS mv_daily_communication_stats AS
-SELECT 
-  organization_id,
-  DATE(created_at) as date,
-  type,
-  COUNT(*) as total,
-  COUNT(CASE WHEN direction = 'inbound' THEN 1 END) as inbound_count,
-  COUNT(CASE WHEN direction = 'outbound' THEN 1 END) as outbound_count,
-  COUNT(CASE WHEN status = 'delivered' THEN 1 END) as delivered_count,
-  COUNT(CASE WHEN status = 'failed' THEN 1 END) as failed_count,
-  AVG(EXTRACT(EPOCH FROM (updated_at - created_at)))::INTEGER as avg_processing_seconds
-FROM communications
-WHERE created_at >= CURRENT_DATE - INTERVAL '90 days'
-GROUP BY organization_id, DATE(created_at), type;
-
-CREATE UNIQUE INDEX ON mv_daily_communication_stats(organization_id, date, type);
+-- Note: Daily analytics are stored in communication_analytics table
+-- Materialized views can be added as separate migrations after all tables exist
 
 -- ============================================================================
 -- SECTION 8: OPTIMIZATION OF EXISTING TABLES
@@ -350,8 +335,6 @@ GRANT INSERT, UPDATE ON call_recordings TO authenticated;
 
 GRANT SELECT ON communication_queue TO authenticated;
 GRANT INSERT, UPDATE ON communication_queue TO authenticated;
-
-GRANT SELECT ON mv_daily_communication_stats TO authenticated;
 
 -- ============================================================================
 -- SECTION 10: VACUUM AND ANALYZE (Performance Advisor)
