@@ -7,7 +7,8 @@
     "dev": "yes | pnpm install && vite",
     "build": "yes | pnpm install && rm -rf node_modules/.vite-temp && tsc -b && vite build",
     "lint": "yes | pnpm install && eslint .",
-    "preview": "yes | pnpm install && vite preview"
+    "preview": "yes | pnpm install && vite preview",
+    "deploy:db": "node scripts/deploy-migration.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
@@ -74,6 +75,7 @@
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^15.12.0",
     "jsdom": "^27.2.0",
+    "pg": "^8.16.3",
     "postcss": "8.4.49",
     "tailwindcss": "v3.4.16",
     "typescript": "~5.6.2",
