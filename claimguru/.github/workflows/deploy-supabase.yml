@@ -1,0 +1,41 @@
+name: Deploy to Supabase
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Deploy migrations to Supabase
+        run: pnpm run deploy:db
+        env:
+          SUPABASE_PASSWORD: ${{ secrets.SUPABASE_PASSWORD }}
+          SUPABASE_HOST: db.ttnjqxemkbugwsofacxs.supabase.co
+          SUPABASE_USER: postgres
+          SUPABASE_DATABASE: postgres
+
+      - name: Deployment Summary
+        run: |
+          echo "✅ Database migration deployment completed"
+          echo "Supabase project: ttnjqxemkbugwsofacxs"
+          echo "Check: Security Advisor (should be 0 warnings)"
+          echo "Check: Performance Advisor (should be <50 warnings)"

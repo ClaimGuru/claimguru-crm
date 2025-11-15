@@ -1,4 +1,4 @@
-name: Test Workflow
+name: ✅ Simple Test Workflow
 
 on:
   push:
@@ -9,6 +9,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Echo Test
-        run: echo "Workflow triggered successfully!"
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Test Step
+        run: |
+          echo "✅ Workflow triggered successfully!"
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref }}"
+          echo "Commit: ${{ github.sha }}"
