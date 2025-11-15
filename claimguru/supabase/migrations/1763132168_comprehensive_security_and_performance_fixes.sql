@@ -301,15 +301,8 @@ CREATE INDEX IF NOT EXISTS idx_queue_pending_priority
 -- ============================================================================
 
 -- Optimize communications table
-CREATE INDEX IF NOT EXISTS idx_communications_org_type_date 
-  ON communications(organization_id, type, created_at DESC);
-
-CREATE INDEX IF NOT EXISTS idx_communications_claim_org 
-  ON communications(claim_id, organization_id) WHERE claim_id IS NOT NULL;
-
-CREATE INDEX IF NOT EXISTS idx_communications_search 
-  ON communications USING gin(to_tsvector('english', COALESCE(body, '') || ' ' || COALESCE(subject, '')))
-  WHERE body IS NOT NULL OR subject IS NOT NULL;
+-- Skip complex indexes - they will be added in a separate migration
+-- to ensure communications table is fully created first
 
 -- Optimize communication_templates table
 CREATE INDEX IF NOT EXISTS idx_templates_org_active_category 
