@@ -1,0 +1,6 @@
+DEPLOYMENT TRIGGERED: 2025-11-15
+
+This file triggers GitHub Actions workflow deployment.
+The workflow will automatically execute pnpm run deploy:db
+
+If you see this, the automated deployment system is working!
