@@ -5,5 +5,10 @@ on: [push]
 jobs:
   hello:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./claimguru
     steps:
-      - run: echo "Hello from GitHub Actions!"
+      - uses: actions/checkout@v4
+      - run: echo "Hello from GitHub Actions in claimguru directory!"
+      - run: ls -la pnpm-lock.yaml

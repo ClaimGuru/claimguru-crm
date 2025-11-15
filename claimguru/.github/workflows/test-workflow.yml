@@ -8,6 +8,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./claimguru
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -18,3 +21,4 @@ jobs:
           echo "Repository: ${{ github.repository }}"
           echo "Branch: ${{ github.ref }}"
           echo "Commit: ${{ github.sha }}"
+          echo "Working directory: $(pwd)"
